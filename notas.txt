@@ -1,0 +1,4 @@
+ignorados:
+
+- Antivirus
+- Firewall
