@@ -2,3 +2,9 @@ ignorados:
 
 - Antivirus
 - Firewall
+
+
+Volver a:
+
+configuración de red
+

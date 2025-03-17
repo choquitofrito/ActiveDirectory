@@ -1,12 +1,6 @@
-<!-- Ce document est un guide simplifié de Windows Server 2025.
-Le document inclut des instructions détaillées sur l'administration de réseaux, l'administration des serveurs et applications, ainsi que des conseils generals sur l'administration de Windows Server. -->
+# 1. Introduction à Active Directory
 
-
-# Introduction à Active Directory
-
-Active Directory (AD) est un service d'annuaire pour Windows qui nous permet de gérer de manière sécurisée les identités et les accès dans un réseau d'entreprise. Ses éléments de base sont une base de données et un ensemble de services.
-
-## Qu'est-ce qu'Active Directory ?
+## 1.1. Qu'est-ce qu'Active Directory ?
 
 Active Directory fonctionne comme un "annuaire téléphonique d'entreprise" numérique qui stocke des informations sur :
 - Les utilisateurs (ex: employés, prestataires, etc.)
@@ -14,7 +8,7 @@ Active Directory fonctionne comme un "annuaire téléphonique d'entreprise" num�
 - Les permissions et droits d'accès (ex: connexion, lecture, écriture, etc.)
 - Les stratégies de sécurité (ex: permissions de connexion, politiques de mot de passe, etc.)
 
-## Contexte d'utilisation
+## 1.2. Contexte d'utilisation
 
 Active Directory (AD) est principalement utilisé dans les environnements professionnels pour :
 
@@ -26,11 +20,11 @@ Active Directory (AD) est principalement utilisé dans les environnements profes
 AD fonctionne sur Windows. Nous allons l'utiliser concrètement sur **Windows Server**. Nous pourrions utiliser un ordinateur dédié pour installer Windows Server, mais nous allons l'installer sur notre propre ordinateur en créant une machine virtuelle utilisant l'outil de virtualisation **Hyper-V**.
 
 
-# Hyper-V
+# 2. Hyper-V
 
 **Hyper-V nous permet de créer des machines virtuelles sur notre machine physique**. Une machine virtuelle **est une simulation logicielle d'un ordinateur** : elle fonctionne comme un ordinateur indépendant, avec son propre système d'exploitation, mais **n'existe que sous forme de logiciel**. On peut y installer Windows, Linux ou d'autres systèmes d'exploitation, exactement comme sur un ordinateur physique.
 
-## 1. Activez Hyper-V dans Windows
+## 2.1. Activez Hyper-V dans Windows
 
 - Dans la barre de recherche de Windows, tapez **Turn Windows Features on or off**
 - Cliquez sur **Turn Windows Features on or off**
@@ -38,20 +32,20 @@ AD fonctionne sur Windows. Nous allons l'utiliser concrètement sur **Windows Se
 - Re-demarrez Windows
 
 
-## Telechargement de Windows Server
+## 2.2. Téléchargement de Windows Server
 
-Vous pouvez telecharger Windows Server 2025 depuis [cette page](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2025). Il s'agit d'une version d'évaluation de 180 jours
+Vous pouvez télécharger Windows Server 2025 depuis [cette page](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2025). Il s'agit d'une version d'évaluation de 180 jours
 
 
-## 2. Création de la machine virtuelle pour Windows Server
+## 2.3. Création de la machine virtuelle pour Windows Server
 
 Lancez le gestionnaire Hyper-V depuis la barre de taches de windows
 
-## 2.1. Création des réseaux virtuels
+### 2.3.1. Création des réseaux virtuels
 
-Nous devons créer une machine virtuelle où on installera Windows Server, mais d'abord on doit créer deux reseaux virtuels : 
-- un reseau qui servira a permettre la communication des clients et de notre windows server
-- un reseau pour que nos machines virtuelles communiquent avec l'internet.
+Nous devons créer une machine virtuelle où on installera Windows Server, mais d'abord on doit créer deux réseaux virtuels : 
+- un réseau qui servira à permettre la communication des clients et de notre windows server
+- un réseau pour que nos machines virtuelles communiquent avec l'internet.
 
 Il y a trois types de réseau :
 
@@ -77,17 +71,17 @@ Puis créons le réseau qui connectera les machines virtuelles à Internet :
 5. Adaptateur : Choisissez l'adaptateur qui vous connecte à Internet (câble ou wifi). Cliquez sur OK et ignorez l'avertissement
 6. Cliquez sur OK
 
-## 2.1. Création de la machine virtuelle pour Windows Server
+### 2.3.2. Installation de Windows server sur sa machine virtuelle
 
 Une fois les réseaux ont été créés, on peut créer une première machine virtuelle qui sera notre serveur Windows Server.
 
 1. Dans le Hyper-V manager, cliquez sur **New->Virtual Machine**
 2. Cliquez sur Next une fois
-3. Choisissez un nom (ADS01)
+3. Choisissez un nom (ex: WindowsServerVM)
 4. Choisissez l'emplacement des fichiers de la machine virtuelle (cliquez sur Browse), puis Next
 5. Choisissez le type de machine virtuelle: Generation 2 car on travaille qu'avec des machines virtuelles de 64 bits, puis Next
 6. Choisissez la quantité de RAM pour la machine virtuelle (4 GB ou un quart de la RAM de la machine physique si elle a moins de 16 GB)
-7. La taille du disque dur de la machine virtuelle (ex: 100 GB), puis Next
+7. La taille du disque dur de la machine virtuelle (ex: 50 GB), puis Next
 
 Maintenant on va lancer la machine virtuelle qui contient le support d'installation de Windows Server
 
@@ -95,10 +89,10 @@ Maintenant on va lancer la machine virtuelle qui contient le support d'installat
 2. Cliquez Browse et cherchez l'image .ISO de Windows Server (ne vous trompez pas d'image 😊), puis Next
 3. Révisez le résumé de la machine virtuelle, puis cliquez sur Finish
 
-La machine apparaît dans la liste (**ADS01**)
+La machine apparaît dans la liste (**WindowsServerVM**)
 Appuyez sur **Connect** et puis sur **Start**, puis sur n'importe quelle touche. Vous allez voir l'écran de démarrage d'installation de Windows Server , notre machine virtuelle est lancée et on va installer Windows Server!
 
-### 3. Installation de Windows server sur sa machine virtuelle
+Dès que l'installation finit:
 
 1. Choisissez la langue, région et type du clavier (tout par défaut)
 2. Choisissez Windows Server Standard Evaluation (pour avoir le bureau)
@@ -109,14 +103,19 @@ Une fois le système démarré vous allez voir l'application **Gestionnaire du S
 
 L'interface de Windows Server est très similaire à celle des autres versions de Windows. Le navigateur Edge est installé par défaut. Si vous l'ouvrez, vous verrez qu'il n'y a pas de connexion à Internet... car notre machine virtuelle n'est pas configurée pour se connecter à Internet. 
 
-Allez dans le menu de Hyper-V (en dehors de la machine virtuelle) et accédez aux paramètres de la machine virtuelle **ADS01** en faisant un clic droit. Allez dans la section Network Adapter et sélectionnez le réseau **WAN**. Cliquez sur OK.
+Allez dans le menu de Hyper-V (en dehors de la machine virtuelle) et accédez aux paramètres de la machine virtuelle **WindowsServerVM** en faisant un clic droit. Allez dans la section Network Adapter et sélectionnez le réseau **WAN**. Cliquez sur OK.
 
-# 4. Utilisateurs et groupes
+3. Choisissez un mot de pass pour l'utilisateur Administrateur
+
+Une fois l'installation terminée, vous devez choisir un mot de passe pour l'utilisateur Administrateur.
+(ex: Password1!)
+
+# 3. Utilisateurs et groupes
 
 Un compte d'utilisateur est une identité unique qui permet d'accéder aux ressources partagées préalablement dans le réseau de notre serveur.
 Un utilisateur peut démarrer une session et utiliser les ressources. Chaque compte est lié à un profil individuel qui a des permissions, restrictions, etc.
 
-## 4.1. Gestion des utilisateurs
+## 3.1. Gestion des utilisateurs
 
 1. Faites un clic droit sur Démarrer -> Gestion de l'ordinateur
 2. Cliquez sur **Utilisateurs et groupes locaux**
@@ -126,7 +125,7 @@ Sélectionnez par exemple le compte **Administrateur** et faites un clic droit, 
 
 Toutes les options d'un compte d'utilisateur sont accessibles depuis ces onglets (**Général**, **Contrôle à distance**, **Membre de**, etc.). Nous verrons ces options dans les sections suivantes.
 
-## 4.2. Création d'un utilisateur
+## 3.2. Création d'un utilisateur
 
 1. Ouvrez le menu **Gestion de l'ordinateur**
 2. Cliquez sur **Utilisateurs et groupes locaux**
@@ -148,7 +147,7 @@ Quand l'utilisateur se connecte pour la première fois, il lui sera demandé de 
 - Modifiez le mot de passe d'un utilisateur
 - Supprimez un utilisateur
 
-## 4.3. Gestion des groupes
+## 3.3. Gestion des groupes
 
 Les groupes servent à regrouper des utilisateurs pour leur donner des permissions similaires.
 
@@ -169,7 +168,7 @@ On peut ajouter les utilisateurs aux groupes depuis le menu d'utilisateur ou dep
 Le nom qui précède le nom de l'utilisateur est le nom du serveur
 7. Cliquez sur **OK** pour l'ajouter
 
-## 4.4. Création de groupes
+## 3.4. Création de groupes
 
 On peut créer un groupe qui aura un ensemble concret de permissions et qui sera accessible par un ensemble concret d'utilisateurs. 
 
@@ -194,7 +193,7 @@ Vous pouvez ajouter des utilisateurs au groupe à tout moment en faisant un clic
 - Modifiez la description du groupe
 
 
-## 4.5. Connexion des utilisateurs 
+## 3.5. Connexion des utilisateurs 
 
 Nous avons crée des utilisateurs et un groupe. 
 On peut se connecter maintenant au serveur en utilisant ces utilisateurs.
@@ -214,7 +213,7 @@ Pour de raisons de securité, le système vous demandera de créer un nouveau mo
 - Essayez maintenant de vous rajouter au groupe **Administrateurs**. Qu'est-ce que vous observez?
 
 
-# 5. Gestionnaire du Serveur (Server Manager)
+# 4. Gestionnaire du Serveur (Server Manager)
 
 C'est une console qui permet de configurer et de gerer rôles et les caracteristiques du serveur, ainsi que la configuration du reseau.
 
@@ -228,7 +227,7 @@ Commençons par donner un nom au serveur:
 2. Cliquez sur le nom actuel
 3. Tapez une description pour le serveur (ex: Serveur cours AD)
 4. Cliquez sur **Modifier**
-5. 6. Tapez un nom pour le serveur (ex : ADS01, dans notre cas le même nom que la machine virtuelle)
+5. 6. Tapez un nom pour le serveur (ex : WindowsServerVM, dans notre cas le même nom que la machine virtuelle)
 6. Cliquez sur **Ok**
 7. Cliquez sur **Ok**
    
@@ -239,7 +238,7 @@ Optionnel:
 - Montrer l'accès au bureau à distance
 
 
-# 6. Services
+# 5. Services
 
 Les services sont des programmes du système d'exploitation qui s'executent en arriere plan. 
 Il y a de services pour divers fonctions du serveur, comme par exemple:
@@ -277,7 +276,7 @@ Les types de démarrage sont :
 - Automatic (début différé) : un service qui demarre automatiquement mais ne s'execute pas imediatement (pour de services qui peuvent consommer du temps et bloquer l'interface utilisateur)
 
 
-# 7. Observateur d'événements
+# 6. Observateur d'événements
 
 L'observateur d'événements permet de surveiller les événements sur un serveur. Ces événements peuvent être, par exemple:
 
@@ -303,7 +302,7 @@ Faites double clic sur un de ces événement pour voir les détails et vous verr
 
 On peut associer de taches à ces événements, qui seront lancées quand l'événement se produit (ex: un disque est pratiquement plein et on veut notifier l'utilisateur).
 
-# 8. Planificateur de tâches
+# 7. Planificateur de tâches
 
 Le planificateur de tâches permet de **démarrer**, **arreter** et **planifier (automatiser)** des tâches, notamment pour automatiser leur execution.
 On peut aussi modifier la frequence et la durée de la tache.
@@ -311,7 +310,7 @@ On peut aussi modifier la frequence et la durée de la tache.
 - Ouvrez le **Gestionnaire de Serveur** et appuyez sur **Outils**, puis sur **Planificateur de tâches** (vous pouvez le cherche aussi dans la barre de Windows sous le nom *Planificateur de tâches*).
 Vous pouvez voir toutes les tâches planifiées dsans la section inférieure (**Tâches actives**).
 
-## 8.1. Création d'une tâche simple
+## 7.1. Création d'une tâche simple
 
 
 ## Exemple: Lancer Windows Media Player dans 5 minutes
@@ -333,7 +332,7 @@ Les tâches planifiées sont stockées dans un fichier XML qui se trouvent dans 
 Vous pouvez créez vous-mêmes de dossier contenant des tâches.
 
 
-## 8.2. Modification et d'autres actions sur une tâche
+## 7.2. Modification et d'autres actions sur une tâche
 
 1. Allez dans **Bibliothèque du Planificateur de tâches**
 2. Faites clique droit sur la tâche **Lancement du lecteur multimedia** et vous verrez les possibles actions à réaliser sur un tâche (auto-expliqué)
@@ -343,7 +342,7 @@ L'option **Propriétés** vous permet de changer tous les parameetres de la tâc
 Si vous voulez déplacer une tâche d'un dossier à un autre dossier, vous devez l'**Exporter** et l'**Importer** depuis le dossier cible, Windows Server ne permet pas de déplacer les tâches entre les dossiers.
 
 
-## 8.3. Exemple de création de tâches plus élaborées
+## 7.3. Exemple de création de tâches plus élaborées
 
 
 ## Création d'une tâche de sauvegarde d'un fichier
@@ -407,9 +406,8 @@ Write-Host "Fichier copié dans $destFile"
 **Important**: à chaque essai de la tâche, assurez-vous que vous avez bien mis fin à l'execution précedante (clique droit sur la tache -> Fin)
 
 
-## Exercices pratiques - Planificateur de tâches Windows
+## 7.4. Exercice pratique - Planificateur de tâches Windows
 
-### Exercice 1: Maintenance système automatisée
 Configurez une tâche qui :
 - Lance le nettoyage de disque (cleanmgr.exe)
 - S'exécute le premier dimanche de chaque mois
@@ -426,5 +424,51 @@ Extra: cherchez la trace de l'execution de la tâche dans l'observateur d'évén
 5. Cliquez sur **OK**
 
 Cherchez l'éxécution de la tâche sur base de l'heure d'éxécution que vous aviez choisi dans la planification de la tâche prealablement.
+
+
+# 8. Configuration du réséau
+
+Dans cette section on va configurer le serveur pour qu'il soit accessible au réséau.
+
+Nous pouvons configurer l'adresse IP de notre adaptateur de reseau depuis l'interface de configuration du serveur.
+
+Gestionnaire de Serveur > Serveur local > Adapteur de reseau > 
+
+1. Ouvrir **Gestionnaire de serveur** et faire clique sur **Serveur local** 
+2. Clique sur l'adaptateur de Reseau (ex: Ethernet) 
+3. Clique droit et puis **Propriétés**
+4. Choisir **Protocole Internet version 4(TCP/IPv4)**
+5. Clique sur **Propriétés**
+
+L'IP peut être fixée à la main ou obtenu automatiquement.
+Pour l'obtenir automatiquement on doit utiliser un serveur DNS.
+L'addresse du serveur DNS peut être fixée ou obtenue automatiquement.
+
+On peut à chaque moment obtenir l'**ip de notre serveur** grâce à la commande de console **ipconfig**.
+
+##  Rôles et caracteristiques
+
+Un rôle est un composant qui permet au serveur d'offrir une fonctionnalité specifique. Un rôle contient de fonctionnalités.
+
+On gére les rôles via le **Gestionnaire de serveur** > **Gérer** (en haut de la page à droite) > **Ajouter des rôles et des fonctionnalités**
+
+Ignorez l'assistant, on va créer les rôles à la main. Cliquez sur Suivant.
+
+Cliquez sur **Installation basée sur un rôle ou une fonctionnalité**. Selectionnez le seul serveur qu'on a. Normalement il y en a plusieurs dans le réséau.
+
+Le système a par défaut une fonctionnalité **Service de fichiers de stockage**. On peut installer de fonctionnalités isolées. **Certains rôles impliquent un groupe de fonctionnalités** .
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
