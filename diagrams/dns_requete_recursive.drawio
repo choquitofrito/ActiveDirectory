@@ -1,0 +1,90 @@
+<mxfile host="65bd71144e">
+    <diagram name="Requêtes DNS" id="dns_queries">
+        <mxGraphModel dx="1883" dy="1377" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title1" value="Requête Récursive" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="30" y="-80" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="client1" value="Poste Client" style="image;html=1;image=img/lib/clip_art/computers/Workstation_128x128.png" parent="1" vertex="1">
+                    <mxGeometry x="-10" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="dns1" value="DNS Local&#10;(dns1.computerelectronics.be)" style="image;html=1;image=img/lib/clip_art/computers/Server_128x128.png" parent="1" vertex="1">
+                    <mxGeometry x="220" y="100" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="root1" value="Serveur DNS&#10;Racine" style="image;html=1;image=img/lib/clip_art/computers/Server_128x128.png" parent="1" vertex="1">
+                    <mxGeometry x="80" y="340" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="com1" value="Serveur DNS&#10;.com" style="image;html=1;image=img/lib/clip_art/computers/Server_128x128.png" parent="1" vertex="1">
+                    <mxGeometry x="570" y="170" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="google1" value="Serveur DNS&#10;google.com" style="image;html=1;image=img/lib/clip_art/computers/Server_128x128.png" vertex="1" parent="1">
+                    <mxGeometry x="460" y="-80" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow1" value="1. www.google.com?" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;" parent="1" source="client1" target="dns1" edge="1">
+                    <mxGeometry x="-0.2174" y="-10" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="80" y="120"/>
+                        </Array>
+                        <mxPoint x="-10" y="-10" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="arrow2" value="2. Serveurs .com?" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;" parent="1" source="dns1" target="root1" edge="1">
+                    <mxGeometry x="0.25" y="-20" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                        <Array as="points">
+                            <mxPoint x="100" y="140"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="resp2" value="Voici les serveurs .com" style="endArrow=classic;html=1;rounded=0;dashed=1;curved=1;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="root1" target="dns1">
+                    <mxGeometry x="-0.1429" y="-40" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                        <Array as="points">
+                            <mxPoint x="240" y="380"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="arrow3" value="3. Serveurs google.com?" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=1;" parent="1" source="dns1" target="com1" edge="1">
+                    <mxGeometry x="-0.0588" y="10" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                        <Array as="points">
+                            <mxPoint x="610" y="140"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="resp3" value="Voici les serveurs google.com" style="endArrow=classic;html=1;rounded=0;dashed=1;curved=1;" edge="1" parent="1" source="com1" target="dns1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="430" y="200"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="arrow4" value="4. IP de www.google.com?" style="endArrow=classic;html=1;rounded=0;curved=1;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dns1" target="google1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="280" y="-40"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="resp4" value="5. Voici l'IP : 142.250.179.68" style="endArrow=classic;html=1;rounded=0;dashed=1;curved=1;" edge="1" parent="1" source="google1" target="dns1">
+                    <mxGeometry x="-0.4727" y="50" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                        <Array as="points">
+                            <mxPoint x="420" y="60"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="final_resp" value="6. Voici l'IP : 142.250.179.68" style="endArrow=classic;html=1;rounded=0;dashed=1;curved=1;" edge="1" parent="1" source="dns1" target="client1">
+                    <mxGeometry x="0.2" y="-20" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                        <Array as="points">
+                            <mxPoint x="260" y="70"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

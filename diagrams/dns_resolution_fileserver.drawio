@@ -1,47 +1,58 @@
 <mxfile host="65bd71144e">
     <diagram name="Résolution DNS Serveur de Fichiers" id="fileserver-resolution">
-        <mxGraphModel dx="714" dy="595" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="714" dy="550" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
                 <mxCell id="user" value="Utilisateur" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="90" y="210" width="60" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="dns_root" value="DNS Racine&#10;computerelectronics.be" style="shape=mxgraph.cisco.servers.directory_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="220" y="40" width="40" height="60" as="geometry"/>
+                <mxCell id="dns1" value="DNS1&#10;(sans autorité sur ventes)" style="shape=mxgraph.cisco.servers.directory_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" vertex="1" parent="1">
+                    <mxGeometry x="480" y="20" width="40" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="dns_ventes" value="DNS Ventes&#10;ventes.computerelectronics.be" style="shape=mxgraph.cisco.servers.directory_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="434" y="38" width="40" height="62" as="geometry"/>
+                <mxCell id="dns2" value="DNS2&#10;(autorité sur ventes)" style="shape=mxgraph.cisco.servers.directory_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" vertex="1" parent="1">
+                    <mxGeometry x="570" y="160" width="40" height="62" as="geometry"/>
                 </mxCell>
                 <mxCell id="server1" value="Serveur 1&#10;fichiers.ventes.computerelectronics.be&#10;IP: 192.168.2.10" style="shape=mxgraph.cisco.servers.file_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="394" y="300" width="40" height="62" as="geometry"/>
+                    <mxGeometry x="470" y="390" width="40" height="62" as="geometry"/>
                 </mxCell>
                 <mxCell id="server2" value="Serveur 2&#10;fichiers.ventes.computerelectronics.be&#10;IP: 192.168.2.11" style="shape=mxgraph.cisco.servers.file_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="630" y="39" width="40" height="62" as="geometry"/>
+                    <mxGeometry x="700" y="39" width="40" height="62" as="geometry"/>
                 </mxCell>
-                <mxCell id="req_dns1" value="1. Requête DNS" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;" parent="1" source="user" target="dns_root" edge="1">
+                <mxCell id="req_dns1" value="1. Requête DNS initiale&#10;(fichiers.ventes.computerelectronics.be ?)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;curved=1;" parent="1" source="user" target="dns1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="110" y="70"/>
+                            <mxPoint x="100" y="30"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="req_dns2" value="2. Redirection vers&#10;sous-domaine" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="dns_root" target="dns_ventes" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                <mxCell id="rep_dns1" value="2. Réponse : Utiliser DNS2&#10;(IP de dns2)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;dashed=1;curved=1;" edge="1" parent="1" source="dns1" target="user">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="200" y="270" as="targetPoint"/>
+                    </mxGeometry>
                 </mxCell>
-                <mxCell id="res_dns1" value="3a. Résolution primaire&#10;IP: 192.168.2.10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="dns_ventes" target="server1" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="res_dns2" value="3b. Basculement si panne&#10;IP: 192.168.2.11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;dashed=1;" parent="1" source="dns_ventes" target="server2" edge="1">
-                    <mxGeometry x="-0.0937" y="21" relative="1" as="geometry">
+                <mxCell id="req_dns2" value="3. Nouvelle requête DNS&#10;(fichiers.ventes.computerelectronics.be ?)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;curved=1;entryX=0;entryY=0.5;" parent="1" source="user" target="dns2" edge="1">
+                    <mxGeometry x="-0.0088" y="20" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="150" y="220"/>
+                            <mxPoint x="570" y="220"/>
+                        </Array>
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="direct_conn" value="4. Connexion" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="user" target="server1" edge="1">
+                <mxCell id="rep_dns2" value="4. Réponse : IP du serveur&#10;(192.168.2.10)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=1;dashed=1;curved=1;" edge="1" parent="1" source="dns2" target="user">
+                    <mxGeometry x="0.0706" y="-20" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                        <Array as="points">
+                            <mxPoint x="570" y="290"/>
+                            <mxPoint x="120" y="290"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="direct_conn" value="5. Connexion directe avec l'IP" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;curved=1;" parent="1" source="user" target="server1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="110" y="330"/>
-                            <mxPoint x="400" y="330"/>
+                            <mxPoint x="90" y="410"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>

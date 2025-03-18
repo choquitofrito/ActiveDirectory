@@ -214,24 +214,160 @@ Différences principales entre structure physique et logique :
 
 ## 3. Résolution DNS 
 
-### 3.1 Exemple d'Impression
+Mais comment fonctionne la résolution DNS ? On l'explique dans cette section!
+
+### 3.1 Types de Requêtes et Autorité DNS
+
+#### 3.1.1 Types de Requêtes DNS
+
+Les requêtes DNS peuvent être de deux types :
+
+- **Requêtes récursives** : le serveur DNS prend en charge tout le processus de résolution. Il s'engage à fournir soit l'adresse IP finale, soit une erreur. Si le serveur ne dispose pas de l'information, il effectuera lui-même les requêtes nécessaires auprès d'autres serveurs DNS jusqu'à obtenir une réponse définitive.
+
+- **Requêtes itératives** : chaque serveur DNS répond uniquement avec les informations qu'il possède directement. Si le serveur ne dispose pas de l'information demandée, il renvoie une référence vers d'autres serveurs DNS qui pourraient avoir l'information. C'est alors au client de contacter ces nouveaux serveurs, d'où le terme "itératif" car le client doit itérer (répéter le processus) avec chaque nouveau serveur.
+
+**Exemple de requête récursive :**
+```
+1. Un poste client demande à dns1.computerelectronics.be de résoudre "www.google.com"
+2. dns1 n'ayant pas cette information :
+   - Contacte un serveur racine pour obtenir l'adresse des serveurs .com
+   - Contacte un serveur .com pour obtenir l'adresse des serveurs google.com
+   - Contacte un serveur google.com pour obtenir l'IP
+3. dns1 renvoie directement l'IP finale au poste client
+=> Le client n'a fait qu'une seule requête !
+```
+
+**Exemple de requête itérative :**
+```
+1. Le client demande l'IP de www.google.com au serveur racine
+2. Le serveur racine répond : "Je ne sais pas, mais voici la liste des serveurs .com"
+3. Le client demande l'IP de www.google.com à un serveur .com
+4. Le serveur .com répond : "Je ne sais pas, mais voici la liste des serveurs google.com"
+5. Le client demande l'IP de www.google.com à un serveur google.com
+6. Le serveur google.com répond avec l'IP finale
+=> Le client a dû faire plusieurs requêtes lui-même !
+```
+
+
+#### 3.1.2 Autorité sur les Espaces de Nom
+
+Les serveurs DNS peuvent avoir **deux niveaux d'autorité** sur les espaces de nom :
+
+##### Serveur DNS avec Autorité
+
+Un serveur DNS ayant autorité sur un espace de nom peut :
+- Renvoyer directement l'adresse IP demandée s'il dispose de l'information
+- Affirmer avec certitude qu'un nom n'existe pas dans son espace de nom
+
+**Exemple avec autorité :**
+```
+dns1.computerelectronics.be possède l'autorité sur comptabilite.computerelectronics.be :
+- Il peut directement répondre que pc01.comptabilite.computerelectronics.be → 192.168.1.101
+- Il peut affirmer avec certitude que pc99.comptabilite.computerelectronics.be n'existe pas
+```
+
+##### Serveur DNS sans Autorité
+
+Un serveur DNS n'ayant pas autorité sur un espace de nom peut renvoyer une réponse :
+- Provenant de son cache DNS
+- Obtenue via un serveur DNS redirecteur
+- Obtenue en consultant les serveurs racine
+
+**Exemple sans autorité :**
+```
+dns1.computerelectronics.be n'a pas l'autorité sur ventes.computerelectronics.be :
+- Il doit rediriger la requête vers dns2 qui gère ce sous-domaine
+- Il peut mettre en cache la réponse reçue de dns2 pour optimiser les futures requêtes
+- En cas d'indisponibilité de dns2, il doit signaler une erreur de résolution
+```
+
+
+En résumé :
+Les requêtes DNS peuvent être :
+- **Récursives** : le client fait une seule requête au serveur DNS qui s'occupe de tout le processus de résolution
+- **Itératives** : le client fait lui-même plusieurs requêtes, chaque serveur DNS ne fournissant que l'information dont il dispose
+
+L'autorité DNS définit le niveau de confiance d'un serveur :
+- **Avec autorité** : peut répondre directement pour sa zone et affirmer qu'un nom n'existe pas
+- **Sans autorité** : doit rediriger ou utiliser son cache pour les zones qu'il ne gère pas
+
+
+### 3.2 Exemple d'Impression
 
 1. Pour imprimer un document :
    - L'utilisateur effectue une recherche dans le sous-domaine comptabilité (`comptabilite.computerelectronics.be`)
    - Il accède à l'imprimante (`printer01.comptabilite.computerelectronics.be`)
    - La résolution DNS traduit ce nom en adresse IP en suivant la hiérarchie des domaines
 
+   Dans ce cas :
+   - La requête peut être **récursive** : le poste client demande à `dns1` de résoudre l'adresse complète
+   - `dns1` a **autorité** sur le sous-domaine `comptabilite.computerelectronics.be`, il peut donc répondre directement avec l'IP de l'imprimante
+
    ![Diagramme de résolution DNS pour l'imprimante avec sous-domaine](diagrams/images/dns_resolution_printer.png)
 
-### 3.2 Exemple d'Accès aux Applications
+### 3.3 Exemple d'Accès aux Applications
 
 2. Pour accéder à une application :
-   - L'utilisateur effectue une recherche dans le sous-domaine ventes (`ventes.computerelectronics.be`)
+   - Un utilisateur du domaine effectue une recherche dans le sous-domaine ventes (`ventes.computerelectronics.be`)
    - Il se connecte au serveur de fichiers (`fichiers.ventes.computerelectronics.be`)
    - La résolution DNS redirige vers un serveur répliqué (`serveur1` ou `serveur2`)
    - En cas de panne, le système bascule automatiquement vers l'autre serveur
 
+   Dans ce cas :
+   - La requête peut être **itérative** : 
+     1. Le poste client demande à `dns1` l'adresse de `fichiers.ventes.computerelectronics.be` au lieu de demander à `dns2` (qui a l'autorité sur le sous-domaine ventes)
+     2. `dns1` n'ayant pas **autorité** sur `ventes.computerelectronics.be`, répond au client avec l'adresse de `dns2`
+     3. Le client fait une nouvelle requête à `dns2` qui a **autorité** sur le sous-domaine ventes
+     4. `dns2` répond avec l'IP du serveur de fichiers
+
    ![Diagramme de résolution DNS pour le serveur de fichiers avec sous-domaine](diagrams/images/dns_resolution_fileserver.png)
+
+# Exercices Section 3
+
+## Exercice 3.1 - Autorité DNS
+Dans le contexte de computerelectronics.be, indiquez pour chaque scénario si le serveur dns1 a autorité ou non :
+- Une requête pour pc01.comptabilite.computerelectronics.be
+- Une requête pour www.google.com
+- Une requête pour pc01.ventes.computerelectronics.be
+
+<details>
+<summary>Solution 3.1</summary>
+
+1. Requête pour pc01.comptabilite.computerelectronics.be :
+   - dns1 a autorité car il gère le sous-domaine comptabilité
+   - Il peut donc répondre directement avec l'adresse IP ou affirmer que le nom n'existe pas
+
+2. Requête pour www.google.com :
+   - dns1 n'a pas autorité sur le domaine google.com
+   - Il devra soit utiliser son cache, soit faire appel à un redirecteur ou aux serveurs racine
+
+3. Requête pour pc01.ventes.computerelectronics.be :
+   - dns1 n'a pas autorité car c'est dns2 qui gère le sous-domaine ventes
+   - Il devra rediriger la requête vers dns2
+</details>
+
+## Exercice 3.2 - Types de Requêtes
+Pour chaque scénario, identifiez s'il s'agit d'une requête récursive ou itérative :
+
+1. Un poste de travail demande à son serveur DNS de résoudre www.google.com
+2. Un serveur DNS contacte un serveur racine pour trouver le serveur DNS de .com
+3. Un serveur DNS contacte le serveur DNS de google.com
+
+<details>
+<summary>Solution 3.2</summary>
+
+1. Poste de travail → Serveur DNS (www.google.com) :
+   - Requête récursive
+   - Le poste attend une réponse complète de son serveur DNS
+
+2. Serveur DNS → Serveur racine (.com) :
+   - Requête itérative
+   - Le serveur DNS accepte une réponse partielle (référence vers les serveurs .com)
+
+3. Serveur DNS → Serveur DNS google.com :
+   - Requête itérative
+   - Le serveur DNS accepte une réponse directe du serveur autoritaire
+</details>
 
 ## 4. La Délégation DNS
 
@@ -256,19 +392,7 @@ La délégation DNS est un mécanisme qui permet de répartir la responsabilité
   ventes.computerelectronics.be.        IN  NS  dns2.computerelectronics.be.
   ```
 
-### 4.3 Résolution des Requêtes
 
-Prenons l'exemple d'une requête pour `pc01.comptabilite.computerelectronics.be` :
-1. Un client interne envoie la requête à son serveur DNS configuré (dns1 ou dns2)
-2. Le serveur DNS vérifie s'il est autoritaire pour la zone demandée
-3. Si c'est `dns1`, il répond directement car il est autoritaire pour la zone `comptabilite`
-4. Si c'est `dns2`, il redirige vers `dns1` car il sait que `dns1` est autoritaire pour `comptabilite`
-
-Cette délégation permet :
-- Une gestion décentralisée des zones DNS
-- Une meilleure performance des requêtes DNS internes
-- Une séparation claire entre DNS public et privé
-- Une maintenance plus simple (chaque serveur gère ses propres zones)
 
 ## 5. Les Zones DNS
 
@@ -323,13 +447,13 @@ Une **zone de recherche inverse** permet de convertir une adresse IP en nom d'h�
 - Le débogage réseau (ex de fonctionnement: `nslookup 192.168.1.1` pour obtenir le nom d'hôte correspondant)
 - Les logs système
 
-## 6. Relation entre les Types de Zones
+### 5.3. Relation entre les Types de Zones
 
 Une zone DNS peut être à la fois :
 - Principale ou secondaire (pour son autorité sur les données)
 - De recherche directe ou inverse (pour le type de conversion des enregistrements)
 
-## Modifications de la zone principale
+## 5.4. Modifications de la zone principale
 
 On peut modifier la zone principale en ajoutant ou en supprimant des informations et des appareils.
 
