@@ -111,7 +111,7 @@ Analysons cette structure niveau par niveau :
 **Important**: cette structure DNS est une **organisation logique** qui peut être **totalement indépendante de l'emplacement physique des ressources**. 
 
 
-# Exemples de résolution DNS :
+# Exemples de résolution DNS 
 
 1. Pour imprimer un document :
    - L'utilisateur cherche dans le sous-domaine comptabilité (`comptabilite.computerelectronics.be`)
@@ -125,136 +125,99 @@ Analysons cette structure niveau par niveau :
 
 
 
-## Les Zones DNS
+# Les Zones DNS
 
-Nous avons vu la structure complete de l'espace de noms.
+Nous avons vu la structure complète de l'espace de noms.
 
-Une **zone DNS est une partie de l'espace de noms** DNS qu'un administrateur ou une organisation gère. Une **zone DNS est associée à au moins un serveur DNS** qui connait les adresses des appareils qui se trouvent dans la zone. 
+Une **zone DNS est une partie de l'espace de noms** DNS qu'un administrateur ou une organisation gère. Une **zone DNS est associée à au moins un serveur DNS** qui connaît les adresses des appareils qui se trouvent dans la zone. 
 
-### Types de Zones DNS
+Il existe plusieurs **types de zones DNS** que nous allons détailler :
 
-Il existe plusieurs **types de zones DNS**: les zones **principales** et les zones **secondaires**.
+## Types de Zones DNS selon leur rôle
 
-## Zones principales
+### 1. Zones Principales (Primary Zones)
 
-Zone DNS où les enregistrements sont créés (un **enregistrement** pour chaque **appareil**), modifiés et supprimés directement. C'est la source autoritaire pour le domaine.
+Une zone principale est la source autoritaire pour un domaine où les enregistrements sont créés, modifiés et supprimés directement. Chaque **zone principale a un numéro de série unique** qui s'incrémente à chaque modification.
 
-On va determiner, **juste car on le veut**, que dans l'exemple précédent **il y aura deux zones principales**: 
+Dans notre exemple précédent, nous avons **deux zones principales** :
 
-**Zone 1**: contiendra l'espace de noms contenant les sous-domaines `comptabilite.computerelectronics.be` et `rh.computerelectronics.be`,  ainsi que tous les appareils qui se trouvent dans la structure.
+- **Zone 1** : Contient les sous-domaines `comptabilite.computerelectronics.be` et `rh.computerelectronics.be`
+  - Gérée par le serveur `dns1.computerelectronics.be`
+  
+- **Zone 2** : Contient le sous-domaine `ventes.computerelectronics.be`
+  - Gérée par le serveur `dns2.computerelectronics.be`
 
-Un seul serveur gère l'ensemble des appareils de cette zone (dans le schéma, `dns1.computerelectronics.be`). 
+### 2. Zones Secondaires (Secondary Zones)
 
-**Zone 2**: contiendra l'espace de noms `ventes.computerelectronics.be`.
-C'est un autre serveur qui gère l'ensemble des appareils de cette zone (dans le schéma, `dns2.computerelectronics.be`)
+Une zone secondaire est une **copie en lecture seule** d'une zone principale. Elle est utilisée pour :
+- Assurer la redondance en cas de panne du serveur principal
+- Répartir la charge des requêtes DNS
+- Améliorer les performances en rapprochant géographiquement les serveurs DNS des clients
 
-Note: une zone peut être liée a plusieurs serveurs DNS si on veut assurer la disponibilité en, par exemple, cas de panne. On aurait alors un dns3.computerelectronics.be
+Les zones secondaires se synchronisent automatiquement avec leur zone principale via un processus appelé **transfert de zone**.
 
-On aura alors deux **zones principales**, chacune avec son propre serveur DNS pour gérer l'ensemble des appareils de la zone.
+## Type de Zones DNS selon leur fonction
 
-Chaque **zone principale a un numéro de série unique**. 
+Selong leur fonction (la conversion des noms d'hôtes en adresses IP ou vice-versa), il existe deux types de zones DNS :
 
-### Zones de recherche directe
+### 1. Zones de Recherche Directe (Forward Lookup Zones)
 
-Une **zone de recherche directe** (forward lookup zone) est une zone DNS qui permet de convertir les noms d'hôtes en adresses IP. C'est le type de zone le plus couramment utilisé dans DNS.
+Une **zone de recherche directe** convertit les noms d'hôtes en adresses IP. Elle contient plusieurs types d'enregistrements essentiels :
 
-Par exemple, dans notre structure précédente :
-- Quand un utilisateur cherche `pc01.comptabilite.computerelectronics.be`, la zone de recherche directe renvoie son adresse IP
-- Cette conversion "nom vers IP" est le processus standard de résolution DNS
+- **Enregistrements A** : Nom d'hôte → IPv4 
+  - Exemple : `serveur.monentreprise.com` → `192.168.1.10`
+- **Enregistrements AAAA** : Nom d'hôte → IPv6
+  - Exemple : `serveur.monentreprise.com` → `2001:0db8:85a3:0000:0000:8a2e:0370:7334`
+- **Enregistrements CNAME** : Alias vers un autre nom d'hôte
+  - Exemple : `www.monentreprise.com` → `serveur.monentreprise.com`
+- **Enregistrements MX** : Serveurs de messagerie
+  - Exemple : `monentreprise.com` → `mail.monentreprise.com` (priorité 10)
+- **Enregistrements SRV** : Services (comme Active Directory)
+  - Exemple : `_ldap._tcp.monentreprise.com` → `dc01.monentreprise.com:389`
 
-Les zones de recherche directe contiennent différents types d'enregistrements DNS, notamment :
-- Enregistrements A (Address) : lient un nom d'hôte à une adresse IPv4
-- Enregistrements AAAA : lient un nom d'hôte à une adresse IPv6
-- Enregistrements CNAME (Canonical Name) : créent des alias pour d'autres noms d'hôtes
-- Enregistrements MX (Mail Exchange) : spécifient les serveurs de messagerie
+### 2. Zones de Recherche Inverse (Reverse Lookup Zones)
 
-### Relation entre Zones Principales et Zones de Recherche Directe
+Une **zone de recherche inverse** permet de convertir une adresse IP en nom d'hôte. Elle est importante pour :
+- La sécurité (validation des connexions)
+- Le débogage réseau (ex de fonctionnement: `nslookup 192.168.1.1` pour obtenir le nom d'hôte correspondant)
+- Les logs système
 
-Il est important de comprendre que "zone principale" et "zone de recherche directe" sont deux concepts différents qui se complètent :
+## Relation entre les Types de Zones
 
-- Une **zone principale** définit le mode de gestion de la zone : c'est l'endroit où les enregistrements peuvent être créés et modifiés directement
-- Une **zone de recherche directe** définit le type de résolution : elle convertit les noms d'hôtes en adresses IP
-
-Dans notre exemple :
-- La "Zone 1" qui contient `comptabilite.computerelectronics.be` et `rh.computerelectronics.be` est :
-  - Une zone principale (car gérée directement par `dns1.computerelectronics.be`)
-  - Une zone de recherche directe (car elle convertit les noms comme `pc01.comptabilite.computerelectronics.be` en adresses IP)
-
-Une même zone peut donc être à la fois principale (pour sa gestion) et de recherche directe (pour sa fonction).
-
-### Zones secondaires
-
-**Zone sécondaire**: Copie en lecture seule d'une zone principale, synchronisée périodiquement pour la redondance et la répartition de charge.
+Une zone DNS peut être à la fois :
+- Principale ou secondaire (pour son autorité sur les données)
+- De recherche directe ou inverse (pour le type de conversion des enregistrements)
 
 
-#### 1. Modifications de la zone principale
+## Modifications de la zone principale
 
 On peut modifier la zone principale en ajoutant ou en supprimant des informations et des appareils.
 
 Exemple pratique :
 
-  1. L'admin fait un changement dans la **zone principale**
-     Exemple : Ajout d'un nouveau PC dans le service Comptabilité
-     • Avant : Numéro de série zone = 2023111401 
-     • Ajout : pc03.comptabilite.computerelectronics.be → 192.168.1.60
-     • Après : Numéro de série zone = 2023111402
-
-  2. Les zones secondaires vérifient périodiquement
-     • Toutes les 15 minutes par défaut
-     • Comparent leur numéro de série avec celui de la principale
-     • Si différent → demandent une mise à jour
-  
-  3. Transfert des modifications
-     • La zone principale envoie les changements
-     • Les zones secondaires appliquent les modifications
-     • Toutes les zones sont maintenant synchronisées
-
-Exemple pratique de synchronisation :
-
-  Cas pratique - Ajout d'un scanner en comptabilité :
+  Cas pratique 1 - Ajout de deux scanners en Comptabilité :
   1. Dans la zone principale uniquement :
      scanner02.comptabilite.computerelectronics.be → 192.168.1.21
-  
+     scanner03.comptabilite.computerelectronics.be → 192.168.1.22
+
   2. Vérification après quelques minutes :
-     Zone Principale    : scanner02.comptabilite.computerelectronics.be présent
-     Zones Secondaires : scanner02.comptabilite.computerelectronics.be présent
+     Zone Principale    : scanner02.comptabilite.computerelectronics.be et scanner03.comptabilite.computerelectronics.be présents
+     Zones Secondaires : scanner02.comptabilite.computerelectronics.be et scanner03.comptabilite.computerelectronics.be présents
      ✓ Synchronisation réussie
 
-- Exemple de contenu de la zone principale : 
-  ```
-  Zone : computerelectronics.be
-  Serveur Principal : dns1.computerelectronics.be (192.168.2.1)
-  Contenu :
-    # Infrastructure
-    dns1.computerelectronics.be               → 192.168.2.1
-    dns2.computerelectronics.be               → 192.168.2.3
-    ad.computerelectronics.be                 → 192.168.2.2
-    mail.computerelectronics.be               → 192.168.2.4
-    
-    # Département Comptabilité
-    pc01.comptabilite.computerelectronics.be     → 192.168.1.10
-    printer01.comptabilite.computerelectronics.be → 192.168.1.20
-    
-    # Département RH
-    pc01.rh.computerelectronics.be               → 192.168.1.30
-    scanner01.rh.computerelectronics.be          → 192.168.1.40
-  ```
+  Cas pratique 2 - Ajout de deux serveurs de fichiers dans le département ventes :
+  1. Dans la zone principale uniquement :
+     fichiers02.ventes.computerelectronics.be → 192.168.4.50
+     fichiers03.ventes.computerelectronics.be → 192.168.4.51
 
-#### 2. Zone Secondaire (Secondary Zone)
-- Copie en lecture seule de la zone principale
-- Utilisée pour la redondance et la répartition de charge
-- Exemple :
-  ```
-  Zone Principale : dns1.computerelectronics.be (192.168.2.1)
-  Zone Secondaire : dns2.computerelectronics.be (192.168.2.3)
-  • Synchronisation toutes les 15 minutes
-  • Copie exacte des données de tous les départements
-  • Si dns1 tombe en panne, dns2 continue à répondre aux requêtes
-  ```
+  2. Vérification après quelques minutes :
+     Zone Principale    : fichiers02.ventes.computerelectronics.be et fichiers03.ventes.computerelectronics.be présents
+     Zones Secondaires : fichiers02.ventes.computerelectronics.be et fichiers03.ventes.computerelectronics.be présents
+     ✓ Synchronisation réussie
 
 ## Types d'Enregistrements DNS
 
-Les enregistrements DNS sont les éléments fondamentaux qui composent une zone DNS. Chaque type d'enregistrement a un rôle spécifique :
+Les enregistrements DNS sont les éléments fondamentaux qui composent une zone DNS. Chaque type d'enregistrement a un rôle spécifique. Ils sont stockés dans la zone DNS, concrement dans un fichier sur un disque du serveur DNS.
 
 ## Enregistrements A (Address)
 - **Fonction** : Associe un nom d'hôte à une adresse IPv4
@@ -316,5 +279,3 @@ Les enregistrements DNS sont les éléments fondamentaux qui composent une zone 
   - Nouvelle tentative : Délai avant nouvelle tentative en cas d'échec
   - Expiration : Durée maximale de validité d'une zone secondaire
   - TTL minimum : Durée de mise en cache minimale
-
-
