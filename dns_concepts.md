@@ -10,9 +10,6 @@ Exemple:
 - **Adresse IP** : `192.168.2.10`
 
 
-
-
-
 ### Analogie Simple
 
 Imaginez que vous voulez envoyer une lettre à un ami. Vous connaissez son nom (comme `www.computerelectronics.be`), mais pour que la poste livre la lettre, il faut son adresse complète (comme l'adresse IP `192.168.2.10`). Le DNS fait exactement ça : il traduit les noms en adresses. Si on n'avait pas le DNS, il faudrait que chaque personne connaisse l'adresse IP de chaque site web qu'elle visite!!
@@ -151,17 +148,39 @@ Un seul serveur gère l'ensemble des appareils de cette zone (dans le schéma, `
 **Zone 2**: contiendra l'espace de noms `ventes.computerelectronics.be`.
 C'est un autre serveur qui gère l'ensemble des appareils de cette zone (dans le schéma, `dns2.computerelectronics.be`)
 
-
-
-
-
-
-
 Note: une zone peut être liée a plusieurs serveurs DNS si on veut assurer la disponibilité en, par exemple, cas de panne. On aurait alors un dns3.computerelectronics.be
 
 On aura alors deux **zones principales**, chacune avec son propre serveur DNS pour gérer l'ensemble des appareils de la zone.
 
 Chaque **zone principale a un numéro de série unique**. 
+
+### Zones de recherche directe
+
+Une **zone de recherche directe** (forward lookup zone) est une zone DNS qui permet de convertir les noms d'hôtes en adresses IP. C'est le type de zone le plus couramment utilisé dans DNS.
+
+Par exemple, dans notre structure précédente :
+- Quand un utilisateur cherche `pc01.comptabilite.computerelectronics.be`, la zone de recherche directe renvoie son adresse IP
+- Cette conversion "nom vers IP" est le processus standard de résolution DNS
+
+Les zones de recherche directe contiennent différents types d'enregistrements DNS, notamment :
+- Enregistrements A (Address) : lient un nom d'hôte à une adresse IPv4
+- Enregistrements AAAA : lient un nom d'hôte à une adresse IPv6
+- Enregistrements CNAME (Canonical Name) : créent des alias pour d'autres noms d'hôtes
+- Enregistrements MX (Mail Exchange) : spécifient les serveurs de messagerie
+
+### Relation entre Zones Principales et Zones de Recherche Directe
+
+Il est important de comprendre que "zone principale" et "zone de recherche directe" sont deux concepts différents qui se complètent :
+
+- Une **zone principale** définit le mode de gestion de la zone : c'est l'endroit où les enregistrements peuvent être créés et modifiés directement
+- Une **zone de recherche directe** définit le type de résolution : elle convertit les noms d'hôtes en adresses IP
+
+Dans notre exemple :
+- La "Zone 1" qui contient `comptabilite.computerelectronics.be` et `rh.computerelectronics.be` est :
+  - Une zone principale (car gérée directement par `dns1.computerelectronics.be`)
+  - Une zone de recherche directe (car elle convertit les noms comme `pc01.comptabilite.computerelectronics.be` en adresses IP)
+
+Une même zone peut donc être à la fois principale (pour sa gestion) et de recherche directe (pour sa fonction).
 
 ### Zones secondaires
 
@@ -233,21 +252,69 @@ Exemple pratique de synchronisation :
   • Si dns1 tombe en panne, dns2 continue à répondre aux requêtes
   ```
 
-#### 3. Zone Stub
-- Contient uniquement les informations des serveurs de noms (SOA, NS, A) qui servent à pointer vers la zone secondaire
-- Utile pour la délégation de sous-domaines
-- Exemple :
-  ```
-  Zone Stub : ventes.computerelectronics.be
-  Serveur : dns2.computerelectronics.be (192.168.2.3)
-  Contient uniquement :
-    • Informations SOA (Start of Authority)
-    • Enregistrements NS (Name Server)
-    • Enregistrements A des serveurs :
-      - fichiers.ventes.computerelectronics.be  → 192.168.2.20
-      - apps.ventes.computerelectronics.be      → 192.168.2.21
-      - database.ventes.computerelectronics.be  → 192.168.2.22
-  ```
+## Types d'Enregistrements DNS
 
+Les enregistrements DNS sont les éléments fondamentaux qui composent une zone DNS. Chaque type d'enregistrement a un rôle spécifique :
+
+## Enregistrements A (Address)
+- **Fonction** : Associe un nom d'hôte à une adresse IPv4
+- **Exemple** : 
+  ```
+  pc01.comptabilite.computerelectronics.be.    IN    A    192.168.1.10
+  ```
+- **Utilisation** : C'est l'enregistrement le plus courant, utilisé pour la résolution directe des noms d'hôtes
+
+## Enregistrements AAAA (IPv6 Address)
+- **Fonction** : Associe un nom d'hôte à une adresse IPv6
+- **Exemple** : 
+  ```
+  pc01.comptabilite.computerelectronics.be.    IN    AAAA    2001:0db8:85a3:0000:0000:8a2e:0370:7334
+  ```
+- **Utilisation** : Version IPv6 de l'enregistrement A
+
+## Enregistrements CNAME (Canonical Name)
+- **Fonction** : Crée un alias pour un autre nom d'hôte
+- **Exemple** : 
+  ```
+  www.computerelectronics.be.    IN    CNAME    server1.ventes.computerelectronics.be.
+  ```
+- **Utilisation** : Utile pour avoir plusieurs noms pointant vers le même serveur
+
+## Enregistrements MX (Mail Exchange)
+- **Fonction** : Définit les serveurs de messagerie pour un domaine
+- **Exemple** : 
+  ```
+  computerelectronics.be.    IN    MX    10    mail.computerelectronics.be.
+  ```
+- **Utilisation** : Essentiel pour le routage des emails
+- **Priorité** : Le nombre (10 dans l'exemple) indique la priorité (plus petit = plus prioritaire)
+
+## Enregistrements NS (Name Server)
+- **Fonction** : Indique les serveurs DNS autoritaires pour une zone
+- **Exemple** : 
+  ```
+  computerelectronics.be.    IN    NS    dns1.computerelectronics.be.
+  computerelectronics.be.    IN    NS    dns2.computerelectronics.be.
+  ```
+- **Utilisation** : Définit quels serveurs DNS sont responsables du domaine
+
+## Enregistrement SOA (Start of Authority)
+- **Fonction** : Contient les informations administratives d'une zone DNS
+- **Exemple** : 
+  ```
+  computerelectronics.be.    IN    SOA    dns1.computerelectronics.be. admin.computerelectronics.be. (
+                                          2023111402  ; Numéro de série
+                                          3600        ; Rafraîchissement (1 heure)
+                                          1800        ; Nouvelle tentative (30 minutes)
+                                          604800      ; Expiration (1 semaine)
+                                          86400 )     ; TTL minimum (24 heures)
+  ```
+- **Utilisation** : Un seul enregistrement SOA par zone
+- **Paramètres importants** :
+  - Numéro de série : Identifie la version actuelle de la zone
+  - Rafraîchissement : Fréquence de vérification des mises à jour par les serveurs secondaires
+  - Nouvelle tentative : Délai avant nouvelle tentative en cas d'échec
+  - Expiration : Durée maximale de validité d'une zone secondaire
+  - TTL minimum : Durée de mise en cache minimale
 
 
