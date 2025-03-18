@@ -1,6 +1,6 @@
 # Comprendre le DNS : Une Introduction Simple
 
-## Qu'est-ce que le DNS ?
+## 1. Qu'est-ce que le DNS ?
 
 Le **DNS** (Domain Name System)** est comme **l'annuaire téléphonique d'Internet**. Son rôle principal est de **transformer les noms de domaine** que nous utilisons (comme `www.computerelectronics.be`) **en adresses IP** (comme `192.168.2.10`). Une adresse IP est **un numéro unique qui identifie un ordinateur sur Internet**.
 
@@ -9,13 +9,13 @@ Exemple:
 - **Nom de domaine** : `computerelectronics.be`
 - **Adresse IP** : `192.168.2.10`
 
-### Analogie Simple
+### 1.1 Analogie Simple
 
 Imaginez que vous voulez envoyer une lettre à un ami. Vous connaissez son nom (comme `www.computerelectronics.be`), mais pour que la poste livre la lettre, il faut son adresse complète (comme l'adresse IP `192.168.2.10`). Le DNS fait exactement ça : il traduit les noms en adresses. Si on n'avait pas le DNS, il faudrait que chaque personne connaisse l'adresse IP de chaque site web qu'elle visite!!
 
-## Diagramme de résolution DNS pour computerelectronics.be
+### 1.2 Processus de Résolution DNS
 
-![Diagramme DNS](diagrams/dns_resolution_computerelectronics.drawio)
+![Diagramme DNS](diagrams/images/dns_resolution_computerelectronics.png)
 
 Le diagramme ci-dessus illustre le processus de résolution DNS pour accéder au site computerelectronics.be :
 
@@ -25,17 +25,21 @@ Le diagramme ci-dessus illustre le processus de résolution DNS pour accéder au
 
 Ce processus est fondamental pour la navigation web, car il permet de traduire les noms de domaine en adresses IP utilisables.
 
-## L'Espace de Noms
+## 2. L'Espace de Noms
 
 Un espace de noms **est un système d'organisation hiérarchique des noms**, **similaire à l'organisation des dossiers sur votre ordinateur**. 
 La structure est comme un arbre, avec la racine (le domaine) et ses sous-racines (les sous-domaines). 
 Les feuilles sont les appareils (ordinateurs, serveurs de tout genre, imprimantes, etc.).
+
+### 2.1 Composants de l'Espace de Noms
 
 Dans l'espace de noms on peut avoir:
 
 - **Domaine** : racine de l'entreprise
 - **Sous-domaine** : sous-racine de l'entreprise (des noms de départements comme comptabilite.computerelectronics.be, rh.computerelectronics.be, etc.)
 - **Appareil** : ordinateur, serveur, imprimante, etc.
+
+### 2.2 Structure de l'Entreprise
 
 Considérons une entreprise "computerelectronics.be" qui a plusieurs départements:
 - Comptabilité
@@ -44,7 +48,7 @@ Considérons une entreprise "computerelectronics.be" qui a plusieurs départemen
 
 Ce diagramme correspond à la structure **physique** du reseau:
 
-![Diagramme DNS](diagrams/structure_reseau.drawio)
+![Diagramme DNS](diagrams/images/structure_reseau.png)
 
 Cette structure physique correspond à cette structure DNS. 
 
@@ -72,6 +76,8 @@ computerelectronics.be                      # **Domaine** racine de l'entreprise
     ├── pc01.ventes.computerelectronics.be        # Poste de travail ventes (appareil)
     └── printer01.ventes.computerelectronics.be   # Imprimante ventes (appareil)
 ```
+
+### 2.3 Analyse de la Structure
 
 Analysons cette structure niveau par niveau :
 
@@ -106,15 +112,18 @@ Analysons cette structure niveau par niveau :
 
 **Important**: cette structure DNS est une **organisation logique** qui peut être **totalement indépendante de l'emplacement physique des ressources**. 
 
+## 3. Résolution DNS 
 
-# Résolution DNS 
+### 3.1 Exemple d'Impression
 
 1. Pour imprimer un document :
    - L'utilisateur effectue une recherche dans le sous-domaine comptabilité (`comptabilite.computerelectronics.be`)
    - Il accède à l'imprimante (`printer01.comptabilite.computerelectronics.be`)
    - La résolution DNS traduit ce nom en adresse IP en suivant la hiérarchie des domaines
 
-   ![Diagramme de résolution DNS pour l'imprimante avec sous-domaine](diagrams/dns_resolution_printer.drawio)
+   ![Diagramme de résolution DNS pour l'imprimante avec sous-domaine](diagrams/images/dns_resolution_printer.png)
+
+### 3.2 Exemple d'Accès aux Applications
 
 2. Pour accéder à une application :
    - L'utilisateur effectue une recherche dans le sous-domaine ventes (`ventes.computerelectronics.be`)
@@ -122,20 +131,20 @@ Analysons cette structure niveau par niveau :
    - La résolution DNS redirige vers un serveur répliqué (`serveur1` ou `serveur2`)
    - En cas de panne, le système bascule automatiquement vers l'autre serveur
 
-   ![Diagramme de résolution DNS pour le serveur de fichiers avec sous-domaine](diagrams/dns_resolution_fileserver.drawio)
+   ![Diagramme de résolution DNS pour le serveur de fichiers avec sous-domaine](diagrams/images/dns_resolution_fileserver.png)
 
-# La Délégation DNS
+## 4. La Délégation DNS
 
 La délégation DNS est un mécanisme qui permet de répartir la responsabilité de la gestion des zones DNS entre différents serveurs. Dans notre infrastructure, la délégation s'organise sur plusieurs niveaux :
 
-## 1. Niveau Internet (DNS Public)
+### 4.1 Niveau Internet (DNS Public)
 - Le registrar du domaine `computerelectronics.be` configure les serveurs DNS publics
 - Ces serveurs contiennent les enregistrements NS (Name Server) qui pointent vers les serveurs DNS autoritaires pour le domaine
 - Ils gèrent principalement les services accessibles depuis l'extérieur (site web, email, etc.)
 
-![Diagramme de délégation DNS au niveau Internet](diagrams/dns_delegation_public.drawio)
+![Diagramme de délégation DNS au niveau Internet](diagrams/images/dns_delegation_public.png)
 
-## 2. Niveau Entreprise (DNS Interne)
+### 4.2 Niveau Entreprise (DNS Interne)
 - `dns1.computerelectronics.be` et `dns2.computerelectronics.be` sont configurés comme serveurs autoritaires pour les sous-domaines
 - La délégation est configurée ainsi :
   ```
@@ -147,7 +156,7 @@ La délégation DNS est un mécanisme qui permet de répartir la responsabilité
   ventes.computerelectronics.be.        IN  NS  dns2.computerelectronics.be.
   ```
 
-## 3. Résolution des Requêtes
+### 4.3 Résolution des Requêtes
 
 Prenons l'exemple d'une requête pour `pc01.comptabilite.computerelectronics.be` :
 1. Un client interne envoie la requête à son serveur DNS configuré (dns1 ou dns2)
@@ -161,17 +170,15 @@ Cette délégation permet :
 - Une séparation claire entre DNS public et privé
 - Une maintenance plus simple (chaque serveur gère ses propres zones)
 
-# Les Zones DNS
+## 5. Les Zones DNS
 
 Nous avons vu la structure complète de l'espace de noms.
 
 Une **zone DNS est une partie de l'espace de noms** DNS qu'un administrateur ou une organisation gère. Une **zone DNS est associée à au moins un serveur DNS** qui connaît les adresses des appareils qui se trouvent dans la zone. 
 
-Il existe plusieurs **types de zones DNS** que nous allons détailler :
+### 5.1 Types de Zones DNS
 
-## Types de Zones DNS selon leur rôle
-
-### 1. Zones Principales (Primary Zones)
+#### 5.1.1 Zones Principales (Primary Zones)
 
 Une zone principale est la source autoritaire pour un domaine où les enregistrements sont créés, modifiés et supprimés directement. Chaque **zone principale a un numéro de série unique** qui s'incrémente à chaque modification.
 
@@ -183,7 +190,7 @@ Dans notre exemple précédent, nous avons **deux zones principales** :
 - **Zone 2** : Contient le sous-domaine `ventes.computerelectronics.be`
   - Gérée par le serveur `dns2.computerelectronics.be`
 
-### 2. Zones Secondaires (Secondary Zones)
+#### 5.1.2 Zones Secondaires (Secondary Zones)
 
 Une zone secondaire est une **copie en lecture seule** d'une zone principale. Elle est utilisée pour :
 - Assurer la redondance en cas de panne du serveur principal
@@ -192,11 +199,9 @@ Une zone secondaire est une **copie en lecture seule** d'une zone principale. El
 
 Les zones secondaires se synchronisent automatiquement avec leur zone principale via un processus appelé **transfert de zone**.
 
-## Type de Zones DNS selon leur fonction
+### 5.2 Types de Zones DNS selon leur fonction
 
-Selong leur fonction (la conversion des noms d'hôtes en adresses IP ou vice-versa), il existe deux types de zones DNS :
-
-### 1. Zones de Recherche Directe (Forward Lookup Zones)
+#### 5.2.1 Zones de Recherche Directe (Forward Lookup Zones)
 
 Une **zone de recherche directe** convertit les noms d'hôtes en adresses IP. Elle contient plusieurs types d'enregistrements essentiels :
 
@@ -211,7 +216,7 @@ Une **zone de recherche directe** convertit les noms d'hôtes en adresses IP. El
 - **Enregistrements SRV** : Services (comme Active Directory)
   - Exemple : `_ldap._tcp.monentreprise.com` → `dc01.monentreprise.com:389`
 
-### 2. Zones de Recherche Inverse (Reverse Lookup Zones)
+#### 5.2.2 Zones de Recherche Inverse (Reverse Lookup Zones)
 
 Une **zone de recherche inverse** permet de convertir une adresse IP en nom d'hôte. Elle est importante pour :
 - La sécurité (validation des connexions)
@@ -223,7 +228,6 @@ Une **zone de recherche inverse** permet de convertir une adresse IP en nom d'h�
 Une zone DNS peut être à la fois :
 - Principale ou secondaire (pour son autorité sur les données)
 - De recherche directe ou inverse (pour le type de conversion des enregistrements)
-
 
 ## Modifications de la zone principale
 
@@ -255,7 +259,7 @@ Exemple pratique :
 
 Les enregistrements DNS sont les éléments fondamentaux qui composent une zone DNS. Chaque type d'enregistrement a un rôle spécifique. Ils sont stockés dans la zone DNS, concrement dans un fichier sur un disque du serveur DNS.
 
-## Enregistrements A (Address)
+### A (Address)
 - **Fonction** : Associe un nom d'hôte à une adresse IPv4
 - **Exemple** : 
   ```
@@ -263,7 +267,7 @@ Les enregistrements DNS sont les éléments fondamentaux qui composent une zone 
   ```
 - **Utilisation** : C'est l'enregistrement le plus courant, utilisé pour la résolution directe des noms d'hôtes
 
-## Enregistrements AAAA (IPv6 Address)
+### AAAA (IPv6 Address)
 - **Fonction** : Associe un nom d'hôte à une adresse IPv6
 - **Exemple** : 
   ```
@@ -271,7 +275,7 @@ Les enregistrements DNS sont les éléments fondamentaux qui composent une zone 
   ```
 - **Utilisation** : Version IPv6 de l'enregistrement A
 
-## Enregistrements CNAME (Canonical Name)
+### CNAME (Canonical Name)
 - **Fonction** : Crée un alias pour un autre nom d'hôte
 - **Exemple** : 
   ```
@@ -279,7 +283,7 @@ Les enregistrements DNS sont les éléments fondamentaux qui composent une zone 
   ```
 - **Utilisation** : Utile pour avoir plusieurs noms pointant vers le même serveur
 
-## Enregistrements MX (Mail Exchange)
+### MX (Mail Exchange)
 - **Fonction** : Définit les serveurs de messagerie pour un domaine
 - **Exemple** : 
   ```
@@ -288,7 +292,7 @@ Les enregistrements DNS sont les éléments fondamentaux qui composent une zone 
 - **Utilisation** : Essentiel pour le routage des emails
 - **Priorité** : Le nombre (10 dans l'exemple) indique la priorité (plus petit = plus prioritaire)
 
-## Enregistrements NS (Name Server)
+### NS (Name Server)
 - **Fonction** : Indique les serveurs DNS autoritaires pour une zone
 - **Exemple** : 
   ```
@@ -297,21 +301,13 @@ Les enregistrements DNS sont les éléments fondamentaux qui composent une zone 
   ```
 - **Utilisation** : Définit quels serveurs DNS sont responsables du domaine
 
-## Enregistrement SOA (Start of Authority)
-- **Fonction** : Contient les informations administratives d'une zone DNS
-- **Exemple** : 
-  ```
-  computerelectronics.be.    IN    SOA    dns1.computerelectronics.be. admin.computerelectronics.be. (
-                                          2023111402  ; Numéro de série
-                                          3600        ; Rafraîchissement (1 heure)
-                                          1800        ; Nouvelle tentative (30 minutes)
-                                          604800      ; Expiration (1 semaine)
-                                          86400 )     ; TTL minimum (24 heures)
-  ```
-- **Utilisation** : Un seul enregistrement SOA par zone
-- **Paramètres importants** :
-  - Numéro de série : Identifie la version actuelle de la zone
-  - Rafraîchissement : Fréquence de vérification des mises à jour par les serveurs secondaires
+### SOA (Start of Authority)
+- **Fonction** : Définit les paramètres de la zone DNS
+- **Contient** :
+  - Serveur DNS maître
+  - Contact administrateur
+  - Numéro de série : Date de dernière modification
+  - Rafraîchissement : Intervalle de mise à jour des serveurs secondaires
   - Nouvelle tentative : Délai avant nouvelle tentative en cas d'échec
   - Expiration : Durée maximale de validité d'une zone secondaire
   - TTL minimum : Durée de mise en cache minimale
