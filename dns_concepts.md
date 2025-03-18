@@ -9,11 +9,9 @@ Exemple:
 - **Nom de domaine** : `computerelectronics.be`
 - **Adresse IP** : `192.168.2.10`
 
-
 ### Analogie Simple
 
 Imaginez que vous voulez envoyer une lettre à un ami. Vous connaissez son nom (comme `www.computerelectronics.be`), mais pour que la poste livre la lettre, il faut son adresse complète (comme l'adresse IP `192.168.2.10`). Le DNS fait exactement ça : il traduit les noms en adresses. Si on n'avait pas le DNS, il faudrait que chaque personne connaisse l'adresse IP de chaque site web qu'elle visite!!
-
 
 ## Diagramme de résolution DNS pour computerelectronics.be
 
@@ -26,7 +24,6 @@ Le diagramme ci-dessus illustre le processus de résolution DNS pour accéder au
 3. Le client peut alors établir une connexion directe avec le serveur web computerelectronics.be en utilisant l'adresse IP reçue
 
 Ce processus est fondamental pour la navigation web, car il permet de traduire les noms de domaine en adresses IP utilisables.
-
 
 ## L'Espace de Noms
 
@@ -48,7 +45,6 @@ Considérons une entreprise "computerelectronics.be" qui a plusieurs départemen
 Ce diagramme correspond à la structure **physique** du reseau:
 
 ![Diagramme DNS](diagrams/structure_reseau.drawio)
-
 
 Cette structure physique correspond à cette structure DNS. 
 
@@ -111,19 +107,59 @@ Analysons cette structure niveau par niveau :
 **Important**: cette structure DNS est une **organisation logique** qui peut être **totalement indépendante de l'emplacement physique des ressources**. 
 
 
-# Exemples de résolution DNS 
+# Résolution DNS 
 
 1. Pour imprimer un document :
-   - L'utilisateur cherche dans le sous-domaine comptabilité (`comptabilite.computerelectronics.be`)
+   - L'utilisateur effectue une recherche dans le sous-domaine comptabilité (`comptabilite.computerelectronics.be`)
    - Il accède à l'imprimante (`printer01.comptabilite.computerelectronics.be`)
-   - Le DNS traduit ce nom en adresse IP
+   - La résolution DNS traduit ce nom en adresse IP en suivant la hiérarchie des domaines
+
+   ![Diagramme de résolution DNS pour l'imprimante avec sous-domaine](diagrams/dns_resolution_printer.drawio)
 
 2. Pour accéder à une application :
-   - L'utilisateur se connecte au serveur d'applications (`apps.ventes.computerelectronics.be`)
-   - Le DNS redirige vers un serveur répliqué (`server1` ou `server2`)
-   - En cas de panne, bascule automatique sur l'autre serveur
+   - L'utilisateur effectue une recherche dans le sous-domaine ventes (`ventes.computerelectronics.be`)
+   - Il se connecte au serveur de fichiers (`fichiers.ventes.computerelectronics.be`)
+   - La résolution DNS redirige vers un serveur répliqué (`serveur1` ou `serveur2`)
+   - En cas de panne, le système bascule automatiquement vers l'autre serveur
 
+   ![Diagramme de résolution DNS pour le serveur de fichiers avec sous-domaine](diagrams/dns_resolution_fileserver.drawio)
 
+# La Délégation DNS
+
+La délégation DNS est un mécanisme qui permet de répartir la responsabilité de la gestion des zones DNS entre différents serveurs. Dans notre infrastructure, la délégation s'organise sur plusieurs niveaux :
+
+## 1. Niveau Internet (DNS Public)
+- Le registrar du domaine `computerelectronics.be` configure les serveurs DNS publics
+- Ces serveurs contiennent les enregistrements NS (Name Server) qui pointent vers les serveurs DNS autoritaires pour le domaine
+- Ils gèrent principalement les services accessibles depuis l'extérieur (site web, email, etc.)
+
+![Diagramme de délégation DNS au niveau Internet](diagrams/dns_delegation_public.drawio)
+
+## 2. Niveau Entreprise (DNS Interne)
+- `dns1.computerelectronics.be` et `dns2.computerelectronics.be` sont configurés comme serveurs autoritaires pour les sous-domaines
+- La délégation est configurée ainsi :
+  ```
+  # Sur dns1 :
+  comptabilite.computerelectronics.be.  IN  NS  dns1.computerelectronics.be.
+  rh.computerelectronics.be.            IN  NS  dns1.computerelectronics.be.
+
+  # Sur dns2 :
+  ventes.computerelectronics.be.        IN  NS  dns2.computerelectronics.be.
+  ```
+
+## 3. Résolution des Requêtes
+
+Prenons l'exemple d'une requête pour `pc01.comptabilite.computerelectronics.be` :
+1. Un client interne envoie la requête à son serveur DNS configuré (dns1 ou dns2)
+2. Le serveur DNS vérifie s'il est autoritaire pour la zone demandée
+3. Si c'est `dns1`, il répond directement car il est autoritaire pour la zone `comptabilite`
+4. Si c'est `dns2`, il redirige vers `dns1` car il sait que `dns1` est autoritaire pour `comptabilite`
+
+Cette délégation permet :
+- Une gestion décentralisée des zones DNS
+- Une meilleure performance des requêtes DNS internes
+- Une séparation claire entre DNS public et privé
+- Une maintenance plus simple (chaque serveur gère ses propres zones)
 
 # Les Zones DNS
 
@@ -215,7 +251,7 @@ Exemple pratique :
      Zones Secondaires : fichiers02.ventes.computerelectronics.be et fichiers03.ventes.computerelectronics.be présents
      ✓ Synchronisation réussie
 
-## Types d'Enregistrements DNS
+## Annexe: Types d'Enregistrements DNS
 
 Les enregistrements DNS sont les éléments fondamentaux qui composent une zone DNS. Chaque type d'enregistrement a un rôle spécifique. Ils sont stockés dans la zone DNS, concrement dans un fichier sur un disque du serveur DNS.
 

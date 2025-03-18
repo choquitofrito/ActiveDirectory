@@ -1,0 +1,39 @@
+<mxfile host="65bd71144e">
+    <diagram name="Résolution DNS Imprimante" id="printer-resolution">
+        <mxGraphModel dx="816" dy="670" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="user" value="Utilisateur" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" vertex="1" parent="1">
+                    <mxGeometry x="50" y="200" width="60" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="dns_root" value="DNS Racine&#10;computerelectronics.be" style="shape=mxgraph.cisco.servers.directory_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" vertex="1" parent="1">
+                    <mxGeometry x="240" y="180" width="40" height="62" as="geometry"/>
+                </mxCell>
+                <mxCell id="dns_compta" value="DNS Comptabilité&#10;comptabilite.computerelectronics.be" style="shape=mxgraph.cisco.servers.directory_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" vertex="1" parent="1">
+                    <mxGeometry x="440" y="180" width="40" height="62" as="geometry"/>
+                </mxCell>
+                <mxCell id="printer" value="Imprimante&#10;printer01.comptabilite.computerelectronics.be&#10;IP: 192.168.1.100" style="shape=mxgraph.cisco.computers_and_peripherals.printer;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="180" width="60" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="req_dns1" value="1. Requête DNS" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="user" target="dns_root">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="req_dns2" value="2. Redirection vers&#10;sous-domaine" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="dns_root" target="dns_compta">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="res_dns" value="3. Résolution&#10;IP: 192.168.1.100" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="dns_compta" target="printer">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="direct_conn" value="4. Connexion directe" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.7;entryX=0;entryY=0.7;dashed=1;curved=1;" edge="1" parent="1" source="user" target="printer">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="80" y="300"/>
+                            <mxPoint x="640" y="300"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
