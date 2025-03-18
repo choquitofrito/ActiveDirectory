@@ -9,6 +9,8 @@ Exemple:
 - **Nom de domaine** : `computerelectronics.be`
 - **Adresse IP** : `192.168.2.10`
 
+Pour mieux comprendre, ouvrez une console et faites `ping lesoir.be` pour voir l'adresse IP de lesoir.be
+
 ### 1.1 Analogie Simple
 
 Imaginez que vous voulez envoyer une lettre à un ami. Vous connaissez son nom (comme `www.computerelectronics.be`), mais pour que la poste livre la lettre, il faut son adresse complète (comme l'adresse IP `192.168.2.10`). Le DNS fait exactement ça : il traduit les noms en adresses. Si on n'avait pas le DNS, il faudrait que chaque personne connaisse l'adresse IP de chaque site web qu'elle visite!!
@@ -39,9 +41,11 @@ Dans l'espace de noms on peut avoir:
 - **Sous-domaine** : sous-racine de l'entreprise (des noms de départements comme comptabilite.computerelectronics.be, rh.computerelectronics.be, etc.)
 - **Appareil** : ordinateur, serveur, imprimante, etc.
 
-### 2.2 Structure de l'Entreprise
+### 2.2 Structure d'un espace de nom concret
 
-Considérons une entreprise "computerelectronics.be" qui a plusieurs départements:
+**Considérons une entreprise "computerelectronics.be" qui a plusieurs départements:
+**
+
 - Comptabilité
 - RH
 - Ventes
@@ -77,6 +81,7 @@ computerelectronics.be                      # **Domaine** racine de l'entreprise
     └── printer01.ventes.computerelectronics.be   # Imprimante ventes (appareil)
 ```
 
+
 ### 2.3 Analyse de la Structure
 
 Analysons cette structure niveau par niveau :
@@ -111,6 +116,101 @@ Analysons cette structure niveau par niveau :
      - `printer01.ventes.computerelectronics.be` : Imprimante ventes (appareil)
 
 **Important**: cette structure DNS est une **organisation logique** qui peut être **totalement indépendante de l'emplacement physique des ressources**. 
+
+
+# Exercices Section 2
+
+## Exercice 2.1 - Structure DNS
+Dessinez la structure DNS de votre département "Formation" qui contient :
+- 2 serveurs d'applications
+- 3 postes de travail
+- 1 imprimante réseau
+En suivant la nomenclature de computerelectronics.be
+
+<details>
+<summary>Solution 2.1</summary>
+
+```
+formation.computerelectronics.be                      # Sous-domaine Formation
+├── app1.formation.computerelectronics.be            # Premier serveur d'applications
+├── app2.formation.computerelectronics.be            # Deuxième serveur d'applications
+├── pc01.formation.computerelectronics.be            # Premier poste de travail
+├── pc02.formation.computerelectronics.be            # Deuxième poste de travail
+├── pc03.formation.computerelectronics.be            # Troisième poste de travail
+└── printer01.formation.computerelectronics.be       # Imprimante réseau
+```
+</details>
+
+## Exercice 2.2 - Analyse
+Dans la structure actuelle de computerelectronics.be, identifiez :
+- Tous les appareils qui sont directement rattachés au domaine racine
+- Tous les appareils qui appartiennent au sous-domaine ventes
+- Expliquez pourquoi les serveurs DNS sont dans le domaine racine
+
+<details>
+<summary>Solution 2.2</summary>
+
+1. Appareils rattachés au domaine racine :
+   - dns1.computerelectronics.be
+   - dns2.computerelectronics.be
+
+2. Appareils du sous-domaine ventes :
+   - fichiers.ventes.computerelectronics.be
+   - apps.ventes.computerelectronics.be
+   - database.ventes.computerelectronics.be
+   - server1.ventes.computerelectronics.be
+   - server2.ventes.computerelectronics.be
+   - pc01.ventes.computerelectronics.be
+   - printer01.ventes.computerelectronics.be
+
+3. Les serveurs DNS sont dans le domaine racine car :
+   - Ils gèrent l'ensemble des sous-domaines
+   - Ils doivent être facilement accessibles par tous les sous-domaines
+   - Cela simplifie la configuration DNS globale
+</details>
+
+## Exercice 2.3 - Nommage
+Pour un nouveau département "Marketing", proposez des noms DNS complets pour :
+- Le sous-domaine
+- Un serveur web
+- Deux postes de travail
+- Une imprimante couleur
+En respectant la convention de nommage existante
+
+<details>
+<summary>Solution 2.3</summary>
+
+```
+marketing.computerelectronics.be                    # Sous-domaine Marketing
+├── web.marketing.computerelectronics.be           # Serveur web
+├── pc01.marketing.computerelectronics.be          # Premier poste de travail
+├── pc02.marketing.computerelectronics.be          # Deuxième poste de travail
+└── printer01.marketing.computerelectronics.be     # Imprimante couleur
+```
+</details>
+
+### Exercice 2.4 - Comparaison
+Comparez la structure physique (diagramme) et la structure logique (arborescence DNS) de computerelectronics.be :
+- Identifiez 2 différences principales
+
+<details>
+<summary>Solution 2.4</summary>
+
+Différences principales entre structure physique et logique :
+
+1. Position des serveurs DNS :
+   - Physiquement : dans la salle serveur avec les autres équipements
+   - Logiquement : directement sous le domaine racine
+
+2. Organisation des départements :
+   - Physiquement : selon leur emplacement dans les bâtiments
+   - Logiquement : hiérarchie pure basée sur les sous-domaines
+
+
+</details>
+
+
+
 
 ## 3. Résolution DNS 
 
@@ -223,7 +323,7 @@ Une **zone de recherche inverse** permet de convertir une adresse IP en nom d'h�
 - Le débogage réseau (ex de fonctionnement: `nslookup 192.168.1.1` pour obtenir le nom d'hôte correspondant)
 - Les logs système
 
-## Relation entre les Types de Zones
+## 6. Relation entre les Types de Zones
 
 Une zone DNS peut être à la fois :
 - Principale ou secondaire (pour son autorité sur les données)
