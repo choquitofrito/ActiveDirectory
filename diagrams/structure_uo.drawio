@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="Electron" modified="2024-03-19T12:30:00.000Z" agent="Mozilla/5.0" version="12.0.0" etag="xyz">
+    <diagram id="uo-structure" name="Structure UO">
+        <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                
+                <!-- Racine du domaine -->
+                <mxCell id="2" value="computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="40" width="160" height="40" as="geometry"/>
+                </mxCell>
+
+                <!-- UO Comptabilité -->
+                <mxCell id="3" value="OU=Comptabilité" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="120" y="120" width="120" height="40" as="geometry"/>
+                </mxCell>
+
+                <!-- UO RH -->
+                <mxCell id="4" value="OU=RH" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="120" width="120" height="40" as="geometry"/>
+                </mxCell>
+
+                <!-- UO Ventes -->
+                <mxCell id="5" value="OU=Ventes" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="560" y="120" width="120" height="40" as="geometry"/>
+                </mxCell>
+
+                <!-- Sous-UO Comptabilité -->
+                <mxCell id="6" value="OU=Utilisateurs" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="200" width="80" height="40" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="7" value="OU=Ordinateurs" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="140" y="200" width="80" height="40" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="8" value="OU=Groupes" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="240" y="200" width="80" height="40" as="geometry"/>
+                </mxCell>
+
+                <!-- Sous-UO RH -->
+                <mxCell id="9" value="OU=Utilisateurs" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="280" y="200" width="80" height="40" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="10" value="OU=Ordinateurs" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="380" y="200" width="80" height="40" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="11" value="OU=Groupes" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="480" y="200" width="80" height="40" as="geometry"/>
+                </mxCell>
+
+                <!-- Sous-UO Ventes -->
+                <mxCell id="12" value="OU=Utilisateurs" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="500" y="200" width="80" height="40" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="13" value="OU=Ordinateurs" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="600" y="200" width="80" height="40" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="14" value="OU=Groupes" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="700" y="200" width="80" height="40" as="geometry"/>
+                </mxCell>
+
+                <!-- Connexions -->
+                <!-- Comptabilité -->
+                <mxCell id="15" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="2" target="3">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="400" y="100"/>
+                            <mxPoint x="180" y="100"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+
+                <!-- RH -->
+                <mxCell id="16" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="2" target="4">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- Ventes -->
+                <mxCell id="17" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="2" target="5">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="400" y="100"/>
+                            <mxPoint x="620" y="100"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+
+                <!-- Sous-UO Comptabilité -->
+                <mxCell id="18" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="3" target="6">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="180" y="180"/>
+                            <mxPoint x="80" y="180"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="19" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="3" target="7">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="20" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="3" target="8">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="180" y="180"/>
+                            <mxPoint x="280" y="180"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+
+                <!-- Sous-UO RH -->
+                <mxCell id="21" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="4" target="9">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="400" y="180"/>
+                            <mxPoint x="320" y="180"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="22" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="4" target="10">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="23" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="4" target="11">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="400" y="180"/>
+                            <mxPoint x="520" y="180"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+
+                <!-- Sous-UO Ventes -->
+                <mxCell id="24" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="5" target="12">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="620" y="180"/>
+                            <mxPoint x="540" y="180"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="25" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="5" target="13">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="26" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="5" target="14">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="620" y="180"/>
+                            <mxPoint x="740" y="180"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+
+                <!-- Légende -->
+                <mxCell id="27" value="Légende" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="40" y="280" width="100" height="20" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="28" value="" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="310" width="30" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="Domaine" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12" vertex="1" parent="1">
+                    <mxGeometry x="80" y="310" width="100" height="20" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="30" value="" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="340" width="30" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="UO Départementale" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12" vertex="1" parent="1">
+                    <mxGeometry x="80" y="340" width="100" height="20" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="32" value="" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="370" width="30" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="Sous-UO" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12" vertex="1" parent="1">
+                    <mxGeometry x="80" y="370" width="100" height="20" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

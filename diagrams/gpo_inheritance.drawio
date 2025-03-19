@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="Electron" modified="2024-03-19T12:45:00.000Z" agent="Mozilla/5.0" version="12.0.0" etag="xyz">
+    <diagram id="gpo-inheritance" name="Héritage GPO">
+        <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                
+                <!-- Titre -->
+                <mxCell id="2" value="Héritage et Filtrage des GPO" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="260" y="20" width="280" height="30" as="geometry"/>
+                </mxCell>
+
+                <!-- Niveau Site -->
+                <mxCell id="3" value="Site AD&#xa;(Configuration réseau)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="80" width="160" height="60" as="geometry"/>
+                </mxCell>
+
+                <!-- Niveau Domaine -->
+                <mxCell id="4" value="Domaine&#xa;computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="180" width="160" height="60" as="geometry"/>
+                </mxCell>
+
+                <!-- GPO Domaine -->
+                <mxCell id="5" value="GPO_Securite_Global" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="520" y="180" width="140" height="30" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="6" value="GPO_Config_Base" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="520" y="220" width="140" height="30" as="geometry"/>
+                </mxCell>
+
+                <!-- UO Départements -->
+                <mxCell id="7" value="UO Comptabilité" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="160" y="300" width="160" height="60" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="8" value="UO Ventes" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="480" y="300" width="160" height="60" as="geometry"/>
+                </mxCell>
+
+                <!-- GPO Départements -->
+                <mxCell id="9" value="GPO_Securite_Compta" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="170" y="400" width="140" height="30" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="10" value="GPO_Restrictions_Compta" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="170" y="440" width="140" height="30" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="11" value="GPO_Securite_Ventes" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="490" y="400" width="140" height="30" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="12" value="GPO_Config_Ventes" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="490" y="440" width="140" height="30" as="geometry"/>
+                </mxCell>
+
+                <!-- Flèches d'héritage -->
+                <mxCell id="13" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="3" target="4">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="14" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="4" target="7">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="400" y="280"/>
+                            <mxPoint x="240" y="280"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="15" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="4" target="8">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="400" y="280"/>
+                            <mxPoint x="560" y="280"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+
+                <!-- Filtrage -->
+                <mxCell id="16" value="Filtrage WMI" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="400" width="100" height="30" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="17" value="Filtrage de sécurité" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="440" width="100" height="30" as="geometry"/>
+                </mxCell>
+
+                <!-- Légende -->
+                <mxCell id="18" value="Légende" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="40" y="500" width="100" height="20" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="19" value="" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="530" width="30" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="Niveau Site" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12" vertex="1" parent="1">
+                    <mxGeometry x="80" y="530" width="160" height="20" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="21" value="" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="560" width="30" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="Niveau Domaine" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12" vertex="1" parent="1">
+                    <mxGeometry x="80" y="560" width="160" height="20" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="23" value="" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="590" width="30" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="Niveau UO" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12" vertex="1" parent="1">
+                    <mxGeometry x="80" y="590" width="160" height="20" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="25" value="" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="620" width="30" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="GPO" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12" vertex="1" parent="1">
+                    <mxGeometry x="80" y="620" width="160" height="20" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
