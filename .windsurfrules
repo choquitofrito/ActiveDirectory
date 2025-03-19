@@ -1,8 +1,17 @@
+# Answer rules
+
 - Use autocomplete and supercomplete to help you write documentation and code
 - Write always in french
-- When asked for generate a net diagram, use the elements in structure_reseau.drawio as a base model.
+
+# Diagrams
+
+- When asked for generate a network diagram, use the elements in structure_reseau.drawio as a base model.
+- When asked to create DNS trees or forest, use the proper elements.
+
+
+
 - Diagrams are always in drawio format and stored in the "diagrams" folder
 - When asked for generating a diagram, double check the diagram for errors
 - When creating the diagram, don't add documentation to the md file
 
-- The system can be asked to add slides from a pdf file. In this case, the slides should be extracted as images and be included in the .md file.
+- The system can be asked to add images to the documentation

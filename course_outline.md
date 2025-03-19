@@ -1,122 +1,106 @@
-# Windows Server & Active Directory - 5-Day Course Outline
-> 35-hour intensive course covering Windows Server, Active Directory, and PowerShell basics
+# Plan du cours (5 jours - 32h30)
 
-## Course Overview
-This course provides a comprehensive introduction to Windows Server administration, focusing on Active Directory management and PowerShell automation. Designed for IT professionals transitioning into Windows Server administration.
+# Jour 1 - Installation et Configuration de Base (6h30)
+- Introduction à Windows Server (1h)
+  - Architecture Windows Server
+  - Rôles et fonctionnalités
+  - Éditions et licences
+  - **Exercice** : Comparaison des éditions Windows Server (15min)
 
-## Prerequisites
-- Basic networking knowledge
-- Basic Windows OS familiarity
-- Basic command-line experience
+- Installation et Configuration (5h30)
+  - Configuration Hyper-V (1h)
+    - **TP** : Installation et configuration d'Hyper-V (30min)
+  - Création des machines virtuelles (1h30)
+    - **TP** : Création de la première VM (45min)
+    - **TP** : Configuration réseau de la VM (30min)
+  - Installation de Windows Server (2h)
+    - **TP** : Installation pas à pas de Windows Server (1h)
+    - **TP** : Configuration post-installation (30min)
+  - Configuration réseau de base (1h)
+    - **TP** : Configuration IP statique et DHCP (30min)
+  - Bonnes pratiques de sécurité (1h)
+    - **Exercice** : Audit de sécurité basique (30min)
 
-## Day 1: Windows Server Fundamentals (7 hours)
-### Morning Session
-- Introduction to Windows Server
-  - Server roles and features
-  - Server Manager overview
-  - Core vs GUI installation
-  - Basic server configuration
+# Jour 2 - DNS et Infrastructure de Base (6h30)
+- Structure DNS de l'entreprise (2h30)
+  - Architecture DNS de computerelectronics.be
+    - **Exercice** : Analyse de l'architecture DNS existante (30min)
+  - Configuration du domaine racine
+    - **TP** : Configuration du serveur DNS principal (45min)
+  - Sous-domaines (comptabilite, rh, ventes)
+    - **TP** : Création des zones pour chaque département (45min)
 
-### Afternoon Session
-- Networking Fundamentals
-  - TCP/IP configuration
-  - DNS basics
-  - DHCP overview
-  - Network troubleshooting
+- Configuration DNS avancée (4h)
+  - Installation et configuration des serveurs DNS (1h30)
+    - **TP** : Configuration de dns1 et dns2 (45min)
+  - Configuration des zones et enregistrements (1h)
+    - **TP** : Création d'enregistrements pour les services essentiels (30min)
+  - Délégation des sous-domaines (1h)
+    - **Exercice** : Scénarios de délégation DNS (30min)
+  - Types de requêtes DNS et résolution (30min)
+    - **TP** : Diagnostic des requêtes DNS (30min)
+  - Réplication DNS et dépannage (30min)
+    - **TP** : Configuration de la réplication DNS (30min)
 
-## Day 2: Active Directory Foundations (7 hours)
-### Morning Session
-- Active Directory Concepts
-  - What is Active Directory?
-  - Domain Controllers
-  - Forest and Domain structure
-  - FSMO roles
+# Jour 3 - Contrôleurs de Domaine et Active Directory (6h30)
+- Introduction à Active Directory (1h30)
+  - Concepts fondamentaux
+  - Structure AD et domaines
+  - **Exercice** : Analyse des besoins de computerelectronics.be (30min)
+  - **TP** : Planification de l'infrastructure AD (30min)
 
-### Afternoon Session
-- Domain Controller Setup
-  - Installing AD DS role
-  - Promoting to Domain Controller
-  - Basic AD configuration
-  - Replication basics
+- Installation et Configuration DC (3h30)
+  - Installation du rôle AD DS (1h)
+    - **TP** : Installation pas à pas du rôle AD DS (30min)
+  - Promotion en contrôleur de domaine (1h)
+    - **TP** : Promotion du serveur en DC (30min)
+    - **Exercice** : Vérification post-promotion (15min)
+  - Configuration des sites AD (1h)
+    - **TP** : Configuration des sites pour les départements (30min)
+  - Réplication entre contrôleurs (30min)
+    - **TP** : Test de réplication entre dns1 et dns2 (15min)
 
-## Day 3: Active Directory Objects Management (7 hours)
-### Morning Session
-- AD Objects Overview
-  - Users
-  - Groups
-  - Computers
-  - Organizational Units (OUs)
+- Rôles FSMO (1h30)
+  - Types de rôles et leur importance
+  - **TP** : Identification des rôles FSMO (30min)
+  - **Exercice** : Planification de transfert de rôles (30min)
 
-### Afternoon Session
-- Practical AD Management
-  - User account lifecycle
-  - Group strategies
-  - OU structure design
-  - Delegation of control
+# Jour 4 - Structure Organisationnelle et Gestion (6h30)
+- Conception des UO (3h30)
+  - Stratégie de structure UO
+    - **Exercice** : Analyse des besoins par département (30min)
+  - Création des UO principales
+    - **TP** : Création de la structure UO pour comptabilité (45min)
+    - **TP** : Création de la structure UO pour RH (45min)
+    - **TP** : Création de la structure UO pour ventes (45min)
+  - Délégation administrative
+    - **TP** : Configuration des délégations par département (30min)
 
-## Day 4: Group Policy (GPO) (7 hours)
-### Morning Session
-- GPO Fundamentals
-  - What are Group Policies?
-  - GPO structure
-  - Policy inheritance
-  - Order of application
+- Gestion des Objets AD (3h)
+  - Création et gestion des utilisateurs
+    - **TP** : Création d'utilisateurs par département (45min)
+  - Configuration des groupes
+    - **TP** : Mise en place des groupes de sécurité (45min)
+  - Gestion des ordinateurs
+    - **TP** : Intégration des postes de travail (45min)
+  - **Exercice** : Audit de la structure mise en place (45min)
 
-### Afternoon Session
-- GPO Implementation
-  - Creating and linking GPOs
-  - Security filtering
-  - Common policy settings
-  - Troubleshooting GPOs
+# Jour 5 - Stratégies et Automatisation (6h30)
+- Stratégies de groupe (GPO) (3h30)
+  - Création et liaison des GPO
+    - **TP** : Création d'une GPO de sécurité de base (45min)
+  - Paramètres de sécurité
+    - **TP** : Configuration des restrictions par département (45min)
+  - Déploiement de logiciels
+    - **TP** : Déploiement d'applications par GPO (45min)
+  - Dépannage GPO
+    - **Exercice** : Résolution de problèmes GPO courants (45min)
 
-## Day 5: PowerShell for Active Directory (7 hours)
-### Morning Session
-- PowerShell Basics
-  - Basic cmdlets
-  - Pipeline concepts
-  - Variables and scripts
-  - AD PowerShell module
-
-### Afternoon Session
-- AD Management with PowerShell
-  - User management cmdlets
-  - Group management
-  - OU manipulation
-  - Bulk operations
-  - Report generation
-
-## Hands-on Labs
-Each day includes practical exercises:
-1. Server setup and configuration
-2. DC promotion and AD setup
-3. User and group management
-4. GPO creation and testing
-5. PowerShell scripting for AD tasks
-
-## Learning Resources
-- Microsoft Learn documentation
-- Windows Server documentation
-- Active Directory documentation
-- PowerShell documentation
-
-## Assessment Methods
-- Daily hands-on exercises
-- Lab completion
-- Q&A sessions
-- Final practical assessment
-
-## Additional Topics (Time Permitting)
-- Backup and recovery
-- Security best practices
-- Performance monitoring
-- Disaster recovery planning
-
-## Notes for Trainers
-- Ensure lab environment is prepared
-- Verify all students have necessary access
-- Prepare example scenarios
-- Have backup exercises ready
-- Monitor student progress
-
----
-*This outline is designed to be flexible and can be adjusted based on student progress and specific needs.*
+- PowerShell pour AD (3h)
+  - Cmdlets AD essentielles
+    - **TP** : Manipulation des objets AD en PowerShell (45min)
+  - Scripts d'automatisation
+    - **TP** : Création d'un script de gestion utilisateurs (45min)
+  - Gestion en masse
+    - **TP** : Script de création d'UO et groupes (45min)
+  - **Exercice** : Création d'un rapport AD avec PowerShell (45min)
