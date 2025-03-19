@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2025-03-19T14:21:02.000Z" agent="Mozilla/5.0" version="21.7.5" etag="abc123">
+  <diagram id="integration_dns_ad" name="Integration DNS-AD">
+    <mxGraphModel dx="1422" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        
+        <!-- DC1 (dns1) -->
+        <mxCell id="dc1" value="DC1 (dns1)&#xa;Comptabilité + RH" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="200" y="200" width="160" height="80" as="geometry"/>
+        </mxCell>
+        
+        <!-- DC2 (dns2) -->
+        <mxCell id="dc2" value="DC2 (dns2)&#xa;Ventes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="500" y="200" width="160" height="80" as="geometry"/>
+        </mxCell>
+        
+        <!-- Base AD DS -->
+        <mxCell id="ad_db" value="Base de données AD DS&#xa;(Inclut zones DNS intégrées)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="220" y="340" width="120" height="80" as="geometry"/>
+        </mxCell>
+        
+        <!-- Base AD DS 2 -->
+        <mxCell id="ad_db2" value="Base de données AD DS&#xa;(Inclut zones DNS intégrées)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="520" y="340" width="120" height="80" as="geometry"/>
+        </mxCell>
+        
+        <!-- Client -->
+        <mxCell id="client" value="PC Client&#xa;pc-compta.comptabilite.computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="350" y="40" width="160" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- Réplication -->
+        <mxCell id="replication" value="Réplication AD DS" style="endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="dc1" target="dc2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+        </mxCell>
+        
+        <!-- Connexions DC-DB -->
+        <mxCell id="dc1_db" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="ad_db" target="dc1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="dc2_db" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="ad_db2" target="dc2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+        </mxCell>
+        
+        <!-- Client vers DCs -->
+        <mxCell id="client_dc1" value="1. Requête DNS" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="client" target="dc1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="client_dc2" value="2. Auth AD" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=1;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="client" target="dc2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
