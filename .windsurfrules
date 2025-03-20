@@ -20,3 +20,17 @@
 
 - Use light color arrows or with low opacity (65%) so that text is not hidden behind the arrows
 - When putting text into containers, be sure of creating containers large enough to fit the text
+
+
+## Infrastructure for the course: Virtual Machines
+
+- Students will have 32gb of RAM in their machines and Windows Server 2022 installed.
+- We won't modify the existing infrastructure.
+- We'll create a virtual environment for the course:
+  - 2 virtual machines (1 server that will be converted in a domain controller and 1 client)
+  - 1 virtual machine (for the client)
+  - Maybe 1 virtual machine (for another server, maybe also a DC)
+- The server virtual machines will match the schema in structure_reseau.drawio
+- A LAN net has been created with hyper-v
+- A WAN net has been created with hyper-v
+  
