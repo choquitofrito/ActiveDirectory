@@ -1,10 +1,10 @@
 <mxfile host="65bd71144e">
     <diagram name="Structure Réseau ComputerElectronics avec Zones DNS" id="network-diagram">
-        <mxGraphModel dx="961" dy="670" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="640" dy="395" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="zone1" value="Zone 1" style="swimlane;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;opacity=50;" parent="1" vertex="1">
+                <mxCell id="zone1" value="Zone DNS 1" style="swimlane;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;opacity=50;" parent="1" vertex="1">
                     <mxGeometry x="30" y="140" width="480" height="460" as="geometry"/>
                 </mxCell>
                 <mxCell id="dns1" value="dns1.computerelectronics.be" style="shape=mxgraph.cisco.servers.directory_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="zone1" vertex="1">
@@ -112,6 +112,9 @@
                 </mxCell>
                 <mxCell id="edge_ventes_printer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ventes_domain" target="printer_ventes" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="Arbre DNS 1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=3" vertex="1" parent="1">
+                    <mxGeometry x="40" y="20" width="80" height="20" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>

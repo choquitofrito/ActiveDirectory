@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2025-03-20T11:20:38.000Z" agent="Mozilla/5.0" version="21.1.9" type="device">
+  <diagram id="dns_ad_config2_reseau" name="Configuration 2 - Structure Réseau">
+    <mxGraphModel dx="1422" dy="791" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        
+        <!-- Titre -->
+        <mxCell id="title" value="Configuration 2 - Structure réseau complète" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="160" y="20" width="440" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- Domaine racine -->
+        <mxCell id="root_domain" value="computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="320" y="80" width="160" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- Sous-domaines -->
+        <mxCell id="ventes" value="ventes.computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="120" y="160" width="160" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="rh" value="rh.computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="320" y="160" width="160" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="compta" value="comptabilite.computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="520" y="160" width="160" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- Connexions domaines -->
+        <mxCell id="conn1" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;opacity=30;" edge="1" parent="1" source="ventes" target="root_domain">
+          <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="conn2" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;opacity=30;" edge="1" parent="1" source="rh" target="root_domain">
+          <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="conn3" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;opacity=30;" edge="1" parent="1" source="compta" target="root_domain">
+          <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Serveurs DNS -->
+        <mxCell id="dns1" value="DNS1 (Ventes + Comptabilité)&#xa;dns1.computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="200" y="240" width="200" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="dns2" value="DNS2 (RH)&#xa;dns2.computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="440" y="240" width="200" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- Contrôleurs de domaine -->
+        <mxCell id="ad1" value="DC1&#xa;dc1.computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="200" y="400" width="200" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ad2" value="DC2&#xa;dc2.computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="440" y="400" width="200" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- Connexions DNS-Domaines -->
+        <mxCell id="dns1_ventes" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;opacity=30;" edge="1" parent="1" source="dns1" target="ventes">
+          <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="dns1_compta" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.75;exitY=0;exitDx=0;exitDy=0;opacity=30;" edge="1" parent="1" source="dns1" target="compta">
+          <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="dns2_rh" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;opacity=30;" edge="1" parent="1" source="dns2" target="rh">
+          <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Réplication AD -->
+        <mxCell id="ad_repl" value="Réplication bidirectionnelle" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;opacity=30;" edge="1" parent="1" source="ad1" target="ad2">
+          <mxGeometry x="0.1" y="20" relative="1" as="geometry">
+            <mxPoint as="offset"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Légende -->
+        <mxCell id="legend" value="Légende" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="600" width="60" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="legend_domain" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="40" y="630" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="legend_domain_text" value="Domaine racine" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="70" y="630" width="100" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="legend_subdomain" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="40" y="660" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="legend_subdomain_text" value="Sous-domaine" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="70" y="660" width="100" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="legend_dns" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="40" y="690" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="legend_dns_text" value="Serveur DNS" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="70" y="690" width="100" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="legend_ad" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="720" width="20" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="legend_ad_text" value="Contrôleur AD" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="70" y="720" width="100" height="20" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

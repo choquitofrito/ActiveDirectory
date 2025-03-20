@@ -18,5 +18,5 @@
 
 ## Diagram style specifications
 
-- Use light color arrows or with low opacity so that text is not hidden behind the arrows
+- Use light color arrows or with low opacity (65%) so that text is not hidden behind the arrows
 - When putting text into containers, be sure of creating containers large enough to fit the text
