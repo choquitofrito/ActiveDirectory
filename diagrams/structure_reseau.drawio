@@ -1,56 +1,65 @@
 <mxfile host="65bd71144e">
     <diagram name="Structure Réseau ComputerElectronics" id="network-diagram">
-        <mxGraphModel dx="740" dy="395" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="3975" dy="3121" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
                 <mxCell id="root_domain" value="computerelectronics.be&#10;(Domaine racine)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf" parent="1" vertex="1">
-                    <mxGeometry x="360" y="40" width="160" height="80" as="geometry"/>
+                    <mxGeometry x="540" y="40" width="160" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="dns1" value="dns1.computerelectronics.be&#10;192.168.0.2" style="shape=mxgraph.cisco.servers.directory_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="240" y="160" width="40" height="62" as="geometry"/>
                 </mxCell>
                 <mxCell id="dns2" value="dns2.computerelectronics.be&#10;192.168.0.3" style="shape=mxgraph.cisco.servers.directory_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="740" y="160" width="40" height="62" as="geometry"/>
+                    <mxGeometry x="950" y="160" width="40" height="62" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" style="edgeStyle=none;html=1;" edge="1" parent="1" source="compta_domain" target="sw-compta">
+                    <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="compta_domain" value="comptabilite.&#10;computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450" parent="1" vertex="1">
-                    <mxGeometry x="40" y="280" width="160" height="60" as="geometry"/>
+                    <mxGeometry x="-60" y="290" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="rh_domain" target="sw-rh">
+                    <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="rh_domain" value="rh.&#10;computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450" parent="1" vertex="1">
-                    <mxGeometry x="320" y="270" width="160" height="60" as="geometry"/>
+                    <mxGeometry x="366" y="270" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="ventes_domain" target="sw-ventes">
+                    <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="ventes_domain" value="ventes.&#10;computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450" parent="1" vertex="1">
-                    <mxGeometry x="680" y="270" width="160" height="60" as="geometry"/>
+                    <mxGeometry x="890" y="290" width="160" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="pc_compta" value="pc01.comptabilite&#10;192.168.0.101" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="40" y="504" width="60" height="60" as="geometry"/>
+                <mxCell id="pc_compta" value="pc01.comptabilite.computerelectronics.be&#10;192.168.0.101" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="-170" y="600" width="60" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="printer_compta" value="printer01.comptabilite&#10;192.168.0.111" style="shape=mxgraph.cisco.computers_and_peripherals.printer;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="170" y="504" width="60" height="60" as="geometry"/>
+                <mxCell id="printer_compta" value="printer01.comptabilite.computerelectronics.be&#10;192.168.0.111" style="shape=mxgraph.cisco.computers_and_peripherals.printer;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="600" width="60" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="pc_rh" value="pc01.rh&#10;192.168.0.121" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="320" y="504" width="60" height="60" as="geometry"/>
+                <mxCell id="pc_rh" value="pc01.rh.computerelectronics.be&#10;192.168.0.121" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="300" y="600" width="60" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="scanner_rh" value="scanner01.rh&#10;192.168.0.131" style="shape=mxgraph.cisco.computers_and_peripherals.scanner;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="420" y="504" width="60" height="60" as="geometry"/>
+                <mxCell id="scanner_rh" value="scanner01.rh.computerelectronics.be&#10;192.168.0.131" style="shape=mxgraph.cisco.computers_and_peripherals.scanner;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="510" y="600" width="60" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="server_files" value="fichiers.ventes&#10;192.168.0.20" style="shape=mxgraph.cisco.servers.file_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="680" y="502" width="40" height="62" as="geometry"/>
+                <mxCell id="server_files" value="fichiers.ventes.computerelectronics.be&#10;192.168.0.20" style="shape=mxgraph.cisco.servers.file_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="740" y="598" width="40" height="62" as="geometry"/>
                 </mxCell>
-                <mxCell id="server_apps" value="apps.ventes&#10;192.168.0.21" style="shape=mxgraph.cisco.servers.www_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="760" y="502" width="40" height="62" as="geometry"/>
+                <mxCell id="server_apps" value="apps.ventes.computerelectronics.be&#10;192.168.0.21" style="shape=mxgraph.cisco.servers.www_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="950" y="598" width="40" height="62" as="geometry"/>
                 </mxCell>
-                <mxCell id="server_db" value="database.ventes&#10;192.168.0.22" style="shape=mxgraph.cisco.servers.database_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="840" y="502" width="40" height="62" as="geometry"/>
+                <mxCell id="server_db" value="database.ventes.computerelectronics.be&#10;192.168.0.22" style="shape=mxgraph.cisco.servers.database_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="1190" y="598" width="40" height="62" as="geometry"/>
                 </mxCell>
-                <mxCell id="sw_compta" value="SW-COMPTA&#10;192.168.0.1" style="shape=mxgraph.cisco.switches.workgroup_switch;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="100" y="400" width="64" height="32" as="geometry"/>
+                <mxCell id="sw-compta" value="sw-compta.comptabilite.computerelectronics.be&#10;192.168.0.1" style="shape=mxgraph.cisco.switches.workgroup_switch;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="-12" y="390" width="64" height="32" as="geometry"/>
                 </mxCell>
-                <mxCell id="sw_rh" value="SW-RH&#10;192.168.0.4" style="shape=mxgraph.cisco.switches.workgroup_switch;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="368" y="400" width="64" height="32" as="geometry"/>
+                <mxCell id="sw-rh" value="sw-rh.rh.computerelectronics.be&#10;192.168.0.4" style="shape=mxgraph.cisco.switches.workgroup_switch;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="414" y="390" width="64" height="32" as="geometry"/>
                 </mxCell>
-                <mxCell id="sw_ventes" value="SW-VENTES&#10;192.168.0.5" style="shape=mxgraph.cisco.switches.workgroup_switch;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
-                    <mxGeometry x="728" y="400" width="64" height="32" as="geometry"/>
+                <mxCell id="sw-ventes" value="sw-ventes.ventes.computerelectronics.be&#10;192.168.0.5" style="shape=mxgraph.cisco.switches.workgroup_switch;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="938" y="400" width="64" height="32" as="geometry"/>
                 </mxCell>
                 <mxCell id="edge_root_dns1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="root_domain" target="dns1" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
@@ -67,38 +76,43 @@
                 <mxCell id="edge_dns2_ventes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="dns2" target="ventes_domain" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="edge_compta_pc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="compta_domain" target="pc_compta" edge="1">
+                <mxCell id="edge_compta_pc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="sw-compta" target="pc_compta" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="edge_compta_printer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="compta_domain" target="printer_compta" edge="1">
+                <mxCell id="edge_compta_printer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="sw-compta" target="printer_compta" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="edge_rh_pc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="rh_domain" target="pc_rh" edge="1">
+                <mxCell id="edge_rh_pc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="sw-rh" target="pc_rh" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="edge_rh_scanner" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="rh_domain" target="scanner_rh" edge="1">
+                <mxCell id="edge_rh_scanner" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="sw-rh" target="scanner_rh" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="edge_ventes_files" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ventes_domain" target="server_files" edge="1">
+                <mxCell id="edge_ventes_files" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="sw-ventes" target="server_files" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="760" y="410" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge_ventes_apps" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="sw-ventes" target="server_apps" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="edge_ventes_apps" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ventes_domain" target="server_apps" edge="1">
+                <mxCell id="edge_ventes_db" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="sw-ventes" target="server_db" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="edge_ventes_db" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ventes_domain" target="server_db" edge="1">
+                <mxCell id="edge_ventes_server1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ventes_domain" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="edge_ventes_server1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ventes_domain" target="server1" edge="1">
+                <mxCell id="edge_ventes_server2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ventes_domain" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="edge_ventes_server2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ventes_domain" target="server2" edge="1">
+                <mxCell id="edge_ventes_pc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ventes_domain" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="edge_ventes_pc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ventes_domain" target="pc_ventes" edge="1">
+                <mxCell id="edge_ventes_printer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ventes_domain" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="edge_ventes_printer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ventes_domain" target="printer_ventes" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                <mxCell id="5" value="Structure Physique du réseau Computer Electronics" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="472" y="-70" width="280" height="30" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>

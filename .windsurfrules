@@ -26,6 +26,7 @@ Description and context
 Detailed solution
 </details>
 ```
+- Never add exercises without asking first
 
 ## 3. Diagram Standards
 ### 3.1 Format and Storage
@@ -95,3 +96,16 @@ Format: GPO_[Type]_[Department]
 
 - IP addressing schemes to align with the new standard (192.168.0.x), both in the documentation and in the diagrams
 - The ip adresses must be in a way that can indeed be implemented during the course with the virtual machines
+  
+## 10. Documentation mood
+
+- Use a friendly and approachable tone
+- Use simple and easy-to-understand language
+- Use short sentences and paragraphs
+- Use active voice. The course is interactive and you will be asked to do things
+- Use the second person (you) when you are asked to do things
+- Don't use the first person (I) when you are doing things
+- Use the present tense
+- Use the future tense when you are asking for things to be done
+- Exercises are done by the student (Ex: "Vous allez créer un serveur")
+- Examples are doing by the instructor and the students at the same time (Ex: "Nous allons créer un serveur")
