@@ -1,12 +1,11 @@
-
 On aurait alors deux contrôleurs de domaine (DC) qui :
 1. Agissent comme serveurs DNS avec des responsabilités distinctes :
-   - `dns1.computerelectronics.be` (`10.0.1.10`) gère les zones DNS pour les départements comptabilité et RH
-   - `dns2.computerelectronics.be` (`10.0.1.11`) gère la zone DNS pour le département ventes
+   - `dns1.computerelectronics.be` (`192.168.0.2`) gère les zones DNS pour les départements comptabilité et RH
+   - `dns2.computerelectronics.be` (`192.168.0.3`) gère la zone DNS pour le département ventes
 
 2. **Maintiennent chacun une copie complète de la base de données AD DS** qui est automatiquement répliquée entre eux
 
-Mais pour notre cours on va installer AD, pour le moment, uniquement sur `dns1.computerelectronics.be` (`10.0.1.10`) (le seul serveur qu'on a virtualisé).
+Mais pour notre cours on va installer AD, pour le moment, uniquement sur `dns1.computerelectronics.be` (`192.168.0.2`) (le seul serveur qu'on a virtualisé).
 
 
 **Dans notre infrastructure `computerelectronics.be`, un même ordinateur est représenté** :

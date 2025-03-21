@@ -1,66 +1,97 @@
-# Answer rules
+# Documentation and Standards Rules
 
-- Use autocomplete and supercomplete to help you write documentation and code
-- Write always in french
+## 1. General Rules
+- All generated content must be in French
+- Use autocomplete and supercomplete for documentation and code
+- Course structure: 5 days (6.5 hours per day)
+- Distribution: 30-40% theory, 60-70% practice
 
-# Diagrams
+## 2. Documentation Structure
+### 2.1 Section Order (mandatory)
+1. Introduction et installation de Windows Server
+2. DNS
+3. Active Directory Domain Services (AD DS)
+4. Utilisateurs et ordinateurs Active Directory
+5. Unités d'organisation (OU)
+6. Strategies de groupes (GPO)
+7. Gestion AD DS en PowerShell
 
-- When asked for generate a network diagram, use the elements in structure_reseau.drawio as a base model.
-- When asked to create DNS trees or forest, use the proper elements.
+### 2.2 Exercise Format
+```markdown
+## Exercise X.Y - Title
+Description and context
 
-
-
-- Diagrams are always in drawio format and stored in the "diagrams" folder
-- When asked for generating a diagram, double check the diagram for errors
-- When creating the diagram, don't add documentation to the md file
-
-- The system can be asked to add images to the documentation
-
-## Diagram style specifications
-
-- Use light color arrows or with low opacity (65%) so that text is not hidden behind the arrows
-- When putting text into containers, be sure of creating containers large enough to fit the text
-
-
-## Infrastructure for the course: Virtual Machines
-
-- Students will have 32gb of RAM in their machines and Windows Server 2022 installed.
-- We won't modify the existing infrastructure.
-- We'll create a virtual environment for the course:
-  - 2 virtual machines (1 server that will be converted in a domain controller and 1 client)
-  - 1 virtual machine (for the client)
-  - Maybe 1 virtual machine (for another server, maybe also a DC)
-- The server virtual machines will match the schema in structure_reseau.drawio
-- A LAN net has been created with hyper-v
-- A WAN net has been created with hyper-v
-
-# PowerShell
-
-1. Basic use of PowerShell commands will be incorporated in the course.
-There's no need to create documentation for PowerShell commands, students will learn them by immersing themselves in the course.
-
-2. Suggest commands that are relevant to the context when the sequence of commands is not too long, for tasks that are usually done with powershell instead of with the console.
-
-## Example: 
-For this content:
-"
-Dans la section Services du menu **AD DS**, vérifiez que les services suivants sont en cours d'exécution :
-   - Active Directory Domain Services
-   - DNS Server
-   - DFS Replication
-   - Intersite Messaging
-   - Kerberos Key Distribution Center
-   - NetLogon
-   - Windows Time
-"
-add this text:
-"
-En PowerShell:
-
-```powershell
-Get-Service -DisplayName "*Active Directory*", "*DNS*", "*DFS*", "*Messagerie*", "*Kerberos*", "*Netlogon*", "*Temps*"
+<details>
+<summary>Solution X.Y</summary>
+Detailed solution
+</details>
 ```
-"
 
-3. Always be concise, using the sentence "En PowerShell"
-  
+## 3. Diagram Standards
+### 3.1 Format and Storage
+- Format: exclusively .drawio
+- Storage: "diagrams" folder
+- Base: use structure_reseau.drawio as template
+- Never generate images (conversion script will be used)
+- Use standard XML structure for .drawio files
+- Use < and > characters directly (no HTML entities)
+
+### 3.2 Style Specifications
+- Color codes:
+  * Network services/DNS: light blue (#dae8fc)
+  * AD DS/Controllers: light gray (#f5f5f5)
+  * OU/Structure: light orange (#ffe6cc)
+  * Actions/Flow: light yellow (#fff2cc)
+- Connections and Arrows: curved, light gray with 65% opacity
+- Containers: sized to fit text
+- File naming: snake_case in French
+
+## 4. Virtual Infrastructure
+### 4.1 Hardware Configuration
+- 32GB RAM per student machine
+- Windows Server 2022 installed
+
+### 4.2 Virtual Machines
+- 1 main server (future DC)
+- 1 client workstation
+- Optional: 1 additional server (second DC)
+
+### 4.3 Networks
+- LAN network created with Hyper-V
+- WAN network created with Hyper-V
+
+## 5. PowerShell Standards
+### 5.1 Usage
+- Include basic commands
+- Learning through immersion
+- Context-relevant commands only
+
+### 5.2 Documentation Format
+- Introduce with "En PowerShell:"
+- Use ```powershell code blocks
+- Commands must be concise and commented in French
+
+## 6. GPO Naming Standards
+Format: GPO_[Type]_[Department]
+- Types: Securite, Configuration, Restrictions
+- Standard parameters:
+  * Password length: always use "Password1!" as a password
+
+## 7. DNS Infrastructure
+- Root domain: computerelectronics.be
+- Internal DNS:
+  * dns1.computerelectronics.be (accounting and HR)
+  * dns2.computerelectronics.be (sales)
+- Subdomains: comptabilite, rh, ventes
+- IP standardization: use 192.168.0.x (to be standardized)
+
+## 8. Exercise Creation Rules
+- Always ask permission before adding new exercises
+- Wait for explicit user confirmation
+- Exercises must follow immediately after their theoretical section
+- Include practical examples based on computerelectronics.be
+
+## 9. IP Addressing Standards
+
+- IP addressing schemes to align with the new standard (192.168.0.x), both in the documentation and in the diagrams
+- The ip adresses must be in a way that can indeed be implemented during the course with the virtual machines
