@@ -33,4 +33,34 @@
 - The server virtual machines will match the schema in structure_reseau.drawio
 - A LAN net has been created with hyper-v
 - A WAN net has been created with hyper-v
+
+# PowerShell
+
+1. Basic use of PowerShell commands will be incorporated in the course.
+There's no need to create documentation for PowerShell commands, students will learn them by immersing themselves in the course.
+
+2. Suggest commands that are relevant to the context when the sequence of commands is not too long, for tasks that are usually done with powershell instead of with the console.
+
+## Example: 
+For this content:
+"
+Dans la section Services du menu **AD DS**, vérifiez que les services suivants sont en cours d'exécution :
+   - Active Directory Domain Services
+   - DNS Server
+   - DFS Replication
+   - Intersite Messaging
+   - Kerberos Key Distribution Center
+   - NetLogon
+   - Windows Time
+"
+add this text:
+"
+En PowerShell:
+
+```powershell
+Get-Service -DisplayName "*Active Directory*", "*DNS*", "*DFS*", "*Messagerie*", "*Kerberos*", "*Netlogon*", "*Temps*"
+```
+"
+
+3. Always be concise, using the sentence "En PowerShell"
   

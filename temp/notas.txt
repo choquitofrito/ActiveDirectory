@@ -1,3 +1,7 @@
+RED: 
+indicar que cada conexión de red corresponde a un dispositivo físico
+
+
 ignorados:
 
 - Antivirus
