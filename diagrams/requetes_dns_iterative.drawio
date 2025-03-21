@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+    <diagram name="Requête Itérative" id="iterative">
+        <mxGraphModel grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" page="1">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="Poste Client" style="rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="200" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="Serveur DNS&#10;Racine" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="40" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="Serveur DNS&#10;.com" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                    <mxGeometry x="365" y="230" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="Serveur DNS&#10;google.com" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                    <mxGeometry x="70" y="390" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="1. www.google.com ?" style="edgeStyle=orthogonalEdgeStyle;curved=1;opacity=30;" edge="1" parent="1" source="2" target="3">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="100" y="110"/>
+                            <mxPoint x="380" y="110"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="7" value="2. Liste serveurs .com" style="edgeStyle=orthogonalEdgeStyle;curved=1;opacity=30;" edge="1" parent="1" source="3" target="2">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="380" y="150"/>
+                            <mxPoint x="110" y="150"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="8" value="3. www.google.com ?" style="edgeStyle=orthogonalEdgeStyle;curved=1;opacity=30;" edge="1" parent="1" source="2" target="4">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="263" y="220"/>
+                            <mxPoint x="263" y="260"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9" value="4. Liste serveurs google.com" style="edgeStyle=orthogonalEdgeStyle;curved=1;opacity=30;" edge="1" parent="1" source="4" target="2">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="425" y="300"/>
+                            <mxPoint x="180" y="300"/>
+                            <mxPoint x="180" y="250"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="10" value="5. www.google.com ?" style="edgeStyle=orthogonalEdgeStyle;curved=1;opacity=30;" edge="1" parent="1" source="2" target="5">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="70" y="325"/>
+                            <mxPoint x="130" y="325"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="11" value="6. IP finale" style="edgeStyle=orthogonalEdgeStyle;curved=1;opacity=30;" edge="1" parent="1" source="5" target="2">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="180" y="310"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
