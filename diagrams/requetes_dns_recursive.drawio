@@ -1,42 +1,56 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<mxfile host="app.diagrams.net">
+<mxfile host="65bd71144e">
     <diagram name="Requête Récursive" id="recursive">
-        <mxGraphModel grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" page="1">
+        <mxGraphModel dx="447" dy="463" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="2" value="Poste Client" style="rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                <mxCell id="2" value="Poste Client" style="rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
                     <mxGeometry x="40" y="90" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="3" value="dns1.&#10;computerelectronics.be" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
-                    <mxGeometry x="240" y="200" width="120" height="60" as="geometry"/>
+                <mxCell id="3" value="dns1.&#10;computerelectronics.be" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="240" y="200" width="160" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="4" value="Serveur DNS&#10;Racine" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
-                    <mxGeometry x="510" y="50" width="120" height="60" as="geometry"/>
+                <mxCell id="4" value="Serveur DNS&#10;Racine" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="580" y="110" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="5" value="Serveur DNS&#10;.com" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
-                    <mxGeometry x="500" y="180" width="120" height="60" as="geometry"/>
+                <mxCell id="5" value="Serveur DNS&#10;.com" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="460" y="360" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="6" value="Serveur DNS&#10;google.com" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
-                    <mxGeometry x="340" y="320" width="120" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="7" value="1. www.google.com ?" style="edgeStyle=orthogonalEdgeStyle;curved=1;opacity=30;" edge="1" parent="1" source="2" target="3">
+                <mxCell id="7" value="1. Quelle est l'IP de www.google.com ?" style="edgeStyle=orthogonalEdgeStyle;curved=1;opacity=30;" parent="1" source="2" target="3" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="8" value="2a. ?" style="edgeStyle=orthogonalEdgeStyle;curved=1;opacity=30;" edge="1" parent="1" source="3" target="4">
+                <mxCell id="8" value="2a. Qui gère .com ?" style="edgeStyle=orthogonalEdgeStyle;curved=1;opacity=30;" parent="1" source="3" target="4" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="330" y="90"/>
+                            <mxPoint x="380" y="230"/>
+                            <mxPoint x="380" y="90"/>
+                            <mxPoint x="640" y="90"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="9" value="2b. ?" style="edgeStyle=orthogonalEdgeStyle;curved=1;opacity=30;" edge="1" parent="1" source="3" target="5">
-                    <mxGeometry relative="1" as="geometry"/>
+                <mxCell id="12" value="2a'. Voici les serveurs .com" style="edgeStyle=orthogonalEdgeStyle;curved=1;opacity=30;" edge="1" parent="1" source="4" target="3">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="640" y="250"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
-                <mxCell id="10" value="2c. ?" style="edgeStyle=orthogonalEdgeStyle;curved=1;opacity=30;" edge="1" parent="1" source="3" target="6">
-                    <mxGeometry relative="1" as="geometry"/>
+                <mxCell id="9" value="2b. IP de www.google.com ?" style="edgeStyle=orthogonalEdgeStyle;curved=1;opacity=30;" parent="1" source="3" target="5" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="300" y="290"/>
+                            <mxPoint x="570" y="290"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
-                <mxCell id="11" value="3. IP finale" style="edgeStyle=orthogonalEdgeStyle;curved=1;opacity=30;" edge="1" parent="1" source="3" target="2">
+                <mxCell id="13" value="2b'. Voici l'IP de www.google.com" style="edgeStyle=orthogonalEdgeStyle;curved=1;opacity=30;" edge="1" parent="1" source="5" target="3">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="270" y="390"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="11" value="3. IP finale" style="edgeStyle=orthogonalEdgeStyle;curved=1;opacity=30;" parent="1" source="3" target="2" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="200" y="260"/>

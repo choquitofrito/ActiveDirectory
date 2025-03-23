@@ -1,1 +1,6 @@
-- update ips?
+- Preguntar:
+
+- Cómo comunicarse con los alumnos?
+- Funciona el proyector?
+- Cómo se conecta el ISIB al exterior?
+
