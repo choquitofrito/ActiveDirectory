@@ -76,7 +76,7 @@ Detailed solution
 Format: GPO_[Type]_[Department]
 - Types: Securite, Configuration, Restrictions
 - Standard parameters:
-  * Password length: always use "Password1!" as a password
+  * Password length: always use "Password1" as a password
 
 ## 7. DNS Infrastructure
 - Root domain: computerelectronics.be
