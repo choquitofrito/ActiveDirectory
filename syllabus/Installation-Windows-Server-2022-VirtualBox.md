@@ -1,0 +1,187 @@
+
+# Installation de Windows Server 2022 avec VirtualBox 6 sous Ubuntu 22
+
+Ce guide vous accompagnera dans le processus d'installation de Windows Server 2022 en utilisant VirtualBox 6 sous Ubuntu 22.
+
+## 1. Prérequis
+
+### 1.1. Installation de VirtualBox
+
+(Si VirtualBox est déjà installé, passez à la section suivante)
+
+1. Ouvrez un terminal et mettez à jour la liste des paquets :
+   ```bash
+   sudo apt update
+   ```
+
+2. Installez VirtualBox et son Pack d'Extension :
+   ```bash
+   sudo apt install virtualbox virtualbox-ext-pack
+   ```
+
+3. Acceptez les termes de la licence lors de l'installation.
+
+### 1.2. Téléchargement de Windows Server 2022
+
+(Si les images sont déjà téléchargées, passez à la section suivante)
+
+
+1. Visitez le [Centre d'évaluation Microsoft](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022)
+2. Téléchargez le fichier ISO de Windows Server 2022 (C'est une version d'évaluation valable 180 jours)
+3. Enregistrez le fichier ISO dans un emplacement facilement accessible
+
+
+## 2. Création de la Machine Virtuelle
+
+### 2.1. Configuration de Base
+
+1. Ouvrez VirtualBox
+2. Cliquez sur "Nouvelle"
+3. Configurez les paramètres de base :
+   - Nom : `dns1.computerelectronics.be`
+   - Dossier de la machine : Choisissez votre emplacement préféré
+   - Type : Microsoft Windows
+   
+   **Important** : Dans l'assistant de création, désactivez l'option "Installation non supervisée" (Unattended Installation) car nous voulons contrôler manuellement tout le processus d'installation.
+
+### 2.2. Configuration Matérielle
+
+1. Taille de la mémoire :
+   - Allouez la mémoire RAM: 4096 Mo (4 Go)
+
+2. Disque dur :
+   - Sélectionnez "Créer un disque dur virtuel maintenant"
+   - Cliquez sur "Créer"
+   - Choisissez "VDI (Image disque VirtualBox)"
+   - Sélectionnez "Dynamiquement alloué"
+   - Définissez la taille à au moins 50 Go
+   - Cliquez sur "Créer"
+
+### 2.3. Paramètres Additionnels
+
+1. Sélectionnez la VM et cliquez sur "Paramètres"
+
+2. Système :
+   - Onglet Processeur : Attribuez au moins 2 processeurs
+   - Activez PAE/NX
+
+3. Affichage :
+   - Mémoire vidéo : 128 Mo
+   - Activer l'Accélération 3D
+
+4. Réseau : sélectionnez
+   - Adaptateur : Changez **NAT** par **réseau privé**
+
+5. Stockage :
+   - Cliquez sur le lecteur optique vide
+   - Choisissez le fichier ISO Windows Server 2022 téléchargé
+   - Cliquez sur "OK"
+
+## 3. Installation de Windows Server 2022 sur la VM
+
+1. Démarrez la machine virtuelle
+
+2. Lorsque l'écran d'installation de Windows apparaît :
+   - Sélectionnez vos préférences de langue (Français, clavier Belge!)
+   - Cliquez sur "Installer maintenant"
+
+3. Sélectionnez l'édition Windows Server 2022 :
+   - Choisissez "Windows Server 2022 Standard (Expérience Desktop)"
+   - Cliquez sur "Suivant"
+
+4. Acceptez les termes de la licence
+
+5. Choisissez "Personnalisé : Installer Windows uniquement (avancé)"
+
+6. Sélectionnez l'espace non alloué et cliquez sur "Suivant"
+
+7. Attendez que l'installation se termine (la VM redémarrera plusieurs fois)
+
+8. Configurez le compte administrateur :
+   - Entrez "Password1" comme mot de passe
+   - N'oubliez pas de sauvegarder ce mot de passe en lieu sûr
+
+
+## 2.2. Console de Gestion du Serveur
+
+C'est une console qui permet de configurer et de gérer les rôles et les caractéristiques du serveur, ainsi que la configuration du réseau.
+
+Cliquez sur **Démarrer** et tapez **Gestionnaire du Serveur** dans la barre de commande. 
+
+Notre serveur n'est pas configuré pour le moment.
+
+Commençons par donner un nom au serveur. Notre serveur sera **dns1.computerelectronics.be**.
+
+1. Ouvrez à nouveau le **Gestionnaire de serveur** et cliquez sur **Serveur local**
+2. Cliquez sur le nom actuel du serveur
+3. Dans la fenêtre Propriétés système, cliquez sur **Modifier**
+4. Dans le champ "Nom de l'ordinateur", tapez : **dns1**
+5. Dans le champ "Suffixe DNS principal de l'ordinateur", tapez : **computerelectronics.be**
+6. Cliquez sur **OK**
+7. Redémarrez le serveur pour appliquer les changements
+
+Le serveur aura maintenant le nom complet (FQDN) : dns1.computerelectronics.be
+
+**FQDN** = Fully Qualified Domain Name (Nom de domaine complet)
+
+<br>
+
+# 3. Machines clientes Windows 10
+
+Nous avons une VM pour le serveur, mais nous devons créer des VM pour les machines clientes (au moins une!).    
+
+## 3.1. Pourquoi avons-nous besoin des VM clients Windows 10 ?
+
+Les départements de l'entreprise (Comptabilité, RH, Ventes) ont des besoins différents. Par exemple :
+- La Comptabilité a besoin d'accéder aux logiciels financiers
+- Les RH doivent gérer les dossiers du personnel
+- Les Ventes utilisent des applications commerciales
+
+Pour bien comprendre comment gérer ces différents besoins, **nous allons créer deux ordinateurs virtuels Windows 10** qui simuleront :
+
+1. **Un poste de travail pour chaque département**
+
+2. **Des règles différentes pour chaque poste**
+   - Par exemple : le poste de la Comptabilité pourra accéder aux dossiers financiers
+   - Tandis que le poste des RH aura accès aux dossiers du personnel
+
+3. **Un mini-réseau d'entreprise**
+   - Comme une vraie entreprise en plus petit
+   - Parfait pour apprendre sans risque
+   - Idéal pour tester différentes configurations
+
+C'est un peu comme avoir une "maquette" de l'entreprise : on peut tout tester en toute sécurité avant de le faire dans une vraie situation !
+
+## 3.2. Installation d'une machine cliente Windows 10
+
+Voici la procédure pour installer la première machine cliente :
+
+Suivez la même procedure que pour le serveur, mais avec les paramètres suivants :
+
+   - Nom : **ws-compta-01**
+   - Génération : 2 (64 bits)
+   - Mémoire : 4 GB (si possible)
+   - Réseau : **réseau privé**
+   - Disque dur virtuel : 30 GB
+   - ISO : Image Windows 10
+
+2. Démarrez la machine virtuelle et suivez l'assistant d'installation :
+   - Langue : Français (clavier Belge!)
+   - Version : Windows 10 Pro
+   - Installation personnalisée
+   - Créez un compte local: **user1compta**, password **Password1**
+
+3. Une fois l'installation terminée :
+   - Installez les mises à jour Windows
+   - Renommez l'ordinateur avec le nom standardisé (ex: **ws-compta-01**)
+
+## Exercice 3.2 - Création d'une seconde machine cliente W10
+
+Pour mettre en pratique vos connaissances, installez une seconde machine cliente en suivant ces critères :
+
+- Nom de la VM : **ws-rh-01**
+- Créez un compte local: **user1rh**, password **Password1** 
+- Nom d'ordinateur : **ws-rh-01**
+- Hardware: pareil que la première machine
+  
+
