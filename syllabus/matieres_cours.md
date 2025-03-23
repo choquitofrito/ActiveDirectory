@@ -4,69 +4,71 @@
 
 1. Introduction et Installation
    - Installation de Windows Server 2022 sur VirtualBox
-   - Configuration du réseau et des paramètres de base
-   - Configuration des rôles serveur
-   - Préparation pour le domaine Active Directory
-   - Mise à niveau et maintenance du serveur
+     * Configuration matérielle requise
+     * Activation de PAE/NX
+     * Installation du système
+   - Configuration du réseau
+     * Adressage IP (192.168.0.0/24)
+     * Configuration DNS
+   - Préparation pour Active Directory
 
 2. Services DNS (Domain Name System)
-   - Architecture et concepts DNS
-   - Zones de recherche directe et inverse
-   - Configuration des enregistrements DNS (A, AAAA, CNAME, MX, etc.)
-   - Intégration DNS avec Active Directory
-   - Réplication DNS et haute disponibilité
-   - Résolution des problèmes DNS courants
+   - Architecture DNS pour Active Directory
+     * Structure DNS plate vs sous-domaines
+     * Intégration avec AD
+   - Configuration DNS
+     * Zones de recherche directe et inverse
+     * Enregistrements DNS essentiels
+   - Résolution des problèmes DNS
 
 3. Active Directory Domain Services (AD DS)
-   - Architecture et concepts fondamentaux d'AD DS
-   - Installation et configuration du premier contrôleur de domaine
-   - Structure de la forêt et des domaines
-   - Gestion des comptes utilisateurs
-     * Création et configuration
-     * Propriétés des comptes
-     * Stratégies de mot de passe
-   - Gestion des groupes AD
-     * Types de groupes (Sécurité vs Distribution)
-     * Étendues de groupe (Domaine local, Global, Universel)
-     * Stratégies de groupes imbriqués
-   - Partage et permissions
-     * NTFS vs Partage
-     * Héritage des permissions
-     * Permissions spéciales
+   - Installation du domaine computerelectronics.be
+   - Structure organisationnelle
+     * Départements (Comptabilité, RH, Ventes)
+     * Infrastructure IT
+   - Configuration du contrôleur de domaine
 
 4. Unités d'Organisation (OU)
-   - Conception de la structure des OUs
-   - Stratégies de délégation administrative
-   - Gestion des OUs
-     * Création et configuration
-     * Déplacement d'objets
-     * Liaison avec les GPOs
-   - Bonnes pratiques pour la hiérarchie des OUs
+   - Structure des OUs par département
+     * Comptabilité (Utilisateurs, Ordinateurs)
+     * RH (Utilisateurs, Ordinateurs)
+     * Ventes (Utilisateurs, Ordinateurs)
+     * Infrastructure (Serveurs, AdminComptes)
+   - Délégation administrative
+     * Gestion par département
+     * Séparation des rôles
+   - Bonnes pratiques
 
-5. Stratégies de Groupe (GPO)
-   - Concepts fondamentaux des GPOs
-   - Création et configuration des GPOs
-   - Paramètres de sécurité et de configuration
-   - Ordre de traitement des GPOs
-   - Filtrage de sécurité et filtrage WMI
-   - Modélisation et résolution des problèmes GPO
-   - Sauvegarde et restauration des GPOs
+5. Gestion des Utilisateurs
+   - Création et configuration des comptes
+     * Convention de nommage
+     * Emplacement dans les OUs
+   - Gestion des profils
+   - Stratégies de mot de passe
 
-6. Gestion des Utilisateurs et des Ordinateurs
-   - Administration des comptes d'utilisateur
-     * Profils utilisateur (locaux, itinérants, obligatoires)
-     * Dossiers personnels
-     * Scripts de connexion
-   - Gestion des postes de travail
-     * Jonction au domaine
-     * Comptes d'ordinateur
-     * Stratégies de sécurité
-   - Outils d'administration à distance
-   - Maintenance et dépannage
+6. Gestion des Groupes
+   - Types de groupes
+     * Groupes globaux (GG-) par département
+     * Groupes de domaine local (DL-) pour les ressources
+   - Stratégie de nommage cohérente
+   - Bonnes pratiques AGDLP
 
-Note: Ce document sera mis à jour au fur et à mesure de l'évolution du cours.
-Le cours est basé sur Windows Server 2022 et couvre l'infrastructure du domaine computerelectronics.be.
-   - Administration des comptes
-   - Gestion du parc informatique
+7. Partages et Permissions
+   - Structure des partages départementaux
+   - Permissions NTFS
+   - Permissions de partage
+   - Héritage et sécurité
 
-Note: Ce document sera mis à jour au fur et à mesure de l'évolution du cours.
+8. Stratégies de Groupe (GPO)
+   - GPOs par département
+   - Sécurité des postes de travail
+   - Déploiement de configurations
+   - Résolution des problèmes
+
+Environnement de formation :
+- Domaine : computerelectronics.be
+- Contrôleur de domaine : dns1.computerelectronics.be (192.168.0.2)
+- Départements : Comptabilité, RH, Ventes
+- Structure : OUs par département avec séparation Utilisateurs/Ordinateurs
+
+Note : Ce cours utilise une approche pratique avec des exercices basés sur des scénarios réels d'entreprise.
