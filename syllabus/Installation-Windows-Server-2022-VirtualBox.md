@@ -102,7 +102,7 @@ Ce guide vous accompagnera dans le processus d'installation de Windows Server 20
    - N'oubliez pas de sauvegarder ce mot de passe en lieu sûr
 
 
-## 2.2. Console de Gestion du Serveur
+## Console de Gestion du Serveur
 
 C'est une console qui permet de configurer et de gérer les rôles et les caractéristiques du serveur, ainsi que la configuration du réseau.
 
