@@ -34,13 +34,13 @@
                 <mxCell id="ventes_domain" value="ventes.&#10;computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450" parent="1" vertex="1">
                     <mxGeometry x="680" y="270" width="160" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="pc_compta" value="pc01.comptabilite" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                <mxCell id="pc_compta" value="ws-compta-01" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="40" y="504" width="60" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="printer_compta" value="printer01.comptabilite" style="shape=mxgraph.cisco.computers_and_peripherals.printer;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="170" y="504" width="60" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="pc_rh" value="pc01.rh" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                <mxCell id="pc_rh" value="ws-rh-01" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="320" y="504" width="60" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="scanner_rh" value="scanner01.rh" style="shape=mxgraph.cisco.computers_and_peripherals.scanner;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
@@ -55,7 +55,7 @@
                 <mxCell id="server_db" value="database.ventes" style="shape=mxgraph.cisco.servers.database_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="960" y="502" width="40" height="62" as="geometry"/>
                 </mxCell>
-                <mxCell id="pc_ventes" value="pc01.ventes" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                <mxCell id="pc_ventes" value="ws-vnt-01" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="730" y="504" width="60" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="printer_ventes" value="printer01.ventes" style="shape=mxgraph.cisco.computers_and_peripherals.printer;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">

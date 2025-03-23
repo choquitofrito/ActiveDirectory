@@ -10,9 +10,9 @@ Mais pour notre cours on va installer AD, pour le moment, uniquement sur `dns1.c
 
 **Dans notre infrastructure `computerelectronics.be`, un même ordinateur est représenté** :
    - Dans **DNS** : par son **nom de domaine complet** (FQDN)
-     Exemple : `pc-compta.comptabilite.computerelectronics.be`
+     Exemple : `ws-compta-01.computerelectronics.be`
    - Dans **AD DS** : par son **nom distinctif** (Distinguished Name - DN)
-     Exemple : `CN=pc-compta,OU=Ordinateurs,OU=Comptabilite,DC=computerelectronics,DC=be` (on comprendra mieux cette notation plus tard, quand on verra les Unités d'Organisation - OU)
+     Exemple : `CN=ws-compta-01,OU=Ordinateurs,OU=Comptabilite,DC=computerelectronics,DC=be`C=be` (on comprendra mieux cette notation plus tard, quand on verra les Unités d'Organisation - OU)
 
 Active Directory Domain Services (AD DS) utilise un espace de noms DNS pour gérer un domaine : c'est indispensable d'avoir un serveur DNS au sein du réseau.
 

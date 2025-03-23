@@ -31,13 +31,13 @@
                 <mxCell id="ventes_domain" value="ventes.&#10;computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450" parent="1" vertex="1">
                     <mxGeometry x="890" y="290" width="160" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="pc_compta" value="pc01.comptabilite.computerelectronics.be&#10;192.168.0.101" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                <mxCell id="pc_compta" value="ws-compta-01.computerelectronics.be&#10;192.168.0.101" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="-170" y="600" width="60" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="printer_compta" value="printer01.comptabilite.computerelectronics.be&#10;192.168.0.111" style="shape=mxgraph.cisco.computers_and_peripherals.printer;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="80" y="600" width="60" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="pc_rh" value="pc01.rh.computerelectronics.be&#10;192.168.0.121" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                <mxCell id="pc_rh" value="ws-rh-01.computerelectronics.be&#10;192.168.0.121" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="300" y="600" width="60" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="scanner_rh" value="scanner01.rh.computerelectronics.be&#10;192.168.0.131" style="shape=mxgraph.cisco.computers_and_peripherals.scanner;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">

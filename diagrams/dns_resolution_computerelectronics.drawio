@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="dns_resolution" name="DNS Resolution">
-        <mxGraphModel dx="474" dy="550" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="346" dy="423" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -19,7 +19,7 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="6" value="2. Réponse: IP&#10;203.0.113.10" style="endArrow=classic;html=1;exitX=0;exitY=0.7;exitDx=0;exitDy=0;dashed=1;" parent="1" source="3" target="2" edge="1">
-                    <mxGeometry x="-0.4314" y="37" relative="1" as="geometry">
+                    <mxGeometry x="-0.1827" y="38" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
@@ -33,7 +33,7 @@
                         <mxPoint x="180" y="280" as="sourcePoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="cloud" value="Internet" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+                <mxCell id="cloud" value="Internet" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" parent="1" vertex="1">
                     <mxGeometry x="400" y="160" width="120" height="80" as="geometry"/>
                 </mxCell>
             </root>

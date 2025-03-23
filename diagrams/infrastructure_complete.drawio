@@ -24,10 +24,10 @@
                     <mxGeometry x="380" y="280" width="80" height="30" as="geometry"/>
                 </mxCell>
                 <!-- Clients -->
-                <mxCell id="7" value="PC-COMPTA1&#xa;WIN10-CLIENT1&#xa;192.168.0.10" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                <mxCell id="7" value="ws-compta-01&#xa;192.168.0.10" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
                     <mxGeometry x="80" y="360" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="8" value="PC-RH1&#xa;WIN10-CLIENT2&#xa;192.168.0.11" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                <mxCell id="8" value="ws-rh-01&#xa;192.168.0.11" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
                     <mxGeometry x="560" y="360" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <!-- Connexions -->

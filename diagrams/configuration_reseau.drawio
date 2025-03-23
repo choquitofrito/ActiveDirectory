@@ -28,10 +28,10 @@
                     <mxGeometry x="200" y="500" width="80" height="30" as="geometry"/>
                 </mxCell>
                 <!-- Clients -->
-                <mxCell id="8" value="PC-COMPTA1&#xa;WIN10-CLIENT1&#xa;192.168.0.10&#xa;DNS: 192.168.0.2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=left;spacingLeft=5;" vertex="1" parent="1">
+                <mxCell id="8" value="ws-compta-01&#xa;192.168.0.10&#xa;DNS: 192.168.0.2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=left;spacingLeft=5;" vertex="1" parent="1">
                     <mxGeometry x="400" y="360" width="160" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="9" value="PC-RH1&#xa;WIN10-CLIENT2&#xa;192.168.0.11&#xa;DNS: 192.168.0.2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=left;spacingLeft=5;" vertex="1" parent="1">
+                <mxCell id="9" value="ws-rh-01&#xa;192.168.0.11&#xa;DNS: 192.168.0.2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=left;spacingLeft=5;" vertex="1" parent="1">
                     <mxGeometry x="400" y="480" width="160" height="80" as="geometry"/>
                 </mxCell>
                 <!-- Futur serveur -->
