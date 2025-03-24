@@ -107,7 +107,13 @@ Cliquez sur **Démarrer** et tapez **Gestionnaire du Serveur** dans la barre de 
 
 Notre serveur n'est pas configuré pour le moment.
 
-Commençons par donner un nom au serveur. Notre serveur sera ****.
+Commençons par donner un nom au serveur. Notre serveur sera **dns1.computerelectronics.be**.
+
+Regardez le schéma de l'infrastructure de réseau de Computerelectronics.be:
+
+![Infrastructure](../diagrams/images/structure_reseau_zones.png)
+
+
 
 1. Ouvrez à nouveau le **Gestionnaire de serveur** et cliquez sur **Serveur local**
 2. Cliquez sur le nom actuel du serveur
