@@ -4,16 +4,16 @@
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="user" value="ws-01.eu.computerelectronics.be&#10;(192.168.10.128)" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                <mxCell id="user" value="ws-compta-01.computerelectronics.be&#10;(192.168.10.128)" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="50" y="180" width="60" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="dns1" value="DNS1&#10;(192.168.0.2)&#10;(autorité sur computerelectronics.be)" style="shape=mxgraph.cisco.servers.directory_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="480" y="130" width="40" height="62" as="geometry"/>
                 </mxCell>
-                <mxCell id="printer" value="Imprimante&#10;printer-01.eu.computerelectronics.be&#10;IP: 192.168.10.20" style="shape=mxgraph.cisco.computers_and_peripherals.printer;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                <mxCell id="printer" value="Imprimante&#10;printer-01.computerelectronics.be&#10;IP: 192.168.10.20" style="shape=mxgraph.cisco.computers_and_peripherals.printer;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="430" y="470" width="60" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="req_dns1" value="1. Requête DNS&#10;(printer-01.eu.computerelectronics.be ?)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;entryX=0;entryY=0.5;curved=1;" parent="1" source="user" target="dns1" edge="1">
+                <mxCell id="req_dns1" value="1. Requête DNS&#10;(printer-01.computerelectronics.be ?)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;entryX=0;entryY=0.5;curved=1;" parent="1" source="user" target="dns1" edge="1">
                     <mxGeometry x="0.1089" y="31" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                     </mxGeometry>
