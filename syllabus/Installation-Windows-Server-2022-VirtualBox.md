@@ -1,5 +1,5 @@
 
-# Installation de Windows Server 2022 avec VirtualBox 6 sous Ubuntu 22
+# Installation de Windows Server 2022 avec VirtualBox
 
 Ce guide vous accompagnera dans le processus d'installation de Windows Server 2022 en utilisant VirtualBox 6 sous Ubuntu 22.
 
