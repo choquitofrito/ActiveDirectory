@@ -38,7 +38,7 @@ Ce guide vous accompagnera dans le processus d'installation de Windows Server 20
 1. Ouvrez VirtualBox
 2. Cliquez sur **Nouvelle**
 3. Configurez les paramètres de base (pas besoin de changer le reste):
-   - Nom : `WindowsServer-VM1`
+   - Nom : `WindowsServerM1`
    - Choisissez "VDI (Image disque VirtualBox)"
    - ISO Image (cherche le fichier ISO dans votre disque, téléchargez-le à l'avance)
    - Type : Microsoft Windows
@@ -168,30 +168,29 @@ Voici la procédure pour installer la première machine cliente :
 
 Suivez la même procedure que pour le serveur, mais avec les paramètres suivants :
 
-   - Nom : **ws01.eu.computerelectronics.be**
+   - Nom pour la VM: `Windows10M1`
    - Génération : 2 (64 bits)
    - Mémoire : 4 GB (si possible)
    - Réseau : **réseau privé**
    - Disque dur virtuel : 30 GB
    - ISO : Image Windows 10
 
-2. Démarrez la machine virtuelle et suivez l'assistant d'installation :
+1. Démarrez la machine virtuelle et suivez l'assistant d'installation :
    - Langue : Français (clavier Belge!)
    - Version : Windows 10 Pro
    - Installation personnalisée
-   - Créez un compte local: **user1compta**, password **Password1**
+   - Créez un compte local: **userCompta1**, password **Password1**
 
-3. Une fois l'installation terminée :
+2. Une fois l'installation terminée :
    - Installez les mises à jour Windows
-   - Renommez l'ordinateur avec le nom standardisé (ex: **ws-compta-01**)
+   - Renommez l'ordinateur avec le nom standardisé
 
 ## Exercice - Création d'une seconde machine cliente W10
 
 Pour mettre en pratique vos connaissances, installez une seconde machine cliente en suivant ces critères :
 
-- Nom de la VM : **ws-rh-01**
-- Créez un compte local: **user1**, password **Password1** 
-- Nom d'ordinateur : **ws-rh-01**
+- Nom de la VM : `Windows10M2`
+- Créez un compte local: **userRH1**, password **Password1** 
 - Hardware: pareil que la première machine
   
 ## Exercice - Création d'un deuxième serveur 
