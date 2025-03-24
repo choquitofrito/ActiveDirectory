@@ -80,21 +80,24 @@ Ce guide vous accompagnera dans le processus d'installation de Windows Server 20
    - Cliquez sur "Installer maintenant"
 
 3. Sélectionnez l'édition Windows Server 2022 :
-   - Choisissez "Windows Server 2022 Standard (Expérience Desktop)"
+   - **Choisissez "Windows Server 2022 Standard (Expérience Desktop)"**
    - Cliquez sur "Suivant"
 
 4. Acceptez les termes de la licence
 
-5. Choisissez "Personnalisé : Installer Windows uniquement (avancé)"
+5. Choisissez **"Personnalisé : Installer Windows uniquement (avancé)"**
 
 6. Sélectionnez l'espace non alloué et cliquez sur "Suivant"
 
 7. Attendez que l'installation se termine (la VM redémarrera plusieurs fois)
 
 8. Configurez le compte administrateur :
-   - Entrez "Password1" comme mot de passe
+   - Entrez "Password1" comme mot de passe (just pour nos labos)
    - N'oubliez pas de sauvegarder ce mot de passe en lieu sûr
 
+9. Le système redémarrera et vous verrez l'écran de login pour l'administrateur (le seul utilisateur que vous avez créé pendant l'installation)
+
+10. Utilisez la barre supérieure de menu pour envoyer au serveur un sequence de touches (comme sur un clavier) : **Ctrl + Alt + Suppr** (Barre supérieure de menu->Entrée->Clavier->Envoyer CTRL+ALT+DEL)  
 
 ## Console de Gestion du Serveur
 
@@ -104,7 +107,7 @@ Cliquez sur **Démarrer** et tapez **Gestionnaire du Serveur** dans la barre de 
 
 Notre serveur n'est pas configuré pour le moment.
 
-Commençons par donner un nom au serveur. Notre serveur sera **dns1.computerelectronics.be**.
+Commençons par donner un nom au serveur. Notre serveur sera ****.
 
 1. Ouvrez à nouveau le **Gestionnaire de serveur** et cliquez sur **Serveur local**
 2. Cliquez sur le nom actuel du serveur
