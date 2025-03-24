@@ -179,7 +179,7 @@ Suivez la même procedure que pour le serveur, mais avec les paramètres suivant
    - Langue : Français (clavier Belge!)
    - Version : Windows 10 Pro
    - Installation personnalisée
-   - Créez un compte local: **userCompta1**, password **Password1**
+   - Créez un compte local: **clark.kent**, password **Password1**
 
 2. Une fois l'installation terminée :
    - Installez les mises à jour Windows
@@ -190,7 +190,7 @@ Suivez la même procedure que pour le serveur, mais avec les paramètres suivant
 Pour mettre en pratique vos connaissances, installez une seconde machine cliente en suivant ces critères :
 
 - Nom de la VM : `Windows10M2`
-- Créez un compte local: **userRH1**, password **Password1** 
+- Créez un compte local: **peter.parker**, password **Password1** 
 - Hardware: pareil que la première machine
   
 ## Exercice - Création d'un deuxième serveur 
