@@ -22,25 +22,25 @@
                 <mxCell id="dev_domain" value="dev.&#10;computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450" parent="1" vertex="1">
                     <mxGeometry x="827" y="300" width="160" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="pc_eu" value="ws-eu-01.computerelectronics.be&#10;192.168.10.128" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                <mxCell id="pc_eu" value="ws-01.eu.computerelectronics.be&#10;192.168.10.128" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="-160" y="598" width="60" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="server_eu" value="fileserver-eu.computerelectronics.be&#10;192.168.10.1" style="shape=mxgraph.cisco.servers.file_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                <mxCell id="server_eu" value="fileserver.eu.computerelectronics.be&#10;192.168.10.1" style="shape=mxgraph.cisco.servers.file_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="70" y="600" width="60" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="pc_us" value="ws-us-01.computerelectronics.be&#10;192.168.20.128" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                <mxCell id="pc_us" value="ws-01.us.computerelectronics.be&#10;192.168.20.128" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="300" y="600" width="60" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="server_us" value="fileserver-us.computerelectronics.be&#10;192.168.20.1" style="shape=mxgraph.cisco.servers.file_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                <mxCell id="server_us" value="fileserver.us.computerelectronics.be&#10;192.168.20.1" style="shape=mxgraph.cisco.servers.file_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="550" y="598" width="60" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="server_dev" value="app-dev.computerelectronics.be&#10;192.168.30.1" style="shape=mxgraph.cisco.servers.www_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                <mxCell id="server_dev" value="app.dev.computerelectronics.be&#10;192.168.30.1" style="shape=mxgraph.cisco.servers.www_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="760" y="598" width="40" height="62" as="geometry"/>
                 </mxCell>
-                <mxCell id="server_prod" value="app-prod.computerelectronics.be&#10;192.168.40.1" style="shape=mxgraph.cisco.servers.www_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                <mxCell id="server_prod" value="app.prod.computerelectronics.be&#10;192.168.40.1" style="shape=mxgraph.cisco.servers.www_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="1210" y="596" width="40" height="62" as="geometry"/>
                 </mxCell>
-                <mxCell id="server_db_dev" value="db-dev.computerelectronics.be&#10;192.168.30.2" style="shape=mxgraph.cisco.servers.database_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                <mxCell id="server_db_dev" value="db.dev.computerelectronics.be&#10;192.168.30.2" style="shape=mxgraph.cisco.servers.database_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
                     <mxGeometry x="1010" y="596" width="40" height="62" as="geometry"/>
                 </mxCell>
                 <mxCell id="edge_root_dns1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;opacity=65;" parent="1" source="root_domain" target="dns1" edge="1">
