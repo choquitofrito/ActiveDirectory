@@ -1,0 +1,9 @@
+Dialogo
+
+
+- limitations reseau maison
+- conocimiento de red
+- utilidad de AD
+- Máquinas virtuales?
+- alternativas a AD?
+- seguridad de AD?
