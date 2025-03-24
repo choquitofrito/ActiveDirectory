@@ -99,6 +99,16 @@ Ce guide vous accompagnera dans le processus d'installation de Windows Server 20
 
 10. Utilisez la barre supérieure de menu pour envoyer au serveur un sequence de touches (comme sur un clavier) : **Ctrl + Alt + Suppr** (Barre supérieure de menu->Entrée->Clavier->Envoyer CTRL+ALT+DEL)  
 
+## Post-Installation de base
+
+Après l'installation de Windows Server 2022, il est nécessaire d'effectuer quelques configurations de base :
+
+
+### 1. Mise à jour du système :
+   - Installation des mises à jour Windows (lancer Windows Update)
+   - Redémarrage si nécessaire
+
+
 ## Console de Gestion du Serveur
 
 C'est une console qui permet de configurer et de gérer les rôles et les caractéristiques du serveur, ainsi que la configuration du réseau.
@@ -107,25 +117,31 @@ Cliquez sur **Démarrer** et tapez **Gestionnaire du Serveur** dans la barre de 
 
 Notre serveur n'est pas configuré pour le moment.
 
-Commençons par donner un nom au serveur. Notre serveur sera **dns1.computerelectronics.be**.
+Commençons par donner un nom au serveur. Notre serveur sera l'élément clé: **dns1.computerelectronics.be**.
 
 Regardez le schéma de l'infrastructure de réseau de Computerelectronics.be:
 
-![Infrastructure](../diagrams/images/structure_reseau_zones.png)
+![Infrastructure](../diagrams/images/structure_reseau_geographic_zones.png)
 
 
 
 1. Ouvrez à nouveau le **Gestionnaire de serveur** et cliquez sur **Serveur local**
 2. Cliquez sur le nom actuel du serveur
 3. Dans la fenêtre Propriétés système, cliquez sur **Modifier**
-4. Dans le champ "Nom de l'ordinateur", tapez : **dns1**
-5. Dans le champ "Suffixe DNS principal de l'ordinateur", tapez : **computerelectronics.be**
+4. Dans le champ **Nom de l'ordinateur**, tapez : **dns1**
+5. Dans le champ **Suffixe DNS principal de l'ordinateur**, tapez : **computerelectronics.be**
 6. Cliquez sur **OK**
 7. Redémarrez le serveur pour appliquer les changements
 
 Le serveur aura maintenant le nom complet (FQDN) : dns1.computerelectronics.be
 
+(Vous auriez pu acceder au nom du serveur depuis le **sysdm.cpl**).
+
 **FQDN** = Fully Qualified Domain Name (Nom de domaine complet)
+
+
+
+
 
 <br>
 
