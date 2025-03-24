@@ -7,7 +7,7 @@ Ce guide vous accompagnera dans le processus d'installation de Windows Server 20
 
 ### 1.1. Installation de VirtualBox
 
-(Si VirtualBox est déjà installé, passez à la section suivante)
+(**Important: **Si VirtualBox est déjà installé, passez à la section suivante)
 
 1. Ouvrez un terminal et mettez à jour la liste des paquets :
    ```bash
@@ -23,7 +23,7 @@ Ce guide vous accompagnera dans le processus d'installation de Windows Server 20
 
 ### 1.2. Téléchargement de Windows Server 2022
 
-(Si les images sont déjà téléchargées, passez à la section suivante)
+(**Important:** Si les images sont déjà téléchargées, passez à la section suivante)
 
 
 1. Visitez le [Centre d'évaluation Microsoft](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022)
@@ -36,28 +36,22 @@ Ce guide vous accompagnera dans le processus d'installation de Windows Server 20
 ### 2.1. Configuration de Base
 
 1. Ouvrez VirtualBox
-2. Cliquez sur "Nouvelle"
-3. Configurez les paramètres de base :
-   - Nom : `dns1.computerelectronics.be`
-   - Dossier de la machine : Choisissez votre emplacement préféré
-   - Type : Microsoft Windows
-   
-   **Important** : Dans l'assistant de création, désactivez l'option "Installation non supervisée" (Unattended Installation) car nous voulons contrôler manuellement tout le processus d'installation.
-
-### 2.2. Configuration Matérielle
-
-1. Taille de la mémoire :
-   - Allouez la mémoire RAM: 4096 Mo (4 Go)
-
-2. Disque dur :
-   - Sélectionnez "Créer un disque dur virtuel maintenant"
-   - Cliquez sur "Créer"
+2. Cliquez sur **Nouvelle**
+3. Configurez les paramètres de base (pas besoin de changer le reste):
+   - Nom : `WindowsServer-VM1`
    - Choisissez "VDI (Image disque VirtualBox)"
-   - Sélectionnez "Dynamiquement alloué"
-   - Définissez la taille à au moins 50 Go
-   - Cliquez sur "Créer"
+   - ISO Image (cherche le fichier ISO dans votre disque, téléchargez-le à l'avance)
+   - Type : Microsoft Windows
+   - **Cochez Skip Unattended Installation** ou l'installation échouera
+   - Dans la section **Hardware** (specs. chez ISIB):
+     - 4096 Mo (4 Go)
+     - 2 processeurs
+     - Disque dur : 50 Go
 
-### 2.3. Paramètres Additionnels
+   Appuyez sur Finish!
+
+      
+### 2.2. Paramètres Additionnels
 
 1. Sélectionnez la VM et cliquez sur "Paramètres"
 
