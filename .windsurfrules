@@ -32,7 +32,7 @@ Detailed solution
 ### 3.1 Format and Storage
 - Format: exclusively .drawio
 - Storage: "diagrams" folder
-- Base: use structure_reseau.drawio as template
+- Base: use structure_reseau_geographic.drawio as template
 - Never generate images (conversion script will be used)
 - Use standard XML structure for .drawio files
 - Use < and > characters directly (no HTML entities)
