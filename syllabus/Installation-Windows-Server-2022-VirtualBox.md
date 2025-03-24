@@ -57,7 +57,6 @@ Ce guide vous accompagnera dans le processus d'installation de Windows Server 20
 
 2. Système :
    - Onglet Processeur : Attribuez au moins 2 processeurs
-   - Activez PAE/NX
 
 3. Affichage :
    - Mémoire vidéo : 128 Mo
@@ -77,7 +76,7 @@ Ce guide vous accompagnera dans le processus d'installation de Windows Server 20
 
 2. Lorsque l'écran d'installation de Windows apparaît :
    - Sélectionnez vos préférences de langue (Français, clavier Belge!)
-   - Cliquez sur "Installer maintenant"
+   - Cliquez sur **Installer maintenant**
 
 3. Sélectionnez l'édition Windows Server 2022 :
    - **Choisissez "Windows Server 2022 Standard (Expérience Desktop)"**
@@ -87,29 +86,27 @@ Ce guide vous accompagnera dans le processus d'installation de Windows Server 20
 
 5. Choisissez **"Personnalisé : Installer Windows uniquement (avancé)"**
 
-6. Sélectionnez l'espace non alloué et cliquez sur "Suivant"
+6. Sélectionnez l'espace non alloué et cliquez sur **Suivant**
 
 7. Attendez que l'installation se termine (la VM redémarrera plusieurs fois)
 
 8. Configurez le compte administrateur :
-   - Entrez "Password1" comme mot de passe (just pour nos labos)
+   - Entrez **Password1** comme mot de passe (just pour nos labos)
    - N'oubliez pas de sauvegarder ce mot de passe en lieu sûr
 
 9. Le système redémarrera et vous verrez l'écran de login pour l'administrateur (le seul utilisateur que vous avez créé pendant l'installation)
 
 10. Utilisez la barre supérieure de menu pour envoyer au serveur un sequence de touches (comme sur un clavier) : **Ctrl + Alt + Suppr** (Barre supérieure de menu->Entrée->Clavier->Envoyer CTRL+ALT+DEL)  
 
-## Post-Installation de base
+## 3.1. Post-Installation de base
 
 Après l'installation de Windows Server 2022, il est nécessaire d'effectuer quelques configurations de base :
 
-
-### 1. Mise à jour du système :
-   - Installation des mises à jour Windows (lancer Windows Update)
-   - Redémarrage si nécessaire
+- Installation des mises à jour Windows (lancer Windows Update)
+- Redémarrage si nécessaire
 
 
-## Console de Gestion du Serveur
+## 3.2. Console de Gestion du Serveur
 
 C'est une console qui permet de configurer et de gérer les rôles et les caractéristiques du serveur, ainsi que la configuration du réseau.
 
@@ -117,7 +114,7 @@ Cliquez sur **Démarrer** et tapez **Gestionnaire du Serveur** dans la barre de 
 
 Notre serveur n'est pas configuré pour le moment.
 
-Commençons par donner un nom au serveur. Notre serveur sera l'élément clé: **dns1.computerelectronics.be**.
+Commençons par donner un nom au serveur. Notre serveur sera l'élément clé: `dns1.computerelectronics.be`.
 
 Regardez le schéma de l'infrastructure de réseau de Computerelectronics.be:
 
@@ -139,17 +136,11 @@ Le serveur aura maintenant le nom complet (FQDN) : dns1.computerelectronics.be
 
 **FQDN** = Fully Qualified Domain Name (Nom de domaine complet)
 
-
-
-
-
-<br>
-
-# 3. Machines clientes Windows 10
+# 4. Machines clientes Windows 10
 
 Nous avons une VM pour le serveur, mais nous devons créer des VM pour les machines clientes (au moins une!).    
 
-## 3.1. Pourquoi avons-nous besoin des VM clients Windows 10 ?
+## 4.1. Pourquoi avons-nous besoin des VM clients Windows 10 ?
 
 Les départements de l'entreprise (Comptabilité, RH, Ventes) ont des besoins différents. Par exemple :
 - La Comptabilité a besoin d'accéder aux logiciels financiers
@@ -171,13 +162,13 @@ Pour bien comprendre comment gérer ces différents besoins, **nous allons crée
 
 C'est un peu comme avoir une "maquette" de l'entreprise : on peut tout tester en toute sécurité avant de le faire dans une vraie situation !
 
-## 3.2. Installation d'une machine cliente Windows 10
+## 4.2. Installation d'une machine cliente Windows 10
 
 Voici la procédure pour installer la première machine cliente :
 
 Suivez la même procedure que pour le serveur, mais avec les paramètres suivants :
 
-   - Nom : **ws-compta-01**
+   - Nom : **ws01.eu.computerelectronics.be**
    - Génération : 2 (64 bits)
    - Mémoire : 4 GB (si possible)
    - Réseau : **réseau privé**
@@ -194,13 +185,15 @@ Suivez la même procedure que pour le serveur, mais avec les paramètres suivant
    - Installez les mises à jour Windows
    - Renommez l'ordinateur avec le nom standardisé (ex: **ws-compta-01**)
 
-## Exercice 3.2 - Création d'une seconde machine cliente W10
+## Exercice - Création d'une seconde machine cliente W10
 
 Pour mettre en pratique vos connaissances, installez une seconde machine cliente en suivant ces critères :
 
 - Nom de la VM : **ws-rh-01**
-- Créez un compte local: **user1rh**, password **Password1** 
+- Créez un compte local: **user1**, password **Password1** 
 - Nom d'ordinateur : **ws-rh-01**
 - Hardware: pareil que la première machine
   
+## Exercice - Création d'un deuxième serveur 
 
+Créez par vous-meme un serveur virtuel Windows Server 2022, qui sera notre `dns2.computerelectronics.be`.
