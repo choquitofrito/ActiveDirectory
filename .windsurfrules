@@ -103,3 +103,7 @@ Format: GPO_[Type]_[Department]
 - Exercises are done by the student (Ex: "Vous allez créer un serveur")
 - Examples are doing by the instructor and the students at the same time (Ex: "Nous allons créer un serveur")
 - When creating instructions, use bold to highlight the most important elements of the phrase. The idea is that the student can read really fast and understand what is important.
+
+# Rules override
+
+- Don't generate powershell scripts for the moment
