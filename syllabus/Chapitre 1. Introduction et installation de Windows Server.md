@@ -1,4 +1,4 @@
-# 1. Les réseaux décentralisées VS centralisés avec Active Directory
+# 1. Les réseaux décentralisés VS centralisés avec Active Directory
 
 Imaginez, par exemple, que **vous êtes le responsable informatique d'un magasin d'électronique** d'une entreprise **Computer Electronics** (computerelectronics.be). 
 Vous avez actuellement 10 ordinateurs, 2 imprimantes et 2 serveurs (pour la base de données et pour la messagerie). 
@@ -40,7 +40,7 @@ Qu'est-ce que vous en pensez? Ne regardez pas la solution!
 **Les bons côtés** :
 1. C'est plus simple à gérer
    - Tout se fait depuis un seul endroit
-   - Plus besoin de faire le tour des ordinateurs, on peut applique de changements à tous les ordinateurs en une seule fois
+   - Plus besoin de faire le tour des ordinateurs, on peut appliquer des changements à tous les ordinateurs en une seule fois
    - Les mises à jour se font en une fois
 
 2. C'est plus sécurisé
@@ -82,7 +82,7 @@ Pour éviter les problèmes, on peut :
 
 # 2. Windows Server 
 
-On a consideré que les avantages étaient plus importants que les risques! Alors on va utiliser Active Directory.
+On a considéré que les avantages étaient plus importants que les risques ! Alors on va utiliser Active Directory.
 
 **Active Directory (AD)** est un ensemble de services qui a besoin d'être installé sur **Windows Server**. 
 
@@ -118,8 +118,8 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 
 ### 2.2.1. Activation de Hyper-V dans Windows
 
-- Dans la barre de recherche de Windows, tapez **Activer ou desactiver des fonctionnalités Windows**
-- Cliquez sur **Activer ou desactiver des fonctionnalités Windows**
+- Dans la barre de recherche de Windows, tapez **Activer ou désactiver des fonctionnalités Windows**
+- Cliquez sur **Activer ou désactiver des fonctionnalités Windows**
 - Cochez la case **Hyper-V** et cliquez sur **OK**
 - Redémarrez Windows
 
@@ -135,9 +135,9 @@ Nos machines virtuelles seront connectées à Internet via le réseau **WAN-VM**
 
 Il y a trois types de réseau :
 
-- *External* : permet la communication entre tous les équipements physiques de notre réseau et les machines virtuelles qui y sont installées
-- *Internal* : permet la communication entre notre équipement physique et les machines virtuelles installées dans l'équipement. On ne peut pas communiquer avec d'autres machines en dehors de la nôtre, ni avec des machines virtuelles installées dans d'autres équipements physiques 
-- *Private* : permet la communication uniquement entre les machines virtuelles installées dans l'équipement, même pas entre l'équipement et ces machines virtuelles
+- *External* : permet la communication entre tous les équipements physiques de notre réseau et les machines virtuelles qui y sont installées.
+- *Internal* : permet la communication entre notre équipement physique et les machines virtuelles installées dans l'équipement. On ne peut pas communiquer avec d'autres machines en dehors de la nôtre, ni avec des machines virtuelles installées dans d'autres équipements physiques. 
+- *Private* : permet la communication uniquement entre les machines virtuelles installées dans l'équipement, même pas entre l'équipement et ces machines virtuelles.
 
 Commençons par créer le réseau interne :
 
@@ -154,7 +154,7 @@ Puis créons le réseau qui connectera les machines virtuelles à Internet :
 2. Choisissez External
 3. Cliquez sur Create Virtual Switch
 4. Nommez le réseau **WAN-VM**
-5. Adaptateur : Choisissez l'adaptateur qui vous connecte à Internet (câble ou wifi). Cliquez sur OK et ignorez l'avertissement
+5. Adaptateur : choisissez l'adaptateur qui vous connecte à Internet (câble ou wifi). Cliquez sur OK et ignorez l'avertissement
 6. Cliquez sur OK
 
 
