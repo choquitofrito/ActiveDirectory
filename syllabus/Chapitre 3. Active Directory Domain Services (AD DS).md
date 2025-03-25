@@ -3,10 +3,8 @@
 ## 1.1. Objectifs Pédagogiques
 
 À la fin de ce chapitre, vous serez capable de :
-1. Comprendre les différents composants d'Active Directory
-2. Installer et configurer AD DS sur Windows Server 2022
-3. Créer et gérer un domaine `computerelectronics.be`
-4. Maîtriser les concepts de base de la gestion d'identités
+1. Installer et configurer AD DS sur Windows Server 2022
+2. Créer et gérer un domaine `computerelectronics.be`
 
 ## 1.2. Introduction à Active Directory
 

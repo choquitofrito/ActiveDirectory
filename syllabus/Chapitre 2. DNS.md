@@ -1,4 +1,4 @@
-# 2. Comprendre le DNS
+# 1. Comprendre le DNS
 
 ## 1. Objectifs Pédagogiques
 
