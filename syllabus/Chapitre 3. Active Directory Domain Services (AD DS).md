@@ -1,12 +1,10 @@
-# 1. Active Directory et ses composants
-
-## 1.1. Objectifs Pédagogiques
+## Objectifs Pédagogiques
 
 À la fin de ce chapitre, vous serez capable de :
 1. Installer et configurer AD DS sur Windows Server 2022
 2. Créer et gérer un domaine `computerelectronics.be`
 
-## 1.2. Introduction à Active Directory
+# 1. Introduction à Active Directory
 
 Nous avons déjà parlé de Active Directory: **AD est une suite de services qui permettent de gérer** :
  
@@ -69,7 +67,7 @@ Les flèches vertes rajoutées montrent les **requêtes** DNS permettant la rés
 
 <br>
 
-# 4. Active Directory Domain Services (AD DS)
+# 3. Active Directory Domain Services (AD DS)
 
 Dans ce cours, **nous nous concentrerons sur AD DS car c'est le service fondamental** pour la gestion de l'infrastructure de computerelectronics.be. 
 
@@ -91,7 +89,7 @@ Dans ce cours, **nous nous concentrerons sur AD DS car c'est le service fondamen
 Pour bien comprendre le déploiement d'AD DS dans notre entreprise, commençons par examiner la structure DNS existante, car AD DS s'appuie fortement sur DNS pour son fonctionnement.
 
 
-### 4.2. AD DS et la localisation de la base de données d'AD 
+## 3.1. AD DS et la localisation de la base de données d'AD 
 
 La base de données d'AD doit être stockée dans (au moins) un **appareil serveur** qu'on appellera **Contrôleur de Domaine (DC)**.
 
@@ -107,9 +105,9 @@ La base de données d'AD doit être stockée dans (au moins) un **appareil serve
 **Tant le service DNS comme le service AD DS** doivent fonctionner **sans arrêt** ! Cela veut dire que si un serveur tombe en panne, il faut qu'un autre serveur prenne son rôle. En plus... si un serveur est surchargé, il faut qu'un autre serveur prenne son rôle ! Quoi faire ? **Rajouter des serveurs DNS et des serveurs AD**.
 
 
-# 5. Contrôleurs de Domaine
+# 4. Contrôleurs de Domaine
 
-## 5.1. Relations entre DNS et AD DS
+## 4.1. Relations entre DNS et AD DS
 
 Nous allons installer les services d'AD DS sur notre serveur `dns1.computerelectronics.be`.
 
@@ -126,9 +124,9 @@ Ce diagramme representera l'installation de AD sur `dns1.computerelectronics.be`
 ![Installation AD](../diagrams/images/dns_ad_installation.png)
 
 
-## 5.2. Promotion de Windows Server en contrôleur de domaine
+## 4.2. Promotion de Windows Server en contrôleur de domaine
 
-### 5.2.1. Configuration du DNS dans le réseau du serveur
+### 4.2.1. Configuration du DNS dans le réseau du serveur
 
 On doit configurer le réseau du DC `dns1.computerelectronics.be`:
    - Adresse IP statique sur le réseau LAN via l'interface graphique (Serveur Local->Ethernet->Propriétés->Protocole Internet version 4 (TCP/IPv4)). On lui donnera `192.168.0.2` au lieu d'une adresse automatique.
@@ -139,7 +137,7 @@ On doit configurer le réseau du DC `dns1.computerelectronics.be`:
 Pour le serveur DNS, on lui donnera `192.168.0.2` au lieu d'une adresse automatique: car **il cherchera les noms DNS chez lui-même**, y incluant le sien: `dns1.computerelectronics.be`.
 
 
-### 5.2.2. Installation du rôle AD DS
+### 4.2.2. Installation du rôle AD DS
 
 Cette étape va installer **le rôle** AD DS sur le serveur `dns1.computerelectronics.be`. 
 
@@ -156,7 +154,7 @@ Dans ce cas, le rôle AD DS comprend plusieurs services (comme le service AD DS 
 7. Accepter l'ajout des fonctionnalités requises
 8. Continuez jusqu'à la fin de l'installation
 
-### 5.2.3. Promotion en contrôleur de domaine
+### 4.2.3. Promotion en contrôleur de domaine
 
 1. Dans le Gestionnaire de serveur, cliquer sur le **drapeau avec le triangle jaune**
 2. Sélectionner **"Promouvoir ce serveur en contrôleur de domaine"**
@@ -169,7 +167,7 @@ Dans ce cas, le rôle AD DS comprend plusieurs services (comme le service AD DS 
 9. Vérifier les chemins de la **base de données**, des **journaux** et de **SYSVOL**
 10. Examiner les options sélectionnées et **lancer l'installation**
 
-## 5.3. Vérification post-promotion
+### 4.2.4. Vérification post-promotion
 
 Une fois la promotion terminée et le serveur redémarré, il est essentiel de vérifier que tout fonctionne correctement. Voici les étapes de vérification à suivre. Ouvrez le Gestionnaire de serveur et cliquez sur le nouveau menu: **AD DS**. 
 
@@ -193,7 +191,7 @@ Ce serveur DNS doit être capable de prendre en charge les enregistrements de se
 Les serveurs DNS Windows 2KXX peuvent prendre en charge de tels enregistrements.
 
 
-## 5.4. Configuration des zones DNS
+### 4.3. Configuration des zones DNS
 
 Après la promotion du contrôleur de domaine, AD DS a automatiquement créé les zones DNS nécessaires. Examinons la configuration qui a été mise en place :
 
@@ -228,9 +226,9 @@ Toutes ces zones sont essentielles pour le bon fonctionnement d'AD DS.
 
 > **Note pratique** : Bien que notre infrastructure de production inclue `dns2.computerelectronics.be` (192.168.0.3), nos exercices pratiques se concentreront initialement sur le contrôleur de domaine principal `dns1` pour une meilleure compréhension des concepts de base.
 
-## 4. Communication entre zones
+## 5. Communication entre zones
 
-### 4.1. Authentification multi-zones
+### 5.1. Authentification multi-zones
 
 Dans notre infrastructure, les contrôleurs de domaine gèrent l'authentification pour toutes les zones :
 
