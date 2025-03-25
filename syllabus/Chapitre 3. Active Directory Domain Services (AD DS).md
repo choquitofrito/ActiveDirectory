@@ -208,14 +208,33 @@ Après la promotion du contrôleur de domaine, AD DS a automatiquement créé le
      * Les enregistrements SRV pour les services AD DS
      * Les futurs postes clients
 
-
 **Note pratique** : Bien que notre infrastructure de production inclue `dns2.computerelectronics.be` (192.168.0.3), nos exercices pratiques se concentreront initialement sur le contrôleur de domaine principal `dns1` pour une meilleure compréhension des concepts de base.
 
-## 5. Communication entre zones
+## 4.4. Utilisateurs et ordinateurs AD
 
-### 5.1. Authentification multi-zones (opt)
+Le contenu de l'AD est organisé dans des OUs (Organizational Units ou Unités d'Organisation qu'on étudiera plus tard). Ce sont de **conteneurs** d'**objets**. Un objet peut être un utilisateur, un ordinateur, un groupe, une imprimante, etc.
 
-Dans notre infrastructure, les contrôleurs de domaine gèrent l'authentification pour toutes les zones :
+Par défaut, Active Directory crée plusieurs conteneurs prédéfinis :
+
+1. **Users** : Contient les comptes d'utilisateurs et les groupes par défaut
+   - Le compte Administrator (administrateur du domaine)
+   - Le compte Guest (désactivé par défaut)
+   - Les groupes de sécurité intégrés (Built-in)
+
+2. **Computers** : Stocke les comptes d'ordinateurs qui rejoignent le domaine
+   - Le DC (Domain Controller) lui-même
+   - Les **postes clients une fois joints au domaine**
+
+3. **Domain Controllers** : Contient les contrôleurs de domaine
+   - Dans notre cas, `dns1.computerelectronics.be`
+
+Ces conteneurs par défaut ne sont pas des OUs et ont des restrictions sur ce qu'on peut faire avec eux. Dans le chapitre suivant, nous verrons comment créer notre propre structure organisationnelle avec des OUs pour mieux gérer nos ressources.
+
+
+
+## 5. Communication entre zones (opt)
+
+**Dans notre infrastructure, les contrôleurs de domaine gèrent l'authentification pour toutes les zones** :
 
 1. **Flux d'authentification**
    - Un utilisateur sur `ws-compta-01.computerelectronics.be` (192.168.10.128)
