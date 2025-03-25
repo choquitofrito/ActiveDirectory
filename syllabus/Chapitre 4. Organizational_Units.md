@@ -21,9 +21,6 @@ Une Unité d'Organisation (OU) **est un conteneur dans Active Directory qui perm
 
 ### 1.3. Quand utiliser les Sous-domaines DNS ou les OUs
 
-
-
-
 ## 2. Structure des OUs pour computerelectronics.be
 
 ### 2.1. Planification

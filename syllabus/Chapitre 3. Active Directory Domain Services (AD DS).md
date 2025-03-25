@@ -1,4 +1,4 @@
-# 3. Active Directory et ses composants
+# 1. Active Directory et ses composants
 
 ## 1.1. Objectifs Pédagogiques
 
