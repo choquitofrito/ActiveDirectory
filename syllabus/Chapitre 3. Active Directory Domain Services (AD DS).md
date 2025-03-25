@@ -190,8 +190,36 @@ dcdiag /test:dns
 ```
 
 **AD DS** est **basé sur** l’utilisation d’un **espace de noms DNS** pour gérer un domaine **et impose donc l’utilisation d’un serveur DNS** au sein du réseau.
+**C'est l'installation d'AD DS qui va configurer la base du serveur DNS**.
+
 Ce serveur DNS doit être capable de prendre en charge les enregistrements de service **SRV** nécessaires à la localisation des contrôleurs de domaine.
-Les serveurs DNS Windows 2KXX peuvent prendre en charge de tels enregistrements.
+
+- Les **enregistrements SRV** **(Service Record)** sont des enregistrements DNS qui permettent la **localisation des services** sur le réseau. 
+
+  - Les enregistrements SRV sont utilisés par les services tels que:
+    - `_ldap._tcp.computerelectronics.be` pour le service LDAP (**protocole de communication** pour interroger et modifier des informations dans la base de données d'AD)
+    - `_kerberos._tcp.computerelectronics.be` pour le service Kerberos (**protocole d'authentification**)
+    - `_gc._tcp.computerelectronics.be` pour le catalogue global (**service qui fournit des informations sur les objets de l'annuaire**, tel que les utilisateurs, les groupes, etc.)
+    - `_kpasswd._tcp.computerelectronics.be` pour le service de changement de mot de passe (**protocole de communication** pour changer le mot de passe d'un utilisateur)
+
+
+  - Ils permettent de trouver l'**adresse IP du service** en fonction du nom de domaine et du nom du service.
+  - Par exemple, si un client cherche le contrôleur de domaine `_ldap._tcp.computerelectronics.be`, le serveur DNS renvoie l'adresse IP du contrôleur de domaine.
+  - Un autre exemple est `_kerberos._tcp.computerelectronics.be` qui permet de trouver le contrôleur de domaine pour l'authentification Kerberos.
+  - Un troisième exemple est `_gc._tcp.computerelectronics.be` qui permet de trouver le contrôleur de domaine pour le service global catalogue (GC).
+
+
+### 4.2.5. Vérifier que les services sont bien configurés
+
+1. Vérifier que les services principales d'AD DS sont en cours d'execution et en démarrage auto:
+  - Service de AD DS
+  - Service DNS
+  - Netlogon, qui gére l'authentification des utilisateurs
+  
+2. Vérifier que **les dossiers NetLogon** et **Sysvol** existent et sont correctement configurés
+   - **NetLogon** : dossier qui contient les **fichiers de logon** de l'annuaire, **utilisé pour l'authentification** des utilisateurs
+   - **Sysvol** : dossier qui contient les fichiers de configuration du système (politiques de groupe qui seront utilisées dans les GPOs, scripts de démarrage, etc.) et qui est partagé par tous les contrôleurs de domaine du domaine
+
 
 
 ### 4.3. Configuration des zones DNS
@@ -210,27 +238,13 @@ Après la promotion du contrôleur de domaine, AD DS a automatiquement créé le
 
 **Note pratique** : Bien que notre infrastructure de production inclue `dns2.computerelectronics.be` (192.168.0.3), nos exercices pratiques se concentreront initialement sur le contrôleur de domaine principal `dns1` pour une meilleure compréhension des concepts de base.
 
-## 4.4. Utilisateurs et ordinateurs AD
+Maintenant que nous avons configuré notre contrôleur de domaine et ses zones DNS, nous pouvons passer à la gestion des utilisateurs et des ressources. Ces aspects seront traités en détail dans les chapitres suivants :
 
-Le contenu de l'AD est organisé dans des OUs (Organizational Units ou Unités d'Organisation qu'on étudiera plus tard). Ce sont de **conteneurs** d'**objets**. Un objet peut être un utilisateur, un ordinateur, un groupe, une imprimante, etc.
-
-Par défaut, Active Directory crée plusieurs conteneurs prédéfinis :
-
-1. **Users** : Contient les comptes d'utilisateurs et les groupes par défaut
-   - Le compte Administrator (administrateur du domaine)
-   - Le compte Guest (désactivé par défaut)
-   - Les groupes de sécurité intégrés (Built-in)
-
-2. **Computers** : Stocke les comptes d'ordinateurs qui rejoignent le domaine
-   - Le DC (Domain Controller) lui-même
-   - Les **postes clients une fois joints au domaine**
-
-3. **Domain Controllers** : Contient les contrôleurs de domaine
-   - Dans notre cas, `dns1.computerelectronics.be`
-
-Ces conteneurs par défaut ne sont pas des OUs et ont des restrictions sur ce qu'on peut faire avec eux. Dans le chapitre suivant, nous verrons comment créer notre propre structure organisationnelle avec des OUs pour mieux gérer nos ressources.
-
-
+- **Chapitre 4 : Gestion des Utilisateurs**, où nous aborderons :
+  * La création et configuration des comptes
+  * Les conventions de nommage
+  * Les stratégies de mot de passe
+  * La gestion des groupes
 
 ## 5. Communication entre zones (opt)
 

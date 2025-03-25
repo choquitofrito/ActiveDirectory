@@ -59,16 +59,56 @@ Nouveau format : clark.kent@computerelectronics.be
 
 > **Important** : Dans notre infrastructure, nous n'utilisons pas les sous-domaines (eu/us) dans l'UPN pour maintenir la cohérence et simplifier la gestion.
 
+
+# 2. Utilisateurs et Ordinateurs Active Directory (ADUC)
+
+Le **"Utilisateurs et Ordinateurs Active Directory"** (**ADUC**) est une console de gestion permettant de gérer les **utilisateurs, groupes, ordinateurs et unités d'organisation (OU)** dans un domaine Active Directory (AD).
+
+Vous pouvez l'ouvrir de plusieur formes: tapez `Utilisateurs et ordinateurs Active Directory` depuis le menu Démarrer ou via `dsa.msc`... ou via `Gestionnaire de serveur`->`Outils`->`Utilisateurs et ordinateurs Active Directory`.
+
+C'est la méthode traditionnelle, mais il y a aussi la **méthode moderne via l'interface web de l'AD** (`Gestionnaire de serveur`->`Outils`->`Centre d'administration d'AD`).
+
+Dans les deux outils
+
+- **Structure du domaine (hiérarchie des OU)** : Affiche les OU (containers d'objets, on les verra plus tard).
+-
+ **Objets du domaine** , entre autres :
+  - **Utilisateurs** : Comptes des utilisateurs du domaine et leurs propriétés.
+  - **Ordinateurs** : Machines jointes au domaine.
+  - **Contrôleurs de domaine** : Liste des DC du domaine.
+
+Par défaut, il y a plusieurs **conteneurs** (ce ne sont pas des OU, mais des conteneurs d'objets) :
+ :
+  - `Builtin` : Contient les groupes de sécurité par défaut (Administrateurs, Utilisateurs, etc.).
+  - `Computers` : Emplacement par défaut des nouveaux ordinateurs ajoutés au domaine.
+  - `Users` : Emplacement des nouveaux utilisateurs et groupes.
+  - `Domain Controllers` : Contient tous les contrôleurs de domaine (on en a qu'un!)
+
+- **Outils de recherche et de filtrage** : Permettent de trouver rapidement des utilisateurs, ordinateurs ou groupes.
+
+### Principales tâches administratives
+- Créer, modifier et supprimer **utilisateurs, groupes et OU**.
+- Gérer **les stratégies de sécurité et les droits d'accès**.
+- Réinitialiser les mots de passe, activer/désactiver des comptes.
+- Déplacer des objets entre **les OU**.
+- Appliquer des **Stratégies de Groupe (GPO)** aux OU.
+
+### Cas d'utilisation
+- **Gestion des utilisateurs et ordinateurs** : Ajouter, modifier et désactiver des comptes.
+- **Organisation du domaine** : Structurer les utilisateurs et appareils avec des OU.
+- **Permissions et sécurité** : Gérer les groupes et les droits d'accès.
+- **Gestion des stratégies de groupe (GPO)** : Appliquer des règles aux utilisateurs et aux machines.
+
+
 ## 2. Gestion Pratique des Comptes Utilisateurs
 
 ### 2.1 Création d'un Compte Utilisateur
 
 La création d'un compte utilisateur est une opération fréquente, par exemple lors de l'arrivée d'un nouveau collaborateur. Voici comment procéder :
 
-#### Via l'Interface Graphique (ADUC)
-
 1. **Accès à ADUC** :
-   - Ouvrir `Active Directory Users and Computers` depuis le menu Démarrer ou via `dsa.msc`
+   - Ouvrir `Utilisateurs et ordinateurs Active Directory` depuis le menu Démarrer ou via `dsa.msc`... ou via `Gestionnaire de serveur`->'Outils'->'Utilisateurs et ordinateurs Active Directory'
+
    - Naviguer vers l'OU appropriée (par exemple `OU=RH` pour un nouvel employé RH)
 
 2. **Création du compte** :
@@ -90,7 +130,21 @@ La création d'un compte utilisateur est une opération fréquente, par exemple 
    - **Cocher** "L'utilisateur doit changer son mot de passe à la prochaine ouverture de session"
    - **Décocher** "Le compte est désactivé" si l'utilisateur doit se connecter immédiatement
 
-### 2.2 Modification des Propriétés
+### 2.2. Recherche d'un Compte Utilisateur
+
+La recherche d'un compte utilisateur est une opération fréquente, par exemple pour modifier des paramètres ou consulter des informations.
+
+Voici comment procéder :
+
+1. **Accès à ADUC** :
+   - Ouvrir `Utilisateurs et ordinateurs Active Directory` depuis le menu Démarrer ou via `dsa.msc`
+   - Naviguer vers l'OU appropriée (par exemple `OU=RH` pour un employé RH)
+
+2. **Recherche du compte** :
+   
+
+
+### 2.3. Modification des Propriétés
 
 Après la création du compte, il est important de configurer les propriétés supplémentaires pour une bonne gestion :
 
@@ -241,7 +295,7 @@ Les groupes sont essentiels pour gérer efficacement les accès et les droits da
 #### Types de Groupes
 
 1. **Groupes de Sécurité**
-   - **Objectif** : Gérer les permissions et les droits d'accès
+   - **Objectif** : Gérer les permissions et les droits d'accès dans le reseau
    - **Exemples** :
      ```
      GS-COMPTA-LECTURE    # Accès lecture aux dossiers comptables
@@ -263,19 +317,19 @@ Les groupes sont essentiels pour gérer efficacement les accès et les droits da
 #### Étendues de Groupe
 
 1. **Domaine Local** :
-   - **Usage** : Attribution finale des droits dans le domaine
-   - **Portée** : Uniquement dans le domaine où ils sont créés
+   - **Usage** : Attribution **finale des droits dans le domaine**
+   - **Portée** : Créés et gérés dans **un seul domaine**
    - **Exemples** :
      ```
      DL-SERVEURS-ADMIN    # Administrateurs des serveurs
-     DL-COMPTA-LECTURE    # Droits de lecture comptabilité
-     DL-RH-MODIF         # Modification des données RH
+     DL-COMPTA-LECTURE    # Droits de lecture dossier comptabilité
+     DL-RH-MODIF         # Peuvent modifier des données RH
      ```
    > Utilisés pour attribuer les permissions sur les ressources
 
 2. **Global**
-   - **Usage** : Organisation des utilisateurs par fonction
-   - **Portée** : Créés et gérés dans un seul domaine
+   - **Usage** : Organisation des utilisateurs **par fonction dans l'entreprise**
+   - **Portée** : Créés et gérés dans **un seul domaine**
    - **Exemples** :
      ```
      GG-COMPTA-USERS     # Tous les comptables
@@ -285,16 +339,16 @@ Les groupes sont essentiels pour gérer efficacement les accès et les droits da
    > Représentent généralement des rôles métier
 
 3. **Universel**
-   - **Usage** : Groupes accessibles dans toute la forêt AD
+   - **Usage** : Groupes **accessibles dans toute la forêt AD**
    - **Portée** : Tous les domaines de la forêt
    - **Exemples** :
      ```
      UG-DIRECTION       # Direction générale (tous sites)
-     UG-PROJET-ALPHA    # Équipe projet multi-domaines
+     UG-PROJET-ISIB     # Équipe projet multi-domaines
      UG-ADMIN-GLOBAL    # Administrateurs globaux
      ```
-   > Attention : Impact sur la réplication (catalogue global)
-
+   Les groupes universels sont accessibles dans toute la forêt AD, mais ils sont moins utilisés car ils impactent la réplication dans chaque domaine.
+   
 ### 4.2 Création et Gestion des Groupes
 
 La création et la gestion des groupes sont des tâches courantes qui nécessitent une attention particulière pour maintenir une structure cohérente.
@@ -303,7 +357,7 @@ La création et la gestion des groupes sont des tâches courantes qui nécessite
 
 1. **Création d'un groupe**
    ```
-   ① Ouvrir ADUC (Active Directory Users and Computers)
+   ① Ouvrir ADUC (Utilisateurs et ordinateurs Active Directory)
    ② Naviguer vers l'OU cible (ex: OU=Groupes,OU=Comptabilité)
    ③ Clic droit > Nouveau > Groupe
    ④ Remplir les informations :
@@ -422,15 +476,15 @@ La création et la gestion des groupes sont des tâches courantes qui nécessite
 ### 5.2. Options de Compte
 
 #### Paramètres de Base
-- User must change password at next logon
-- User cannot change password
-- Password never expires
-- Account is disabled
+- L'utilisateur doit changer son mot de passe à la prochaine ouverture de session
+- L'utilisateur ne peut pas changer son mot de passe
+- Le mot de passe n'expire jamais
+- Le compte est désactivé
 
 #### Paramètres Avancés
-- Smart card required for interactive logon
-- Account is trusted for delegation
-- Account is sensitive and cannot be delegated
+- Carte à puce requise pour l'ouverture de session interactive
+- Le compte est approuvé pour la délégation
+- Le compte est sensible et ne peut pas être délégué
 
 ### 5.3. Profils Utilisateur
 
@@ -693,6 +747,8 @@ Utilisation : Accès direction dans toute l'entreprise
 Utilisateur → Groupe Global → Groupe Local → Permissions
 (spiderman) → (COMPTA-Users) → (COMPTA-Resources) → (Accès dossier)
 ```
+
+
 
 
 

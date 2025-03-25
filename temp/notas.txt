@@ -12,3 +12,4 @@ Volver a:
 
 configuración de red
 
+to add: ddns
