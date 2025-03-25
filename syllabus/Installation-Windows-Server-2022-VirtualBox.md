@@ -3,9 +3,9 @@
 
 Ce guide vous accompagnera dans le processus d'installation de Windows Server 2022 en utilisant VirtualBox 6 sous Ubuntu 22.
 
-## 1. Prérequis
+# 1. Prérequis
 
-### 1.1. Installation de VirtualBox
+## 1.1. Installation de VirtualBox
 
 (**Important: **Si VirtualBox est déjà installé, passez à la section suivante)
 
@@ -21,7 +21,7 @@ Ce guide vous accompagnera dans le processus d'installation de Windows Server 20
 
 3. Acceptez les termes de la licence lors de l'installation.
 
-### 1.2. Téléchargement de Windows Server 2022
+## 1.2. Téléchargement de Windows Server 2022
 
 (**Important:** Si les images sont déjà téléchargées, passez à la section suivante)
 
@@ -31,9 +31,9 @@ Ce guide vous accompagnera dans le processus d'installation de Windows Server 20
 3. Enregistrez le fichier ISO dans un emplacement facilement accessible
 
 
-## 2. Création de la Machine Virtuelle
+# 2. Création de la Machine Virtuelle
 
-### 2.1. Configuration de Base
+## 2.1. Configuration de Base
 
 1. Ouvrez VirtualBox
 2. Cliquez sur **Nouvelle**
@@ -51,7 +51,7 @@ Ce guide vous accompagnera dans le processus d'installation de Windows Server 20
    Appuyez sur Finish!
 
       
-### 2.2. Paramètres Additionnels
+## 2.2. Paramètres Additionnels
 
 1. Sélectionnez la VM et cliquez sur "Paramètres"
 
@@ -70,7 +70,7 @@ Ce guide vous accompagnera dans le processus d'installation de Windows Server 20
    - Choisissez le fichier ISO Windows Server 2022 téléchargé
    - Cliquez sur "OK"
 
-## 3. Installation de Windows Server 2022 sur la VM
+# 3. Installation de Windows Server 2022 sur la VM
 
 1. Démarrez la machine virtuelle
 
