@@ -129,7 +129,10 @@ Ce diagramme representera l'installation de AD sur `dns1.computerelectronics.be`
 ### 4.2.1. Configuration du DNS dans le réseau du serveur
 
 On doit configurer le réseau du DC `dns1.computerelectronics.be`:
-   - Adresse IP statique sur le réseau LAN via l'interface graphique (Serveur Local->Ethernet->Propriétés->Protocole Internet version 4 (TCP/IPv4)). On lui donnera `192.168.0.2` au lieu d'une adresse automatique.
+   - Donnez une adresse IP statique au réseau LAN via l'interface graphique du Gestionnaire de Serveur 
+     - Serveur Local->Ethernet->Propriétés->Protocole Internet version 4 (TCP/IPv4) 
+   - On lui donnera `192.168.0.2` au lieu d'une adresse automatique
+   - Spécifiez le serveur DNS; `192.168.0.2` (le serveur lui-même)
    - Nom d'ordinateur configuré via les Paramètres système (si ce n'est pas déjà fait!)
      - Dans le champ "Nom de l'ordinateur", tapez : **dns1**
      - Dans le champ "Suffixe DNS principal", tapez : **computerelectronics.be**
@@ -171,7 +174,7 @@ Dans ce cas, le rôle AD DS comprend plusieurs services (comme le service AD DS 
 
 Une fois la promotion terminée et le serveur redémarré, il est essentiel de vérifier que tout fonctionne correctement. Voici les étapes de vérification à suivre. Ouvrez le Gestionnaire de serveur et cliquez sur le nouveau menu: **AD DS**. 
 
-🔍 Vérification de la configuration DNS (Gestionnaire de serveur->Outils->Gestionnaire DNS):
+**Vérification de la configuration DNS (Gestionnaire de serveur->Outils->Gestionnaire DNS):**
 
 1. Vérifiez dans le gestionnaire DNS que **l'enregistrement A** pour `dns1.computerelectronics.be` pointe correctement vers `192.168.0.2` 
 
@@ -205,30 +208,12 @@ Après la promotion du contrôleur de domaine, AD DS a automatiquement créé le
      * Les enregistrements SRV pour les services AD DS
      * Les futurs postes clients
 
-2. **Zones directes**
-   - Zone racine : `computerelectronics.be`
-   - Zones géographiques :
-     * `eu.computerelectronics.be`
-     * `us.computerelectronics.be`
-   - Zones de service :
-     * `dev.computerelectronics.be`
-     * `prod.computerelectronics.be`
 
-3. **Zones inverses**
-   - Zone primaire : `0.168.192.in-addr.arpa` (192.168.0.0/24)
-   - Zone EU : `10.168.192.in-addr.arpa` (192.168.10.0/24)
-   - Zone US : `20.168.192.in-addr.arpa` (192.168.20.0/24)
-   - Zone DEV : `30.168.192.in-addr.arpa` (192.168.30.0/24)
-   - Zone PROD : `40.168.192.in-addr.arpa` (192.168.40.0/24)
-
-Toutes ces zones sont essentielles pour le bon fonctionnement d'AD DS.
-   - **Pourquoi est-elle nécessaire ?** AD DS utilise la résolution inverse pour la sécurité : quand un client essaie de s'authentifier, le contrôleur de domaine vérifie que l'adresse IP du client correspond bien au nom d'hôte fourni, évitant ainsi l'usurpation d'identité
-
-> **Note pratique** : Bien que notre infrastructure de production inclue `dns2.computerelectronics.be` (192.168.0.3), nos exercices pratiques se concentreront initialement sur le contrôleur de domaine principal `dns1` pour une meilleure compréhension des concepts de base.
+**Note pratique** : Bien que notre infrastructure de production inclue `dns2.computerelectronics.be` (192.168.0.3), nos exercices pratiques se concentreront initialement sur le contrôleur de domaine principal `dns1` pour une meilleure compréhension des concepts de base.
 
 ## 5. Communication entre zones
 
-### 5.1. Authentification multi-zones
+### 5.1. Authentification multi-zones (opt)
 
 Dans notre infrastructure, les contrôleurs de domaine gèrent l'authentification pour toutes les zones :
 
@@ -247,7 +232,6 @@ Dans notre infrastructure, les contrôleurs de domaine gèrent l'authentificatio
    - Pas de NAT entre les zones (tout en 192.168.x.0/24)
    - Les ACLs réseau peuvent filtrer le trafic si nécessaire
 
-![Communication inter-zones](../diagrams/images/dns_ad_eco.png)
 
 Les zones DNS créées sont visibles dans le diagramme de l'infrastructure :
 
