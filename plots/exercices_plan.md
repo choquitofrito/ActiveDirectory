@@ -1,8 +1,9 @@
-# Exercices
+# Plot 1: Simple Exercices Plot
 
 ## Goal 
 
 Create series of exercices for Active Directory dealing with:
+
 - Organizational Units
 - Groups
 - Users
@@ -14,15 +15,16 @@ Create series of exercices for Active Directory dealing with:
 
 ## Infrastructure
 
-Virtualized environment
+We have a Virtualized environment with 3 VMs:
 
-1 AD DS Domain Controller
-1 Workstation (W10) for the moment
+- 1 AD DS Domain Controller
+- 1 Workstation (W10) for the moment
 
 ## Rules
 
-- Create simple, engaging and practical exercices, we'll create more complex ones later
-- Exercices will be linked to real situations whenever possible
+- When asked, create simple, engaging and practical exercices, we'll create more complex exercices later
+- Exercices will be linked to real situations whenever possible based on our infrastructure
+  
 - Use the concepts learnt in previous chapters.
 - The exercices MUST be created to use the infrastructure defined in the previous chapter (partially or fully)
 - Use the tools and commands learnt in previous chapters (no powershell for the moment)
@@ -41,6 +43,7 @@ Virtualized environment
 
 will add exercices to a file called `ex_Chapitre 4.Gestion_des_Utilisateurs.md` in the folder `exercices` 
 
+**IMPORTANT**: the file will 
 
 # Exemple of solution creation
 - Solutions will be created **only when asked**
