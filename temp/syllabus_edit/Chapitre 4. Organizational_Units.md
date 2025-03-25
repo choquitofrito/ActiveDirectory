@@ -4,7 +4,7 @@
 
 ### 1.1. Qu'est-ce qu'une OU ?
 
-Une Unité d'Organisation (OU) **est un conteneur dans Active Directory qui permet d'organiser les objets de manière administrative**. Ces objets peuvent être :
+Une Unité d'Organisation (OU) **est un conteneur dans Active Directory qui permet d'organiser les objets de manière administrative**. Ces **objets** peuvent être :
 - Des comptes **utilisateurs**
 - Des **ordinateurs**
 - Des **groupes**
