@@ -8,7 +8,7 @@
 
 ## 1.2. Introduction à Active Directory
 
-Active Directory est une suite de services qui permettent de gérer :
+Nous avons déjà parlé de Active Directory: **AD est une suite de services qui permettent de gérer** :
  
 * La gestion des utilisateurs
 * La gestion des ordinateurs
@@ -16,6 +16,7 @@ Active Directory est une suite de services qui permettent de gérer :
 * La gestion des stratégies de sécurité
 * La gestion des services réseau
 etc...
+
 
 **On le confond souvent avec** **AD DS** (le service de base qui crée et gère la base de données d'AD), mais AD est plus large car il contient :
  
@@ -27,57 +28,8 @@ etc...
 
 **La force d'Active Directory** réside dans sa capacité à **centraliser l'administration**. Au lieu de gérer chaque ordinateur individuellement, les administrateurs peuvent appliquer des politiques et des configurations à partir d'un point central.
 
-# 2. Infrastructure du cours
 
-
-Ceci est l'infrastructure de réseau de Computerelectronics.be:
-
-
-![Infrastructure](../diagrams/images/structure_reseau_geographic_zones.png)
-
-Pour le moment on a... un serveur virtualisé (dns1.computerelectronics.be) et un client virtualisé (ws-compta-01.computerelectronics.be). Ce n'est pas beaucoup mais ceci nous permettra déjà de mettre en place Active Directory et de voir comment fonctionne l'authentification et l'autorisation des ressources dans le réseau... entre autre multiples actions!
-
-
-
-## 2.1. Vue d'ensemble
-
-L'infrastructure de computerelectronics.be est organisée en zones géographiques et fonctionnelles :
-
-1. **Zone Primaire** (192.168.0.0/24)
-   - Contrôleurs de domaine et services centraux
-   - `dns1.computerelectronics.be` (192.168.0.2)
-   - `dns2.computerelectronics.be` (192.168.0.3)
-
-2. **Zones Géographiques**
-   - **Zone EU** (192.168.10.0/24)
-     * Services : 192.168.10.1-127
-     * Postes de travail : 192.168.10.128-254
-   - **Zone US** (192.168.20.0/24)
-     * Services : 192.168.20.1-127
-     * Postes de travail : 192.168.20.128-254
-
-3. **Zones de Service**
-   - **Zone DEV** (192.168.30.0/24)
-     * Environnement de développement
-   - **Zone PROD** (192.168.40.0/24)
-     * Environnement de production
-
-## 2.2. Environnement de Laboratoire
-
-Pour la partie pratique du cours, nous utiliserons une version simplifiée :
-
-1. **Configuration de base**
-   - Une machine hôte avec 32GB RAM
-   - Windows Server 2022
-   - Hyper-V avec réseau local (LAN)
-
-2. **Machines virtuelles initiales**
-   - Contrôleur de domaine : `dns1.computerelectronics.be` (192.168.0.2)
-   - Poste client : `ws-compta-01.computerelectronics.be` (192.168.10.128)
-
-Cette configuration simplifiée nous permettra d'apprendre les concepts fondamentaux, tout en comprenant la structure complète de l'entreprise.
-
-# 3. Exemple de fonctionnement d'AD : appel client-serveur
+# 2. Exemple de fonctionnement d'AD : appel client-serveur
 
 Considérez notre structure de réseau :
 
@@ -138,97 +90,22 @@ Dans ce cours, **nous nous concentrerons sur AD DS car c'est le service fondamen
 
 Pour bien comprendre le déploiement d'AD DS dans notre entreprise, commençons par examiner la structure DNS existante, car AD DS s'appuie fortement sur DNS pour son fonctionnement.
 
-## 4.1. Structure DNS actuelle du réseau
 
+### 4.2. AD DS et la localisation de la base de données d'AD 
 
-### 4.1.1. Forêt, arbres, zones DNS
-
-Nous avons actuellement : 
-
-- Un seul arbre DNS (l'autre arbre de la forêt appartient à une autre entreprise)
-- Deux zones DNS dans l'arbre (l'une pour comptabilité et RH, l'autre pour ventes)
-- Deux serveurs DNS :
-  * `dns1.computerelectronics.be` (`192.168.0.2`) pour gérer les départements de Comptabilité et RH
-  * `dns2.computerelectronics.be` (`192.168.0.3`) pour gérer le département de Ventes
-
-### 4.1.2. AD DS et la localisation de la base de données d'AD 
-
-**Le service AD DS est un service d'AD qui crée et gère la base de données d'AD.**
-
-Cette base de données doit être stockée dans (au moins) un **appareil serveur** qu'on appellera **Contrôleur de Domaine (DC)**.
+La base de données d'AD doit être stockée dans (au moins) un **appareil serveur** qu'on appellera **Contrôleur de Domaine (DC)**.
 
 **Ce suffirait pour gérer les ressources de tout l'arbre DNS, mais** on ne peut pas prendre le risque de perdre la base de données si le serveur tombe en panne ! 
 
-**IMPORTANT** : Ne confondez pas le service DNS et le service AD DS ! **Notez** que le service DNS (transformer les noms en IP et vice versa) est indépendant de la base de données d'AD (base de données contenant toutes les informations sur les utilisateurs, ordinateurs, imprimantes, etc.). 
+**IMPORTANT** : Ne confondez pas le service DNS et le service AD DS ! **Notez** que le **service DNS** (transformer les noms en IP et vice versa) est **indépendant** **de la base de données d'AD** (base de données contenant toutes les informations sur les utilisateurs, ordinateurs, imprimantes, etc.). 
 
 **On pourrait avoir toute sorte de combinaisons :**
-- 3 serveurs DNS et 2 serveurs AD :
-  * 2 serveurs pour gérer les DNS de Ventes (1 de backup)
-  * 1 serveur pour gérer les DNS de Comptabilité et RH
-  * 2 serveurs AD (1 de backup). Les deux serveurs contiennent la même base de données d'AD (qui contient l'AD pour tout l'arbre DNS)
-
-### 4.1.3. Exercice - Analyse des combinaisons DNS-AD DS
+- 3 serveurs DNS et 2 serveurs AD 
+- 2 serveurs DNS et 2 serveurs AD
+- etc...
 
 **Tant le service DNS comme le service AD DS** doivent fonctionner **sans arrêt** ! Cela veut dire que si un serveur tombe en panne, il faut qu'un autre serveur prenne son rôle. En plus... si un serveur est surchargé, il faut qu'un autre serveur prenne son rôle ! Quoi faire ? **Rajouter des serveurs DNS et des serveurs AD**.
 
-
-### 4.1.4. Exercices
-
-#### 4.1.4.1. Exercice - Configuration haute disponibilité
-Le département des ventes est critique et nécessite une haute disponibilité. Proposez une configuration qui assure :
-- Une haute disponibilité pour le service DNS des ventes
-- Une redondance suffisante pour l'AD DS
-- Une répartition de charge efficace
-
-<details>
-<summary>Solution</summary>
-
-Configuration proposée :
-- 3 serveurs DNS :
-  * dns1 : zones DNS pour comptabilité et RH
-  * dns2 : zone DNS pour ventes
-  * dns3 : backup de dns2 pour ventes
-- 2 serveurs AD DS avec réplication bidirectionnelle complète
-
-![Configuration Haute Disponibilité](../diagrams/images/dns_ad_config_haute_dispo.png)
-
-Avantages :
-- Double redondance DNS pour ventes (département critique)
-- Réplication AD DS entre tous les DC
-- Répartition de charge possible pour DNS ventes
-
-Inconvénients :
-- Coût plus élevé (3 serveurs au total)
-- Complexité de gestion accrue
-
-</details>
-
-#### 4.1.4.2. Exercice - Configuration économique
-L'entreprise a des contraintes budgétaires mais souhaite maintenir un minimum de redondance. Proposez une configuration économique qui assure :
-- Un service minimal pour tous les départements
-- Une redondance de base pour l'AD DS
-
-<details>
-<summary>Solution 2</summary>
-
-Configuration proposée :
-- 2 serveurs DNS :
-  * dns1 : zones DNS pour comptabilité et RH
-  * dns2 : zone DNS pour ventes
-- 2 serveurs AD DS avec réplication bidirectionnelle complète
-
-![Configuration Économique](../diagrams/images/dns_ad_config_eco.png)
-
-Avantages :
-- Solution économique (2 serveurs)
-- Structure simple et claire
-- Réplication AD DS assurée
-
-Inconvénients :
-- Pas de backup DNS pour les départements
-- Risque d'interruption de service DNS en cas de panne
-- Pas de répartition de charge possible
-</details>
 
 # 5. Contrôleurs de Domaine
 
