@@ -50,9 +50,9 @@ Observez les flèches en bleu, jaune et bleu bidirectionnel.
    - La communication passe par le switch départemental (`SW-COMPTA`, `192.168.0.1`)
 
 2. **Accès aux ressources** (flèche jaune)
-   - Une fois authentifié, `ws-compta-01` accède au serveur `fichiers.ventes`
-   - `dns2` fournit l'adresse IP de `fichiers.ventes` (`192.168.0.41`)
-   - Le serveur `fichiers.ventes` autorise l'accès aux ressources demandées
+   - Une fois authentifié, `ws-compta-01` accède au serveur `fileserver.us.computerelectronics.be`
+   - `dns2` fournit l'adresse IP de `fileserver.us.computerelectronics.be` (`192.168.0.41`)
+   - Le serveur `fileserver.us.computerelectronics.be` autorise l'accès aux ressources demandées
 
 3. **Réplication AD** (flèche bleue bidirectionnelle)
    - `dns1` (`192.168.0.2`) et `dns2` (`192.168.0.3`) synchronisent leurs bases AD DS

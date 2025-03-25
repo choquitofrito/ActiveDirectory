@@ -1,17 +1,17 @@
 <mxfile host="65bd71144e">
     <diagram name="Structure Réseau ComputerElectronics" id="network-diagram">
-        <mxGraphModel dx="2908" dy="2172" grid="1" gridSize="9" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1852" dy="1871" grid="1" gridSize="9" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
                 <mxCell id="root_zone" value="Zone Primaire (192.168.0.0/24)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;opacity=30;gradientColor=#ea6b66;" parent="1" vertex="1">
-                    <mxGeometry x="-81" y="-153" width="830" height="313" as="geometry"/>
+                    <mxGeometry x="207" y="-191" width="830" height="313" as="geometry"/>
                 </mxCell>
                 <mxCell id="dns1" value="dns1.computerelectronics.be&#10;192.168.0.2" style="shape=mxgraph.cisco.servers.directory_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="root_zone" vertex="1">
                     <mxGeometry x="36" y="153" width="40" height="62" as="geometry"/>
                 </mxCell>
                 <mxCell id="dns2" value="dns2.computerelectronics.be&#10;192.168.0.3" style="shape=mxgraph.cisco.servers.directory_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="root_zone" vertex="1">
-                    <mxGeometry x="729" y="48" width="40" height="62" as="geometry"/>
+                    <mxGeometry x="747" y="119" width="40" height="62" as="geometry"/>
                 </mxCell>
                 <mxCell id="root_domain" value="computerelectronics.be&#10;(Domaine racine)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf" parent="root_zone" vertex="1">
                     <mxGeometry x="335" y="39" width="160" height="80" as="geometry"/>
@@ -20,7 +20,11 @@
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="edge_root_dns2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;opacity=65;" parent="root_zone" source="root_domain" target="dns2" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="770" y="70"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="eu_zone" value="Zone EU (192.168.10.0/24)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;opacity=30;gradientColor=#ffd966;" parent="1" vertex="1">
                     <mxGeometry x="-306" y="270" width="549" height="603" as="geometry"/>
@@ -131,40 +135,19 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="dev_zone" value="Zone DEV (192.168.30.0/24)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;opacity=30;gradientColor=#7ea6e0;" parent="1" vertex="1">
-                    <mxGeometry x="-135" y="936" width="370" height="420" as="geometry"/>
+                    <mxGeometry x="690" y="270" width="370" height="420" as="geometry"/>
                 </mxCell>
                 <mxCell id="dev_domain" value="dev.&#10;computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450" parent="dev_zone" vertex="1">
                     <mxGeometry x="90" y="50" width="160" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="server_dev" value="app.dev.computerelectronics.be&#10;192.168.30.10" style="shape=mxgraph.cisco.servers.www_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="dev_zone" vertex="1">
-                    <mxGeometry x="63" y="225" width="40" height="62" as="geometry"/>
-                </mxCell>
-                <mxCell id="server_db_dev" value="db.dev.computerelectronics.be&#10;192.168.30.11" style="shape=mxgraph.cisco.servers.database_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="dev_zone" vertex="1">
-                    <mxGeometry x="253" y="225" width="40" height="62" as="geometry"/>
-                </mxCell>
-                <mxCell id="23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;exitX=0.328;exitY=1.097;exitDx=0;exitDy=0;opacity=65;exitPerimeter=0;" edge="1" parent="dev_zone" source="dev_domain" target="server_dev">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="276.94000000000005" y="-261" as="sourcePoint"/>
-                        <mxPoint x="161.99882352941177" y="-42" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;opacity=65;" edge="1" parent="dev_zone" source="dev_domain" target="server_db_dev">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="151.48000000000002" y="124.82000000000016" as="sourcePoint"/>
-                        <mxPoint x="92" y="234" as="targetPoint"/>
-                        <Array as="points">
-                            <mxPoint x="207" y="256"/>
-                        </Array>
-                    </mxGeometry>
-                </mxCell>
                 <mxCell id="prod_zone" value="Zone PROD (192.168.40.0/24)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e6d0de;strokeColor=#996185;opacity=30;gradientColor=#d5739d;" parent="1" vertex="1">
-                    <mxGeometry x="351" y="936" width="360" height="420" as="geometry"/>
+                    <mxGeometry x="1100" y="270" width="360" height="420" as="geometry"/>
                 </mxCell>
                 <mxCell id="4" value="db.prod.computerelectronics.be&lt;br&gt;192.168.40.11" style="shape=mxgraph.cisco.servers.database_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="prod_zone" vertex="1">
-                    <mxGeometry x="72" y="225" width="40" height="62" as="geometry"/>
+                    <mxGeometry x="30" y="329" width="40" height="62" as="geometry"/>
                 </mxCell>
                 <mxCell id="server_prod" value="app.prod.computerelectronics.be&#10;192.168.40.10" style="shape=mxgraph.cisco.servers.www_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="prod_zone" vertex="1">
-                    <mxGeometry x="261" y="225" width="40" height="62" as="geometry"/>
+                    <mxGeometry x="240" y="329" width="40" height="62" as="geometry"/>
                 </mxCell>
                 <mxCell id="6" value="prod.&lt;br&gt;computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450" parent="prod_zone" vertex="1">
                     <mxGeometry x="85" y="50" width="160" height="60" as="geometry"/>
@@ -172,6 +155,11 @@
                 <mxCell id="5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;exitX=0.5;exitY=1;exitDx=0;exitDy=0;opacity=65;" parent="prod_zone" source="6" target="4" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="400" y="50" as="sourcePoint"/>
+                        <Array as="points">
+                            <mxPoint x="133" y="110"/>
+                            <mxPoint x="133" y="220"/>
+                            <mxPoint x="50" y="220"/>
+                        </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;opacity=65;" parent="prod_zone" source="6" target="server_prod" edge="1">
@@ -179,10 +167,16 @@
                         <mxPoint x="150" y="120" as="sourcePoint"/>
                         <mxPoint x="80" y="367" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="207" y="162"/>
-                            <mxPoint x="281" y="162"/>
+                            <mxPoint x="200" y="220"/>
+                            <mxPoint x="260" y="220"/>
                         </Array>
                     </mxGeometry>
+                </mxCell>
+                <mxCell id="server_dev" value="app.dev.computerelectronics.be&#10;192.168.30.10" style="shape=mxgraph.cisco.servers.www_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="760" y="599" width="40" height="62" as="geometry"/>
+                </mxCell>
+                <mxCell id="server_db_dev" value="db.dev.computerelectronics.be&#10;192.168.30.11" style="shape=mxgraph.cisco.servers.database_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="950" y="599" width="40" height="62" as="geometry"/>
                 </mxCell>
                 <mxCell id="edge_dns1_eu" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;opacity=65;" parent="1" source="dns1" target="eu_domain" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
@@ -200,19 +194,34 @@
                         <Array as="points">
                             <mxPoint x="272" y="162"/>
                             <mxPoint x="860" y="162"/>
-                            <mxPoint x="860" y="882"/>
-                            <mxPoint x="27" y="882"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;opacity=65;" parent="1" source="dns1" target="6" edge="1">
+                <mxCell id="edge_dev_app" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;opacity=65;" parent="1" source="dev_domain" target="server_dev" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="938" y="416" as="sourcePoint"/>
+                        <Array as="points">
+                            <mxPoint x="830" y="479"/>
+                            <mxPoint x="780" y="479"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge_dev_db" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;opacity=65;" parent="1" source="dev_domain" target="server_db_dev" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="970" y="432" as="sourcePoint"/>
+                        <Array as="points">
+                            <mxPoint x="910" y="480"/>
+                            <mxPoint x="970" y="480"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;opacity=65;exitX=0.5;exitY=0.99;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="dns1" target="6" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="960" y="171" as="sourcePoint"/>
                         <mxPoint x="880" y="330" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="918" y="23"/>
-                            <mxPoint x="918" y="909"/>
-                            <mxPoint x="507" y="909"/>
+                            <mxPoint x="272" y="36"/>
+                            <mxPoint x="1265" y="36"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>

@@ -35,7 +35,7 @@
                     <mxGeometry x="300" y="280" width="200" height="40" as="geometry"/>
                 </mxCell>
                 <!-- Appareils ventes -->
-                <mxCell id="10" value="fichiers.ventes&#xa;apps.ventes&#xa;database.ventes&#xa;server1.ventes&#xa;server2.ventes&#xa;ws-vnt-01&#xa;printer01.ventes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" vertex="1" parent="1">
+                <mxCell id="10" value="fileserver.us.computerelectronics.be&#xa;apps.ventes&#xa;database.ventes&#xa;server1.ventes&#xa;server2.ventes&#xa;ws-vnt-01&#xa;printer01.ventes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" vertex="1" parent="1">
                     <mxGeometry x="560" y="280" width="200" height="120" as="geometry"/>
                 </mxCell>
                 <!-- Connexions -->

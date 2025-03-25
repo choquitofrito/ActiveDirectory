@@ -25,7 +25,7 @@
                 <mxCell id="edge_ventes_sw" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ventes_domain" target="sw-ventes" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="server_files" value="fichiers.ventes.computerelectronics.be&#10;192.168.0.20" style="shape=mxgraph.cisco.servers.file_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                <mxCell id="server_files" value="fileserver.us.computerelectronics.be.computerelectronics.be&#10;192.168.0.20" style="shape=mxgraph.cisco.servers.file_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fontSize=12;fontStyle=1" parent="1" vertex="1">
                     <mxGeometry x="170" y="560" width="50" height="72" as="geometry"/>
                 </mxCell>
                 <mxCell id="server_apps" value="apps.ventes.computerelectronics.be&#10;192.168.0.21" style="shape=mxgraph.cisco.servers.www_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fontSize=12;fontStyle=1" parent="1" vertex="1">
