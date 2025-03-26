@@ -88,7 +88,7 @@ Liens :
 - OU=Ordinateurs,OU=Comptabilité,DC=computerelectronics,DC=be
 - OU=Ordinateurs,OU=RH,DC=computerelectronics,DC=be
 - OU=Ordinateurs,OU=Ventes,DC=computerelectronics,DC=be
-Périmètre : ws-compta-*, ws-rh-*, ws-vnt-*
+Périmètre : ws-compta-*, ws-rh-*, ws-ventes-*
 ```
 
 **Paramètres de sécurité** :

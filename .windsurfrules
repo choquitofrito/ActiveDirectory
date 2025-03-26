@@ -85,8 +85,9 @@ GPO-[Type]-[Name]
 
 [Type]-[Groupe Scope]-[Name]
 
-- **Type**: **S_** for Security or **D_** for Distribution.
-- **Group Scope**: **DL_** for Domain Local, **G_** for Global, **U_** for Universal.
+- **Type**: **S-** for Security or **D-** for Distribution. All uppercase.
+- **Group Scope**: **DL-** for Domain Local, **G-** for Global, **U-** for Universal. All uppercase.
+- Only first letter uppercase for each word of Name
 
 
 
