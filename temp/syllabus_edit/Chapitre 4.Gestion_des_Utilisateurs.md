@@ -75,11 +75,12 @@ Nouveau format : clark.kent@computerelectronics.be
 - **Simplicité** : Format familier type email, facile à mémoriser
 - **Standardisation** : Utilisation du domaine principal (`computerelectronics.be`)
 
+
 <br>
 
 
 
-# 2. ADUC (Active Directory Users and Computers) et Console de Gestion Active Directory 
+# 2. Utilisateurs et Ordinateurs Active Directory (ADUC)
 
 **"Utilisateurs et Ordinateurs Active Directory"** (**ADUC**) est une console de gestion permettant de gérer les **utilisateurs, groupes, ordinateurs et unités d'organisation (OU)** dans un domaine Active Directory (AD).
 
@@ -91,9 +92,9 @@ Ou même `Gestionnaire de serveur`->`Outils`->`Utilisateurs et ordinateurs Activ
 
 Dans les deux outils vous avez accès aux **éléments suivants**:
 
-- **Structure du domaine** : Affiche les containers d'object (ex: Users, Computers, Domain Controllers) et les **Unités d'organisation (OU)** (on en a pas).
+- **Structure du domaine** : Affiche plusieurs containers d'objects (ex: Users, Computers, Domain Controllers) et les **Unités d'organisation (OU)** (dont on en a pas pour l'instant).
 
- **Objets du domaine** , entre autres :
+- **Objets du domaine** , entre autres :
   - **Utilisateurs** : Comptes des utilisateurs du domaine et leurs propriétés.
   - **Ordinateurs** : Machines jointes au domaine.
   - **Contrôleurs de domaine** : Liste des DC du domaine.
