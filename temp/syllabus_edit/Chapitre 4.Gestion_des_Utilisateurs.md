@@ -124,7 +124,7 @@ Par défaut, il y a plusieurs **conteneurs** (**ce ne sont pas des OU**, mais de
 
 ## 3. Gestion Pratique des Comptes Utilisateurs
 
-### 3.1 Création d'un Compte Utilisateur
+### 3.1. Création d'un Compte Utilisateur
 
 La création d'un compte utilisateur est une opération fréquente, par exemple lors de l'arrivée d'un nouveau collaborateur. Voici comment procéder :
 
@@ -149,7 +149,7 @@ La création d'un compte utilisateur est une opération fréquente, par exemple 
    - **Cocher** "L'utilisateur doit changer son mot de passe à la prochaine ouverture de session"
    - **Décocher** "Le compte est désactivé" si l'utilisateur doit se connecter immédiatement
 
-### 2.2. Recherche d'un Compte Utilisateur
+### 3.2. Recherche d'un Compte Utilisateur
 
 La **recherche d'un compte** utilisateur est une opération **fréquente**, par exemple pour modifier des paramètres ou consulter des informations.
 
@@ -161,7 +161,7 @@ Autrement, ouvrir `Utilisateurs et ordinateurs Active Directory` depuis le menu 
 
 
 
-### 2.3. Modification des Propriétés
+### 3.3. Modification des Propriétés
 
 Après la création du compte, il est important de configurer les **propriétés supplémentaires** pour faciliter les tâches de gestion.
 
@@ -215,9 +215,8 @@ Ces informations facilitent l'identification et la localisation de l'utilisateur
 
 
 
-## 3. Bonnes pratiques pour la gestion des comptes
+## 4. Bonnes pratiques pour la gestion des comptes
 
-### 3.1. Sécurité et Gestion des Accès
 
 1. **Politique de mot de passe** 
    ```
@@ -245,7 +244,7 @@ Ne donnez plus de droits que ceux nécessaires.
    - La désactivation est préférable à la suppression car elle permet de réactiver le compte si nécessaire. 
    - Si on elimine un compte il faudra documenter la procedure
 
-## 4. Gestion des Groupes
+## 5. Gestion des Groupes
 
 Les groupes sont essentiels pour gérer efficacement les accès et les droits dans Active Directory. Ils permettent d'appliquer des permissions à plusieurs utilisateurs en même temps.
 
@@ -253,7 +252,7 @@ Les groupes sont essentiels pour gérer efficacement les accès et les droits da
 
 Un groupe a un **type** et une **étendue**.
 
-### 4.1. Types de Groupes
+### 5.1. Types de Groupes
 
 1. **Groupes de Sécurité**: Les groupes de sécurité sont les plus utilisés pour la gestion quotidienne
    
@@ -275,7 +274,7 @@ Un groupe a un **type** et une **étendue**.
      ```
 Ces groupes **sont uniquement pour la messagerie**, pas pour les permissions
 
-### 4.2. Étendues de Groupe
+### 5.2. Étendues de Groupe
 
 Selon l'étendue de leurs accès, les groupes sont divisés en 3 catégories:
 
@@ -320,7 +319,7 @@ Représentent généralement des rôles métier
      ```
 Les groupes universels sont accessibles dans toute la forêt AD, mais ils sont moins utilisés car ils impactent la réplication dans chaque domaine.
 
-### 4.3 Création et Gestion des Groupes
+### 5.3 Création et Gestion des Groupes
 
 
 #### Via l'Interface Graphique
@@ -348,7 +347,7 @@ Les groupes universels sont accessibles dans toute la forêt AD, mais ils sont m
 Vérifiez toujours la liste des membres après les modifications
 
 
-### 4.4. Convention de Nommage des Groupes
+### 5.4. Convention de Nommage des Groupes
 
 On doit fixer nous même les conventions de noms de manière cohérente. Il n'y a pas de regles fixes mais il faut que la convention soit cohérente. Nous avons choisi celle-ci:
 
@@ -365,7 +364,7 @@ On doit fixer nous même les conventions de noms de manière cohérente. Il n'y 
 
 - Une nomenclature cohérente facilite l'administration
 
-### 4.5. Stratégie de Groupes Imbriqués (AGDLP/AGLP)
+### 5.5. Stratégie de Groupes Imbriqués (AGDLP/AGLP)
 
 On suivra la stratégie **AGDLP/AGLP** (Account → Global Groups → Domain Local Groups → Permission) pour que la **gestion de groupes et de permissions** soit plus simple et plus efficace.
 
@@ -428,7 +427,7 @@ Un groupe peut contenir d'autres groupes d'autres types, mais on a les limitatio
 
 
 
-### 4.5. Sécurité et Maintenance
+### 5.6. Sécurité et Maintenance
 
 On suit la même logique que pour les utilisateurs:
 
@@ -439,7 +438,7 @@ On suit la même logique que pour les utilisateurs:
 
 <br>
 
-## 5. Droits (Privileges) vs Permissions
+## 6. Droits (Privileges) vs Permissions
 
 Les droits d'utilisateurs **ne sont pas la même chose que les permissions**.
 
@@ -476,9 +475,9 @@ Ils sont stockés dans les **Access Control Lists (ACL)**
 
 <br>
 
-## 6. Groupes Intégrés
+## 7. Groupes Intégrés dans AD par Défaut
 
-### 6.1. Groupes Essentiels
+### 7.1. Groupes Essentiels
 
 Il existe 3 groupes intégrés essentiels dans Active Directory :
 
@@ -509,7 +508,7 @@ Exemples d'actions :
 - Ajout d'un nouvel attribut pour les comptes utilisateurs
 - Extension du schéma pour supporter Exchange Server (messagerie)
 
-### 6.2. Groupes de Sécurité Courants
+### 7.2. Groupes de Sécurité Courants
 
 #### Account Operators
 - Création et gestion des comptes utilisateurs
@@ -532,7 +531,7 @@ Exemples d'actions :
 
 
 
-## 7. Organisation par Département vs Fonction
+## 8. Organisation par Département vs Fonction
 
 Il y a deux stratégies principales pour organiser les groupes:
 
