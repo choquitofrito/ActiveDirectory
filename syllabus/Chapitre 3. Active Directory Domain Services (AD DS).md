@@ -4,6 +4,8 @@
 1. Installer et configurer AD DS sur Windows Server 2022
 2. Créer et gérer un domaine `computerelectronics.be`
 
+<br>
+
 # 1. Introduction à Active Directory
 
 Nous avons déjà parlé de Active Directory: **AD est une suite de services qui permettent de gérer** :
@@ -26,6 +28,7 @@ etc...
 
 **La force d'Active Directory** réside dans sa capacité à **centraliser l'administration**. Au lieu de gérer chaque ordinateur individuellement, les administrateurs peuvent appliquer des politiques et des configurations à partir d'un point central.
 
+<br>
 
 # 2. Exemple de fonctionnement d'AD : appel client-serveur
 
@@ -104,6 +107,7 @@ La base de données d'AD doit être stockée dans (au moins) un **appareil serve
 
 **Tant le service DNS comme le service AD DS** doivent fonctionner **sans arrêt** ! Cela veut dire que si un serveur tombe en panne, il faut qu'un autre serveur prenne son rôle. En plus... si un serveur est surchargé, il faut qu'un autre serveur prenne son rôle ! Quoi faire ? **Rajouter des serveurs DNS et des serveurs AD**.
 
+<br>
 
 # 4. Contrôleurs de Domaine
 
@@ -115,9 +119,7 @@ Il va devenir un **contrôleur de domaine** (DC). Rappellez-vous qu'il contiendr
 
 Si on a la possibilité on installera AD aussi sur `dns2.computerelectronics.be`, **qui contiendrai une réplique de la base de données d'AD**. Ou peut-être même sur d'autres serveurs si on les avait !
 
-Concernant les services de DNS, **chaque serveur continue à gerer une zone** :
-- `dns1` pour comptabilité et RH
-- `dns2` (si on l'installe) pour ventes
+Concernant les services de DNS, **chaque DC peut gérer une ou plusieurs zones**. Dans notre cas `dns1` gére tout le réseau
 
 Ce diagramme representera l'installation de AD sur `dns1.computerelectronics.be` :
 
@@ -255,9 +257,9 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
 
 
 La base de données qui stocke Active Directory est divisée en **4 partitions**:
+<br>
 
-![Partition Schéma](../diagrams/images/partition_schema.png)
-
+<img src="../diagrams/images/partition_schema.png" alt="Partition Schéma" style="width:10%;" />
 
 
 #### 1. **Schéma**
@@ -330,12 +332,11 @@ Le catalogue global est un **composant** essentiel d'Active Directory **qui stoc
 
 Il facilite la **recherche d'objets** dans une forêt Active Directory.
 
-![Catalogue global](../diagrams/images/catalogue_global.png)
-
+<img src="../diagrams/images/catalogue_global.png" alt="Catalogue Global" style="width:50%;" />
 
 **Exemple :** Un objet de type (**classe**) Utilisateur comme "Laurent Lambert" aura ses attributs principaux répliqués dans le catalogue global pour une recherche rapide à travers tous les domaines.
 
-Les attributs répliqués sont sélectionnés en fonction de leur importance pour :
+Les **attributs répliqués sont sélectionnés en fonction de leur importance** pour :
 - La recherche d'objets
 - L'authentification des utilisateurs
 - L'accès aux ressources
@@ -343,14 +344,6 @@ Les attributs répliqués sont sélectionnés en fonction de leur importance pou
 Par exemple, pour un **Utilisateur** :
 - Attributs toujours **répliqués** : nom, prénom, nom de connexion
 - Attributs **non répliqué**s : photo de profil, scripts de connexion
-
-
-
-
-
-
-
-
 
 ## 5. Annexe. Communication entre zones 
 
