@@ -246,7 +246,113 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
   * Les stratégies de mot de passe
   * La gestion des groupes
 
-## 5. Communication entre zones (opt)
+
+
+## 4.4. Structure de la base de données d'Active Directory
+
+
+### 4.4.3. Les partitions
+
+
+La base de données qui stocke Active Directory est divisée en **4 partitions**:
+
+![Partition Schéma](../diagrams/images/partition_schema.png)
+
+
+
+#### 1. **Schéma**
+   - **Définit la structure** possible **des objets** dans l'annuaire. 
+      
+   Chaque **objet** a une **classe** qui lui fournit des **propriétés**
+
+    . Voici les principales classes dans AD :
+
+   | **Classe** | Description | Example d'objet | Propriétés objet|
+   | --- | --- | --- | --- |
+   | Utilisateur | Compte utilisateur dans le domaine | Manuel Dupont| Nom, mot de passe, etc. |
+   | Groupe | Ensemble d'utilisateurs ou d'autres groupes pour gérer les permissions | Administrateurs | Nom, type, portée, membres, etc. |
+   | Ordinateur | Poste de travail ou serveur joint au domaine | ws-01-compta | Nom, adresse IP, **DN** (CN=ws-01-compta,OU=Computers,DC=computerelectronics,DC=be), etc. |
+   | Unité Organisationnelle (OU) | **Conteneur logique permettant d'organiser les objets et d'appliquer des stratégies GPO** | Comptabilité OU | nom, parent OU
+   | Contact | Objet sans compte, utilisé pour stocker des informations de contact | Adolphe Sax | email, téléphone, etc. , **DN** (CN=Adolphe Sax,OU=Contacts,DC=computerelectronics,DC=be), etc. |
+   | Partage réseau | Dossier partagé accessible sur le réseau | \\\server\files | permis, chemin, etc. | 
+
+   - **Le schéma est une partition du catalogue global** (expliqué plus bas). 
+  
+   - **Sur la propriété DN**: la propriété DN (Distinguished Name) est présente pour chaque objet, car c'est la propriété qui **permet de l'identifier de manière unique** dans l'annuaire.
+
+
+
+   - C'est **la même** partition sur chaque DC, elle a le même contenu sur tous les DCs
+
+   Ex: La partition de schéma de `dns1` est la même que la partition de schéma de `dns2`, et elle serait la même dans `dns3` si elle existait.
+
+#### 2. **Configuration**
+   - Stocke la **topologie** de la forêt
+     * Les **domaines et leurs relations**
+       - **Cas réel** : Dans une grande entreprise, on aurait `eu.entreprise.com` et `us.entreprise.com` comme des domaines AD distincts
+       - **Notre lab** : Un seul domaine AD `computerelectronics.be` avec quatre zones DNS (`eu`, `us`, `dev`, `prod`)
+
+     * Les **liens entre contrôleurs de domaine**
+       - **Cas réel** : Quatre DCs (deux en Europe, deux aux USA), chacun gérant son propre domaine avec réplication intra-domaine
+       - **Notre lab** : Deux DCs (`dns1` et `dns2`) qui gèrent ensemble toutes les zones DNS, avec réplication entre eux
+
+     * Les **sites** et leur configuration
+       - **Cas réel** : Plusieurs sites physiques (EU: 192.168.10.0/24, US: 192.168.20.0/24) connectés par WAN
+       - **Notre lab** : Un seul site physique (192.168.10.0/24) contenant nos deux DCs
+   
+   - C'est **la même** partition sur chaque DC, elle a le même contenu sur tous les DCs
+
+#### 3. **Domaine**
+   - Contient **les informations de tous les objets** d'un domaine spécifique :
+     * Utilisateurs
+     * Ordinateurs
+     * Groupes
+     * Unités d'organisation
+   - Une partition par domaine, autant de partitions de domaines que de domaines dans la forêt 
+    
+   Ex: nous avons 2 domaines dans la forêt de computerelectronics.be
+
+#### 4. **Application**
+   - Contient les informations des applications
+   - Configurable selon les besoins spécifiques
+
+   Exemples d'applications qui utilisent la partition d'application :
+   - Microsoft Exchange (mail)
+   - Microsoft SharePoint (collaboration)
+   - Microsoft Office 365 (cloud)
+
+
+
+
+## 4.4.3. Le Catalogue Global
+
+Le catalogue global est un **composant** essentiel d'Active Directory **qui stocke une copie partielle des attributs les plus utilisés de tous les objets de la base de données annuaire**. 
+
+Il facilite la **recherche d'objets** dans une forêt Active Directory.
+
+![Catalogue global](../diagrams/images/catalogue_global.png)
+
+
+**Exemple :** Un objet de type (**classe**) Utilisateur comme "Laurent Lambert" aura ses attributs principaux répliqués dans le catalogue global pour une recherche rapide à travers tous les domaines.
+
+Les attributs répliqués sont sélectionnés en fonction de leur importance pour :
+- La recherche d'objets
+- L'authentification des utilisateurs
+- L'accès aux ressources
+
+Par exemple, pour un **Utilisateur** :
+- Attributs toujours **répliqués** : nom, prénom, nom de connexion
+- Attributs **non répliqué**s : photo de profil, scripts de connexion
+
+
+
+
+
+
+
+
+
+## 5. Annexe. Communication entre zones 
 
 **Dans notre infrastructure, les contrôleurs de domaine gèrent l'authentification pour toutes les zones** :
 
@@ -260,7 +366,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
    - Les DCs maintiennent les zones pour tous les sous-domaines
    - Exemple : accès à `fileserver-us.computerelectronics.be` depuis la zone EU
 
-3. **Routage inter-zones**
+1. **Routage inter-zones**
    - Communication directe entre les réseaux via le routeur central
    - Pas de NAT entre les zones (tout en 192.168.x.0/24)
    - Les ACLs réseau peuvent filtrer le trafic si nécessaire
