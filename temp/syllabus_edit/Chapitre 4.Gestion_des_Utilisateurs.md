@@ -2,45 +2,63 @@
 
 ## 1. Introduction aux Comptes Utilisateurs
 
-### 1.1 Concepts Fondamentaux
+### 1.1. Concepts Fondamentaux
 
-Un compte utilisateur Active Directory **représente une identité numérique unique** dans l'infrastructure `computerelectronics.be`. Imaginez-le comme un badge d'entreprise qui :
+Un compte utilisateur Active Directory **représente une identité numérique unique** dans l'infrastructure `computerelectronics.be`. Cette identité: 
 
 - **Identifie** l'utilisateur de manière unique (comme Sophie Lambert du service RH)
-- **Contrôle** l'accès aux ressources (comme l'ouverture de certaines portes)
+- **Contrôle** **l'accès aux ressources** (dossiers, applications, imprimantes, etc.)
 - **Stocke** des informations sur l'utilisateur (comme son département, son rôle)
 
-Par exemple, quand Sophie arrive au bureau :
+Par exemple, quand l'utilisateur Sophie Lambert arrive au bureau :
+
 1. Elle utilise son compte pour se connecter à son poste de travail
 2. Le système vérifie son identité et ses droits
 3. Elle accède automatiquement à ses dossiers et applications
 
-Le compte utilisateur constitue ainsi :
+Le **compte** utilisateur **constitue** ainsi :
 - Le **point d'accès principal** aux ressources du domaine (ordinateurs, fichiers, imprimantes)
 - Un élément de la **structure de sécurité** de l'entreprise (qui peut accéder à quoi)
-- Une **composante critique** de la gestion des identités (qui est qui dans l'organisation)
+- Un **composant critique** de la gestion des identités (qui est qui dans l'organisation)
 
-### 1.2 Standards de Nommage
+### 1.2. Standards de Nommage
 
-#### Convention de Nommage Officielle
+#### Convention de Nommage Officielle pour le SAM (Identifiant unique)
+
+Lors de la création d'un compte utilisateur, il est important de suivre une convention de nommage standardisée. Le **nom** qu'on choisit est le **SamAccountName** (Identifiant unique dans le domaine).
+
 Pour garantir l'uniformité et éviter les conflits, nous utilisons une convention de nommage standardisée :
 
 - Format : `prenom.nom`
 - Exemples :
+  
   ```
-  clark.kent        # Pour Clark Kent du service Comptabilité
-  sophie.lambert    # Pour Sophie Lambert du service RH
-  jean.martin2      # Si deux Jean Martin dans l'entreprise
+  clark.kent              # Pour Clark Kent du service Comptabilité
+  sophie.lambert          # Pour Sophie Lambert du service RH
+  jean.martin.compta      # Pour Jean Martin du service Comptabilité
+  jean.martin.rh          # Pour Jean Martin du service RH
+  jean.martin.compta.fr   # Pour Jean Martin (France) du service Comptabilité
+  jean.martin.compta.be   # Pour Jean Martin (Belgique) du service Comptabilité
   ```
 
-- **Règles** :
+Les règles de nommage ne sont pas universelles, elles varient selon l'organisation.
+On peur établir les notres.
+
+**Règles** :
   - Uniquement en minuscules (pour éviter les erreurs de frappe)
   - Pas de caractères spéciaux sauf le point (pour la compatibilité)
-  - Pas de chiffres sauf si nécessaire pour différencier (cas des homonymes)
+  - En cas d'homonymes :
+    1. Ajouter le département (ex: .compta, .rh)
+    2. Si nécessaire, ajouter un autre identifiant distinctif :
+       * Localisation (.fr, .be)
+       * Fonction (.senior, .junior)
+       * Site (.bxl, .anvers)
+  - Ne jamais utiliser de chiffres
 
-#### UPN (User Principal Name)
 
-L'UPN est un format de connexion similaire à une adresse email, plus facile à retenir que l'ancien format DOMAIN\nom. 
+### 1.3. UPN (User Principal Name)
+
+L'UPN est un format de connexion similaire à une adresse email, plus facile à retenir que l'ancien format DOMAIN\nom. Contrairement au SAM, **il est unique dans toute la forêt AD**.
 
 **Structure de base** :
 - Format : `login@domaine`
@@ -57,27 +75,30 @@ Nouveau format : clark.kent@computerelectronics.be
 - **Simplicité** : Format familier type email, facile à mémoriser
 - **Standardisation** : Utilisation du domaine principal (`computerelectronics.be`)
 
-> **Important** : Dans notre infrastructure, nous n'utilisons pas les sous-domaines (eu/us) dans l'UPN pour maintenir la cohérence et simplifier la gestion.
+<br>
 
 
-# 2. Utilisateurs et Ordinateurs Active Directory (ADUC)
 
-Le **"Utilisateurs et Ordinateurs Active Directory"** (**ADUC**) est une console de gestion permettant de gérer les **utilisateurs, groupes, ordinateurs et unités d'organisation (OU)** dans un domaine Active Directory (AD).
+# 2. ADUC (Active Directory Users and Computers) et Console de Gestion Active Directory 
 
-Vous pouvez l'ouvrir de plusieur formes: tapez `Utilisateurs et ordinateurs Active Directory` depuis le menu Démarrer ou via `dsa.msc`... ou via `Gestionnaire de serveur`->`Outils`->`Utilisateurs et ordinateurs Active Directory`.
+**"Utilisateurs et Ordinateurs Active Directory"** (**ADUC**) est une console de gestion permettant de gérer les **utilisateurs, groupes, ordinateurs et unités d'organisation (OU)** dans un domaine Active Directory (AD).
 
-C'est la méthode traditionnelle, mais il y a aussi la **méthode moderne via l'interface web de l'AD** (`Gestionnaire de serveur`->`Outils`->`Centre d'administration d'AD`).
+Vous pouvez l'ouvrir de plusieur formes: tapez `Utilisateurs et ordinateurs Active Directory` depuis le menu Démarrer ou via `dsa.msc`. C'est la méthode traditionnelle de gérer l'AD.
+Ou même `Gestionnaire de serveur`->`Outils`->`Utilisateurs et ordinateurs Active Directory`.
 
-Dans les deux outils
+ C'est la méthode traditionnelle pour gérer l'AD, mais il y a aussi la **méthode moderne via l'interface web de l'AD** (`Gestionnaire de serveur`->`Outils`->`Centre d'administration d'AD`).
 
-- **Structure du domaine (hiérarchie des OU)** : Affiche les OU (containers d'objets, on les verra plus tard).
--
+
+Dans les deux outils vous avez accès aux **éléments suivants**:
+
+- **Structure du domaine** : Affiche les containers d'object (ex: Users, Computers, Domain Controllers) et les **Unités d'organisation (OU)** (on en a pas).
+
  **Objets du domaine** , entre autres :
   - **Utilisateurs** : Comptes des utilisateurs du domaine et leurs propriétés.
   - **Ordinateurs** : Machines jointes au domaine.
   - **Contrôleurs de domaine** : Liste des DC du domaine.
 
-Par défaut, il y a plusieurs **conteneurs** (ce ne sont pas des OU, mais des conteneurs d'objets) :
+Par défaut, il y a plusieurs **conteneurs** (**ce ne sont pas des OU**, mais des conteneurs d'objets) :
  :
   - `Builtin` : Contient les groupes de sécurité par défaut (Administrateurs, Utilisateurs, etc.).
   - `Computers` : Emplacement par défaut des nouveaux ordinateurs ajoutés au domaine.
@@ -106,14 +127,13 @@ Par défaut, il y a plusieurs **conteneurs** (ce ne sont pas des OU, mais des co
 
 La création d'un compte utilisateur est une opération fréquente, par exemple lors de l'arrivée d'un nouveau collaborateur. Voici comment procéder :
 
-1. **Accès à ADUC** :
-   - Ouvrir `Utilisateurs et ordinateurs Active Directory` depuis le menu Démarrer ou via `dsa.msc`... ou via `Gestionnaire de serveur`->'Outils'->'Utilisateurs et ordinateurs Active Directory'
+1. **Ouvrir `Utilisateurs et ordinateurs Active Directory`** ou la nouvelle console de gestion.
+   - `Gestionnaire de serveur`->'Outils'->'Utilisateurs et ordinateurs Active Directory'
 
-   - Naviguer vers l'OU appropriée (par exemple `OU=RH` pour un nouvel employé RH)
 
 2. **Création du compte** :
    ```
-   Clic droit sur l'OU > Nouveau > Utilisateur
+   Clic droit sur Users > Nouveau > Utilisateur
    # L'assistant de création s'ouvre
    ```
 
@@ -134,14 +154,11 @@ La création d'un compte utilisateur est une opération fréquente, par exemple 
 
 La recherche d'un compte utilisateur est une opération fréquente, par exemple pour modifier des paramètres ou consulter des informations.
 
-Voici comment procéder :
+Depuis la nouvelle console de gestion, il est possible de rechercher un utilisateur en tapant sur la barre de recherche en haut de la fenêtre. 
 
-1. **Accès à ADUC** :
-   - Ouvrir `Utilisateurs et ordinateurs Active Directory` depuis le menu Démarrer ou via `dsa.msc`
-   - Naviguer vers l'OU appropriée (par exemple `OU=RH` pour un employé RH)
+Autrement, ouvrir `Utilisateurs et ordinateurs Active Directory` depuis le menu Démarrer ou via `dsa.msc`. Faites clique droit sur `Users` et sélectionnez `Rechercher un utilisateur`. 
 
-2. **Recherche du compte** :
-   
+Tapez le nom de l'utilisateur dans la barre de recherche. Attention: vous devez tapez le début du nom de l'utilisateur, par exemple `clark` pour `clark.kent`.
 
 
 ### 2.3. Modification des Propriétés
@@ -156,23 +173,39 @@ Après la création du compte, il est important de configurer les propriétés s
    Bureau : Bâtiment A - 2e étage
    Téléphone : +32 2 123 45 67
    ```
-   > Ces informations facilitent l'identification et la localisation de l'utilisateur
+Ces informations facilitent l'identification et la localisation de l'utilisateur
 
 2. **Onglet Compte** :
-   - **Heures de connexion** :
+  - **Heures de connexion** :
      * Par défaut : accès 24/7
      * Exemple restriction : 7h-19h en semaine
-   - **Stations de travail** :
+  - **Stations de travail** :
      * Par défaut : toutes les machines
      * Exemple restriction : `ws-compta-01, ws-compta-02`
 
-3. **Onglet Profil** :
-   - **Chemin du profil** : 
+1. **Onglet Profil** :
+   - **Chemin du profil** : Chemin du dossier qui contient les paramètres de l'utilisateur et ses fichiers personnels
      ```
      \\srv-profiles\profiles\%username%
      # Exemple : \\srv-profiles\profiles\clark.kent
      ```
-   - **Script de connexion** : 
+   **Note**: Par défaut, ce champ est vide car Windows crée automatiquement des profils locaux (C:\Users\username). 
+   On ne le configure que si on veut implémenter des **profils itinérants** (roaming profiles) qui suivent l'utilisateur d'un poste à l'autre.
+      
+   **Attention**: Les profils itinérants peuvent :
+     - Ralentir les connexions (synchronisation du profil)
+     - Consommer beaucoup d'espace disque sur le serveur
+     - Augmenter le trafic réseau
+     
+   **Un profil utilisateur contient** :
+     - **Documents personnels** : Mes Documents, Bureau, Téléchargements
+     - **Paramètres Windows** : Fond d'écran, thème, barre des tâches
+     - **Paramètres d'applications** : Configurations Outlook, navigateur
+     - **Clés de registre** : HKEY_CURRENT_USER
+     - **AppData** : Données des applications
+       * `\AppData\Local` : Données spécifiques à la machine (cache, temp)
+       * `\AppData\Roaming` : Données qui suivent l'utilisateur entre les machines
+   - **Script de connexion** : Si on veut lancer une suite d'opérations lors de la connexion 
      ```
      \\srv-scripts\dept\compta\logon.bat
      ```
@@ -182,32 +215,8 @@ Après la création du compte, il est important de configurer les propriétés s
 
 ### 2.3 Désactivation et Suppression
 
-La gestion de fin de cycle d'un compte utilisateur est une opération sensible qui doit suivre un processus strict.
-
-#### Procédure de Désactivation
-
-1. **Étape 1 : Désactivation du compte**
-   ```
-   ADUC > Propriétés du compte > Onglet Compte
-   Cocher "Désactiver le compte"
-   ```
-   > La désactivation est préférable à la suppression car elle permet de réactiver le compte si nécessaire
-
-2. **Étape 2 : Documentation**
-   Dans la description du compte :
-   ```
-   [Désactivé le 25/03/2025]
-   Motif : Départ de l'entreprise
-   Rétention jusqu'au : 25/06/2025
-   Ticket : INC0012345
-   ```
-
-3. **Étape 3 : Vérifications**
-   - Révoquer les accès aux ressources
-   - Vérifier les groupes d'appartenance
-   - Sauvegarder les données importantes
-
-> **Important** : La suppression définitive ne doit intervenir qu'après la période de rétention et une validation hiérarchique
+La gestion de fin de cycle d'un compte utilisateur est une opération sensible qui doit suivre un processus strict (ex: documenter le processus)
+La désactivation est préférable à la suppression car elle permet de réactiver le compte si nécessaire. 
 
 
 ## 3. Bonnes pratiques de gestion des comptes
@@ -223,67 +232,19 @@ La gestion de fin de cycle d'un compte utilisateur est une opération sensible q
    ```
 
 2. **Principe du moindre privilège** :
-   - Donner uniquement les droits nécessaires
+   - **Donner uniquement les droits nécessaires**
    - Exemple :
      ```
      Un comptable junior :
-     ✓ Accès lecture aux dossiers comptables
-     ✓ Accès écriture à ses propres documents
-     ✗ Accès aux salaires des employés
+     - Accès lecture aux dossiers comptables
+     - Accès écriture à ses propres documents
+     - Pas d'accès aux salaires des employés
      ```
 
 3. **Surveillance et Audit** :
    - Vérification mensuelle des comptes inactifs
    - Revue trimestrielle des privilèges élevés
    - Alerte sur les tentatives de connexion suspectes
-
-### 3.2. Cycle de Vie des Comptes
-
-1. **Création (Onboarding)** :
-   ```
-   ① Demande RH validée
-   ② Création selon template départemental
-   ③ Attribution des groupes standard
-   ④ Vérification des accès
-   ```
-
-2. **Maintenance** :
-   - Vérification trimestrielle des groupes
-   - Mise à jour des informations utilisateur
-   - Rotation des mots de passe
-
-3. **Désactivation (Offboarding)** :
-   ```
-   ① Désactivation immédiate du compte
-   ② Sauvegarde des données (30 jours)
-   ③ Révocation des accès
-   ④ Suppression après période de rétention
-   ```
-
-> **Note** : Ces pratiques doivent être documentées dans une procédure d'entreprise et révisées annuellement
-
-Une bonne pratique **est une méthode ou une approche qui a démontré sa fiabilité et son efficacité dans la gestion des comptes utilisateurs**. Elle permet de :
-- Maintenir la sécurité du système
-- Assurer la cohérence de l'administration
-- Faciliter la maintenance à long terme
-- Réduire les risques d'erreurs
-
-### 3.2. Sécurité des comptes
-
-#### Politique de mot de passe
-- Complexité minimale requise :
-  - 12 caractères minimum
-  - Mélange de majuscules, minuscules, chiffres
-  - Au moins un caractère spécial
-- Changement obligatoire à la première connexion
-- Historique des mots de passe (éviter la réutilisation)
-
-#### Gestion du cycle de vie
-- **Création** : Vérification d'identité et autorisation
-- **Modification** : Traçabilité des changements
-- **Désactivation** : Préférer la désactivation à la suppression
-- **Suppression** : Uniquement après période de rétention
-
 
 
 ## 4. Gestion des Groupes
@@ -292,9 +253,12 @@ Les groupes sont essentiels pour gérer efficacement les accès et les droits da
 
 ### 4.1 Types et Étendues de Groupes
 
+Un groupe AD est un conteneur qui peut contenir des utilisateurs, des groupes, des ordinateurs, etc.
+
 #### Types de Groupes
 
-1. **Groupes de Sécurité**
+1. **Groupes de Sécurité**: Les groupes de sécurité sont les plus utilisés pour la gestion quotidienne
+   
    - **Objectif** : Gérer les permissions et les droits d'accès dans le reseau
    - **Exemples** :
      ```
@@ -302,17 +266,16 @@ Les groupes sont essentiels pour gérer efficacement les accès et les droits da
      GS-RH-ADMIN         # Administration des ressources RH
      GS-IT-SUPPORT       # Équipe support informatique
      ```
-   > Les groupes de sécurité sont les plus utilisés pour la gestion quotidienne
-
+   
 2. **Groupes de Distribution**
    - **Objectif** : Faciliter l'envoi d'emails à plusieurs destinataires
    - **Exemples** :
      ```
-     DL-INFO-NEWSLETTER  # Liste de diffusion newsletter
-     DL-DEPT-COMPTA      # Tous les employés de la comptabilité
-     DL-MANAGERS         # Tous les managers de l'entreprise
+     DL-INFO-NEWSLETTER  # Liste de diffusion (Diffusion List = DL) newsletter
+     DL-DEPT-COMPTA      # Liste de contacts comptables
+     DL-MANAGERS         # Liste de managers
      ```
-   > Ces groupes sont uniquement pour la messagerie, pas pour les permissions
+Ces groupes sont uniquement pour la messagerie, pas pour les permissions
 
 #### Étendues de Groupe
 
@@ -321,11 +284,11 @@ Les groupes sont essentiels pour gérer efficacement les accès et les droits da
    - **Portée** : Créés et gérés dans **un seul domaine**
    - **Exemples** :
      ```
-     DL-SERVEURS-ADMIN    # Administrateurs des serveurs
-     DL-COMPTA-LECTURE    # Droits de lecture dossier comptabilité
-     DL-RH-MODIF         # Peuvent modifier des données RH
+     GDLS-SERVEURS-ADMIN    # Groupe Domaine Local Sécurité - Administrateurs des serveurs
+     GDLS-COMPTA-LECTURE    # Groupe Domaine Local Sécurité - Droits lecture comptabilité
+     GDLS-RH-MODIF         # Groupe Domaine Local Sécurité - Modification données RH
      ```
-   > Utilisés pour attribuer les permissions sur les ressources
+Utilisés pour attribuer les permissions sur les ressources
 
 2. **Global**
    - **Usage** : Organisation des utilisateurs **par fonction dans l'entreprise**
@@ -336,7 +299,7 @@ Les groupes sont essentiels pour gérer efficacement les accès et les droits da
      GG-RH-MANAGERS      # Managers des RH
      GG-IT-SUPPORT      # Équipe support niveau 1
      ```
-   > Représentent généralement des rôles métier
+Représentent généralement des rôles métier
 
 3. **Universel**
    - **Usage** : Groupes **accessibles dans toute la forêt AD**
@@ -347,8 +310,8 @@ Les groupes sont essentiels pour gérer efficacement les accès et les droits da
      UG-PROJET-ISIB     # Équipe projet multi-domaines
      UG-ADMIN-GLOBAL    # Administrateurs globaux
      ```
-   Les groupes universels sont accessibles dans toute la forêt AD, mais ils sont moins utilisés car ils impactent la réplication dans chaque domaine.
-   
+Les groupes universels sont accessibles dans toute la forêt AD, mais ils sont moins utilisés car ils impactent la réplication dans chaque domaine.
+
 ### 4.2 Création et Gestion des Groupes
 
 La création et la gestion des groupes sont des tâches courantes qui nécessitent une attention particulière pour maintenir une structure cohérente.
@@ -357,39 +320,45 @@ La création et la gestion des groupes sont des tâches courantes qui nécessite
 
 1. **Création d'un groupe**
    ```
-   ① Ouvrir ADUC (Utilisateurs et ordinateurs Active Directory)
-   ② Naviguer vers l'OU cible (ex: OU=Groupes,OU=Comptabilité)
-   ③ Clic droit > Nouveau > Groupe
-   ④ Remplir les informations :
+   - Ouvrir Console d'administration d'AD
+   - Naviguer vers Users
+   - Clic droit > Nouveau > Groupe
+   - Remplir les informations :
       - Nom : GG-COMPTA-USERS
       - Étendue : Global
       - Type : Sécurité
    ```
-   > Le préfixe GG- indique un Groupe Global, suivant notre convention de nommage
+Le préfixe GG- indique un Groupe Global, suivant notre convention de nommage
 
-2. **Ajout de membres**
+1. **Ajout de membres**
    ```
-   ① Double-clic sur le groupe
-   ② Onglet Membres > Ajouter
-   ③ Rechercher et sélectionner les utilisateurs :
+   - Double-clic sur le groupe
+   - Onglet Membres > Ajouter
+   - Rechercher et sélectionner les utilisateurs :
       - clark.kent
       - sophie.lambert
-   ④ Vérifier les membres ajoutés
+   - Vérifier les membres ajoutés
    ```
-   > Vérifiez toujours la liste des membres après les modifications
+Vérifiez toujours la liste des membres après les modifications
 
 ### 4.3 Bonnes Pratiques de Gestion
 
 #### Convention de Nommage des Groupes
 
+On doit fixer nous même les conventions de noms de manière cohérente. Voici un exemple possible:
+
 1. **Préfixes Standards**
    ```
-   GG- : Groupe Global        # Ex: GG-COMPTA-USERS
-   DL- : Domaine Local       # Ex: DL-SERVEUR-ACCES
-   GU- : Groupe Universel    # Ex: GU-EUROPE-MANAGERS
-   GS- : Groupe de Sécurité # Ex: GS-ADMIN-BACKUP
+   # Préfixes de Portée (Scope)
+   GDLS- : Groupe Domaine Local Sécurité  # Ex: GDLS-SERVEUR-ACCES
+   GG-   : Groupe Global                  # Ex: GG-COMPTA-USERS
+   GU-   : Groupe Universel               # Ex: GU-EUROPE-MANAGERS
+
+   # Préfixes de Type
+   GS-   : Groupe de Sécurité             # Ex: GS-ADMIN-BACKUP
+   DL-   : Liste de Distribution          # Ex: DL-INFO-NEWSLETTER
    ```
-   > Le préfixe indique immédiatement la portée et le type du groupe
+- Les préfixes indiquent clairement la portée ET le type du groupe
 
 2. **Structure du Nom**
    ```
@@ -400,7 +369,7 @@ La création et la gestion des groupes sont des tâches courantes qui nécessite
    DL-RH-LECTURE      # Accès lecture aux documents RH
    GU-IT-ADMINS       # Administrateurs IT multi-sites
    ```
-   > Une nomenclature cohérente facilite l'administration
+- Une nomenclature cohérente facilite l'administration
 
 #### Stratégie de Groupes Imbriqués (AGDLP)
 
