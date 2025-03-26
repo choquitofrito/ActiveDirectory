@@ -226,21 +226,12 @@ Ces informations facilitent l'identification et la localisation de l'utilisateur
    Historique : 24 derniers mots de passe
    ```
 
-2. **Principe du moindre privilège** 
-
-Ne donnez plus de droits que ceux nécessaires. 
-   - Exemple : Pour la création du compte d'un comptable junior :
-     - Accès lecture aux dossiers comptables
-     - Accès écriture à ses propres documents
-     - Pas d'accès aux salaires des employés
-     
-
-3. **Surveillance et Audit** :
+2. **Surveillance et Audit** :
    - Vérification mensuelle des comptes inactifs
    - Revue trimestrielle des privilèges élevés
    - Alerte sur les tentatives de connexion suspectes
 
-4. **Desactivation et suppression** :
+3. **Desactivation et suppression** :
    - La désactivation est préférable à la suppression car elle permet de réactiver le compte si nécessaire. 
    - Si on elimine un compte il faudra documenter la procedure
 
@@ -251,6 +242,11 @@ Les groupes sont essentiels pour gérer efficacement les accès et les droits da
 **Un groupe AD est un conteneur** qui peut contenir **des utilisateurs, des groupes, des ordinateurs, etc**.
 
 Un groupe a un **type** et une **étendue**.
+
+**Important**: On suit toujours le **principe du moindre privilège**:
+- Les **permissions** sont **données aux groupes**, jamais directement aux utilisateurs
+- Chaque **groupe** ne **reçoit** que les **permissions strictement nécessaires** à sa fonction
+- L'utilisation de **groupes imbriqués (AGDLP/AGLP) permet de mieux contrôler et auditer les permissions** (expliquée plus tard)
 
 ### 5.1. Types de Groupes
 
@@ -319,7 +315,7 @@ Représentent généralement des rôles métier
      ```
 Les groupes universels sont accessibles dans toute la forêt AD, mais ils sont moins utilisés car ils impactent la réplication dans chaque domaine.
 
-### 5.3 Création et Gestion des Groupes
+### 5.3. Création et Gestion des Groupes
 
 
 #### Via l'Interface Graphique
@@ -420,21 +416,15 @@ Ceci est plus simple mais moins flexible. Le **nommage** des **groupes globaux**
 
 Un groupe peut contenir d'autres groupes d'autres types, mais on a les limitations suivantes:
 
-- Si un groupe global peut contenir un autre groupe global, mais il doit être dans le même domaine
+- Un groupe global peut contenir un autre groupe global, mais il doit être dans le même domaine
 - Un groupe local ne peut pas contenir un groupe global d'un autre domaine
 - Un groupe universal ne peut pas contenir un groupe global d'un domaine 
 
-
-
-
 ### 5.6. Sécurité et Maintenance
-
-On suit la même logique que pour les utilisateurs:
 
 - On **ne donne pas de permissions directement aux groupes globaux**: ils son pensés pour être des groupes de gestion (ex: `S-G-RH-Managers`)
 - On **donne de permissions aux groupes locaux (DL)** (ex: `S-DL-RH-Modif`)
 
-- On suit le **principe du moindre privilège** 
 
 <br>
 
