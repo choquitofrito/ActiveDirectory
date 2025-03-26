@@ -69,11 +69,26 @@ Detailed solution
 - Use ```powershell code blocks
 - Commands must be concise and commented in French
 
-## 6. GPO Naming Standards
-Format: GPO_[Type]_[Department]
+
+
+## 6. Naming Standards
+
+### For GPOs:
+
+GPO-[Type]-[Name]
+
 - Types: Securite, Configuration, Restrictions
 - Standard parameters:
   * Password length: always use "Password1" as a password
+
+### For Groups:
+
+[Type]-[Groupe Scope]-[Name]
+
+- **Type**: **S_** for Security or **D_** for Distribution.
+- **Group Scope**: **DL_** for Domain Local, **G_** for Global, **U_** for Universal.
+
+
 
 ## 7. DNS Infrastructure
 - Root domain: computerelectronics.be

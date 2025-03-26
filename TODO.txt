@@ -1,6 +1,1 @@
-- Preguntar:
-
-- Cómo comunicarse con los alumnos?
-- Funciona el proyector?
-- Cómo se conecta el ISIB al exterior?
-
+- Ver preguntas y respuestas de comprension 

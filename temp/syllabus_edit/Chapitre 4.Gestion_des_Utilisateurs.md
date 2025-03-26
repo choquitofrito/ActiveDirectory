@@ -105,7 +105,7 @@ Par défaut, il y a plusieurs **conteneurs** (**ce ne sont pas des OU**, mais de
   - `Users` : Emplacement des nouveaux utilisateurs et groupes.
   - `Domain Controllers` : Contient tous les contrôleurs de domaine (on en a qu'un!)
 
-- **Outils de recherche et de filtrage** : Permettent de trouver rapidement des utilisateurs, ordinateurs ou groupes.
+**Outils de recherche et de filtrage** : Permettent de trouver rapidement des utilisateurs, ordinateurs ou groupes.
 
 ### Principales tâches administratives
 - Créer, modifier et supprimer **utilisateurs, groupes et OU**.
@@ -132,10 +132,9 @@ La création d'un compte utilisateur est une opération fréquente, par exemple 
 
 
 2. **Création du compte** :
-   ```
+
    Clic droit sur Users > Nouveau > Utilisateur
-   # L'assistant de création s'ouvre
-   ```
+   L'assistant de création s'ouvre
 
 3. **Informations requises** :
    - Prénom : Clark
@@ -168,12 +167,12 @@ Après la création du compte, il est important de configurer les propriétés s
 #### Informations Essentielles
 
 1. **Onglet Général** :
-   ```
+
    Description : Comptable Senior - Service Comptabilité
    Bureau : Bâtiment A - 2e étage
    Téléphone : +32 2 123 45 67
-   ```
-Ces informations facilitent l'identification et la localisation de l'utilisateur
+
+Ces informations facilitent l'identification et la localisation de l'utilisateur, ce qui est utile pour les services de la société (ex: messagerie, accès aux ressources, etc...)
 
 2. **Onglet Compte** :
   - **Heures de connexion** :
@@ -183,7 +182,7 @@ Ces informations facilitent l'identification et la localisation de l'utilisateur
      * Par défaut : toutes les machines
      * Exemple restriction : `ws-compta-01, ws-compta-02`
 
-1. **Onglet Profil** :
+3. **Onglet Profil** :
    - **Chemin du profil** : Chemin du dossier qui contient les paramètres de l'utilisateur et ses fichiers personnels
      ```
      \\srv-profiles\profiles\%username%
@@ -210,13 +209,8 @@ Ces informations facilitent l'identification et la localisation de l'utilisateur
      \\srv-scripts\dept\compta\logon.bat
      ```
 
-> **Important** : Les restrictions horaires et de postes sont particulièrement utiles pour les comptes sensibles ou les prestataires externes
+**Important** : Les restrictions horaires et de postes sont particulièrement utiles pour les comptes sensibles ou les prestataires externes
 
-
-### 2.3 Désactivation et Suppression
-
-La gestion de fin de cycle d'un compte utilisateur est une opération sensible qui doit suivre un processus strict (ex: documenter le processus)
-La désactivation est préférable à la suppression car elle permet de réactiver le compte si nécessaire. 
 
 
 ## 3. Bonnes pratiques de gestion des comptes
@@ -232,7 +226,7 @@ La désactivation est préférable à la suppression car elle permet de réactiv
    ```
 
 2. **Principe du moindre privilège** :
-   - **Donner uniquement les droits nécessaires**
+   - **Donner uniquement les droits d'accès nécessaires**
    - Exemple :
      ```
      Un comptable junior :
@@ -246,48 +240,59 @@ La désactivation est préférable à la suppression car elle permet de réactiv
    - Revue trimestrielle des privilèges élevés
    - Alerte sur les tentatives de connexion suspectes
 
+4. **Desactivation et suppression** :
+   - La désactivation est préférable à la suppression car elle permet de réactiver le compte si nécessaire. 
+   - Si on elimine un compte il faudra documenter la procedure
 
 ## 4. Gestion des Groupes
 
 Les groupes sont essentiels pour gérer efficacement les accès et les droits dans Active Directory. Ils permettent d'appliquer des permissions à plusieurs utilisateurs en même temps.
 
-### 4.1 Types et Étendues de Groupes
+**Un groupe AD est un conteneur** qui peut contenir des utilisateurs, des groupes, des ordinateurs, etc.
 
-Un groupe AD est un conteneur qui peut contenir des utilisateurs, des groupes, des ordinateurs, etc.
+Un group a un **type** et une **étendue**.
 
-#### Types de Groupes
+### 4.1. Types de Groupes
 
 1. **Groupes de Sécurité**: Les groupes de sécurité sont les plus utilisés pour la gestion quotidienne
    
    - **Objectif** : Gérer les permissions et les droits d'accès dans le reseau
    - **Exemples** :
      ```
-     GS-COMPTA-LECTURE    # Accès lecture aux dossiers comptables
-     GS-RH-ADMIN         # Administration des ressources RH
-     GS-IT-SUPPORT       # Équipe support informatique
+     S_Dl_Compta_Lecture    # Accès lecture aux dossiers comptables
+     S_G_Rh_Admin         # Administration des ressources RH
+     S_G_It_Support       # Équipe support informatique
      ```
    
 2. **Groupes de Distribution**
    - **Objectif** : Faciliter l'envoi d'emails à plusieurs destinataires
    - **Exemples** :
      ```
-     DL-INFO-NEWSLETTER  # Liste de diffusion (Diffusion List = DL) newsletter
-     DL-DEPT-COMPTA      # Liste de contacts comptables
-     DL-MANAGERS         # Liste de managers
+     D_Dl_Info  # Liste de diffusion (Distribution List = DL) newsletter
+     D_Dl_Compta_Contacts      # Liste de contacts comptables
+     D_Dl_Managers         # Liste de managers
      ```
-Ces groupes sont uniquement pour la messagerie, pas pour les permissions
+Ces groupes **sont uniquement pour la messagerie**, pas pour les permissions
 
-#### Étendues de Groupe
+### 4.2. Étendues de Groupe
 
 1. **Domaine Local** :
    - **Usage** : Attribution **finale des droits dans le domaine**
    - **Portée** : Créés et gérés dans **un seul domaine**
    - **Exemples** :
      ```
-     GDLS-SERVEURS-ADMIN    # Groupe Domaine Local Sécurité - Administrateurs des serveurs
-     GDLS-COMPTA-LECTURE    # Groupe Domaine Local Sécurité - Droits lecture comptabilité
-     GDLS-RH-MODIF         # Groupe Domaine Local Sécurité - Modification données RH
+     S_Dl_Serveurs_Admin    # Groupe Domaine Local Sécurité - Administrateurs des serveurs
+     S_Dl_Compta_Lecture    # Groupe Domaine Local Sécurité - Droits lecture comptabilité
+     S_Dl_Rh_Modif         # Groupe Domaine Local Sécurité - Modification données RH
      ```
+
+On doit fixer de noms cohérents pour les groupes. Il n'y a pas de convention officielle, mais il est recommandé de suivre une **convention cohérente**. On va fixer la notre:
+
+- **Group Type** d'abord: **S_** for Security or **D_** for Distribution.
+- **Group Scope** ensuite: **DL_** for Domain Local, **G_** for Global, **U_** for Universal.
+
+
+
 Utilisés pour attribuer les permissions sur les ressources
 
 2. **Global**
@@ -295,9 +300,9 @@ Utilisés pour attribuer les permissions sur les ressources
    - **Portée** : Créés et gérés dans **un seul domaine**
    - **Exemples** :
      ```
-     GG-COMPTA-USERS     # Tous les comptables
-     GG-RH-MANAGERS      # Managers des RH
-     GG-IT-SUPPORT      # Équipe support niveau 1
+     S_G_Compta_Users     # Tous les comptables
+     S_G_Rh_Managers      # Managers des RH
+     S_G_It_Support      # Équipe support niveau 1
      ```
 Représentent généralement des rôles métier
 
@@ -306,9 +311,9 @@ Représentent généralement des rôles métier
    - **Portée** : Tous les domaines de la forêt
    - **Exemples** :
      ```
-     UG-DIRECTION       # Direction générale (tous sites)
-     UG-PROJET-ISIB     # Équipe projet multi-domaines
-     UG-ADMIN-GLOBAL    # Administrateurs globaux
+     S_U_Direction       # Direction générale (tous sites)
+     S_U_Projet_Isib     # Équipe projet multi-domaines
+     S_U_Admin_Global    # Administrateurs globaux
      ```
 Les groupes universels sont accessibles dans toute la forêt AD, mais ils sont moins utilisés car ils impactent la réplication dans chaque domaine.
 
@@ -324,13 +329,12 @@ La création et la gestion des groupes sont des tâches courantes qui nécessite
    - Naviguer vers Users
    - Clic droit > Nouveau > Groupe
    - Remplir les informations :
-      - Nom : GG-COMPTA-USERS
+      - Nom : S_G_Compta_Users
       - Étendue : Global
       - Type : Sécurité
    ```
-Le préfixe GG- indique un Groupe Global, suivant notre convention de nommage
 
-1. **Ajout de membres**
+2. **Ajout de membres**
    ```
    - Double-clic sur le groupe
    - Onglet Membres > Ajouter
@@ -347,27 +351,16 @@ Vérifiez toujours la liste des membres après les modifications
 
 On doit fixer nous même les conventions de noms de manière cohérente. Voici un exemple possible:
 
-1. **Préfixes Standards**
-   ```
-   # Préfixes de Portée (Scope)
-   GDLS- : Groupe Domaine Local Sécurité  # Ex: GDLS-SERVEUR-ACCES
-   GG-   : Groupe Global                  # Ex: GG-COMPTA-USERS
-   GU-   : Groupe Universel               # Ex: GU-EUROPE-MANAGERS
-
-   # Préfixes de Type
-   GS-   : Groupe de Sécurité             # Ex: GS-ADMIN-BACKUP
-   DL-   : Liste de Distribution          # Ex: DL-INFO-NEWSLETTER
-   ```
 - Les préfixes indiquent clairement la portée ET le type du groupe
 
-2. **Structure du Nom**
+1. **Structure du Nom**
    ```
-   Format : [Préfixe]-[Département]-[Fonction]
+   Format : [Type]-[Group Scope]-[Name]
 
    Exemples :
-   GG-COMPTA-USERS     # Utilisateurs du service comptabilité
-   DL-RH-LECTURE      # Accès lecture aux documents RH
-   GU-IT-ADMINS       # Administrateurs IT multi-sites
+   S_G_Compta_Users     # Utilisateurs du service comptabilité
+   S_Dl_Rh_Lecture      # Accès lecture aux documents RH
+   S_U_It_Admins       # Administrateurs IT multi-sites
    ```
 - Une nomenclature cohérente facilite l'administration
 
@@ -378,12 +371,12 @@ On doit fixer nous même les conventions de noms de manière cohérente. Voici u
    Account → Global → DomainLocal → Permission
 
    Exemple concret :
-   sophie.lambert → GG-COMPTA-USERS → DL-SERVEUR-ACCES → Permissions
+   sophie.lambert → S_G_Compta_Users → S_Dl_Serveur_Acces → Permissions
    
    Détails :
-   1. sophie.lambert est membre de GG-COMPTA-USERS
-   2. GG-COMPTA-USERS est membre de DL-SERVEUR-ACCES
-   3. DL-SERVEUR-ACCES a les permissions sur le serveur
+   1. sophie.lambert est membre de S_G_Compta_Users
+   2. S_G_Compta_Users est membre de S_Dl_Serveur_Acces
+   3. S_Dl_Serveur_Acces a les permissions sur le serveur
    ```
 
 2. **Avantages AGDLP**
