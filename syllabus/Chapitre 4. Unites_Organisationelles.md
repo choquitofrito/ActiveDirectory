@@ -1,5 +1,3 @@
-# Les Unités Organisationnelles (OUs)
-
 ## 1. Introduction aux OUs
 
 ### 1.1 Objectif et Rôle des OUs dans Active Directory
@@ -121,8 +119,12 @@ computerelectronics.be (Domain Root)
 
 ### Exercice 3 : Délégation Simple
 1. Créer un groupe "Support_Technique"
-2. Déléguer le droit de réinitialisation de mot de passe
-3. Tester la délégation
+2. Déléguer le droit de réinitialisation de mot de passe en utilisant le `Wizard de délégation de contrôle` :
+	* Sélectionner l'OU "Utilisateurs"
+	* Sélectionner le groupe "Support_Technique"
+	* Cocher la case "Réinitialiser le mot de passe"
+	* Cliquer sur "Terminer"
+3. Tester la délégation en demandant à un membre du groupe de réinitialiser le mot de passe d'un utilisateur
 
 ### Exercice 4 : Délégation Départementale
 1. Créer des groupes d'administration par département

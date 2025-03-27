@@ -1,5 +1,3 @@
-# 5. Gestion des Utilisateurs et Groupes dans Active Directory
-
 ## 1. Introduction aux Comptes Utilisateurs
 
 ### 1.1. Concepts Fondamentaux
@@ -264,9 +262,9 @@ Un groupe a un **type** et une **étendue**.
    - **Objectif** : Faciliter l'envoi d'emails à plusieurs destinataires
    - **Exemples** :
      ```
-     D-DL-Info  # Liste de diffusion (Distribution List = DL) newsletter
-     D-DL-Compta-Contacts      # Liste de contacts comptables
-     D-DL-Managers         # Liste de managers
+     DL-Info  # Liste de diffusion (Distribution List = DL) newsletter
+     DL-Compta-Contacts      # Liste de contacts comptables
+     DL-Managers         # Liste de managers
      ```
 Ces groupes **sont uniquement pour la messagerie**, pas pour les permissions
 
