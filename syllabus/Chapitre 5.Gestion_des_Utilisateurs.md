@@ -254,8 +254,8 @@ Un groupe a un **type** et une **étendue**.
    - **Exemples** :
      ```
      DL-Compta-Lecture    # Accès lecture aux dossiers comptables
-     G-RH-Admin         # Administration des ressources RH
-     G-IT-Support       # Équipe support informatique
+     GG-RH-Admin         # Administration des ressources RH
+     GG-IT-Support       # Équipe support informatique
      ```
    
 2. **Groupes de Distribution**
@@ -288,7 +288,7 @@ On doit fixer de noms cohérents pour les groupes. Il n'y a pas de convention of
 
 **Exemple**: DL-Compta-Modif
 
-- **Etendue**: **DL-** for Domain Local, **G-** for Global, **U-** for Universal.
+- **Etendue**: **DL-** for Domain Local, **GG-** for Global, **U-** for Universal.
 
 
 
@@ -301,9 +301,9 @@ Utilisés pour attribuer les permissions sur les ressources
    - **Portée** : Créés et gérés dans **un seul domaine**
    - **Exemples** :
      ```
-     G-Compta-Users     # Tous les comptables
-     G-RH-Managers      # Managers des RH
-     G-IT-Support      # Équipe support niveau 1
+     GG-Compta-Users     # Tous les comptables
+     GG-RH-Managers      # Managers des RH
+     GG-IT-Support      # Équipe support niveau 1
      ```
 Représentent généralement des rôles métier
 
@@ -329,7 +329,7 @@ Les groupes universels sont accessibles dans toute la forêt AD, mais ils sont m
    - Naviguer vers Users
    - Clic droit > Nouveau > Groupe
    - Remplir les informations :
-      - Nom : G-Compta-Users
+      - Nom : GG-Compta-Users
       - Étendue : Global
       - Type : Sécurité
    ```
@@ -357,7 +357,7 @@ On doit fixer nous même les conventions de noms de manière cohérente. Il n'y 
    **Format : [Type]-[Group Scope]-[Name]**
 
    Exemples :
-   - `G-Compta-Users`     # Utilisateurs du service comptabilité
+   - `GG-Compta-Users`     # Utilisateurs du service comptabilité
    - `DL-RH-Lecture`      # Accès lecture aux documents RH
    - `U-IT-Admins`       # Administrateurs IT multi-sites
 
@@ -374,8 +374,8 @@ On suivra la stratégie **AGDLP/AGLP** (Account → Global Groups → Domain Loc
 **Exemple**: `John Connor` doit accéder aux dossiers du serveur de RH en lecture et modification.
 
 1. `John Connor` possède un compte **Account**.
-2. Il est un manager du departement RH, donc il est ajouté au groupe global (de fonction métier)`G-RH-Managers` - **Global Group**
-3. Le groupe `G-RH-Managers` est ajouté au groupe `DL-RH-Modif` - **Domain Local Group**
+2. Il est un manager du departement RH, donc il est ajouté au groupe global (de fonction métier)`GG-RH-Managers` - **Global Group**
+3. Le groupe `GG-RH-Managers` est ajouté au groupe `DL-RH-Modif` - **Domain Local Group**
 4. Le groupe `DL-RH-Modif` **a les permissions** sur les dossiers du serveur de RH
 
 Qu'est-ce que vous pensez qu'on gagne?
@@ -383,9 +383,9 @@ Qu'est-ce que vous pensez qu'on gagne?
 <details>
 <summary>Reponse</summary>
 
-- Si John Connor change de département, il suffit de le retirer du groupe `G-RH-Managers` et de l'ajouter au groupe `G-Compta-Managers`. Il aura alors les permissions sur les dossiers du serveur de comptabilité.
+- Si John Connor change de département, il suffit de le retirer du groupe `GG-RH-Managers` et de l'ajouter au groupe `GG-Compta-Managers`. Il aura alors les permissions sur les dossiers du serveur de comptabilité.
 
-- Si John Connor est un nouvel employé, il suffit de le rajouter au groupe global qui correspond (ex: `G-Compta-Users`) et il aura les droits du département correspondant (car ce groupe global appartient lui-même à un certain groupe local de domaine, par exemple `DL-Compta-Modif`)
+- Si John Connor est un nouvel employé, il suffit de le rajouter au groupe global qui correspond (ex: `GG-Compta-Users`) et il aura les droits du département correspondant (car ce groupe global appartient lui-même à un certain groupe local de domaine, par exemple `DL-Compta-Modif`)
 
 - Si `John Connor` part de l'entreprise, on ne doit pas chercher tous les ressources auxquels il avait accès manuellement. Le fait de le retirer du groupe global permet de nettoyer ses droits.
 
@@ -403,13 +403,13 @@ Voyez la différence:
 
 | Account | Global Groups | Domain Local Groups |Permission|
 |---|---|---|---|
-|John Coltrane|G-Compta-Managers|DL-Compta-Modif|Lecture et modification des fichiers comptables |
+|John Coltrane|GG-Compta-Managers|DL-Compta-Modif|Lecture et modification des fichiers comptables |
 
 #### Strategie AGLP
 
 | Account | Global Groups |Permission|
 |---|---|---|
-|John Coltrane|G-Compta-Modif|Lecture et modification des fichiers comptables |
+|John Coltrane|GG-Compta-Modif|Lecture et modification des fichiers comptables |
 
 <br>
 
@@ -425,7 +425,7 @@ Un groupe peut contenir d'autres groupes d'autres types, mais on a les limitatio
 
 ### 5.6. Sécurité et Maintenance
 
-- On **ne donne pas de permissions directement aux groupes globaux**: ils son pensés pour être des groupes de gestion (ex: `G-RH-Managers`)
+- On **ne donne pas de permissions directement aux groupes globaux**: ils son pensés pour être des groupes de gestion (ex: `GG-RH-Managers`)
 - On **donne de permissions aux groupes locaux (DL)** (ex: `DL-RH-Modif`)
 
 
@@ -531,16 +531,16 @@ Il y a deux stratégies principales pour organiser les groupes:
 #### Structure par Département
 ```plaintext
 DL-Dossier-Partage-RW
-  ├─ G-Compta-Users <-- groupe global pour les users de Comptabilité
-  ├─ G-Sales-Users <-- groupe global pour les users de Ventes
-  └─ G-RH-Users <-- groupe global pour les users de RH
+  ├─ GG-Compta-Users <-- groupe global pour les users de Comptabilité
+  ├─ GG-Sales-Users <-- groupe global pour les users de Ventes
+  └─ GG-RH-Users <-- groupe global pour les users de RH
 ```
 
 #### Structure par Fonction
 ```plaintext
 DL-Dossier-Partage-RW
-  ├─ G-Managers
-  └─ G-Employees
+  ├─ GG-Managers
+  └─ GG-Employees
 ```
 
 

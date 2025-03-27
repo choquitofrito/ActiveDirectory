@@ -85,7 +85,7 @@ GPO-[Type]-[Name]
 
 [Groupe Scope]-[Name]
 
-- **Group Scope**: **DL-** for Domain Local, **G-** for Global, **U-** for Universal. All uppercase.
+- **Group Scope**: **DL-** for Domain Local, **GG-** for Global, **U-** for Universal. All uppercase.
 - Only first letter uppercase for each word of Name
 
 
