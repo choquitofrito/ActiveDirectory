@@ -336,9 +336,43 @@ Les **attributs répliqués sont sélectionnés en fonction de leur importance**
 
 Par exemple, pour un **Utilisateur** :
 - Attributs toujours **répliqués** : nom, prénom, nom de connexion
-- Attributs **non répliqué**s : photo de profil, scripts de connexion
+- Attributs **non répliqués** : photo de profil, scripts de connexion
 
-## 5. Annexe. Communication entre zones 
+
+# 5. Comment accéder aux ressources du domaine ?
+
+## 5.1. Principe 
+
+Nous avons un server (DC): supposons que ce serveur gére et offre de services Active Directory aux utilisateurs qui possedent un compte.
+
+**Exemple**: Ahmed commence à travailler dans le département IT d'une compagnie. Les ressources IT de la compagnie (ex: serveur de documentation, imprimante, etc...) se trouve dans un serveur AD, qui est un Controleur de Domaine (`dns1.devbelgium.be`).
+L'admin crée un compte utilisateur pour Ahmed, qui est un Utilisateur du domaine.
+
+On considère que l'admin a déjà installé le rôle AD DS sur le serveur `dns1.devbelgium.be` et qu'on a alors un **DC**.
+
+## 5.2. Création, configuration et utilisation d'un compte de domain
+
+Les pas à réaliser (procedure simplifié, sans groupes d'utilisateurs ni OUs) **par l'admin** pour qu'Ahmed puisse se connecter depuis son poste de travail qui se trouve dans l'entreprise sont les suivants:
+
+1. L'admin **crée un User** dans Active Directory qui correspond à Ahmed (dans le Centre d'administration d'AD)
+2. L'admin **configure** la machine client pour qu'elle puisse se connecter au domaine
+   2.1. Fixer le **nom** de la machine (ex: ws-it-01)
+   2.2. Fixer le **suffixe** de domaine (ex: .devbelgium.be). Pas la case **joindre** pour le moment!
+   2.3. **Fixer** l'adresse **IP** (ex: 192.168.0.10)
+   2.4. **Fixer** l'adresse du **serveur DNS** (ex: 192.168.0.2)
+   2.5. Choisir le **domaine** (ex: `devbelgium.be`). **Joindre le domaine** (il faut utiliser les credentials de l'admin ou d'un User qui appartient au groupe `Domain Admins`)
+   2.6. Redémarrer la machine client
+3. Ahmed peut maintenant se connecter avec son compte de domaine. L'**ordinateur local n'a pas un compte `local` pour lui**, il s'agit juste d'un compte de `domaine`.
+Pour se connecter, il peut utiliser son adresse de compte de domaine (ex: `ahmed@devbelgium.be`) ou aussi **domaine\nom_utilisateur** (ex: `devbelgium.be\ahmed`)
+
+#### Qu'est-ce qu'on gagne alors quand on se connecte au DC?
+
+- Pouvoir ****accéder aux ressources partagés**** du serveur (dossiers, imprimantes, applications...) 
+
+- L'application des **politiques de sécurité** (ex: pare-feu)
+- Un suivi de son activité par le serveur sous forme de logs
+
+# 6. Annexe. Communication entre zones 
 
 **Dans notre infrastructure, les contrôleurs de domaine gèrent l'authentification pour toutes les zones** :
 
@@ -361,22 +395,3 @@ Par exemple, pour un **Utilisateur** :
 Les zones DNS créées sont visibles dans le diagramme de l'infrastructure :
 
 ![Diagramme des zones DNS](../diagrams/images/structure_reseau_geographic_zones.png)
-
-
-# 5. Joindre des machines au domaine
-
-Pour un premier test, nous joindrons la machine `ws-compta-01` au domaine `computerelectronics.be`.
-
-La suite d'opérations est la suivante :
-
-1. Donner un nom à la machine Client (ex: `ws-compta-01`)
-2. Changer le suffixe de domaine (ex: `.computerelectronics.be`)
-3. Changer son IP (ex: `192.168.0.10`)
-4. Taper le domaine (ex: `computerelectronics.be`) - on abandonne le Workgroup
-5. Tapez les crédentielles d'un Utilisateur du domaine qui a des droits de domaine (le seul qu'on a est l'Adminstrateur)
-6. Redemarrer la machine
-7. Se connecter en tapant `computerelectronics.be\user01`
-
-La machine a rejoint le domaine `computerelectronics.be`... mais on n'a aucun utilisateur dans le domaine.
-
-Créez un utilisateur AD depuis le `Centre d'administration d'Active Directory`
