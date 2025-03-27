@@ -363,4 +363,20 @@ Les zones DNS créées sont visibles dans le diagramme de l'infrastructure :
 ![Diagramme des zones DNS](../diagrams/images/structure_reseau_geographic_zones.png)
 
 
+# 5. Joindre des machines au domaine
 
+Pour un premier test, nous joindrons la machine `ws-compta-01` au domaine `computerelectronics.be`.
+
+La suite d'opérations est la suivante :
+
+1. Donner un nom à la machine Client (ex: `ws-compta-01`)
+2. Changer le suffixe de domaine (ex: `.computerelectronics.be`)
+3. Changer son IP (ex: `192.168.0.10`)
+4. Taper le domaine (ex: `computerelectronics.be`) - on abandonne le Workgroup
+5. Tapez les crédentielles d'un Utilisateur du domaine qui a des droits de domaine (le seul qu'on a est l'Adminstrateur)
+6. Redemarrer la machine
+7. Se connecter en tapant `computerelectronics.be\user01`
+
+La machine a rejoint le domaine `computerelectronics.be`... mais on n'a aucun utilisateur dans le domaine.
+
+Créez un utilisateur AD depuis le `Centre d'administration d'Active Directory`
