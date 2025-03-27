@@ -18,7 +18,6 @@
 
 # EXERCICES:
 
-## Série 1: Création et Configuration de Base des Utilisateurs
 
 ### Exercice 1.1: Création d'un Nouvel Employé
 Le service Comptabilité accueille une nouvelle comptable junior, Sophie Dubois. 
@@ -41,15 +40,6 @@ Tâches:
 1. Configurer les restrictions de connexion pour les postes de travail
 2. Définir les plages horaires autorisées
 
-## Série 2: Gestion des Profils et Sécurité
-
-### Exercice 2.1: Configuration du Profil Utilisateur
-Pour Sophie, vous devez configurer son profil utilisateur pour qu'il soit stocké sur le serveur.
-
-Tâches:
-1. Configurer le chemin du profil itinérant: `\\dns1\profiles\%username%`
-2. Définir un script de connexion: `\\dns1\scripts\compta\logon.bat`
-3. Vérifier que le dossier personnel est mappé au lecteur H:
 
 ### Exercice 2.2: Audit de Sécurité
 Vous devez vérifier les paramètres de sécurité du compte de Sophie.

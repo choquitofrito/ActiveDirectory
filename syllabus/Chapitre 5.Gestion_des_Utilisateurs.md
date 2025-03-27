@@ -1,4 +1,4 @@
-# 4. Gestion des Utilisateurs et Groupes dans Active Directory
+# 5. Gestion des Utilisateurs et Groupes dans Active Directory
 
 ## 1. Introduction aux Comptes Utilisateurs
 
@@ -428,7 +428,7 @@ Un groupe peut contenir d'autres groupes d'autres types, mais on a les limitatio
 
 <br>
 
-## 6. Droits (Privileges) vs Permissions
+## 6. Droits Utilisateur vs Permissions
 
 Les droits d'utilisateurs **ne sont pas la même chose que les permissions**.
 

@@ -58,25 +58,7 @@
 
 ## Série 2: Gestion des Profils et Sécurité
 
-### Solution 2.1: Configuration du Profil Utilisateur
 
-1. Configurer le profil itinérant:
-   ```
-   1. Propriétés du compte > Onglet "Profil"
-   2. Chemin d'accès au profil: \\dns1\profiles\%username%
-   3. Script d'ouverture de session: \\dns1\scripts\compta\logon.bat
-   4. Cliquer sur "Appliquer"
-   ```
-
-2. Vérifier le dossier personnel:
-   ```
-   1. Même onglet "Profil"
-   2. Section "Dossier personnel"
-   3. Sélectionner "Connecter"
-   4. Lettre de lecteur: H:
-   5. À: \\dns1\users\%username%
-   6. Cliquer sur "OK"
-   ```
 
 ### Solution 2.2: Audit de Sécurité
 

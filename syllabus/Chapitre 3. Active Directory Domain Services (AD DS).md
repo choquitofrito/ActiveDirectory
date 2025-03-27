@@ -166,7 +166,7 @@ Dans ce cas, le rôle AD DS comprend plusieurs services (comme le service AD DS 
 3. Choisir **"Ajouter une nouvelle forêt"**
 4. Saisir le nom de domaine : **`computerelectronics.be`**
 5. Choisir le **niveau fonctionnel** de la forêt et du domaine (la plus récente)
-6. Définir le **mot de passe DSRM** (Password1)
+6. Définir le **mot de passe DSRM** (Password1!)
 7. Continuez et ignorez l'avertissement sur les délégations
 8. Choisir le nom pour le domaine NETBIOS : **"COMPUTERRELECTRONICS"**
 9. Vérifier les chemins de la **base de données**, des **journaux** et de **SYSVOL**
@@ -240,14 +240,7 @@ Après la promotion du contrôleur de domaine, AD DS a automatiquement créé le
 
 **Note pratique** : Bien que notre infrastructure de production inclue `dns2.computerelectronics.be` (192.168.0.3), nos exercices pratiques se concentreront initialement sur le contrôleur de domaine principal `dns1` pour une meilleure compréhension des concepts de base.
 
-Maintenant que nous avons configuré notre contrôleur de domaine et ses zones DNS, nous pouvons passer à la gestion des utilisateurs et des ressources. Ces aspects seront traités en détail dans les chapitres suivants :
-
-- **Chapitre 4 : Gestion des Utilisateurs**, où nous aborderons :
-  * La création et configuration des comptes
-  * Les conventions de nommage
-  * Les stratégies de mot de passe
-  * La gestion des groupes
-
+Maintenant que nous avons configuré notre contrôleur de domaine et ses zones DNS, nous pouvons passer à la gestion des utilisateurs et des ressources. Ces aspects seront traités en détail dans les chapitres suivants.
 
 
 ## 4.4. Structure de la base de données d'Active Directory

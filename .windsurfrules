@@ -79,7 +79,7 @@ GPO-[Type]-[Name]
 
 - Types: Securite, Configuration, Restrictions
 - Standard parameters:
-  * Password length: always use "Password1" as a password
+  * Password length: always use "Password1!" as a password
 
 ### For Groups:
 

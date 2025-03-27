@@ -20,7 +20,7 @@ Toutes les options d'un compte d'utilisateur sont accessibles depuis ces onglets
 6. Choisissez un nom d'utilisateur (ex : louisarmstrong)
 7. Choisissez un nom complet (ex : Louis Armstrong)
 8. Choisissez une description (ex : compte pour des tâches spéciales)
-9. Choisissez un mot de passe (ex : Password1)
+9. Choisissez un mot de passe (ex : Password1!)
 10. Cliquez sur **Créer** et fermez la fenêtre : l'utilisateur est maintenant créé
 
 Si vous cliquez sur l'onglez **Membre de** vous verrez que l'utilisateur est par défaut rajouté au groupe **Utilisateurs** (déjà existant dans Windows Server)
