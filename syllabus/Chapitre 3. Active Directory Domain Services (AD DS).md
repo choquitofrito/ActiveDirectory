@@ -354,16 +354,22 @@ On considère que l'admin a déjà installé le rôle AD DS sur le serveur `dns1
 
 Les pas à réaliser (procedure simplifié, sans groupes d'utilisateurs ni OUs) **par l'admin** pour qu'Ahmed puisse se connecter depuis son poste de travail qui se trouve dans l'entreprise sont les suivants:
 
-1. L'admin **crée un User** dans Active Directory qui correspond à Ahmed (dans le Centre d'administration d'AD - Ex: ahmed.mehidi@computerelectronics.be)
-2. L'admin **configure** la machine client pour qu'elle puisse se connecter au domaine
-   2.1. Fixer le **nom** de la machine (ex: ws-it-01)
-   2.2. Fixer le **suffixe** de domaine (ex: .devbelgium.be). Pas la case **joindre** pour le moment!
-   2.3. **Fixer** l'adresse **IP** (ex: 192.168.0.10)
-   2.4. **Fixer** l'adresse du **serveur DNS** (ex: 192.168.0.2)
-   2.5. Choisir le **domaine** (ex: `devbelgium.be`). **Joindre le domaine** (il faut utiliser les credentials de l'admin ou d'un User qui appartient au groupe `Domain Admins`)
-   2.6. Redémarrer la machine client
-3. Ahmed peut maintenant se connecter avec son compte de domaine. L'**ordinateur local n'a pas un compte `local` pour lui**, il s'agit juste d'un compte de `domaine`.
+1. L'admin **configure** la machine client pour qu'elle puisse se connecter au domaine
+   1.1. **Fixer** l'adresse **IP** (ex: 192.168.0.10) (Barre Recherche->Paramètres Ethernet->Modifier les options d'adaptateur) 
+   1.2. **Fixer** l'adresse du **serveur DNS** (ex: 192.168.0.2, adresse du DC)
+   1.3. Fixer le **nom** de la machine (ex: ws-it-01) (Ce PC->Propriétés->Renommer ce PC(**avancé**)->Modifier)
+   1.4. Fixer le **suffixe** de domaine (ex: .computerelectronics.be)
+   1.5. **Redémarrer** la machine client
+   (Ce PC->Propriétés->Renommer ce PC(**avancé**)->Modifier->Autres)
+   1.6. Aller dans Ce PC->Propriétés->Modifier pour joindre le domaine 
+   Choisir le **domaine** (ex: `computerelectronics.be`) dans **Membre de**
+   1.7. Tapez les credentials de l'administrateur du DC  (il faut utiliser les credentials de l'admin ou d'un User qui appartient au groupe `Domain Admins`)
+   1.8. **Redémarrer** la machine client
+
+2. Ahmed peut maintenant se connecter avec son compte de domaine. L'**ordinateur local n'a pas un compte `local` pour lui**, il s'agit juste d'un compte de `domaine`.
 Pour se connecter, il peut utiliser son adresse de compte de domaine (ex: `ahmed@devbelgium.be`) ou aussi **domaine\nom_utilisateur** (ex: `devbelgium.be\ahmed`)
+
+
 
 #### Qu'est-ce qu'on gagne alors quand on se connecte au DC?
 
