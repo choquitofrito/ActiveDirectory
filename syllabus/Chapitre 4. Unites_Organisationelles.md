@@ -194,14 +194,17 @@ La conception d'une structure d'OUs doit prendre en compte :
 La **délégation** nous permet **d'attribuer des droits administratifs d'une certaine OUs à des utilisateurs ou groupes**.
 
 **Exemple**: Dans l'OU **EU/RH/Users**, nous pouvons donner au groupe `DL-EU-RH-Admins` le droit de :
-- Créer de nouveaux comptes utilisateurs
 - Réinitialiser les mots de passe
 - Gérer les propriétés des comptes
+
+On veut que les admins peuvent faire ces actions sur les utilisateurs de l'OU EU/RH/Users (ex: `GG-EU-RH-Users`).
 
 Les administrateurs RH seront membres du groupe `GG-EU-RH-Admins`: groupe global des administrateurs du departement RH
 
 Ces administrateurs pourraient recevoir les droits de gestion des comptes des Utilisateurs de l'OU EU/RH/Users, mais les bon pratiques de AGDLP nous recommande de ne pas le faire (voir AGDLP dans le chapitre `5. Gestion des Utilisateurs`)
 On creera un groupe local `DL-EU-RH-Admins` , qui est celui qui possede les droits: **la OU delegue les droits sur ce groupe**, et on a **qu'a joindre le groupe `GG-EU-RH-Admins` à ce groupe local DL-EU-RH-Admins**
+
+Les users de DL-EU-RH-Admins pourront reinitialiser les mots de passe des comptes des `GG-EU-RH-Users`.
 
 Cela permet une gestion décentralisée sans donner accès à d'autres départements.
 
@@ -223,7 +226,43 @@ Cela permet une gestion décentralisée sans donner accès à d'autres départem
    - Réinitialisation des comptes
 
 
-## 7.3. Bonnes Pratiques de Délégation
+## 7.3. Configuration et Test de la Délégation
+
+1. **Configuration de la Délégation** :
+   - Dans `Utilisateurs et ordinateurs Active Directory`
+   - Clic droit sur l'OU EU/RH/Users
+   - Sélectionner `Déléguer le contrôle`
+   - Suivre l'Assistant de délégation de contrôle:
+     * Sélectionner le groupe `DL-EU-RH-Admins`
+     * Choisir les tâches:
+       - Réinitialiser les mots de passe
+       - Lire toutes les informations utilisateur
+       - Modifier les propriétés des comptes
+
+2. **Préparation du Test** :
+   - Créer un utilisateur test dans l'OU EU/RH/Users (ex: test.user)
+   - Créer un compte admin RH test (ex: admin.rh)
+   - Ajouter admin.rh au groupe `GG-EU-RH-Admins`
+   - Ajouter `GG-EU-RH-Admins` au groupe `DL-EU-RH-Admins`
+
+3. **Vérification des Droits** :
+   - Se déconnecter complètement
+   - Se connecter avec le compte admin.rh
+   - Ouvrir `Utilisateurs et ordinateurs Active Directory`
+   - Essayer de réinitialiser le mot de passe de test.user
+   - Vérifier qu'on peut modifier les propriétés du compte
+
+4. **Test des Limitations** :
+   - Vérifier qu'admin.rh ne peut pas:
+     * Accéder aux autres OUs
+     * Créer/supprimer des groupes
+     * Modifier les GPOs
+
+5. **Validation Finale** :
+   - Se connecter avec test.user et le nouveau mot de passe
+   - Vérifier que les modifications des propriétés sont effectives
+
+## 7.4. Bonnes Pratiques de Délégation
 
 - Appliquer **le principe du moindre privilège**
 - **Documenter** les délégations
