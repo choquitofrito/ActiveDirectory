@@ -354,8 +354,8 @@ On considère que l'admin a déjà installé le rôle AD DS sur le serveur `dns1
 
 Les pas à réaliser (procedure simplifié, sans groupes d'utilisateurs ni OUs) **par l'admin** pour qu'Ahmed puisse se connecter depuis son poste de travail qui se trouve dans l'entreprise sont les suivants:
 
-1. L'admin **crée un User** dans Active Directory qui correspond à Ahmed (dans le Centre d'administration d'AD)
-2. L'admin **configure** la machine client pour qu'elle puisse se connecter au domaine
+1. L'admin **crée un User** dans Active Directory qui correspond à Ahmed (dans le Centre d'administration d'AD - Ex: ahmed.mehidi@computerelectronics.be)
+2. Un user **configure** la machine client pour qu'elle puisse se connecter au domaine
    2.1. Fixer le **nom** de la machine (ex: ws-it-01)
    2.2. Fixer le **suffixe** de domaine (ex: .devbelgium.be). Pas la case **joindre** pour le moment!
    2.3. **Fixer** l'adresse **IP** (ex: 192.168.0.10)
