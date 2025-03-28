@@ -8,13 +8,15 @@ Le département Comptabilité a besoin d'organiser ses ressources pour un nouvea
 ### Tâches
 1. Créer un partage réseau `\\dns1\Audit2025` sur le contrôleur de domaine
 2. Créer la structure suivante :
-   - UO: `Comptabilité`
-     - Sous-UO: `Auditeurs`
-     - Sous-UO: `Consultants`
+   - UO: `EU`
+     - UO: `Comptabilité`
+       - Users
+       - Computers
+       - Groups
 3. Créer les groupes suivants :
-   - `GS-Audit-Lecture` (Groupe de Sécurité Global)
-   - `GS-Audit-ModificationRapports` (Groupe de Sécurité Global)
-   - `GS-Audit-Admin` (Groupe de Sécurité Global)
+   - `GG-EU-Audit-Lecture` (Groupe Global)
+   - `GG-EU-Audit-ModificationRapports` (Groupe Global)
+   - `GG-EU-Audit-Admin` (Groupe Global)
 4. Créer les dossiers suivants dans le partage :
    - `\\dns1\Audit2025\Rapports`
    - `\\dns1\Audit2025\Documents_Source`
@@ -48,9 +50,9 @@ Le département RH doit gérer un processus de recrutement avec des documents co
    - sophie.martin (Assistante RH)
    - pierre.dubois (Recruteur)
 3. Créer les groupes :
-   - `GS-RH-Direction` (pour marie.dupont)
-   - `GS-RH-Assistants` (pour sophie.martin)
-   - `GS-RH-Recruteurs` (pour pierre.dubois)
+   - `GG-EU-RH-Direction` (pour marie.dupont)
+   - `GG-EU-RH-Assistants` (pour sophie.martin)
+   - `GG-EU-RH-Recruteurs` (pour pierre.dubois)
 4. Configurer les permissions :
    - Direction : Contrôle total sur tous les dossiers
    - Assistants : Modification sur Candidatures, Lecture sur Contrats
@@ -81,9 +83,9 @@ L'équipe Marketing lance une nouvelle campagne publicitaire nécessitant une co
      - `Photos`
 
 2. Groupes :
-   - `GS-Marketing-Designers`
-   - `GS-Marketing-Managers`
-   - `GS-Ventes-Analystes`
+   - `GG-EU-Marketing-Designers`
+   - `GG-EU-Marketing-Managers`
+   - `GG-EU-Ventes-Analystes`
 
 3. Utilisateurs à créer :
    - lucas.bernard (Designer)
@@ -153,15 +155,15 @@ Remove-Item -Path "C:\Shares" -Recurse -Force
 
 # Suppression des groupes
 $groups = @(
-    "GS-Audit-Lecture",
-    "GS-Audit-ModificationRapports",
-    "GS-Audit-Admin",
-    "GS-RH-Direction",
-    "GS-RH-Assistants",
-    "GS-RH-Recruteurs",
-    "GS-Marketing-Designers",
-    "GS-Marketing-Managers",
-    "GS-Ventes-Analystes"
+    "GG-EU-Audit-Lecture",
+    "GG-EU-Audit-ModificationRapports",
+    "GG-EU-Audit-Admin",
+    "GG-EU-RH-Direction",
+    "GG-EU-RH-Assistants",
+    "GG-EU-RH-Recruteurs",
+    "GG-EU-Marketing-Designers",
+    "GG-EU-Marketing-Managers",
+    "GG-EU-Ventes-Analystes"
 )
 
 foreach ($group in $groups) {

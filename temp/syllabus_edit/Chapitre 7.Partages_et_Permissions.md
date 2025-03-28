@@ -35,7 +35,7 @@ Sur le serveur `dns1.computerelectronics.be` (`192.168.0.2`), nous allons config
 **Exemple pratique** :
 ```
 Dossier : D:\Comptabilite\Factures
-Permission : Lecture seule pour le groupe 'GG-COMPTA-STAGIAIRES'
+Permission : Lecture seule pour le groupe 'GG-Comptabilite-STAGIAIRES'
 Effet : Les stagiaires de la comptabilité peuvent lire mais pas modifier les factures
 ```
 
@@ -53,7 +53,7 @@ Effet : Les stagiaires de la comptabilité peuvent lire mais pas modifier les fa
 **Exemple pratique** :
 ```
 Partage : \\serveur\comptabilite$
-Permission : Modification pour le groupe 'GG-COMPTA-USERS'
+Permission : Modification pour le groupe 'GG-Comptabilite-USERS'
 Effet : Les utilisateurs de la comptabilité peuvent modifier les fichiers via le réseau
 ```
 
@@ -113,7 +113,7 @@ Un partage réseau **est un dossier ou une ressource rendu accessible à d'autre
    ```
    Groupe             Permission    Justification
    ---------------    ----------    -------------
-   COMPTA-USERS       Modification  Travail quotidien
+   Comptabilite-USERS       Modification  Travail quotidien
    RH-MANAGERS        Lecture       Consultation uniquement
    ```
 
@@ -127,7 +127,7 @@ Un partage réseau **est un dossier ou une ressource rendu accessible à d'autre
    ```
    Groupe             Permissions                 Usage
    ---------------    -------------------------    ---------------
-   COMPTA-USERS       - Lecture                   Accès complet aux
+   Comptabilite-USERS       - Lecture                   Accès complet aux
                       - Écriture                  fichiers comptables
                       - Modification
    
@@ -241,9 +241,9 @@ D:\Partages\Comptabilite_V2\
 
 #### Configuration des groupes et permissions
 1. Création des groupes AD :
-   - COMPTA-ArchivesRO (lecture seule archives)
-   - COMPTA-FacturesRW (modification factures)
-   - COMPTA-RapportsRW (modification rapports)
+   - Comptabilite-ArchivesRO (lecture seule archives)
+   - Comptabilite-FacturesRW (modification factures)
+   - Comptabilite-RapportsRW (modification rapports)
 
 2. Configuration des permissions :
    - Configurez les permissions NTFS et partage
