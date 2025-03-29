@@ -291,9 +291,6 @@ On doit fixer de noms cohérents pour les groupes. Il n'y a pas de convention of
 - **Etendue**: **DL-** for Domain Local, **GG-** for Global, **U-** for Universal.
 
 
-
-
-
 Utilisés pour attribuer les permissions sur les ressources
 
 #### 2. Global (GG)
