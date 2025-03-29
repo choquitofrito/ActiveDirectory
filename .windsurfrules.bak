@@ -1,0 +1,126 @@
+# Documentation and Standards Rules
+
+## 1. General Rules
+- All generated content must be in French
+- Use autocomplete and supercomplete for documentation and code
+- Course structure: 5 days (6.5 hours per day)
+- Distribution: 30-40% theory, 60-70% practice
+
+## 2. Documentation Structure
+### 2.1 Section Order (mandatory)
+1. Introduction et installation de Windows Server
+2. DNS
+3. Active Directory Domain Services (AD DS)
+4. Utilisateurs et ordinateurs Active Directory
+5. Unités d'organisation (OU)
+6. Strategies de groupes (GPO)
+7. Gestion AD DS en PowerShell
+
+### 2.2 Exercise Format
+```markdown
+## Exercise X.Y - Title
+Description and context
+
+<details>
+<summary>Solution X.Y</summary>
+Detailed solution
+</details>
+```
+- Never add exercises without asking first
+
+## 3. Diagram Standards
+### 3.1 Format and Storage
+- Format: exclusively .drawio
+- Storage: "diagrams" folder
+- Base: use structure_reseau_geographic.drawio as template
+- Never generate images (conversion script will be used)
+- Use standard XML structure for .drawio files
+- Use < and > characters directly (no HTML entities)
+
+### 3.2 Style Specifications
+- Color codes:
+  * Network services/DNS: light blue (#dae8fc)
+  * AD DS/Controllers: light gray (#f5f5f5)
+  * OU/Structure: light orange (#ffe6cc)
+  * Actions/Flow: light yellow (#fff2cc)
+- Connections and Arrows: curved, light gray with 65% opacity
+- Containers: sized to fit text
+- File naming: snake_case in French
+
+## 4. Virtual Infrastructure
+### 4.1 Hardware Configuration
+- 32GB RAM per student machine
+- Windows Server 2022 installed
+
+### 4.2 Virtual Machines
+- 1 main server (future DC)
+- 1 client workstation
+- Optional: 1 additional server (second DC)
+
+
+## 5. PowerShell Standards
+### 5.1 Usage
+- Include basic commands
+- Learning through immersion
+- Context-relevant commands only
+
+### 5.2 Documentation Format
+- Introduce with "En PowerShell:"
+- Use ```powershell code blocks
+- Commands must be concise and commented in French
+
+
+
+## 6. Naming Standards
+
+### For GPOs:
+
+GPO-[Type]-[Name]
+
+- Types: Securite, Configuration, Restrictions
+- Standard parameters:
+  * Password length: always use "Password1!" as a password
+
+### For Groups:
+
+[Groupe Scope]-[Name]
+
+- **Group Scope**: **DL-** for Domain Local, **GG-** for Global, **U-** for Universal. All uppercase.
+- Only first letter uppercase for each word of Name
+
+
+
+## 7. DNS Infrastructure
+- Root domain: computerelectronics.be
+- **Important**: The domain structure is in diagrams/structure_reseau_geographic_zones.drawio
+
+## 8. Exercise Creation Rules
+- Always ask permission before adding new exercises
+- Wait for explicit user confirmation
+- Examples must follow immediately after their theoretical section
+- Include practical examples based on computerelectronics.be
+
+## 9. IP Addressing Standards
+
+- IP addressing schemes to align with the new standard (192.168.0.x), both in the documentation and in the diagrams
+- The ip adresses must be in a way that can indeed be implemented during the course with the virtual machines
+  
+## 10. Documentation mood
+
+- Use a friendly and approachable tone
+- Use simple and easy-to-understand language
+- Use short sentences and paragraphs
+- Use active voice. The course is interactive and you will be asked to do things
+- Use the second person (you) when you are asked to do things
+- Don't use the first person (I) when you are doing things
+- Use the present tense
+- Use the future tense when you are asking for things to be done
+- Exercises are done by the student (Ex: "Vous allez créer un serveur")
+- Examples are doing by the instructor and the students at the same time (Ex: "Nous allons créer un serveur")
+- When creating instructions, use bold to highlight the most important elements of the phrase. The idea is that the student can read really fast and understand what is important.
+
+# Rules override
+
+- Don't generate powershell scripts for the moment
+
+

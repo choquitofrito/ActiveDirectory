@@ -1,0 +1,35 @@
+# Exercise Standards
+
+## File Organization
+- Location: /exercices/enonces/
+- Solutions: /exercices/solutions/
+- Naming: ex_Chapitre X.[Chapter_Name].md
+
+## Infrastructure Usage
+- Domain: computerelectronics.be
+- Primary DC: dns1.computerelectronics.be
+- Workstations: ws-[dept]-[##].computerelectronics.be
+- Network: 192.168.0.x range only
+
+## Creation Rules
+- Simple and practical initially
+- Based on real situations
+- Use previous chapter concepts
+- GUI-based (no PowerShell)
+- Need permission before creation
+
+## Solution Guidelines
+- Create only when requested
+- Use GUI command sequences
+- Simple, clear instructions
+- Markdown format with <details>
+- Need approval before creating
+
+## Content Structure
+- Add to existing files
+- Don't modify without permission
+- Follow chapter progression
+- Use French for all content except:
+  * Technical terms
+  * Commands
+  * DNS records

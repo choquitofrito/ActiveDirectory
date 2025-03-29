@@ -1,0 +1,49 @@
+# Design Standards
+
+## Diagram Format
+- Format: .drawio exclusivement
+- Storage: "diagrams/" directory
+- Base template: structure_reseau_geographic.drawio
+- XML: use native < and > (no HTML entities)
+
+## Color Standards
+- Network/DNS Services: 
+  * Fill: medium blue (#b1c9f8)
+  * Border: #4a67a9
+- AD DS/Controllers: 
+  * Fill: medium gray (#d9d9d9)
+  * Border: #404040
+- OU/Structure: 
+  * Fill: medium orange (#ffc785)
+  * Border: #bf7b00
+- Actions/Flow: 
+  * Fill: medium yellow (#ffe566)
+  * Border: #b39200
+
+## Visual Elements
+- Connections:
+  * Style: curved
+  * Color: #666666
+  * Opacity: 65%
+  * Arrow size: 10px
+- Containers:
+  * Auto-size to content
+  * Minimum padding: 10px
+  * Rounded corners: 5px
+- Text:
+  * Font: Helvetica
+  * Size: 11pt (default)
+  * Bold for headers
+
+## File Management
+- Naming: snake_case in French
+- Location: diagrams/[category]/
+- Categories:
+  * network/
+  * structure/
+  * process/
+
+## Image Generation
+- Never generate images directly
+- Use ./convert_diagrams.sh for PNG
+- PNG output goes to diagrams/png/

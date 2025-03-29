@@ -1,0 +1,36 @@
+# Infrastructure Specifications
+
+## Lab Environment
+1. Domain Controller
+   - Name: dns1.computerelectronics.be
+   - IP: 192.168.0.2
+   - Role: Primary DC
+
+2. Workstations
+   - Primary: ws-compta-01.computerelectronics.be
+   - Secondary: ws-compta-02.computerelectronics.be
+   - Network: 192.168.0.x
+
+## Hardware Requirements
+- Student machines: 32GB RAM
+- Windows Server 2022
+- VirtualBox with PAE/NX enabled
+
+## Network Structure
+1. DNS Structure
+   - Root domain: computerelectronics.be
+   - Workstations: flat DNS (directly under root)
+   - Format: ws-[dept]-[##].computerelectronics.be
+
+2. IP Addressing
+   - Lab environment: 192.168.0.x
+   - Production scheme (for reference only):
+     * EU zone: 192.168.10.0/24
+     * US zone: 192.168.20.0/24
+     * Dev: 192.168.30.0/24
+     * Prod: 192.168.40.0/24
+
+## Implementation Notes
+- Use simplified lab setup for exercises
+- Reference: diagrams/structure_reseau_geographic_zones.drawio
+- Complex scenarios shown in theory only
