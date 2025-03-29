@@ -163,10 +163,3 @@ Puis créons le réseau qui connectera les machines virtuelles à Internet :
 Vous pouvez télécharger Windows Server 2022 depuis [cette page](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022). Il s'agit d'une version d'évaluation de 180 jours
 
 
-### 2.2.4. Nomenclature des machines
-
-Avant de commencer l'installation, il est important de définir les noms des machines qui constitueront notre infrastructure :
-
-- **Serveur Windows Server** :
-  - Nom : `dns1.computerelectronics.be`
-  
