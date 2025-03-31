@@ -440,7 +440,7 @@ Ahmed commence à travailler dans le département IT. Pour accéder aux ressourc
 
 1. Ouvrir **Propriétés système**
 2. Aller dans **Paramètres avancés**
-3. Section **Nom de l'ordinateur**
+3. Section **Nom de l'ordinateur** ainsi que le suffixe (`computerelectronics.be`)
 4. Sélectionner **Membre du domaine** : `computerelectronics.be`
 5. Saisir les identifiants **Domain Admin**
 

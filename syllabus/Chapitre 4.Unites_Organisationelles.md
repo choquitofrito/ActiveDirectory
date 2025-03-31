@@ -42,7 +42,7 @@ Une **Unité d'Organisation** (OU) est un **conteneur Active Directory** offrant
 
 ## 2. 📂 Structure des OUs
 
-### 📊 Hiérarchie des Contenus
+### 2.1 📊 Hiérarchie des Contenus
 
 ```
 OU
@@ -120,8 +120,6 @@ OU
 3. **Supprimer l'OU** 
 
 
-# 5. Gestion des objets 
-
 # 5. Gestion des OUs
 
 ## 5.1 Flexibilité de la Structure
@@ -146,9 +144,8 @@ OU
 
 # 6. Structure pour computerelectronics.be
 
-## 6.1 Hiérarchie Géographique
+## 6.1 Hiérarchie Géographique (EU et USA)
 
-### 6.1.1 Europe (EU)
 
 ```
 EU
@@ -177,13 +174,9 @@ EU
         └── GG-EU-Ventes-Users
 ```
 
-### 6.1.2 États-Unis (US)
+> USA a une structure identique à EU
 
-> Structure identique à EU
-
-## 6.2 Hiérarchie Environnement
-
-### 6.2.1 Développement (Dev)
+## 6.2 Hiérarchie Environnement (DEV et PROD)
 
 ```
 Dev
@@ -201,9 +194,7 @@ Dev
     └── GG-Dev-Users
 ```
 
-### 6.2.2 Production (Prod)
-
-> Structure identique à Dev
+> Prod a une structure identique à Dev
 
 ## 6.3 Conventions de Nommage
 
