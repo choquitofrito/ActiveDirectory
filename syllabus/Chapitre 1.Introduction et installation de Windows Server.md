@@ -361,7 +361,7 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 
 Cette section concerne la configuration du droit "Se connecter localement" (uniquement pour tester les delegations dans le chapitre 4)
 
-## Description
+### Description
 
 Le paramètre "Permettre l'ouverture d'une session locale" contrôle quels utilisateurs ou groupes peuvent se connecter physiquement à un ordinateur du domaine.
 
@@ -374,7 +374,7 @@ Pour modifier ce comportement on doit créer une stratégie de groupe (GPO) et l
 5. Ajouter les utilisateurs ou groupes nécessaires
 6. Lier la GPO à l'OU appropriée
 
-## Groupes par défaut ayant ce droit
+### Groupes par défaut ayant ce droit
 - Administrateurs
 - ENTERPRISE DOMAIN CONTROLLERS
 - Opérateurs de compte
@@ -382,10 +382,10 @@ Pour modifier ce comportement on doit créer une stratégie de groupe (GPO) et l
 - Opérateurs de sauvegarde
 - Opérateurs de serveur
 
-## Vérification
+### Vérification
 Pour vérifier l'application des paramètres :
 1. Exécuter : `gpupdate /force`
 2. Vérifier avec : `gpresult /r` ou `rsop.msc`
 
-## Note importante
+### Note importante
 La modification de ce paramètre peut affecter la compatibilité avec les clients, les services et les applications. Assurez-vous de tester les changements dans un environnement contrôlé avant de les appliquer en production.
