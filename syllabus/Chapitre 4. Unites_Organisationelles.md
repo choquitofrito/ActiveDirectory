@@ -1,48 +1,48 @@
-# Chapitre 4: Unités d'Organisation (OUs)
+# 📂 Chapitre 4: Unités d'Organisation (OUs)
 
 > 📚 **Dans ce chapitre:**
-> 1. 🌐 [Introduction aux OUs](#1-introduction-aux-unités-dorganisation-ous)
->    - Objectifs et rôles
->    - Structure et organisation
-> 2. 📂 [Gestion des OUs](#2-gestion-des-ous)
+> 1. 🏢 [Structure Organisationnelle](#1-introduction-aux-unités-dorganisation-ous)
+>    - Concepts fondamentaux
+>    - Hiérarchie des OUs
+> 2. ⚙️ [Administration](#2-gestion-des-ous)
 >    - Création et configuration
 >    - Bonnes pratiques
-> 3. 🔐 [Délégation Administrative](#3-délégation-administrative)
->    - Stratégies AGDLP et AGLP
->    - Exemples pratiques
+> 3. 🔐 [Sécurité et Délégation](#3-délégation-administrative)
+>    - Stratégies de gestion
+>    - Contrôle d'accès
 
 ---
 
 ## 📙 Objectifs Pédagogiques
 
 À la fin de ce chapitre, vous serez capable de :
-1. Comprendre le rôle des OUs dans Active Directory
-2. Créer et gérer une structure d'OUs efficace
-3. Implémenter une stratégie de délégation administrative
+1. 🏢 Structurer votre organisation dans Active Directory
+2. ⚙️ Gérer efficacement les OUs et leurs objets
+3. 🔐 Implémenter une stratégie de sécurité par délégation
 
 ---
 
-## 1. Introduction aux Unités d'Organisation (OUs)
+## 1. 🏢 Structure Organisationnelle
 
-### 1.1 Objectif et Rôle des OUs
+### 📂 Concept des Unités d'Organisation
 
-Une **Unité d'Organisation** (OU) est un **conteneur Active Directory** qui permet de :
+Une **Unité d'Organisation** (OU) est un **conteneur Active Directory** offrant :
 
-1. **Organisation**
-   - Regrouper des objets AD de manière logique
-   - Créer une structure hiérarchique
-   - Refléter la structure de l'entreprise
+1. 🏢 **Organisation Logique**
+   - 📂 Regroupement d'objets AD
+   - 📊 Structure hiérarchique
+   - 🏢 Reflet de l'entreprise
 
-2. **Administration**
-   - Faciliter la gestion des ressources
-   - Déléguer des permissions administratives
-   - Appliquer des stratégies de groupe (GPO)
+2. ⚙️ **Gestion Administrative**
+   - 🔐 Délégation de droits
+   - 📂 Gestion des ressources
+   - 🔒 Application des GPOs
 
-> **Analogie** : Une OU est comme un **dossier intelligent** qui non seulement organise les objets AD mais permet aussi de les gérer efficacement.
+> 💡 **Analogie** : Une OU est un **dossier intelligent** combinant organisation et gestion.
 
-## 2. Structure d'une OU
+## 2. 📂 Structure des OUs
 
-## 2.1 Contenus Possibles
+### 📊 Hiérarchie des Contenus
 
 ```
 OU
