@@ -1,13 +1,33 @@
 
-# Installation de Windows Server 2022 avec VirtualBox
+# Guide d'Installation : Windows Server 2022 sur VirtualBox
 
-Ce guide vous accompagnera dans le processus d'installation de Windows Server 2022 en utilisant VirtualBox 6 sous Ubuntu 22.
+> 📚 **Dans ce guide:**
+> 1. 💻 [Prérequis](#1-prérequis)
+>    - Installation de VirtualBox
+>    - Téléchargement de Windows Server
+> 2. 🖥️ [Configuration de VirtualBox](#2-configuration-de-virtualbox)
+>    - Création de la VM
+>    - Paramètres réseau
+> 3. 📍 [Installation de Windows Server](#3-installation-de-windows-server)
+>    - Étapes d'installation
+>    - Configuration initiale
 
-# 1. Prérequis
+---
 
-## 1.1. Installation de VirtualBox
+## 📙 Objectifs
 
-(**Important: **Si VirtualBox est déjà installé, passez à la section suivante)
+À la fin de ce guide, vous aurez :
+1. Une machine virtuelle VirtualBox fonctionnelle
+2. Windows Server 2022 installé et configuré
+3. Un environnement prêt pour l'installation d'Active Directory
+
+---
+
+## 1. Prérequis
+
+### 1.1. Installation de VirtualBox
+
+> ⚠️ **Important :** Si VirtualBox est déjà installé, passez à la section suivante
 
 1. Ouvrez un terminal et mettez à jour la liste des paquets :
    ```bash
