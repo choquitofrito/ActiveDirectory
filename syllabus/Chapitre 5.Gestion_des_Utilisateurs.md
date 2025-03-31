@@ -1,3 +1,28 @@
+# Chapitre 5 : Gestion des Utilisateurs
+
+> 📚 **Dans ce chapitre:**
+> 1. 👤 [Comptes Utilisateurs](#1-introduction-aux-comptes-utilisateurs)
+>    - Concepts fondamentaux
+>    - Standards de nommage
+> 2. 💻 [Gestion avec ADUC](#2-utilisateurs-et-ordinateurs-active-directory)
+>    - Création et configuration
+>    - Recherche et modification
+> 3. 👥 [Groupes et Stratégies](#5-gestion-des-groupes)
+>    - Types de groupes
+>    - AGDLP vs AGLP
+
+---
+
+## 📙 Objectifs Pédagogiques
+
+À la fin de ce chapitre, vous serez capable de :
+1. Créer et gérer des comptes utilisateurs
+2. Appliquer les standards de nommage
+3. Implémenter les stratégies de groupes AGDLP/AGLP
+4. Gérer efficacement les droits et permissions
+
+---
+
 ## 1. Introduction aux Comptes Utilisateurs
 
 ### 1.1. Concepts Fondamentaux

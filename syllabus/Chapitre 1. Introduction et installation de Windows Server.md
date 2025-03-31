@@ -1,18 +1,28 @@
 # Chapitre 1: Introduction et installation de Windows Server
 
 > 📚 **Dans ce chapitre:**
-> 1. 🔗 [Les réseaux décentralisés VS centralisés](#1-les-réseaux-décentralisés-vs-centralisés-avec-active-directory)
+> 1. 🔗 [Réseaux décentralisés VS centralisés](#1-les-réseaux-décentralisés-vs-centralisés)
 >    - Avantages et inconvénients
-> 2. 🖥️ [Qu'est-ce que c'est Active Directory?](#2-quest-ce-que-cest-active-directory)
+>    - Cas d'utilisation
+> 2. 🖥️ [Active Directory](#2-quest-ce-que-cest-active-directory)
 >    - Composants principaux
 >    - Fonctionnalités clés
-> 3. 💻 [Windows Server](#2-windows-server)
->    - Machines virtuelles
->    - Installation et configuration
+> 3. 💻 [Windows Server](#3-installation-de-windows-server)
+>    - Configuration de base
+>    - Préparation pour AD
 
 ---
 
-## 1. Les réseaux décentralisés VS centralisés avec Active Directory
+## 📙 Objectifs Pédagogiques
+
+À la fin de ce chapitre, vous serez capable de :
+1. Comprendre les différences entre réseaux centralisés et décentralisés
+2. Identifier les composants clés d'Active Directory
+3. Installer et configurer Windows Server pour héberger AD DS
+
+---
+
+## 1. Les réseaux décentralisés VS centralisés
 
 Imaginez, par exemple, que **vous êtes le responsable informatique d'un magasin d'électronique** d'une entreprise **Computer Electronics** (computerelectronics.be). 
 Vous avez actuellement 10 ordinateurs, 2 imprimantes et 2 serveurs (pour la base de données et pour la messagerie). 

@@ -1,14 +1,31 @@
 # Chapitre 3 : Active Directory Domain Services (AD DS)
 
-## 📋 Objectifs Pédagogiques
+> 📚 **Dans ce chapitre:**
+> 1. 🔍 [Introduction à AD DS](#1-introduction-à-ad-ds)
+>    - Concepts fondamentaux
+>    - Architecture AD DS
+> 2. 💻 [Installation d'AD DS](#2-installation-dad-ds)
+>    - Prérequis
+>    - Étapes d'installation
+> 3. 🌐 [Configuration du domaine](#3-configuration-du-domaine)
+>    - Structure du domaine
+>    - Paramètres essentiels
+
+---
+
+## 📙 Objectifs Pédagogiques
 
 À la fin de ce chapitre, vous serez capable de :
-1. Installer et configurer AD DS sur Windows Server 2022
-2. Créer et gérer un domaine `computerelectronics.be`
+1. Comprendre l'architecture d'Active Directory
+2. Installer et configurer AD DS sur Windows Server
+3. Créer et configurer le domaine `computerelectronics.be`
+4. Vérifier le bon fonctionnement d'AD DS
 
-## 🔍 Introduction à Active Directory
+---
 
-Active Directory (AD) est une suite complète de services de gestion d'identités et d'accès. Il permet de gérer de manière centralisée :
+## 1. Introduction à AD DS
+
+Active Directory Domain Services (AD DS) est le service principal d'Active Directory. Il permet de gérer de manière centralisée :
 
 * 👥 Les utilisateurs
 * 💻 Les ordinateurs
@@ -16,7 +33,7 @@ Active Directory (AD) est une suite complète de services de gestion d'identité
 * 🔒 Les stratégies de sécurité
 * 🌐 Les services réseau
 
-Bien qu'on le confonde souvent avec **AD DS**, Active Directory est plus large et comprend plusieurs services :
+Bien qu'on le confonde souvent avec l'ensemble d'Active Directory, AD DS est un service spécifique parmi d'autres :
  
 | Service | Description |
 |---------|-------------|

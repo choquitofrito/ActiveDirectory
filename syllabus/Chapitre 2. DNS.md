@@ -2,23 +2,29 @@
 
 > 📚 **Dans ce chapitre:**
 > 1. 🌐 [Le service DNS](#1-le-service-dns)
->    - Rôle et importance
->    - Exercices pratiques
-> 2. 🔄 [Processus de Résolution DNS](#2-processus-de-résolution-dns)
+>    - Principes fondamentaux
+>    - Intégration avec AD
+> 2. 🔄 [Résolution DNS](#2-processus-de-résolution-dns)
 >    - Étapes de résolution
 >    - Types de requêtes
 > 3. 🏗️ [Architecture DNS](#3-architecture-dns)
 >    - Zones et domaines
->    - Structure hiérarchique
-> 4. 📝 [Types d'enregistrements](#4-types-denregistrements)
->    - Records A, AAAA, CNAME
->    - Records spéciaux
+>    - Hiérarchie DNS
+> 4. 📝 [Configuration DNS](#4-configuration-dns-dans-windows-server)
+>    - Installation du rôle
+>    - Intégration AD DS
 
 ---
 
-## Objectifs Pédagogiques
+## 📙 Objectifs Pédagogiques
 
 À la fin de ce chapitre, vous serez capable de :
+1. Comprendre le rôle du DNS dans Active Directory
+2. Configurer les zones et enregistrements DNS
+3. Intégrer DNS avec AD DS
+4. Résoudre les problèmes DNS courants
+
+---
 1. 🎯 Comprendre le rôle et l'**importance du DNS** dans un réseau d'entreprise
 2. 📖 Connaitre les différents **types d'enregistrements DNS**
 3. 🔍 Comprendre le **processus de résolution DNS**
