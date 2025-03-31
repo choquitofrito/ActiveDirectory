@@ -520,10 +520,10 @@ Pour tester la délégation, nous devons d'abord préparer l'environnement :
    ```
    sophie.lambert    # Compte administrateur RH
    pierre.dupont     # Utilisateur pour les tests
-   ```
+   `
 
 2. **Configuration des accès**
-   - Activer les connexions locales : [voir Annexe. Configuration accès local](./Annexe.Configuration%20acc%C3%A8s%20local.md)
+   - Activer les connexions locales : voir l'annexe à la fin du document du Chapitre 1.
    - Vérifier que les comptes sont dans les bons groupes selon la stratégie choisie
 
 ### 7.3.2. Validation des Droits
