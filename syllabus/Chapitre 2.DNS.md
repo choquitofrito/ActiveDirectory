@@ -538,7 +538,7 @@ Un serveur DNS ayant autorité sur un espace de nom :
 - Plus complexe pour le client mais moins de charge sur les serveurs
 
 
-## 7.3. Detail d'une requête DNS sans autorité
+### Detail d'une requête DNS sans autorité
 
 Voici, plus en détail, la suite d'opérations pour chercher l'IP d'un serveur DNS **sans autorité**:
 
