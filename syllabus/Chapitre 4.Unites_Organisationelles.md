@@ -371,22 +371,22 @@ Dev
    ```
    Cette organisation permet d'appliquer des politiques spécifiques à chaque service tout en maintenant une cohérence globale.
 
-# 7. Délégation de Contrôle
+## 8. Délégation de Contrôle
 
 Avant de continuer ce chapitre vous devez vous familiariser avec les concept de GPO (Group Policy Object). Passez alors au chapitre [6.Group Policy Objects](./Chapitre%206.Group%20Policy%20Objects.md)
 
-## 7.1 Concept et Stratégies
+### 8.1 Concept et Stratégies
 
 La **délégation de contrôle** permet de décentraliser l'administration d'Active Directory en attribuant des droits spécifiques à des groupes sur des OUs.
 
-### 7.1.1 Objectifs et Bénéfices
+#### 8.1.1 Objectifs et Bénéfices
 
 **Avantages** :
 - **Décentralisation** : Répartition des tâches administratives
 - **Sécurité** : Application du principe du moindre privilège
 - **Efficacité** : Gestion locale plus rapide et adaptée
 
-### 7.1.2 Stratégies de Délégation
+#### 8.1.2 Stratégies de Délégation
 
 1. **AGLP** (Petites Organisations)
    
@@ -468,9 +468,9 @@ La **délégation de contrôle** permet de décentraliser l'administration d'Act
 
 La stratégie **AGDLP** offre plus de flexibilité mais demande plus de maintenance. La stratégie **AGLP** est plus simple à mettre en place mais moins flexible pour les grandes organisations.
 
-## 7.2 Droits Délégables
+### 8.2 Droits Délégables
 
-### 7.2.1 Gestion des Utilisateurs
+#### 8.2.1 Gestion des Utilisateurs
 
 ```
 Permissions de Base d'une délégation
@@ -486,7 +486,7 @@ Permissions de Base d'une délégation
     └── Membres         # Gestion
 ```
 
-### 7.2.2 Gestion des Ressources
+#### 8.2.2 Gestion des Ressources
 
 ```
 Permissions Avancées
@@ -501,9 +501,9 @@ Permissions Avancées
     └── Configuration   # Paramètres
 ```
 
-## 7.3. Tests et Validation de la Délégation
+### 8.3. Tests et Validation de la Délégation
 
-### 7.3.1. Préparation de l'Environnement
+#### 8.3.1. Préparation de l'Environnement
 
 Pour tester la délégation, nous devons d'abord préparer l'environnement :
 
@@ -517,7 +517,7 @@ Pour tester la délégation, nous devons d'abord préparer l'environnement :
    - Activer les connexions locales : voir l'annexe à la fin du document du Chapitre 1.
    - Vérifier que les comptes sont dans les bons groupes selon la stratégie choisie
 
-### 7.3.2. Validation des Droits
+#### 8.3.2. Validation des Droits
 
 1. **Tests de Base (AGLP)**
    ```
@@ -551,9 +551,9 @@ Pour tester la délégation, nous devons d'abord préparer l'environnement :
    - Confirmer isolation entre sites (EU vs US)
    ```
 
-## 7.5. Bonnes Pratiques
+## 9. Bonnes Pratiques
 
-### 7.5.1. Sécurité
+### 9.1. Sécurité
 
 1. **Principe du Moindre Privilège**
    - Déléguer uniquement les droits nécessaires
@@ -565,7 +565,7 @@ Pour tester la délégation, nous devons d'abord préparer l'environnement :
    - Éviter les permissions directes
    - Maintenir une nomenclature cohérente
 
-### 7.5.2. Maintenance
+### 9.2. Maintenance
 
 1. **Documentation**
    - Cartographier les délégations
@@ -577,15 +577,15 @@ Pour tester la délégation, nous devons d'abord préparer l'environnement :
    - Nettoyer les délégations obsolètes
    - Valider les accès
 
-# 8. Héritage dans les OUs
+## 9.3 Héritage dans les OUs
 
-## 8.1 Concept d'Héritage
+### 9.3.1 Concept d'Héritage
 
 L'héritage dans AD détermine **comment les paramètres et les permissions se propagent à travers la hiérarchie** des OUs.
 
-## 8.2 Types d'Héritage
+### 9.3.2 Types d'Héritage
 
-### 8.2.1 Héritage des GPOs
+#### Héritage des GPOs
 
 1. **Propagation**
    - Les paramètres se propagent **automatiquement** vers le bas
@@ -597,7 +597,7 @@ L'héritage dans AD détermine **comment les paramètres et les permissions se p
    - **Forcer l'héritage**: ignorer les blocages
    - Exemple: `EU/IT` peut bloquer les GPOs de `EU` pour des besoins spécifiques
 
-### 8.2.2 Héritage des Permissions
+#### Héritage des Permissions
 
 1. **ACLs (Access Control Lists)**
    - Définissent les droits d'accès
@@ -614,11 +614,9 @@ L'héritage dans AD détermine **comment les paramètres et les permissions se p
    - Option de remplacer les permissions héritées
    - Exemple: Bloquer les permissions héritées pour `EU/IT/Dev`
 
-# 9. Groupes vs OUs
+## 10. Groupes vs OUs
 
-## 9.1 Différences Fondamentales
-
-### 9.1.1 Tableau Comparatif
+### 10.1. Tableau Comparatif
 
 | Caractéristique | Groupes | OUs |
 |-----------------|---------|-----|
@@ -628,11 +626,11 @@ L'héritage dans AD détermine **comment les paramètres et les permissions se p
 | **Utilisation** | Accès aux ressources | Organisation administrative |
 | **Adaptabilité** | Flexibles et réutilisables | Hiérarchiques et structurés |
 
-## 9.2 Utilisation des Groupes
+### 10.2 Utilisation des Groupes
 
 Les groupes sont utilisés pour **gérer les accès aux ressources et les rôles fonctionnels**.
 
-### 9.2.1 Accès aux Ressources 
+#### 10.2.1 Accès aux Ressources 
 
 On peut créer de groupes qui contiennent des **permissions directes sur des ressources**.
 
@@ -656,7 +654,7 @@ On peut créer de groupes qui contiennent des **permissions directes sur des res
 
 **Note** : Cette approche est plus simple mais moins flexible que AGDLP. Elle est recommandée uniquement pour les petites structures avec un seul domaine.
 
-### 9.2.2 Rôles Fonctionnels
+#### 10.2.2 Rôles Fonctionnels
 
 On peut **créer de groupes selon le rôle fonctionnel des utilisateurs** qui l'occupent.
 
@@ -675,9 +673,9 @@ On peut **créer de groupes selon le rôle fonctionnel des utilisateurs** qui l'
    ```
 
 
-## 9.3 Utilisation des OUs
+## 11. Utilisation des OUs
 
-### 9.3.1 Structure Organisationnelle
+### 11.1 Structure Organisationnelle
 
 Les OUs permettent de **créer une structure hiérarchique** qui reflète l'organisation de l'entreprise, facilitant ainsi la gestion des ressources par zone géographique et par département.
 
@@ -692,7 +690,7 @@ Les OUs permettent de **créer une structure hiérarchique** qui reflète l'orga
        └── Computers
    ```
 
-### 9.3.2 Application des GPOs
+### 11.2. Application des GPOs
 
 Les OUs servent de points d'application pour les **stratégies de groupe (GPOs)**, permettant d'appliquer des **paramètres de sécurité et de configuration spécifiques** à différents niveaux de l'organisation.
 
@@ -710,7 +708,7 @@ Les OUs servent de points d'application pour les **stratégies de groupe (GPOs)*
    └── GPO: Audit renforcé
    ```
 
-### 9.3.3 Délégation Administrative
+### 11.3. Délégation Administrative
 
 La structure en OUs permet de **déléguer des droits administratifs** à différents niveaux, donnant aux équipes locales l'autonomie nécessaire pour gérer leurs ressources.
 
@@ -728,9 +726,9 @@ La structure en OUs permet de **déléguer des droits administratifs** à diffé
    GG-EU-IT-Dev-Admin   → EU/IT/Dev (GPO Management)
    ```
 
-## 9.4 Exemples de combinaison des deux approches (OU + GPO)
+## 11.4. Exemples de combinaison des deux approches (OU + GPO)
 
-### 9.4.1 Gestion des Stagiaires
+### 11.4.1. Gestion des Stagiaires
 
 1. **Structure OU**
    ```
@@ -776,7 +774,7 @@ La structure en OUs permet de **déléguer des droits administratifs** à diffé
    GG-EU-Stagiaires-RH → DL-EU-Stagiaires-Apps
    ```
 
-### 9.4.2 Département Commercial
+#### 11.4.2 Département Commercial
 
 1. **Structure OU**
    ```
@@ -815,7 +813,7 @@ La structure en OUs permet de **déléguer des droits administratifs** à diffé
    GG-EU-Ventes-Managers → DL-EU-Ventes-CRM
    ```
 
-### 9.4.3 Projet Multi-Départemental
+#### 11.4.3 Projet Multi-Départemental
 
 1. **Structure Existante**
    ```
