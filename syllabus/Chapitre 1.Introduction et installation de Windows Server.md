@@ -100,7 +100,7 @@ Qu'est-ce que vous en pensez? Ne regardez pas la solution!
 
 ---
 
-# 2. Windows Server 
+## 3. Windows Server 
 
 > 📍 **Point de départ:** On a considéré que les avantages étaient plus importants que les risques ! Nous allons donc utiliser Active Directory.
 
@@ -126,7 +126,7 @@ Qu'est-ce que vous en pensez? Ne regardez pas la solution!
 - La possibilité de **gérer de nombreux utilisateurs** et connexions simultanées
 
 
-## 2.1. Les machines virtuelles ?
+### 3.1. Les machines virtuelles ?
 
 **Nous devons nous assurer que nos expériences ne modifient pas la configuration de notre ordinateur**. Nous devons également **pouvoir facilement restorer une configuration de départ** si nous faisons des erreurs.
 
@@ -140,7 +140,7 @@ Qu'est-ce que vous en pensez? Ne regardez pas la solution!
 * De plus, **nous pourrons facilement supprimer une machine virtuelle et en créer une nouvelle si nous faisons des erreurs**.
 
 
-## 2.2. Installation de Windows Server avec Hyper-V (Windows)
+### 3.2. Installation de Windows Server avec Hyper-V (Windows)
 
 **IMPORTANT:** si vous n'utilisez pas Windows, vous pouvez utiliser **VirtualBox** au lieu d'Hyper-V. Allez sur [Installation-Windows-Server-2022-VirtualBox.md](Installation-Windows-Server-2022-VirtualBox.md).
 
@@ -148,7 +148,7 @@ Nous allons créer une première machine virtuelle et y installer Windows Server
 
 L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 
-### 2.2.1. Activation de Hyper-V dans Windows
+### 3.2.1. Activation de Hyper-V dans Windows
 
 - Dans la barre de recherche de Windows, tapez **Activer ou désactiver des fonctionnalités Windows**
 - Cliquez sur **Activer ou désactiver des fonctionnalités Windows**
@@ -156,7 +156,7 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 - Redémarrez Windows
 
 
-### 2.2.3. Création des réseaux virtuels en Hyper-V
+### 3.2.2. Création des réseaux virtuels en Hyper-V
 
 ### 🔗 Configuration des réseaux virtuels
 
