@@ -42,7 +42,7 @@ Une **Unité d'Organisation** (OU) est un **conteneur Active Directory** offrant
 
 ## 3. 📂 Structure des OUs
 
-### 2.1 📊 Hiérarchie des Contenus
+### 3.1 📊 Hiérarchie des Contenus
 
 ```
 OU
@@ -53,7 +53,7 @@ OU
 └── Autres objets (imprimantes, contacts)
 ```
 
-## 2.2 Avantages vs Conteneurs par Défaut
+## 3.2 Avantages vs Conteneurs par Défaut
 
 | Fonctionnalité | Conteneur par Défaut | OU |
 |-----------------|---------------------|----|
@@ -64,7 +64,7 @@ OU
 
 ## 4. 🔧 Création d'une OU
 
-## 3.1 Procédure
+### 4.1 Procédure
 
 1. **Ouvrir la Console**
    ```
@@ -91,7 +91,7 @@ OU
 
 ## 5. 🗑️ Suppression d'une OU Protégée
 
-## 4.1 Activation des Fonctionnalités Avancées
+### 5.1 Activation des Fonctionnalités Avancées
 
 1. **Ouvrir ADUC**
    ```
@@ -103,7 +103,7 @@ OU
    Menu View → Advanced Features
    ```
 
-## 4.2 Désactivation de la Protection
+### 5.2 Désactivation de la Protection
 
 1. **Accéder aux Propriétés**
    ```
@@ -122,7 +122,7 @@ OU
 
 ## 6. ⚙️ Gestion des OUs
 
-## 5.1 Flexibilité de la Structure
+### 6.1 Flexibilité de la Structure
 
 1. **Déplacement d'Objets**
    ```
@@ -134,7 +134,7 @@ OU
    OU → Clic droit → Lier une GPO
    ```
 
-## 5.2 Exemples de GPOs par Département
+### 6.2 Exemples de GPOs par Département
 
 | Département | GPO | Objectif |
 |--------------|-----|----------|
@@ -142,9 +142,9 @@ OU
 | IT | GPO-IT-USB | Autoriser USB |
 | RH | GPO-RH-Screen | Verrouillage 5min |
 
-## 7. 🏢 Structure pour computerelectronics.be
+### 7. 🏢 Structure pour computerelectronics.be
 
-## 6.1 Hiérarchie Géographique (EU et USA)
+#### 7.1 Hiérarchie Géographique (EU et USA)
 
 
 ```
@@ -176,7 +176,7 @@ EU
 
 > USA a une structure identique à EU
 
-## 6.2 Hiérarchie Environnement (DEV et PROD)
+### 7.2 Hiérarchie Environnement (DEV et PROD)
 
 ```
 Dev
@@ -196,16 +196,16 @@ Dev
 
 > Prod a une structure identique à Dev
 
-## 6.3 Conventions de Nommage
+### 7.3 Conventions de Nommage
 
-### 6.3.1 Règles Générales
+#### 7.3.1 Règles Générales
 
 - Utiliser des noms descriptifs et cohérents
 - Éviter les abréviations (sauf standards)
 - Pas de caractères spéciaux
 - Respecter la casse selon le type d'objet
 
-### 6.2.2. Exemples par Type
+#### 7.3.2. Exemples par Type
 
 1. **OUs**
    - Format: PascalCase
@@ -223,7 +223,7 @@ Dev
      * `ws-compta-01`
      * `ws-rh-01`
 
-### 6.2.3 Bonnes Pratiques
+#### 7.3.3 Bonnes Pratiques
 
 1. **Structure**
    ```
@@ -258,9 +258,9 @@ Dev
        └── Databases
    ```
 
-## 6.3 Conteneurs vs OUs
+## 8. Conteneurs vs OUs
 
-### 6.3.1 Comparaison
+### 8.1 Comparaison
 
 | Fonctionnalité | Conteneur | OU |
 |-----------------|-----------|----|
@@ -269,7 +269,7 @@ Dev
 | Délégation | ❌ | ✅ |
 | Flexibilité | ❌ | ✅ |
 
-### 6.3.2 Exemples d'Utilisation
+### 8.2 Exemples d'Utilisation
 
 1. **Unités d'Organisation**
    ```
@@ -288,9 +288,9 @@ Dev
    └── Computers     # Conteneur standard
    ```
 
-## 6.4 Principes de Conception
+### 8.3 Principes de Conception
 
-### 6.4.1 Facteurs Clés
+#### 8.3.1 Facteurs Clés
 
 1. **Administration**
    ```
@@ -329,7 +329,7 @@ Dev
    - Structure par lieu ou par fonction ?
    - Hybride des deux approches ?
 
-### 6.4.2 Meilleures Pratiques
+### 8.4 Meilleures Pratiques
 
 1. **Structure Simple et Claire**
    La structure doit être facilement compréhensible et maintenable. Chaque département suit la même organisation:
@@ -371,22 +371,22 @@ Dev
    ```
    Cette organisation permet d'appliquer des politiques spécifiques à chaque service tout en maintenant une cohérence globale.
 
-## 8. Délégation de Contrôle
+## 9. Délégation de Contrôle
 
 Avant de continuer ce chapitre vous devez vous familiariser avec les concept de GPO (Group Policy Object). Passez alors au chapitre [6.Group Policy Objects](./Chapitre%206.Group%20Policy%20Objects.md)
 
-### 8.1 Concept et Stratégies
+### 9.1 Concept et Stratégies
 
 La **délégation de contrôle** permet de décentraliser l'administration d'Active Directory en attribuant des droits spécifiques à des groupes sur des OUs.
 
-#### 8.1.1 Objectifs et Bénéfices
+#### 9.1.1 Objectifs et Bénéfices
 
 **Avantages** :
 - **Décentralisation** : Répartition des tâches administratives
 - **Sécurité** : Application du principe du moindre privilège
 - **Efficacité** : Gestion locale plus rapide et adaptée
 
-#### 8.1.2 Stratégies de Délégation
+#### 9.1.2 Stratégies de Délégation
 
 1. **AGLP** (Petites Organisations)
    
@@ -468,9 +468,9 @@ La **délégation de contrôle** permet de décentraliser l'administration d'Act
 
 La stratégie **AGDLP** offre plus de flexibilité mais demande plus de maintenance. La stratégie **AGLP** est plus simple à mettre en place mais moins flexible pour les grandes organisations.
 
-### 8.2 Droits Délégables
+### 9.2 Droits Délégables
 
-#### 8.2.1 Gestion des Utilisateurs
+#### 9.2.1 Gestion des Utilisateurs
 
 ```
 Permissions de Base d'une délégation
@@ -486,7 +486,7 @@ Permissions de Base d'une délégation
     └── Membres         # Gestion
 ```
 
-#### 8.2.2 Gestion des Ressources
+#### 9.2.2 Gestion des Ressources
 
 ```
 Permissions Avancées
@@ -501,9 +501,9 @@ Permissions Avancées
     └── Configuration   # Paramètres
 ```
 
-### 8.3. Tests et Validation de la Délégation
+### 9.3. Tests et Validation de la Délégation
 
-#### 8.3.1. Préparation de l'Environnement
+#### 9.3.1. Préparation de l'Environnement
 
 Pour tester la délégation, nous devons d'abord préparer l'environnement :
 
@@ -517,7 +517,7 @@ Pour tester la délégation, nous devons d'abord préparer l'environnement :
    - Activer les connexions locales : voir l'annexe à la fin du document du Chapitre 1.
    - Vérifier que les comptes sont dans les bons groupes selon la stratégie choisie
 
-#### 8.3.2. Validation des Droits
+#### 9.3.2. Validation des Droits
 
 1. **Tests de Base (AGLP)**
    ```
@@ -551,9 +551,9 @@ Pour tester la délégation, nous devons d'abord préparer l'environnement :
    - Confirmer isolation entre sites (EU vs US)
    ```
 
-## 9. Bonnes Pratiques
+## 10. Bonnes Pratiques
 
-### 9.1. Sécurité
+### 10.1. Sécurité
 
 1. **Principe du Moindre Privilège**
    - Déléguer uniquement les droits nécessaires
@@ -565,7 +565,7 @@ Pour tester la délégation, nous devons d'abord préparer l'environnement :
    - Éviter les permissions directes
    - Maintenir une nomenclature cohérente
 
-### 9.2. Maintenance
+### 10.2. Maintenance
 
 1. **Documentation**
    - Cartographier les délégations
@@ -577,13 +577,13 @@ Pour tester la délégation, nous devons d'abord préparer l'environnement :
    - Nettoyer les délégations obsolètes
    - Valider les accès
 
-## 9.3 Héritage dans les OUs
+## 10.3 Héritage dans les OUs
 
-### 9.3.1 Concept d'Héritage
+### 10.3.1 Concept d'Héritage
 
 L'héritage dans AD détermine **comment les paramètres et les permissions se propagent à travers la hiérarchie** des OUs.
 
-### 9.3.2 Types d'Héritage
+### 10.3.2 Types d'Héritage
 
 #### Héritage des GPOs
 
@@ -614,9 +614,9 @@ L'héritage dans AD détermine **comment les paramètres et les permissions se p
    - Option de remplacer les permissions héritées
    - Exemple: Bloquer les permissions héritées pour `EU/IT/Dev`
 
-## 10. Groupes vs OUs
+## 11. Groupes vs OUs
 
-### 10.1. Tableau Comparatif
+### 11.1. Tableau Comparatif
 
 | Caractéristique | Groupes | OUs |
 |-----------------|---------|-----|
@@ -626,11 +626,11 @@ L'héritage dans AD détermine **comment les paramètres et les permissions se p
 | **Utilisation** | Accès aux ressources | Organisation administrative |
 | **Adaptabilité** | Flexibles et réutilisables | Hiérarchiques et structurés |
 
-### 10.2 Utilisation des Groupes
+### 11.2 Utilisation des Groupes
 
 Les groupes sont utilisés pour **gérer les accès aux ressources et les rôles fonctionnels**.
 
-#### 10.2.1 Accès aux Ressources 
+#### 11.2.1 Accès aux Ressources 
 
 On peut créer de groupes qui contiennent des **permissions directes sur des ressources**.
 
@@ -673,9 +673,9 @@ On peut **créer de groupes selon le rôle fonctionnel des utilisateurs** qui l'
    ```
 
 
-## 11. Utilisation des OUs
+## 12. Utilisation des OUs
 
-### 11.1 Structure Organisationnelle
+### 12.1 Structure Organisationnelle
 
 Les OUs permettent de **créer une structure hiérarchique** qui reflète l'organisation de l'entreprise, facilitant ainsi la gestion des ressources par zone géographique et par département.
 
@@ -690,7 +690,7 @@ Les OUs permettent de **créer une structure hiérarchique** qui reflète l'orga
        └── Computers
    ```
 
-### 11.2. Application des GPOs
+### 12.2. Application des GPOs
 
 Les OUs servent de points d'application pour les **stratégies de groupe (GPOs)**, permettant d'appliquer des **paramètres de sécurité et de configuration spécifiques** à différents niveaux de l'organisation.
 
@@ -708,7 +708,7 @@ Les OUs servent de points d'application pour les **stratégies de groupe (GPOs)*
    └── GPO: Audit renforcé
    ```
 
-### 11.3. Délégation Administrative
+### 12.3. Délégation Administrative
 
 La structure en OUs permet de **déléguer des droits administratifs** à différents niveaux, donnant aux équipes locales l'autonomie nécessaire pour gérer leurs ressources.
 
@@ -726,9 +726,9 @@ La structure en OUs permet de **déléguer des droits administratifs** à diffé
    GG-EU-IT-Dev-Admin   → EU/IT/Dev (GPO Management)
    ```
 
-## 11.4. Exemples de combinaison des deux approches (OU + GPO)
+## 12.4. Exemples de combinaison des deux approches (OU + GPO)
 
-### 11.4.1. Gestion des Stagiaires
+### 12.4.1. Gestion des Stagiaires
 
 1. **Structure OU**
    ```
@@ -774,7 +774,7 @@ La structure en OUs permet de **déléguer des droits administratifs** à diffé
    GG-EU-Stagiaires-RH → DL-EU-Stagiaires-Apps
    ```
 
-#### 11.4.2 Département Commercial
+#### 12.4.2 Département Commercial
 
 1. **Structure OU**
    ```
@@ -813,7 +813,7 @@ La structure en OUs permet de **déléguer des droits administratifs** à diffé
    GG-EU-Ventes-Managers → DL-EU-Ventes-CRM
    ```
 
-#### 11.4.3 Projet Multi-Départemental
+#### 12.4.3 Projet Multi-Départemental
 
 1. **Structure Existante**
    ```
