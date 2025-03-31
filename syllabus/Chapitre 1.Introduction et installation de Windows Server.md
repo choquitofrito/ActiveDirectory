@@ -104,7 +104,7 @@ Qu'est-ce que vous en pensez? Ne regardez pas la solution!
 
 > 📍 **Point de départ:** On a considéré que les avantages étaient plus importants que les risques ! Nous allons donc utiliser Active Directory.
 
-### 🗓 Étapes d'installation
+### Étapes d'installation
 
 > Pour mettre en place Active Directory, nous suivrons un processus en trois phases. Chaque phase est essentielle pour assurer une installation réussie.
 
