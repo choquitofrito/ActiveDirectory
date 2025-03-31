@@ -2,76 +2,73 @@
 
 ### 1.1. Concepts Fondamentaux
 
-Un compte utilisateur Active Directory **représente une identité numérique unique** dans l'infrastructure `computerelectronics.be`. Cette identité: 
+Un compte utilisateur Active Directory **représente une identité numérique unique** dans l'infrastructure `computerelectronics.be`. Cette identité permet de :
 
-- **Identifie** l'utilisateur de manière unique (comme Sophie Lambert du service RH)
-- **Contrôle** **l'accès aux ressources** (dossiers, applications, imprimantes, etc.)
-- **Stocke** des informations sur l'utilisateur (comme son département, son rôle)
+- **Identifier** l'utilisateur de manière unique (ex: `sophie.lambert` du service RH)
+- **Contrôler** l'accès aux ressources (dossiers, applications, imprimantes)
+- **Stocker** les informations de l'utilisateur (département, rôle, etc.)
 
-Par exemple, quand l'utilisateur Sophie Lambert arrive au bureau :
+**Exemple pratique** : Connexion de Sophie Lambert
 
-1. Elle utilise son compte pour se connecter à son poste de travail
-2. Le système vérifie son identité et ses droits
-3. Elle accède automatiquement à ses dossiers et applications
+1. Utilisation du compte pour se connecter au poste de travail
+2. Vérification de l'identité et des droits par le système
+3. Accès automatique aux ressources autorisées
 
-Le **compte** utilisateur **constitue** ainsi :
-- Le **point d'accès principal** aux ressources du domaine (ordinateurs, fichiers, imprimantes)
-- Un élément de la **structure de sécurité** de l'entreprise (qui peut accéder à quoi)
-- Un **composant critique** de la gestion des identités (qui est qui dans l'organisation)
+**Le compte utilisateur est** :
+- Le **point d'accès principal** aux ressources du domaine
+- Un élément de la **structure de sécurité** de l'entreprise
+- Un **composant critique** de la gestion des identités
 
 ### 1.2. Standards de Nommage
 
-#### Convention de Nommage Officielle pour le SAM (Identifiant unique)
+#### Convention de Nommage (SamAccountName)
 
-Lors de la création d'un compte utilisateur, il est important de suivre une convention de nommage standardisée. Le **nom** qu'on choisit est le **SamAccountName** (Identifiant unique dans le domaine).
+Le **SamAccountName** est l'identifiant unique de l'utilisateur dans le domaine. Pour garantir l'uniformité et éviter les conflits, nous suivons une convention standardisée.
 
-Pour garantir l'uniformité et éviter les conflits, nous utilisons une convention de nommage standardisée :
+**Format standard** : `prenom.nom`
 
-- Format : `prenom.nom`
-- Exemples :
-  
-  ```
-  clark.kent              # Pour Clark Kent du service Comptabilité
-  sophie.lambert          # Pour Sophie Lambert du service RH
-  jean.martin.compta      # Pour Jean Martin du service Comptabilité
-  jean.martin.rh          # Pour Jean Martin du service RH
-  jean.martin.compta.fr   # Pour Jean Martin (France) du service Comptabilité
-  jean.martin.compta.be   # Pour Jean Martin (Belgique) du service Comptabilité
-  ```
+**Exemples** :
+```plaintext
+clark.kent              # Comptabilité
+sophie.lambert          # RH
+jean.martin.compta      # Comptabilité (cas d'homonymie)
+jean.martin.rh          # RH (cas d'homonymie)
+jean.martin.compta.fr   # Comptabilité France
+jean.martin.compta.be   # Comptabilité Belgique
+```
 
-Les règles de nommage ne sont pas universelles, elles varient selon l'organisation.
-On peur établir les notres.
-
-**Règles** :
-  - Uniquement en minuscules (pour éviter les erreurs de frappe)
-  - Pas de caractères spéciaux sauf le point (pour la compatibilité)
-  - En cas d'homonymes :
-    1. Ajouter le département (ex: .compta, .rh)
-    2. Si nécessaire, ajouter un autre identifiant distinctif :
-       * Localisation (.fr, .be)
-       * Fonction (.senior, .junior)
-       * Site (.bxl, .anvers)
-  - Ne jamais utiliser de chiffres
+**Règles de nommage** :
+- Uniquement en minuscules
+- Pas de caractères spéciaux sauf le point
+- En cas d'homonymes :
+  1. Ajouter le département (`.compta`, `.rh`)
+  2. Si nécessaire, ajouter un identifiant :
+     - Localisation (`.fr`, `.be`)
+     - Fonction (`.senior`, `.junior`)
+     - Site (`.bxl`, `.anvers`)
+- Ne jamais utiliser de chiffres
 
 
 ### 1.3. UPN (User Principal Name)
 
-L'UPN est un format de connexion similaire à une adresse email, plus facile à retenir que l'ancien format DOMAIN\nom. Contrairement au SAM, **il est unique dans toute la forêt AD**.
+L'UPN est un format de connexion similaire à une adresse email, **unique dans toute la forêt AD**.
 
-**Structure de base** :
-- Format : `login@domaine`
-- Exemple : `clark.kent@computerelectronics.be`
-
-**Utilisation pratique** :
-```
-Ancien format : COMPUTERELECTRONICS\clark.kent
-Nouveau format : clark.kent@computerelectronics.be
+**Structure** :
+```plaintext
+Format  : login@domaine
+Exemple : clark.kent@computerelectronics.be
 ```
 
-**Points clés** :
-- **Unicité** : Chaque UPN doit être unique dans toute la forêt AD
-- **Simplicité** : Format familier type email, facile à mémoriser
-- **Standardisation** : Utilisation du domaine principal (`computerelectronics.be`)
+**Comparaison des formats** :
+```plaintext
+Ancien : COMPUTERELECTRONICS\clark.kent
+Nouveau : clark.kent@computerelectronics.be
+```
+
+**Avantages** :
+- **Unicité** : Garantie dans toute la forêt AD
+- **Simplicité** : Format familier type email
+- **Standardisation** : Domaine principal `computerelectronics.be`
 
 
 <br>
@@ -141,7 +138,7 @@ La création d'un compte utilisateur est une opération fréquente, par exemple 
    - Nom d'ouverture de session : clark.kent
    - UPN : clark.kent@computerelectronics.be
 
-   
+
 4. **Configuration du mot de passe** :
    - Choisir un mot de passe temporaire respectant la politique
    - **Cocher** "L'utilisateur doit changer son mot de passe à la prochaine ouverture de session"
@@ -182,12 +179,14 @@ Ces informations facilitent l'identification et la localisation de l'utilisateur
      * Par défaut : toutes les machines
      * Exemple de restriction : `ws-compta-01, ws-compta-02`
 
-#### **Onglet Profil** :
-   - **Chemin du profil** : Chemin du dossier qui contient les paramètres de l'utilisateur et ses fichiers personnels
-     ```
-     \\srv-profiles\profiles\%username%
-     # Exemple : \\srv-profiles\profiles\clark.kent
-     ```
+#### Profil Utilisateur (Onglet Profil)
+
+**Chemin du profil** :
+```plaintext
+Local    : C:\Users\username
+Itinérant : \\srv-profiles\profiles\%username%
+Exemple  : \\srv-profiles\profiles\clark.kent
+```
    **Note**: Par défaut, ce champ est vide car Windows crée automatiquement des profils locaux (C:\Users\username). 
    On ne le configure que si on veut implémenter des **profils itinérants** (roaming profiles) qui suivent l'utilisateur d'un poste à l'autre.
       
@@ -206,114 +205,143 @@ Ces informations facilitent l'identification et la localisation de l'utilisateur
      * `\AppData\Roaming` : Données qui suivent l'utilisateur entre les machines
    - **Script de connexion** : Si on veut lancer une suite d'opérations lors de la connexion 
      ```
-     \\srv-scripts\dept\compta\logon.bat
-     ```
+\\srv-scripts\dept\compta\logon.bat
+```
 
-**Important** : Les restrictions horaires et de postes sont particulièrement utiles pour les comptes sensibles ou les prestataires externes
+**Points d'attention** :
+- Les profils itinérants peuvent impacter les performances
+- Privilégier les profils locaux par défaut
+- Restreindre les heures/postes pour les comptes sensibles
 
 
 
-## 4. Bonnes pratiques pour la gestion des comptes
+## 4. Bonnes Pratiques de Gestion
 
+### 4.1. Sécurité des Comptes
 
-1. **Politique de mot de passe** 
-   ```
-   Longueur minimale : 12 caractères
-   Complexité : Majuscules, minuscules, chiffres, symboles
-   Durée maximale : 90 jours
-   Historique : 24 derniers mots de passe
-   ```
+**Politique de mot de passe** :
+```plaintext
+Longueur   : 12 caractères minimum
+Complexité : Maj + Min + Chiffres + Symboles
+Validité   : 90 jours maximum
+Historique : 24 derniers mots de passe
+```
 
-2. **Surveillance et Audit** :
-   - Vérification mensuelle des comptes inactifs
-   - Revue trimestrielle des privilèges élevés
-   - Alerte sur les tentatives de connexion suspectes
+**Surveillance** :
+```plaintext
+Mensuel    : Vérification des comptes inactifs
+Trimestriel : Audit des privilèges élevés
+Continu    : Alertes de connexions suspectes
+```
 
-3. **Desactivation et suppression** :
-   - La désactivation est préférable à la suppression car elle permet de réactiver le compte si nécessaire. 
-   - Si on elimine un compte il faudra documenter la procedure
+### 4.2. Cycle de Vie des Comptes
+
+**Gestion des départs** :
+```plaintext
+1. Désactivation immédiate du compte
+2. Conservation temporaire des données
+3. Suppression après période de rétention
+```
+
+**Important** :
+- Privilégier la désactivation à la suppression
+- Documenter toute suppression définitive
+- Maintenir un historique des actions
 
 ## 5. Gestion des Groupes
 
-Les groupes sont essentiels pour gérer efficacement les accès et les droits dans Active Directory. Ils permettent d'appliquer des permissions à plusieurs utilisateurs en même temps.
+### 5.1. Concepts de Base
 
-**Un groupe AD est un conteneur** qui peut contenir **des utilisateurs, des groupes, des ordinateurs, etc**.
+**Définition** : Un groupe AD est un conteneur pour gérer collectivement :
+- Utilisateurs
+- Ordinateurs
+- Autres groupes
 
-Un groupe a un **type** et une **étendue**.
+**Principe du moindre privilège** :
+```plaintext
+1. Permissions -> Groupes (jamais aux utilisateurs)
+2. Groupes -> Permissions minimales nécessaires
+3. Contrôle via groupes imbriqués (AGDLP/AGLP)
+```
 
-**Important**: On suit toujours le **principe du moindre privilège**:
-- Les **permissions** sont **données aux groupes**, jamais directement aux utilisateurs
-- Chaque **groupe** ne **reçoit** que les **permissions strictement nécessaires** à sa fonction
-- L'utilisation de **groupes imbriqués (AGDLP/AGLP) permet de mieux contrôler et auditer les permissions** (expliquée plus tard)
+### 5.2. Types de Groupes
 
-### 5.1. Types de Groupes
+#### Groupes de Sécurité
 
-1. **Groupes de Sécurité**: Les groupes de sécurité sont les plus utilisés pour la gestion quotidienne
-   
-   - **Objectif** : Gérer les permissions et les droits d'accès dans le reseau
-   - **Exemples** :
-     ```
-     DL-EU-Comptabilite-Lecture    # Accès lecture aux dossiers comptables EU
-     GG-EU-RH-Admin         # Administration des ressources RH EU
-     GG-Dev-Support         # Équipe support Dev
-     ```
-   
-2. **Groupes de Distribution**
-   - **Objectif** : Faciliter l'envoi d'emails à plusieurs destinataires
-   - **Exemples** :
-     ```
-     DL-EU-Info             # Liste de diffusion EU (Distribution List = DL)
-     DL-EU-Comptabilite-Contacts  # Liste de contacts comptables EU
-     DL-EU-RH-Managers      # Liste de managers RH EU
-     ```
-Ces groupes **sont uniquement pour la messagerie**, pas pour les permissions
+**Objectif** : Gestion des droits d'accès
 
-### 5.2. Étendues de Groupe
+**Exemples** :
+```plaintext
+DL-EU-Comptabilite-Lecture  # Lecture dossiers comptables
+GG-EU-RH-Admin             # Administration RH
+GG-EU-Support              # Support technique
+```
 
-Selon l'étendue de leurs accès, les groupes sont divisés en 3 catégories:
+#### Groupes de Distribution
 
-#### 1. Domaine Local (DL)
-   - **Usage** : Attribution **finale des droits dans le domaine**
-   - **Portée** : Créés et gérés dans **un seul domaine**
-   - **Exemples** :
-     ```
-     DL-Prod-Servers-Admin   # Groupe Domaine Local Sécurité - Administrateurs des serveurs Prod
-     DL-EU-Comptabilite-Lecture   # Groupe Domaine Local Sécurité - Droits lecture comptabilité EU
-     DL-EU-RH-Modif        # Groupe Domaine Local Sécurité - Modification données RH EU
-     ```
+**Objectif** : Listes de diffusion email
 
-On doit fixer de noms cohérents pour les groupes. Il n'y a pas de convention officielle, mais il est recommandé de suivre une **convention cohérente**. On va fixer la notre:
+**Exemples** :
+```plaintext
+DL-EU-Info                 # Diffusion générale
+DL-EU-Comptabilite-Contact # Contacts comptabilité
+DL-EU-RH-Managers         # Managers RH
+```
 
-[Etendue]-[Nom]
+**Important** : Les groupes de distribution ne gèrent pas les permissions
 
-**Exemple**: DL-Comptabilite-Modif
+### 5.3. Étendues de Groupe
 
-- **Etendue**: **DL-** for Domain Local, **GG-** for Global, **U-** for Universal.
+#### Domaine Local (DL-)
 
+**Caractéristiques** :
+- Attribution finale des droits
+- Limité au domaine `computerelectronics.be`
+- Utilisé pour les permissions sur ressources
 
-Utilisés pour attribuer les permissions sur les ressources
+**Exemples** :
+```plaintext
+DL-EU-Serveurs-Admin      # Admin serveurs
+DL-EU-Comptabilite-Lecture # Lecture comptabilité
+DL-EU-RH-Modif           # Modification RH
+```
 
-#### 2. Global (GG)
-   - **Usage** : Organisation des utilisateurs **par fonction dans l'entreprise**
-   - **Portée** : Créés et gérés dans **un seul domaine**
-   - **Exemples** :
-     ```
-     GG-EU-Comptabilite-Users     # Tous les comptables EU
-     GG-EU-RH-Managers          # Managers des RH EU
-     GG-EU-IT-Support          # Équipe support IT
-     ```
-Représentent généralement des rôles métier
+#### Global (GG-)
 
-#### 3. Universel (U)
-   - **Usage** : Groupes **accessibles dans toute la forêt AD**
-   - **Portée** : Tous les domaines de la forêt
-   - **Exemples** :
-     ```
-     U-Direction       # Direction générale (tous sites)
-     U-Projet-Isib     # Équipe projet multi-domaines
-     U-Admin-Global    # Administrateurs globaux IT
-     ```
-Les groupes universels sont accessibles dans toute la forêt AD, mais ils sont moins utilisés car ils impactent la réplication dans chaque domaine.
+**Caractéristiques** :
+- Organisation par fonction métier
+- Créé dans un domaine, visible dans la forêt
+- Regroupe les utilisateurs par rôle
+
+**Exemples** :
+```plaintext
+GG-EU-Comptabilite-Users  # Comptables
+GG-EU-RH-Managers        # Managers RH
+GG-EU-IT-Support        # Support IT
+```
+
+#### Universel (U-)
+
+**Caractéristiques** :
+- Accessible dans toutes les forêts
+- Impact sur la réplication AD
+- Utilisation limitée
+
+**Exemples** :
+```plaintext
+U-Direction              # Direction générale
+U-Projet-Global          # Projets multi-domaines
+U-Admin-Global           # Administration globale
+```
+
+**Convention de nommage** :
+```plaintext
+Format : [Etendue]-[Location]-[Département]-[Fonction]
+Exemples:
+- DL-EU-Comptabilite-Modif
+- GG-EU-RH-Users
+- U-Global-Admin
+```
 
 ### 5.3. Création et Gestion des Groupes
 
@@ -329,125 +357,138 @@ Les groupes universels sont accessibles dans toute la forêt AD, mais ils sont m
       - Nom : GG-EU-Comptabilite-Users
       - Étendue : Global
       - Type : Sécurité
-   ```
+```
 
-2. **Ajout de membres**
-   ```
-   - Double-clic sur le groupe
-   - Onglet Membres > Ajouter
-   - Rechercher et sélectionner les utilisateurs :
-      - clark.kent
-      - sophie.lambert
+#### Gestion des Membres
+
+**Ajout d'utilisateurs** :
+```plaintext
+1. Groupe -> Double-clic
+2. Onglet Membres -> Ajouter
+3. Sélectionner utilisateurs :
+   - clark.kent
+   - sophie.lambert
    - Vérifier les membres ajoutés
-   ```
+```
 Vérifiez toujours la liste des membres après les modifications
 
 
-### 5.4. Convention de Nommage des Groupes
+### 5.4. Convention de Nommage
 
-On doit fixer nous même les conventions de noms de manière cohérente. Il n'y a pas de regles fixes mais il faut que la convention soit cohérente. Nous avons choisi celle-ci:
+**Format standard** :
+```plaintext
+[Type]-[Location]-[Service]-[Fonction]
+```
 
-- Les préfixes indiquent clairement la portée ET le type du groupe
+**Exemples** :
+```plaintext
+GG-EU-Comptabilite-Users  # Comptables EU
+DL-EU-RH-Lecture         # Lecture RH
+U-Global-IT-Admin        # Admin IT global
+```
 
-1. **Structure du Nom**
+### 5.5. Stratégie AGDLP
 
-   **Format : [Type]-[Group Scope]-[Name]**
+**Principe** : Ne jamais attribuer de droits directement aux utilisateurs
 
-   Exemples :
-   - `GG-Comptabilite-Users`     # Utilisateurs du service comptabilité
-   - `DL-RH-Lecture`      # Accès lecture aux documents RH
-   - `U-IT-Admins`       # Administrateurs IT multi-sites
+**Hiérarchie** :
+```plaintext
+A  -> Account  (Utilisateur)
+G  -> Global   (Fonction)
+DL -> Local    (Droits)
+P  -> Permissions
+```
 
-- Une nomenclature cohérente facilite l'administration
+**Exemple** : Gestion de projet ERP
 
-### 5.5. Stratégie de Groupes Imbriqués (AGDLP/AGLP)
+> Pour des exemples détaillés d'implémentation AGDLP dans différents contextes, voir le [Chapitre 4 - Unités Organisationnelles, section 9.2](Chapitre%204.%20Unites_Organisationelles.md#92-utilisation-des-groupes).
 
-On suivra la stratégie **AGDLP/AGLP** (Account → Global Groups → Domain Local Groups → Permission) pour que la **gestion de groupes et de permissions** soit plus simple et plus efficace.
+**Avantages** :
 
-**On ne rajoutera jamais les permissions directement sur les comptes des utilisateurs**. Comment faire alors? 
+1. **Changement de département** :
+   ```plaintext
+   - Retirer de GG-EU-RH-Managers
+   - Ajouter à GG-EU-Compta-Managers
+   - Droits automatiquement mis à jour
+   ```
 
-#### AGDLP
+2. **Nouvel employé** :
+   ```plaintext
+   - Ajouter à GG-EU-[Dept]-Users
+   - Hérite auto des droits DL-EU-[Dept]-*
+   ```
 
-**Exemple**: `John Connor` doit accéder aux dossiers du serveur de RH en lecture et modification.
+3. **Maintenance** :
+   ```plaintext
+   - Structure claire
+   - Moins d'erreurs
+   - Évolutivité
+   ```
 
-1. `John Connor` possède un compte **Account**.
-2. Il est un manager du departement RH, donc il est ajouté au groupe global (de fonction métier)`GG-EU-RH-Managers` - **Global Group**
-3. Le groupe `GG-EU-RH-Managers` est ajouté au groupe `DL-EU-RH-Modif` - **Domain Local Group**
-4. Le groupe `DL-EU-RH-Modif` **a les permissions** sur les dossiers du serveur de RH
+### 5.6. Règles d'Imbrication
 
-Qu'est-ce que vous pensez qu'on gagne?
+**Limitations** :
+```plaintext
+Groupe Global :
+- Peut contenir : Globaux (même domaine)
 
-<details>
-<summary>Reponse</summary>
+Groupe Local :
+- Ne peut pas contenir : Globaux (autre domaine)
 
-- Si John Connor change de département, il suffit de le retirer du groupe `GG-EU-RH-Managers` et de l'ajouter au groupe `GG-EU-Compta-Managers`. Il aura alors les permissions sur les dossiers du serveur de comptabilité.
+Groupe Universel :
+- Ne peut pas contenir : Globaux (autre domaine)
+```
 
-- Si John Connor est un nouvel employé, il suffit de le rajouter au groupe global qui correspond (ex: `GG-EU-Compta-Users`) et il aura les droits du département correspondant (car ce groupe global appartient lui-même à un certain groupe local de domaine, par exemple `DL-EU-Compta-Modif`)
+### 5.7 Sécurité et Maintenance
 
-- Si `John Connor` part de l'entreprise, on ne doit pas chercher tous les ressources auxquels il avait accès manuellement. Le fait de le retirer du groupe global permet de nettoyer ses droits.
+**Règles de base** :
+```plaintext
+Groupes Globaux (GG-) :
+- Groupes de gestion uniquement
+- Pas de permissions directes
+Exemple : GG-EU-RH-Managers
 
-</details>
+Groupes Locaux (DL-) :
+- Reçoivent les permissions
+- Contiennent les groupes globaux
+Exemple : DL-EU-RH-Modif
+```
 
-#### AGLP
-
-Il existe une autre stratégie possible qu'on peut utiliser si on a qu'un seul domaine (voir notre labo): **AGLP** (Account → Global Groups → Permission)
-
-Dans **AGLP**, on **donne les droits** directement aux **groupes globaux**. 
-
-Voyez la différence:
-
-#### Strategie AGDLP
-
-| Account | Global Groups | Domain Local Groups |Permission|
-|---|---|---|---|
-|John Coltrane|GG-EU-Compta-Managers|DL-EU-Compta-Modif|Lecture et modification des fichiers comptables |
-
-#### Strategie AGLP
-
-| Account | Global Groups |Permission|
-|---|---|---|
-|John Coltrane|GG-EU-Compta-Modif|Lecture et modification des fichiers comptables |
-
-<br>
-
-Ceci est plus simple mais moins flexible. Le **nommage** des **groupes globaux** **change**: ils doivent maintenant donner une idée des permissions.
-
-#### Regles d'imbriquations
-
-Un groupe peut contenir d'autres groupes d'autres types, mais on a les limitations suivantes:
-
-- Un groupe global peut contenir un autre groupe global, mais il doit être dans le même domaine
-- Un groupe local ne peut pas contenir un groupe global d'un autre domaine
-- Un groupe universal ne peut pas contenir un groupe global d'un domaine 
-
-### 5.6. Sécurité et Maintenance
-
-- On **ne donne pas de permissions directement aux groupes globaux**: ils son pensés pour être des groupes de gestion (ex: `GG-EU-RH-Managers`)
-- On **donne de permissions aux groupes locaux (DL)** (ex: `DL-EU-RH-Modif`)
-
-
-<br>
-
-## 6. Droits Utilisateur vs Permissions
-
-Les droits d'utilisateurs **ne sont pas la même chose que les permissions**.
+## 6. Droits vs Permissions
 
 ### Droits Utilisateur
-- Définissent **les actions qu'un utilisateur peut faire sur un ordinateur**
-- S'appliquent à l'**échelle du système**
 
-  **Exemple** : "Se connecter localement", "Arrêter le système", "Changer le mot de passe", "Lancer un backup"
+**Définition** : Actions système autorisées
 
-Ils sont configurés dans les **Group Policy (GPO)** (on les verra plus tard)
+**Caractéristiques** :
+```plaintext
+Portée : Niveau système
+Gestion : Via GPO
+Exemples :
+- Se connecter localement
+- Arrêter le système
+- Changer mot de passe
+- Exécuter les backups
+```
 
 ### Permissions
-- Définissent **qui peut acceder aux ressources  et les actions qu'il peut effectuer**
-- S'**appliquent aux objets** (fichiers, dossiers, imprimantes)
-- **Actions** possibles: **Lecture, écriture, Modification**
 
-Quand on **partage** un ressource, on peut **aussi choisir** de donner des **permissions** aux utilisateurs.
+**Définition** : Contrôle d'accès aux ressources
 
-Ils sont stockés dans les **Access Control Lists (ACL)**
+**Caractéristiques** :
+```plaintext
+Portée : Niveau objet
+Gestion : Via ACL
+Objets :
+- Fichiers
+- Dossiers
+- Imprimantes
+
+Actions :
+- Lecture
+- Écriture
+- Modification
+```
 
 ### Droits Utilisateur par Défaut
 

@@ -1,4 +1,18 @@
-# 1. Les réseaux décentralisés VS centralisés avec Active Directory
+# Chapitre 1: Introduction et installation de Windows Server
+
+> 📚 **Dans ce chapitre:**
+> 1. 🔗 [Les réseaux décentralisés VS centralisés](#1-les-réseaux-décentralisés-vs-centralisés-avec-active-directory)
+>    - Avantages et inconvénients
+> 2. 🖥️ [Qu'est-ce que c'est Active Directory?](#2-quest-ce-que-cest-active-directory)
+>    - Composants principaux
+>    - Fonctionnalités clés
+> 3. 💻 [Windows Server](#2-windows-server)
+>    - Machines virtuelles
+>    - Installation et configuration
+
+---
+
+## 1. Les réseaux décentralisés VS centralisés avec Active Directory
 
 Imaginez, par exemple, que **vous êtes le responsable informatique d'un magasin d'électronique** d'une entreprise **Computer Electronics** (computerelectronics.be). 
 Vous avez actuellement 10 ordinateurs, 2 imprimantes et 2 serveurs (pour la base de données et pour la messagerie). 
@@ -15,15 +29,22 @@ Vous **allez vite vous trouver en difficulté**. Pourquoi?
 </details>
 
 
-## Qu'est-ce que c'est Active Directory? 
+---
 
-Active Directory **arrange ce problème en centralisant** la gestion des utilisateurs et des ordinateurs: **cela implique de stocker toutes les informations dans une seule base de données qui se trouvera sur un serveur** (et non sur chaque ordinateur).
+## 2. Qu'est-ce que c'est Active Directory? 
 
-**Active Directory** est une technologie de Microsoft qui permet de créer et gérer une base de données qui fonctionne comme un "annuaire téléphonique d'entreprise" numérique qui stocke des informations sur :
-- Les **utilisateurs** (ex: employés, prestataires, etc.)
-- Les **ordinateurs** et autres ressources réseau (ex: serveurs, imprimantes, etc.)
-- Les **permissions** et droits d'accès (ex: connexion, lecture, écriture, etc.)
-- Les stratégies de **sécurité** (ex: permissions de connexion, politiques de mot de passe, etc.)
+🔑 Active Directory **arrange ce problème en centralisant** la gestion des utilisateurs et des ordinateurs:
+
+> **Point clé:** Active Directory implique de stocker toutes les informations dans une seule base de données qui se trouvera sur un serveur (et non sur chaque ordinateur).
+
+💻 **Active Directory** est une technologie de Microsoft qui fonctionne comme un "annuaire d'entreprise" numérique centralisant:
+
+| Catégorie | Description | Exemples |
+|------------|-------------|----------|
+| 👤 **Utilisateurs** | Comptes du personnel | Employés, prestataires |
+| 🖥️ **Ressources** | Matériel réseau | Serveurs, imprimantes |
+| 🔑 **Permissions** | Droits d'accès | Lecture, écriture, connexion |
+| 🛡️ **Sécurité** | Stratégies de protection | Politiques de mot de passe |
 
 Tous ces aspects **peuvent être gérés depuis un seul endroit, le serveur Active Directory**.
 **AD fonctionne sur Windows**. Nous allons l'utiliser concrètement sur **Windows Server**.
@@ -35,54 +56,55 @@ Vous vous posez la question : "Est-ce une bonne idée de centraliser toute la ge
 Qu'est-ce que vous en pensez? Ne regardez pas la solution!
 
 <details>
-<summary>Les avantages....</summary>
+<summary>📘 Les avantages de la centralisation</summary>
 
-**Les bons côtés** :
-1. C'est plus simple à gérer
-   - Tout se fait depuis un seul endroit
-   - Plus besoin de faire le tour des ordinateurs, on peut appliquer des changements à tous les ordinateurs en une seule fois
-   - Les mises à jour se font en une fois
+### ✅ Les bénéfices clés
 
-2. C'est plus sécurisé
-   - Les mots de passe sont gérés au même endroit
-   - On voit facilement qui a accès à quoi
-   - On peut suivre qui fait quoi sur le réseau
-
-3. Ça fait gagner du temps et de l'argent
-   - Moins de temps perdu en maintenance
-   - Moins de déplacements entre les postes
-   - On paie moins de licences logicielles
+| Catégorie | Avantages |
+|------------|------------|
+| 💻 **Gestion Simplifiée** | • Administration centralisée<br>• Déploiement simultané<br>• Mises à jour automatisées |
+| 🔐 **Sécurité Améliorée** | • Gestion centralisée des mots de passe<br>• Contrôle d'accès précis<br>• Traçabilité des actions |
+| 💰 **Optimisation des Coûts** | • Réduction du temps de maintenance<br>• Moins de déplacements<br>• Optimisation des licences |
 </details>
 
 <details>
-<summary>Les risques...</summary>
+<summary>⚠️ Points d'attention et solutions</summary>
 
-**Les risques** :
-1. Si le serveur central tombe en panne c'est la catastrophe totale!
-   - Plus personne ne peut travailler
-   - Tous les services sont affectés en même temps (ni imprimantes, ni serveurs de fichiers, etc.)
+### 🔴 Risques Potentiels
 
-2. Question de sécurité
-   - Si un virus infecte le serveur, c'est toute l'entreprise qui est touchée
-   - Il faut très bien protéger ce serveur
+| Risque | Impact | Solution |
+|--------|---------|----------|
+| 💥 **Panne Serveur** | • Arrêt total des services<br>• Paralysie de l'entreprise | • Serveur de secours<br>• Plan de continuité |
+| 🦠 **Sécurité** | • Vulnérabilité centralisée<br>• Risque de propagation | • Protection renforcée<br>• Surveillance active |
+| 🔗 **Dépendance Réseau** | • Besoin de connectivité<br>• Accès limité hors ligne | • Réseau redondant<br>• Cache local |
 
-3. Dépendance au réseau
-   - Il faut une bonne connexion réseau partout
-   - Sans réseau, pas d'accès aux informations
+### 🔧 Stratégies de Mitégation
 
-**Les solutions aux risques...** :
-Pour éviter les problèmes, on peut :
-- Installer un deuxième serveur de secours
-- Faire des sauvegardes régulières
-- Avoir un plan en cas de panne
-
+> 📘 **Plan de continuité:**
+> - Serveur secondaire de backup
+> - Sauvegardes régulières
+> - Procédures d'urgence documentées
 </details>
 
 
 
+---
+
 # 2. Windows Server 
 
-On a considéré que les avantages étaient plus importants que les risques ! Alors on va utiliser Active Directory.
+> 📍 **Point de départ:** On a considéré que les avantages étaient plus importants que les risques ! Nous allons donc utiliser Active Directory.
+
+### 🗓 Étapes d'installation
+
+> Pour mettre en place Active Directory, nous suivrons un processus en trois phases. Chaque phase est essentielle pour assurer une installation réussie.
+
+| 📆 Phase | ⚙️ Étape | 📘 Description |
+|-------|--------|-------------|
+| **1. Préparation** | 🖥 Configuration VM | Création et paramétrage de la machine virtuelle |
+| | 💾 Installation Windows | Installation de Windows Server 2022 |
+| **2. Configuration** | 🔑 Services AD DS | Déploiement d'Active Directory |
+| | 🌐 Services DNS | Intégration avec le service DNS |
+| **3. Finalisation** | ✅ Tests | Vérification de la configuration |
 
 **Active Directory (AD)** est un ensemble de services qui a besoin d'être installé sur **Windows Server**. 
 
@@ -126,40 +148,199 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 
 ### 2.2.3. Création des réseaux virtuels en Hyper-V
 
-Avant de créer la machine virtuelle contenant Windows Server, nous allons créer deux réseaux virtuels, car l'installation de Windows Server demandera de choisir la configuration des réseaux.
+### 🔗 Configuration des réseaux virtuels
 
-Nos machines virtuelles seront connectées à Internet via le réseau **WAN-VM** et elles se connecteront entre elles via le réseau **LAN-VM**
+> 📌 **Prérequis:** Avant d'installer Windows Server, nous devons configurer deux réseaux virtuels distincts.
 
-- Un réseau qui servira à permettre **la communication entre les appareils dans notre réseau interne** (ex: clients, serveurs, etc)
-- Un réseau pour que nos machines virtuelles communiquent avec Internet
+#### 🔌 Types de réseaux disponibles
 
-Il y a trois types de réseau :
+| Type | Description | Utilisation |
+|------|-------------|-------------|
+| 🌐 **External** | Communication complète | Entre machines physiques et virtuelles |
+| 🔒 **Internal** | Communication limitée | Entre hôte et ses VMs uniquement |
+| 🔐 **Private** | Communication isolée | Entre VMs du même hôte uniquement |
 
-- *External* : permet la communication entre tous les équipements physiques de notre réseau et les machines virtuelles qui y sont installées.
-- *Internal* : permet la communication entre notre équipement physique et les machines virtuelles installées dans l'équipement. On ne peut pas communiquer avec d'autres machines en dehors de la nôtre, ni avec des machines virtuelles installées dans d'autres équipements physiques. 
-- *Private* : permet la communication uniquement entre les machines virtuelles installées dans l'équipement, même pas entre l'équipement et ces machines virtuelles.
+#### 📶 Notre configuration
 
-Commençons par créer le réseau interne :
+| Réseau | Type | Objectif |
+|---------|------|----------|
+| **LAN-VM** | Private | Communication interne entre VMs |
+| **WAN-VM** | External | Accès à Internet |
 
-1. Lancez le Hyper-V Manager depuis la barre des tâches de Windows
-2. Cliquez sur Virtual Switch Manager
-3. Choisissez Private
-4. Cliquez sur Create Virtual Switch
-5. Nommez le réseau **LAN-VM**
-6. Cliquez sur OK
+#### 🔧 Création des réseaux
 
-Puis créons le réseau qui connectera les machines virtuelles à Internet :
+<details>
+<summary>📶 Configuration du réseau LAN-VM (interne)</summary>
 
-1. Cliquez sur Virtual Switch Manager
-2. Choisissez External
-3. Cliquez sur Create Virtual Switch
-4. Nommez le réseau **WAN-VM**
-5. Adaptateur : choisissez l'adaptateur qui vous connecte à Internet (câble ou wifi). Cliquez sur OK et ignorez l'avertissement
-6. Cliquez sur OK
+1. Ouvrez **Hyper-V Manager**
+2. Accédez à `Virtual Switch Manager`
+3. Sélectionnez `Private`
+4. Cliquez sur `Create Virtual Switch`
+5. Configurez :
+   - Nom : **LAN-VM**
+   - Type : Private network
+6. Validez avec `OK`
+</details>
+
+<details>
+<summary>🌐 Configuration du réseau WAN-VM (externe)</summary>
+
+1. Dans `Virtual Switch Manager`
+2. Sélectionnez `External`
+3. Cliquez sur `Create Virtual Switch`
+4. Configurez :
+   - Nom : **WAN-VM**
+   - Type : External network
+   - Adaptateur : Votre connexion Internet (Ethernet/WiFi)
+5. Validez et acceptez l'avertissement
+</details>
 
 
-### 2.2.2. Téléchargement de Windows Server
+### 💾 Téléchargement de Windows Server
 
-Vous pouvez télécharger Windows Server 2022 depuis [cette page](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022). Il s'agit d'une version d'évaluation de 180 jours
+> ⏰ **Version d'évaluation:** Cette version est valable pendant 180 jours, parfaite pour notre environnement d'apprentissage.
 
+#### 📍 Prérequis
 
+| Composant | Minimum requis |
+|-----------|----------------|
+| 💻 Processeur | 64-bit (compatible PAE/NX) |
+| 📲 Mémoire RAM | 2 GB |
+| 💾 Espace disque | 32 GB |
+| 🔗 Réseau | 2 cartes réseau virtuelles |
+
+#### 📦 Étapes de téléchargement
+
+1. Accédez au [Centre d'évaluation Microsoft](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022)
+2. Sélectionnez l'option **ISO** (nécessaire pour l'installation sur VM)
+3. Choisissez la langue : **Français**
+4. Conservez le fichier ISO téléchargé dans un emplacement facilement accessible
+
+### ⚙️ Installation de Windows Server
+
+> 🚨 **Important:** Assurez-vous d'avoir activé la virtualisation dans le BIOS de votre ordinateur.
+
+#### 🖥 Création de la machine virtuelle
+
+<details>
+<summary>💻 Configuration matérielle</summary>
+
+1. Dans Hyper-V Manager, sélectionnez `New` > `Virtual Machine`
+2. Configurez les paramètres suivants :
+
+| Paramètre | Valeur |
+|------------|--------|
+| Nom | **DC1** |
+| Génération | Generation 2 |
+| Mémoire | 2048 MB (dynamique) |
+| Réseau | **LAN-VM** |
+| Disque dur | 60 GB (dynamique) |
+| Image | Votre fichier ISO Windows Server |
+</details>
+
+<details>
+<summary>🔗 Configuration réseau</summary>
+
+1. Ouvrez les paramètres de la VM
+2. Ajoutez une deuxième carte réseau
+3. Configurez les adaptateurs :
+   - Adaptateur 1 : **LAN-VM** (réseau interne)
+   - Adaptateur 2 : **WAN-VM** (accès Internet)
+</details>
+
+#### 💾 Installation du système
+
+<details>
+<summary>🔰 Installation de Windows Server</summary>
+
+1. Démarrez la machine virtuelle
+2. Sélectionnez :
+   - Langue : **Français**
+   - Format de temps : **Français**
+   - Clavier : **Français**
+3. Choisissez **Windows Server 2022 Standard (Desktop Experience)**
+4. Acceptez la licence
+5. Sélectionnez **Installation personnalisée**
+6. Configurez le disque dur
+</details>
+
+> 📘 **Note:** L'installation prend environ 15-20 minutes. Profitez-en pour revoir les concepts d'Active Directory.
+
+### 🔧 Configuration post-installation
+
+> 💡 **Objectif:** Préparer le serveur pour le déploiement d'Active Directory.
+
+#### 🔑 Configuration initiale
+
+<details>
+<summary>💻 Paramètres de base</summary>
+
+1. Définissez le mot de passe administrateur
+2. Connectez-vous avec le compte administrateur
+3. Configurez les paramètres régionaux :
+   - Région : **France**
+   - Langue : **Français**
+   - Clavier : **Français**
+</details>
+
+<details>
+<summary>🌐 Configuration réseau</summary>
+
+1. Ouvrez les `Paramètres réseau`
+2. Configurez la carte **LAN-VM** :
+   - IP : **192.168.0.1**
+   - Masque : **255.255.255.0**
+   - DNS : **127.0.0.1**
+3. Configurez la carte **WAN-VM** :
+   - DHCP activé (automatique)
+</details>
+
+#### 📍 Vérifications essentielles
+
+<details>
+<summary>✅ Liste de contrôle</summary>
+
+| Vérification | Commande | Résultat attendu |
+|--------------|----------|------------------|
+| Nom du serveur | `hostname` | **DC1** |
+| Connexion Internet | `ping 8.8.8.8` | Réponses reçues |
+| Résolution DNS | `nslookup google.fr` | Adresse IP retournée |
+</details>
+
+> 🚨 **Important:** Assurez-vous que toutes les vérifications sont validées avant de continuer avec l'installation d'Active Directory.
+
+### 🔧 Dépannage
+
+> 💡 **Conseil:** La plupart des problèmes peuvent être résolus en vérifiant la configuration de base.
+
+<details>
+<summary>💻 Problèmes de virtualisation</summary>
+
+| Problème | Solution |
+|-----------|----------|
+| ❌ VM ne démarre pas | Vérifiez l'activation de la virtualisation dans le BIOS |
+| ❌ Génération 2 non disponible | Mettez à jour Hyper-V |
+| ❌ ISO non reconnu | Vérifiez le format UEFI boot |
+</details>
+
+<details>
+<summary>🌐 Problèmes réseau</summary>
+
+| Symptôme | Vérification | Solution |
+|-----------|--------------|----------|
+| Pas d'Internet | `ping 8.8.8.8` | Vérifiez la configuration **WAN-VM** |
+| Réseau local inactif | `ipconfig` | Contrôlez l'IP **192.168.0.1** |
+| DNS non fonctionnel | `nslookup` | Vérifiez le paramètre **127.0.0.1** |
+</details>
+
+<details>
+<summary>🔑 Problèmes système</summary>
+
+| Message d'erreur | Action |
+|-----------------|--------|
+| Activation Windows | Normal en version évaluation |
+| Mise à jour bloquée | Vérifiez **WAN-VM** et le pare-feu |
+| Performance lente | Augmentez la RAM à 4 GB |
+</details>
+
+> ℹ️ **Note:** Si un problème persiste après ces vérifications, consultez la [documentation Microsoft](https://docs.microsoft.com/fr-fr/windows-server/troubleshoot/).

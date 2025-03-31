@@ -1,195 +1,237 @@
-## Objectifs Pédagogiques
+# Chapitre 3 : Active Directory Domain Services (AD DS)
+
+## 📋 Objectifs Pédagogiques
 
 À la fin de ce chapitre, vous serez capable de :
 1. Installer et configurer AD DS sur Windows Server 2022
 2. Créer et gérer un domaine `computerelectronics.be`
 
-<br>
+## 🔍 Introduction à Active Directory
 
-# 1. Introduction à Active Directory
+Active Directory (AD) est une suite complète de services de gestion d'identités et d'accès. Il permet de gérer de manière centralisée :
 
-Nous avons déjà parlé de Active Directory: **AD est une suite de services qui permettent de gérer** :
+* 👥 Les utilisateurs
+* 💻 Les ordinateurs
+* 🗄️ Les ressources partagées
+* 🔒 Les stratégies de sécurité
+* 🌐 Les services réseau
+
+Bien qu'on le confonde souvent avec **AD DS**, Active Directory est plus large et comprend plusieurs services :
  
-* La gestion des utilisateurs
-* La gestion des ordinateurs
-* La gestion des ressources
-* La gestion des stratégies de sécurité
-* La gestion des services réseau
-etc...
-
-
-**On le confond souvent avec** **AD DS** (le service de base qui crée et gère la base de données d'AD), mais AD est plus large car il contient :
- 
-1. **AD DS** **(Active Directory Domain Services)** : Service principal gérant l'authentification et l'autorisation des ressources dans le réseau.
-2. **AD LDS** (Lightweight Directory Services) : Version allégée d'AD DS fonctionnant sans domaine Windows.
-3. **AD CS** (Certificate Services) : Gestion des certificats numériques et de l'infrastructure à clé publique (PKI).
-4. **AD RMS** (Rights Management Services) : Protection et contrôle des droits d'accès aux documents.
-5. **AD FS** (Federation Services) : Authentification unique (SSO) et fédération d'identités entre organisations.
+| Service | Description |
+|---------|-------------|
+| 🔑 **AD DS** | Service principal gérant l'authentification et l'autorisation des ressources |
+| 🪶 **AD LDS** | Version allégée d'AD DS fonctionnant sans domaine Windows |
+| 📜 **AD CS** | Gestion des certificats numériques et de l'infrastructure à clé publique (PKI) |
+| 🔒 **AD RMS** | Protection et contrôle des droits d'accès aux documents |
+| 🔗 **AD FS** | Authentification unique (SSO) et fédération d'identités entre organisations |
 
 **La force d'Active Directory** réside dans sa capacité à **centraliser l'administration**. Au lieu de gérer chaque ordinateur individuellement, les administrateurs peuvent appliquer des politiques et des configurations à partir d'un point central.
 
 <br>
 
-# 2. Exemple de fonctionnement d'AD : appel client-serveur
+## 📁 Exemple de fonctionnement d'AD
 
-Considérez notre structure de réseau :
+### Structure du réseau
+
+Considérez notre infrastructure réseau :
 
 ![Forêt](../diagrams/images/structure_reseau_geographic_zones.png)
 
-Voyons un flux client-serveur avec Active Directory.
+### Flux d'authentification et d'accès
 
-Dans cet exemple, un utilisateur essaie d'accéder au serveur de fichiers.
-Observez les flèches en bleu, jaune et bleu bidirectionnel.
-**Pas les flèches vertes pour le moment**
+Voyons comment un utilisateur accède à un serveur de fichiers :
 
 ![Intégration DNS-AD DS](../diagrams/images/ad_auth_flow.png)
 
-1. **Authentification** (flèche bleue)
-   - `ws-compta-01` (`192.168.0.101`) demande une authentification à `dns1` (`192.168.0.2`)
-   - `dns1.computerelectronics.be`, en tant que contrôleur de domaine, traite la demande
-   - L'authentification utilise le protocole Kerberos
-   - La communication passe par le switch départemental (`SW-COMPTA`, `192.168.0.1`)
+> 💡 **Note** : Observez les flèches colorées : bleu pour l'authentification, jaune pour l'accès aux ressources, et bleu bidirectionnel pour la réplication. Les flèches vertes seront expliquées plus tard.
 
-2. **Accès aux ressources** (flèche jaune)
-   - Une fois authentifié, `ws-compta-01` accède au serveur `fileserver.us.computerelectronics.be`
-   - `dns2` fournit l'adresse IP de `fileserver.us.computerelectronics.be` (`192.168.0.41`)
-   - Le serveur `fileserver.us.computerelectronics.be` autorise l'accès aux ressources demandées
+### 🔑 1. Authentification (flèche bleue)
 
-3. **Réplication AD** (flèche bleue bidirectionnelle)
-   - `dns1` (`192.168.0.2`) et `dns2` (`192.168.0.3`) synchronisent leurs bases AD DS
-   - Cette réplication assure :
-     * La cohérence des données entre les contrôleurs
-     * La disponibilité du service même si un DC tombe en panne !
+| Étape | Description |
+|--------|-------------|
+| Requête | `ws-compta-01` (`192.168.0.101`) demande l'authentification |
+| Traitement | `dns1.computerelectronics.be` (`192.168.0.2`) vérifie les identifiants |
+| Protocole | Kerberos gère l'authentification sécurisée |
+| Réseau | Via le switch `SW-COMPTA` (`192.168.0.1`) |
 
-Les flèches vertes rajoutées montrent les **requêtes** DNS permettant la résolution des noms (DNS) nécessaire à chaque étape. On ne voit pas les réponses pour ne plus compliquer le diagramme :
+### 📂 2. Accès aux ressources (flèche jaune)
 
-1. Le PC interroge `dns1` pour chercher son DC, qui gère l'authentification
-2. Une fois authentifié, le PC interroge `dns1` pour chercher l'adresse IP du serveur de fichiers. `dns1` ne le connaît pas 
-3. `dns1` interroge alors `dns2`
-4. `dns2` fournit l'adresse IP du serveur de fichiers. Le PC accède au serveur de fichiers.
+| Étape | Description |
+|--------|-------------|
+| Connexion | `ws-compta-01` accède à `fileserver.us.computerelectronics.be` |
+| Résolution | `dns2` fournit l'IP `192.168.0.41` |
+| Autorisation | Le serveur de fichiers vérifie les droits d'accès |
+
+### 🔃 3. Réplication AD (flèche bleue bidirectionnelle)
+
+| Processus | Bénéfice |
+|-----------|------------|
+| Synchronisation | `dns1` et `dns2` maintiennent leurs bases à jour |
+| Redondance | Le service continue si un DC tombe en panne |
+
+### 🔍 Requêtes DNS (flèches vertes)
+
+Les flèches vertes représentent les requêtes DNS pour la résolution des noms. Pour simplifier le diagramme, seules les requêtes sont montrées, pas les réponses.
+
+| Étape | Description |
+|--------|-------------|
+| 1 | Le PC interroge `dns1` pour localiser son contrôleur de domaine |
+| 2 | Après authentification, le PC demande à `dns1` l'IP du serveur de fichiers |
+| 3 | `dns1` transfère la requête à `dns2` |
+| 4 | `dns2` résout le nom et le PC peut accéder au serveur |
 
 <br>
 
-# 3. Active Directory Domain Services (AD DS)
+## 📚 Active Directory Domain Services (AD DS)
 
-Dans ce cours, **nous nous concentrerons sur AD DS car c'est le service fondamental** pour la gestion de l'infrastructure de computerelectronics.be. 
+AD DS est le service fondamental de notre infrastructure `computerelectronics.be`. Il crée et gère la base de données centrale d'Active Directory.
 
-**Le service AD DS est un service d'AD qui crée et gère la base de données d'AD.**. 
+### Fonctionnalités principales
 
-1. AD DS permet :
-   - L'authentification centralisée des utilisateurs
-   - La gestion des ressources réseau
-   - L'application des stratégies de sécurité
-   - L'organisation hiérarchique des ressources
+| Catégorie | Fonctionnalités |
+|------------|---------------|
+| 🔑 Authentification | Gestion centralisée des identités |
+| 📂 Ressources | Administration des ressources réseau |
+| 🔒 Sécurité | Application des stratégies de sécurité |
+| 🎓 Organisation | Structure hiérarchique des ressources |
 
-2. AD DS stocke les informations sur :
-   - Les utilisateurs (employés, prestataires, etc.)
-   - Les ordinateurs (postes de travail, serveurs)
-   - Les ressources partagées (imprimantes, dossiers)
-   - Les stratégies de sécurité
-   - Les services réseau
+### Informations stockées
+
+| Type | Exemples |
+|------|----------|
+| 👥 Utilisateurs | Employés, prestataires, comptes de service |
+| 💻 Ordinateurs | Postes de travail, serveurs, portables |
+| 📁 Ressources | Imprimantes, dossiers partagés, applications |
+| 🔐 Stratégies | Règles de sécurité, restrictions, droits |
+| 🌐 Services | Services réseau, configurations système |
 
 Pour bien comprendre le déploiement d'AD DS dans notre entreprise, commençons par examiner la structure DNS existante, car AD DS s'appuie fortement sur DNS pour son fonctionnement.
 
 
-## 3.1. AD DS et la localisation de la base de données d'AD 
+### 💾 Base de données AD DS
 
-La base de données d'AD doit être stockée dans (au moins) un **appareil serveur** qu'on appellera **Contrôleur de Domaine (DC)**.
+#### Stockage et redondance
 
-**Ce suffirait pour gérer les ressources de tout l'arbre DNS, mais** on ne peut pas prendre le risque de perdre la base de données si le serveur tombe en panne ! 
+> 💡 La base de données AD doit être hébergée sur au moins un serveur appelé **Contrôleur de Domaine (DC)**.  
 
-**IMPORTANT** : Ne confondez pas le service DNS et le service AD DS ! **Notez** que le **service DNS** (transformer les noms en IP et vice versa) est **indépendant** **de la base de données d'AD** (base de données contenant toutes les informations sur les utilisateurs, ordinateurs, imprimantes, etc.). 
+| Configuration | Description |
+|--------------|-------------|
+| Minimum | Un seul DC pour gérer l'arbre DNS |
+| Recommandé | Plusieurs DCs pour la redondance |
+| Optimal | DCs répartis géographiquement |
 
-**On pourrait avoir toute sorte de combinaisons :**
-- 3 serveurs DNS et 2 serveurs AD 
-- 2 serveurs DNS et 2 serveurs AD
-- etc...
+#### ⚠️ Services indépendants
 
-**Tant le service DNS comme le service AD DS** doivent fonctionner **sans arrêt** ! Cela veut dire que si un serveur tombe en panne, il faut qu'un autre serveur prenne son rôle. En plus... si un serveur est surchargé, il faut qu'un autre serveur prenne son rôle ! Quoi faire ? **Rajouter des serveurs DNS et des serveurs AD**.
+| Service | Rôle |
+|---------|-------|
+| DNS | Résolution de noms en IPs |
+| AD DS | Gestion de la base de données d'annuaire |
+
+#### Configurations possibles (exemples)
+
+| Serveurs DNS | Serveurs AD | Avantages |
+|-------------|-------------|------------|
+| 3 | 2 | Haute disponibilité DNS |
+| 2 | 2 | Équilibre optimal |
+| 2 | 3 | Redondance AD accrue |
+
+#### 📈 Haute disponibilité
+
+Les deux services doivent être disponibles en permanence :
+- 🔄 Basculement automatique en cas de panne
+- ⚖️ Répartition de charge
+- 💻 Réplication entre serveurs
 
 <br>
 
-# 4. Contrôleurs de Domaine
+## 🏛️ Contrôleurs de Domaine
 
-## 4.1. Relations entre DNS et AD DS
+### Configuration de notre infrastructure
 
-Nous allons installer les services d'AD DS sur notre serveur `dns1.computerelectronics.be`.
+> 💡 Notre infrastructure repose sur deux serveurs principaux qui hébergent à la fois les services DNS et AD DS.
 
-Il va devenir un **contrôleur de domaine** (DC). Rappellez-vous qu'il contiendra la base de données d'AD. 
+#### Serveurs principaux
 
-Si on a la possibilité on installera AD aussi sur `dns2.computerelectronics.be`, **qui contiendrai une réplique de la base de données d'AD**. Ou peut-être même sur d'autres serveurs si on les avait !
+| Serveur | Rôle principal | Adresse IP |
+|---------|-----------------|------------|
+| `dns1.computerelectronics.be` | DC Principal + DNS | `192.168.0.2` |
+| `dns2.computerelectronics.be` | DC Secondaire + DNS | `192.168.0.3` |
 
-Concernant les services de DNS, **chaque DC peut gérer une ou plusieurs zones**. Dans notre cas `dns1` gére tout le réseau
+#### Architecture des services
 
-Ce diagramme representera l'installation de AD sur `dns1.computerelectronics.be` :
+| Service | Configuration |
+|---------|---------------|
+| AD DS | Réplication entre les DCs |
+| DNS | Gestion de zones par DC |
+
+#### Diagramme d'installation
+
+> Le schéma suivant illustre l'installation d'AD DS sur notre serveur principal :
 
 ![Installation AD](../diagrams/images/dns_ad_installation.png)
 
 
-## 4.2. Promotion de Windows Server en contrôleur de domaine
+### 💻 Promotion en contrôleur de domaine
 
-### 4.2.1. Configuration du DNS dans le réseau du serveur
+#### Configuration réseau initiale
 
-On doit configurer le réseau du DC `dns1.computerelectronics.be`:
-   - Donnez une adresse IP statique au réseau LAN via l'interface graphique du Gestionnaire de Serveur 
-     - Serveur Local->Ethernet->Propriétés->Protocole Internet version 4 (TCP/IPv4) 
-   - On lui donnera `192.168.0.2` au lieu d'une adresse automatique
-   - Spécifiez le serveur DNS; `192.168.0.2` (le serveur lui-même)
-   - Nom d'ordinateur configuré via les Paramètres système (si ce n'est pas déjà fait!)
-     - Dans le champ "Nom de l'ordinateur", tapez : **dns1**
-     - Dans le champ "Suffixe DNS principal", tapez : **computerelectronics.be**
-   
-Pour le serveur DNS, on lui donnera `192.168.0.2` au lieu d'une adresse automatique: car **il cherchera les noms DNS chez lui-même**, y incluant le sien: `dns1.computerelectronics.be`.
+> ⚠️ Avant de promouvoir le serveur en DC, nous devons configurer correctement son réseau.
+
+1. **Configuration IP**
+   | Paramètre | Valeur |
+   |------------|--------|
+   | Adresse IP | `192.168.0.2` |
+   | Masque | `255.255.255.0` |
+   | Serveur DNS | `192.168.0.2` |
+
+2. **Configuration du nom**
+   | Paramètre | Valeur |
+   |------------|--------|
+   | Nom d'ordinateur | `dns1` |
+   | Suffixe DNS | `computerelectronics.be` |
+
+> 💡 Le serveur utilise sa propre adresse comme serveur DNS car il hébergera le service DNS pour le domaine.
 
 
-### 4.2.2. Installation du rôle AD DS
+#### Installation du rôle AD DS
 
-Cette étape va installer **le rôle** AD DS sur le serveur `dns1.computerelectronics.be`. 
+> 💡 Un rôle est un ensemble de fonctionnalités permettant au serveur d'accomplir une fonction spécifique.
 
-Un **rôle est un ensemble de fonctionnalités, programmes et services** qui permettent au serveur d'accomplir une fonction spécifique. 
+| Étape | Action |
+|--------|--------|
+| 1 | Ouvrir le **Gestionnaire de serveur** |
+| 2 | Menu **Gérer** > **Ajouter des rôles** |
+| 3 | Choisir **Installation basée sur un rôle** |
+| 4 | Sélectionner `dns1.computerelectronics.be` |
+| 5 | Dans **Rôles**, cocher **Services AD DS** |
+| 6 | Accepter les fonctionnalités requises |
+| 7 | Terminer l'installation |
 
-Dans ce cas, le rôle AD DS comprend plusieurs services (comme le service AD DS lui-même) qui seront activés après la promotion en contrôleur de domaine.
+#### 🔗 Promotion du serveur
 
-1. Ouvrir le **Gestionnaire de serveur**
-2. Cliquer sur **"Gérer"** puis **"Ajouter des rôles et fonctionnalités"**
-3. Sélectionner **"Installation basée sur un rôle ou une fonctionnalité"**
-4. Choisir le serveur **`dns1.computerelectronics.be`**
-5. Suivre l'Assistant jusqu'à **"Rôles de serveurs"**
-6. Cocher **"Services AD DS"**
-7. Accepter l'ajout des fonctionnalités requises
-8. Continuez jusqu'à la fin de l'installation
+> 💡 Cette étape transforme le serveur en contrôleur de domaine pour `computerelectronics.be`
 
-### 4.2.3. Promotion en contrôleur de domaine
+| Étape | Configuration | Valeur |
+|--------|---------------|--------|
+| 1 | Type d'installation | Nouvelle forêt |
+| 2 | Nom de domaine | `computerelectronics.be` |
+| 3 | Niveau fonctionnel | Windows Server 2022 |
+| 4 | Mot de passe DSRM | `Password1!` |
+| 5 | Nom NetBIOS | `COMPUTERELECTRONICS` |
 
-1. Dans le Gestionnaire de serveur, cliquer sur le **drapeau avec le triangle jaune**
-2. Sélectionner **"Promouvoir ce serveur en contrôleur de domaine"**
-3. Choisir **"Ajouter une nouvelle forêt"**
-4. Saisir le nom de domaine : **`computerelectronics.be`**
-5. Choisir le **niveau fonctionnel** de la forêt et du domaine (la plus récente)
-6. Définir le **mot de passe DSRM** (Password1!)
-7. Continuez et ignorez l'avertissement sur les délégations
-8. Choisir le nom pour le domaine NETBIOS : **"COMPUTERRELECTRONICS"**
-9. Vérifier les chemins de la **base de données**, des **journaux** et de **SYSVOL**
-10. Examiner les options sélectionnées et **lancer l'installation**
 
-### 4.2.4. Vérification post-promotion
 
-Une fois la promotion terminée et le serveur redémarré, il est essentiel de vérifier que tout fonctionne correctement. Voici les étapes de vérification à suivre. Ouvrez le Gestionnaire de serveur et cliquez sur le nouveau menu: **AD DS**. 
+#### 🔍 Vérifications post-installation
 
-**Vérification de la configuration DNS (Gestionnaire de serveur->Outils->Gestionnaire DNS):**
+> 💡 Après le redémarrage, vérifiez le bon fonctionnement des services.
 
-1. Vérifiez dans le gestionnaire DNS que **l'enregistrement A** pour `dns1.computerelectronics.be` pointe correctement vers `192.168.0.2` 
+##### 1. Vérification DNS
 
-2. Vérifiez la résolution du nom de domaine -> le serveur trouve l'**adresse IP** du serveur `dns1.computerelectronics.be`
-
-```powershell
-nslookup dns1.computerelectronics.be
-```
-
-3. Lancez un diagnostique complet des services DNS d'Active Directory
-```powershell
-dcdiag /test:dns
-```
+| Test | Commande | Objectif |
+|------|----------|----------|
+| Résolution | `nslookup dns1.computerelectronics.be` | Vérifie que `dns1` résout à `192.168.0.2` |
+| Diagnostique | `dcdiag /test:dns` | Vérifie la configuration DNS d'AD |
 
 **AD DS** est **basé sur** l’utilisation d’un **espace de noms DNS** pour gérer un domaine **et impose donc l’utilisation d’un serveur DNS** au sein du réseau.
 **C'est l'installation d'AD DS qui va configurer la base du serveur DNS**.
@@ -211,22 +253,32 @@ Ce serveur DNS doit être capable de prendre en charge les enregistrements de se
   - Un troisième exemple est `_gc._tcp.computerelectronics.be` qui permet de trouver le contrôleur de domaine pour le service global catalogue (GC).
 
 
-### 4.2.5. Vérifier que les services sont bien configurés
+#### ⚙️ Vérification des services
 
-1. Vérifier que les services principales d'AD DS sont en cours d'execution et en démarrage auto:
-  - Service de AD DS
-  - Service DNS
-  - Netlogon, qui gére l'authentification des utilisateurs
-  
-2. Vérifier que **les dossiers NetLogon** et **Sysvol** existent et sont correctement configurés
-   - **NetLogon** : dossier qui contient les **fichiers de logon** de l'annuaire, **utilisé pour l'authentification** des utilisateurs
-   - **Sysvol** : dossier qui contient les fichiers de configuration du système (politiques de groupe qui seront utilisées dans les GPOs, scripts de démarrage, etc.) et qui est partagé par tous les contrôleurs de domaine du domaine
+##### 1. Services essentiels
+
+| Service | Rôle | État attendu |
+|---------|-------|---------------|
+| AD DS | Service principal d'annuaire | Démarrage auto |
+| DNS | Résolution de noms | Démarrage auto |
+| Netlogon | Authentification des utilisateurs | Démarrage auto |
+
+##### 2. Dossiers système
+
+| Dossier | Description | Importance |
+|---------|-------------|------------|
+| **NetLogon** | Fichiers d'authentification | Authentification des utilisateurs |
+| **SYSVOL** | Stratégies de groupe | Réplication des GPO |
+> 💡 Le dossier **SYSVOL** est partagé entre tous les contrôleurs de domaine et contient :
+> - Les stratégies de groupe (GPO)
+> - Les scripts de démarrage
+> - Les fichiers de configuration système
 
 
 
-### 4.3. Configuration des zones DNS
+## 🌐 Configuration DNS
 
-Après la promotion du contrôleur de domaine, AD DS a automatiquement créé les zones DNS nécessaires. Examinons la configuration qui a été mise en place :
+> 💡 AD DS crée automatiquement les zones DNS nécessaires lors de la promotion du serveur.
 
 1. **Zone directe principale**
    - Permet **d'obtenir l'adresse IP** à partir du nom d'hôte  
@@ -238,46 +290,36 @@ Après la promotion du contrôleur de domaine, AD DS a automatiquement créé le
      * Les enregistrements SRV pour les services AD DS
      * Les futurs postes clients
 
-**Note pratique** : Bien que notre infrastructure de production inclue `dns2.computerelectronics.be` (192.168.0.3), nos exercices pratiques se concentreront initialement sur le contrôleur de domaine principal `dns1` pour une meilleure compréhension des concepts de base.
+> ⚠️ Pour simplifier l'apprentissage, nous utiliserons uniquement `dns1` comme DC principal, bien que `dns2` (192.168.0.3) soit prévu en production.
 
 Maintenant que nous avons configuré notre contrôleur de domaine et ses zones DNS, nous pouvons passer à la gestion des utilisateurs et des ressources. Ces aspects seront traités en détail dans les chapitres suivants.
 
 
-## 4.4. Structure de la base de données d'Active Directory
+## 📜 Structure de la base de données
 
-
-### 4.4.3. Les partitions
-
-
-La base de données qui stocke Active Directory est divisée en **4 partitions**:
-<br>
+> 💡 La base de données AD DS est divisée en 4 partitions distinctes.
 
 <img src="../diagrams/images/partition_schema.png" alt="Partition Schéma" style="width:10%;" />
 
+### 1. Partition Schéma
 
-#### 1. **Schéma**
-   - **Définit la structure** possible **des objets** dans l'annuaire. 
-      
-   Chaque **objet** a une **classe** qui lui fournit des **propriétés**
+> 📖 Définit la structure des objets dans l'annuaire.
 
-    . Voici les principales classes dans AD :
+#### Classes d'objets principales
 
-   | **Classe** | Description | Example d'objet | Propriétés objet|
-   | --- | --- | --- | --- |
-   | Utilisateur | Compte utilisateur dans le domaine | Manuel Dupont| Nom, mot de passe, etc. |
-   | Groupe | Ensemble d'utilisateurs ou d'autres groupes pour gérer les permissions | Administrateurs | Nom, type, portée, membres, etc. |
-   | Ordinateur | Poste de travail ou serveur joint au domaine | ws-01-compta | Nom, adresse IP, **DN** (CN=ws-01-compta,OU=Computers,DC=computerelectronics,DC=be), etc. |
+| Classe | Description | Exemple | Propriétés |
+|--------|-------------|---------|------------|
+| Utilisateur | Compte utilisateur | `manuel.dupont` | Nom, mot de passe |
+| Groupe | Collection d'objets | `GG-Comptabilite` | Nom, membres |
+| Ordinateur | Machine du domaine | `ws-compta-01` | Nom, IP, DN |
    | Unité Organisationnelle (OU) | **Conteneur logique permettant d'organiser les objets et d'appliquer des stratégies GPO** | Comptabilité OU | nom, parent OU
    | Contact | Objet sans compte, utilisé pour stocker des informations de contact | Adolphe Sax | email, téléphone, etc. , **DN** (CN=Adolphe Sax,OU=Contacts,DC=computerelectronics,DC=be), etc. |
    | Partage réseau | Dossier partagé accessible sur le réseau | \\\server\files | permis, chemin, etc. | 
 
-   - **Le schéma est une partition du catalogue global** (expliqué plus bas). 
-  
-   - **Sur la propriété DN**: la propriété DN (Distinguished Name) est présente pour chaque objet, car c'est la propriété qui **permet de l'identifier de manière unique** dans l'annuaire.
-
-
-
-   - C'est **la même** partition sur chaque DC, elle a le même contenu sur tous les DCs
+> ℹ️ **Notes importantes**:
+> - Le schéma fait partie du catalogue global
+> - Le DN (Distinguished Name) identifie chaque objet de manière unique
+> - La partition schéma est identique sur tous les DCs
 
    Ex: La partition de schéma de `dns1` est la même que la partition de schéma de `dns2`, et elle serait la même dans `dns3` si elle existait.
 
@@ -307,27 +349,29 @@ La base de données qui stocke Active Directory est divisée en **4 partitions**
     
    Ex: nous avons 2 domaines dans la forêt de computerelectronics.be
 
-#### 4. **Application**
-   - Contient les informations des applications
-   - Configurable selon les besoins spécifiques
+### 4. Partition Application
 
-   Exemples d'applications qui utilisent la partition d'application :
-   - Microsoft Exchange (mail)
-   - Microsoft SharePoint (collaboration)
-   - Microsoft Office 365 (cloud)
+> 💡 Stocke les données spécifiques aux applications d'entreprise.
 
+| Application | Usage | Type de données |
+|------------|--------|---------------|
+| Exchange | Messagerie | Boîtes aux lettres |
+| SharePoint | Collaboration | Sites, documents |
+| Office 365 | Cloud | Configuration hybride |
 
+## 📖 Le Catalogue Global
 
-
-## 4.4.3. Le Catalogue Global
-
-Le catalogue global est un **composant** essentiel d'Active Directory **qui stocke une copie partielle des attributs les plus utilisés de tous les objets de la base de données annuaire**. 
-
-Il facilite la **recherche d'objets** dans une forêt Active Directory.
+> 💡 Cache des attributs fréquemment utilisés pour accélérer les recherches.
 
 <img src="../diagrams/images/catalogue_global.png" alt="Catalogue Global" style="width:50%;" />
 
-**Exemple :** Un objet de type (**classe**) Utilisateur comme "Laurent Lambert" aura ses attributs principaux répliqués dans le catalogue global pour une recherche rapide à travers tous les domaines.
+### Exemple de réplication
+
+| Objet | Attributs répliqués | Utilité |
+|-------|---------------------|----------|
+| Utilisateur | Nom, email, titre | Recherche rapide |
+| Groupe | Nom, membres | Vérification d'appartenance |
+| Ordinateur | Nom, site | Localisation |
 
 Les **attributs répliqués sont sélectionnés en fonction de leur importance** pour :
 - La recherche d'objets
@@ -339,35 +383,60 @@ Par exemple, pour un **Utilisateur** :
 - Attributs **non répliqués** : photo de profil, scripts de connexion
 
 
-# 5. Comment accéder aux ressources du domaine ?
+# 🔑 Accès aux ressources du domaine
 
-## 5.1. Principe 
+## Cas pratique : Nouvel employé
 
-Nous avons un server (DC): supposons que ce serveur gére et offre de services Active Directory aux utilisateurs qui possedent un compte.
+> 💡 Exemple concret d'intégration d'un nouvel employé dans l'infrastructure AD.
 
-**Exemple**: Ahmed commence à travailler dans le département IT d'une compagnie. Les ressources IT de la compagnie (ex: serveur de documentation, imprimante, etc...) se trouve dans un serveur AD, qui est un Controleur de Domaine (`dns1.devbelgium.be`).
-L'admin crée un compte utilisateur pour Ahmed, qui est un Utilisateur du domaine.
+### Scénario
 
-On considère que l'admin a déjà installé le rôle AD DS sur le serveur `dns1.devbelgium.be` et qu'on a alors un **DC**.
+Ahmed commence à travailler dans le département IT. Pour accéder aux ressources, il a besoin :
 
-## 5.2. Création, configuration et utilisation d'un compte de domain
+| Ressource | Description |
+|-----------|-------------|
+| Documentation | Serveurs de fichiers |
+| Imprimantes | Périphériques réseau |
+| Applications | Logiciels métier |
 
-Les pas à réaliser (procedure simplifié, sans groupes d'utilisateurs ni OUs) **par l'admin** pour qu'Ahmed puisse se connecter depuis son poste de travail qui se trouve dans l'entreprise sont les suivants:
+### Infrastructure
 
-1. L'admin **configure** la machine client pour qu'elle puisse se connecter au domaine
-   1.1. **Fixer** l'adresse **IP** (ex: 192.168.0.10) (Barre Recherche->Paramètres Ethernet->Modifier les options d'adaptateur) 
-   1.2. **Fixer** l'adresse du **serveur DNS** (ex: 192.168.0.2, adresse du DC)
-   1.3. Fixer le **nom** de la machine (ex: ws-it-01) (Ce PC->Propriétés->Renommer ce PC(**avancé**)->Modifier)
-   1.4. Fixer le **suffixe** de domaine (ex: .computerelectronics.be)
-   1.5. **Redémarrer** la machine client
-   (Ce PC->Propriétés->Renommer ce PC(**avancé**)->Modifier->Autres)
-   1.6. Aller dans Ce PC->Propriétés->Modifier pour joindre le domaine 
-   Choisir le **domaine** (ex: `computerelectronics.be`) dans **Membre de**
-   1.7. Tapez les credentials de l'administrateur du DC  (il faut utiliser les credentials de l'admin ou d'un User qui appartient au groupe `Domain Admins`)
-   1.8. **Redémarrer** la machine client
+- **Serveur** : `dns1.computerelectronics.be`
+  - Rôle : Contrôleur de domaine (DC)
+  - Service : Active Directory Domain Services
+  - État : Installé et configuré
 
-2. Ahmed peut maintenant se connecter avec son compte de domaine. L'**ordinateur local n'a pas un compte `local` pour lui**, il s'agit juste d'un compte de `domaine`.
-Pour se connecter, il peut utiliser son adresse de compte de domaine (ex: `ahmed@devbelgium.be`) ou aussi **domaine\nom_utilisateur** (ex: `devbelgium.be\ahmed`)
+## 💻 Configuration du poste de travail
+
+> 💡 Pour qu'Ahmed puisse accéder aux ressources, l'administrateur doit configurer son poste de travail.
+
+### 1. Configuration réseau
+
+| Paramètre | Valeur | Menu de configuration |
+|------------|--------|---------------------|
+| IP | `192.168.0.10` | Paramètres Ethernet → Options d'adaptateur |
+| DNS | `192.168.0.2` | Options d'adaptateur → DNS |
+| Nom | `ws-it-01` | Ce PC → Propriétés → Renommer |
+| Suffixe | `computerelectronics.be` | Propriétés → Paramètres avancés |
+
+### 2. Jonction au domaine
+
+1. Ouvrir **Propriétés système**
+2. Aller dans **Paramètres avancés**
+3. Section **Nom de l'ordinateur**
+4. Sélectionner **Membre du domaine** : `computerelectronics.be`
+5. Saisir les identifiants **Domain Admin**
+
+> ⚠️ Redémarrer le poste après chaque étape majeure (changement de nom, jonction au domaine)
+
+### 3. Connexion au domaine
+
+> 💡 Ahmed utilise son compte de domaine pour se connecter. Aucun compte local n'est nécessaire.
+
+| Format | Exemple | Description |
+|--------|---------|-------------|
+| UPN | `ahmed@computerelectronics.be` | Format moderne (recommandé) |
+| NetBIOS | `computerelectronics\ahmed` | Format classique |
 
 
 

@@ -1,18 +1,10 @@
 # Configuration du droit "Se connecter localement"
 
 ## Description
+
 Le paramètre "Permettre l'ouverture d'une session locale" contrôle quels utilisateurs ou groupes peuvent se connecter physiquement à un ordinateur du domaine.
 
-## Méthode 1 : Via Stratégie de sécurité locale
-
-1. Ouvrir `secpol.msc`
-2. Naviguer vers : **Stratégies locales > Attribution des droits utilisateur**
-3. Double-cliquer sur **"Permettre l'ouverture d'une session locale"**
-4. Cliquer sur "Ajouter un utilisateur ou un groupe"
-5. Ajouter les utilisateurs ou groupes souhaités
-6. Cliquer sur "OK" pour sauvegarder
-
-## Méthode 2 : Via Stratégie de groupe (GPO)
+Pour modifier ce comportement on doit créer une stratégie de groupe (GPO) et l'appliquer à l'OU appropriée.
 
 1. Ouvrir `gpmc.msc`
 2. Créer une nouvelle GPO ou modifier une existante

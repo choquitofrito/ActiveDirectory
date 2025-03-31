@@ -1,47 +1,96 @@
-# 1. Introduction aux OUs
+# 1. Introduction aux Unités d'Organisation (OUs)
 
-## 1. Objectif et Rôle des OUs dans Active Directory
+## 1.1 Objectif et Rôle des OUs
 
-Une **OU est un conteneur AD qui permet de regrouper des objets AD** (utilisateurs, groupes, ordinateurs, etc.)
+Une **Unité d'Organisation** (OU) est un **conteneur Active Directory** qui permet de :
 
-Les OU permettent de créer une organisation hiérarchique et administrative des ressources. Vous pouvez voir une OU comme **un dossier qui contient des objets AD** (encore un arbre!)
+1. **Organisation**
+   - Regrouper des objets AD de manière logique
+   - Créer une structure hiérarchique
+   - Refléter la structure de l'entreprise
 
-# 2. Structure d'une Unité d'Organisation (OU)
+2. **Administration**
+   - Faciliter la gestion des ressources
+   - Déléguer des permissions administratives
+   - Appliquer des stratégies de groupe (GPO)
 
-Une **OU** (**Organizational Unit**) est un **objet** de l'Active Directory conçu pour organiser les objets de manière **hiérarchique** et **flexible**.
+> **Analogie** : Une OU est comme un **dossier intelligent** qui non seulement organise les objets AD mais permet aussi de les gérer efficacement.
 
-La structure d'une OU ressemble à l'arbre de d'un système de fichiers, **où une OU apparaît comme un dossier** qui peut contenir des objets AD:
+# 2. Structure d'une OU
 
-  - utilisateurs
-  - groupes
-  - ordinateurs
-  - autres OUs
-  - autres objets AD
-  
-Contrairement aux containers, les OUs sont utilisées principalement pour appliquer des **stratégies de groupe** (**GPO**) et gérer la **délégation des permissions**.
+## 2.1 Contenus Possibles
 
+```
+OU
+├── Utilisateurs (ex: jean.dupont)
+├── Groupes (ex: GG-EU-Compta-Users)
+├── Ordinateurs (ex: ws-compta-01)
+├── Autres OUs
+└── Autres objets (imprimantes, contacts)
+```
 
-# 3. Procédure de Création
+## 2.2 Avantages vs Conteneurs par Défaut
 
-1. Ouvrir `Utilisateurs et ordinateurs d'Active Directory`
-2. Clic droit sur le domaine ou l'OU parent
-3. Nouveau -> Unité d'organisation
-4. Saisir le nom selon les conventions
+| Fonctionnalité | Conteneur par Défaut | OU |
+|-----------------|---------------------|----|
+| Organisation | Fixe | **Flexible** |
+| GPOs | Non | **Oui** |
+| Délégation | Limitée | **Complète** |
+| Structure | Plate | **Hiérarchique** |
 
-Si vous cochez l'option Proteger contre la suppression, vous ne pourrez plus supprimer l'OU.
-Pour ce faire, allez dans la section suivante
+# 3. Création d'une OU
 
-# 4. Elimination d'une OU protegée
+## 3.1 Procédure
 
-1. Retirer la protection contre la suppression :
+1. **Ouvrir la Console**
+   ```
+   Utilisateurs et ordinateurs d'Active Directory
+   ```
 
-- Ouvrir "Active Directory Users and Computers" (ADUC) - l'ancienne console
-- Cliquer sur **View** dans le menu et assure-toi que l'option **Advanced Features** est activée. Cela permet de voir les paramètres de protection.
+2. **Créer l'OU**
+   ```
+   Domaine ou OU parent → Clic droit
+   ├── Nouveau
+   └── Unité d'organisation
+   ```
 
-2. **Trouver l'OU** protégée et **désactiver la protection** contre la suppression :
-  - Cliquer droit sur l'OU et sélectionner **Properties**.
-  - Dans la fenêtre des propriétés, va à l'onglet **Object**.
-  - Décoche l'option **Protect object from accidental deletion**.
+3. **Nommage**
+   ```
+   Format: [Location]/[Département]
+   Exemple: EU/Comptabilite
+   ```
+
+4. **Protection**
+   ```
+   ☑ Protéger contre la suppression
+   ```
+
+# 4. Suppression d'une OU Protégée
+
+## 4.1 Activation des Fonctionnalités Avancées
+
+1. **Ouvrir ADUC**
+   ```
+   Active Directory Users and Computers
+   ```
+
+2. **Activer les Options Avancées**
+   ```
+   Menu View → Advanced Features
+   ```
+
+## 4.2 Désactivation de la Protection
+
+1. **Accéder aux Propriétés**
+   ```
+   OU cible → Clic droit → Properties
+   ```
+
+2. **Modifier la Protection**
+   ```
+   Onglet Object
+   ☐ Protect object from accidental deletion
+   ```
   - Clique sur OK pour appliquer les modifications.
 
 3. **Supprimer l'OU** 
@@ -49,122 +98,207 @@ Pour ce faire, allez dans la section suivante
 
 # 5. Gestion des objets 
 
-On peut deplacer les objets entre les OU, ce qui permet une gestion plus flexible de la structure de l'AD.
+# 5. Gestion des OUs
 
-Sur une **OU**, on peut appliquer des **GPO** (Group Policy Object, on les verra plus tard)
+## 5.1 Flexibilité de la Structure
 
-**Example**: Une OU `Comptabilité` peut avoir une GPO qui limite l'accès aux périphériques USB (droits), tandis qu'une OU `IT` permet leur utilisation.
+1. **Déplacement d'Objets**
+   ```
+   Source OU → Glisser-Déposer → Destination OU
+   ```
 
+2. **Application des GPOs**
+   ```
+   OU → Clic droit → Lier une GPO
+   ```
 
-# 6. Création et Gestion des OUs
+## 5.2 Exemples de GPOs par Département
 
-Considerons la création de OUs pour l'entreprise `computerelectronics.be`.
+| Département | GPO | Objectif |
+|--------------|-----|----------|
+| Comptabilité | GPO-Compta-USB | Bloquer USB |
+| IT | GPO-IT-USB | Autoriser USB |
+| RH | GPO-RH-Screen | Verrouillage 5min |
 
-## 6.1. Organisation par Département
+# 6. Structure pour computerelectronics.be
 
-Pour computerelectronics.be, nous utilisons une structure départementale :
+## 6.1 Hiérarchie Géographique
 
-- **Domaine Racine (computerelectronics.be)**: Cela demeure l'OU de niveau supérieur.
-
-
-- **OUs basées sur l'emplacement (EU, US)**: Nous maintenons les OUs UE et US pour refléter la segmentation géographique du réseau.
-- **OUs départementales (Comptabilité, RH, Ventes)**: Dans chaque emplacement, nous créons des OUs pour les trois départements.
-- **OUs des utilisateurs et des ordinateurs**: A l'intérieur de chaque OU départementale, nous séparons les utilisateurs et les ordinateurs. C'est une bonne pratique pour appliquer des paramètres de stratégie de groupe différents.
-- **OUs basées sur l'environnement (DEV, PROD)**: Nous gardons les OUs DEV et PROD pour gérer les ressources de développement et de production. Étant donné que ces ressources sont probablement centrées sur les serveurs, nous les organisons en catégories "Applications", "Bases de données" et "Serveurs".
+### 6.1.1 Europe (EU)
 
 ```
-computerelectronics.be (Domain Root)
-├── EU
-│   ├── Comptabilité
-│   │   ├── Users
-│   │   └── Computers
-│   │   └── Groups
-│   ├── RH
-│   │   ├── Users
-│   │   └── Computers
-│   │   └── Groups
-│   └── Ventes
-│       ├── Users
-│       └── Computers
-│       └── Groups
-├── US
-│   ├── Comptabilité
-│   │   ├── Users
-│   │   └── Computers
-│   │   └── Groups
-│   ├── RH
-│   │   ├── Users
-│   │   └── Computers
-│   │   └── Groups
-│   └── Ventes
-│       ├── Users
-│       └── Computers
-│       └── Groups
-├── Dev
-│   ├── Applications
-│   ├── Databases
-│   └── Servers
+EU
+├── Comptabilité
+│   ├── Users
+│   │   ├── jean.dupont
+│   │   └── marie.martin
+│   ├── Computers
+│   │   ├── ws-compta-01
+│   │   └── ws-compta-02
 │   └── Groups
-└── Prod
-    ├── Applications
-    ├── Databases
-    └── Servers
+│       └── GG-EU-Compta-Users
+├── RH
+│   ├── Users
+│   │   └── sophie.lambert
+│   ├── Computers
+│   │   └── ws-rh-01
+│   └── Groups
+│       └── GG-EU-RH-Users
+└── Ventes
+    ├── Users
+    │   └── pierre.durand
+    ├── Computers
+    │   └── ws-ventes-01
     └── Groups
+        └── GG-EU-Ventes-Users
 ```
 
+### 6.1.2 États-Unis (US)
 
+> Structure identique à EU
 
-## 6.2 Bonnes Pratiques de Nommage et de Structure des OUs
+## 6.2 Hiérarchie Environnement
 
-- **Éviter** les caractères **spéciaux**
-- Utiliser des **noms descriptifs**
-- Maintenir **une cohérence** dans la nomenclature
-**Exemple** : `Comptabilite` plutôt que "COMPTA" 
+### 6.2.1 Développement (Dev)
 
-1. **Structure Claire**
-   - OUs pour l'organisation hiérarchique
-   - Groupes pour les permissions
+```
+Dev
+├── Applications
+│   ├── app-dev-01
+│   └── app-dev-02
+├── Databases
+│   ├── db-dev-01
+│   └── db-dev-02
+├── Servers
+│   ├── srv-dev-01
+│   └── srv-dev-02
+└── Groups
+    ├── GG-Dev-Admins
+    └── GG-Dev-Users
+```
 
-2. **Éviter la Redondance**
-   - Ne pas créer d'OU pour des accès temporaires
-   - Ne pas créer de groupes pour la structure
+### 6.2.2 Production (Prod)
 
-3. **Maintenance**
-   - Documenter la logique d'utilisation
-   - Réviser régulièrement les membres des groupes
-   - Vérifier la pertinence des GPOs sur les OUs
+> Structure identique à Dev
 
+## 6.3 Conventions de Nommage
 
+### 6.3.1 Règles Générales
 
-## 6.3. Conteneurs par Défaut vs OUs
+- Utiliser des noms descriptifs et cohérents
+- Éviter les abréviations (sauf standards)
+- Pas de caractères spéciaux
+- Respecter la casse selon le type d'objet
 
+### 6.2.2. Exemples par Type
 
-Les **conteneurs par défaut** (Users, Computers) et les **OUs** ont des différences importantes :
+1. **OUs**
+   - Format: PascalCase
+   - Exemples: `Comptabilité`, `RH`, `Ventes`
 
-- **Unités d'Organisation** :
-  - **Créées manuellement selon les besoins**
-    * Exemple : Création d'une OU "Stagiaires" lors de l'arrivée d'une nouvelle vague de stagiaires
-  - Peuvent recevoir des **GPOs**
-    * Exemple : Application d'une GPO de mises à jour automatiques sur l'OU "Stagiaires"
-  - Permettent la **délégation** d'administration
-    * Exemple : L'User responsable RH peut gérer les utilisateurs dans l'OU "Users" du departement RH
-  - Offrent une **flexibilité** organisationnelle
-    * Exemple : Déplacement facile d'un utilisateur de l'OU "Ventes" vers l'OU "Comptabilité" lors d'un changement de poste
+2. **Groupes**
+   - Format: GG-[Location]-[Dept]-[Function]
+   - Exemples: 
+     * `GG-EU-Compta-Users`
+     * `DL-EU-Compta-Admin`
 
-- **Conteneurs par défaut** :
-  - Créés automatiquement avec l'AD
-  - Ne peuvent pas recevoir de GPOs
-  - Ne permettent pas la délégation d'administration
-  - Stockent les objets par défaut
+3. **Ordinateurs**
+   - Format: ws-[dept]-[##]
+   - Exemples: 
+     * `ws-compta-01`
+     * `ws-rh-01`
 
+### 6.2.3 Bonnes Pratiques
 
-## 6.4. Principes de Conception des OUs
+1. **Structure**
+   ```
+   # Profondeur maximale
+   computerelectronics.be
+   ├── EU                    # Niveau 1
+   │   ├── Comptabilité     # Niveau 2
+   │   │   ├── Users      # Niveau 3
+   │   │   └── Computers  # Niveau 3
+   │   └── RH             # Niveau 2
+   └── Dev                   # Niveau 1
+   ```
 
-### 6.4.1. Facteurs Clés
+2. **Groupement**
+   ```
+   # Par type d'objet
+   EU/Comptabilité
+   ├── Users      # Utilisateurs uniquement
+   ├── Computers  # Ordinateurs uniquement
+   └── Groups     # Groupes uniquement
+   ```
 
-La conception d'une structure d'OUs doit prendre en compte :
+3. **Séparation**
+   ```
+   # Par environnement
+   computerelectronics.be
+   ├── Dev
+   │   ├── Applications
+   │   └── Databases
+   └── Prod
+       ├── Applications
+       └── Databases
+   ```
 
-1. **Limites Administratives** :
+## 6.3 Conteneurs vs OUs
+
+### 6.3.1 Comparaison
+
+| Fonctionnalité | Conteneur | OU |
+|-----------------|-----------|----|
+| Création | Automatique | Manuelle |
+| GPOs | ❌ | ✅ |
+| Délégation | ❌ | ✅ |
+| Flexibilité | ❌ | ✅ |
+
+### 6.3.2 Exemples d'Utilisation
+
+1. **Unités d'Organisation**
+   ```
+   # Création manuelle
+   EU/Stagiaires
+   ├── GPO: Restrictions Internet
+   ├── Délégation: GG-EU-RH-Admins
+   └── Flexibilité: Déplacement Users
+   ```
+
+2. **Conteneurs par Défaut**
+   ```
+   # Création automatique
+   computerelectronics.be
+   ├── Users         # Conteneur standard
+   └── Computers     # Conteneur standard
+   ```
+
+## 6.4 Principes de Conception
+
+### 6.4.1 Facteurs Clés
+
+1. **Administration**
+   ```
+   # Délégation par département
+   EU/RH → GG-EU-RH-Admins
+   EU/IT → GG-EU-IT-Admins
+   ```
+
+2. **Sécurité**
+   ```
+   # GPOs par fonction
+   EU/Compta/Users → GPO-Compta-Security
+   EU/IT/Dev → GPO-Dev-Tools
+   ```
+
+3. **Évolutivité**
+   ```
+   # Structure modulaire
+   EU
+   ├── Département1    # Ajout facile
+   ├── Département2    # de nouveaux
+   └── Département3    # départements
+   ```
    - Qui gère quoi ?
    - Quelles sont les responsabilités de chaque équipe ?
 
@@ -180,93 +314,253 @@ La conception d'une structure d'OUs doit prendre en compte :
    - Structure par lieu ou par fonction ?
    - Hybride des deux approches ?
 
-### 6.4.2. Meilleures Pratiques
+### 6.4.2 Meilleures Pratiques
 
-- Garder la structure simple
-- Éviter les niveaux d'imbrication excessifs
-- Aligner la structure avec l'organisation
-- Prévoir la croissance future
+1. **Structure Simple et Claire**
+   La structure doit être facilement compréhensible et maintenable. Chaque département suit la même organisation:
+   ```
+   # Organisation standardisée
+   EU
+   ├── Département
+   │   ├── Users      # Comptes utilisateurs
+   │   ├── Computers  # Postes de travail
+   │   └── Groups     # Groupes de sécurité
+   └── [Autres Départements...]
+   ```
+   Cette organisation permet une gestion efficace des droits et des stratégies de groupe.
+
+2. **Limitation des Niveaux d'Imbrication**
+   Pour maintenir la performance et la simplicité, limitez la profondeur à 4 niveaux maximum:
+   ```
+   # Hiérarchie optimale
+   computerelectronics.be    # Niveau 0 (Racine)
+   ├── EU                 # Niveau 1 (Géographie)
+   │   ├── RH             # Niveau 2 (Département)
+   │   │   └── Users      # Niveau 3 (Objets)
+   │   └── [Autres...]
+   └── Dev                # Branche parallèle
+   ```
+   Une structure plus profonde peut compliquer la gestion des GPOs et l'héritage des permissions.
+
+3. **Alignement avec l'Organisation**
+   La structure des OUs doit refléter l'organisation de l'entreprise tout en facilitant l'administration:
+   ```
+   # Structure fonctionnelle
+   EU
+   ├── Comptabilité         # Données financières sécurisées
+   │   └── GPO: Restrictions USB
+   ├── RH                   # Gestion du personnel
+   │   └── GPO: Verrouillage 5min
+   └── Ventes               # Équipe commerciale
+       └── GPO: Accès CRM
+   ```
+   Cette organisation permet d'appliquer des politiques spécifiques à chaque service tout en maintenant une cohérence globale.
 
 # 7. Délégation de Contrôle
 
-## 7.1. Principe de la Délégation
+Avant de continuer ce chapitre vous devez vous familiariser avec les concept de GPO (Group Policy Object). Passez alors au chapitre [6.Group Policy Objects](./Chapitre%206.Group%20Policy%20Objects.md)
 
-La **délégation** nous permet **d'attribuer des droits administratifs d'une certaine OUs à des utilisateurs ou groupes**.
+## 7.1 Concept et Stratégies
 
-**Exemple**: Dans l'OU **EU/RH/Users**, nous pouvons donner au groupe `DL-EU-RH-Admins` le droit de :
-- Réinitialiser les mots de passe
-- Gérer les propriétés des comptes
+La **délégation de contrôle** permet de décentraliser l'administration d'Active Directory en attribuant des droits spécifiques à des groupes sur des OUs.
 
-On veut que les admins peuvent faire ces actions sur les utilisateurs de l'OU EU/RH/Users (ex: `GG-EU-RH-Users`).
+### 7.1.1 Objectifs et Bénéfices
 
-Les administrateurs RH seront membres du groupe `GG-EU-RH-Admins`: groupe global des administrateurs du departement RH
+**Avantages** :
+- **Décentralisation** : Répartition des tâches administratives
+- **Sécurité** : Application du principe du moindre privilège
+- **Efficacité** : Gestion locale plus rapide et adaptée
 
-Ces administrateurs pourraient recevoir les droits de gestion des comptes des Utilisateurs de l'OU EU/RH/Users, mais les bon pratiques de AGDLP nous recommande de ne pas le faire (voir AGDLP dans le chapitre `5. Gestion des Utilisateurs`)
-On creera un groupe local `DL-EU-RH-Admins` , qui est celui qui possede les droits: **la OU delegue les droits sur ce groupe**, et on a **qu'a joindre le groupe `GG-EU-RH-Admins` à ce groupe local DL-EU-RH-Admins**
+### 7.1.2 Stratégies de Délégation
 
-Les users de DL-EU-RH-Admins pourront reinitialiser les mots de passe des comptes des `GG-EU-RH-Users`.
+1. **AGLP** (Petites Organisations)
+   
+   **Example**: Le service RH a besoin de gérer ses propres utilisateurs. Sophie Lambert, administratrice RH, doit pouvoir créer des comptes, réinitialiser les mots de passe et modifier les propriétés des utilisateurs, mais uniquement dans l'OU RH.
 
-Cela permet une gestion décentralisée sans donner accès à d'autres départements.
+   **Structure de l'organisation**:
+   ```
+   # Structure AGLP Simple
+   EU (OU)
+   ├── RH (OU)
+   │   ├── Users (OU)           # Contient sophie.lambert (et peut-être d'autres utilisateurs)
+   │   ├── Groups (OU)          # Contient GG-EU-RH-Admins
+   │   └── Computers (OU)       # Postes de travail RH
+   └── Autres services...
+   ```
 
-## 7.2. Types de Permissions Délégables
+   **Avec cette structure mais sans délégation**, le service RH **aurait ses propres OUs mais ne pourrait pas les gérer** :
+   - **Malgré l'existence d'une OU RH dédiée, seuls les administrateurs globaux d'Active Directory pourraient y créer ou modifier des comptes**, jamais des users comme sophie.lambert. Il faudra passer toujours par les administrateurs AD!
+   - La structure organisationnelle serait en place mais sans l'autonomie opérationnelle correspondante
 
-1. **Gestion des Comptes** :
-   - Création/suppression d'utilisateurs
-   - Réinitialisation des mots de passe
-   - Modification des propriétés des comptes
+   La délégation permet de **déléguer** des droits sur des OUs **à des groupes** (ici on aura un groupe `GG-EU-RH-Admins`), permettant ainsi une gestion locale et plus efficace.
 
-2. **Gestion des Groupes** :
-   - Création/suppression de groupes
-   - Modification des membres
-   - Gestion des propriétés
+   **Mise en place de la délégation**:
+   1. Créer le compte `sophie.lambert` dans EU/RH/Users
+   2. Créer le groupe `GG-EU-RH-Admins` dans EU/RH/Groups
+   3. Ajouter sophie.lambert au groupe GG-EU-RH-Admins
+   4. Déléguer les droits sur EU/RH/Users au groupe GG-EU-RH-Admins
 
-3. **Gestion des Ordinateurs** :
-   - Ajout/suppression d'ordinateurs
-   - Configuration des propriétés
-   - Réinitialisation des comptes
+   Qu'est-ce qu'on gagne?
 
+   Cette approche AGLP nous apporte plusieurs avantages :
+   - **Sécurité** : Les droits sont limités uniquement à l'OU Users du service RH
+   - **Flexibilité** : On peut facilement ajouter d'autres administrateurs RH en les ajoutant au groupe , **sans devoir modifier chaque groupe ou compte**
+   - **Simplicité** : Une structure claire avec les utilisateurs et leurs groupes dans des OUs séparées
+   - **Maintenance** : La gestion des droits se fait via le groupe, pas individuellement par utilisateur
 
-## 7.3. Configuration et Test de la Délégation
+2. **AGDLP** (Grandes Organisations)
 
-1. **Configuration de la Délégation** :
-   - Dans `Utilisateurs et ordinateurs Active Directory`
-   - Clic droit sur l'OU EU/RH/Users
-   - Sélectionner `Déléguer le contrôle`
-   - Suivre l'Assistant de délégation de contrôle:
-     * Sélectionner le groupe `DL-EU-RH-Admins`
-     * Choisir les tâches:
-       - Réinitialiser les mots de passe
-       - Lire toutes les informations utilisateur
-       - Modifier les propriétés des comptes
+   **Example**: L'entreprise a plusieurs sites (EU, US) avec des équipes RH locales. Pierre Dupont, administrateur RH senior, doit pouvoir gérer les comptes, les groupes et les stratégies de sécurité pour toute l'équipe RH européenne.
 
-2. **Préparation du Test** :
-   - Créer un utilisateur test dans l'OU EU/RH/Users (ex: test.user)
-   - Créer un compte admin RH test (ex: admin.rh)
-   - Ajouter admin.rh au groupe `GG-EU-RH-Admins`
-   - Ajouter `GG-EU-RH-Admins` au groupe `DL-EU-RH-Admins`
+   **Structure de l'organisation**:
+   ```
+   # Structure AGDLP Multi-sites
+   EU (OU)
+   ├── RH (OU)
+   │   ├── Users (OU)           # Contient pierre.dupont et autres utilisateurs RH
+   │   ├── Groups (OU)
+   │   │   ├── GG-EU-RH-Admins   # Groupe global (rôles)
+   │   │   └── DL-EU-RH-Admin   # Groupe local (droits)
+   │   └── Computers (OU)
+   ├── IT (OU)
+   └── Ventes (OU)
+   ```
 
-3. **Vérification des Droits** :
-   - Se déconnecter complètement
-   - Se connecter avec le compte admin.rh
-   - Ouvrir `Utilisateurs et ordinateurs Active Directory`
-   - Essayer de réinitialiser le mot de passe de test.user
-   - Vérifier qu'on peut modifier les propriétés du compte
+   **Avec cette structure mais sans délégation**, nous aurions un problème de **gestion multi-sites** :
+   - Les administrateurs RH locaux ne pourraient pas gérer leurs propres équipes malgré la structure hiérarchique en place
+   - La gestion centralisée ne serait pas adaptée aux besoins spécifiques de chaque site
+   - Les droits ne pourraient pas être délégués de manière granulaire entre les différents niveaux d'administration
 
-4. **Test des Limitations** :
-   - Vérifier qu'admin.rh ne peut pas:
-     * Accéder aux autres OUs
-     * Créer/supprimer des groupes
-     * Modifier les GPOs
+   La stratégie AGDLP permet de **déléguer les droits de manière hiérarchique** en utilisant des groupes locaux comme intermédiaires, idéal pour les organisations multi-sites.
 
-5. **Validation Finale** :
-   - Se connecter avec test.user et le nouveau mot de passe
-   - Vérifier que les modifications des propriétés sont effectives
+   **Mise en place de la délégation**:
+   1. Créer les groupes dans EU/RH/Groups:
+      - `GG-EU-RH-Admins`: groupe global pour le rôle d'admin RH
+      - `DL-EU-RH-Admin`: groupe local qui reçoit les droits
+   2. Créer le compte `pierre.dupont` dans EU/RH/Users
+   3. Ajouter pierre.dupont au groupe GG-EU-RH-Admins
+   4. Ajouter GG-EU-RH-Admins comme membre de DL-EU-RH-Admin
+   5. Déléguer les droits sur EU/RH au groupe DL-EU-RH-Admin
 
-## 7.4. Bonnes Pratiques de Délégation
+   Qu'est-ce qu'on gagne?
 
-- Appliquer **le principe du moindre privilège**
-- **Documenter** les délégations
-- **Auditer** régulièrement les permissions (voir le chapitre 5. Gestion des Utilisateurs)
+   Dans notre exemple du service RH, cette approche AGDLP nous permet :
+   - **Gestion par niveau** : Pierre peut gérer toute l'équipe RH européenne via `GG-EU-RH-Admins`, tandis que d'autres administrateurs locaux peuvent avoir des droits plus limités
+   - **Flexibilité des rôles** : On peut facilement ajouter d'autres administrateurs RH seniors dans `GG-EU-RH-Admins` sans modifier les droits déjà configurés sur `DL-EU-RH-Admin`
+   - **Sécurité améliorée** : Les droits sont attribués via le groupe local `DL-EU-RH-Admin`, ce qui permet un meilleur contrôle et audit des permissions
+   
+   
+
+La stratégie **AGDLP** offre plus de flexibilité mais demande plus de maintenance. La stratégie **AGLP** est plus simple à mettre en place mais moins flexible pour les grandes organisations.
+
+## 7.2 Droits Délégables
+
+### 7.2.1 Gestion des Utilisateurs
+
+```
+Permissions de Base d'une délégation
+├── Comptes
+│   ├── Création          # Nouveau compte
+│   ├── Réinit MDP       # Sécurité
+│   └── Désactivation    # Temporaire/Définitif
+├── Propriétés
+│   ├── Informations     # Profil
+│   └── Restrictions    # Accès
+└── Groupes
+    ├── Création         # Nouveaux groupes
+    └── Membres         # Gestion
+```
+
+### 7.2.2 Gestion des Ressources
+
+```
+Permissions Avancées
+├── Ordinateurs
+│   ├── Intégration      # ws-[dept]-[##]
+│   └── Maintenance     # Réparation
+├── Impression
+│   ├── Files           # Queue
+│   └── Pilotes         # Config
+└── Services
+    ├── Démarrage       # Start/Stop
+    └── Configuration   # Paramètres
+```
+
+## 7.3. Tests et Validation de la Délégation
+
+### 7.3.1. Préparation de l'Environnement
+
+Pour tester la délégation, nous devons d'abord préparer l'environnement :
+
+1. **Création des comptes de test**
+   ```
+   sophie.lambert    # Compte administrateur RH
+   pierre.dupont     # Utilisateur pour les tests
+   ```
+
+2. **Configuration des accès**
+   - Activer les connexions locales : [voir Annexe. Configuration accès local](./Annexe.Configuration%20acc%C3%A8s%20local.md)
+   - Vérifier que les comptes sont dans les bons groupes selon la stratégie choisie
+
+### 7.3.2. Validation des Droits
+
+1. **Tests de Base (AGLP)**
+   ```
+   # Se connecter avec sophie.lambert
+   - Créer un nouvel utilisateur dans EU/RH/Users
+   - Réinitialiser le mot de passe de pierre.dupont
+   - Modifier les informations de profil (téléphone, titre)
+   ```
+
+2. **Tests Avancés (AGDLP)**
+   ```
+   # Vérifier la séparation des droits
+   - Réinitialiser MDP avec DL-EU-RH-PWReset
+   - Gérer comptes avec DL-EU-RH-UserAdmin
+   - Tester l'ajout d'autres admins RH
+   ```
+
+3. **Vérification des Limites**
+   ```
+   # Tester les restrictions
+   - Essayer d'accéder à EU/IT/Users (refusé)
+   - Tenter de modifier une GPO (refusé)
+   - Essayer de gérer les groupes (refusé)
+   ```
+
+4. **Validation Multi-sites**
+   ```
+   # Pour AGDLP uniquement
+   - Vérifier droits sur EU/RH et sous-OUs
+   - Tester ajout admin local avec droits limités
+   - Confirmer isolation entre sites (EU vs US)
+   ```
+
+## 7.5. Bonnes Pratiques
+
+### 7.5.1. Sécurité
+
+1. **Principe du Moindre Privilège**
+   - Déléguer uniquement les droits nécessaires
+   - Réviser régulièrement les permissions
+   - Documenter les délégations
+
+2. **Structure des Groupes**
+   - Utiliser AGDLP
+   - Éviter les permissions directes
+   - Maintenir une nomenclature cohérente
+
+### 7.5.2. Maintenance
+
+1. **Documentation**
+   - Cartographier les délégations
+   - Noter les justifications
+   - Maintenir un historique
+
+2. **Audit Régulier**
+   - Vérifier les permissions
+   - Nettoyer les délégations obsolètes
+   - Valider les accès
 
 # 8. Héritage dans les OUs
 
@@ -276,112 +570,269 @@ L'héritage dans AD détermine **comment les paramètres et les permissions se p
 
 ## 8.2 Types d'Héritage
 
-1. **Héritage des GPOs** :
-   - Les paramètres de stratégie se propagent vers le bas (vers les OUs enfants)
+### 8.2.1 Héritage des GPOs
+
+1. **Propagation**
+   - Les paramètres se propagent **automatiquement** vers le bas
+   - Affecte toutes les OUs enfants
+   - Exemple: GPO de sécurité appliquée à `EU` affecte `EU/RH` et `EU/RH/Users`
+
+2. **Contrôle**
+   - **Bloquer l'héritage**: empêcher la propagation
+   - **Forcer l'héritage**: ignorer les blocages
+   - Exemple: `EU/IT` peut bloquer les GPOs de `EU` pour des besoins spécifiques
+
+### 8.2.2 Héritage des Permissions
+
+1. **ACLs (Access Control Lists)**
+   - Définissent les droits d'accès
+   - Se propagent aux objets enfants
+   - Exemple: Droits de lecture sur `EU/RH` s'appliquent à `EU/RH/Users`
+
+2. **Types de Permissions**
+   - **Explicites**: définies directement sur l'objet
+   - **Héritées**: reçues du parent
+   - Exemple: `DL-EU-RH-Admins` avec droits explicites sur `EU/RH`
+
+3. **Gestion**
    - Possibilité de bloquer l'héritage
-   - Option de forcer l'héritage
-
-2. **Héritage des Permissions** :
-   - Les ACLs (gestion des droits d'acces comme par exemple pouvoir modifier un dossier) se propagent aux objets enfants
-   - Permissions explicites vs héritées
-   - Blocage et remplacement des permissions
-
+   - Option de remplacer les permissions héritées
+   - Exemple: Bloquer les permissions héritées pour `EU/IT/Dev`
 
 # 9. Groupes vs OUs
 
 ## 9.1 Différences Fondamentales
 
-| Groupes | OUs |
-|---------|-----|
-| Pour gérer les **permissions** | Pour gérer la **structure** et les **politiques GPO** |
-| Peuvent être membres d'autres groupes | Ne peuvent pas contenir d'autres OUs du même type |
-| Peuvent recevoir des permissions | Peuvent recevoir des GPOs |
-| Flexibles et réutilisables | Hiérarchiques et organisationnels |
+### 9.1.1 Tableau Comparatif
 
-## 9.2 Quand Utiliser des Groupes
+| Caractéristique | Groupes | OUs |
+|-----------------|---------|-----|
+| **Objectif Principal** | Gérer les **permissions** | Gérer la **structure** et les **GPOs** |
+| **Flexibilité** | Membres d'autres groupes | Structure hiérarchique fixe |
+| **Permissions** | Reçoivent des droits | Reçoivent des GPOs |
+| **Utilisation** | Accès aux ressources | Organisation administrative |
+| **Adaptabilité** | Flexibles et réutilisables | Hiérarchiques et structurés |
 
-1. **Pour l'accès aux ressources**
-   - Exemple : Le groupe `GG-EU-Compta-Finance` a accès au dossier partagé via le groupe `DL-EU-Compta-Finance`
-   - Exemple : Le groupe `GG-EU-RH-Managers` a accès à l'application de gestion des salaires via le groupe `DL-EU-RH-Salaires`
+## 9.2 Utilisation des Groupes
 
-2. **Pour des rôles spécifiques**
-   - Exemple : `GG-EU-IT-Helpdesk` pour les techniciens du support
-   - Exemple : `GG-EU-IT-Devs` pour les développeurs
+Les groupes sont utilisés pour **gérer les accès aux ressources et les rôles fonctionnels**.
 
-3. **Pour des projets temporaires**
-   - Exemple : `GG-EU-Projet-Migration2024` pour une équipe projet
-   - Exemple : `GG-EU-Audit-Q1` pour un audit temporaire
+### 9.2.1 Accès aux Ressources 
 
-## 9.3 Quand Utiliser des OUs
+On peut créer de groupes qui contiennent des **permissions directes sur des ressources**.
 
-1. **Pour la structure organisationnelle**
-   - Exemple : OU **EU/Comptabilite** contenant les sous-OUs **Users** et **Computers**
+**Description** : Dans un environnement mono-domaine comme `computerelectronics.be`, la stratégie AGLP simplifie la gestion des accès en accordant les permissions directement aux groupes globaux.
 
-2. **Pour l'application des politiques GPOs** (on **ne peut pas** appliquer des GPOs **sur les groupes**!)
-   - Exemple : OU **EU/Comptabilite/Computers** avec GPO qui désactive l'accès aux périphériques USB (protection des données financières)
-   - Exemple : OU **EU/RH/Users** avec GPO qui force le verrouillage d'écran après 5 minutes (protection des données sensibles)
+1. **Ressources Partagées**
+   ```plaintext
+   # Groupes avec permissions directes
+   GG-EU-Compta-Finance-RW → Dossier Financier (R/W)
+   GG-EU-Compta-Finance-R  → Dossier Financier (R)
+   GG-EU-RH-Salaires-RW    → App Salaires (Admin)
+   ```
 
-3. **Pour la délégation administrative**
-   - Exemple : OU **EU/Ventes** avec délégation au groupe `DL-EU-Ventes-Admins`
-   - Exemple : OU **EU/IT** avec délégation au groupe `DL-EU-IT-Admins`
+2. **Applications Métier**
+   ```plaintext
+   # Accès directs aux applications
+   GG-EU-Ventes-CRM-Users  → CRM (Utilisateur)
+   GG-EU-Ventes-CRM-Admin  → CRM (Admin)
+   GG-EU-IT-Tools-Support  → Outils Support (Full)
+   ```
 
-## 9.4 Combinaison des Deux Approches
+**Note** : Cette approche est plus simple mais moins flexible que AGDLP. Elle est recommandée uniquement pour les petites structures avec un seul domaine.
 
-**Exemple 1 : Gestion des Stagiaires**
-- **OU** **EU/Stagiaires** **pour appliquer des GPOs spécifiques** (politiques, on les verra plus tard dans le chapitre 6). À l'interirieur de l'OU, de **groupes** pour gérer les accès .
-  
-  * **GG-Stagiaires** : groupe global contenant tous les stagiaires
-  * **GG-Stagiaires-IT** : groupe global pour les stagiaires IT
+### 9.2.2 Rôles Fonctionnels
 
-Cet exemple peut être implémenté de deux façons :
+On peut **créer de groupes selon le rôle fonctionnel des utilisateurs** qui l'occupent.
 
-1. **Stratégie AGLP** (plus simple, pour de petites organisations) :
-   * Les utilisateurs sont dans les groupes globaux (GG-)
-   * Les groupes globaux reçoivent directement les permissions
+1. **Support Technique**
+   ```
+   GG-EU-IT-Helpdesk    # Techniciens support niveau 1
+   GG-EU-IT-Support     # Support niveau 2
+   GG-EU-IT-Admins      # Administrateurs système
+   ```
 
-2. **Stratégie AGDLP** (plus flexible, pour de grandes organisations) :
-   * Ajouter des groupes domain local :
-     - **DL-Stagiaires-Docs** pour l'accès aux documents
-     - **DL-Stagiaires-Apps** pour l'accès aux applications
-   * Les GG sont membres des DL
-   * Les DL reçoivent les permissions
-
-**Exemple 2 : Département Commercial**
-- OU **EU/Ventes** pour la structure et les GPOs
-  * Sous-OU **Users**
-  * Sous-OU **Computers**
-
-1. **Stratégie AGLP** :
-   - Groupes globaux avec permissions directes :
-     * "GG-Ventes-Lecture" : accès en lecture aux catalogues
-     * "GG-Ventes-Edition" : accès en écriture aux devis
-     * "GG-Ventes-Admin" : accès complet au CRM
-
-2. **Stratégie AGDLP** :
-   - Groupes globaux pour les rôles :
-     * "GG-Ventes-Vendeurs"
-     * "GG-Ventes-Managers"
-   - Groupes domain local pour les permissions :
-     * "DL-Ventes-Catalogues" : accès aux catalogues
-     * "DL-Ventes-Devis" : gestion des devis
-     * "DL-Ventes-CRM" : accès au CRM
+2. **Développement**
+   ```
+   GG-EU-IT-Devs        # Développeurs
+   GG-EU-IT-DevOps      # Équipe DevOps
+   GG-EU-IT-QA          # Testeurs
+   ```
 
 
-**Exemple 3 : Projet Multi-Départemental**
-- OUs existantes : "Compta", "IT", "RH"
+## 9.3 Utilisation des OUs
 
-1. **Stratégie AGLP** :
-   - Groupe global avec accès directs :
-     * **GG-Projet-ERP** : membres de différentes OUs avec accès aux ressources du projet
+### 9.3.1 Structure Organisationnelle
 
-2. **Stratégie AGDLP** :
-   - Groupes globaux par rôle :
-     * **GG-Projet-ERP-Dev** : développeurs
-     * **GG-Projet-ERP-Test** : testeurs
-   - Groupes domain local par ressource :
-     * **DL-Projet-ERP-Code** : accès au code source
-     * "DL-Projet-ERP-Docs" : accès à la documentation
-     * "DL-Projet-ERP-Test" : accès aux environnements de test
+Les OUs permettent de **créer une structure hiérarchique** qui reflète l'organisation de l'entreprise, facilitant ainsi la gestion des ressources par zone géographique et par département.
 
+1. **Hiérarchie Géographique**
+   ```
+   EU
+   ├── Comptabilite
+   │   ├── Users
+   │   └── Computers
+   └── RH
+       ├── Users
+       └── Computers
+   ```
 
+### 9.3.2 Application des GPOs
 
+Les OUs servent de points d'application pour les **stratégies de groupe (GPOs)**, permettant d'appliquer des **paramètres de sécurité et de configuration spécifiques** à différents niveaux de l'organisation.
+
+1. **Sécurité**
+   ```
+   EU/Comptabilite/Computers
+   ├── GPO: Désactivation USB
+   └── GPO: Chiffrement obligatoire
+   ```
+
+2. **Conformité**
+   ```
+   EU/RH/Users
+   ├── GPO: Verrouillage 5 min
+   └── GPO: Audit renforcé
+   ```
+
+### 9.3.3 Délégation Administrative
+
+La structure en OUs permet de **déléguer des droits administratifs** à différents niveaux, donnant aux équipes locales l'autonomie nécessaire pour gérer leurs ressources.
+
+1. **Par Département**
+   ```plaintext
+   # Droits d'administration par département
+   GG-EU-Ventes-Admin → EU/Ventes (Full Control)
+   GG-EU-IT-Admin    → EU/IT (Full Control)
+   ```
+
+2. **Par Fonction**
+   ```plaintext
+   # Droits spécifiques par fonction
+   GG-EU-RH-Users-Admin  → EU/RH/Users (User Management)
+   GG-EU-IT-Dev-Admin   → EU/IT/Dev (GPO Management)
+   ```
+
+## 9.4 Exemples de combinaison des deux approches (OU + GPO)
+
+### 9.4.1 Gestion des Stagiaires
+
+1. **Structure OU**
+   ```
+   EU
+   ├── Stagiaires
+       ├── Users
+       └── Computers
+   ```
+
+2. **GPOs**
+   ```
+   EU/Stagiaires
+   ├── GPO: Restrictions Internet
+   ├── GPO: Blocage Installation
+   └── GPO: Audit Renforcé
+   ```
+
+3. **Stratégie AGLP** (petites organisations)
+   ```
+   # Groupes globaux
+   GG-EU-Stagiaires          # Tous les stagiaires
+   GG-EU-Stagiaires-IT       # Stagiaires IT
+   GG-EU-Stagiaires-RH       # Stagiaires RH
+
+   # Permissions directes
+   GG-EU-Stagiaires-IT → Outils Développement
+   GG-EU-Stagiaires-RH → Base CV
+   ```
+
+4. **Stratégie AGDLP** (grandes organisations)
+   ```
+   # Groupes globaux (rôles)
+   GG-EU-Stagiaires-IT
+   GG-EU-Stagiaires-RH
+
+   # Groupes domain local (permissions)
+   DL-EU-Stagiaires-Dev      # Accès outils dev
+   DL-EU-Stagiaires-Docs     # Accès documentation
+   DL-EU-Stagiaires-Apps     # Accès applications
+
+   # Association
+   GG-EU-Stagiaires-IT → DL-EU-Stagiaires-Dev
+   GG-EU-Stagiaires-RH → DL-EU-Stagiaires-Apps
+   ```
+
+### 9.4.2 Département Commercial
+
+1. **Structure OU**
+   ```
+   EU
+   ├── Ventes
+       ├── Users
+       └── Computers
+   ```
+
+2. **Stratégie AGLP**
+   ```
+   # Groupes avec permissions directes
+   GG-EU-Ventes-Lecture      # Lecture catalogues
+   GG-EU-Ventes-Edition      # Édition devis
+   GG-EU-Ventes-Admin        # Admin CRM
+
+   # Permissions
+   GG-EU-Ventes-Lecture → Catalogues (lecture)
+   GG-EU-Ventes-Edition → Devis (lecture/écriture)
+   GG-EU-Ventes-Admin → CRM (admin)
+   ```
+
+3. **Stratégie AGDLP**
+   ```
+   # Groupes globaux (rôles)
+   GG-EU-Ventes-Vendeurs     # Vendeurs
+   GG-EU-Ventes-Managers     # Managers
+
+   # Groupes domain local (permissions)
+   DL-EU-Ventes-Catalogues   # Accès catalogues
+   DL-EU-Ventes-Devis        # Gestion devis
+   DL-EU-Ventes-CRM          # Accès CRM
+
+   # Associations
+   GG-EU-Ventes-Vendeurs → DL-EU-Ventes-Catalogues
+   GG-EU-Ventes-Managers → DL-EU-Ventes-CRM
+   ```
+
+### 9.4.3 Projet Multi-Départemental
+
+1. **Structure Existante**
+   ```
+   EU
+   ├── Compta
+   ├── IT
+   └── RH
+   ```
+
+2. **Stratégie AGLP**
+   ```
+   # Groupe projet unique
+   GG-EU-Projet-ERP          # Accès direct aux ressources
+
+   # Permissions
+   GG-EU-Projet-ERP → Ressources Projet
+   ```
+
+3. **Stratégie AGDLP**
+   ```
+   # Groupes globaux (rôles)
+   GG-EU-Projet-ERP-Dev      # Développeurs
+   GG-EU-Projet-ERP-Test     # Testeurs
+   GG-EU-Projet-ERP-Admin    # Administrateurs
+
+   # Groupes domain local (permissions)
+   DL-EU-Projet-ERP-Code     # Accès code source
+   DL-EU-Projet-ERP-Docs     # Accès documentation
+   DL-EU-Projet-ERP-Test     # Accès env. test
+
+   # Associations
+   GG-EU-Projet-ERP-Dev → DL-EU-Projet-ERP-Code
+   GG-EU-Projet-ERP-Test → DL-EU-Projet-ERP-Test
+   GG-EU-Projet-ERP-Admin → [Tous les DL]
+   ```
