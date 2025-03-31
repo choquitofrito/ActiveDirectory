@@ -710,7 +710,7 @@ Sécurité: Signature TSIG
 Les zones secondaires se synchronisent automatiquement avec leur zone principale via un processus appelé **transfert de zone**.
 
 
-### 9.1. Zones de Recherche Directe
+### 9.1. 🔍 Zones de Recherche Directe
 
 > 💡 **Définition:** Une zone de recherche directe (Forward Lookup Zone) convertit les noms d'hôtes en adresses IP.
 
@@ -752,7 +752,7 @@ www             IN CNAME ws-web-01
 ftp             IN CNAME ws-files-01
 ```
 
-### 9.2. Zones de Recherche Inverse
+### 9.2. 🔄 Zones de Recherche Inverse
 
 > 💡 **Définition:** Une zone de recherche inverse (Reverse Lookup Zone) convertit les adresses IP en noms d'hôtes.
 
@@ -791,7 +791,7 @@ ftp             IN CNAME ws-files-01
 10.10  IN PTR  fileserver.eu.computerelectronics.be.
 ```
 
-### 9.3. Relations entre Types de Zones
+### 9.3. 🔗 Relations entre Types de Zones
 
 > 💡 **Concept:** Une zone DNS combine deux aspects indépendants: son autorité et sa direction de recherche.
 

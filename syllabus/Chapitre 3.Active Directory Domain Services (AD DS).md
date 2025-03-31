@@ -13,7 +13,7 @@
 
 ---
 
-## 📙 Objectifs Pédagogiques
+## 1. 📙 Objectifs Pédagogiques
 
 À la fin de ce chapitre, vous serez capable de :
 1. Comprendre l'architecture d'Active Directory
@@ -23,7 +23,7 @@
 
 ---
 
-## 📙 Introduction à AD DS
+## 2. 📙 Introduction à AD DS
 
 Active Directory Domain Services (AD DS) est le service principal d'Active Directory. Il permet de gérer de manière centralisée :
 
@@ -47,7 +47,7 @@ Bien qu'on le confonde souvent avec l'ensemble d'Active Directory, AD DS est un 
 
 <br>
 
-## 📁 Exemple de fonctionnement d'AD
+## 3. 📁 Exemple de fonctionnement d'AD
 
 ### Structure du réseau
 
@@ -100,7 +100,7 @@ Les flèches vertes représentent les requêtes DNS pour la résolution des noms
 
 <br>
 
-## 📚 Active Directory Domain Services (AD DS)
+## 4. 📚 Active Directory Domain Services (AD DS)
 
 AD DS est le service fondamental de notre infrastructure `computerelectronics.be`. Il crée et gère la base de données centrale d'Active Directory.
 
@@ -162,7 +162,7 @@ Les deux services doivent être disponibles en permanence :
 
 <br>
 
-## 🏛️ Contrôleurs de Domaine
+## 5. 🏛️ Contrôleurs de Domaine
 
 ### Configuration de notre infrastructure
 
@@ -293,7 +293,7 @@ Ce serveur DNS doit être capable de prendre en charge les enregistrements de se
 
 
 
-## 🌐 Configuration DNS
+## 6. 🌐 Configuration DNS
 
 > 💡 AD DS crée automatiquement les zones DNS nécessaires lors de la promotion du serveur.
 
@@ -312,7 +312,7 @@ Ce serveur DNS doit être capable de prendre en charge les enregistrements de se
 Maintenant que nous avons configuré notre contrôleur de domaine et ses zones DNS, nous pouvons passer à la gestion des utilisateurs et des ressources. Ces aspects seront traités en détail dans les chapitres suivants.
 
 
-## 📜 Structure de la base de données
+## 7. 📜 Structure de la base de données
 
 > 💡 La base de données AD DS est divisée en 4 partitions distinctes.
 
@@ -376,7 +376,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
 | SharePoint | Collaboration | Sites, documents |
 | Office 365 | Cloud | Configuration hybride |
 
-## 📖 Le Catalogue Global
+## 8. 📖 Le Catalogue Global
 
 > 💡 Cache des attributs fréquemment utilisés pour accélérer les recherches.
 
@@ -400,9 +400,9 @@ Par exemple, pour un **Utilisateur** :
 - Attributs **non répliqués** : photo de profil, scripts de connexion
 
 
-# 🔑 Accès aux ressources du domaine
+## 9. 🔑 Accès aux ressources du domaine
 
-## Cas pratique : Nouvel employé
+### Cas pratique : Nouvel employé
 
 > 💡 Exemple concret d'intégration d'un nouvel employé dans l'infrastructure AD.
 
@@ -423,7 +423,7 @@ Ahmed commence à travailler dans le département IT. Pour accéder aux ressourc
   - Service : Active Directory Domain Services
   - État : Installé et configuré
 
-## 💻 Configuration du poste de travail
+### 💻 Configuration du poste de travail
 
 > 💡 Pour qu'Ahmed puisse accéder aux ressources, l'administrateur doit configurer son poste de travail.
 

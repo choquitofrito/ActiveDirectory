@@ -13,7 +13,7 @@
 
 ---
 
-## 📙 Objectifs Pédagogiques
+## 1. 📙 Objectifs Pédagogiques
 
 À la fin de ce chapitre, vous serez capable de :
 1. 🏢 Structurer votre organisation dans Active Directory
@@ -22,7 +22,7 @@
 
 ---
 
-## 1. 🏢 Structure Organisationnelle
+## 2. 🏢 Structure Organisationnelle
 
 ### 📂 Concept des Unités d'Organisation
 
@@ -40,7 +40,7 @@ Une **Unité d'Organisation** (OU) est un **conteneur Active Directory** offrant
 
 > 💡 **Analogie** : Une OU est un **dossier intelligent** combinant organisation et gestion.
 
-## 2. 📂 Structure des OUs
+## 3. 📂 Structure des OUs
 
 ### 2.1 📊 Hiérarchie des Contenus
 
@@ -62,7 +62,7 @@ OU
 | Délégation | Limitée | **Complète** |
 | Structure | Plate | **Hiérarchique** |
 
-# 3. Création d'une OU
+## 4. 🔧 Création d'une OU
 
 ## 3.1 Procédure
 
@@ -89,7 +89,7 @@ OU
    ☑ Protéger contre la suppression
    ```
 
-# 4. Suppression d'une OU Protégée
+## 5. 🗑️ Suppression d'une OU Protégée
 
 ## 4.1 Activation des Fonctionnalités Avancées
 
@@ -120,7 +120,7 @@ OU
 3. **Supprimer l'OU** 
 
 
-# 5. Gestion des OUs
+## 6. ⚙️ Gestion des OUs
 
 ## 5.1 Flexibilité de la Structure
 
@@ -142,7 +142,7 @@ OU
 | IT | GPO-IT-USB | Autoriser USB |
 | RH | GPO-RH-Screen | Verrouillage 5min |
 
-# 6. Structure pour computerelectronics.be
+## 7. 🏢 Structure pour computerelectronics.be
 
 ## 6.1 Hiérarchie Géographique (EU et USA)
 
