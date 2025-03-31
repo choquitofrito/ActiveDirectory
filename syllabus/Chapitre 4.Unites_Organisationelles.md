@@ -1,4 +1,4 @@
-# 📂 Chapitre 4: Unités d'Organisation (OUs)
+# Chapitre 4: Unités d'Organisation (OUs)
 
 > 📚 **Dans ce chapitre:**
 > 1. 🏢 [Structure Organisationnelle](#1-introduction-aux-unités-dorganisation-ous)
