@@ -23,7 +23,7 @@
 
 ---
 
-## 1. Introduction à AD DS
+## 📙 Introduction à AD DS
 
 Active Directory Domain Services (AD DS) est le service principal d'Active Directory. Il permet de gérer de manière centralisée :
 
@@ -464,7 +464,7 @@ Ahmed commence à travailler dans le département IT. Pour accéder aux ressourc
 - L'application des **politiques de sécurité** (ex: pare-feu)
 - Un suivi de son activité par le serveur sous forme de logs
 
-# 6. Annexe. Communication entre zones 
+## Annexe. Communication entre zones 
 
 **Dans notre infrastructure, les contrôleurs de domaine gèrent l'authentification pour toutes les zones** :
 
