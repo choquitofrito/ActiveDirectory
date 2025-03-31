@@ -1,6 +1,30 @@
-# 1. Introduction aux Unités d'Organisation (OUs)
+# Chapitre 4: Unités d'Organisation (OUs)
 
-## 1.1 Objectif et Rôle des OUs
+> 📚 **Dans ce chapitre:**
+> 1. 🌐 [Introduction aux OUs](#1-introduction-aux-unités-dorganisation-ous)
+>    - Objectifs et rôles
+>    - Structure et organisation
+> 2. 📂 [Gestion des OUs](#2-gestion-des-ous)
+>    - Création et configuration
+>    - Bonnes pratiques
+> 3. 🔐 [Délégation Administrative](#3-délégation-administrative)
+>    - Stratégies AGDLP et AGLP
+>    - Exemples pratiques
+
+---
+
+## 📙 Objectifs Pédagogiques
+
+À la fin de ce chapitre, vous serez capable de :
+1. Comprendre le rôle des OUs dans Active Directory
+2. Créer et gérer une structure d'OUs efficace
+3. Implémenter une stratégie de délégation administrative
+
+---
+
+## 1. Introduction aux Unités d'Organisation (OUs)
+
+### 1.1 Objectif et Rôle des OUs
 
 Une **Unité d'Organisation** (OU) est un **conteneur Active Directory** qui permet de :
 
@@ -16,7 +40,7 @@ Une **Unité d'Organisation** (OU) est un **conteneur Active Directory** qui per
 
 > **Analogie** : Une OU est comme un **dossier intelligent** qui non seulement organise les objets AD mais permet aussi de les gérer efficacement.
 
-# 2. Structure d'une OU
+## 2. Structure d'une OU
 
 ## 2.1 Contenus Possibles
 
