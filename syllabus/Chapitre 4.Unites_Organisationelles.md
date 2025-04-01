@@ -73,7 +73,7 @@ OU
 
 2. **Créer l'OU**
    ```
-   Domaine ou OU parent → Clic droit
+   Domaine AD ou OU parent → Clic droit
    ├── Nouveau
    └── Unité d'organisation
    ```
@@ -228,7 +228,7 @@ Dev
 1. **Structure**
    ```
    # Profondeur maximale
-   computerelectronics.be
+   computerelectronics.be (domaine AD)
    ├── EU                    # Niveau 1
    │   ├── Comptabilité     # Niveau 2
    │   │   ├── Users      # Niveau 3
@@ -249,7 +249,7 @@ Dev
 3. **Séparation**
    ```
    # Par environnement
-   computerelectronics.be
+   computerelectronics.be (domaine AD)
    ├── Dev
    │   ├── Applications
    │   └── Databases
@@ -283,7 +283,7 @@ Dev
 2. **Conteneurs par Défaut**
    ```
    # Création automatique
-   computerelectronics.be
+   computerelectronics.be (domaine AD)
    ├── Users         # Conteneur standard
    └── Computers     # Conteneur standard
    ```
@@ -348,7 +348,7 @@ Dev
    Pour maintenir la performance et la simplicité, limitez la profondeur à 4 niveaux maximum:
    ```
    # Hiérarchie optimale
-   computerelectronics.be    # Niveau 0 (Racine)
+   computerelectronics.be (domaine AD)    # Niveau 0 (Racine)
    ├── EU                 # Niveau 1 (Géographie)
    │   ├── RH             # Niveau 2 (Département)
    │   │   └── Users      # Niveau 3 (Objets)
@@ -634,7 +634,7 @@ Les groupes sont utilisés pour **gérer les accès aux ressources et les rôles
 
 On peut créer de groupes qui contiennent des **permissions directes sur des ressources**.
 
-**Description** : Dans un environnement mono-domaine comme `computerelectronics.be`, la stratégie AGLP simplifie la gestion des accès en accordant les permissions directement aux groupes globaux.
+**Description** : Dans un environnement mono-domaine AD comme `computerelectronics.be`, la stratégie AGLP simplifie la gestion des accès en accordant les permissions directement aux groupes globaux.
 
 1. **Ressources Partagées**
    ```plaintext

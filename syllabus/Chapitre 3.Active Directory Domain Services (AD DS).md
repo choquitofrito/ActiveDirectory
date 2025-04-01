@@ -336,7 +336,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
      * Ordinateurs
      * Groupes
      * Unités d'organisation
-   - Une partition par domaine, autant de partitions de domaines que de domaines dans la forêt 
+   - Une copie de partition dans chaque DC. Differente pour chaque forêt. 
     
    Ex: nous avons 2 domaines dans la forêt de computerelectronics.be
 
