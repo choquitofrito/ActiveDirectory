@@ -111,6 +111,27 @@ De plus large à plus petit:
 | **Filtrage (WMI/Sécurité)** | **Affine l'application** des GPO selon **des critères spécifiques** comme le type d'OS, le modèle de machine, ou les groupes de sécurité. | Automatiosations, paramètres spécifiques pour Windows, gestion d'énergie pour les ordinateurs portables uniquement |
 
 
+Si l'admin veut appliquer les GPOs, il peut exécuter la commande suivante sur l'ordinateur:
+
+```
+gpupdate /force
+```
+
+Base: 
+
+Installer guest additions
+- Inserer cd de Guest Additions
+- Lancer l'installation depuis le CD (dans le serveur)
+- Dans la barre de la VM allumée, cliquer Peripheriques
+  - Cliquer sur Press-Papier partagé et puis bidirectionnel
+  - Cliquer sur Glisser-déplacer  
+
+Fondos de pantalla
+Desactivar panel de control
+Contraseñas
+Contraseñas granulares
+Redireccionamiento de carpetas: mismas carpetas en cualquier lugar de la red
+
 
 
 
