@@ -49,13 +49,13 @@ Bien qu'on le confonde souvent avec l'ensemble d'Active Directory, AD DS est un 
 
 ## 3. 📁 Exemple de fonctionnement d'AD
 
-### Structure du réseau
+### 3.1. Structure du réseau
 
 Considérez notre infrastructure réseau :
 
 ![Forêt](../diagrams/images/structure_reseau_geographic_zones.png)
 
-### Flux d'authentification et d'accès
+### 3.2. Flux d'authentification et d'accès
 
 Voyons comment un utilisateur accède à un serveur de fichiers :
 

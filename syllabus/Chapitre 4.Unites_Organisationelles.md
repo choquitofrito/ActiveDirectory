@@ -53,7 +53,7 @@ OU
 └── Autres objets (imprimantes, contacts)
 ```
 
-## 3.2 Avantages vs Conteneurs par Défaut
+### 3.2 Avantages vs Conteneurs par Défaut
 
 | Fonctionnalité | Conteneur par Défaut | OU |
 |-----------------|---------------------|----|
@@ -63,8 +63,6 @@ OU
 | Structure | Plate | **Hiérarchique** |
 
 ## 4. 🔧 Création d'une OU
-
-### 4.1 Procédure
 
 1. **Ouvrir la Console**
    ```
@@ -142,9 +140,9 @@ OU
 | IT | GPO-IT-USB | Autoriser USB |
 | RH | GPO-RH-Screen | Verrouillage 5min |
 
-### 7. 🏢 Structure pour computerelectronics.be
+## 7. 🏢 Structure pour computerelectronics.be
 
-#### 7.1 Hiérarchie Géographique (EU et USA)
+### 7.1 Hiérarchie Géographique (EU et USA)
 
 
 ```
@@ -774,7 +772,7 @@ La structure en OUs permet de **déléguer des droits administratifs** à diffé
    GG-EU-Stagiaires-RH → DL-EU-Stagiaires-Apps
    ```
 
-#### 12.4.2 Département Commercial
+### 12.4.2 Département Commercial
 
 1. **Structure OU**
    ```
@@ -813,7 +811,7 @@ La structure en OUs permet de **déléguer des droits administratifs** à diffé
    GG-EU-Ventes-Managers → DL-EU-Ventes-CRM
    ```
 
-#### 12.4.3 Projet Multi-Départemental
+### 12.4.3 Projet Multi-Départemental
 
 1. **Structure Existante**
    ```

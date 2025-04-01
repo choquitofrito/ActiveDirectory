@@ -149,7 +149,7 @@ Par défaut, il y a plusieurs **conteneurs** (**ce ne sont pas des OU**, mais de
 
 ## 3. 👤 Gestion des Comptes
 
-### Création de Compte
+### 3.1. Création de Compte
 
 > 💡 Processus pour ajouter un nouveau collaborateur
 
@@ -191,7 +191,7 @@ Autrement, ouvrir `Utilisateurs et ordinateurs Active Directory` depuis le menu 
 
 Après la création du compte, il est important de configurer les **propriétés supplémentaires** pour faciliter les tâches de gestion.
 
-### Informations Essentielles
+### 3.4. Informations Essentielles
 
 #### **Onglet Général** :
 
