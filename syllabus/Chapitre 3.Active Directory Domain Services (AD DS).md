@@ -63,7 +63,7 @@ Voyons comment un utilisateur accède à un serveur de fichiers :
 
 > 💡 **Note** : Observez les flèches colorées : bleu pour l'authentification, jaune pour l'accès aux ressources, et bleu bidirectionnel pour la réplication. Les flèches vertes seront expliquées plus tard.
 
-### 🔑 1. Authentification (flèche bleue)
+#### 🔑 1. Authentification (flèche bleue)
 
 | Étape | Description |
 |--------|-------------|
@@ -72,7 +72,7 @@ Voyons comment un utilisateur accède à un serveur de fichiers :
 | Protocole | Kerberos gère l'authentification sécurisée |
 | Réseau | Via le switch `SW-COMPTA` (`192.168.0.1`) |
 
-### 📂 2. Accès aux ressources (flèche jaune)
+#### 📂 2. Accès aux ressources (flèche jaune)
 
 | Étape | Description |
 |--------|-------------|
@@ -80,14 +80,14 @@ Voyons comment un utilisateur accède à un serveur de fichiers :
 | Résolution | `dns2` fournit l'IP `192.168.0.41` |
 | Autorisation | Le serveur de fichiers vérifie les droits d'accès |
 
-### 🔃 3. Réplication AD (flèche bleue bidirectionnelle)
+#### 🔃 3. Réplication AD (flèche bleue bidirectionnelle)
 
 | Processus | Bénéfice |
 |-----------|------------|
 | Synchronisation | `dns1` et `dns2` maintiennent leurs bases à jour |
 | Redondance | Le service continue si un DC tombe en panne |
 
-### 🔍 Requêtes DNS (flèches vertes)
+#### 🔍 Requêtes DNS (flèches vertes)
 
 Les flèches vertes représentent les requêtes DNS pour la résolution des noms. Pour simplifier le diagramme, seules les requêtes sont montrées, pas les réponses.
 
@@ -104,7 +104,7 @@ Les flèches vertes représentent les requêtes DNS pour la résolution des noms
 
 AD DS est le service fondamental de notre infrastructure `computerelectronics.be`. Il crée et gère la base de données centrale d'Active Directory.
 
-### Fonctionnalités principales
+### 4.1. Fonctionnalités principales
 
 | Catégorie | Fonctionnalités |
 |------------|---------------|
@@ -113,7 +113,7 @@ AD DS est le service fondamental de notre infrastructure `computerelectronics.be
 | 🔒 Sécurité | Application des stratégies de sécurité |
 | 🎓 Organisation | Structure hiérarchique des ressources |
 
-### Informations stockées
+### 4.2. Informations stockées
 
 | Type | Exemples |
 |------|----------|
@@ -126,7 +126,7 @@ AD DS est le service fondamental de notre infrastructure `computerelectronics.be
 Pour bien comprendre le déploiement d'AD DS dans notre entreprise, commençons par examiner la structure DNS existante, car AD DS s'appuie fortement sur DNS pour son fonctionnement.
 
 
-### 💾 Base de données AD DS
+## 5. Base de données AD DS
 
 #### Stockage et redondance
 
@@ -189,9 +189,9 @@ Les deux services doivent être disponibles en permanence :
 ![Installation AD](../diagrams/images/dns_ad_installation.png)
 
 
-### 💻 Promotion en contrôleur de domaine
+## 6. Promotion en contrôleur de domaine
 
-#### Configuration réseau initiale
+### 6.1. Configuration réseau initiale
 
 > ⚠️ Avant de promouvoir le serveur en DC, nous devons configurer correctement son réseau.
 
@@ -211,7 +211,7 @@ Les deux services doivent être disponibles en permanence :
 > 💡 Le serveur utilise sa propre adresse comme serveur DNS car il hébergera le service DNS pour le domaine.
 
 
-#### Installation du rôle AD DS
+### 6.2. Installation du rôle AD DS
 
 > 💡 Un rôle est un ensemble de fonctionnalités permettant au serveur d'accomplir une fonction spécifique.
 
@@ -225,7 +225,7 @@ Les deux services doivent être disponibles en permanence :
 | 6 | Accepter les fonctionnalités requises |
 | 7 | Terminer l'installation |
 
-#### 🔗 Promotion du serveur
+### 6.3. Promotion du serveur
 
 > 💡 Cette étape transforme le serveur en contrôleur de domaine pour `computerelectronics.be`
 
@@ -239,7 +239,7 @@ Les deux services doivent être disponibles en permanence :
 
 
 
-#### 🔍 Vérifications post-installation
+### 6.4. Vérifications post-installation
 
 > 💡 Après le redémarrage, vérifiez le bon fonctionnement des services.
 
@@ -293,7 +293,7 @@ Ce serveur DNS doit être capable de prendre en charge les enregistrements de se
 
 
 
-## 6. 🌐 Configuration DNS
+## 7. 🌐 Configuration DNS
 
 > 💡 AD DS crée automatiquement les zones DNS nécessaires lors de la promotion du serveur.
 
@@ -312,9 +312,9 @@ Ce serveur DNS doit être capable de prendre en charge les enregistrements de se
 Maintenant que nous avons configuré notre contrôleur de domaine et ses zones DNS, nous pouvons passer à la gestion des utilisateurs et des ressources. Ces aspects seront traités en détail dans les chapitres suivants.
 
 
-## 7. 📜 Structure de la base de données
+## 8. 📜 Structure de la base de données
 
-> 💡 La base de données AD DS est divisée en 4 partitions distinctes.
+> 💡 La base de données AD DS est divisée en 4 **partitions distinctes**.
 
 <img src="../diagrams/images/partition_schema.png" alt="Partition Schéma" style="width:10%;" />
 
@@ -340,7 +340,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
 
    Ex: La partition de schéma de `dns1` est la même que la partition de schéma de `dns2`, et elle serait la même dans `dns3` si elle existait.
 
-#### 2. **Configuration**
+### 2. Partition de **Configuration**
    - Stocke la **topologie** de la forêt
      * Les **domaines et leurs relations**
        - **Cas réel** : Dans une grande entreprise, on aurait `eu.entreprise.com` et `us.entreprise.com` comme des domaines AD distincts
@@ -356,7 +356,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
    
    - C'est **la même** partition sur chaque DC, elle a le même contenu sur tous les DCs
 
-#### 3. **Domaine**
+### 3. Partition de **Domaine**
    - Contient **les informations de tous les objets** d'un domaine spécifique :
      * Utilisateurs
      * Ordinateurs
@@ -366,7 +366,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
     
    Ex: nous avons 2 domaines dans la forêt de computerelectronics.be
 
-### 4. Partition Application
+### 4. Partition d'Application
 
 > 💡 Stocke les données spécifiques aux applications d'entreprise.
 
@@ -376,7 +376,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
 | SharePoint | Collaboration | Sites, documents |
 | Office 365 | Cloud | Configuration hybride |
 
-## 8. 📖 Le Catalogue Global
+## 9. 📖 Le Catalogue Global
 
 > 💡 Cache des attributs fréquemment utilisés pour accélérer les recherches.
 
@@ -400,7 +400,7 @@ Par exemple, pour un **Utilisateur** :
 - Attributs **non répliqués** : photo de profil, scripts de connexion
 
 
-## 9. 🔑 Accès aux ressources du domaine
+## 10. 🔑 Accès aux ressources du domaine
 
 ### Cas pratique : Nouvel employé
 
@@ -436,7 +436,7 @@ Ahmed commence à travailler dans le département IT. Pour accéder aux ressourc
 | Nom | `ws-it-01` | Ce PC → Propriétés → Renommer |
 | Suffixe | `computerelectronics.be` | Propriétés → Paramètres avancés |
 
-### 2. Jonction au domaine
+### 2. Rajout d'un ordinateur au domaine
 
 1. Ouvrir **Propriétés système**
 2. Aller dans **Paramètres avancés**
@@ -446,7 +446,7 @@ Ahmed commence à travailler dans le département IT. Pour accéder aux ressourc
 
 > ⚠️ Redémarrer le poste après chaque étape majeure (changement de nom, jonction au domaine)
 
-### 3. Connexion au domaine
+### 3. Connexion au serveur
 
 > 💡 Ahmed utilise son compte de domaine pour se connecter. Aucun compte local n'est nécessaire.
 
@@ -464,26 +464,35 @@ Ahmed commence à travailler dans le département IT. Pour accéder aux ressourc
 - L'application des **politiques de sécurité** (ex: pare-feu)
 - Un suivi de son activité par le serveur sous forme de logs
 
-## Annexe. Communication entre zones 
+## 11. 🔍 Distinction entre Domaine DNS et Domaine AD
 
-**Dans notre infrastructure, les contrôleurs de domaine gèrent l'authentification pour toutes les zones** :
+> 💡 Un point crucial à comprendre est la différence entre un domaine DNS et un domaine Active Directory.
 
-1. **Flux d'authentification**
-   - Un utilisateur sur `ws-compta-01.computerelectronics.be` (192.168.10.128)
-   - Se connecte via le DC `dns1.computerelectronics.be` (192.168.0.2)
-   - Peut accéder aux ressources de toutes les zones
+### Structure DNS vs Structure AD
 
-2. **Résolution DNS**
-   - Les requêtes DNS passent toujours par les DCs
-   - Les DCs maintiennent les zones pour tous les sous-domaines
-   - Exemple : accès à `fileserver-us.computerelectronics.be` depuis la zone EU
+1. **Domaine DNS**
+   - Objectif : **Résolution de noms** et **organisation réseau**
+   - Structure : Hiérarchique avec plusieurs niveaux possibles
+   - Dans notre cas :
+     * Domaine racine : `computerelectronics.be`
+     * Zones géographiques : `eu.computerelectronics.be`, `us.computerelectronics.be`
+     * Environnements : `dev.computerelectronics.be`, `prod.computerelectronics.be`
 
-1. **Routage inter-zones**
-   - Communication directe entre les réseaux via le routeur central
-   - Pas de NAT entre les zones (tout en 192.168.x.0/24)
-   - Les ACLs réseau peuvent filtrer le trafic si nécessaire
+2. **Domaine AD**
+   - Objectif : **Authentification** et **sécurité**
+   - Structure : Un seul domaine AD `computerelectronics.be`
+   - Organisation interne via les OUs :
+     * `OU=EU,DC=computerelectronics,DC=be`
+     * `OU=US,DC=computerelectronics,DC=be`
 
+### Points Clés à Retenir
 
-Les zones DNS créées sont visibles dans le diagramme de l'infrastructure :
+| Aspect | Domaine DNS | Domaine AD |
+|--------|-------------|------------|
+| Fonction principale | Résolution de noms | Authentification |
+| Structure | Hiérarchique (sous-domaines) | Plate (OUs pour l'organisation) |
+| Portée | Organisation réseau | Sécurité et accès |
+| Notre cas | Multiples sous-domaines | Un seul domaine AD |
 
-![Diagramme des zones DNS](../diagrams/images/structure_reseau_geographic_zones.png)
+> ⚠️ **Important** : Les sous-domaines DNS (eu., us., etc.) servent à l'organisation réseau, tandis que les OUs organisent les ressources AD.
+

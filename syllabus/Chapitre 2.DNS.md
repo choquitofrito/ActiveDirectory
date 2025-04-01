@@ -133,6 +133,12 @@ Le DNS offre deux types de résolution :
 | 🌐 **Domaine Racine** | Domaine principal | `computerelectronics.be` |
 | 🌎 **Zones Géographiques** | Régions | `eu.computerelectronics.be`<br>`us.computerelectronics.be` |
 | 🛠️ **Environnements** | Services | `dev.computerelectronics.be`<br>`prod.computerelectronics.be` |
+
+> **Note importante:** Dans notre environnement de formation, nous avons choisi de placer toutes les zones (EU, US, Dev, Prod) dans la même forêt AD pour des raisons pédagogiques. Dans un environnement d'entreprise réel :
+> - Les zones géographiques (EU, US) auraient leurs propres DCs locaux
+> - Les environnements Dev et Prod seraient dans des forêts AD séparées pour la sécurité
+> - Chaque forêt aurait sa propre infrastructure DNS
+
 | 💻 **Ressources** | Appareils et services | `ws-compta-01.computerelectronics.be`<br>`printer-01.computerelectronics.be` |
 
 ### 📑 Cas Pratique: Computer Electronics
