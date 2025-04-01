@@ -41,15 +41,15 @@
 
 | Type de Portée | Description | Exemple |
 |----------------|-------------|----------|
-| Locale | Stratégies configurées directement sur l'ordinateur, sans lien avec Active Directory. Stockées dans la base de registre locale. | Stratégies de sécurité locales, paramètres de pare-feu local |
-| Domaine Active Directory | Stratégies créées et stockées dans Active Directory, pouvant être liées à différents niveaux de la hiérarchie AD. | GPO-MotDePasse-Domain, GPO-Securite-Entreprise |
+| Locale | Stratégies configurées directement sur l'ordinateur, sans lien avec le domaine AD. Stockées dans la base de registre locale. | Stratégies de sécurité locales, paramètres de pare-feu local |
+| Domaine Active Directory | Stratégies créées et stockées dans le domaine AD, pouvant être liées à différents niveaux de la hiérarchie AD. | GPO-MotDePasse-Domain, GPO-Securite-Entreprise |
 
 #### Par Cible de Liaison (Link Target)
 
 | Cible de Liaison | Périmètre d'Application | Exemple de GPO |
 |------------------|------------------------|----------------|
 | Site Active Directory | S'applique aux objets dans un site AD physique. Utile pour des configurations spécifiques à une localisation géographique (ex: serveurs proxy, imprimantes). | GPO-Proxy-EUSite, GPO-Imprimantes-ParisOffice |
-| Domaine Active Directory | S'applique à tous les objets du domaine AD. Idéal pour les politiques de sécurité globales et les configurations d'entreprise. | GPO-Securite-Domain, GPO-MotDePasse-Complexite |
+| Domaine Active Directory | S'applique à tous les objets du domaine AD. Idéal pour les politiques de sécurité globales et les configurations d'entreprise du domaine AD. | GPO-Securite-Domain, GPO-MotDePasse-Complexite |
 | Unité d'Organisation (OU) | S'applique aux objets dans l'OU spécifiée et ses sous-OUs. Permet une gestion granulaire par département ou fonction. | GPO-Apps-ComptabiliteOU, GPO-Restrictions-RH |
 | Filtrage (WMI/Sécurité) | Affine l'application des GPO selon des critères spécifiques comme le type d'OS, le modèle de machine, ou les groupes de sécurité. | GPO-Windows11-Only, GPO-Laptops-Power |
 

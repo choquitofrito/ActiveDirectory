@@ -107,7 +107,7 @@ prenom.nom  # Format de base
 
 ## 2. Utilisateurs et Ordinateurs Active Directory (ADUC)
 
-**"Utilisateurs et Ordinateurs Active Directory"** (**ADUC**) est une console de gestion permettant de gérer les **utilisateurs, groupes, ordinateurs et unités d'organisation (OU)** dans un domaine Active Directory (AD).
+**"Utilisateurs et Ordinateurs Active Directory"** (**ADUC**) est une console de gestion permettant de gérer les **utilisateurs, groupes, ordinateurs et unités d'organisation (OU)** dans un domaine AD.
 
 Vous pouvez l'ouvrir de plusieur formes: tapez `Utilisateurs et ordinateurs Active Directory` depuis le menu Démarrer ou via `dsa.msc`. C'est la méthode traditionnelle de gérer l'AD.
 Ou même `Gestionnaire de serveur`->`Outils`->`Utilisateurs et ordinateurs Active Directory`.
@@ -117,12 +117,12 @@ Ou même `Gestionnaire de serveur`->`Outils`->`Utilisateurs et ordinateurs Activ
 
 Dans les deux outils vous avez accès aux **éléments suivants**:
 
-- **Structure du domaine** : Affiche plusieurs containers d'objects (ex: Users, Computers, Domain Controllers) et les **Unités d'organisation (OU)** (dont on en a pas pour l'instant).
+- **Structure du domaine AD** : Affiche plusieurs containers d'objects (ex: Users, Computers, Domain Controllers) et les **Unités d'organisation (OU)** (dont on en a pas pour l'instant).
 
-- **Objets du domaine** , entre autres :
-  - **Utilisateurs** : Comptes des utilisateurs du domaine et leurs propriétés.
-  - **Ordinateurs** : Machines jointes au domaine.
-  - **Contrôleurs de domaine** : Liste des DC du domaine.
+- **Objets du domaine AD** , entre autres :
+  - **Utilisateurs** : Comptes des utilisateurs du domaine AD et leurs propriétés.
+  - **Ordinateurs** : Machines jointes au domaine AD.
+  - **Contrôleurs de domaine** : Liste des DC du domaine AD.
 
 Par défaut, il y a plusieurs **conteneurs** (**ce ne sont pas des OU**, mais des conteneurs d'objets) :
  :
@@ -149,7 +149,7 @@ Par défaut, il y a plusieurs **conteneurs** (**ce ne sont pas des OU**, mais de
 
 ## 3. 👤 Gestion des Comptes
 
-### ➕ Création de Compte
+### Création de Compte
 
 > 💡 Processus pour ajouter un nouveau collaborateur
 
@@ -285,7 +285,7 @@ Après la création du compte, il est important de configurer les **propriétés
 
 ### 📂 Concepts Fondamentaux
 
-> 💡 Un groupe AD est un conteneur pour gérer :
+> 💡 Un groupe du domaine AD est un conteneur pour gérer :
 - 👤 Utilisateurs
 - 💻 Ordinateurs
 - 📂 Autres groupes
@@ -329,7 +329,7 @@ Après la création du compte, il est important de configurer les **propriétés
 
 ##### 💡 Caractéristiques
 - 🔑 Attribution des droits
-- 🌐 Limité au domaine actuel
+- 🌐 Limité au domaine AD actuel
 - 📂 Gestion des ressources
 
 ##### 📄 Exemples
@@ -463,13 +463,13 @@ Après la création du compte, il est important de configurer les **propriétés
 #### ⚠️ Limitations
 ```plaintext
 🌐 Groupe Global :
-- ✅ Peut : Globaux (même domaine)
+- ✅ Peut : Globaux (même domaine AD)
 
 🌍 Groupe Local :
-- ❌ Non : Globaux (autre domaine)
+- ❌ Non : Globaux (autre domaine AD)
 
 🌏 Groupe Universel :
-- ❌ Non : Globaux (autre domaine)
+- ❌ Non : Globaux (autre domaine AD)
 ```
 
 ### 🔐 Sécurité et Maintenance
