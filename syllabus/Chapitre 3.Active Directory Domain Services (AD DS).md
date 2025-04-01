@@ -7,7 +7,7 @@
 > 2. 💻 [Installation d'AD DS](#2-installation-dad-ds)
 >    - Prérequis
 >    - Étapes d'installation
-> 3. 🌐 [Configuration du domaine](#3-configuration-du-domaine)
+> 3. 🌐 [Configuration du domaine AD](#3-configuration-du-domaine-ad)
 >    - Structure du domaine
 >    - Paramètres essentiels
 
@@ -18,7 +18,7 @@
 À la fin de ce chapitre, vous serez capable de :
 1. Comprendre l'architecture d'Active Directory
 2. Installer et configurer AD DS sur Windows Server
-3. Créer et configurer le domaine `computerelectronics.be`
+3. Créer et configurer le domaine AD `computerelectronics.be`(même nom que le domain DNS!)
 4. Vérifier le bon fonctionnement d'AD DS
 
 ---
@@ -38,7 +38,7 @@ Bien qu'on le confonde souvent avec l'ensemble d'Active Directory, AD DS est un 
 | Service | Description |
 |---------|-------------|
 | 🔑 **AD DS** | Service principal gérant l'authentification et l'autorisation des ressources |
-| 🪶 **AD LDS** | Version allégée d'AD DS fonctionnant sans domaine Windows |
+| 🪶 **AD LDS** | Version allégée d'AD DS fonctionnant sans domaine AD |
 | 📜 **AD CS** | Gestion des certificats numériques et de l'infrastructure à clé publique (PKI) |
 | 🔒 **AD RMS** | Protection et contrôle des droits d'accès aux documents |
 | 🔗 **AD FS** | Authentification unique (SSO) et fédération d'identités entre organisations |
@@ -102,7 +102,7 @@ Les flèches vertes représentent les requêtes DNS pour la résolution des noms
 
 ## 4. 📚 Active Directory Domain Services (AD DS)
 
-AD DS est le service fondamental de notre infrastructure `computerelectronics.be`. Il crée et gère la base de données centrale d'Active Directory.
+AD DS est le service fondamental de notre infrastructure `computerelectronics.be`. Il **crée et gère la base de données centrale d'Active Directory**.
 
 ### 4.1. Fonctionnalités principales
 
@@ -128,45 +128,25 @@ Pour bien comprendre le déploiement d'AD DS dans notre entreprise, commençons 
 
 ## 5. Base de données AD DS
 
-#### Stockage et redondance
+#### Domaine AD et Domain DNS
 
-> 💡 La base de données AD doit être hébergée sur au moins un serveur appelé **Contrôleur de Domaine (DC)**.  
+💡 La base de données AD doit être hébergée sur au moins un serveur appelé **Contrôleur de Domaine (DC)**. On pourrait l'héberger sur plusieurs serveurs pour avoir une redondance et une disponibilité (load balancing). Dans notre cas on en a qu'un serveur (`dns1.computerelectronics.be`)
 
-| Configuration | Description |
-|--------------|-------------|
-| Minimum | Un seul DC pour gérer l'arbre DNS |
-| Recommandé | Plusieurs DCs pour la redondance |
-| Optimal | DCs répartis géographiquement |
+Quand on parle de **domaine** controlé par le DC on parle de **domaine Active Directory**, **pas de domaine DNS**, bien qu'ils soient étroitement liées: 
 
-#### ⚠️ Services indépendants
+> **Domaine Active Directory** : Base de données centralisée gérée par le DC (utilisateurs, ordinateurs, ressources, OUs, stratégies de sécurité)
 
-| Service | Rôle |
-|---------|-------|
-| DNS | Résolution de noms en IPs |
-| AD DS | Gestion de la base de données d'annuaire |
+> **Domaine DNS** : Structure hiérarchique des noms pour les domains, sous-domaines et ressources (eu.computerelectronics.be, ws-compta-01-computerelectronics.be, etc).
 
-#### Configurations possibles (exemples)
+| Aspect | Domaine DNS | Domaine AD | Exemple |
+|--------|-------------|------------|---------|
+| Fonction principale | Résolution de noms | Authentification | `dns1.computerelectronics.be`, <br><br> `ws-compta-01-computerelectronics.be` |
+| Structure | Hiérarchique (sous-domaines) | Plate (OUs pour l'organisation)| `CN=Manuel, OU=RH, OU=Utilisateurs, DC=computerelectronics, DC=be`, <br><br> `CN=ws-compta-01-computerelectronics.be, OU=Computers, OU=Comptabilite,DC=computerelectronics, DC=be` | Portée | Organisation réseau | Sécurité et accès | |
+| Notre cas | Multiples sous-domaines | Un seul domaine AD | |
 
-| Serveurs DNS | Serveurs AD | Avantages |
-|-------------|-------------|------------|
-| 3 | 2 | Haute disponibilité DNS |
-| 2 | 2 | Équilibre optimal |
-| 2 | 3 | Redondance AD accrue |
 
-#### 📈 Haute disponibilité
 
-Les deux services doivent être disponibles en permanence :
-- 🔄 Basculement automatique en cas de panne
-- ⚖️ Répartition de charge
-- 💻 Réplication entre serveurs
-
-<br>
-
-## 5. 🏛️ Contrôleurs de Domaine
-
-### Configuration de notre infrastructure
-
-> 💡 Notre infrastructure repose sur deux serveurs principaux qui hébergent à la fois les services DNS et AD DS.
+💡 Notre infrastructure repose sur deux serveurs principaux qui hébergent à la fois les services DNS et AD DS.
 
 #### Serveurs principaux
 
@@ -175,12 +155,6 @@ Les deux services doivent être disponibles en permanence :
 | `dns1.computerelectronics.be` | DC Principal + DNS | `192.168.0.2` |
 | `dns2.computerelectronics.be` | DC Secondaire + DNS | `192.168.0.3` |
 
-#### Architecture des services
-
-| Service | Configuration |
-|---------|---------------|
-| AD DS | Réplication entre les DCs |
-| DNS | Gestion de zones par DC |
 
 #### Diagramme d'installation
 
@@ -357,7 +331,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
    - C'est **la même** partition sur chaque DC, elle a le même contenu sur tous les DCs
 
 ### 3. Partition de **Domaine**
-   - Contient **les informations de tous les objets** d'un domaine spécifique :
+   - Contient **les informations de tous les objets** d'un domaine AD spécifique :
      * Utilisateurs
      * Ordinateurs
      * Groupes
@@ -402,7 +376,7 @@ Par exemple, pour un **Utilisateur** :
 
 ## 10. 🔑 Accès aux ressources du domaine
 
-### Cas pratique : Nouvel employé
+### Cas pratique : Nouvel employé dans le domaine AD
 
 > 💡 Exemple concret d'intégration d'un nouvel employé dans l'infrastructure AD.
 
@@ -441,14 +415,14 @@ Ahmed commence à travailler dans le département IT. Pour accéder aux ressourc
 1. Ouvrir **Propriétés système**
 2. Aller dans **Paramètres avancés**
 3. Section **Nom de l'ordinateur** ainsi que le suffixe (`computerelectronics.be`)
-4. Sélectionner **Membre du domaine** : `computerelectronics.be`
+4. Sélectionner **Membre du domaine AD** : `computerelectronics.be`
 5. Saisir les identifiants **Domain Admin**
 
 > ⚠️ Redémarrer le poste après chaque étape majeure (changement de nom, jonction au domaine)
 
 ### 3. Connexion au serveur
 
-> 💡 Ahmed utilise son compte de domaine pour se connecter. Aucun compte local n'est nécessaire.
+> 💡 Ahmed utilise son compte de domaine AD pour se connecter. Aucun compte local n'est nécessaire.
 
 | Format | Exemple | Description |
 |--------|---------|-------------|
@@ -487,12 +461,6 @@ Ahmed commence à travailler dans le département IT. Pour accéder aux ressourc
 
 ### Points Clés à Retenir
 
-| Aspect | Domaine DNS | Domaine AD |
-|--------|-------------|------------|
-| Fonction principale | Résolution de noms | Authentification |
-| Structure | Hiérarchique (sous-domaines) | Plate (OUs pour l'organisation) |
-| Portée | Organisation réseau | Sécurité et accès |
-| Notre cas | Multiples sous-domaines | Un seul domaine AD |
 
 > ⚠️ **Important** : Les sous-domaines DNS (eu., us., etc.) servent à l'organisation réseau, tandis que les OUs organisent les ressources AD.
 
