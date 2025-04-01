@@ -88,7 +88,7 @@ Qu'est-ce que vous en pensez? Ne regardez pas la solution!
 | 🦠 **Sécurité** | • Vulnérabilité centralisée<br>• Risque de propagation | • Protection renforcée<br>• Surveillance active |
 | 🔗 **Dépendance Réseau** | • Besoin de connectivité<br>• Accès limité hors ligne | • Réseau redondant<br>• Cache local |
 
-### 🔧 Stratégies de Mitégation
+### 🔧 Stratégies de Mitigation
 
 > 📘 **Plan de continuité:**
 > - Serveur secondaire de backup
