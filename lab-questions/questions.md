@@ -11,8 +11,8 @@
 1. Qu'est-ce que c'est AD?
 2. Quel est le service le plus important d'AD?
 3. A quoi ça sert d'établir un domaine?
-4. A quoi ça sert la structure d'un Contrôleur de Domaine?
-5. Dans le réseau de computerelectronics.be, est-ce que la base de données d'AD est sur dns1, dns2 ou les deux?
+4. Quelle est la différence entre un domain AD et le domain DNS?
+5. Dans le réseau de computerelectronics.be, est-ce que la base de données d'AD est censée d'êtresur dns1, dns2 ou les deux?
 6. Qu'est-ce qu'on doit configurer sur Windows Server avant de faire la promotion à DC? Et sur une machine client?
 7. Expliquez brièvement qu'est-ce que c'est le schéma de l'AD
 8. Quelle est la relation entre schéma, partition et la BD d'AD?

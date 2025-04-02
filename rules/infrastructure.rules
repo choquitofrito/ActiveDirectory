@@ -34,3 +34,70 @@
 - Use simplified lab setup for exercises
 - Reference: diagrams/structure_reseau_geographic_zones.drawio
 - Complex scenarios shown in theory only
+
+
+## IMPORTANT: Lab structure AD objects:
+
+### Domain controller:
+
+- dns1.computerelectronics.be
+
+### Sites:
+
+- Site-EU
+
+### Structure for the OUs (organizational units):
+
+EU
+├── Comptabilité
+│   ├── Users
+│   ├── Computers
+│   └── Groups
+├── RH
+│   ├── Users
+│   ├── Computers
+│   └── Groups
+└── Ventes
+    ├── Users
+    ├── Computers
+    └── Groups
+
+
+### OU Root = EU
+#### OU = Ventes
+##### Users:
+- vanessa@computerelectronics.be
+- valeria@computerelectronics.be
+- victor@computerelectronics.be
+- valentin@computerelectronics.be
+##### Computers:
+- ws-ventes-01.computerelectronics.be
+- ws-ventes-02.computerelectronics.be
+##### Groups:
+- GG-EU-Ventes-Admin
+- GG-EU-Ventes-Users
+
+#### OU = RH
+##### Users: 
+- richard@computerelectronics.be
+- rebecca@computerelectronics.be
+- rene@computerelectronics.be
+##### Computers:
+- ws-RH-01.computerelectronics.be
+- ws-RH-02.computerelectronics.be
+##### Groups:
+- GG-EU-RH-Admin
+- GG-EU-RH-Users
+
+
+#### OU = Comptabilité
+##### Users:
+- charlotte@computerelectronics.be
+- cindy@computerelectronics.be
+- charles@computerelectronics.be
+##### Computers:
+- ws-compta-01.computerelectronics.be
+- ws-compta-02.computerelectronics.be
+##### Groups:
+- GG-EU-Compta-Admin
+- GG-EU-Compta-Users

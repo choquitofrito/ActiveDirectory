@@ -1,9 +1,3 @@
-Dialogo
-
-
-- limitations reseau maison
-- conocimiento de red
-- utilidad de AD
-- Máquinas virtuales?
-- alternativas a AD?
-- seguridad de AD?
+- Resumé concepts, questions et reponses
+- Installation du labo
+- 
