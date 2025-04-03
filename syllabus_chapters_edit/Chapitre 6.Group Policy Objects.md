@@ -58,24 +58,9 @@ Une GPO est aussi un objet qu'on peut créer dans la base de données de AD-DS e
 
 Les **stratégies de groupe peuvent être appliquées à différents niveaux** de la hiérarchie AD : un ordinateur, un **site**, un domaine AD, une OU...  
 
-Pour bien comprendre la relation entre les différents concepts, faisons une mise en parallèle :
-
-1. **Domaine AD vs Zone DNS** :
-
-   - **Zone DNS** : Structure de résolution de noms
-     * Exemple : computerelectronics.be (même nom mais concept différent) avec ses sous-domains
-     * Contient : Enregistrements DNS (A, CNAME, etc.)
-     * But : Résolution des noms en adresses IP
-
-
-
-   - **Domaine AD** : Structure logique de sécurité et d'administration
-     * Exemple : computerelectronics.be
-     * Contient : utilisateurs, ordinateurs, groupes, OUs
-     * But : Gestion des authentifications et autorisations
-
-
 ![Domaine AD](../diagrams/images/domaineAD.png)
+
+**Rappel**:
 
 1. **Site AD vs Sous-zone DNS** :
    - **Site AD** : 
@@ -88,14 +73,13 @@ Pour bien comprendre la relation entre les différents concepts, faisons une mis
      * But : Organisation hiérarchique des noms
 
 Dans notre infrastructure :
-- **Domaine AD** et **Zone DNS** principale : computerelectronics.be
-- **Sites AD** : site EU (192.168.10.0/24) et site US (192.168.20.0/24)
+- **Domaine AD** et **Zone DNS** principale : `computerelectronics.be`
+- **Sites AD** : `site EU (192.168.10.0/24)` et `site US (192.168.20.0/24)`
 - **Zones DNS** : Zone EU (`eu.computerelectronics.be`), Zone US (`us.computerelectronics.be`)
 
 Ces concepts sont distincts mais complémentaires dans une infrastructure d'entreprise.
 
 Dans notre laboratoire de pratique, le domaine AD correspond au **site EU**, et nous avons un seul site (nous avons utilisé les ips `192.168.0.x` au lieu de  `192.168.10.x`), mais peu importe.  
-
 
 Nous avions convenu que les deux sites/zones seraient gérés par un seul contrôleur de domaine (`dns1`, le DC du labo) et, en théorie, un second en réplication (`dns2`).  
 
@@ -123,15 +107,13 @@ Connaissant la notion de site, continuons maintenant avec la classification des 
 
 ## 2. Création des GPOs
 
-Nous allons étudier les caractéristiques des GPOs en détail plus tard, mais commençons par créer une GPO d'example.
+Nous allons étudier les caractéristiques des GPOs en détail plus tard, mais commençons par créer une GPO d'exemple.
 
 Avant de commencer, assurez-vous d'avoir installé le laboratoire en suivant les instructions du document d'installation Labo_structure.md
 
 ### Exemple pratique: restreindre le panneau de configuration pour les membres de Ventes
 
-
-
-Créons une GPO. La suite d'opérations sera la suivante:
+Créons une GPO pour cacher certains éléments du panneau de configuration aux Users de Ventes. La suite d'opérations sera la suivante:
 
 - Créer une GPO nommée `GPO-Restrictions-VentesPC` et liée à l'OU Ventes
 - Modifier la GPO (vide au départ): elle doit empêcher l'accès des utilisateurs de Ventes aux éléments suivants du panneau de configuration:
@@ -161,8 +143,10 @@ Maintenant on se connecte avec un client du département Ventes sur la MV Window
 
 1. Connectez-vous avec un user de `Ventes` (victor)
 2. Ouvrez une console et lancez `gpupdate /force` pour recevoir les GPOs du serveur
-3. Faites logout et connectez-vous à nouveau (même user)
-4. Ouvrez le panneau de configuration et cliquez sur `Système`
+(Ou faites click droit sur l'OU dans le serveur et sélectionnez `Mettre à jour les stratégies de groupe`)
+3. **Note importante** : Pour certaines GPOs, particulièrement celles qui affectent des paramètres système, un redémarrage complet du poste client peut être nécessaire pour que les changements prennent effet.
+4. Faites logout et connectez-vous à nouveau (même user)
+5. Ouvrez le panneau de configuration et cliquez sur `Système`
  ou `Programmes et fonctionnalités`. Ils devraient être vides.
 
 Faites la même procedure avec un user de `Comptabilité` (ex: christophe). Le panier de configuration ne devrait pas être restreint.
@@ -177,6 +161,11 @@ On peut voir les politiques appliquées sur un utilisateur avec la commande `gpr
 2. Si une GPO contient uniquement des paramètres Utilisateur et elle est liée à une OU contenant seulement des ordinateurs, la GPO n'aura aucun effet.
 
 
+### Activer/desactiver une GPO
+
+Pour **activer/desactiver** une GPO, il faut cliquer sur l'OU liée à la GPO et **sélectionner/désélectionner** `Lien active`. **La politique sera uniquement appliquée si le lien est actif**.
+
+L'option `Appliquer` **force l'application** de la GPO et saute même la hiérarchie des OUs (on coche `Appliquer` uniquement pour des politiques de sécurité critiques ou des cas similaires).
 
 ## 3. Classifications des GPO
 
@@ -372,15 +361,12 @@ Valeur: Activé
 Résultat: Les utilisateurs ne peuvent plus utiliser la commande Exécuter (Windows + R)
 ```
 
-
-
 ## **Résumé final en une image mentale**
 🔹 **Configuration ordinateur** = Gère le PC et ses paramètres système.  
 🔹 **Configuration utilisateur** = Gère l'expérience de l’utilisateur.  
 🔹 **Stratégies (Policies)** = Restrictions strictes, contrôlées par l’admin.  
 🔹 **Préférences (Preferences)** = Configurations plus souples, modifiables par l'utilisateur.
 🔹 **Boucle de rappel utilisateur** = Force l'application des paramètres utilisateur sur un ordinateur, même si la GPO est liée à une OU contenant des ordinateurs.
-🔹 **Modèles d'administration (Administrative Templates)** = Modèles contenant des paramètres modifiables par l'utilisateur.
 
 ## 5. Filtrage des GPOs 
 
