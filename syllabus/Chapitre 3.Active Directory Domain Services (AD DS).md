@@ -153,12 +153,12 @@ Mais comment? `computerelectronics.be` est un domaine DNS, pas un domaine AD! Vr
    - Structure : **Un seul domaine AD** `computerelectronics.be`
    - Plusieurs **sites** : `site EU`, `site US` (**on ne le voit pas sur l'image!**). Un site est **un range d'IPs (un sous-réseau)** des machines qui se trouvent physiquement à un endroit (`site EU` chez nous, ou `site US` en USA). AD utilise les sites pour  authentification, replication, etc... vers leur DC le plus proche. 
    - Un **domain AD est organisé via les OUs** (dossiers intelligent).
-  Une **OU** est un conteneur AD qui **contient des objets AD** (utilisateurs, groupes, ordinateurs, etc.) et **il est complètement indépendant des sites**.
+  Une **OU** (étudié plus tard) **est un conteneur** AD qui **contient des objets AD** (utilisateurs, groupes, ordinateurs, etc.) et **il est complètement indépendant des sites**.
 
-  Nous allons créer une **OU** racine pour chaque site (OUs `EU` et `US`) mais **ce n'est pas une obligation**. Voici deux façons possibles d'organiser la même entreprise :
+  Nous allons créer une **OU** racine pour chaque site (OUs `EU` et `US`) par confort mais **ce n'est pas une obligation**. Voici deux façons possibles d'organiser la même entreprise :
 
-  **1. Notre structure (par localisation)**:
-  ```
+**1. Notre structure (par localisation)**:
+```
 computerelectronics.be
 ├── OU=EU
 │   ├── OU=Comptabilite
@@ -170,8 +170,8 @@ computerelectronics.be
     └── OU=Ventes
 ```
 
-  **2. Structure alternative (par département)**:
-  ```
+**2. Structure alternative (par département)**:
+```
 computerelectronics.be
 ├── OU=Comptabilite
 │   ├── OU=Europe
@@ -184,20 +184,13 @@ computerelectronics.be
     └── OU=USA
 ```
 
-  Les deux structures sont valides. Le choix dépend de comment on veut appliquer les stratégies de groupe (GPOs).
-     
+Les deux structures sont valides. Le choix dépend de comment on veut appliquer les stratégies de groupe (GPOs).
 
 ### Points Clés à Retenir
 
 > ⚠️ **Important** : Les sous-domaines DNS (eu., us., etc.) servent à l'organisation réseau, tandis que les OUs organisent les ressources AD.
 Le site-EU n'est pas l'OU `EU`.
 
-#### Serveurs principaux
-
-| Serveur | Rôle principal | Adresse IP |
-|---------|-----------------|------------|
-| `dns1.computerelectronics.be` | DC Principal + DNS | `192.168.0.2` |
-| `dns2.computerelectronics.be` | DC Secondaire + DNS | `192.168.0.3` |
 
 #### Diagramme d'installation
 
@@ -256,6 +249,15 @@ USA a une structure identique à EU.
 > - Gérer tous les utilisateurs dans un seul domaine AD
 > - Organiser les ressources par département via les OUs
 > - Préparer l'infrastructure pour une expansion future
+
+#### Serveurs principaux
+
+| Serveur | Rôle principal | Adresse IP |
+|---------|-----------------|------------|
+| `dns1.computerelectronics.be` | DC Principal + DNS | `192.168.0.2` |
+| `dns2.computerelectronics.be` | DC Secondaire + DNS | `192.168.0.3` |
+
+Ils gérent tous les sites!
 
 ## 6. Promotion en contrôleur de domaine
 
