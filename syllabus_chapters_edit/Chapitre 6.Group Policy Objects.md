@@ -54,22 +54,55 @@ Une GPO est aussi un objet qu'on peut créer dans la base de données de AD-DS e
 
 ### 1.3. Qui est affecté par les GPOs? Definition de site AD
 
-Les **stratégies de groupe peuvent être liées à différents niveaux** de la hiérarchie AD: un ordinateur, un **site**, un domaine AD, une OU...
+### 1.3. Qui est affecté par les GPOs ? Définition d’un site AD  
 
-Un **site est un ou plusieurs ensemble d'ips (sous-réseaux) qui représentent une localisation physique** dans le réseau. 
+Les **stratégies de groupe peuvent être appliquées à différents niveaux** de la hiérarchie AD : un ordinateur, un **site**, un domaine AD, une OU...  
 
-**Exemple**: nous allons avoir un site lié à la **zone EU** (ips `192.168.10.x`) et un autre site lié à la **zone USA** (ips `192.168.20.x`)
+Pour bien comprendre la relation entre les différents concepts, faisons une mise en parallèle :
 
-[structure_geographique_zones_basic](../diagrams/images/structure_reseau_geographic_zones_basic.png)
+1. **Domaine AD vs Zone DNS** :
 
-On avait accordé que les deux sites/zones sont gérés par un seul DC (`dns1`, le DC du labo) et, en théorie, un autre de réplication (`dns2`). 
+   - **Zone DNS** : Structure de résolution de noms
+     * Exemple : computerelectronics.be (même nom mais concept différent) avec ses sous-domains
+     * Contient : Enregistrements DNS (A, CNAME, etc.)
+     * But : Résolution des noms en adresses IP
 
-Ces serveurs doivent gérer les 2 sites et se trouvent physiquement **chez nous**, on a qu'un site.
 
-**Dans la réalité on aurait au moins deux autres DCs**: les 'dns3' et 'dns4' qui se trouveraient physiquement en USA.
 
-Tous les serveurs de la forêt (les deux ou les quatre) **seront chargés de gérer les 2 sites et contiendront la même base de données AD**.
+   - **Domaine AD** : Structure logique de sécurité et d'administration
+     * Exemple : computerelectronics.be
+     * Contient : utilisateurs, ordinateurs, groupes, OUs
+     * But : Gestion des authentifications et autorisations
 
+
+![Domaine AD](../diagrams/images/domaineAD.png)
+
+1. **Site AD vs Sous-zone DNS** :
+   - **Site AD** : 
+     * Représente une localisation physique
+     * Défini par des sous-réseaux IP (ex: 192.168.10.0/24)
+     * But : Optimisation du trafic et de la réplication
+
+   - **Zone DNS** : 
+     * Section d'un espace de noms DNS (ex: computerelectronics.be)
+     * But : Organisation hiérarchique des noms
+
+Dans notre infrastructure :
+- **Domaine AD** et **Zone DNS** principale : computerelectronics.be
+- **Sites AD** : site EU (192.168.10.0/24) et site US (192.168.20.0/24)
+- **Zones DNS** : Zone EU (`eu.computerelectronics.be`), Zone US (`us.computerelectronics.be`)
+
+Ces concepts sont distincts mais complémentaires dans une infrastructure d'entreprise.
+
+Dans notre laboratoire de pratique, le domaine AD correspond au **site EU**, et nous avons un seul site (nous avons utilisé les ips `192.168.0.x` au lieu de  `192.168.10.x`), mais peu importe.  
+
+
+Nous avions convenu que les deux sites/zones seraient gérés par un seul contrôleur de domaine (`dns1`, le DC du labo) et, en théorie, un second en réplication (`dns2`).  
+
+Ces serveurs doivent gérer les deux sites et sont physiquement **chez nous**.  
+
+**Dans un environnement réel, nous aurions au moins deux autres DCs** : `dns3` et `dns4`, qui seraient situés physiquement aux États-Unis.  
+Les quatre DCs peuvent gérer les deux sites et partager la même base de données AD. Deux sont situés en Europe et les deux autres aux États-Unis.  
 
 #### Et alors on doit re-créer la BD d'active Directory partout??
 
@@ -79,12 +112,12 @@ La **séparation** en sites n'a **pas d'impact** sur la BD.
 
 Pourquoi? Car **les objets AD (comme les OU) sont stockés dans la base de données du DC**, qui est **la même** (copie) dans tous les DCs de la même forêt, ce qui implique que **la configuration des OUs est la même dans tous les DCs, peu importe le site.**.
 
-**En gros:** On peut créer toute la structure (EU et USA) des OUs dans le DC de notre labo. Si on rajoutait un autre DC (`dns3`) pour le site USA il aurait la même configuration AD que le DC du site EU (on ne devrait pas la ré-creer sur le nouveau DC).
+**En gros:** On peut créer toute la structure (EU et USA) des OUs dans le seul DC de notre labo. Si on rajoutait un autre DC (`dns3`) pour le site USA il aurait la même configuration AD que le DC du site EU (on ne devrait pas la ré-creer sur le nouveau DC).
 
 Notre site porte le nom `Default First Site Name` (Barre de tache->`Server Manager`->`Sites`->`Sites et services`->`Sites`) , nom donnée par AD-DS lors la création du domaine. 
 
-Ce sera notre site pour l'Europe, **alors renommez-le à `Site-EU`** (click droit sur le site->`Rename`)
-On pourrait créer un autre site si on avait un autre adaptateur réseau, chacun associé a un sous-réseau. 
+Ce sera notre site pour l'Europe, **alors renommez-le à `Site-EU`** (click droit sur le site->`Rename`).
+On pourrait créer un autre site si on avait un autre adaptateur réseau, chacun associé a un sous-réseau, mais ce n'est pas le but de notre labo.
 
 Connaissant la notion de site, continuons maintenant avec la classification des GPOs.
 

@@ -102,7 +102,7 @@ Les flèches vertes représentent les requêtes DNS pour la résolution des noms
 
 ## 4. 📚 Active Directory Domain Services (AD DS)
 
-AD DS est le service fondamental de notre infrastructure `computerelectronics.be`. Il **crée et gère la base de données centrale d'Active Directory**.
+AD DS est le service fondamental de notre infrastructure `computerelectronics.be`. Il **crée et gère la base de données centrale d'Active Directory**
 
 ### 4.1. Fonctionnalités principales
 
@@ -123,30 +123,40 @@ AD DS est le service fondamental de notre infrastructure `computerelectronics.be
 | 🔐 Stratégies | Règles de sécurité, restrictions, droits |
 | 🌐 Services | Services réseau, configurations système |
 
-Pour bien comprendre le déploiement d'AD DS dans notre entreprise, commençons par examiner la structure DNS existante, car AD DS s'appuie fortement sur DNS pour son fonctionnement.
+Toutes ces informations sont stockées dans **le domaine AD** `computerelectronics.be` crée par **AD DS**.
+Mais comment? `computerelectronics.be` est un domaine DNS, pas un domaine AD! Vrai, mais ils **partagent le même nom**.
+
+## 5. 🔍 Distinction entre Domaine DNS et Domaine AD
+
+> 💡 Un point crucial à comprendre est la différence entre un domaine DNS et un domaine Active Directory.
+
+### Structure DNS vs Structure AD
+
+1. **Domaine DNS**
+   - Objectif : **Résolution de noms** et **organisation réseau**
+   - Structure : Hiérarchique avec plusieurs niveaux possibles
+   - Dans notre cas :
+     * Domaine racine : `computerelectronics.be`
+     * Zones géographiques : `eu.computerelectronics.be`, `us.computerelectronics.be`
+     * Environnements : `dev.computerelectronics.be`, `prod.computerelectronics.be`
+
+![Forêt](../diagrams/images/structure_reseau_geographic_zones.png)
 
 
-## 5. Base de données AD DS
+2. **Domaine AD**
+   - Objectif : **Authentification** et **sécurité**
+   - Structure : Un seul domaine AD `computerelectronics.be`
+   - Organisation interne via les OUs :
+     * `OU=EU,DC=computerelectronics,DC=be`
+     * `OU=US,DC=computerelectronics,DC=be`
 
-#### Domaine AD et Domain DNS
+![Domaine AD](../diagrams/images/domaineAD.png)
 
-💡 La base de données AD doit être hébergée sur au moins un serveur appelé **Contrôleur de Domaine (DC)**. On pourrait l'héberger sur plusieurs serveurs pour avoir une redondance et une disponibilité (load balancing). Dans notre cas on en a qu'un serveur (`dns1.computerelectronics.be`)
+### Points Clés à Retenir
 
-Quand on parle de **domaine** controlé par le DC on parle de **domaine Active Directory**, **pas de domaine DNS**, bien qu'ils soient étroitement liées: 
+> ⚠️ **Important** : Les sous-domaines DNS (eu., us., etc.) servent à l'organisation réseau, tandis que les OUs organisent les ressources AD.
+Le site-EU n'est pas l'OU `EU`.
 
-> **Domaine Active Directory** : Base de données centralisée gérée par le DC (utilisateurs, ordinateurs, ressources, OUs, stratégies de sécurité)
-
-> **Domaine DNS** : Structure hiérarchique des noms pour les domains, sous-domaines et ressources (eu.computerelectronics.be, ws-compta-01-computerelectronics.be, etc).
-
-| Aspect | Domaine DNS | Domaine AD | Exemple |
-|--------|-------------|------------|---------|
-| Fonction principale | Résolution de noms | Authentification | `dns1.computerelectronics.be`, <br><br> `ws-compta-01-computerelectronics.be` |
-| Structure | Hiérarchique (sous-domaines) | Plate (OUs pour l'organisation)| `CN=Manuel, OU=RH, OU=Utilisateurs, DC=computerelectronics, DC=be`, <br><br> `CN=ws-compta-01-computerelectronics.be, OU=Computers, OU=Comptabilite,DC=computerelectronics, DC=be` | Portée | Organisation réseau | Sécurité et accès | |
-| Notre cas | Multiples sous-domaines | Un seul domaine AD | |
-
-
-
-💡 Notre infrastructure repose sur deux serveurs principaux qui hébergent à la fois les services DNS et AD DS.
 
 #### Serveurs principaux
 
@@ -162,10 +172,64 @@ Quand on parle de **domaine** controlé par le DC on parle de **domaine Active D
 
 ![Installation AD](../diagrams/images/dns_ad_installation.png)
 
+Si on parle de domaine AD, notre structure est tel que suit :
+
+1. **Domaine AD** : `computerelectronics.be`
+   - Un seul domaine pour toute l'entreprise
+   - Géré par notre DC principal : `dns1.computerelectronics.be`
+
+2. **Sites AD** :
+   - **Site EU** (physiquement dans la UE) (dans notre labo!)
+     * Sous-réseau : 192.168.10.0/24 (192.168.0.0/24 dans le labo)
+     * DC : dns1.computerelectronics.be
+   - **Site US** (physiquement aux USA) (pas implementé dans le labo) 
+     * Sous-réseau : 192.168.20.0/24
+
+3. **Organisation Logique** des objets AD :
+
+Voici un exemple possible:
+
+```
+computerelectronics.be (domaine AD)
+EU
+├── Comptabilité
+│   ├── Users
+│   │   ├── jean.dupont
+│   │   └── marie.martin
+│   ├── Computers
+│   │   ├── ws-compta-01
+│   │   └── ws-compta-02
+│   └── Groups
+│       └── GG-EU-Compta-Users
+├── RH
+│   ├── Users
+│   │   └── sophie.lambert
+│   ├── Computers
+│   │   └── ws-rh-01
+│   └── Groups
+│       └── GG-EU-RH-Users
+└── Ventes
+    ├── Users
+    │   └── pierre.durand
+    ├── Computers
+    │   └── ws-ventes-01
+    └── Groups
+        └── GG-EU-Ventes-Users
+```
+
+USA a une structure identique à EU.
+
+> 💡 Cette structure nous permet de :
+> - Gérer tous les utilisateurs dans un seul domaine AD
+> - Organiser les ressources par département via les OUs
+> - Préparer l'infrastructure pour une expansion future
+
 
 ## 6. Promotion en contrôleur de domaine
 
 ### 6.1. Configuration réseau initiale
+
+Notre simple Windows Server va devenir un contrôleur de domaine (DC).
 
 > ⚠️ Avant de promouvoir le serveur en DC, nous devons configurer correctement son réseau.
 
@@ -269,7 +333,7 @@ Ce serveur DNS doit être capable de prendre en charge les enregistrements de se
 
 ## 7. 🌐 Configuration DNS
 
-> 💡 AD DS crée automatiquement les zones DNS nécessaires lors de la promotion du serveur.
+> 💡 AD DS crée automatiquement les zones DNS nécessaires lors de la promotion du serveur. Cette section est purement informative.
 
 1. **Zone directe principale**
    - Permet **d'obtenir l'adresse IP** à partir du nom d'hôte  
@@ -393,11 +457,11 @@ Ahmed commence à travailler dans le département IT. Pour accéder aux ressourc
 ### Infrastructure
 
 - **Serveur** : `dns1.computerelectronics.be`
-  - Rôle : Contrôleur de domaine (DC)
+  - Rôle : Contrôleur de domaine AD (DC)
   - Service : Active Directory Domain Services
   - État : Installé et configuré
 
-### 💻 Configuration du poste de travail
+### 💻 Configuration du poste de travail client
 
 > 💡 Pour qu'Ahmed puisse accéder aux ressources, l'administrateur doit configurer son poste de travail.
 
@@ -410,7 +474,7 @@ Ahmed commence à travailler dans le département IT. Pour accéder aux ressourc
 | Nom | `ws-it-01` | Ce PC → Propriétés → Renommer |
 | Suffixe | `computerelectronics.be` | Propriétés → Paramètres avancés |
 
-### 2. Rajout d'un ordinateur au domaine
+### 2. Rajout d'un ordinateur au domaine AD
 
 1. Ouvrir **Propriétés système**
 2. Aller dans **Paramètres avancés**
@@ -437,30 +501,4 @@ Ahmed commence à travailler dans le département IT. Pour accéder aux ressourc
 
 - L'application des **politiques de sécurité** (ex: pare-feu)
 - Un suivi de son activité par le serveur sous forme de logs
-
-## 11. 🔍 Distinction entre Domaine DNS et Domaine AD
-
-> 💡 Un point crucial à comprendre est la différence entre un domaine DNS et un domaine Active Directory.
-
-### Structure DNS vs Structure AD
-
-1. **Domaine DNS**
-   - Objectif : **Résolution de noms** et **organisation réseau**
-   - Structure : Hiérarchique avec plusieurs niveaux possibles
-   - Dans notre cas :
-     * Domaine racine : `computerelectronics.be`
-     * Zones géographiques : `eu.computerelectronics.be`, `us.computerelectronics.be`
-     * Environnements : `dev.computerelectronics.be`, `prod.computerelectronics.be`
-
-2. **Domaine AD**
-   - Objectif : **Authentification** et **sécurité**
-   - Structure : Un seul domaine AD `computerelectronics.be`
-   - Organisation interne via les OUs :
-     * `OU=EU,DC=computerelectronics,DC=be`
-     * `OU=US,DC=computerelectronics,DC=be`
-
-### Points Clés à Retenir
-
-
-> ⚠️ **Important** : Les sous-domaines DNS (eu., us., etc.) servent à l'organisation réseau, tandis que les OUs organisent les ressources AD.
 
