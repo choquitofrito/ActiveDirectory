@@ -133,30 +133,64 @@ Mais comment? `computerelectronics.be` est un domaine DNS, pas un domaine AD! Vr
 ### Structure DNS vs Structure AD
 
 1. **Domaine DNS**
+   
+![Forêt](../diagrams/images/structure_reseau_geographic_zones.png)
+   
    - Objectif : **Résolution de noms** et **organisation réseau**
    - Structure : Hiérarchique avec plusieurs niveaux possibles
    - Dans notre cas :
-     * Domaine racine : `computerelectronics.be`
+     * Domaine **racine** : `computerelectronics.be`
      * Zones géographiques : `eu.computerelectronics.be`, `us.computerelectronics.be`
      * Environnements : `dev.computerelectronics.be`, `prod.computerelectronics.be`
 
-![Forêt](../diagrams/images/structure_reseau_geographic_zones.png)
 
 
-2. **Domaine AD**
-   - Objectif : **Authentification** et **sécurité**
-   - Structure : Un seul domaine AD `computerelectronics.be`
-   - Organisation interne via les OUs :
-     * `OU=EU,DC=computerelectronics,DC=be`
-     * `OU=US,DC=computerelectronics,DC=be`
+1. **Domaine AD**
 
 ![Domaine AD](../diagrams/images/domaineAD.png)
+
+   - Objectif : **Authentification** et **sécurité**
+   - Structure : **Un seul domaine AD** `computerelectronics.be`
+   - Plusieurs **sites** : `site EU`, `site US` (**on ne le voit pas sur l'image!**). Un site est **un range d'IPs (un sous-réseau)** des machines qui se trouvent physiquement à un endroit (`site EU` chez nous, ou `site US` en USA). AD utilise les sites pour  authentification, replication, etc... vers leur DC le plus proche. 
+   - Un **domain AD est organisé via les OUs** (dossiers intelligent).
+  Une **OU** est un conteneur AD qui **contient des objets AD** (utilisateurs, groupes, ordinateurs, etc.) et **il est complètement indépendant des sites**.
+
+  Nous allons créer une **OU** racine pour chaque site (OUs `EU` et `US`) mais **ce n'est pas une obligation**. Voici deux façons possibles d'organiser la même entreprise :
+
+  **1. Notre structure (par localisation)**:
+  ```
+computerelectronics.be
+├── OU=EU
+│   ├── OU=Comptabilite
+│   ├── OU=RH
+│   └── OU=Ventes
+└── OU=US
+    ├── OU=Comptabilite
+    ├── OU=RH
+    └── OU=Ventes
+```
+
+  **2. Structure alternative (par département)**:
+  ```
+computerelectronics.be
+├── OU=Comptabilite
+│   ├── OU=Europe
+│   └── OU=USA
+├── OU=RH
+│   ├── OU=Europe
+│   └── OU=USA
+└── OU=Ventes
+    ├── OU=Europe
+    └── OU=USA
+```
+
+  Les deux structures sont valides. Le choix dépend de comment on veut appliquer les stratégies de groupe (GPOs).
+     
 
 ### Points Clés à Retenir
 
 > ⚠️ **Important** : Les sous-domaines DNS (eu., us., etc.) servent à l'organisation réseau, tandis que les OUs organisent les ressources AD.
 Le site-EU n'est pas l'OU `EU`.
-
 
 #### Serveurs principaux
 
@@ -164,7 +198,6 @@ Le site-EU n'est pas l'OU `EU`.
 |---------|-----------------|------------|
 | `dns1.computerelectronics.be` | DC Principal + DNS | `192.168.0.2` |
 | `dns2.computerelectronics.be` | DC Secondaire + DNS | `192.168.0.3` |
-
 
 #### Diagramme d'installation
 
@@ -224,7 +257,6 @@ USA a une structure identique à EU.
 > - Organiser les ressources par département via les OUs
 > - Préparer l'infrastructure pour une expansion future
 
-
 ## 6. Promotion en contrôleur de domaine
 
 ### 6.1. Configuration réseau initiale
@@ -274,8 +306,6 @@ Notre simple Windows Server va devenir un contrôleur de domaine (DC).
 | 3 | Niveau fonctionnel | Windows Server 2022 |
 | 4 | Mot de passe DSRM | `Password1!` |
 | 5 | Nom NetBIOS | `COMPUTERELECTRONICS` |
-
-
 
 ### 6.4. Vérifications post-installation
 
@@ -479,7 +509,7 @@ Ahmed commence à travailler dans le département IT. Pour accéder aux ressourc
 1. Ouvrir **Propriétés système**
 2. Aller dans **Paramètres avancés**
 3. Section **Nom de l'ordinateur** ainsi que le suffixe (`computerelectronics.be`)
-4. Sélectionner **Membre d'un domaine** : `COMPUTERELECTRO`
+4. Sélectionner **Membre d'un domaine** : `COMPUTERELECTRONICS`
 5. Saisir les identifiants **Domain Admin**
 
 > ⚠️ Redémarrer le poste après chaque étape majeure (changement de nom, jonction au domaine)
@@ -492,8 +522,6 @@ Ahmed commence à travailler dans le département IT. Pour accéder aux ressourc
 |--------|---------|-------------|
 | UPN | `ahmed@computerelectronics.be` | Format moderne (recommandé) |
 | NetBIOS | `computerelectronics\ahmed` | Format classique |
-
-
 
 #### Qu'est-ce qu'on gagne alors quand on se connecte au DC?
 
