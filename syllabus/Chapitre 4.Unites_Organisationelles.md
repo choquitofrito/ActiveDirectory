@@ -60,7 +60,7 @@ OU
 | Organisation | Fixe | **Flexible** |
 | GPOs | Non | **Oui** |
 | Délégation | Limitée | **Complète** |
-| Structure | Plate | **Hiérarchique** |
+| Structure | Plate | **Hiérarchique** (arbre d'OUs et héritage) |
 
 ## 4. 🔧 Création d'une OU
 
@@ -174,7 +174,7 @@ EU
 
 > USA a une structure identique à EU
 
-### 7.2 Hiérarchie Environnement (DEV et PROD)
+### 7.2 Hiérarchie d'exemple pour Environnement (DEV et PROD)
 
 ```
 Dev
@@ -267,28 +267,10 @@ Dev
 | Délégation | ❌ | ✅ |
 | Flexibilité | ❌ | ✅ |
 
-### 8.2 Exemples d'Utilisation
 
-1. **Unités d'Organisation**
-   ```
-   # Création manuelle
-   EU/Stagiaires
-   ├── GPO: Restrictions Internet
-   ├── Délégation: GG-EU-RH-Admins
-   └── Flexibilité: Déplacement Users
-   ```
+### 8.2 Principes de Conception
 
-2. **Conteneurs par Défaut**
-   ```
-   # Création automatique
-   computerelectronics.be (domaine AD)
-   ├── Users         # Conteneur standard
-   └── Computers     # Conteneur standard
-   ```
-
-### 8.3 Principes de Conception
-
-#### 8.3.1 Facteurs Clés
+#### 8.2.1 Facteurs Clés
 
 1. **Administration**
    ```
@@ -470,34 +452,53 @@ La stratégie **AGDLP** offre plus de flexibilité mais demande plus de maintena
 
 #### 9.2.1 Gestion des Utilisateurs
 
-```
-Permissions de Base d'une délégation
-├── Comptes
-│   ├── Création          # Nouveau compte
-│   ├── Réinit MDP       # Sécurité
-│   └── Désactivation    # Temporaire/Définitif
-├── Propriétés
-│   ├── Informations     # Profil
-│   └── Restrictions    # Accès
-└── Groupes
-    ├── Création         # Nouveaux groupes
-    └── Membres         # Gestion
-```
+Les OUs peuvent déléguer des droits sur les comptes, les groupes et les ordinateurs.
+
+**Exemple**: Le groupe `GG-EU-RH-Admins` a besoin de gérer les utilisateurs de l'OU `EU\RH`. On leur délègue :
+
+1. **Droits sur les comptes** :
+   - Créer/supprimer des comptes dans `OU=RH,OU=EU`
+   - Réinitialiser les mots de passe
+   - Désactiver/activer les comptes
+
+2. **Droits sur les groupes** :
+   - Créer des groupes dans `OU=RH,OU=EU`
+   - Gérer les membres des groupes RH
+
+Maintenant **les admins RH peuvent gérer leurs utilisateurs sans avoir accès aux autres OUs** ni devoir demander à un autre admin.
+
+> ⚠️ **Sécurité** : La délégation est **strictement limitée à l'OU**. Par exemple :
+> - Un admin RH peut créer le groupe `GG-EU-RH-Projet` dans son OU
+> - Il peut y ajouter `marie.dupont` qui est dans `OU=RH,OU=EU`
+> - Mais il ne peut pas y ajouter `jean.martin` qui est dans `OU=Ventes,OU=EU`
+> 
+> Cette limitation empêche les admins d'une OU d'accéder aux ressources des autres OUs.
+
+
 
 #### 9.2.2 Gestion des Ressources
 
-```
-Permissions Avancées
-├── Ordinateurs
-│   ├── Intégration      # ws-[dept]-[##]
-│   └── Maintenance     # Réparation
-├── Impression
-│   ├── Files           # Queue
-│   └── Pilotes         # Config
-└── Services
-    ├── Démarrage       # Start/Stop
-    └── Configuration   # Paramètres
-```
+Les OUs permettent aussi de déléguer la gestion des ressources informatiques.
+
+**Exemple**: Le groupe `GG-EU-IT-Support` a besoin de gérer les ordinateurs de l'OU `EU\Ventes`. On leur délègue :
+
+1. **Droits sur les ordinateurs** :
+   - Intégrer des postes dans l'OU `OU=Ventes,OU=EU`
+   - Gérer les comptes machines (réinitialisation, désactivation)
+   - Exécuter des tâches de maintenance
+
+2. **Droits sur les services** :
+   - Gérer les files d'impression
+   - Configurer les services réseau
+   - Redémarrer les services si nécessaire
+
+Maintenant **l'équipe IT peut gérer les ressources de l'OU Ventes sans avoir accès aux autres OUs**.
+
+> ⚠️ **Sécurité** : La délégation est **strictement limitée à l'OU**. Par exemple :
+> - Le support IT peut intégrer `ws-ventes-01` dans `OU=Ventes,OU=EU`
+> - Il peut gérer l'imprimante `print-ventes` dans cette OU
+> - Mais il ne peut pas toucher à `ws-compta-01` qui est dans `OU=Comptabilite,OU=EU`
+
 
 ### 9.3. Tests et Validation de la Délégation
 
