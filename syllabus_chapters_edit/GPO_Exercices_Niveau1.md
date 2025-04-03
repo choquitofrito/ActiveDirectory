@@ -8,13 +8,6 @@
 3. Appliquer à l'OU Comptabilité
 4. Tester sur ws-compta-01
 
-### Exercice 1.2 - Restrictions Panneau de configuration Ventes
-1. Créer une GPO nommée `GPO-Restrictions-VentesPC`
-2. Masquer l'accès aux éléments suivants :
-   - Programmes et fonctionnalités
-   - Système
-3. Appliquer à l'OU Ventes
-4. Vérifier sur ws-ventes-02
 
 ### Exercice 1.3 - Sécurité de base EU
 1. Créer une GPO nommée `GPO-Securite-EU`
