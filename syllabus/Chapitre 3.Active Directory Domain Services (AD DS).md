@@ -259,6 +259,7 @@ USA a une structure identique à EU.
 
 Ils gérent tous les sites!
 
+
 ## 6. Promotion en contrôleur de domaine
 
 ### 6.1. Configuration réseau initiale
