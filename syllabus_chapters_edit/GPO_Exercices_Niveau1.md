@@ -1,22 +1,24 @@
 # 🔹 Exercices GPO - Niveau 1 (Débutant)
 
+
+Pour chaque exercice, vous devez penser:
+- Où l'appliquer?
+- Quel type de GPO est-ce ?
+- Quelle est la configuration?
+Après la configuration, vous devez la tester!
+
+
 ## 1. 🎯 Configuration de base des GPOs
 
-### Exercice 1.1 - Message de connexion pour la Comptabilité
-1. Créer une GPO nommée `GPO-Message-Compta`
-2. Configurer un message de connexion : "Poste de la Comptabilité - Usage Restreint"
-3. Appliquer à l'OU Comptabilité
-4. Tester sur ws-compta-01
+### Exercice 1.1 - Message de connexion pour le departement de Ventes
+1. Créer une GPO nommée `GPO-Message-Ventes` qui affiche un message de connexion quand on se connecte **à un ordinateur** de la Ventes (Astuce: les paramètres se trouvent dans la stratégie `Ouverture de Session Interactive: Titre du message` et `Ouverture de Session Interactive: Contenu du message`). C'est un paramètre de stratégie locale de sécurité de Windows
+2. Tester sur ws-ventes-01
 
-
-### Exercice 1.3 - Sécurité de base EU
-1. Créer une GPO nommée `GPO-Securite-EU`
+### Exercice 1.6 - Mappage lecteurs Comptabilité
+1. Créer une GPO nommée `GPO-Lecteurs-Compta`
 2. Configurer :
-   - Complexité du mot de passe
-   - Longueur minimale : 8 caractères
-   - Historique : 3 derniers mots de passe
-3. Appliquer à l'OU EU
-
+   - Mappage du lecteur S: vers \\serveur\compta
+3. Appliquer à l'OU Comptabilité
 
 ### Exercice 1.5 - Scripts pour Ventes
 1. Créer une GPO nommée `GPO-Scripts-Ventes`
@@ -25,11 +27,13 @@
    - Y écrit la date de la dernière connexion
 3. Appliquer à l'OU Ventes
 
-### Exercice 1.6 - Mappage lecteurs Comptabilité
-1. Créer une GPO nommée `GPO-Lecteurs-Compta`
+### Exercice 1.2 - Blocage du compte utilisateur après 3 tentatives
+1. Créer une GPO nommée `GPO-Blocage-Compte` qui permet de bloquer le compte utilisateur après 3 tentatives.
 2. Configurer :
-   - Mappage du lecteur S: vers \\serveur\compta
-3. Appliquer à l'OU Comptabilité
+   - Blocage du compte utilisateur après 3 tentatives
+3. Appliquer à l'OU Ventes
+
+
 
 ### Exercice 1.7 - Restrictions Menu Démarrer Ventes
 1. Créer une GPO nommée `GPO-MenuDemarrer-Ventes`

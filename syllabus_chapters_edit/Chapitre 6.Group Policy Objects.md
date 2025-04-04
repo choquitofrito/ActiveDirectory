@@ -157,7 +157,9 @@ Connectez-vous maintenant avec un user de `Comptabilité` (ex: christophe). Le p
 
 On peut voir les politiques appliquées sur un utilisateur avec la commande `gpresult /r` (console ordinateur client)
 
-On peut forcer l'application des politiques depuis le serveur: faites click droit sur l'OU liée à la GPO et sélectionnez `Mettre à jour les stratégies de groupe`)
+On peut forcer l'application des politiques depuis le serveur: faites click droit sur l'OU liée à la GPO et sélectionnez `Mettre à jour les stratégies de groupe`). 
+Ceci lance la commande à distance **sur les ordinateurs contenus dans l'OU**: le serveur se connecte aux session locales des ordinateurs. Si l'OU contient seulement des Utilisateurs elle n'aura aucun effet.
+
  
 
 **ATTENTION**: Deux points vitaux
@@ -165,6 +167,33 @@ On peut forcer l'application des politiques depuis le serveur: faites click droi
 1. Une GPO affecte **les ordinateurs et les utilisateurs liés à l'OU** sur laquelle la GPO est liée **et à ses sous-OUs**. Si l'OU contient uniquement de groupes elle ne sera pas appliquée aux utilisateurs de ces groupes.
 
 2. Si une GPO contient uniquement des paramètres Utilisateur et elle est liée à une OU contenant seulement des ordinateurs, la GPO n'aura aucun effet.
+
+
+### Être sur que les GPOs soient appliquées
+
+L'application des stratégies de groupe dépend de l'état du poste de travail et de la session utilisateur. Voici les points clés à comprendre :
+
+| Situation | Stratégie ordinateur | Stratégie utilisateur | Commentaire |
+|-----------|---------------------|---------------------|-------------|
+| Poste allumé, personne connectée | ✅ Oui | ❌ Non | Les stratégies ordinateur continuent de se rafraîchir même sans utilisateur |
+| Poste allumé, utilisateur connecté | ✅ Oui | ✅ Oui | Toutes les stratégies sont actives pendant une session |
+| Poste éteint | ❌ Non | ❌ Non | Aucune stratégie ne peut s'appliquer sur un poste éteint |
+| Utilisateur connecté via RDP ou console | ✅ Oui | ✅ Oui | Le mode de connexion n'affecte pas l'application des stratégies |
+
+**Notes importantes sur le rafraîchissement** :
+- Les stratégies ordinateur :
+  * S'appliquent au démarrage initial
+  * Se rafraîchissent automatiquement toutes les 90-120 minutes
+  * Peuvent être forcées avec `gpupdate /force /target:computer` (dans certains cas on a besoin de redémarrer le poste)
+- Les stratégies utilisateur :
+  * S'appliquent à chaque connexion utilisateur
+  * Se rafraîchissent toutes les 90-120 minutes
+  * Peuvent être forcées avec `gpupdate /force /target:user`
+
+`gpupdate /force` lancera le tout.
+
+
+
 
 
 ### Activer/desactiver une GPO
@@ -237,7 +266,7 @@ Chaque catégorie (ordinateur et utilisateur) contient les mêmes sous-sections 
 - Exemples : paramétrage des services Windows, pare-feu, gestion des mises à jour.
 
 #### **Préférences (Preferences)**
-- Contient des paramètres **moins stricts**, modifiables par l'utilisateur.
+- Contient des paramètres **modifiables** par l'utilisateur (pas comme les stratégies).
 - Écrit dans la base de registre **hors "Policies"**, donc modifiable après application.
 - Exemples : configuration des imprimantes, mappage de lecteurs réseau.
 
@@ -274,6 +303,8 @@ Voyons en détail chaque type.
 **Exemples :**  
 - **Désactiver l'installation automatique des imprimantes réseau** : *Configuration ordinateur > Strategies > Modèles d’administration > Menu Démarrer et Barre des tâches > Ne pas conserver d'historique des documents récemment ouverts*.
 - **Forcer une mise à jour Windows automatique** : *Configuration ordinateur > Strategies > Modèles d’administration > Composants Windows > Windows Update > Configurer les mises à jour automatiques*.
+**Vous devez d'abord desactiver le pare-feu dans les ordinateurs client**!
+
 
 #### 📌 Configuration Utilisateur > Stratégies
 
@@ -305,7 +336,7 @@ Voyons en détail chaque type.
 ---
 
 ### 4.2. Préférences (Preferences)
-- Contient des paramètres **moins stricts**, modifiables par l'utilisateur
+- Contient des paramètres **modifiables** par l'utilisateur
 - Écrit dans la base de registre **hors "Policies"**, donc modifiable après application
 - Exemples : configuration des imprimantes, mappage de lecteurs réseau
 
@@ -326,16 +357,48 @@ L'utilisateur peut modifier la lettre du lecteur si nécessaire.
 🔹 **Préférences (Preferences)** = Configurations plus souples, modifiables par l'utilisateur.
 🔹 **Boucle de rappel utilisateur** = Force l'application des paramètres utilisateur sur un ordinateur, même si la GPO est liée à une OU contenant des ordinateurs.
 
-### Confusion entre 
+## 5 🎯 Ciblage vs Liaison des GPO
+
+Une distinction importante existe entre le **ciblage** (*targeting* en anglais) et la **liaison** des GPO :
+
+| Étape | Rôle | Effet |
+|-------|------|--------|
+| Lien GPO → OU | Détermine où la GPO est évaluée | Sans lien, la GPO ne s'applique pas du tout |
+| Ciblage au niveau de l'élément | Détermine si l'action spécifique dans la GPO s'applique | Si la condition échoue, l'action est ignorée, mais pas la GPO entière |
+| Filtrage de sécurité (ACL) | Détermine qui peut appliquer la GPO | Si l'utilisateur n'a pas de droits, la GPO est ignorée |
+
+> 💡 **Note importante** : Le ciblage existe à la fois dans les Stratégies (Policies) et les Préférences (Preferences), mais avec des différences :
+> - Dans les **Stratégies** : Ciblage principalement via les filtres de sécurité et les filtres WMI
+> - Dans les **Préférences** : Ciblage plus flexible avec des options supplémentaires (filtrage par IP, par groupe, par variable d'environnement...)
 
 
-## 5. Filtrage des GPOs 
+#### 🧪 Exemple Pratique
 
-Une fois qu'une GPO est liée à un niveau (Site, Domaine ou OU), on peut affiner son application avec deux méthodes de filtrage :
+Le panneau de configuration des utilisateurs de RH est bloqué sauf pour un certain utilisateur.
+
+
+
+
+## 6. Utilisation de la délégation pour créer des exceptions
+
+
+On peut utiliser la délégation pour empecher une GPO de s'appliquer sur un utlisateur ou sur un groupe.
+
+- Faites double click sur la GPO et allez dans l'onglet `Delegation` > Avancé
+- Rajoutez le groupe sur lequel la GPO ne doit pas s'appliquer 
+- Dans la section des droits, selectionnez  `Refuser` dans `Appliquer la stratégie de groupe`. 
+
+La GPO s'appliquera normalement, sauf pour le groupe dont l'application de la GPO est refusée.
+
+
+## 7. Filtrage des GPOs 
+
+Une fois qu'une GPO est liée à un niveau (Site, Domaine ou OU), on peut affiner son application avec deux méthodes de filtrage.
 
 1. **Filtrage de Sécurité**
    - Permet de cibler des groupes de sécurité spécifiques
    - Exemple : Appliquer une GPO uniquement aux membres du groupe "Vendeurs Senior"
+
 
 2. **Filtrage WMI (Windows Management Instrumentation)**
    - Permet de filtrer selon des critères techniques
