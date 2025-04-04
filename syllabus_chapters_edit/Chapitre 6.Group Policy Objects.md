@@ -114,15 +114,17 @@ Avant de commencer, assurez-vous d'avoir installé le laboratoire en suivant les
 ### Exemple pratique: restreindre le panneau de configuration pour les membres de Ventes
 
 Créons une GPO pour cacher certains éléments du panneau de configuration aux Users de Ventes. La suite d'opérations sera la suivante:
-
-- Créer une GPO nommée `GPO-Restrictions-VentesPC` et liée à l'OU Ventes
-- Modifier la GPO (vide au départ): elle doit empêcher l'accès des utilisateurs de Ventes aux éléments suivants du panneau de configuration:
+ `
+- **Créer** une GPO nommée `GPO-Restrictions-VentesPC` et liée à l'OU Ventes
+- **Modifier** la GPO (vide au départ): elle doit empêcher l'accès des utilisateurs de Ventes aux éléments suivants du panneau de configuration:
    - Programmes et fonctionnalités
    - Système
-- Appliquer la GPU
-- Se connecter au serveur avec un user de Ventes et vérifier que le panneau de configuration est restreint
+- **Appliquer** la GPU (dans ce cas à l'OU `Ventes`)
+- **Se connecter** au serveur avec un user de `Ventes` et vérifier que le panneau de configuration est restreint (on voit que les options `Programmes et fonctionnalités` et `Système` sont cachées)
 
-Voici les pas en détails: 
+Pour faire tout ça, voici les étapes:
+
+Dans le **serveur**:
 
 1. Ouvrir le `Gestionnire de Serveur` > `Outils` > `Gestion de stratégies de groupe`
 2. Cliquer sur la `Forèt` > `Domaines` > `computerelectronics.be`
@@ -139,20 +141,24 @@ Voici les pas en détails:
 10. Rajoutez `Système` et `Programmes et fonctionnalités` à la liste (tapez-les à la main)
 11. Clique sur `Ok` > `Appliquer`
 
-Maintenant on se connecte avec un client du département Ventes sur la MV Windows (ex: victor)
+Dans le **client**:
+
+La GPO est prête: pour la tester, on va se connecter avec un client du département Ventes sur la MV Windows (ex: victor)
 
 1. Connectez-vous avec un user de `Ventes` (victor)
 2. Ouvrez une console et lancez `gpupdate /force` pour recevoir les GPOs du serveur
-(Ou faites click droit sur l'OU dans le serveur et sélectionnez `Mettre à jour les stratégies de groupe`)
-3. **Note importante** : Pour certaines GPOs, particulièrement celles qui affectent des paramètres système, un redémarrage complet du poste client peut être nécessaire pour que les changements prennent effet.
-4. Faites logout et connectez-vous à nouveau (même user)
-5. Ouvrez le panneau de configuration et cliquez sur `Système`
+3. Lancez aussi `gpresult /r` pour voir les politiques appliquées à l'utilisateur
+4. **Note importante** : Pour certaines GPOs, particulièrement celles qui affectent des paramètres système, un redémarrage complet du poste client peut être nécessaire pour que les changements prennent effet.
+5. Faites logout et connectez-vous à nouveau (même user)
+6. Ouvrez le panneau de configuration et cliquez sur `Système`
  ou `Programmes et fonctionnalités`. Ils devraient être vides.
 
-Faites la même procedure avec un user de `Comptabilité` (ex: christophe). Le panier de configuration ne devrait pas être restreint.
+Connectez-vous maintenant avec un user de `Comptabilité` (ex: christophe). Le panier de configuration ne devrait pas être restreint.
 
 On peut voir les politiques appliquées sur un utilisateur avec la commande `gpresult /r` (console ordinateur client)
 
+On peut forcer l'application des politiques depuis le serveur: faites click droit sur l'OU liée à la GPO et sélectionnez `Mettre à jour les stratégies de groupe`)
+ 
 
 **ATTENTION**: Deux points vitaux
 
@@ -171,76 +177,40 @@ L'option `Appliquer` **force l'application** de la GPO et saute même la hiérar
 
 Pour pouvoir gérer proprement les GPOs on doit comprendre comment elles sont appliquées.
 
+## Ordre d'application LSDO
 
-Les GPO sont appliquées dans l'ordre LSDO (du plus général au plus spécifique) :
-- **L**ocal (le plus **général**)
-- **S**ite (EU, USA)
-- **D**omaine (un domaine AD a plusieurs sites)
-- **O**U (le plus **spécifique**)
+Les **paramètres de stratégie de groupe (GPO) sont appliqués dans l'ordre suivant**, du plus général au plus spécifique :
 
-> **Note**: Dans chaque niveau, une GPO peut contenir des paramètres de configuration ordinateur (Computer Configuration) et/ou des paramètres de configuration utilisateur (User Configuration). Ce sont deux sections distinctes dans la GPO, pas des niveaux de liaison.
+1. **L**ocal (le plus général, **n'est pas une vraie GPO**)
+   - Configuration Windows stockée localement (pas dans AD)
+   - Existe avant de joindre le domaine
+   - **Ce n'est pas une GPO d'Active Directory**
+   - *Exemples* : Pare-feu Windows par défaut, options d'alimentation
 
-**Point clé**: Les politiques définies dans chaque niveau peuvent être **écrassées** par celles du niveau suivant.
+2. **S**ite
+   - **GPOs** liées aux sites AD (zones physiques du réseau)
+   - S'applique à tous les objets d'un site
+   - *Exemples* : Configuration proxy (Site-EU), permissions d'accès aux imprimantes (Site-US)
 
-**Exemples** d'écrasement de politiques :
-- Un ordinateur configuré en **locale** qui n'a pas de restrictions pour accéder au Panneau de configuration peut se voir bloquer cet accès par une GPO de **domaine** (on applique toujours la politique la plus restrictive)
-- Une politique de mot de passe définie au niveau du **domaine** (8 caractères) peut être renforcée au **niveau OU** Comptabilité (12 caractères)
+3. **D**omaine
+   - **GPOs** globales pour tout le domaine AD
+   - S'applique à tous les objets (utilisateurs, ordinateurs, groupes)
+   - *Exemples* : Politique de mot de passe, installation antivirus
+   - Rappel : un domaine peut contenir plusieurs sites (Site-EU, Site-US)
 
+4. **O**U (le plus spécifique)
+   - **GPOs** pour des départements ou groupes spécifiques
+   - *Exemples* : Logiciels comptables (OU Comptabilité), accès dossiers (OU RH)
+   - Une OU peut contenir des objets de plusieurs sites
+   - Note : Dans notre cas, les OUs racines (EU, USA) sont liées à leurs sites respectifs (Site-EU, Site-US)
 
-**Détail de l'ordre d'application LSDOU :**
+> **Note**: Chaque GPO contient deux sections distinctes :
+> - Configuration ordinateur (Computer Configuration)
+> - Configuration utilisateur (User Configuration)
 
-1. **Local** (le plus général)
-   - Paramètres de base de Windows
-   - S'applique avant toute politique AD
-   - Peut être écrasé par les politiques suivantes
-   - *Exemples* : 
-     * Pare-feu Windows par défaut
-     * Options d'alimentation de base
-
-2. **Site**
-   - Configuration géographique
-   - Concerne tous les objets d'un site physique
-   
-   
-   - *Exemples de GPO de Site* : 
-     * Configuration du proxy pour le site EU (192.168.10.0/24)
-     * Serveurs d'impression locaux du site US (192.168.20.0/24)
-
-   > ⚠️ **Attention** : Ne pas confondre !
-   > - Un **Site** AD = zone physique réseau (ex: Site-EU avec subnet 192.168.10.0/24)
-   > - Une **OU** EU = structure logique organisationnelle
-
-3. **Domaine**
-   - Politiques globales de l'organisation
-   - S'applique à tous les objets du domaine AD (utilisateurs, ordinateurs, groupes)
-   - *Exemples* : 
-     * Politique de mot de passe globale du domaine AD
-     * Installation de l'antivirus
-
-4. **OU**
-   - Configurations départementales
-   - Plus spécifique que le domaine
-   - *Exemples* : 
-     * Logiciels comptables pour l'OU Comptabilité
-     * Accès aux dossiers RH pour l'OU RH
-
-5. **User** (le plus spécifique)
-   - Paramètres individuels
-   - Dernier niveau d'application
-   - *Exemples* : 
-     * Mappage de lecteurs personnels
-     * Restrictions d'accès spécifiques
-
-Voici encore des exemples sur un tableau, du plus général au plus spécifique :
-
-| Cible de Liaison | Périmètre d'Application | Exemple de GPO |
-|------------------|------------------------|----------------|
-| **Local** | Politiques définies localement sur chaque ordinateur. Appliquées en premier mais rarement utilisées en environnement AD. | Paramètres de base Windows, configurations par défaut |
-| **Site** Active Directory | Un domaine AD peut avoir plusieurs sites (EU, USA). Ce type de GPO **s'applique aux objets dans un site AD physique**. Utile pour des configurations spécifiques à une localisation géographique. | Configuration du proxy pour le site de Paris, paramètres d'impression pour le bâtiment Europe |
-| **Domaine** Active Directory | S'applique à tous les objets du domaine AD. Idéal pour les politiques de sécurité globales et les configurations d'entreprise. | Règles de sécurité pour tout le domaine (antivirus, pare-feu), politique de mot de passe pour tous les utilisateurs |
-| **Unité d'Organisation (OU)** | S'applique aux objets dans l'OU spécifiée et ses sous-OUs. Permet une gestion granulaire par département ou fonction. | Installation des logiciels comptables pour l'OU Comptabilité, restrictions d'accès pour l'OU RH |
-
-
+**Point clé**: Les politiques peuvent être **écrasées** par les niveaux suivants, toujours en appliquant la plus restrictive. Exemples :
+- Une configuration locale permissive peut être restreinte par une GPO de domaine
+- Une politique de mot de passe du domaine (8 caractères) peut être renforcée dans une OU (12 caractères)
 
 ## 4. 📌 Clarification des stratégies GPO dans Active Directory
 
@@ -277,6 +247,8 @@ Chaque catégorie (ordinateur et utilisateur) contient les mêmes sous-sections 
 - L'administrateur choisit le mode d'application lors de la configuration
 - Permettent une gestion centralisée sans modification directe du registre Windows
 
+Voyons en détail chaque type.
+
 ---
 
 ### 4.1. Stratégies
@@ -285,10 +257,10 @@ Chaque catégorie (ordinateur et utilisateur) contient les mêmes sous-sections 
 
 ✔ **Paramètres Logiciel**  
 
-- Déploiement de logiciels
+- Déploiement de logiciels (installation, mise à jour, désinstallation)
 
 ✔ **Paramètres Windows**  
-- Scripts (au démarrage et à l’arrêt)
+- Scripts (au démarrage et à l'arrêt)
 - Paramètres de sécurité (ex. stratégie de mot de passe, pare-feu Windows)
 - Configuration du pare-feu
 
@@ -300,14 +272,14 @@ Chaque catégorie (ordinateur et utilisateur) contient les mêmes sous-sections 
 - Paramètres de Windows Update
 
 **Exemples :**  
-- **Désactiver l'installation automatique des imprimantes réseau** : *Configuration ordinateur > Strategies > Modèles d’administration > Imprimantes > Empêcher l’ajout automatique des imprimantes réseau*.
+- **Désactiver l'installation automatique des imprimantes réseau** : *Configuration ordinateur > Strategies > Modèles d’administration > Menu Démarrer et Barre des tâches > Ne pas conserver d'historique des documents récemment ouverts*.
 - **Forcer une mise à jour Windows automatique** : *Configuration ordinateur > Strategies > Modèles d’administration > Composants Windows > Windows Update > Configurer les mises à jour automatiques*.
 
 #### 📌 Configuration Utilisateur > Stratégies
 
 ✔ **Paramètres Logiciel**  
 
-- Déploiement de logiciels
+- Déploiement de logiciels (installation, mise à jour, désinstallation)
 
 ✔ **Paramètres Windows**  
 - Scripts (à l'ouverture et à la fermeture de session)
@@ -320,7 +292,7 @@ Chaque catégorie (ordinateur et utilisateur) contient les mêmes sous-sections 
 - Gestion des extensions de navigateur
 
 **Exemples :**  
-- **Désactiver la modification du fond d’écran** : *Configuration utilisateur > Modèles d’administration > Panneau de configuration > Personnalisation > Empêcher la modification du papier peint*.
+- **Désactiver la modification du fond d’écran** : *Configuration utilisateur > Modèles d'administration > Panneau de configuration > Personnalisation > Empêcher de modifier l'arrière-plan*.
 - **Restreindre l’accès au gestionnaire de tâches** : *Configuration utilisateur > Modèles d’administration > Système > Options Ctrl+Alt+Suppr > Supprimer le Gestionnaire des tâches*.
 
 
@@ -346,20 +318,6 @@ Lettre: Z:
 ```
 L'utilisateur peut modifier la lettre du lecteur si nécessaire.
 
-### 4.3. Modèles d'administration (Administrative Templates)
-- **Ensemble de définitions de paramètres GPO** au format ADMX/ADML
-- Peuvent être appliqués soit comme stratégies (forcés), soit comme préférences (modifiables)
-- L'administrateur choisit le mode d'application lors de la configuration
-- Permettent une gestion centralisée sans modification directe du registre Windows
-
-**Exemple pratique** :
-```
-Configuration utilisateur > Stratégies > Modèles d'administration > Menu Démarrer et Barre des tâches
-Paramètre: Supprimer l'accès à "Exécuter"
-Valeur: Activé
-
-Résultat: Les utilisateurs ne peuvent plus utiliser la commande Exécuter (Windows + R)
-```
 
 ## **Résumé final en une image mentale**
 🔹 **Configuration ordinateur** = Gère le PC et ses paramètres système.  
@@ -367,6 +325,9 @@ Résultat: Les utilisateurs ne peuvent plus utiliser la commande Exécuter (Wind
 🔹 **Stratégies (Policies)** = Restrictions strictes, contrôlées par l’admin.  
 🔹 **Préférences (Preferences)** = Configurations plus souples, modifiables par l'utilisateur.
 🔹 **Boucle de rappel utilisateur** = Force l'application des paramètres utilisateur sur un ordinateur, même si la GPO est liée à une OU contenant des ordinateurs.
+
+### Confusion entre 
+
 
 ## 5. Filtrage des GPOs 
 
