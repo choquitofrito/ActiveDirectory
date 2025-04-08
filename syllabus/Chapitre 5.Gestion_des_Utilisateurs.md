@@ -39,24 +39,14 @@ Un compte utilisateur Active Directory représente une **identité numérique un
 2. 🔑 Vérification des identifiants
 3. 🔓 Accès aux ressources autorisées
 
-**Rôles du compte** :
-- 🔑 **Point d'accès** au domaine
-- 🔒 **Élément de sécurité**
-- ⚙️ **Composant de gestion**
 
 ### 📝 Standards de Nommage
 
 #### 🌐 Convention SamAccountName
 
-> 📝 Le **SamAccountName** est l'identifiant unique de l'utilisateur dans le domaine.
+Un utilisateur a deux identifiants possibles:
 
-### 🌐 Format Standard
-
-```plaintext
-prenom.nom  # Format de base
-```
-
-### 💡 Exemples d'Identifiants
+- **SamAccountName**, qui est l'identifiant unique de l'utilisateur dans le domaine, dont le format de base est **prenom.nom**
 
 ```plaintext
 💰 clark.kent              # Comptabilité
@@ -66,42 +56,19 @@ prenom.nom  # Format de base
 🇫🇷 jean.martin.compta.fr   # France
 🇧🇪 jean.martin.compta.be   # Belgique
 ```
+- **UPN** (User Principal Name), dont le format de base est **prenom.nom@domaine**
+ 
+Pour tous les deux, suivez ces règles:
 
-### ⚙️ Règles de Nommage
-
-- 🖊️ Minuscules uniquement
-- ❗️ Point comme seul caractère spécial
-- 🔍 En cas d'homonymes :
-  1. 🏢 Ajout du département (`.compta`, `.rh`)
-  2. 📍 Ajout d'identifiants :
+- Minuscules uniquement
+- Point comme seul caractère spécial
+- En cas d'homonymes :
+  1. Ajout du département (`.compta`, `.rh`)
+  2. Ajout d'identifiants :
      - 🌐 Pays (`.fr`, `.be`)
      - 💼 Fonction (`.senior`, `.junior`)
      - 🏢 Site (`.bxl`, `.anvers`)
-- ❌ Pas de chiffres
-
-### 💻 UPN (User Principal Name)
-
-> 💡 Format de connexion type email, unique dans la forêt AD
-
-#### 📝 Structure
-```plaintext
-📧 Format  : login@domaine
-👤 Exemple : clark.kent@computerelectronics.be
-```
-
-#### 🔄 Évolution des Formats
-```plaintext
-🗘️ Ancien  : COMPUTERELECTRONICS\clark.kent
-✨ Nouveau : clark.kent@computerelectronics.be
-```
-
-**Avantages** :
-- **Unicité** : Garantie dans toute la forêt AD
-- **Simplicité** : Format familier type email
-- **Standardisation** : Domaine principal `computerelectronics.be`
-
-
-<br>
+- Pas de chiffres
 
 
 
@@ -139,12 +106,6 @@ Par défaut, il y a plusieurs **conteneurs** (**ce ne sont pas des OU**, mais de
 - Réinitialiser les mots de passe, activer/désactiver des comptes.
 - Déplacer des objets entre **les OU**.
 - Appliquer des **Stratégies de Groupe (GPO)** aux OU.
-
-### Cas d'utilisation
-- **Gestion des utilisateurs et ordinateurs** : Ajouter, modifier et désactiver des comptes.
-- **Organisation du domaine** : Structurer les utilisateurs et appareils avec des OU.
-- **Permissions et sécurité** : Gérer les groupes et les droits d'accès.
-- **Gestion des stratégies de groupe (GPO)** : Appliquer des règles aux utilisateurs et aux machines.
 
 
 ## 3. 👤 Gestion des Comptes
@@ -204,47 +165,47 @@ Après la création du compte, il est important de configurer les **propriétés
 
 #### 🔑 Paramètres du Compte
 
-##### 🕐 Heures d'Accès
-- 🔓 Par défaut : 24/7
-- 🔒 Restriction : 7h-19h (semaine)
+##### Heures d'accès
+- Par défaut : 24/7
+- Restriction : 7h-19h (semaine)
 
-##### 💻 Postes de Travail
-- 🔓 Défaut : Tous les postes
-- 🔒 Exemple : `ws-compta-01, ws-compta-02`
+##### Postes de travail
+- Défaut : Tous les postes
+- Exemple : `ws-compta-01, ws-compta-02`
 
-### 💻 Profils Utilisateurs
+### Profils utilisateurs
 
-#### 📂 Types de Profils
+#### Types de profils
 ```plaintext
-💻 Local     : C:\Users\username
-🔄 Itinérant : \\srv-profiles\profiles\%username%
-💡 Exemple   : \\srv-profiles\profiles\clark.kent
+Local     : C:\Users\username
+Itinérant : \\srv-profiles\profiles\%username%
+Exemple   : \\srv-profiles\profiles\clark.kent
 ```
-   > ℹ️ **Note**: Par défaut, ce champ est vide car Windows crée automatiquement des profils locaux (C:\Users\username). 
+   > **Note** : Par défaut, ce champ est vide car Windows crée automatiquement des profils locaux (C:\Users\username). 
    > On ne le configure que si on veut implémenter des **profils itinérants** (roaming profiles) qui suivent l'utilisateur d'un poste à l'autre.
       
-   ⚠️ **Attention**: Les profils itinérants peuvent :
-   - ⏳ Ralentir les connexions (synchronisation du profil)
-   - 💾 Consommer beaucoup d'espace disque sur le serveur
-   - 🔗 Augmenter le trafic réseau
+   **Attention** : Les profils itinérants peuvent :
+   - Ralentir les connexions (synchronisation du profil)
+   - Consommer beaucoup d'espace disque sur le serveur
+   - Augmenter le trafic réseau
      
-   📁 **Un profil utilisateur contient** :
-   - 📂 **Documents personnels** : Mes Documents, Bureau, Téléchargements
-   - ⚙️ **Paramètres Windows** : Fond d'écran, thème, barre des tâches
-   - 💻 **Paramètres d'applications** : Configurations Outlook, navigateur
-   - 🔑 **Clés de registre** : HKEY_CURRENT_USER
-   - 📂 **AppData** : Données des applications
-     * 💻 `\AppData\Local` : Données spécifiques à la machine (cache, temp)
-     * 🔄 `\AppData\Roaming` : Données qui suivent l'utilisateur entre les machines
-   - 💻 **Script de connexion** : Si on veut lancer une suite d'opérations lors de la connexion 
+   **Un profil utilisateur contient** :
+   - **Documents personnels** : Mes Documents, Bureau, Téléchargements
+   - **Paramètres Windows** : Fond d'écran, thème, barre des tâches
+   - **Paramètres d'applications** : Configurations Outlook, navigateur
+   - **Clés de registre** : HKEY_CURRENT_USER
+   - **AppData** : Données des applications
+     * `\AppData\Local` : Données spécifiques à la machine (cache, temp)
+     * `\AppData\Roaming` : Données qui suivent l'utilisateur entre les machines
+   - **Script de connexion** : Si on veut lancer une suite d'opérations lors de la connexion 
      ```plaintext
-     📚 \\srv-scripts\dept\compta\logon.bat
+     \\srv-scripts\dept\compta\logon.bat
      ```
 
-#### ⚙️ Recommandations
-- ⚠️ Attention aux profils itinérants
-- 💻 Préférer les profils locaux
-- 🔒 Sécuriser les comptes sensibles
+#### Recommandations
+- Attention aux profils itinérants
+- Préférer les profils locaux
+- Sécuriser les comptes sensibles
 
 
 
@@ -254,346 +215,339 @@ Après la création du compte, il est important de configurer les **propriétés
 
 #### 🔑 Politique de Mots de Passe
 ```plaintext
-💾 Longueur   : 12 caractères minimum
-🔒 Complexité : Maj + Min + Chiffres + Symboles
-🕐 Validité   : 90 jours maximum
-📃 Historique : 24 derniers mots de passe
+Longueur   : 12 caractères minimum
+Complexité : Maj + Min + Chiffres + Symboles
+Validité   : 90 jours maximum
+Historique : 24 derniers mots de passe
 ```
 
 #### 🔍 Surveillance
 ```plaintext
-📅 Mensuel     : Vérification des comptes
-📆 Trimestriel : Audit des privilèges
-⏰ Continu     : Alertes de connexion
+Mensuel     : Vérification des comptes
+Trimestriel : Audit des privilèges
+Continu     : Alertes de connexion
 ```
 
 ### 🔄 Cycle de Vie
 
 #### 📄 Gestion des Départs
 ```plaintext
-1. 🔒 Désactivation du compte
-2. 💾 Conservation des données
-3. 🗑 Suppression planifiée
+1. Désactivation du compte
+2. Conservation des données
+3. Suppression planifiée
 ```
 
-#### ⚠️ Points Importants
-- 🔐 Préférer la désactivation
-- 📝 Documenter les suppressions
-- 📃 Conserver l'historique
+#### Points Importants
+- Préférer la désactivation
+- Documenter les suppressions
+- Conserver l'historique
 
-## 5. 👥 Gestion des Groupes
+## 5. Gestion des Groupes
 
-### 📂 Concepts Fondamentaux
+### Concepts Fondamentaux
 
-> 💡 Un groupe du domaine AD est un conteneur pour gérer :
-- 👤 Utilisateurs
-- 💻 Ordinateurs
-- 📂 Autres groupes
+> Un groupe du domaine AD est un conteneur pour gérer :
+- Utilisateurs
+- Ordinateurs (c'est possible aussi!)
+- Autres groupes
 
-#### 🔐 Principe du Moindre Privilège
-```plaintext
-🔐 1. Permissions → Groupes (jamais aux utilisateurs)
-📂 2. Groupes → Permissions minimales
-🔗 3. Contrôle via groupes imbriqués (AGDLP/AGLP)
-```
+#### Principe du Moindre Privilège
 
-### 📂 Types de Groupes
+**Important:** On n'affectera de privilèges aux utilisateurs, **mais aux groupes**!
 
-#### 🔐 Groupes de Sécurité
+### Types de groupe: les groupes de sécurité
 
-> 💡 **Objectif** : Gestion des droits d'accès
+Il y a deux types de groupes : **groupes de sécurité** (qui gèrent les privilèges) et **groupes de distribution** (qui sont liés uniquement à l'envoi d'emails).
+
+On utilisera uniquement des groupes de sécurité.
 
 ##### 📄 Exemples
 ```plaintext
-📂 DL-EU-Comptabilite-Lecture  # Lecture comptable
-🔑 GG-EU-RH-Admin             # Admin RH
-🔧 GG-EU-Support              # Support IT
+DL-EU-Comptabilite-Lecture  # Lecture comptable
+GG-EU-RH-Admin             # Admin RH
+GG-EU-Support              # Support IT
 ```
 
-#### 📧 Groupes de Distribution
-
-> 💡 **Objectif** : Listes de diffusion email
-
-##### 📄 Exemples
-```plaintext
-💬 DL-EU-Info                 # Info générale
-💳 DL-EU-Comptabilite-Contact # Contacts
-👑 DL-EU-RH-Managers         # Managers
-```
-
-> ⚠️ Les groupes de distribution ne gèrent pas les permissions
 
 ### 🌐 Étendues des Groupes
+
+Les groupes se classifient en 3 étendues: 
 
 #### 🌍 Domaine Local (DL-)
 
 ##### 💡 Caractéristiques
-- 🔑 Attribution des droits
-- 🌐 Limité au domaine AD actuel
-- 📂 Gestion des ressources
+- Attribution des droits
+- Limité **au domaine AD actuel** (`computerelectronics.be` dans notre cas)
+- Gestion des ressources
 
 ##### 📄 Exemples
 ```plaintext
-🔑 DL-EU-Serveurs-Admin      # Admin
-📂 DL-EU-Comptabilite-Lecture # Lecture
-🔧 DL-EU-RH-Modif           # Modif
+DL-EU-Serveurs-Admin      # Admin
+DL-EU-Comptabilite-Lecture # Lecture
+DL-EU-RH-Modif           # Modif
 ```
 
 #### 🌎 Global (GG-)
 
 ##### 💡 Caractéristiques
-- 🌐 Organisation métier
-- 🌎 Visible dans la forêt
-- 👥 Regroupe par rôle
+- Organisation métier
+- Visible dans toute la forêt AD
+- Regroupe par rôle
 
 ##### 📄 Exemples
 ```plaintext
-💳 GG-EU-Comptabilite-Users  # Comptables
-👑 GG-EU-RH-Managers        # Managers
-🔧 GG-EU-IT-Support        # Support
+GG-EU-Comptabilite-Users  # Comptables
+GG-EU-RH-Managers        # Managers
+GG-EU-IT-Support        # Support
 ```
 
 #### 🌏 Universel (U-)
 
 ##### 💡 Caractéristiques
-- 🌐 Accès multi-forêts
-- 🔄 Impact réplication
-- ⚠️ Usage restreint
+- Accès **multi-forêts**
+- Impact réplication
+- Usage restreint
 
 ##### 📄 Exemples
 ```plaintext
-👑 U-Direction              # Direction
-📂 U-Projet-Global          # Projets
-🔑 U-Admin-Global           # Admin
+U-Direction              # Direction générale
+U-Projet-Global          # Projets multi-sites
+U-Admin-Global           # Administration globale
 ```
 
-#### 📝 Convention de Nommage
+#### Convention de Nommage
 ```plaintext
-💡 Format : [Etendue]-[Location]-[Département]-[Fonction]
+Format : [Etendue]-[Location]-[Département]-[Fonction]
 
-📄 Exemples:
-- 📂 DL-EU-Comptabilite-Modif
-- 👥 GG-EU-RH-Users
-- 🔑 U-Global-Admin
+Exemples:
+- DL-EU-Comptabilite-Modif  # Droits de modification comptabilité
+- GG-EU-RH-Users            # Utilisateurs RH
+- U-Global-Admin             # Administration globale
 ```
 
-### ➕ Création des Groupes
+### Création des Groupes
 
-#### 💻 Via l'Interface ADUC
+#### Via l'Interface ADUC
 
-##### ➕ Nouveau Groupe
+Pour créer un nouveau groupe :
 ```plaintext
-1. 💻 Ouvrir ADUC
-2. 📂 Aller dans Users
-3. ➕ Clic droit > Nouveau > Groupe
-4. 📝 Informations :
-   - 📄 Nom : GG-EU-Comptabilite-Users
-   - 🌐 Étendue : Global
-   - 🔐 Type : Sécurité
+1. Ouvrir ADUC
+2. Aller dans Users
+3. Clic droit > Nouveau > Groupe
+4. Informations :
+   - Nom : GG-EU-Comptabilite-Users
+   - Étendue : Global
+   - Type : Sécurité
 ```
 
-#### 👥 Gestion des Membres
+#### Gestion des Membres
 
-##### ➕ Ajout d'Utilisateurs
+Pour ajouter des utilisateurs :
 ```plaintext
-1. 📂 Groupe → Double-clic
-2. 👥 Onglet Membres → Ajouter
-3. ➕ Sélectionner :
-   - 👤 clark.kent
-   - 👤 sophie.lambert
-   - ✅ Vérifier les ajouts
+1. Double-cliquer sur le groupe
+2. Onglet Membres > Ajouter
+3. Sélectionner les utilisateurs :
+   - clark.kent
+   - sophie.lambert
+   - Vérifier les ajouts
 ```
 
-> ⚠️ Vérifiez toujours la liste après modification
+> ⚠️ Important : Toujours vérifier la liste des membres après modification
 
-### 📝 Conventions de Nommage
+### Conventions de Nommage
 
-#### 💡 Format Standard
+Format standard pour les groupes :
 ```plaintext
-📂 [Type]-[Location]-[Service]-[Fonction]
+[Type]-[Location]-[Service]-[Fonction]
 ```
 
-#### 📄 Exemples
+Exemples avec explications :
 ```plaintext
-👥 GG-EU-Comptabilite-Users  # Comptables
-📂 DL-EU-RH-Lecture         # Lecture RH
-🔑 U-Global-IT-Admin        # Admin IT
+GG-EU-Comptabilite-Users  # Groupe global des comptables
+DL-EU-RH-Lecture         # Groupe local pour accès en lecture RH
+U-Global-IT-Admin        # Groupe universel des administrateurs IT
 ```
 
-### 🔗 Stratégie AGDLP
+### Stratégie AGDLP
 
-> 💡 **Principe** : Jamais de droits directs aux utilisateurs
+**Principe fondamental** : Ne jamais attribuer de droits directement aux utilisateurs
 
-#### 📂 Hiérarchie
+#### Hiérarchie
 ```plaintext
-👤 A  → Account     (Utilisateur)
-🌐 G  → Global      (Fonction)
-📂 DL → Local       (Droits)
-🔐 P  → Permissions
+A  → Account     (Compte utilisateur)
+G  → Global      (Groupe de fonction)
+DL → Domain Local (Groupe de droits)
+P  → Permissions  (Droits effectifs)
 ```
 
-#### 💻 Exemple ERP
+#### Exemple pratique
 
-> 📚 Pour plus de détails, voir [Chapitre 4 - UO, section 9.2](Chapitre%204.%20Unites_Organisationelles.md#92-utilisation-des-groupes)
+Pour plus de détails, voir [Chapitre 4 - UO, section 9.2](Chapitre%204.%20Unites_Organisationelles.md#92-utilisation-des-groupes)
 
-#### ⭐ Avantages
+#### Avantages et Cas d'Usage
 
-##### 🔄 Changement de Service
+Changement de service :
 ```plaintext
-➖ Retirer de GG-EU-RH-Managers
-➕ Ajouter à GG-EU-Compta-Managers
-   - Droits automatiquement mis à jour
-   ```
-
-2. **Nouvel employé** :
-   ```plaintext
-   - Ajouter à GG-EU-[Dept]-Users
-   - Hérite auto des droits DL-EU-[Dept]-*
-   ```
-
-#### 🔧 Maintenance
-```plaintext
-📂 Structure claire
-✅ Moins d'erreurs
-📈 Évolutivité
+1. Retirer l'utilisateur de GG-EU-RH-Managers
+2. Ajouter à GG-EU-Compta-Managers
+   Les droits sont automatiquement mis à jour
 ```
 
-### 🔗 Règles d'Imbrication
-
-#### ⚠️ Limitations
+Nouvel employé :
 ```plaintext
-🌐 Groupe Global :
-- ✅ Peut : Globaux (même domaine AD)
-
-🌍 Groupe Local :
-- ❌ Non : Globaux (autre domaine AD)
-
-🌏 Groupe Universel :
-- ❌ Non : Globaux (autre domaine AD)
+1. Ajouter au groupe GG-EU-[Dept]-Users
+2. Hérite automatiquement des droits DL-EU-[Dept]-*
 ```
 
-### 🔐 Sécurité et Maintenance
+Bénéfices :
+- Structure claire et cohérente
+- Réduction des erreurs d'administration
+- Facilité d'évolution
 
-#### 💡 Règles de Base
+### Règles d'Imbrication
+
+Limitations par type de groupe :
+
 ```plaintext
-🌐 Groupes Globaux (GG-) :
-- 👥 Groupes de gestion uniquement
-- ❌ Pas de permissions directes
-💡 Ex: GG-EU-RH-Managers
+Groupe Global :
+- Peut contenir : Groupes globaux du même domaine AD
 
-🌍 Groupes Locaux (DL-) :
-- 🔑 Reçoivent les permissions
-- 🔗 Contiennent les groupes globaux
-💡 Ex: DL-EU-RH-Modif
+Groupe Local de Domaine :
+- Ne peut pas contenir : Groupes globaux d'autres domaines
+
+Groupe Universel :
+- Ne peut pas contenir : Groupes globaux d'autres domaines
 ```
 
-## 6. 🔑 Droits vs Permissions
+### Sécurité et Maintenance
 
-### 🔐 Droits Utilisateur
+Règles fondamentales par type de groupe :
 
-> 💡 **Définition** : Actions système autorisées
-
-#### ⚙️ Caractéristiques
 ```plaintext
-🌐 Portée : Niveau système
-⚙️ Gestion : Via GPO
-💡 Exemples :
-- 🔓 Se connecter localement
-- ⏰ Arrêter le système
-- 🔑 Changer mot de passe
-- 💾 Exécuter les backups
+Groupes Globaux (GG-) :
+- Utilisés pour la gestion des utilisateurs
+- Ne doivent pas recevoir de permissions directes
+Exemple : GG-EU-RH-Managers
+
+Groupes Locaux de Domaine (DL-) :
+- Reçoivent les permissions sur les ressources
+- Contiennent les groupes globaux appropriés
+Exemple : DL-EU-RH-Modif
 ```
 
-### 🔐 Permissions
+## 6. Droits vs Permissions
 
-> 💡 **Définition** : Contrôle d'accès aux ressources
+### Droits Utilisateur
 
-#### ⚙️ Caractéristiques
+**Définition** : Actions autorisées au niveau du système
+
+Caractéristiques :
 ```plaintext
-🌐 Portée : Niveau objet
-🔐 Gestion : Via ACL
-📂 Objets :
-- 📄 Fichiers
-- 📂 Dossiers
-- 🖨 Imprimantes
+Portée : Niveau système
+Gestion : Via stratégies de groupe (GPO)
 
-🔑 Actions :
-- 📖 Lecture
-- ✏️ Écriture
-- 🔧 Modification
+Exemples de droits :
+- Se connecter localement
+- Arrêter le système
+- Changer le mot de passe
+- Exécuter les sauvegardes
 ```
 
-### 🔑 Droits par Défaut
+### Permissions
 
-#### 👤 Utilisateur Standard
+**Définition** : Contrôle d'accès aux ressources
 
-- 🔓 Se connecter localement
-- ⏰ Arrêter le système
-- 🔑 Changer le mot de passe
-- 🔧 Tâches de maintenance
+Caractéristiques :
+```plaintext
+Portée : Niveau objet
+Gestion : Via listes de contrôle d'accès (ACL)
 
-#### 🔗 Accumulation des Droits
-- 💡 Un **utilisateur accumule les droits des groupes auxquels il appartient**
-- ⚠️ On **ne dénie** pas de droits utilisateur 
-- 🔑 L'appartenance à des groupes privilégiés augmente les droits (ex: `Domain Admins`)
+Types d'objets :
+- Fichiers
+- Dossiers
+- Imprimantes
+
+Types d'actions :
+- Lecture
+- Écriture
+- Modification
+```
+
+### Droits par Défaut
+
+Utilisateur Standard :
+- Se connecter localement
+- Arrêter le système
+- Changer son mot de passe
+- Exécuter des tâches de maintenance basiques
+
+Accumulation des Droits :
+- Un utilisateur hérite des droits de tous ses groupes
+- Les droits sont **cumulatifs**, **on ne peut pas les retirer**
+- L'appartenance à des groupes privilégiés (comme `Domain Admins`) étend les droits
 
 <br>
 
-## 7. 📂 Groupes Intégrés AD
+## 7. Groupes Intégrés AD
 
-### 7.1 👥 Groupes Essentiels
+### 7.1 Groupes Essentiels
 
-> 💡 Il existe 3 groupes intégrés essentiels dans Active Directory :
+Active Directory inclut trois groupes intégrés essentiels :
 
-#### 🔐 Domain Admins
-- 👑 Administrateurs du domaine
-- 🔓 Accès total aux ressources
-- 👥 Membres du groupe Administrators
+#### Domain Admins
+Groupe **d'administration principal** du domaine :
+- Contrôle total sur le domaine
+- Accès complet aux ressources
+- Membre du groupe Administrators
 
-##### 💻 Actions Principales
-- ⚙️ Création des contrôleurs de domaine
-- 🔐 Modification des stratégies de sécurité
+Responsabilités principales :
+- Gérer les contrôleurs de domaine
+- Configurer les stratégies de sécurité
 
-#### 🌍 Enterprise Admins
-- 🌐 Administration de la forêt
-- 🔗 Relations d'approbation
-- ⚙️ Configuration des sites
+#### Enterprise Admins
+Groupe **d'administration de la forêt** AD :
+- Gère l'infrastructure globale
+- Configure les relations entre domaines
+- Administre les sites AD
 
-##### 💻 Actions Principales
-- 📂 Ajout de domaines dans la forêt
-- 🌐 Configuration des sites AD
+Responsabilités principales :
+- Étendre la forêt AD
+- Gérer la topologie des sites
 
-#### 📚 Schema Admins
-- 📂 Modification du **schéma** AD
-- 🔐 Groupe très sensible
-- ⚠️ Usage restreint
+#### Schema Admins
+Groupe **spécialisé** pour le schéma AD :
+- Modifie la structure de l'annuaire
+- Accès très restreint
+- Utilisation ponctuelle
 
-##### 💻 Actions Principales
-- 📂 Ajout d'attributs utilisateurs
-- 💻 Extension pour Exchange Server
+Responsabilités principales :
+- Étendre le schéma AD
+- Préparer AD pour Exchange
 
-### 7.2 🔐 Groupes de Sécurité
+### 7.2 Groupes de Sécurité
 
-#### 👤 Account Operators
-- 📂 Création de comptes
-- 👥 Gestion des groupes
-- ⚠️ Pas d'accès admin
+#### Account Operators
+Groupe pour la gestion des comptes :
+- Création et modification de comptes
+- Gestion des appartenances aux groupes
+- Privilèges limités (pas d'accès administrateur)
 
-##### 💻 Actions Principales
-- 👤 Création de comptes
-- 👥 Ajout aux groupes
+Responsabilités principales :
+- Gérer les comptes utilisateurs
+- Administrer les groupes standard
 
-#### 💾 Backup Operators
-- 💾 Sauvegarde des fichiers
-- 🔐 Accès NTFS étendu
-- 📖 Lecture domaine
+#### Backup Operators
+Groupe pour les opérations de sauvegarde :
+- Accès en lecture à tous les fichiers
+- Privilèges NTFS spéciaux
+- Droits de lecture sur le domaine
 
-##### 💻 Actions Principales
-- 💾 Sauvegarde des serveurs
-- 💾 Restauration de données
+Responsabilités principales :
+- Exécuter les sauvegardes système
+- Restaurer les données
 
 
-## 8. 📂 Organisation des Groupes
+## 8. Organisation des Groupes
 
 > 💡 Deux stratégies principales :
 
