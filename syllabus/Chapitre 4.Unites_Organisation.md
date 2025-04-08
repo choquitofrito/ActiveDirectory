@@ -1,32 +1,32 @@
-# Chapitre 4: Unités d'Organisation (OUs)
+# Chapitre 4 : Unités d'organisation (UOs)
 
-> 📚 **Dans ce chapitre:**
-> 1. 🏢 [Structure Organisationnelle](#1-introduction-aux-unités-dorganisation-ous)
+> 📚 **Dans ce chapitre :**
+> 1. 🏢 [Structure organisationnelle](#1-introduction-aux-unités-dorganisation-uos)
 >    - Concepts fondamentaux
->    - Hiérarchie des OUs
-> 2. ⚙️ [Administration](#2-gestion-des-ous)
+>    - Hiérarchie des UOs
+> 2. ⚙️ [Administration](#2-gestion-des-uos)
 >    - Création et configuration
 >    - Bonnes pratiques
-> 3. 🔐 [Sécurité et Délégation](#3-délégation-administrative)
+> 3. 🔐 [Sécurité et délégation](#3-délégation-administrative)
 >    - Stratégies de gestion
 >    - Contrôle d'accès
 
 ---
 
-## 1. 📙 Objectifs Pédagogiques
+## 1. 📙 Objectifs pédagogiques
 
 À la fin de ce chapitre, vous serez capable de :
 1. 🏢 Structurer votre organisation dans Active Directory
-2. ⚙️ Gérer efficacement les OUs et leurs objets
-3. 🔐 Implémenter une stratégie de sécurité par délégation
+2. ⚙️ Gérer efficacement les UOs et leurs objets
+3. 🔐 Mettre en place une stratégie de sécurité par délégation
 
 ---
 
-## 2. 🏢 Structure Organisationnelle
+## 2. 🏢 Structure organisationnelle
 
-### 📂 Concept des Unités d'Organisation
+### 📂 Concept des unités d'organisation
 
-Une **Unité d'Organisation** (OU) est un **conteneur Active Directory** offrant :
+Une **unité d'organisation** (UO) est un **conteneur Active Directory** offrant :
 
 1. 🏢 **Organisation Logique**
    - 📂 Regroupement d'objets AD
@@ -38,7 +38,7 @@ Une **Unité d'Organisation** (OU) est un **conteneur Active Directory** offrant
    - 📂 Gestion des ressources
    - 🔒 Application des GPOs
 
-> 💡 **Analogie** : Une OU est un **dossier intelligent** combinant organisation et gestion.
+> 💡 **Analogie** : Une UO est un **conteneur intelligent** qui combine organisation et gestion.
 
 ## 3. 📂 Structure des OUs
 
@@ -270,7 +270,6 @@ Dev
 
 ### 8.2 Principes de Conception
 
-#### 8.2.1 Facteurs Clés
 
 1. **Administration**
    ```
@@ -297,19 +296,19 @@ Dev
    - Qui gère quoi ?
    - Quelles sont les responsabilités de chaque équipe ?
 
-2. **Besoins en GPO** :
+4. **Besoins en GPO** :
    - Quelles politiques doivent être appliquées ?
    - À quels groupes d'objets ?
 
-3. **Exigences de Sécurité** :
+5. **Exigences de Sécurité** :
    - Quels sont les niveaux d'accès requis ?
    - Quelles sont les ressources sensibles ?
 
-4. **Organisation Géographique vs Fonctionnelle** :
+6. **Organisation Géographique vs Fonctionnelle** :
    - Structure par lieu ou par fonction ?
    - Hybride des deux approches ?
 
-### 8.4 Meilleures Pratiques
+### 8.3 Meilleures Pratiques
 
 1. **Structure Simple et Claire**
    La structure doit être facilement compréhensible et maintenable. Chaque département suit la même organisation:
