@@ -33,7 +33,9 @@
 
 ## 1. Le service DNS
 
-Le **DNS** (Domain Name System) est un service fondamental qui agit comme l'**annuaire téléphonique de l'internet** (on ne parle pas de l'annuaire tel que base de données d'Active Directory!). Il est essentiel pour deux raisons principales :
+Le **DNS** (Domain Name System) est un service fondamental qui agit comme l'**annuaire téléphonique de l'internet** (on ne parle pas de l'annuaire tel que base de données d'Active Directory!). 
+**Il transforme les noms de domain en addresses IP et vice-versa**.
+Il est essentiel pour deux raisons principales :
 
 | Aspect | Description | Exemple |
 |--------|-------------|----------|
@@ -99,32 +101,26 @@ Le DNS offre deux types de résolution :
 
 | Étape | Action | Détails |
 |---------|---------|----------|
-| 1️⃣ | **Requête Client** | Le client (extérieur) demande l'IP de `computerelectronics.be` |
-| 2️⃣ | **DNS Public** | Consultation des serveurs DNS publics |
-| 3️⃣ | **Réponse** | Réception de l'IP publique |
-| 4️⃣ | **Connexion** | Le client se connecte via Internet |
+| 1️⃣ | **Requête Client** | Le **client** (extérieur) **demande** l'IP de `computerelectronics.be` |
+| 2️⃣ | **DNS Public** | **Consultation** des serveurs DNS publics |
+| 3️⃣ | **Réponse** | Le serveur **envoie au client l'IP** publique |
+| 4️⃣ | **Connexion** | Le **client** se **connecte** via Internet |
 
 #### 🏛️ Résolution DNS Interne
 
 | Étape | Action | Détails |
 |---------|---------|----------|
-| 1️⃣ | **Requête Client** | Un poste de travail (interne) demande l'IP d'une ressource locale |
-| 2️⃣ | **Réponse DNS** | Notre serveur DNS interne (`dns1.computerelectronics.be`) fournit l'IP |
+| 1️⃣ | **Requête Client** | Un **poste** de travail (interne) **demande l'IP** d'une ressource locale |
+| 2️⃣ | **Réponse DNS** | Notre **serveur DNS interne** (`dns1.computerelectronics.be`) **fournit** l'IP |
 | 3️⃣ | **Connexion** | Le poste de travail se connecte directement à la ressource à l'intérieur du réseau |
 
-<details>
-<summary>🧠 Pourquoi c'est important?</summary>
 
-- 🔒 **Sécurité:** Vérification de l'authenticité des domaines
-- 📰 **Cache:** Les résultats sont stockés temporairement
-- 🌐 **Global:** Fonctionne à l'échelle mondiale
-- 🔄 **Redondance:** Plusieurs serveurs DNS disponibles
-
-</details>
 
 ## 3. L'Espace de Noms DNS 
 
-> **Point clé:** L'espace de noms DNS est organisé comme un arbre hiérarchique
+Un **espace de noms DNS** est **l'ensemble de noms DNS** organisés sous la forme d'un **arbre DNS**, une structure hiérarchique où **chaque nœud est un domaine** (ici: `computerelectronics.be`, `eu.computerelectronics.be`, `us.computerelectronics.be`, `dev.computerelectronics.be` et `prod.computerelectronics.be`).
+
+![Diagramme DNS](../diagrams/images/structure_reseau_geographic_zones.png)
 
 ### 🏢 Structure DNS de Computer Electronics
 
@@ -133,13 +129,22 @@ Le DNS offre deux types de résolution :
 | 🌐 **Domaine Racine** | Domaine principal | `computerelectronics.be` |
 | 🌎 **Zones Géographiques** | Régions | `eu.computerelectronics.be`<br>`us.computerelectronics.be` |
 | 🛠️ **Environnements** | Services | `dev.computerelectronics.be`<br>`prod.computerelectronics.be` |
+ 💻 **Ressources** | Appareils et services | `ws-compta-01.computerelectronics.be`<br>`printer-01.computerelectronics.be` |
 
-> **Note importante:** Dans notre environnement de formation, nous avons choisi de placer toutes les zones (EU, US, Dev, Prod) dans la même forêt AD pour des raisons pédagogiques. Dans un environnement d'entreprise réel :
-> - Les zones géographiques (EU, US) auraient leurs propres DCs locaux
-> - Les environnements Dev et Prod seraient dans des forêts AD séparées pour la sécurité
-> - Chaque forêt aurait sa propre infrastructure DNS
 
-| 💻 **Ressources** | Appareils et services | `ws-compta-01.computerelectronics.be`<br>`printer-01.computerelectronics.be` |
+### 🌲 Forêts DNS
+
+Un **forêt DNS** est un espace de noms avec plusieurs arbres.
+
+**Exemple de fusion d'entreprises:**
+- 🇪🇺 `computerelectronics.be` (Premier arbre)
+- 🇫🇷 `techshop.fr` (Deuxième arbre)
+
+Chaque arbre garde son indépendance tout en permettant une collaboration entre les entreprises.
+
+![Diagramme DNS](../diagrams/images/forest_structure.png)
+
+**Dans notre cas du laboon on a un forêt d'un arbre** (`computerelectronics.be`).
 
 ### 📑 Cas Pratique: Computer Electronics
 
@@ -149,7 +154,7 @@ Le DNS offre deux types de résolution :
 
 #### Organisation DNS
 
-Ceci est la structure de l'arbre hiérarchique de Computer Electronics, qui montre la structure logique de l'entreprise.
+Voici l'arbre DNS de Computer Electronics, on voit aussi l'ensemble des sous-domaines et les ressources (ordinateurs, imprimantes, etc)
 
 ![Diagramme DNS](../diagrams/images/structure_reseau_geographic_zones.png)
 
@@ -175,22 +180,25 @@ Ceci est la structure de l'arbre hiérarchique de Computer Electronics, qui mont
 
 #### 💻 Structure Plate (Flat DNS) 
 
-Les sous-domaines (`eu`, `usa`, `prod`, `dev`) ne sont  pas utilisés pour les postes de travail et imprimantes
+Observez que les sous-domaines (`eu`, `usa`, `prod`, `dev`) **ne sont  pas utilisés pour les postes de travail et imprimantes**
+
+Au lieu de 
 
 ```plaintext
-# Pour les postes de travail et imprimantes
+ws-compta-01.eu.computerelectronics.be
+printer-rh-01.usa.computerelectronics.be
+```
+
+on a 
+
+```plaintext
 ws-compta-01.computerelectronics.be
 printer-rh-01.computerelectronics.be
 ```
 
-**Avantages:**
-- 🔑 Simplification des certificats SSL
-- 🔒 Authentification unique (SSO) facilitée
-- 💻 Mobilité des postes de travail améliorée
+C'est fait exprès: si on **utilise** le nom du **sous-domaine** on devrait **gérer des certificats SSL pour chaque ressource** et on ne veut pas le faire! C'est une **approche** professionnelle **standardisée**.
 
-#### 🏛️ Structure Hiérarchique 
-
-Les sous-domaines sont utilisés pour les serveurs et services (observez les adresses)
+Les sous-domaines sont utilisés uniquement pour les serveurs et services (observez les adresses)
 
 ```plaintext
 # Pour les serveurs et services
@@ -198,25 +206,13 @@ auth.eu.computerelectronics.be
 db.prod.computerelectronics.be
 ```
 
-### 🌲 Forêts DNS
-
-> Un espace de noms avec plusieurs arbres forme une **forêt DNS**
-
-**Exemple de fusion d'entreprises:**
-- 🇪🇺 `computerelectronics.be` (Premier arbre)
-- 🇫🇷 `techshop.fr` (Deuxième arbre)
-
-Chaque arbre garde son indépendance tout en permettant une collaboration entre les entreprises.
-
-![Diagramme DNS](../diagrams/images/forest_structure.png)
-
 
 
 ## 4. Les Zones DNS
 
 ### 📍 Qu'est-ce qu'une Zone DNS?
 
-> **Point clé:** Une zone DNS est une partie de l'espace de noms contenant les enregistrements d'un domaine spécifique. 
+Une **zone DNS** est tout simplement **une partie de l'espace de noms DNS** (une partie de l'arbre DNS) contenant les enregistrements d'un domaine spécifique. 
 
 ### 🛠️ Architecture DNS Centralisée
 
@@ -227,11 +223,6 @@ Chaque arbre garde son indépendance tout en permettant une collaboration entre 
 | 🖥 **DNS1** | Primaire | - Maître pour toutes les zones<br>- Gestion des mises à jour |
 | 💻 **DNS2** | Secondaire | - Réplication automatique<br>- Redondance et charge |
 
-> **Avantages de cette configuration:**
-> - 💻 Simplicité de gestion
-> - 🔒 Cohérence des données
-> - ⚙️ Maintenance réduite
-> - 📈 Suffisant pour notre charge de travail
 
 ### ✨ Avantages de la Division en Zones
 
@@ -294,159 +285,30 @@ Chaque arbre garde son indépendance tout en permettant une collaboration entre 
 | 🛠️ **DEV** | `dev.computerelectronics.be` | Environnement de développement |
 | 🏛️ **PROD** | `prod.computerelectronics.be` | Environnement de production |
 
-#### 💻 Infrastructure et Services
-
-##### 🖥 Infrastructure DNS (192.168.0.0/24)
-
-| Hôte | Adresse IP | Rôle |
-|--------|------------|-------|
-| 🔑 **Gateway** | `192.168.0.1` | Passerelle par défaut |
-| 💻 **DNS1** | `192.168.0.2` | Serveur DNS principal |
-| 🖥 **DNS2** | `192.168.0.3` | Serveur DNS secondaire |
-
-##### 🇪🇺 Zone Europe (192.168.10.0/24)
-
-| Service | Adresse IP | Description |
-|---------|------------|-------------|
-| 🔑 **Gateway** | `192.168.10.1` | Passerelle EU |
-| 📂 **FileServer** | `192.168.10.10` | Stockage EU |
-      - `mail.eu.computerelectronics.be` (192.168.10.11)
-    - Périphériques réseau (192.168.10.20-49) :
-      - `printer-compta-01.computerelectronics.be` (192.168.10.20)
-    - Postes de travail (192.168.10.128-254) :
-      - `ws-compta-01.computerelectronics.be` (192.168.10.128)
-      - `ws-compta-02.computerelectronics.be` (192.168.10.129)
-
-  - **Zone US (192.168.20.0/24)** :
-    - Réservé (192.168.20.1) : Passerelle par défaut
-    - Services (192.168.20.10-19) :
-      - `fileserver.us.computerelectronics.be` (192.168.20.10)
-      - `mail.us.computerelectronics.be` (192.168.20.11)
-    - Périphériques réseau (192.168.20.20-49) :
-      - `printer-compta-02.computerelectronics.be` (192.168.20.20)
-    - Postes de travail (192.168.20.128-254) :
-      - `ws-ventes-01.computerelectronics.be` (192.168.20.128)
-      - `ws-ventes-02.computerelectronics.be` (192.168.20.129)
-
-  - **Zone Développement (192.168.30.0/24)** :
-    - Réservé (192.168.30.1) : Passerelle par défaut
-    - Services de développement (192.168.30.10-19) :
-      - `app.dev.computerelectronics.be` (192.168.30.10)
-      - `db.dev.computerelectronics.be` (192.168.30.11)
-
-  - **Zone Production (192.168.40.0/24)** :
-    - Réservé (192.168.40.1) : Passerelle par défaut
-    - Services de production (192.168.40.10-19) :
-      - `app.prod.computerelectronics.be` (192.168.40.10)
-      - `db.prod.computerelectronics.be` (192.168.40.11)
-
-
 > 💡 **Point Important**: La structure DNS est une **organisation logique** qui peut être **totalement indépendante** de l'emplacement physique des ressources.
 
 ## 6. Structure Physique vs Logique
 
-### 🖥 Infrastructure Physique
+### 🏗️ Structure Physique (IP)
 
-| Composant | Description | Localisation |
-|-----------|-------------|--------------|
-| 💻 **DNS1** | Serveur DNS primaire | `192.168.0.2` |
-| 🖥 **DNS2** | Serveur DNS secondaire | `192.168.0.3` |
-| 🇪🇺 **Ressources EU** | Serveurs et services européens | `192.168.10.0/24` |
-| 🇺🇸 **Ressources US** | Serveurs et services américains | `192.168.20.0/24` |
+**Elements physiques** (machines) ayant leurs IPs.
 
-### 🌍 Organisation Logique
+- Infrastructure: 192.168.0.0/24 (dns1, dns2)
+- Zone EU: 192.168.10.0/24 (postes EU, services EU)
+- Zone US: 192.168.20.0/24 (postes US, services US)
+- Zone Dev: 192.168.30.0/24 (services dev)
+- Zone Prod: 192.168.40.0/24 (services prod)
 
-<details>
-<summary>🌐 Zones Géographiques</summary>
+### 🌳 Structure Logique (DNS)
 
-- 🇪🇺 `eu.computerelectronics.be`
-  * Services européens
-  * Ressources locales EU
+**Structure de noms** (domaines et sous-domaines, ressources)
 
-- 🇺🇸 `us.computerelectronics.be`
-  * Services américains
-  * Ressources locales US
-</details>
+- Domaine racine: computerelectronics.be
+- Sous-domaines géographiques: eu.computerelectronics.be, us.computerelectronics.be
+- Sous-domaines services: dev.computerelectronics.be, prod.computerelectronics.be
+- Ressources: ws-compta-01.computerelectronics.be, printer-rh-01.computerelectronics.be
 
-<details>
-<summary>🛠️ Zones de Service</summary>
-
-- 💻 `dev.computerelectronics.be`
-  * Environnement de développement
-  * Tests et intégration
-
-- 🏛️ `prod.computerelectronics.be`
-  * Applications en production
-  * Services critiques
-</details>
-
-> **Bénéfices de cette séparation:**
-> - 💻 Organisation claire des ressources
-> - 🔒 Gestion centralisée et sécurisée
-> - 🛠️ Flexibilité pour les changements futurs
-
-<br>
-
-
-## Exercice - Analyse
-Dans la structure actuelle de computerelectronics.be, identifiez:
-### 📝 Exercice: Analyse de la Structure DNS
-
-> **Objectif:** Comprendre l'organisation des ressources dans notre infrastructure DNS
-
-#### 📓 Instructions
-
-Identifiez et listez:
-1. Les appareils directement rattachés au domaine racine
-2. Les appareils de la zone EU
-3. Les appareils de la zone DEV
-
-**Question bonus:** Pourquoi les serveurs DNS sont-ils dans le domaine racine?
-
-<details>
-<summary>🔧 Solution</summary>
-
-##### 🌐 Domaine Racine (192.168.0.0/24)
-```plaintext
-# Serveurs DNS centraux
-dns1.computerelectronics.be    192.168.0.2    # Primaire
-dns2.computerelectronics.be    192.168.0.3    # Secondaire
-```
-
-##### 🇪🇺 Zone Europe (192.168.10.0/24)
-```plaintext
-# Postes de travail
-ws-compta-01    192.168.10.128    # Comptabilité
-ws-compta-02    192.168.10.129    # Comptabilité
-
-# Services
-fileserver.eu    192.168.10.10    # Stockage
-mail.eu          192.168.10.11    # Messagerie
-
-# Périphériques
-printer-compta-01    192.168.10.20    # Imprimante
-printer-ventes-01    192.168.10.21    # Imprimante
-```
-
-##### 💡 Pourquoi les DNS dans le domaine racine?
-- 🔑 Accès direct et simple
-- 💻 Indépendance des zones géographiques
-- 🔒 Gestion centralisée de la sécurité
-
-##### 🛠️ Zone Dev (192.168.30.0/24)
-```plaintext
-# Environnement de développement
-app.dev    192.168.30.10    # Application
-db.dev     192.168.30.11    # Base de données
-```
-
-</details>
-
-> **💡 Note pédagogique:**
-> Cette organisation reflète une infrastructure d'entreprise typique avec:
-> - 💻 Gestion centralisée des services DNS
-> - 🌐 Séparation géographique des ressources
-> - 🛠️ Isolation des environnements de développement
+> 💡 **Note:** La structure logique (DNS) permet d'organiser les ressources **indépendamment de leur emplacement physique** (IP)
 
 ## 7. Autorité DNS
 
@@ -718,22 +580,20 @@ Les zones secondaires se synchronisent automatiquement avec leur zone principale
 
 ### 9.1. 🔍 Zones de Recherche Directe
 
-> 💡 **Définition:** Une zone de recherche directe (Forward Lookup Zone) convertit les noms d'hôtes en adresses IP.
+Une **zone de recherche directe** (Direct Lookup Zone) contient des **enregistrements** pour faire correspondre un nom d'hôte à une adresse IP.
 
-#### 💻 Types d'Enregistrements
+Il y a deux categories d'enregistrements:
 
-<details>
-<summary>🔍 Enregistrements de Base</summary>
+##### Enregistrement de base
 
 | Type | Fonction | Exemple |
 |------|----------|----------|
 | A | Nom → IPv4 | `ws-compta-01 → 192.168.10.128` |
 | AAAA | Nom → IPv6 | `ws-compta-01 → 2001:db8::128` |
 | CNAME | Alias | `www → ws-web-01` |
-</details>
 
-<details>
-<summary>📡 Enregistrements de Service</summary>
+   
+##### Enregistrement de service
 
 | Type | Usage | Exemple |
 |------|--------|----------|
@@ -758,31 +618,30 @@ www             IN CNAME ws-web-01
 ftp             IN CNAME ws-files-01
 ```
 
+Notez que dans les enregistrements A pour les postes on a juste le nom de la machine, sans l'extension du domaine, car le domaine est déjà défini dans la zone! le nom complet de la machine s'appelle `FQDN` (Fully Qualified Domain Name) et sera  `ws-compta-01.computerelectronics.be`.
+
+
 ### 9.2. 🔄 Zones de Recherche Inverse
 
-> 💡 **Définition:** Une zone de recherche inverse (Reverse Lookup Zone) convertit les adresses IP en noms d'hôtes.
+Une **zone de recherche inverse** (Reverse Lookup Zone) **convertit les adresses IP en noms** d'hôtes.
+
+Ex: `192.168.10.128` devient `ws-compta-01.computerelectronics.be`.
+
 
 #### 🔑 Utilisations Principales
-
-<details>
-<summary>🛡️ Sécurité</summary>
 
 | Aspect | Description |
 |--------|-------------|
 | 🔐 Authentification | Vérification des hôtes |
 | 💻 Contrôle d'accès | Validation des connexions |
 | 📧 Anti-spam | Vérification des serveurs mail |
-</details>
-
-<details>
-<summary>🔧 Administration</summary>
+Administration</summary>
 
 | Usage | Bénéfice |
 |-------|------------|
 | 🔍 Dépannage | Identification rapide des hôtes |
 | 📄 Journalisation | Logs plus lisibles |
 | 📊 Monitoring | Surveillance du réseau |
-</details>
 
 #### 💻 Exemple: Zone 0.168.192.in-addr.arpa
 
@@ -797,7 +656,7 @@ ftp             IN CNAME ws-files-01
 10.10  IN PTR  fileserver.eu.computerelectronics.be.
 ```
 
-### 9.3. 🔗 Relations entre Types de Zones
+### 9.3. 🔗 Relations entre Types de Zones (opt)
 
 > 💡 **Concept:** Une zone DNS combine deux aspects indépendants: son autorité et sa direction de recherche.
 
@@ -833,7 +692,7 @@ eu.computerelectronics.be   # Directe (EU)
 us.computerelectronics.be   # Directe (US)
 ```
 
-## 10. Types d'Enregistrements DNS
+## 10.  Enregistrement DNS en détail (opt)
 
 > 💡 **Concept:** Les enregistrements DNS sont les briques de base qui définissent le comportement et la structure d'une zone DNS.
 
@@ -895,9 +754,10 @@ mail.eu       IN A    192.168.10.11
 _ldap._tcp    IN SRV  10 0 389 dc1.eu
 ```
 
-## 11. Configuration DNS dans Windows Server 
+## 11. Configuration DNS dans Windows Server (opt)
 
 Cette section est optionnelle, car l'installation d'AD DS configure automatiquement le serveur DNS.
+L'information ci-dessous peut juste aider à comprendre le fonctionnement du DNS une fois AD DS installé.
 
 > 💡 **Important:** Lors de l'installation d'Active Directory Domain Services (AD DS):
 > - Le rôle DNS est automatiquement installé et configuré
@@ -905,18 +765,6 @@ Cette section est optionnelle, car l'installation d'AD DS configure automatiquem
 > - **Aucune modification n'est nécessaire** pour le fonctionnement de base
 > - Les zones sont automatiquement mises à jour lors de l'ajout de machines au domaine
 
-### 🌐 DNS Intégré à AD DS
-
-<details>
-<summary>💻 Configuration Automatique</summary>
-
-| Élément | Description |
-|-----------|-------------|
-| Zones | Créées et configurées automatiquement |
-| Enregistrements | Ajoutés dynamiquement par AD DS |
-| Réplication | Synchronisée avec AD DS |
-| Sécurité | Intégrée avec les permissions AD |
-</details>
 
 ### 🔧 Configuration via l'Interface Graphique
 
@@ -1004,46 +852,3 @@ nslookup computerelectronics.be
 nslookup ws-compta-01.computerelectronics.be
 ```
 </details>
-
-## 12. Résumé et Points Clés
-
-### 📚 Points Essentiels
-
-<details>
-<summary>🌐 Architecture DNS</summary>
-
-| Concept | Description |
-|---------|-------------|
-| Hiérarchie | Structure arborescente des domaines |
-| Délégation | Distribution des responsabilités |
-| Réplication | Redondance et haute disponibilité |
-</details>
-
-<details>
-<summary>💻 Configuration</summary>
-
-| Étape | Objectif |
-|--------|----------|
-| Installation | Mise en place du service DNS |
-| Zones | Définition des espaces de noms |
-| Enregistrements | Configuration des ressources |
-</details>
-
-### 📓 Prochaines Étapes
-
-1. **Active Directory**
-   - Intégration avec DNS
-   - Zones intégrées AD
-
-2. **Sécurité**
-   - DNSSEC
-   - Transferts de zone sécurisés
-
-3. **Maintenance**
-   - Surveillance des performances
-   - Gestion des journaux
-
----
-
-> 💡 **Conseil:** Le DNS est la fondation de votre infrastructure Active Directory. Une configuration précise et robuste est essentielle pour le bon fonctionnement de tous les services.
-
