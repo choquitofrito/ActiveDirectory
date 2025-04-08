@@ -1,6 +1,6 @@
 # Chapitre 3: Active Directory Domain Services (AD DS)
 
-> 📚 **Dans ce chapitre:**
+> 📚 **Dans ce chapitre :**
 > 1. 🔍 [Introduction à AD DS](#1-introduction-à-ad-ds)
 >    - Concepts fondamentaux
 >    - Architecture AD DS
@@ -13,12 +13,12 @@
 
 ---
 
-## 1. 📙 Objectifs Pédagogiques
+## 1. 📙 Objectifs pédagogiques
 
 À la fin de ce chapitre, vous serez capable de :
 1. Comprendre l'architecture d'Active Directory
 2. Installer et configurer AD DS sur Windows Server
-3. Créer et configurer le domaine AD `computerelectronics.be`(même nom que le domain DNS!)
+3. Créer et configurer le domaine AD `computerelectronics.be` (même nom que le domaine DNS !)
 4. Vérifier le bon fonctionnement d'AD DS
 
 ---
@@ -33,7 +33,7 @@ Active Directory Domain Services (AD DS) est le service principal d'Active Direc
 * 🔒 Les stratégies de sécurité
 * 🌐 Les services réseau
 
-Bien qu'on le confonde souvent avec l'ensemble d'Active Directory, AD DS est un service spécifique parmi d'autres :
+Bien qu'on le confonde souvent avec l'ensemble d'Active Directory, AD DS n'est qu'un service spécifique parmi d'autres :
  
 | Service | Description |
 |---------|-------------|
@@ -43,7 +43,7 @@ Bien qu'on le confonde souvent avec l'ensemble d'Active Directory, AD DS est un 
 | 🔒 **AD RMS** | Protection et contrôle des droits d'accès aux documents |
 | 🔗 **AD FS** | Authentification unique (SSO) et fédération d'identités entre organisations |
 
-**La force d'Active Directory** réside dans sa capacité à **centraliser l'administration**. Au lieu de gérer chaque ordinateur individuellement, les administrateurs peuvent appliquer des politiques et des configurations à partir d'un point central.
+**La force d'Active Directory** réside dans sa capacité à **centraliser l'administration**. Au lieu de gérer chaque ordinateur individuellement, les administrateurs peuvent appliquer des politiques et des configurations depuis un point central.
 
 <br>
 
@@ -51,17 +51,19 @@ Bien qu'on le confonde souvent avec l'ensemble d'Active Directory, AD DS est un 
 
 ### 3.1. Structure du réseau
 
-Considérez notre infrastructure réseau :
+Examinons notre infrastructure réseau :
 
 ![Forêt](../diagrams/images/structure_reseau_geographic_zones.png)
 
+Voici un exemple concret du fonctionnement d'Active Directory (une fois installé et configuré) sur le serveur `dns1.computerelectronics.be`.
+
 ### 3.2. Flux d'authentification et d'accès
 
-Voyons comment un utilisateur accède à un serveur de fichiers :
+Examinons comment un utilisateur accède à un serveur de fichiers :
 
 ![Intégration DNS-AD DS](../diagrams/images/ad_auth_flow.png)
 
-> 💡 **Note** : Observez les flèches colorées : bleu pour l'authentification, jaune pour l'accès aux ressources, et bleu bidirectionnel pour la réplication. Les flèches vertes seront expliquées plus tard.
+> 💡 **Note** : Observez les flèches colorées : le bleu pour l'authentification, le jaune pour l'accès aux ressources, et le bleu bidirectionnel pour la réplication. Les flèches vertes seront expliquées ultérieurement.
 
 #### 🔑 1. Authentification (flèche bleue)
 
@@ -69,40 +71,40 @@ Voyons comment un utilisateur accède à un serveur de fichiers :
 |--------|-------------|
 | Requête | `ws-compta-01` (`192.168.0.101`) demande l'authentification |
 | Traitement | `dns1.computerelectronics.be` (`192.168.0.2`) vérifie les identifiants |
-| Protocole | Kerberos gère l'authentification sécurisée |
-| Réseau | Via le switch `SW-COMPTA` (`192.168.0.1`) |
+| Protocole | Kerberos assure l'authentification sécurisée |
+| Réseau | Via le commutateur `SW-COMPTA` (`192.168.0.1`) |
 
 #### 📂 2. Accès aux ressources (flèche jaune)
 
 | Étape | Description |
 |--------|-------------|
-| Connexion | `ws-compta-01` accède à `fileserver.us.computerelectronics.be` |
-| Résolution | `dns2` fournit l'IP `192.168.0.41` |
+| Connexion | `ws-compta-01` se connecte à `fileserver.us.computerelectronics.be` |
+| Résolution | `dns2` fournit l'adresse IP `192.168.0.41` |
 | Autorisation | Le serveur de fichiers vérifie les droits d'accès |
 
-#### 🔃 3. Réplication AD (flèche bleue bidirectionnelle)
+#### 🔄 3. Réplication AD (flèche bleue bidirectionnelle)
 
 | Processus | Bénéfice |
 |-----------|------------|
-| Synchronisation | `dns1` et `dns2` maintiennent leurs bases à jour |
-| Redondance | Le service continue si un DC tombe en panne |
+| Synchronisation | `dns1` et `dns2` maintiennent leurs bases de données à jour |
+| Redondance | Le service reste disponible si un contrôleur de domaine tombe en panne |
 
 #### 🔍 Requêtes DNS (flèches vertes)
 
-Les flèches vertes représentent les requêtes DNS pour la résolution des noms. Pour simplifier le diagramme, seules les requêtes sont montrées, pas les réponses.
+Les flèches vertes représentent les requêtes DNS pour la résolution des noms. Pour simplifier le diagramme, seules les requêtes sont représentées, pas les réponses.
 
 | Étape | Description |
 |--------|-------------|
-| 1 | Le PC interroge `dns1` pour localiser son contrôleur de domaine |
-| 2 | Après authentification, le PC demande à `dns1` l'IP du serveur de fichiers |
-| 3 | `dns1` transfère la requête à `dns2` |
-| 4 | `dns2` résout le nom et le PC peut accéder au serveur |
+| 1 | Le poste de travail interroge `dns1` pour localiser son contrôleur de domaine |
+| 2 | Après authentification, il demande à `dns1` l'adresse IP du serveur de fichiers |
+| 3 | `dns1` transmet la requête à `dns2` |
+| 4 | `dns2` résout le nom et le poste de travail peut accéder au serveur |
 
 <br>
 
 ## 4. 📚 Active Directory Domain Services (AD DS)
 
-AD DS est le service fondamental de notre infrastructure `computerelectronics.be`. Il **crée et gère la base de données centrale d'Active Directory**
+**AD DS** est le service fondamental de notre infrastructure `computerelectronics.be`. Il **crée et gère la base de données centrale d'Active Directory**.
 
 ### 4.1. Fonctionnalités principales
 
@@ -123,12 +125,14 @@ AD DS est le service fondamental de notre infrastructure `computerelectronics.be
 | 🔐 Stratégies | Règles de sécurité, restrictions, droits |
 | 🌐 Services | Services réseau, configurations système |
 
-Toutes ces informations sont stockées dans **le domaine AD** `computerelectronics.be` crée par **AD DS**.
-Mais comment? `computerelectronics.be` est un domaine DNS, pas un domaine AD! Vrai, mais ils **partagent le même nom**.
+Toutes ces informations sont stockées dans **le domaine AD** `computerelectronics.be` créé par **AD DS**.
+Vous vous demandez peut-être comment c'est possible, puisque `computerelectronics.be` est un domaine DNS et non un domaine AD ? En fait, ils **partagent le même nom**.
 
-## 5. 🔍 Distinction entre Domaine DNS et Domaine AD
+**ATTENTION !**
 
-> 💡 Un point crucial à comprendre est la différence entre un domaine DNS et un domaine Active Directory.
+## 5. 🔍 Distinction entre domaine DNS et domaine AD
+
+> 💡 Il est crucial de bien comprendre la différence entre un domaine DNS et un domaine Active Directory.
 
 ### Structure DNS vs Structure AD
 
@@ -143,77 +147,62 @@ Mais comment? `computerelectronics.be` est un domaine DNS, pas un domaine AD! Vr
      * Zones géographiques : `eu.computerelectronics.be`, `us.computerelectronics.be`
      * Environnements : `dev.computerelectronics.be`, `prod.computerelectronics.be`
 
-
-
-1. **Domaine AD**
+2. **Domaine AD**
 
 ![Domaine AD](../diagrams/images/domaineAD.png)
 
-   - Objectif : **Authentification** et **sécurité**
-   - Structure : **Un seul domaine AD** `computerelectronics.be`
-   - Plusieurs **sites** : `site EU`, `site US` (**on ne le voit pas sur l'image!**). Un site est **un range d'IPs (un sous-réseau)** des machines qui se trouvent physiquement à un endroit (`site EU` chez nous, ou `site US` en USA). AD utilise les sites pour  authentification, replication, etc... vers leur DC le plus proche. 
-   - Un **domain AD est organisé via les OUs** (dossiers intelligent).
-  Une **OU** (étudié plus tard) **est un conteneur** AD qui **contient des objets AD** (utilisateurs, groupes, ordinateurs, etc.) et **il est complètement indépendant des sites**.
+   - Structure : **Un seul domaine AD** `computerelectronics.be` qui **utilise l'arbre DNS** de `computerelectronics.be`.
+   - Un **domaine AD est organisé via les UOs** (dossiers intelligents).
+  Une **UO** (que nous étudierons plus tard) **est un conteneur** AD qui **contient des objets AD** (utilisateurs, groupes, ordinateurs, etc.) et **est complètement indépendant des sites**.
 
-  Nous allons créer une **OU** racine pour chaque site (OUs `EU` et `US`) par confort mais **ce n'est pas une obligation**. Voici deux façons possibles d'organiser la même entreprise :
+> 💡 **Les Sites dans Active Directory**
+>
+> Un **site AD** représente une **localisation physique** dans le réseau. Chaque **site** est défini par :
+> - Un ou plusieurs **sous-réseaux IP**. Dans notre cas, nous n'avons qu'un seul sous-réseau (192.168.10.0/24 sur le diagramme, qui devient 192.168.0.0/24 dans le laboratoire), mais le `site EU` pourrait inclure :
+>   * 192.168.10.0/24 (bureaux principaux)
+>   * 192.168.11.0/24 (entrepôt)
+>   * 192.168.12.0/24 (production)
+> - Au moins un **contrôleur de domaine (DC) local** pour :
+>   * L'authentification rapide des utilisateurs locaux
+>   * La réplication avec les autres sites
+>   * La réduction du trafic réseau entre sites
+>
+> 🔗 **Relations avec d'autres concepts**
+> - **Sites ≠ UOs** : Les sites représentent une division physique, les UOs une organisation **logique**
+> - **Sites ≠ Zones DNS** : Les zones DNS (`eu.computerelectronics.be`) peuvent correspondre aux sites (`site EU`), mais ce n'est pas obligatoire
+>
+> 🌐 **Notre infrastructure**
+> - `site EU` : Sous-réseau 192.168.10.0/24 (192.168.0.0/24 en laboratoire)
+>   * DC principal : `dc1.computerelectronics.be`
+>   * DC secondaire : `dc2.computerelectronics.be` (réplication)
+> - `site US` : Sous-réseau 192.168.20.0/24 (non utilisé en laboratoire)
+>   * DC local : `dc-us.computerelectronics.be`
 
-**1. Notre structure (par localisation)**:
-```
-computerelectronics.be
-├── OU=EU
-│   ├── OU=Comptabilite
-│   ├── OU=RH
-│   └── OU=Ventes
-└── OU=US
-    ├── OU=Comptabilite
-    ├── OU=RH
-    └── OU=Ventes
-```
-
-**2. Structure alternative (par département)**:
-```
-computerelectronics.be
-├── OU=Comptabilite
-│   ├── OU=Europe
-│   └── OU=USA
-├── OU=RH
-│   ├── OU=Europe
-│   └── OU=USA
-└── OU=Ventes
-    ├── OU=Europe
-    └── OU=USA
-```
-
-Les deux structures sont valides. Le choix dépend de comment on veut appliquer les stratégies de groupe (GPOs).
-
-### Points Clés à Retenir
-
-> ⚠️ **Important** : Les sous-domaines DNS (eu., us., etc.) servent à l'organisation réseau, tandis que les OUs organisent les ressources AD.
-Le site-EU n'est pas l'OU `EU`.
+Nous allons créer une **UO** racine pour chaque site (UOs `EU` et `US`) par commodité, mais **ce n'est pas une obligation**. Voici deux façons possibles d'organiser la même entreprise :
 
 
-#### Diagramme d'installation
+#### Diagramme d'installation du laboratoire
 
 > Le schéma suivant illustre l'installation d'AD DS sur notre serveur principal :
 
 ![Installation AD](../diagrams/images/dns_ad_installation.png)
 
-Si on parle de domaine AD, notre structure est tel que suit :
+En ce qui concerne le domaine AD, notre structure se présente comme suit :
 
 1. **Domaine AD** : `computerelectronics.be`
-   - Un seul domaine pour toute l'entreprise
+   - Un seul domaine AD (l'ensemble des objets AD) pour toute l'entreprise
    - Géré par notre DC principal : `dns1.computerelectronics.be`
 
 2. **Sites AD** :
-   - **Site EU** (physiquement dans la UE) (dans notre labo!)
-     * Sous-réseau : 192.168.10.0/24 (192.168.0.0/24 dans le labo)
+   - **Site EU** (physiquement dans l'UE) (présent dans notre laboratoire)
+     * Sous-réseau : 192.168.10.0/24 (192.168.0.0/24 dans le laboratoire)
      * DC : dns1.computerelectronics.be
-   - **Site US** (physiquement aux USA) (pas implementé dans le labo) 
+   - **Site US** (physiquement aux États-Unis) (**non implémenté** dans le laboratoire) 
      * Sous-réseau : 192.168.20.0/24
 
-3. **Organisation Logique** des objets AD :
+3. **Organisation logique** des objets AD :
 
-Voici un exemple possible:
+Voici un exemple d'organisation possible :
 
 ```
 computerelectronics.be (domaine AD)
@@ -243,28 +232,28 @@ EU
         └── GG-EU-Ventes-Users
 ```
 
-USA a une structure identique à EU.
+La structure de l'UO `US` est identique à celle de l'UO `EU`.
 
 > 💡 Cette structure nous permet de :
 > - Gérer tous les utilisateurs dans un seul domaine AD
-> - Organiser les ressources par département via les OUs
+> - Organiser les ressources par département via les UOs
 > - Préparer l'infrastructure pour une expansion future
 
 #### Serveurs principaux
 
 | Serveur | Rôle principal | Adresse IP |
 |---------|-----------------|------------|
-| `dns1.computerelectronics.be` | DC Principal + DNS | `192.168.0.2` |
-| `dns2.computerelectronics.be` | DC Secondaire + DNS | `192.168.0.3` |
+| `dns1.computerelectronics.be` | DC principal + DNS | `192.168.0.2` |
+| `dns2.computerelectronics.be` | DC secondaire + DNS | `192.168.0.3` |
 
-Ils gérent tous les sites!
+Ces serveurs gèrent l'ensemble des sites !
 
 
-## 6. Promotion en contrôleur de domaine
+## 6. Laboratoire : promotion du serveur Windows Server en contrôleur de domaine
 
 ### 6.1. Configuration réseau initiale
 
-Notre simple Windows Server va devenir un contrôleur de domaine (DC).
+Notre serveur Windows Server va être promu au rôle de contrôleur de domaine (DC).
 
 > ⚠️ Avant de promouvoir le serveur en DC, nous devons configurer correctement son réseau.
 
@@ -281,12 +270,12 @@ Notre simple Windows Server va devenir un contrôleur de domaine (DC).
    | Nom d'ordinateur | `dns1` |
    | Suffixe DNS | `computerelectronics.be` |
 
-> 💡 Le serveur utilise sa propre adresse comme serveur DNS car il hébergera le service DNS pour le domaine.
+> 💡 Le serveur utilise sa propre adresse comme serveur DNS car il hébergera le service DNS du domaine.
 
 
 ### 6.2. Installation du rôle AD DS
 
-> 💡 Un rôle est un ensemble de fonctionnalités permettant au serveur d'accomplir une fonction spécifique.
+> 💡 Un rôle est un ensemble de fonctionnalités qui permet au serveur d'accomplir une fonction spécifique.
 
 | Étape | Action |
 |--------|--------|
@@ -298,7 +287,7 @@ Notre simple Windows Server va devenir un contrôleur de domaine (DC).
 | 6 | Accepter les fonctionnalités requises |
 | 7 | Terminer l'installation |
 
-### 6.3. Promotion du serveur
+### 6.3. Promotion du serveur en contrôleur de domaine
 
 > 💡 Cette étape transforme le serveur en contrôleur de domaine pour `computerelectronics.be`
 
@@ -400,32 +389,32 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
 | Utilisateur | Compte utilisateur | `manuel.dupont` | Nom, mot de passe |
 | Groupe | Collection d'objets | `GG-Comptabilite` | Nom, membres |
 | Ordinateur | Machine du domaine | `ws-compta-01` | Nom, IP, DN |
-   | Unité Organisationnelle (OU) | **Conteneur logique permettant d'organiser les objets et d'appliquer des stratégies GPO** | Comptabilité OU | nom, parent OU
-   | Contact | Objet sans compte, utilisé pour stocker des informations de contact | Adolphe Sax | email, téléphone, etc. , **DN** (CN=Adolphe Sax,OU=Contacts,DC=computerelectronics,DC=be), etc. |
-   | Partage réseau | Dossier partagé accessible sur le réseau | \\\server\files | permis, chemin, etc. | 
+   | Unité d'organisation (UO) | **Conteneur logique permettant d'organiser les objets et d'appliquer des stratégies de groupe (GPO)** | UO Comptabilité | nom, UO parente |
+   | Contact | Objet sans compte, utilisé pour stocker des informations de contact | Adolphe Sax | courriel, téléphone, **DN** (CN=Adolphe Sax,OU=Contacts,DC=computerelectronics,DC=be), etc. |
+   | Partage réseau | Dossier partagé accessible sur le réseau | \\\server\files | permissions, chemin, etc. | 
 
-> ℹ️ **Notes importantes**:
+> ℹ️ **Notes importantes** :
 > - Le schéma fait partie du catalogue global
 > - Le DN (Distinguished Name) identifie chaque objet de manière unique
-> - La partition schéma est identique sur tous les DCs
+> - La partition schéma est identique sur tous les contrôleurs de domaine
 
-   Ex: La partition de schéma de `dns1` est la même que la partition de schéma de `dns2`, et elle serait la même dans `dns3` si elle existait.
+   Exemple : La partition de schéma de `dns1` est identique à celle de `dns2`, et elle serait la même dans `dns3` s'il existait.
 
 ### 2. Partition de **Configuration**
    - Stocke la **topologie** de la forêt
      * Les **domaines et leurs relations**
-       - **Cas réel** : Dans une grande entreprise, on aurait `eu.entreprise.com` et `us.entreprise.com` comme des domaines AD distincts
-       - **Notre lab** : Un seul domaine AD `computerelectronics.be` avec quatre zones DNS (`eu`, `us`, `dev`, `prod`)
+       - **Cas réel** : Dans une grande entreprise, nous aurions `eu.entreprise.com` et `us.entreprise.com` comme domaines AD distincts
+       - **Notre laboratoire** : Un seul domaine AD `computerelectronics.be` avec quatre zones DNS (`eu`, `us`, `dev`, `prod`)
 
      * Les **liens entre contrôleurs de domaine**
-       - **Cas réel** : Quatre DCs (deux en Europe, deux aux USA), chacun gérant son propre domaine avec réplication intra-domaine
-       - **Notre lab** : Deux DCs (`dns1` et `dns2`) qui gèrent ensemble toutes les zones DNS, avec réplication entre eux
+       - **Cas réel** : Quatre contrôleurs de domaine (deux en Europe, deux aux États-Unis), chacun gérant son propre domaine avec réplication intra-domaine
+       - **Notre laboratoire** : Deux contrôleurs de domaine (`dns1` et `dns2`) qui gèrent ensemble toutes les zones DNS, avec réplication entre eux
 
      * Les **sites** et leur configuration
-       - **Cas réel** : Plusieurs sites physiques (EU: 192.168.10.0/24, US: 192.168.20.0/24) connectés par WAN
-       - **Notre lab** : Un seul site physique (192.168.10.0/24) contenant nos deux DCs
+       - **Cas réel** : Plusieurs sites physiques (UE : 192.168.10.0/24, États-Unis : 192.168.20.0/24) connectés par WAN
+       - **Notre laboratoire** : Un seul site physique (192.168.10.0/24) contenant nos deux contrôleurs de domaine
    
-   - C'est **la même** partition sur chaque DC, elle a le même contenu sur tous les DCs
+   - Cette partition est identique sur tous les contrôleurs de domaine
 
 ### 3. Partition de **Domaine**
    - Contient **les informations de tous les objets** d'un domaine AD spécifique :
@@ -433,9 +422,9 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
      * Ordinateurs
      * Groupes
      * Unités d'organisation
-   - Une copie de partition dans chaque DC. Differente pour chaque forêt. 
+   - Une copie de la partition existe sur chaque contrôleur de domaine. Elle est différente pour chaque forêt. 
     
-   Ex: nous avons 2 domaines dans la forêt de computerelectronics.be
+   Exemple : nous avons deux domaines dans la forêt de computerelectronics.be
 
 ### 4. Partition d'Application
 
@@ -457,46 +446,29 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
 
 | Objet | Attributs répliqués | Utilité |
 |-------|---------------------|----------|
-| Utilisateur | Nom, email, titre | Recherche rapide |
+| Utilisateur | Nom, courriel, titre | Recherche rapide |
 | Groupe | Nom, membres | Vérification d'appartenance |
 | Ordinateur | Nom, site | Localisation |
 
-Les **attributs répliqués sont sélectionnés en fonction de leur importance** pour :
+Les **attributs répliqués sont sélectionnés selon leur importance** pour :
 - La recherche d'objets
 - L'authentification des utilisateurs
 - L'accès aux ressources
 
-Par exemple, pour un **Utilisateur** :
-- Attributs toujours **répliqués** : nom, prénom, nom de connexion
+Par exemple, pour un **utilisateur** :
+- Attributs toujours **répliqués** : nom, prénom, identifiant de connexion
 - Attributs **non répliqués** : photo de profil, scripts de connexion
 
 
-## 10. 🔑 Accès aux ressources du domaine
+## 10. Laboratoire : Accès aux ressources du domaine
 
-### Cas pratique : Nouvel employé dans le domaine AD
+### Cas pratique : Intégration d'un nouvel employé dans le domaine AD
 
 > 💡 Exemple concret d'intégration d'un nouvel employé dans l'infrastructure AD.
 
 ### Scénario
 
-Ahmed commence à travailler dans le département IT. Pour accéder aux ressources, il a besoin :
-
-| Ressource | Description |
-|-----------|-------------|
-| Documentation | Serveurs de fichiers |
-| Imprimantes | Périphériques réseau |
-| Applications | Logiciels métier |
-
-### Infrastructure
-
-- **Serveur** : `dns1.computerelectronics.be`
-  - Rôle : Contrôleur de domaine AD (DC)
-  - Service : Active Directory Domain Services
-  - État : Installé et configuré
-
-### 💻 Configuration du poste de travail client
-
-> 💡 Pour qu'Ahmed puisse accéder aux ressources, l'administrateur doit configurer son poste de travail.
+Ahmed commence à travailler au sein du département informatique. Pour accéder aux ressources (serveurs de fichiers, imprimantes, logiciels de l'entreprise), son poste de travail doit être intégré au domaine AD. L'administrateur doit effectuer la configuration suivante.
 
 ### 1. Configuration réseau
 
@@ -507,29 +479,28 @@ Ahmed commence à travailler dans le département IT. Pour accéder aux ressourc
 | Nom | `ws-it-01` | Ce PC → Propriétés → Renommer |
 | Suffixe | `computerelectronics.be` | Propriétés → Paramètres avancés |
 
-### 2. Rajout d'un ordinateur au domaine AD
+### 2. Intégrer le poste au domaine AD
 
-1. Ouvrir **Propriétés système**
-2. Aller dans **Paramètres avancés**
-3. Section **Nom de l'ordinateur** ainsi que le suffixe (`computerelectronics.be`)
-4. Sélectionner **Membre d'un domaine** : `COMPUTERELECTRONICS`
-5. Saisir les identifiants **Domain Admin**
+1. Ouvrir les **Propriétés système**
+2. Accéder aux **Paramètres avancés**
+3. Configurer la section **Nom de l'ordinateur** et le suffixe (`computerelectronics.be`)
+4. Sélectionner **Membre du domaine** : `COMPUTERELECTRONICS`
+5. Saisir les identifiants d'**administrateur de domaine**
 
-> ⚠️ Redémarrer le poste après chaque étape majeure (changement de nom, jonction au domaine)
+> ⚠️ Redémarrer le poste après chaque modification majeure (changement de nom, intégration au domaine)
 
-### 3. Connexion au serveur
+### 3. Connexion au domaine
 
-> 💡 Ahmed utilise son compte de domaine AD pour se connecter. Aucun compte local n'est nécessaire.
+> 💡 Ahmed utilise son compte de domaine AD pour se connecter. Un compte local n'est pas nécessaire.
 
 | Format | Exemple | Description |
 |--------|---------|-------------|
 | UPN | `ahmed@computerelectronics.be` | Format moderne (recommandé) |
 | NetBIOS | `computerelectronics\ahmed` | Format classique |
 
-#### Qu'est-ce qu'on gagne alors quand on se connecte au DC?
+#### Avantages de la connexion au domaine
 
-- Pouvoir ****accéder aux ressources partagés**** du serveur (dossiers, imprimantes, applications...) 
-
-- L'application des **politiques de sécurité** (ex: pare-feu)
-- Un suivi de son activité par le serveur sous forme de logs
+- **Accès aux ressources partagées** du domaine (dossiers, imprimantes, applications, etc.)
+- Application des **stratégies de sécurité** (par exemple, configuration du pare-feu)
+- Journalisation de l'activité utilisateur sur le serveur
 
