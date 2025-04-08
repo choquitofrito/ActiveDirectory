@@ -26,7 +26,7 @@
 
 ---
 1. 🎯 Comprendre le rôle et l'**importance du DNS** dans un réseau d'entreprise
-2. 📖 Connaitre les différents **types d'enregistrements DNS**
+2. 📖 Connaître les différents **types d'enregistrements DNS**
 3. 🔍 Comprendre le **processus de résolution DNS**
 
 ---
@@ -34,7 +34,7 @@
 ## 1. Le service DNS
 
 Le **DNS** (Domain Name System) est un service fondamental qui agit comme l'**annuaire téléphonique de l'internet** (on ne parle pas de l'annuaire tel que base de données d'Active Directory!). 
-**Il transforme les noms de domain en addresses IP et vice-versa**.
+**Il transforme les noms de domaine en adresses IP et vice versa**.
 Il est essentiel pour deux raisons principales :
 
 | Aspect | Description | Exemple |
@@ -406,15 +406,15 @@ Un serveur DNS ayant autorité sur un espace de nom :
 - Plus complexe pour le client mais moins de charge sur les serveurs
 
 
-### Detail d'une requête DNS sans autorité
+### Détail d'une requête DNS sans autorité
 
 Voici, plus en détail, la suite d'opérations pour chercher l'IP d'un serveur DNS **sans autorité**:
 
-1. Chercher dans la **Cache DNS** : Si l'IP a déjà été résolue récemment
+1. Chercher dans la **cache DNS** : Si l'IP a déjà été résolue récemment
    - Réponse immédiate sans autre requête
    - Valide jusqu'à expiration du TTL (Time To Live)
 
-2. Transmettre la requête au **Redirecteur (Forwarder)** : Si configuré
+2. Transmettre la requête au **redirecteur (forwarder)** : Si configuré
    - Transmet la requête à un autre serveur DNS (souvent celui du FAI)
    - **Attend** une **réponse récursive complète**
    - Plus simple que la résolution itérative
@@ -512,10 +512,12 @@ computerelectronics.be → dns1, dns2
 eu.computerelectronics.be → dns.eu
 us.computerelectronics.be → dns.us
 ```
-</details> configurer un dans le contexte d'Active Directory).
+</details>
+
+Cette configuration sera faite dans le contexte d'Active Directory.
 
 - `dns1.computerelectronics.be` est configuré comme serveur autoritaire pour l'ensemble du domaine
-- Les zones géographiques et d'environnement sont configurées ainsi dans le serveur dns1, dans un fichier de configuration DNS:
+- Les zones géographiques et d'environnement sont configurées dans le serveur dns1 ainsi, dans un fichier de configuration DNS :
   ```
   # Configuration des zones géographiques :
   eu.computerelectronics.be.   IN  NS  dns1.computerelectronics.be.
@@ -582,7 +584,7 @@ Les zones secondaires se synchronisent automatiquement avec leur zone principale
 
 Une **zone de recherche directe** (Direct Lookup Zone) contient des **enregistrements** pour faire correspondre un nom d'hôte à une adresse IP.
 
-Il y a deux categories d'enregistrements:
+Il y a deux catégories d'enregistrements :
 
 ##### Enregistrement de base
 
@@ -618,7 +620,7 @@ www             IN CNAME ws-web-01
 ftp             IN CNAME ws-files-01
 ```
 
-Notez que dans les enregistrements A pour les postes on a juste le nom de la machine, sans l'extension du domaine, car le domaine est déjà défini dans la zone! le nom complet de la machine s'appelle `FQDN` (Fully Qualified Domain Name) et sera  `ws-compta-01.computerelectronics.be`.
+Notez que dans les enregistrements A pour les postes, nous avons uniquement le nom de la machine, sans l'extension du domaine, car le domaine est déjà défini dans la zone ! Le nom complet de la machine s’appelle « FQDN » (Fully Qualified Domain Name) et sera `ws-compta-01.computerelectronics.be`.
 
 
 ### 9.2. 🔄 Zones de Recherche Inverse
@@ -760,18 +762,18 @@ Cette section est optionnelle, car l'installation d'AD DS configure automatiquem
 L'information ci-dessous peut juste aider à comprendre le fonctionnement du DNS une fois AD DS installé.
 
 > 💡 **Important:** Lors de l'installation d'Active Directory Domain Services (AD DS):
-> - Le rôle DNS est automatiquement installé et configuré
-> - La configuration de base est optimale pour AD DS
-> - **Aucune modification n'est nécessaire** pour le fonctionnement de base
-> - Les zones sont automatiquement mises à jour lors de l'ajout de machines au domaine
+> - Le rôle DNS est automatiquement installé et configuré.
+> - La configuration de base est optimale pour AD DS.
+> - **Aucune modification n'est nécessaire** pour le fonctionnement de base.
+> - Les zones sont automatiquement mises à jour lors de l'ajout de machines au domaine.
 
 
 ### 🔧 Configuration via l'Interface Graphique
 
 <details>
-<summary>💻 Gestionnaire DNS</summary>
+<summary>💻 Le Gestionnaire DNS</summary>
 
-1. **Accès au Gestionnaire**
+1. **Accès au Gestionnaire DNS**
    - Ouvrir le **Gestionnaire de serveur**
    - Sélectionner **Outils** → **DNS**
 
@@ -782,7 +784,7 @@ L'information ci-dessous peut juste aider à comprendre le fonctionnement du DNS
 </details>
 
 <details>
-<summary>🌐 Zones Intégrées à AD</summary>
+<summary>🌐 Zones intégrées à l'AD</summary>
 
 | Type | Description |
 |------|-------------|
