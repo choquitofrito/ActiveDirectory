@@ -25,7 +25,7 @@
 
 ## 2. 📙 Introduction à AD DS
 
-Active Directory Domain Services (AD DS) est le service principal d'Active Directory. Il permet de gérer de manière centralisée :
+Active Directory Domain Services (AD DS) est le service principal d'Active Directory. Il gére le **domaine AD**, composé de :
 
 * 👥 Les utilisateurs
 * 💻 Les ordinateurs
@@ -47,19 +47,9 @@ Bien qu'on le confonde souvent avec l'ensemble d'Active Directory, AD DS n'est q
 
 <br>
 
-## 3. 📁 Exemple de fonctionnement d'AD
+## 3. 📁 Exemple de fonctionnement d'Active Directory
 
-### 3.1. Structure du réseau
-
-Examinons notre infrastructure réseau :
-
-![Forêt](../diagrams/images/structure_reseau_geographic_zones.png)
-
-Voici un exemple concret du fonctionnement d'Active Directory (une fois installé et configuré) sur le serveur `dns1.computerelectronics.be`.
-
-### 3.2. Flux d'authentification et d'accès
-
-Examinons comment un utilisateur accède à un serveur de fichiers :
+Examinons **comment un utilisateur accède à un serveur de fichiers** sur un serveur qui utilise Active Directory.
 
 ![Intégration DNS-AD DS](../diagrams/images/ad_auth_flow.png)
 
@@ -122,7 +112,7 @@ Les flèches vertes représentent les requêtes DNS pour la résolution des noms
 | 👥 Utilisateurs | Employés, prestataires, comptes de service |
 | 💻 Ordinateurs | Postes de travail, serveurs, portables |
 | 📁 Ressources | Imprimantes, dossiers partagés, applications |
-| 🔐 Stratégies | Règles de sécurité, restrictions, droits |
+| 🔐 Stratégies (GPOs) | Règles de sécurité, restrictions, droits |
 | 🌐 Services | Services réseau, configurations système |
 
 Toutes ces informations sont stockées dans **le domaine AD** `computerelectronics.be` créé par **AD DS**.
@@ -378,7 +368,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
 
 <img src="../diagrams/images/partition_schema.png" alt="Partition Schéma" style="width:10%;" />
 
-### 1. Partition Schéma
+### 8.1. Partition Schéma
 
 > 📖 Définit la structure des objets dans l'annuaire.
 
@@ -400,7 +390,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
 
    Exemple : La partition de schéma de `dns1` est identique à celle de `dns2`, et elle serait la même dans `dns3` s'il existait.
 
-### 2. Partition de **Configuration**
+### 8.2. Partition de **Configuration**
    - Stocke la **topologie** de la forêt
      * Les **domaines et leurs relations**
        - **Cas réel** : Dans une grande entreprise, nous aurions `eu.entreprise.com` et `us.entreprise.com` comme domaines AD distincts
@@ -416,7 +406,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
    
    - Cette partition est identique sur tous les contrôleurs de domaine
 
-### 3. Partition de **Domaine**
+### 8.3. Partition de **Domaine**
    - Contient **les informations de tous les objets** d'un domaine AD spécifique :
      * Utilisateurs
      * Ordinateurs
@@ -426,7 +416,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
     
    Exemple : nous avons deux domaines dans la forêt de computerelectronics.be
 
-### 4. Partition d'Application
+### 8.4. Partition d'Application
 
 > 💡 Stocke les données spécifiques aux applications d'entreprise.
 
