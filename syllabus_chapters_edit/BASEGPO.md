@@ -4,8 +4,18 @@ Avant de commencer, assurez-vous d'avoir la structure complète de l'AD.
 - Créez la OU pour le département IT (si elle n'existe pas encore) 
 - Rajoutez quelques utilisateurs dans Users (ex: "ivan","ines","irene"). 
 - Créez aussi un groupe pour les administrateurs de IT (ex: "GG-EU-IT-Admins") et un autre pour les utilisateurs (ex: "GG-EU-IT-Users"). 
-- Ines et Ivan seront des Utilisateurs de IT, Irene sera un Administrateur de IT
-- Assurez-vous d'avoir un ordinateur dans Computers (ws-it-01)
+- Assurez-vous d'avoir un ordinateur dans Computers (ws-IT-01)
+- Rajoutez des utilisateurs aux groupes: 
+  - `GG-EU-IT-Users` : Ivan, Ines
+  - `GG-EU-IT-Admins` : Irene
+  - `GG-EU-Ventes-Users` : Victor, Vanessa, Valeria
+  - `GG-EU-Ventes-Admins` : Valentin
+  - `GG-EU-RH-Users` : Rene, Rebecca
+  - `GG-EU-RH-Admins` : Richard
+  - `GG-EU-Compta-Users` : Charles, Cindy
+  - `GG-EU-Compta-Admins` : Charlotte
+
+
 
 
 ## 1. Modeles d'administration

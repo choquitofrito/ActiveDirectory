@@ -298,7 +298,26 @@ La **regle d'or** est de ne jamais attribuer de droits (ex: acceder à un dossie
 
 Ceci est un exemple de test pour comprendre le fonctionnement de base des permissions.
 
-Nous allons créer un dossier partagé `IT-docs` sur le serveur (`C:\Partage-IT`. Son chemin de réseau sera `\\dns2\Partage-IT`).
+Nous allons créer un dossier partagé `IT-docs` sur le serveur (`C:\IT-docs`. Son chemin de réseau sera `\\dns2\IT-docs`).
+
+
+### Préparation
+
+Avant de commencer, assurez-vous d'avoir la structure complète de l'AD (si ce n'est pas le cas, lancez le script de Powershell)
+Puis:
+- Créez la OU pour le département IT (si elle n'existe pas encore) 
+- Créez aussi un groupe pour les administrateurs de IT (ex: "GG-EU-IT-Admins") et un autre pour les utilisateurs (ex: "GG-EU-IT-Users"). 
+- Assurez-vous d'avoir un ordinateur (Virtual Machine client) qui porte le nom `ws-IT-01` et un autre `ws-Ventes-01`. Si ce n'est pas le cas, modifiez les noms des ordinateurs dans vos machines virtuelles et re-démarrez-les.
+- Dans le serveur, allez dans `Utilisateurs et ordinateurs AD` et rajoutez des utilisateurs aux groupes (s'ils n'existent pas, créez-les): 
+  - `GG-EU-IT-Users` : Ivan, Ines
+  - `GG-EU-IT-Admins` : Irene
+  - `GG-EU-Ventes-Users` : Victor, Vanessa, Valeria
+  - `GG-EU-Ventes-Admins` : Valentin
+  - `GG-EU-RH-Users` : Rene, Rebecca
+  - `GG-EU-RH-Admins` : Richard
+  - `GG-EU-Compta-Users` : Charles, Cindy
+  - `GG-EU-Compta-Admins` : Charlotte
+
 
 **Nous devons choisir maintenant qui aura accès à ce dossier (qui aura le **droit**  d'accès) et avec quels **permissions** (modifier, lire, créer de fichiers à l'intérieur, etc.)**
 
@@ -306,92 +325,92 @@ Pour cela nous sommes obligés de **comprendre les deux niveaux de permissions**
 
 ## 5.1. Les deux niveaux des sécurité
 
+### Partage (réseau)
 
-#### Exemple concret
-Sur le serveur `dns1.computerelectronics.be` (`192.168.0.2`), nous allons configurer un partage pour le département IT. Le poste `ws-IT-01`  aura accès à ce partage.
-
-
-#### Permissions et droits de partage (réseau)
 **Objectif** : Contrôle **d'accès au dossier partagé** (qui à le droit d'accéder au dossier partagé et avec quels permissions-autorisations - lecture, écriture, controle total)
+- Faites clique-droit sur le dossier `C:\IT-docs` et `Propriétés`.
+- Cliquez sur `Partage` et `Partage avancé`
+- Cochez `Partager ce dossier`
+- Clique sur **Autorisations**
+  
+Dans ce menu on choisit **qui** aura le **droit  d'accéder** au dossier et avec quelles **permissions**. C'est un **premier niveau de sécurité**
 
-**Caractéristiques** :
-- S'appliquent uniquement lors de l'accès réseau
-- Offrent trois niveaux simples :
-  * Lecture
-  * Modification
-  * Contrôle total
-- Constituent la **première barrière de sécurité**
+- Effacez `Tout le monde`
+- Ajoutez `GG-EU-IT-Users` avec les permissions de `Lecture` et `Modification`
+- Cliquez sur `OK`, puis cliquez sur `OK`
 
-**Exemple pratique** :
-```
-Partage : \\serveur\IT$
-Permission : Modification pour le groupe 'GG-IT-Users'
-Effet : Les utilisateurs de l'IT peuvent modifier les fichiers via le réseau
-```
+Le dossier est partagé maintenant et visible par tout le monde, mais accésible uniquement par `GG-EU-IT-Users`.
 
-> **Note importante** : La sécurité finale est **déterminée par l'intersection des deux types de permissions**. L'**utilisateur obtient toujours le niveau de permission le plus restrictif entre NTFS (ci-dessous) et partage**. Par exemple, si un utilisateur a un accès en Modification au niveau du partage mais en Lecture seule au niveau NTFS, il ne pourra que lire les fichiers.
+- Ouvrez une session dans machine client avec un User de `GG-EU-IT-Users` (ex: `ivan`)
+> Note: peu importe la machine dans ce cas, on limite par User, mais pour garder la cohérence ouvrez `ws-IT-01`)
+- Ouvrez `Explorateur de fichiers`
+- Allez dans `\dns2\IT-docs`: il doit pouvoir ouvrir le dossier
+
+- Ouvrez une session dans machine client avec un User de `GG-EU-Ventes-Users` (ex: `irene`)
+- Ouvrez une autre machine client (peu importe la machine dans ce cas, on limite par User, mais pour garder la cohérence ouvrez `ws-ventes-01`)
+- Ouvrez `Explorateur de fichiers`
+- Allez dans `\dns2\IT-docs`: il voit le dossier mais il ne peut pas l'ouvrir!
 
 
-#### Permissions NTFS (système de fichiers)
+**Question**: connectez-vous avec `irene` de `GG-EU-IT-Admins` et essayez de l'ouvrir le dossier. Qu'est-ce que vous observez? comment l'arranger?
+
+### Permissions NTFS (système de fichiers)
+
+
 **Objectif** : Contrôle d'accès **au niveau du système de fichiers**, pas du réseau
+- **S'appliquent uniquement si l'utilisateur peut déjà accéder au dossier partagé** 
+- Offrent plusieurs niveaux de permissions (autorisations): Contrôle total, Lecture, Écriture, Modification, Lecture et exécution, Affichage....
+- Constituent une **autre barrière de sécurité**
 
-**Caractéristiques** :
+
+> **Note importante** : La sécurité finale est **déterminée par l'intersection des deux types de permissions**. L'**utilisateur obtient toujours le niveau de permission le plus restrictif entre NTFS (ci-dessous) et partage**. Par exemple, si un utilisateur a un accès en **Modification** au niveau du partage mais en **Lecture seule** au niveau **NTFS**, il ne pourra que lire les fichiers.
+
+Pour qu'un utilisateur ait des permissions il dot se trouver dans la liste de **Sécurité** ou inclut dans un groupe qui se trouve dans la liste de **Sécurité**
+
+Modifions maintenant les permissions NTFS pour restreindre l'accès au contenu au dossier grâce aux permissions NTFS
+
+- Faites clique-droit sur le dossier `Partage-IT` et `Propriétés`
+- Cliquez sur `Modifier`
+- On voit `Utilisateurs` dans la liste. Ceci permettrai, au niveau du système de fichiers NTFS, d'accéder au dossier à tous les utilisateurs connectés au serveur
+
+C'est vrai qu'**on a limité l'accès par le réseau, mais quand-même un utilisateur pourrait par exemple acceder au dossier s'il se connectait au serveur en local car il a de permissions NTFS et sur la connexion local on n'applique pas la restriction de partage réseau**!!
+
+- On doit **supprimer les `Utilisateurs` de la liste**, mais on ne peut pas car il hérite les autorisations des groupes plus haut dans la liste
+- Fermez la fenetre actuelle et cliquez sur `Avancé` dans les propriétés du dossier(onglet `Sécurité`)
+- Cliquez sur `Desactiver l'héritage` et puis `Convertir....`. N'appuyez pas sur `Supprimer` car vous enlèverez les permissions des groupes! (solution dans le fichier [Annexe: Permissions](syllabus/Annexe.Permissions.md) si besoin!)
+- Supprimez maintenant les groupes d'utilisateurs de la liste  
+- Cochez `Remplacer toutes les entrées` pour que les sous dossiers et fichiers inclus (dans le futur) dans le dossier partagé reçoivent les mêmes permissions
+- Cliquez sur `Ok` pour accepter et puis `OK` pour arriver à la fenetre des propriéteś (onglet Sécurité)
+- Dans l'onglet `Sécurité`, cliquez `Modifier` > `Ajouter`
+- Rajoutez les groupes `GG-EU-IT-Users` et `GG-EU-IT-Admins`. Rajoutez `Modification` (cochez la case) uniquement pour `GG-EU-IT-Admins`. Enlevez `Écriture` pour `GG-EU-IT-Users`
+- Puis **appuyez sur ok pour revenir dans les propriétés du partage, onglet Sécurité**
+- Cliquez sur `OK` et vous arriverez dans la fenetre d'Autorisations
+- Cliquez sur `OK` pour quitter la fenetre d'Autorisations
+- Cliquez sur `OK` pour quitter la fenetre de Propriétés
+
+Connectez vous avez `ivan` de `GG-EU-IT-Users` et essayez de l'ouvrir le dossier.
+
+Jonglez vous-mêmes avec les permissions (ex: donnez l'accès d'écriture mais pas de modification aux GG-EU-IT-Users, etc...)
+
+
+**Caractéristiques des permissions NTFS** :
 - S'appliquent localement sur le serveur
-- Offrent un **contrôle granulaire** (fin) des accès
+- Offrent un **contrôle granulaire** (fin, ciblé) des accès
 - Restent actives même en accès local
 - Permettent des permissions spécifiques (ex: Lecture, Écriture, Exécution)
 
-**Exemple pratique** :
-```
-Dossier : D:\IT\Doc-Reseau
-Permission : Lecture seule pour le groupe 'GG-EU-IT-stagiaires'
-Effet : Les stagiaires de l'IT peuvent lire mais pas modifier les documents du dossier
-```
 #### Accumulation des Droits :
 - Un utilisateur hérite des droits de tous ses groupes
-- Les droits sont **cumulatifs**, **on ne peut pas les retirer**
+- Les droits sont **cumulatifs** dans l'héritage (sauf si on refuse à la main dans l'onglet Sécurité)
 - L'appartenance à des groupes privilégiés (comme `Domain Admins`) étend les droits
 
 
 <br>
 
 
+## 6. Groupes Intégrés AD
 
-## Règles d'Imbrication
-
-Limitations par type de groupe :
-
-```plaintext
-Groupe Global :
-- Peut contenir : Groupes globaux du même domaine AD
-
-Groupe Local de Domaine :
-- Ne peut pas contenir : Groupes globaux d'autres domaines
-
-Groupe Universel :
-- Ne peut pas contenir : Groupes globaux d'autres domaines
-```
-
-## Sécurité et Maintenance
-
-Règles fondamentales par type de groupe :
-
-```plaintext
-Groupes Globaux (GG-) :
-- Utilisés pour la gestion des utilisateurs
-- Ne doivent pas recevoir de permissions directes
-Exemple : GG-EU-RH-Managers
-
-Groupes Locaux de Domaine (DL-) :
-- Reçoivent les permissions sur les ressources
-- Contiennent les groupes globaux appropriés
-Exemple : DL-EU-RH-Modif
-```
-
-
-## 7. Groupes Intégrés AD
-
-### 7.1 Groupes Essentiels
+### 6.1 Groupes Essentiels
 
 Active Directory inclut trois groupes intégrés essentiels :
 
@@ -425,7 +444,7 @@ Responsabilités principales :
 - Étendre le schéma AD
 - Préparer AD pour Exchange
 
-### 7.2 Groupes de Sécurité
+### 6.2 Groupes de Sécurité
 
 #### Account Operators
 Groupe pour la gestion des comptes :
@@ -448,7 +467,7 @@ Responsabilités principales :
 - Restaurer les données
 
 
-## 8. Organisation des Groupes
+## 7. Organisation des Groupes
 
 > 💡 Deux stratégies principales :
 
@@ -469,6 +488,36 @@ Responsabilités principales :
 
 
 
+## Règles d'Imbrication de Groupes
+
+Limitations par type de groupe :
+
+```plaintext
+Groupe Global :
+- Peut contenir : Groupes globaux du même domaine AD
+
+Groupe Local de Domaine :
+- Ne peut pas contenir : Groupes globaux d'autres domaines
+
+Groupe Universel :
+- Ne peut pas contenir : Groupes globaux d'autres domaines
+```
+
+## Sécurité et Maintenance
+
+Règles fondamentales par type de groupe :
+
+```plaintext
+Groupes Globaux (GG-) :
+- Utilisés pour la gestion des utilisateurs
+- Ne doivent pas recevoir de permissions directes
+Exemple : GG-EU-RH-Managers
+
+Groupes Locaux de Domaine (DL-) :
+- Reçoivent les permissions sur les ressources
+- Contiennent les groupes globaux appropriés
+Exemple : DL-EU-RH-Modif
+```
 
 
 

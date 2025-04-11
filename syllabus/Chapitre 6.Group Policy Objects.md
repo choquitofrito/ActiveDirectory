@@ -11,16 +11,6 @@
 >    - Outils de gestion
 >    - Exemples pratiques
 
----
-
-## 📑 Objectifs Pédagogiques
-
-À la fin de ce chapitre, vous serez capable de :
-1. Comprendre le rôle et l'utilité des GPO
-2. Maîtriser la hiérarchie des stratégies
-3. Configurer et gérer des GPO
-
----
 
 ## 1. Introduction aux GPO
 
@@ -51,8 +41,6 @@ Une GPO est aussi un objet qu'on peut créer dans la base de données de AD-DS e
 | **Restrictions** | Contrôle l'accès aux fonctionnalités système et applications selon les besoins métier et la sécurité. | Désactivation des ports USB pour le service RH, restriction de l'accès à PowerShell |
 | **Automatisation** | Automatise les tâches via des scripts exécutés à des moments spécifiques (connexion, démarrage, etc.). | Exécution de scripts de connexion pour mapper les lecteurs, sauvegarde automatique des fichiers utilisateurs |
 
-
-### 1.3. Qui est affecté par les GPOs? Definition de site AD
 
 ### 1.3. Qui est affecté par les GPOs ? Définition d’un site AD  
 
@@ -111,11 +99,11 @@ Nous allons étudier les caractéristiques des GPOs en détail plus tard, mais c
 
 Avant de commencer, assurez-vous d'avoir installé le laboratoire en suivant les instructions du document d'installation Labo_structure.md
 
-### Exemple pratique: restreindre le panneau de configuration pour les membres de Ventes
+### Exemple pratique: restreindre le panneau de configuration aux membres de Ventes
 
 Créons une GPO pour cacher certains éléments du panneau de configuration aux Users de Ventes. La suite d'opérations sera la suivante:
  `
-- **Créer** une GPO nommée `GPO-Restrictions-VentesPC` et liée à l'OU Ventes
+- **Créer** une GPO nommée `GPO-Restrictions-VentesPC` et liée à l'OU `Ventes`. Dans ce cas, elle affectera aux utilisateurs de Ventes, peu importe sur quel ordinateur ils se connectent.
 - **Modifier** la GPO (vide au départ): elle doit empêcher l'accès des utilisateurs de Ventes aux éléments suivants du panneau de configuration:
    - Programmes et fonctionnalités
    - Système
@@ -133,7 +121,7 @@ Dans le **serveur**:
 5. Nommez la GPO `GPO-Panneau-Restreint` (par exemple)
 6. Deployer la OU `Users` dans `Ventes`, observez qu'il y a un élément qui porte le nom `GPO-Panneau-Restreint`. Cet élément est **un lien** vers la GPO qui se trouve à cet endroit pour indiquer que la GPO s'applique à cett unité d'organisation. 
 
-**Note:** La **vraie** GPO se trouve dans l'arbre, dans le folder `Objets de Strategie de groupe`. Ceci permet de **lier/délier cette GPO à une ou plusieurs OUs** (ex: si on veut limiter le panneau de configuration aux Users de `Ventes` et `RH` mais pas à ceux de `Comptabilité`). On fera ça plus tard.
+**Note:** Le **vrai objet GPO** se trouve dans l'arbre, dans le folder `Objets de Strategie de groupe`. Ceci permet de **lier/délier cette GPO à une ou plusieurs OUs** (ex: si on veut limiter le panneau de configuration aux Users de `Ventes` et `RH` mais pas à ceux de `Comptabilité`). On fera ça plus tard.
 
 7. Clique droit sur la GPO `GPO-Panneau-Restreint` et sélectionnez `Modifier`
 8. Cliquez sur `Configuration de l'utilisateur` > `Stratégies` > `Modeles d'administration` > `Panneau de configuration` > `Masquer les éléments ...` 
@@ -370,12 +358,6 @@ Une distinction importante existe entre le **ciblage** (*targeting* en anglais) 
 > 💡 **Note importante** : Le ciblage existe à la fois dans les Stratégies (Policies) et les Préférences (Preferences), mais avec des différences :
 > - Dans les **Stratégies** : Ciblage principalement via les filtres de sécurité et les filtres WMI
 > - Dans les **Préférences** : Ciblage plus flexible avec des options supplémentaires (filtrage par IP, par groupe, par variable d'environnement...)
-
-
-#### 🧪 Exemple Pratique
-
-Le panneau de configuration des utilisateurs de RH est bloqué sauf pour un certain utilisateur.
-
 
 
 
