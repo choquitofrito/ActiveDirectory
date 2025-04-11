@@ -16,28 +16,28 @@
 ## 📙 Objectifs Pédagogiques
 
 À la fin de ce chapitre, vous serez capable de :
-1. 👤 Gérer les identités utilisateurs
-2. 📝 Appliquer les standards de nommage
-3. 🔐 Implémenter les stratégies de sécurité
-4. ⚙️ Administrer les droits d'accès
+1. Gérer les identités utilisateurs
+2. Appliquer les standards de nommage
+3. Implémenter les stratégies de sécurité
+4. Administrer les permissions et les droits d'accès
 
 ---
 
-## 1. 👤 Identités Numériques
+## 1. Identités Numériques
 
-### 💻 Concepts Fondamentaux
+### Concepts Fondamentaux
 
 Un compte utilisateur Active Directory représente une **identité numérique unique** dans `computerelectronics.be` permettant :
 
-- 🌐 **Identification** unique (ex: `sophie.lambert`)
-- 🔐 **Contrôle d'accès** aux ressources
-- 📂 **Gestion des informations** utilisateur
+- **Identification** unique (ex: `sophie.lambert`)
+- **Contrôle d'accès** aux ressources
+- **Gestion des informations** utilisateur
 
-> 💡 **Exemple** : Connexion de Sophie Lambert
+> **Exemple** : Connexion de Sophie Lambert
 
-1. 💻 Connexion au poste de travail
-2. 🔑 Vérification des identifiants
-3. 🔓 Accès aux ressources autorisées
+1. Connexion au poste de travail
+2. Vérification des identifiants
+3. Accès aux ressources autorisées
 
 
 ### 📝 Standards de Nommage
@@ -100,7 +100,7 @@ Par défaut, il y a plusieurs **conteneurs** (**ce ne sont pas des OU**, mais de
 
 **Outils de recherche et de filtrage** : Permettent de trouver rapidement des utilisateurs, ordinateurs ou groupes.
 
-### Principales tâches administratives
+### Principales tâches concernant les Utilisateurs, Groupes et OUs
 - Créer, modifier et supprimer **utilisateurs, groupes et OU**.
 - Gérer **les stratégies de sécurité et les droits d'accès**.
 - Réinitialiser les mots de passe, activer/désactiver des comptes.
@@ -108,7 +108,7 @@ Par défaut, il y a plusieurs **conteneurs** (**ce ne sont pas des OU**, mais de
 - Appliquer des **Stratégies de Groupe (GPO)** aux OU.
 
 
-## 3. 👤 Gestion des Comptes
+## 3. Gestion des Comptes
 
 ### 3.1. Création de Compte
 
@@ -207,42 +207,7 @@ Exemple   : \\srv-profiles\profiles\clark.kent
 - Préférer les profils locaux
 - Sécuriser les comptes sensibles
 
-
-
-## 4. ⚙️ Bonnes Pratiques
-
-### 🔐 Sécurité des Comptes
-
-#### 🔑 Politique de Mots de Passe
-```plaintext
-Longueur   : 12 caractères minimum
-Complexité : Maj + Min + Chiffres + Symboles
-Validité   : 90 jours maximum
-Historique : 24 derniers mots de passe
-```
-
-#### 🔍 Surveillance
-```plaintext
-Mensuel     : Vérification des comptes
-Trimestriel : Audit des privilèges
-Continu     : Alertes de connexion
-```
-
-### 🔄 Cycle de Vie
-
-#### 📄 Gestion des Départs
-```plaintext
-1. Désactivation du compte
-2. Conservation des données
-3. Suppression planifiée
-```
-
-#### Points Importants
-- Préférer la désactivation
-- Documenter les suppressions
-- Conserver l'historique
-
-## 5. Gestion des Groupes
+## 4. Gestion des Groupes
 
 ### Concepts Fondamentaux
 
@@ -251,9 +216,6 @@ Continu     : Alertes de connexion
 - Ordinateurs (c'est possible aussi!)
 - Autres groupes
 
-#### Principe du Moindre Privilège
-
-**Important:** On n'affectera de privilèges aux utilisateurs, **mais aux groupes**!
 
 ### Types de groupe: les groupes de sécurité
 
@@ -269,14 +231,23 @@ GG-EU-Support              # Support IT
 ```
 
 
-### 🌐 Étendues des Groupes
+### 🌐 Types des Groupes selon son étendue
 
-Les groupes se classifient en 3 étendues: 
+Les groupes se classifient en 3 étendues: **Domaine Local**, **Global** et Universel.
+Nous utiliserons que les deux premiers types.
+
+Format standard pour les groupes :
+```plaintext
+[Type etendue]-[Location]-[Service]-[Fonction]
+DL-EU-Comptabilite-Lecture  # Lecture comptable
+GG-EU-RH-Admin             # Admin RH
+GG-EU-Support              # Support IT
+```
 
 #### 🌍 Domaine Local (DL-)
 
 ##### 💡 Caractéristiques
-- Attribution des droits
+- Servent à attribuer des droits (ex: `Admin`, `Lecture`, `Modif`)
 - Limité **au domaine AD actuel** (`computerelectronics.be` dans notre cas)
 - Gestion des ressources
 
@@ -290,7 +261,7 @@ DL-EU-RH-Modif           # Modif
 #### 🌎 Global (GG-)
 
 ##### 💡 Caractéristiques
-- Organisation métier
+- Servent à structurer l'entreprise (ex: groupes pour les `Comptables`, `Managers`, `Support`)
 - Visible dans toute la forêt AD
 - Regroupe par rôle
 
@@ -300,6 +271,10 @@ GG-EU-Comptabilite-Users  # Comptables
 GG-EU-RH-Managers        # Managers
 GG-EU-IT-Support        # Support
 ```
+
+**IMPORTANT**: Ces fonctions des groupes ont lieu dans le contexte d'une grande entreprise, mais dans notre labo ce seront les groupes globaux qui recevront les droits pour ne pas créer une couche en plus. On verra ça plus tard, dans la strategie AGDP.
+
+
 
 #### 🌏 Universel (U-)
 
@@ -315,96 +290,74 @@ U-Projet-Global          # Projets multi-sites
 U-Admin-Global           # Administration globale
 ```
 
-#### Convention de Nommage
-```plaintext
-Format : [Etendue]-[Location]-[Département]-[Fonction]
+## 5. Comment est-qu'on donne des droits aux utilisateurs ?
 
-Exemples:
-- DL-EU-Comptabilite-Modif  # Droits de modification comptabilité
-- GG-EU-RH-Users            # Utilisateurs RH
-- U-Global-Admin             # Administration globale
-```
-
-### Création des Groupes
-
-#### Via l'Interface ADUC
-
-Pour créer un nouveau groupe :
-```plaintext
-1. Ouvrir ADUC
-2. Aller dans Users
-3. Clic droit > Nouveau > Groupe
-4. Informations :
-   - Nom : GG-EU-Comptabilite-Users
-   - Étendue : Global
-   - Type : Sécurité
-```
-
-#### Gestion des Membres
-
-Pour ajouter des utilisateurs :
-```plaintext
-1. Double-cliquer sur le groupe
-2. Onglet Membres > Ajouter
-3. Sélectionner les utilisateurs :
-   - clark.kent
-   - sophie.lambert
-   - Vérifier les ajouts
-```
-
-> ⚠️ Important : Toujours vérifier la liste des membres après modification
-
-### Conventions de Nommage
-
-Format standard pour les groupes :
-```plaintext
-[Type]-[Location]-[Service]-[Fonction]
-```
-
-Exemples avec explications :
-```plaintext
-GG-EU-Comptabilite-Users  # Groupe global des comptables
-DL-EU-RH-Lecture         # Groupe local pour accès en lecture RH
-U-Global-IT-Admin        # Groupe universel des administrateurs IT
-```
-
-### Stratégie AGDLP
-
-**Principe fondamental** : Ne jamais attribuer de droits directement aux utilisateurs
-
-#### Hiérarchie
-```plaintext
-A  → Account     (Compte utilisateur)
-G  → Global      (Groupe de fonction)
-DL → Domain Local (Groupe de droits)
-P  → Permissions  (Droits effectifs)
-```
+La **regle d'or** est de ne jamais attribuer de droits (ex: acceder à un dossier partagé, changer son mot de passe) directement aux utilisateurs. Alors on donnera les droits aux **groupes**.
 
 #### Exemple pratique
 
-Pour plus de détails, voir [Chapitre 4 - UO, section 9.2](Chapitre%204.%20Unites_Organisationelles.md#92-utilisation-des-groupes)
+Ceci est un exemple de test pour comprendre le fonctionnement de base des permissions.
 
-#### Avantages et Cas d'Usage
+Nous allons créer un dossier partagé `IT-docs` sur le serveur (`C:\Partage-IT`. Son chemin de réseau sera `\\dns2\Partage-IT`).
 
-Changement de service :
-```plaintext
-1. Retirer l'utilisateur de GG-EU-RH-Managers
-2. Ajouter à GG-EU-Compta-Managers
-   Les droits sont automatiquement mis à jour
+**Nous devons choisir maintenant qui aura accès à ce dossier (qui aura le **droit**  d'accès) et avec quels **permissions** (modifier, lire, créer de fichiers à l'intérieur, etc.)**
+
+Pour cela nous sommes obligés de **comprendre les deux niveaux de permissions**.
+
+## 5.1. Les deux niveaux des sécurité
+
+
+#### Exemple concret
+Sur le serveur `dns1.computerelectronics.be` (`192.168.0.2`), nous allons configurer un partage pour le département IT. Le poste `ws-IT-01`  aura accès à ce partage.
+
+
+#### Permissions et droits de partage (réseau)
+**Objectif** : Contrôle **d'accès au dossier partagé** (qui à le droit d'accéder au dossier partagé et avec quels permissions-autorisations - lecture, écriture, controle total)
+
+**Caractéristiques** :
+- S'appliquent uniquement lors de l'accès réseau
+- Offrent trois niveaux simples :
+  * Lecture
+  * Modification
+  * Contrôle total
+- Constituent la **première barrière de sécurité**
+
+**Exemple pratique** :
+```
+Partage : \\serveur\IT$
+Permission : Modification pour le groupe 'GG-IT-Users'
+Effet : Les utilisateurs de l'IT peuvent modifier les fichiers via le réseau
 ```
 
-Nouvel employé :
-```plaintext
-1. Ajouter au groupe GG-EU-[Dept]-Users
-2. Hérite automatiquement des droits DL-EU-[Dept]-*
+> **Note importante** : La sécurité finale est **déterminée par l'intersection des deux types de permissions**. L'**utilisateur obtient toujours le niveau de permission le plus restrictif entre NTFS (ci-dessous) et partage**. Par exemple, si un utilisateur a un accès en Modification au niveau du partage mais en Lecture seule au niveau NTFS, il ne pourra que lire les fichiers.
+
+
+#### Permissions NTFS (système de fichiers)
+**Objectif** : Contrôle d'accès **au niveau du système de fichiers**, pas du réseau
+
+**Caractéristiques** :
+- S'appliquent localement sur le serveur
+- Offrent un **contrôle granulaire** (fin) des accès
+- Restent actives même en accès local
+- Permettent des permissions spécifiques (ex: Lecture, Écriture, Exécution)
+
+**Exemple pratique** :
 ```
+Dossier : D:\IT\Doc-Reseau
+Permission : Lecture seule pour le groupe 'GG-EU-IT-stagiaires'
+Effet : Les stagiaires de l'IT peuvent lire mais pas modifier les documents du dossier
+```
+#### Accumulation des Droits :
+- Un utilisateur hérite des droits de tous ses groupes
+- Les droits sont **cumulatifs**, **on ne peut pas les retirer**
+- L'appartenance à des groupes privilégiés (comme `Domain Admins`) étend les droits
 
-Bénéfices :
-- Structure claire et cohérente
-- Réduction des erreurs d'administration
-- Facilité d'évolution
 
-### Règles d'Imbrication
+<br>
+
+
+
+## Règles d'Imbrication
 
 Limitations par type de groupe :
 
@@ -419,7 +372,7 @@ Groupe Universel :
 - Ne peut pas contenir : Groupes globaux d'autres domaines
 ```
 
-### Sécurité et Maintenance
+## Sécurité et Maintenance
 
 Règles fondamentales par type de groupe :
 
@@ -435,58 +388,6 @@ Groupes Locaux de Domaine (DL-) :
 Exemple : DL-EU-RH-Modif
 ```
 
-## 6. Droits vs Permissions
-
-### Droits Utilisateur
-
-**Définition** : Actions autorisées au niveau du système
-
-Caractéristiques :
-```plaintext
-Portée : Niveau système
-Gestion : Via stratégies de groupe (GPO)
-
-Exemples de droits :
-- Se connecter localement
-- Arrêter le système
-- Changer le mot de passe
-- Exécuter les sauvegardes
-```
-
-### Permissions
-
-**Définition** : Contrôle d'accès aux ressources
-
-Caractéristiques :
-```plaintext
-Portée : Niveau objet
-Gestion : Via listes de contrôle d'accès (ACL)
-
-Types d'objets :
-- Fichiers
-- Dossiers
-- Imprimantes
-
-Types d'actions :
-- Lecture
-- Écriture
-- Modification
-```
-
-### Droits par Défaut
-
-Utilisateur Standard :
-- Se connecter localement
-- Arrêter le système
-- Changer son mot de passe
-- Exécuter des tâches de maintenance basiques
-
-Accumulation des Droits :
-- Un utilisateur hérite des droits de tous ses groupes
-- Les droits sont **cumulatifs**, **on ne peut pas les retirer**
-- L'appartenance à des groupes privilégiés (comme `Domain Admins`) étend les droits
-
-<br>
 
 ## 7. Groupes Intégrés AD
 

@@ -382,7 +382,7 @@ La **délégation de contrôle** permet de décentraliser l'administration d'Act
    └── Autres services...
    ```
 
-   **Avec cette structure mais sans délégation**, le service RH **aurait ses propres OUs mais ne pourrait pas les gérer** :
+   **Avec cette structure mais sans délégation**, le service RH **aurait ses propres OUs mais ne pourrait pas gérer les comptes des utilisateurs qu'elle contient** :
    - **Malgré l'existence d'une OU RH dédiée, seuls les administrateurs globaux d'Active Directory pourraient y créer ou modifier des comptes**, jamais des users comme sophie.lambert. Il faudra passer toujours par les administrateurs AD!
    - La structure organisationnelle serait en place mais sans l'autonomie opérationnelle correspondante
 
@@ -451,7 +451,7 @@ La stratégie **AGDLP** offre plus de flexibilité mais demande plus de maintena
 
 #### 9.2.1 Gestion des Utilisateurs
 
-Les OUs peuvent déléguer des droits sur les comptes, les groupes et les ordinateurs.
+Les OUs peuvent déléguer des droits de gestion de l'OU (ex: droits sur les comptes des utilisateurs de l'OU) sur des utilisateurs (ex: un admin de comptes) et des groupes (ex: un groupe d'admins).
 
 **Exemple**: Le groupe `GG-EU-RH-Admins` a besoin de gérer les utilisateurs de l'OU `EU\RH`. On leur délègue :
 

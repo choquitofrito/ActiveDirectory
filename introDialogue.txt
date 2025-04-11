@@ -1,5 +1,0 @@
-- Resumé concepts, questions et reponses
-- Parcourir chapitre 3
-    Difference entre domaine DNS et domaine AD
-- Installation du labo
-- 

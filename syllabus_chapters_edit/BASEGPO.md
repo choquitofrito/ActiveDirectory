@@ -1,35 +1,45 @@
 # Exercices GPO:
 
+Avant de commencer, assurez-vous d'avoir la structure complète de l'AD.
+- Créez la OU pour le département IT (si elle n'existe pas encore) 
+- Rajoutez quelques utilisateurs dans Users (ex: "ivan","ines","irene"). 
+- Créez aussi un groupe pour les administrateurs de IT (ex: "GG-EU-IT-Admins") et un autre pour les utilisateurs (ex: "GG-EU-IT-Users"). 
+- Ines et Ivan seront des Utilisateurs de IT, Irene sera un Administrateur de IT
+- Assurez-vous d'avoir un ordinateur dans Computers (ws-it-01)
+
+
 ## 1. Modeles d'administration
 
 #### 1.1. GPO-Restriction-PanneauConfig. Bloquer l'accès au Panneau de Configuration dans Ventes
 
- (Config Utilisateur > Modèles d'administration > Panneau de configuration > Interdire l'accès)
+1.1.1. Bloquer l'accès au Panneau de Configuration aux utilisateurs de Ventes
+1.1.2. Bloquer l'accès au Panneau de Configuration aux utilisateurs de tous les departements sauf à ceux du departement IT. Comment est-ce qu'on peut faire cela?
 
-1.1.1. Bloquer l'accès au Panneau de Configuration dans RH
-1.1.2. Bloquer l'accès au Panneau de Configuration das Ventes et RH mais pas dans Comptabilité. Comment est-ce qu'on peut faire cela?
+**Setting**: Config Utilisateur > Modèles d'administration > Panneau de configuration > Interdire l'accès
+
 
 #### 1.2. GPO-Restriction-CMD. Bloquer l'accès à l'invite de commande
 
-(Config Utilisateur > Modèles d'administration > Système > Empêcher l'accès à l'invite de commandes)
-
-**Objectif** : Interdire aux utilisateurs de Ventes et RH d'utiliser `cmd.exe`.
+**Objectif** : Interdire aux utilisateurs de Ventes d'utiliser `cmd.exe`.
 
 1.2.1. Appliquer la GPO uniquement à Ventes
-1.2.2. Appliquer la GPO à Ventes et RH mais créer une exception pour le groupe "Techniciens" (Créez le groupe si nécessaire)
+1.2.2. Appliquer la GPO à Ventes et IT mais créer une exception pour le groupe "GG-EU-IT-Admins" (Créez le groupe si nécessaire)
 
+**Setting**: Config Utilisateur > Modèles d'administration > Système > Empêcher l'accès à l'invite de commandes
 
 ## 2. Stratégies
 
 #### 2.1. GPO-Configuration-MessageConnexion. Afficher message de connexion
 
-Établir une GPO pour afficher un message corporatif lors la connexion dans les ordinateurs de Ventes
+Établir une GPO pour afficher un message corporatif lors de la connexion dans les ordinateurs de Comptabilite (ex: `Bienvenue sur le réseau ComputerElectronics. Rappel : les données commerciales sont confidentielles.`)
 
-(Config Ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies locales > Options de sécurité > Ouverture de session interactive: contenu du message + Ouverture de session interactive: titre du message)
+**Setting**: Config Ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies locales > Options de sécurité > Ouverture de session interactive: contenu du message + Ouverture de session interactive: titre du message
 
 #### 2.2. GPO-Blocage-Inactivite. Blocage de l'ordinateur après 5 minutes d'inactivité
 
 2.2.1. Établir une GPO qui bloque tous les ordinateurs d'EU après 5 minutes d'inactivité (pour l'exercice, fixez 15 secondes pour ne pas devoir attendre autant)
+
+Vous pouvez trouvez le paramètre dans la même section que l'exercice précédent... essayez de le trouvez par vous-même
 
 2.2.2. Richard de RH ne supporte plus que le blocage. 
 Créez un groupe de sécurité contenant **son ordinateur** (on pourrait rajouter d'autres ordinateurs dans le futur). Les politiques de blocage pour inactivité sont appliquées à niveau d'ordinateurs, pas d'utilisateur.
@@ -48,13 +58,12 @@ Les utilisateurs de RH se sont mis d'accord et ils ont demandé de pouvoir utili
 
 Pour ce faire, tous les ordinateurs doivent avoir accès à un dossier partagé qui contienne Chrome. C'est très important que ce dossier partagé soit accésible que par les utilisateurs concernés car s'il est accesible par tout le monde les possibilités de hacking du serveur se multiplient.
 
-2.3.1. Créer un dossier partagé `c:\Software` sur le serveur
+2.3.1. Créer un dossier partagé `c:\Software` **sur le serveur**. 
 
 Allez dans `Partage avancé` > `Utilisateurs` pour effacer l'accès de `Everyone` sur le dossier, et rajoutez: `Ordinateurs du domaine` et `Utilisateurs du domaine`.
 
 Dans l'onglet `Permissions`, cliquez `Securité` > `Modifier` > `Ajouter` 
 Rajoutez `Ordinateurs du domaine` et `Utilisateurs du domaine` et donnez les accès de `Affichage` , `Lecture` et `Lecture et execution`.
-
 
 ✅ **Résumé des permissions:**
 
@@ -74,18 +83,57 @@ On doit télécharger Chrome sur et le stocker dans le dossier partagé. Si vous
 
 Concernant le partage: vous ne pouvez pas partager un dossier avec une OU... qu'est-ce que vous vient à l'esprit? Il y a une manière: créez un groupe de sécurité contenant le/les ordinateurs sur lesquels on veut appliquer la GPO pour installer Chrome
 
-Attention: lors la création du groupe de sécurité vous allez devoir chercher les ordinateurs pour les rajouter. Pour pouvoir rechercher ces ordinateurs dans le AD, cliquez sur `Type d'objet` après avoir cliqué sur `Ajouter`.
+**Attention**: lors la création du groupe de sécurité vous allez devoir chercher les ordinateurs pour les rajouter. Pour pouvoir rechercher ces ordinateurs dans le AD, cliquez sur `Type d'objet` après avoir cliqué sur `Ajouter`.
 
 Puis vous allez pouvoir appliquer la GPO sur l'OU des utilisateurs de RH: elle sera appliquée par héritage sur les ordinateurs de RH.
 
-Créons la GPO sur l'OU de RH:
+**Créons la GPO sur l'OU de RH**:
 
 Stratégies > Paramètres du logiciel > Installation logiciel
 
 Cliquez sur `Nouveau` et **tapez le chemin à la main** dans la barre de recherche.
-Si vous tapez juste `dns1` et puis enter vous devriez voir les dossiers partagés du serveur. Puis selectionnez le fichier `chrome_installer.exe`.
+Si vous tapez juste `dns1` et puis enter vous devriez voir les dossiers partagés du serveur. Puis selectionnez le fichier `chrome_installer.msi` (ou le nom du telechargement).
 
-Important: Le chemin doit être un dans le format de réseau, c'est-à-dire `\dns1\Software\chrome_installer.exe`. Un chemin du type `C:\Software\chrome_installer.exe` ne fonctionnera pas.
+Important: Le chemin doit être un dans le format de réseau, c'est-à-dire `\dns1\Software\chrome_installer.msi`. Un chemin du type `C:\Software\chrome_installer.msi` ne fonctionnera pas.
+
+**Exercice**: repetez l'exercice pour installer `7-zip`. Vous devez télécharger un installateur en format `.msi` sur le serveur et le mettre dans le dossier partagé `c:\Software`.
+
+
+
+### 2.4. Création d'un dossier partagé pour les administrateurs de RH
+
+1. Créer un dossier `C:\Shares\RH-Admin`
+
+2. Configurer le partage :
+   - Nom du partage : `RH-Admin$` (le $ le rend caché)
+   - Permissions de partage :
+     * `GG-EU-RH-Admins` : Contrôle total
+     * `Administrateurs` : Contrôle total
+
+3. Configurer les permissions NTFS :
+   - Dans l'onglet Sécurité, vous verrez des cases grisées : ce sont les permissions héritées du dossier parent
+   - Désactiver l'héritage en choisissant "Convertir les permissions héritées en permissions explicites"
+   - Une fois les permissions devenues modifiables (non grisées), configurer :
+     * `GG-EU-RH-Admins` : Contrôle total
+     * `Administrateurs` : Contrôle total
+     * `Système` : Contrôle total
+     * `Creator propriétaire` : Contrôle total
+     * `Utilisateurs` : Lecture et exécution
+
+   > **Note** : Les permissions 'Creator propriétaire' et 'Utilisateurs' sont nécessaires pour le bon fonctionnement de Windows. La sécurité est assurée par les permissions de partage
+
+4. Créer une GPO `GPO-Share-RHAdmin` :
+   - Lier la GPO à l'OU `EU/RH`
+   - Configuration ordinateur :
+     * Préférences → Mappages de lecteurs
+     * Action : Mettre à jour
+     * Emplacement : `\\%LOGONSERVER%\RH-Admin$`
+     * Lettre : R:
+     * Afficher : Non
+     * Filtrage de sécurité : `GG-EU-RH-Admins`
+
+> **Note** : Le partage est caché et mappé uniquement pour les membres du groupe `GG-EU-RH-Admins`
+
 
 
 
@@ -113,7 +161,4 @@ Eviter l'application d'une GPO sur un ordinateur ou un utilisateur en particulie
 #### 4.1. Éviter la restriction du panneau de configuration sur les admin de Ventes
 
 
-## 5. Filtrage des GPO: appliquer les GPOs uniquement à certains groups
-
-On peut appliquer une GPO sur un groupe spécifique. Par défaut, la GPO s'applique à tous les groupes concernés (selon la liaison de la GPO), mais on peut choisir un groupe spécifique sur lequel la GPO ne s'appliquera pas.
 

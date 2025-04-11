@@ -18,47 +18,6 @@ Un système de permissions **est un mécanisme de sécurité qui contrôle l'acc
 3. Gérer les permissions de manière granulaire
 4. Implémenter les bonnes pratiques de sécurité
 
-### 1.3. Les deux niveaux de permissions
-
-#### Exemple concret
-Sur le serveur `dns1.computerelectronics.be` (`192.168.0.2`), nous allons configurer un partage pour le département comptabilité. Le poste `ws-compta-01` (`192.168.0.101`) aura accès à ce partage.
-
-#### Permissions NTFS (système de fichiers)
-**Objectif** : Contrôle d'accès au niveau du système de fichiers
-
-**Caractéristiques** :
-- S'appliquent localement sur le serveur
-- Offrent un contrôle granulaire des accès
-- Restent actives même en accès local
-- Permettent des permissions spécifiques (ex: Lecture, Écriture, Exécution)
-
-**Exemple pratique** :
-```
-Dossier : D:\Comptabilite\Factures
-Permission : Lecture seule pour le groupe 'GG-Comptabilite-STAGIAIRES'
-Effet : Les stagiaires de la comptabilité peuvent lire mais pas modifier les factures
-```
-
-#### Permissions de partage (réseau)
-**Objectif** : Contrôle d'accès au niveau du réseau
-
-**Caractéristiques** :
-- S'appliquent uniquement lors de l'accès réseau
-- Offrent trois niveaux simples :
-  * Lecture
-  * Modification
-  * Contrôle total
-- Constituent la première barrière de sécurité
-
-**Exemple pratique** :
-```
-Partage : \\serveur\comptabilite$
-Permission : Modification pour le groupe 'GG-Comptabilite-USERS'
-Effet : Les utilisateurs de la comptabilité peuvent modifier les fichiers via le réseau
-```
-
-> **Note importante** : La sécurité finale est déterminée par l'intersection des deux types de permissions. L'utilisateur obtient toujours le niveau de permission le plus restrictif entre NTFS et partage. Par exemple, si un utilisateur a un accès en Modification au niveau du partage mais en Lecture seule au niveau NTFS, il ne pourra que lire les fichiers.
-
 ## 2. Configuration d'un partage réseau
 
 ### 2.1. Qu'est-ce qu'un partage réseau ?
@@ -155,15 +114,6 @@ D:\Partages\
 └── RH
     ├── Public
     └── Personnel
-```
-
-#### Création des groupes AD
-```powershell
-# Création des groupes de sécurité
-New-ADGroup -Name "Comptabilite-Users" -GroupScope Global
-New-ADGroup -Name "Comptabilite-Managers" -GroupScope Global
-New-ADGroup -Name "RH-Users" -GroupScope Global
-New-ADGroup -Name "RH-Managers" -GroupScope Global
 ```
 
 ### 3.2. Configuration des permissions

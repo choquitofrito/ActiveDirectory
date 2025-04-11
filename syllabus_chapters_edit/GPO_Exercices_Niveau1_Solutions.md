@@ -2,6 +2,8 @@
 
 ## 1. 🎯 Solutions des exercices de configuration GPO
 
+
+
 ### Solution 1.1 - Message de connexion pour les Ventes
 1. Ouvrir la Console de gestion des stratégies de groupe (GPMC)
 2. Dans l'arborescence, naviguer vers la forêt → Domaines → computerelectronics.be → EU → Ventes
