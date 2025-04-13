@@ -1,4 +1,4 @@
-# Concepts de base
+### Concepts de base
 
 Essaye de repondre à ces questions en utilisant tes propres mots. Tout l'information se trouve dans le syllabus.
 

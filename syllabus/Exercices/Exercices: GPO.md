@@ -1,4 +1,4 @@
-# Exercices GPO:
+### Exercices GPO:
 
 Avant de commencer, assurez-vous d'avoir la structure complète de l'AD.
 - Créez la OU pour le département IT (si elle n'existe pas encore) 
