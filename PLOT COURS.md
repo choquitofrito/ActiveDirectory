@@ -6,14 +6,10 @@
 - Installation du labo (powershell)
 (Copier le script de gitbook)
 
-- Rajoutez les utilisateurs aux groupes
-
+- Rajoutez les utilisateurs des OUs aux groupes
 
 Créer une derniere machine avec un autre ordinateur
 Rajouter les ordinateurs au domaine si necessaire
-
-
-
 
 - Parcourir 5. Utilisateurs et groupes
 
