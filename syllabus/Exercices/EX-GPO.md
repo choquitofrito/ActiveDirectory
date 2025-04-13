@@ -110,39 +110,25 @@ Important: Le chemin doit être un dans le format de réseau, c'est-à-dire `\dn
 
 
 
-### 2.4. Création d'un dossier partagé pour les administrateurs de RH
+### 2.4. Créer d'un dossier partagé pour les utilisateurs d'IT et le faire apparaître sur leurs ordinateurs comme une unité de stockage (ex: F:, Z: ...)
 
-1. Créer un dossier `C:\Shares\RH-Admin`
+1. Créer un dossier partagé `C:\Shares\IT-Admin` (suivez les instructions pour créer un dossier partagé du chapitre 5). Le but sera de le mapper sur les ordinateurs de RH (les utilisateurs veront ce dossier comme une unité de stockage F:, Z: ou le lettre de notre choix)
+2. Dans notre cas, ce dossier partagé sera accessible par les utilisateurs administrateurs de RH. Modifiez les permissions du partage et NTFS    
 
-2. Configurer le partage :
-   - Nom du partage : `RH-Admin$` (le $ le rend caché)
-   - Permissions de partage :
-     * `GG-EU-RH-Admins` : Contrôle total
-     * `Administrateurs` : Contrôle total
+Créez maintenant un GPO sur l'OU `IT`.
 
-3. Configurer les permissions NTFS :
-   - Dans l'onglet Sécurité, vous verrez des cases grisées : ce sont les permissions héritées du dossier parent
-   - Désactiver l'héritage en choisissant "Convertir les permissions héritées en permissions explicites"
-   - Une fois les permissions devenues modifiables (non grisées), configurer :
-     * `GG-EU-RH-Admins` : Contrôle total
-     * `Administrateurs` : Contrôle total
-     * `Système` : Contrôle total
-     * `Creator propriétaire` : Contrôle total
-     * `Utilisateurs` : Lecture et exécution
+Allez dans Configuration Utilisateur > Préférences > Paramètres Windows
 
-   > **Note** : Les permissions 'Creator propriétaire' et 'Utilisateurs' sont nécessaires pour le bon fonctionnement de Windows. La sécurité est assurée par les permissions de partage
+Faites clique droit > Nouveau.
 
-4. Créer une GPO `GPO-Share-RHAdmin` :
-   - Lier la GPO à l'OU `EU/RH`
-   - Configuration ordinateur :
-     * Préférences → Mappages de lecteurs
-     * Action : Mettre à jour
-     * Emplacement : `\\%LOGONSERVER%\RH-Admin$`
-     * Lettre : R:
-     * Afficher : Non
-     * Filtrage de sécurité : `GG-EU-RH-Admins`
+Le chemin pour le dossier **doit être un chemin réseau**. Pas `C:\Shares\IT-Admin` mais `\\dns1\Shares\IT-Admin`
 
-> **Note** : Le partage est caché et mappé uniquement pour les membres du groupe `GG-EU-RH-Admins`
+Qu'est-ce qu'on doit faire maintenant pour tester le fonctionnement de notre GPO?
+
+**Variation de l'exercice:** Imaginez que le **mappage** du dossier partagé doit être caché et visible uniquement pour les utilisateurs administrateurs de IT.
+
+
+
 
 
 
