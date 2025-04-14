@@ -51,7 +51,7 @@ Avant de commencer, assurez-vous d'avoir la structure complète de l'AD.
 
 Vous pouvez trouvez le paramètre dans la même section que l'exercice précédent... essayez de le trouvez par vous-même
 
-2.2.2. Richard de RH ne supporte plus que le blocage. 
+2.2.2. Richard de RH ne supporte plus que le blocage...
 Créez un groupe de sécurité contenant **son ordinateur** (on pourrait rajouter d'autres ordinateurs dans le futur). Les politiques de blocage pour inactivité sont appliquées à niveau d'ordinateurs, pas d'utilisateur.
 
 Pour limiter l'impact de la GPO, vous pouvez débloquer l'application de la GPO sur l'ordinateur de Richard:
