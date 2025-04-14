@@ -1,3 +1,4 @@
+```powershell
 # Script pour supprimer la structure des OUs
 # Stocker ce script dans un fichier supression.ps1
 
@@ -91,3 +92,4 @@ try {
 catch {
     Write-Error "Une erreur s'est produite: $_"
 }
+```
