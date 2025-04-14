@@ -136,6 +136,7 @@ La GPO est prête: pour la tester, on va se connecter avec un client du départe
 1. Connectez-vous avec un user de `Ventes` (victor)
 2. Ouvrez une console et lancez `gpupdate /force` pour recevoir les GPOs du serveur
 3. Lancez aussi `gpresult /r` pour voir les politiques appliquées à l'utilisateur
+   Si vous voulez plus de détail, lancez `gpresult /v`
 4. **Note importante** : Pour certaines GPOs, particulièrement celles qui affectent des paramètres système, un redémarrage complet du poste client peut être nécessaire pour que les changements prennent effet.
 5. Faites logout et connectez-vous à nouveau (même user)
 6. Ouvrez le panneau de configuration et cliquez sur `Système`
