@@ -1,4 +1,6 @@
 # Script pour supprimer la structure des OUs
+# Stocker ce script dans un fichier supression.ps1
+
 # ATTENTION: Ce script supprime des objets AD. À utiliser avec précaution!
 
 # Importer le module Active Directory

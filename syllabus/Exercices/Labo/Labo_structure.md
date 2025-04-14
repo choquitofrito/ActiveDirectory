@@ -19,7 +19,13 @@ Cet environnement est une version simplifiée de l'infrastructure complète, qui
 ## Prérequis Techniques
 
 
-## Installation des VirtualBox Guest Additions
+## Installation d'un adaptateur réseau extra pour avoir l'internet (si besoin)
+
+1.  eteignez la machine 
+2.  rajoutez un adaptateur réseau NAT
+3.  redémarrez la machine
+
+## Installation des VirtualBox Guest Additions (pour pouvoir copier-coller et glisser-deposer)
 
 Nous devons installer une extension de VirtualBox pour permettre le copier-coller et le glisser-déposer de fichiers entre la machine hôte et la machine virtuelle. Cette étape est nécessaire car nous créerons des scripts sur la machine hôte qui devront être transférés vers la machine virtuelle.
 

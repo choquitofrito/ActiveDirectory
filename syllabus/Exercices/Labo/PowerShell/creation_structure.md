@@ -1,4 +1,5 @@
 # Script pour créer la structure des OUs, utilisateurs et groupes
+# Stocker ce script dans un fichier creation.ps1
 # Auteur: Cascade
 # Date: 2025-04-02
 
