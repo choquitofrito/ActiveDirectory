@@ -22,8 +22,7 @@ Avant de commencer, assurez-vous d'avoir la structure complète de l'AD.
 
 #### 1.1. GPO-Restriction-PanneauConfig. Bloquer l'accès au Panneau de Configuration dans Ventes
 
-1.1.1. Bloquer l'accès au Panneau de Configuration aux utilisateurs de Ventes
-1.1.2. Bloquer l'accès au Panneau de Configuration aux utilisateurs de tous les departements sauf à ceux du departement IT. Comment est-ce qu'on peut faire cela?
+Bloquer l'accès au Panneau de Configuration aux utilisateurs de Ventes
 
 **Setting**: Config Utilisateur > Modèles d'administration > Panneau de configuration > Interdire l'accès
 
@@ -126,11 +125,6 @@ Le chemin pour le dossier **doit être un chemin réseau**. Pas `C:\Shares\IT-Ad
 Qu'est-ce qu'on doit faire maintenant pour tester le fonctionnement de notre GPO?
 
 **Variation de l'exercice:** Imaginez que le **mappage** du dossier partagé doit être caché et visible uniquement pour les utilisateurs administrateurs de IT.
-
-
-
-
-
 
 
 ## 3. Preferences
