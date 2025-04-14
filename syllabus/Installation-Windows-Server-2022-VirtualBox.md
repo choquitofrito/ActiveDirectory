@@ -80,7 +80,8 @@
    - 🎮 Activer l'Accélération 3D
 
 4. 🔗 Réseau :
-   - 📶 Adaptateur : **NAT** ➡️ **réseau privé**
+   - 📶 Adaptateur : Changer **NAT** par **réseau interne**
+   - Si besoin de l'internet dans votre laboratoire, vous pouvez ajouter un adaptateur NAT ou un pont (selon les circomstances)
 
 5. 💾 Stockage :
    - 📚 Sélectionnez le lecteur optique
@@ -185,7 +186,8 @@ Chaque département a des besoins spécifiques :
 - 🎮 Nom : `Windows10M1`
 - 💻 Génération : 2 (64 bits)
 - 💽 Mémoire : 4 GB
-- 🔗 Réseau : **réseau privé**
+- 📶 Adaptateur : Changer **NAT** par **réseau interne**
+- Si besoin de l'internet dans votre laboratoire, vous pouvez ajouter un adaptateur NAT ou un pont (selon les circomstances)
 - 💾 Disque : 30 GB
 - 📚 ISO : Windows 10
 

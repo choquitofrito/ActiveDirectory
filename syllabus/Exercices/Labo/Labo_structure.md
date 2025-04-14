@@ -18,6 +18,40 @@ Cet environnement est une version simplifiée de l'infrastructure complète, qui
 
 ## Prérequis Techniques
 
+### Préparation
+
+Avant de commencer, assurez-vous d'avoir la structure complète de l'AD (si ce n'est pas le cas, lancez le script de Powershell - dossier PowerShell -> creation_structure).
+
+1. Ce script n'est pas destructif. Il vérifie l'existence des OUs, des groupes et des utilisateurs avant de les créer.
+2. Vous devez créer dans votre serveur (peu importe le dossier, bien que le dossier `c:\Scripts` soit recommandé pour mieux organiser) un fichier texte (clic droit) et nommez-le `creation_structure.ps1` 
+3. Confirmez le changement d'extension.
+4. Collez le script (de gitbook) dans le fichier `creation_structure.ps1`. Enregistrez le fichier.
+5. Ouvrez une console powershell dans ce dossier (barre d'adresse, tapez **powershell** et puis Enter)
+6. Dans certains cas on a de problèmes pour lancer de scripts (signatures). Nous allons enlever les restrictions pour pouvoir lancer notre script
+```powershell
+Set-ExecutionPolicy Bypass -Scope CurrentUser   # No restrictions (not recommended long-term)
+Set-ExecutionPolicy Unrestricted -Scope CurrentUser
+```
+7. Lancez le script
+```powershell
+.\creation_structure.ps1
+```
+
+Puis, pour pratiquer:
+- Créez la OU pour le département IT (si elle n'existe pas encore) 
+- Créez aussi un groupe pour les administrateurs de IT (ex: "GG-EU-IT-Admins") et un autre pour les utilisateurs (ex: "GG-EU-IT-Users"). 
+- Assurez-vous d'avoir un ordinateur (Virtual Machine client) qui porte le nom `ws-IT-01` et un autre `ws-Ventes-01`. Si ce n'est pas le cas, modifiez les noms des ordinateurs dans vos machines virtuelles et re-démarrez-les.
+- Dans le serveur, allez dans `Utilisateurs et ordinateurs AD` et rajoutez des utilisateurs aux groupes (s'ils n'existent pas, créez-les): 
+  - `GG-EU-IT-Users` : Ivan, Ines
+  - `GG-EU-IT-Admins` : Irene
+  - `GG-EU-Ventes-Users` : Victor, Vanessa, Valeria
+  - `GG-EU-Ventes-Admins` : Valentin
+  - `GG-EU-RH-Users` : Rene, Rebecca
+  - `GG-EU-RH-Admins` : Richard
+  - `GG-EU-Compta-Users` : Charles, Cindy
+  - `GG-EU-Compta-Admins` : Charlotte
+
+
 
 ## Installation d'un adaptateur réseau extra pour avoir l'internet (si besoin)
 

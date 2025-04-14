@@ -346,10 +346,10 @@ Le dossier est partagé maintenant et visible par tout le monde, mais accésible
 - Ouvrez `Explorateur de fichiers`
 - Allez dans `\dns2\IT-docs`: il doit pouvoir ouvrir le dossier
 
-- Ouvrez une session dans machine client avec un User de `GG-EU-Ventes-Users` (ex: `irene`)
+- Ouvrez une session dans machine client avec un User de `GG-EU-Ventes-Users` (ex: `victor`)
 - Ouvrez une autre machine client (peu importe la machine dans ce cas, on limite par User, mais pour garder la cohérence ouvrez `ws-ventes-01`)
 - Ouvrez `Explorateur de fichiers`
-- Allez dans `\dns2\IT-docs`: il voit le dossier mais il ne peut pas l'ouvrir!
+- Allez dans `\dns2\IT-docs`: **il voit le dossier mais il ne peut pas l'ouvrir**!
 
 
 **Question**: connectez-vous avec `irene` de `GG-EU-IT-Admins` et essayez de l'ouvrir le dossier. Qu'est-ce que vous observez? comment l'arranger?
