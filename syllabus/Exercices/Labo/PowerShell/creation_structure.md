@@ -1,3 +1,4 @@
+```powershell
 # Script pour créer la structure des OUs, utilisateurs et groupes
 # Stocker ce script dans un fichier creation.ps1
 # Auteur: Cascade
@@ -172,3 +173,4 @@ catch {
     Write-Host "Stack Trace:" -ForegroundColor Red
     Write-Host $_.ScriptStackTrace -ForegroundColor Red
 }
+```

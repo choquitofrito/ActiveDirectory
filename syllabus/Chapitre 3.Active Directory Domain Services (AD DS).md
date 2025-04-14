@@ -243,7 +243,7 @@ Ces serveurs gèrent l'ensemble des sites !
 
 ### 6.1. Configuration réseau initiale
 
-Notre serveur Windows Server va être promu au rôle de contrôleur de domaine (DC).
+Notre serveur Windows Server va être promu au rôle de contrôleur de domaine (DC). Pour ce faire on doit installer le rôle `AD-DS`, mais avant de le faire, nous devons configurer correctement les paramètres réseau du serveur.
 
 > ⚠️ Avant de promouvoir le serveur en DC, nous devons configurer correctement son réseau.
 
