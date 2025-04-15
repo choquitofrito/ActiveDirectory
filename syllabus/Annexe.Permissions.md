@@ -1,4 +1,4 @@
-# Résolution des Problèmes de Permissions et Propriété de Dossiers dans Windows
+## Résolution des Problèmes de Permissions et Propriété de Dossiers dans Windows
 
 ## Introduction
 Lorsque vous rencontrez des problèmes de modification de permissions ou d'accès à un dossier créé par un utilisateur ou un groupe, cela est souvent dû à des conflits de **propriété** ou de **permissions**. Ce guide vous montre comment **prendre possession** d'un dossier et modifier les **permissions** de manière appropriée.
