@@ -76,7 +76,7 @@ Pour ce faire, tous les ordinateurs doivent avoir accès à un dossier partagé 
 Allez dans `Partage avancé` > `Utilisateurs` pour effacer l'accès de `Everyone` sur le dossier, et rajoutez: `Ordinateurs du domaine` et `Utilisateurs du domaine`.
 
 Dans l'onglet `Permissions`, cliquez `Securité` > `Modifier` > `Ajouter` 
-Rajoutez `Ordinateurs du domaine` et `Utilisateurs du domaine` et donnez les accès de `Affichage` , `Lecture` et `Lecture et execution`.
+Rajoutez le groupe de securité `GG-EU-RH-Admins` et donnez les accès de `Affichage` , `Lecture` et `Lecture et execution`.
 
 ✅ **Résumé des permissions:**
 
@@ -93,6 +93,10 @@ On doit télécharger Chrome sur et le stocker dans le dossier partagé. Si vous
 1.  eteignez la machine 
 2.  rajoutez un adaptateur réseau NAT
 3.  redémarrez la machine
+
+Allez sur ce lien https://enterprise.google.com/chrome/chrome-browser/
+
+Cliquez sur Bundle et choisissez .msi
 
 Concernant le partage: vous ne pouvez pas partager un dossier avec une OU... qu'est-ce que vous vient à l'esprit? Il y a une manière: créez un groupe de sécurité contenant le/les ordinateurs sur lesquels on veut appliquer la GPO pour installer Chrome
 
