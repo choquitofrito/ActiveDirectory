@@ -111,7 +111,7 @@ Stratégies > Paramètres du logiciel > Installation logiciel
 Cliquez sur `Nouveau` et **tapez le chemin à la main** dans la barre de recherche.
 Si vous tapez juste `dns1` et puis enter vous devriez voir les dossiers partagés du serveur. Puis selectionnez le fichier `chrome_installer.msi` (ou le nom du telechargement).
 
-Important: Le chemin doit être un dans le format de réseau, c'est-à-dire `\dns1\Software\chrome_installer.msi`. Un chemin du type `C:\Software\chrome_installer.msi` ne fonctionnera pas.
+Important: Le chemin doit être un dans le format de réseau, c'est-à-dire `\\dns1\Software\chrome_installer.msi`. Un chemin du type `C:\Software\chrome_installer.msi` ne fonctionnera pas.
 
 **Exercice**: repetez l'exercice pour installer `7-zip`. Vous devez télécharger un installateur en format `.msi` sur le serveur et le mettre dans le dossier partagé `c:\Software`.
 
