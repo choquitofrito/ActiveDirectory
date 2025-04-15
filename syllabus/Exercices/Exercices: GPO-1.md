@@ -65,11 +65,11 @@ Pour limiter l'impact de la GPO, vous pouvez débloquer l'application de la GPO 
 - Cliquez l'ordinateur dans la liste, puis allez dans les droits et cocher `Refuser` pour `Appliquer la strategie de groupe`
 
 
-#### 2.3. GPO-Installation-Chrome. Déploiment de Chrome sur les ordinateurs de RH
+#### 2.3. GPO-Installation-Chrome. Déploiement de Chrome sur les ordinateurs de RH
 
-Les utilisateurs de RH se sont mis d'accord et ils ont demandé de pouvoir utiliser Chrome sur leurs ordinateurs. L'admin veut automatiser la procedure.
+Les utilisateurs de RH se sont mis d'accord et ont demandé de pouvoir utiliser Chrome sur leurs ordinateurs. L'administrateur veut automatiser la procédure.
 
-Pour ce faire, tous les ordinateurs doivent avoir accès à un dossier partagé qui contienne Chrome. C'est très important que ce dossier partagé soit accésible que par les utilisateurs concernés car s'il est accesible par tout le monde les possibilités de hacking du serveur se multiplient.
+Pour ce faire, tous les ordinateurs doivent avoir accès à un dossier partagé qui contient Chrome. Il est très important que ce dossier partagé ne soit accessible que par les utilisateurs concernés car s'il est accessible par tout le monde, les risques de sécurité du serveur se multiplient.
 
 2.3.1. Cette GPO va être appliquée à un ensemble d'**ordinateurs**, car nous voulons installer Chrome uniquement sur les ordinateurs de RH.
 La façon la plus propre de faire c'est de créer un groupe de sécurité contenant les ordinateurs de RH.
@@ -77,7 +77,7 @@ La façon la plus propre de faire c'est de créer un groupe de sécurité conten
 - Allez dans `Utilisateurs et ordinateurs d'AD` dans le serveur
 - Créez un groupe de sécurité contenant les ordinateurs de RH (on en a qu'un: `ws-rh-01`). Ex: GG-EU-RH-Computers
 
-**Attention**: lors la création du groupe de sécurité vous allez devoir chercher les ordinateurs pour les rajouter. Pour pouvoir rechercher ces ordinateurs dans le AD, cliquez sur `Type d'objet` après avoir cliqué sur `Ajouter`.
+**Attention** : lors de la création du groupe de sécurité, vous allez devoir chercher les ordinateurs pour les ajouter. Pour pouvoir rechercher ces ordinateurs dans l'AD, cliquez sur `Type d'objet` après avoir cliqué sur `Ajouter`.
 
 On donnera les permissions à ce groupe. Ceci nous permet de provoquer l'installation de Chrome sur un autre ordinateur juste en l'ajoutant au groupe.
 
@@ -85,7 +85,7 @@ On donnera les permissions à ce groupe. Ceci nous permet de provoquer l'install
 
 Allez dans `Partage avancé` > `Utilisateurs` pour effacer l'accès de `Everyone` sur le dossier.
 
-Rajoutez le groupe suivant:
+Ajoutez les groupes suivants :
 - GG-EU-RH-Admin
 - GG-EU-RH-Users
 - GG-EU-RH-Computers
@@ -93,7 +93,7 @@ Rajoutez le groupe suivant:
 
 Donnez la permission de lecture.
 
-Dans l'onglet `Securité` > `Modifier` > `Ajouter` les trois premiers groupes de la liste precedante.
+Dans l'onglet `Sécurité` > `Modifier` > `Ajouter` les trois premiers groupes de la liste précédente.
 
 ✅ **Résumé des permissions:**
 
@@ -106,10 +106,10 @@ Dans l'onglet `Securité` > `Modifier` > `Ajouter` les trois premiers groupes de
 | Priorité | La plus restrictive l'emporte | La plus restrictive l'emporte |
 
 
-On doit télécharger Chrome sur et le stocker dans le dossier partagé. Si vous n'avez pas l'internet:
-1.  eteignez la machine 
-2.  rajoutez un adaptateur réseau NAT
-3.  redémarrez la machine
+On doit télécharger Chrome et le stocker dans le dossier partagé. Si vous n'avez pas d'accès Internet :
+1. Éteignez la machine 
+2. Ajoutez un adaptateur réseau NAT
+3. Redémarrez la machine
 
 Allez sur ce lien https://chromeenterprise.google/download/
 
@@ -123,17 +123,17 @@ Puis vous allez pouvoir appliquer la GPO sur l'OU des utilisateurs de RH: elle s
 
 Stratégies > Paramètres du logiciel > Installation logiciel
 
-Cliquez sur `Nouveau` et **tapez le chemin à la main** dans la barre de recherche.
-Si vous tapez juste `dns1` et puis enter vous devriez voir les dossiers partagés du serveur. Puis selectionnez le fichier `chrome_installer.msi` (ou le nom du telechargement).
+Cliquez sur `Nouveau` et **tapez le chemin manuellement** dans la barre de recherche.
+Si vous tapez simplement `dns1` puis Entrée, vous devriez voir les dossiers partagés du serveur. Ensuite, sélectionnez le fichier `chrome_installer.msi` (ou le nom du téléchargement).
 
 Important: Le chemin doit être un dans le format de réseau, c'est-à-dire `\\dns1\Software\chrome_installer.msi`. Un chemin du type `C:\Software\chrome_installer.msi` ne fonctionnera pas.
 
 Connectez-vous avec un client et forcez l'application de la GPO avec `gpupdate /force`
 
-Re-demarrez l'ordinateur.
+Redémarrez l'ordinateur.
 
 
-**Exercice**: repetez l'exercice pour installer `7-zip`. Vous devez télécharger un installateur en format `.msi` sur le serveur et le mettre dans le dossier partagé `c:\Software`.
+**Exercice** : répétez l'exercice pour installer `7-zip`. Vous devez télécharger un installateur au format `.msi` sur le serveur et le mettre dans le dossier partagé `c:\Software`.
 
 
 
