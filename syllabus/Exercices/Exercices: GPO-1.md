@@ -40,7 +40,7 @@ Bloquer l'accès au Panneau de Configuration aux utilisateurs de Ventes
 
 #### 2.1. GPO-Configuration-MessageConnexion. Afficher message de connexion
 
-Établir une GPO pour afficher un message corporatif lors de la connexion dans les ordinateurs de Comptabilite (ex: `Bienvenue sur le réseau ComputerElectronics. Rappel : les données commerciales sont confidentielles.`)
+Établir une GPO pour afficher un message corporatif lors de la connexion dans les ordinateurs de IT (ex: `Bienvenue sur le réseau ComputerElectronics. Rappel : les données d'IT sont confidentielles.`)
 
 **Setting**: Config Ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies locales > Options de sécurité > Ouverture de session interactive: contenu du message + Ouverture de session interactive: titre du message
 
