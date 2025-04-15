@@ -42,7 +42,11 @@ Bloquer l'accès au Panneau de Configuration aux utilisateurs de Ventes
 
 Établir une GPO pour afficher un message corporatif lors de la connexion dans les ordinateurs de IT (ex: `Bienvenue sur le réseau ComputerElectronics. Rappel : les données d'IT sont confidentielles.`)
 
-**Setting**: Config Ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies locales > Options de sécurité > Ouverture de session interactive: contenu du message + Ouverture de session interactive: titre du message
+**Settings**: 
+
+1. Config Ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies locales > Options de sécurité > Ouverture de session interactive: contenu du message 
+
+2.  Config Ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies locales > Options de sécurité > Ouverture de session interactive: titre du message
 
 #### 2.2. GPO-Blocage-Inactivite. Blocage de l'ordinateur après 5 minutes d'inactivité
 
