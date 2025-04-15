@@ -119,8 +119,8 @@ Important: Le chemin doit être un dans le format de réseau, c'est-à-dire `\\d
 
 ### 2.4. Créer d'un dossier partagé pour les utilisateurs d'IT et le faire apparaître sur leurs ordinateurs comme une unité de stockage (ex: F:, Z: ...)
 
-1. Créer un dossier partagé `C:\Shares\IT-Admin` (suivez les instructions pour créer un dossier partagé du chapitre 5). Le but sera de le mapper sur les ordinateurs de RH (les utilisateurs veront ce dossier comme une unité de stockage F:, Z: ou le lettre de notre choix)
-2. Dans notre cas, ce dossier partagé sera accessible par les utilisateurs administrateurs de RH. Modifiez les permissions du partage et NTFS    
+1. Créer un dossier partagé `C:\Shares\IT-Admin` (suivez les instructions pour créer un dossier partagé du chapitre 5). Le but sera de le mapper sur les ordinateurs de IT (les utilisateurs veront ce dossier comme une unité de stockage F:, Z: ou le lettre de notre choix)
+2. Dans notre cas, ce dossier partagé sera accessible par les utilisateurs administrateurs de IT. Modifiez les permissions du partage et NTFS    
 
 Créez maintenant un GPO sur l'OU `IT`.
 
