@@ -75,25 +75,56 @@ Pour ce faire, tous les ordinateurs doivent avoir accès à un dossier partagé 
 La façon la plus propre de faire c'est de créer un groupe de sécurité contenant les ordinateurs de RH.
 
 - Allez dans `Utilisateurs et ordinateurs d'AD` dans le serveur
-- Créez un groupe de sécurité contenant les ordinateurs de RH (on en a qu'un: `ws-rh-01`). Ex: GG-EU-RH-Computers
+- Créez un groupe de sécurité qui contiendra les ordinateurs de RH (on en a qu'un: `ws-rh-01`). Ex: `GG-EU-RH-Computers-Chrome`. 
+- Pour pouvoir rechercher et ajouter ces ordinateurs dans le groupe, vous devez cliquer sur `Types d'objets` dans la fenêtre de recherche et cocher la case `Ordinateurs`
+- Faites la recherche, trouvez `ws-rh-01` et cliquez sur `Ajouter`  
 
-**Attention** : lors de la création du groupe de sécurité, vous allez devoir chercher les ordinateurs pour les ajouter. Pour pouvoir rechercher ces ordinateurs dans l'AD, cliquez sur `Type d'objet` après avoir cliqué sur `Ajouter`.
+Ce groupe recevra les permissions pour accéder au dossier partagé sur le serveur qui contiendra le fichier d'installation de Chrome. Nous créons un groupe car cela nous permet de déclencher l'installation de Chrome sur un autre ordinateur simplement en l'ajoutant au groupe.
 
-On donnera les permissions à ce groupe. Ceci nous permet de provoquer l'installation de Chrome sur un autre ordinateur juste en l'ajoutant au groupe.
+2.3.2. Créer un dossier partagé (ex: `c:\Software`) **sur le serveur**. 
 
-2.3.2. Créer un dossier partagé `c:\Software` **sur le serveur**. 
-
-Allez dans `Partage avancé` > `Utilisateurs` pour effacer l'accès de `Everyone` sur le dossier.
+Dans `Partage avancé` > `Utilisateurs`, supprimez l'accès de `Everyone` sur le dossier (la lecture suffira)
 
 Ajoutez les groupes suivants :
-- GG-EU-RH-Admin
-- GG-EU-RH-Users
-- GG-EU-RH-Computers
-- Administrateur
+- `GG-EU-RH-Computers-Chrome`
+- `Administrateur` (car il devra accéder au dossier pendant la configuration de la GPO)
 
-Donnez la permission de lecture.
+Vous pouvez (pour pouvoir afficher son contenu depuis la machine cliente pendant les tests) ajouter `GG-EU-RH-Admins` et `GG-EU-RH-Users` si vous le souhaitez, mais ce n'est pas nécessaire. **Seuls les ordinateurs doivent accéder au dossier pour lire et exécuter le fichier .msi d'installation**. En principe, les utilisateurs ne doivent pas accéder à ce dossier.
 
-Dans l'onglet `Sécurité` > `Modifier` > `Ajouter` les trois premiers groupes de la liste précédente.
+Dans l'onglet `Sécurité` > `Modifier` > `Ajouter` le groupe des ordinateurs de RH.
+
+On doit télécharger Chrome et le stocker dans le dossier partagé. Si vous n'avez pas d'accès Internet :
+1. Éteignez la machine dans Virtualbox
+2. Ajoutez un adaptateur (adapter 2) réseau NAT
+3. Redémarrez la machine
+
+
+Allez sur ce lien https://chromeenterprise.google/download/
+
+Cliquez sur `Bundle` et choisissez **.msi**
+
+Copiez ce fichier dans le dossier partagé `c:\Software`
+
+Vous pourrez ensuite appliquer la GPO sur l'OU des utilisateurs de RH : elle sera appliquée par héritage sur les ordinateurs de RH.
+
+**Création de la GPO sur l'OU de RH** :
+
+Allez sur `Configuration Ordinateur > Stratégies > Paramètres du logiciel > Installation logiciel`
+
+Faites un clic droit et sélectionnez `Nouveau`, puis **saisissez le chemin RÉSEAU manuellement** dans la barre de recherche.
+
+Important : Le chemin doit être au format réseau, c'est-à-dire `\\dns1\Software\chrome_installer.msi`. Un chemin local du type `C:\Software\chrome_installer.msi` ne fonctionnera pas.
+
+(remplacez `chrome_installer.msi` par le nom du fichier que vous avez téléchargé. Si le nom du fichier est complexe, vous pouvez simplement le renommer)
+
+2.3.3. Connectez-vous avec un client de `RH` et forcez l'application de la GPO avec `gpupdate /force`. Un avertissement s'affichera pour vous indiquer que la politique d'installation de notre logiciel a besoin de démarrer l'ordinateur.
+
+2.3.4. Redémarrez l'ordinateur. Chrome s'installera au démarrage.
+Vous devriez voir l'icône de Chrome sur le bureau.
+
+
+**Exercice** : répétez l'exercice pour installer `7-zip`. Vous devez télécharger un installateur au format `.msi` sur le serveur et le mettre dans le dossier partagé `c:\Software`.
+
 
 ✅ **Résumé des permissions:**
 
@@ -104,37 +135,6 @@ Dans l'onglet `Sécurité` > `Modifier` > `Ajouter` les trois premiers groupes d
 | Emplacement | Onglet Partage → Permissions | Onglet Sécurité |
 | Droits communs | Lecture / Modification / Contrôle total | Liste complète (Lecture, Écriture, Modification...) |
 | Priorité | La plus restrictive l'emporte | La plus restrictive l'emporte |
-
-
-On doit télécharger Chrome et le stocker dans le dossier partagé. Si vous n'avez pas d'accès Internet :
-1. Éteignez la machine 
-2. Ajoutez un adaptateur réseau NAT
-3. Redémarrez la machine
-
-Allez sur ce lien https://chromeenterprise.google/download/
-
-Cliquez sur `Bundle` et choisissez **.msi**
-
-Copiez ce fichier dans le dossier partagé `c:\Software`
-
-Puis vous allez pouvoir appliquer la GPO sur l'OU des utilisateurs de RH: elle sera appliquée par héritage sur les ordinateurs de RH.
-
-**Créons la GPO sur l'OU de RH**:
-
-Stratégies > Paramètres du logiciel > Installation logiciel
-
-Cliquez sur `Nouveau` et **tapez le chemin manuellement** dans la barre de recherche.
-Si vous tapez simplement `dns1` puis Entrée, vous devriez voir les dossiers partagés du serveur. Ensuite, sélectionnez le fichier `chrome_installer.msi` (ou le nom du téléchargement).
-
-Important: Le chemin doit être un dans le format de réseau, c'est-à-dire `\\dns1\Software\chrome_installer.msi`. Un chemin du type `C:\Software\chrome_installer.msi` ne fonctionnera pas.
-
-Connectez-vous avec un client et forcez l'application de la GPO avec `gpupdate /force`
-
-Redémarrez l'ordinateur.
-
-
-**Exercice** : répétez l'exercice pour installer `7-zip`. Vous devez télécharger un installateur au format `.msi` sur le serveur et le mettre dans le dossier partagé `c:\Software`.
-
 
 
 ### 2.4. Créer d'un dossier partagé pour les utilisateurs d'IT et le faire apparaître sur leurs ordinateurs comme une unité de stockage (ex: F:, Z: ...)
