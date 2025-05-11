@@ -13,7 +13,7 @@
                     <mxGeometry x="40" y="160" width="680" height="280" as="geometry"/>
                 </mxCell>
                 <!-- Serveur Windows -->
-                <mxCell id="4" value="Windows Server 2022&#xa;dns1.computerelectronics.be&#xa;192.168.0.2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                <mxCell id="4" value="Windows Server 2022&#xa;dns1.maxtec.be&#xa;192.168.0.2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
                     <mxGeometry x="320" y="200" width="160" height="60" as="geometry"/>
                 </mxCell>
                 <!-- Services -->

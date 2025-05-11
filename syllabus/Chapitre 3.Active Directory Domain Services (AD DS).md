@@ -18,7 +18,7 @@
 À la fin de ce chapitre, vous serez capable de :
 1. Comprendre l'architecture d'Active Directory
 2. Installer et configurer AD DS sur Windows Server
-3. Créer et configurer le domaine AD `computerelectronics.be` (même nom que le domaine DNS !)
+3. Créer et configurer le domaine AD `maxtec.be` (même nom que le domaine DNS !)
 4. Vérifier le bon fonctionnement d'AD DS
 
 ---
@@ -60,7 +60,7 @@ Examinons **comment un utilisateur accède à un serveur de fichiers** sur un se
 | Étape | Description |
 |--------|-------------|
 | Requête | `ws-compta-01` (`192.168.0.101`) demande l'authentification |
-| Traitement | `dns1.computerelectronics.be` (`192.168.0.2`) vérifie les identifiants |
+| Traitement | `dns1.maxtec.be` (`192.168.0.2`) vérifie les identifiants |
 | Protocole | Kerberos assure l'authentification sécurisée |
 | Réseau | Via le commutateur `SW-COMPTA` (`192.168.0.1`) |
 
@@ -68,7 +68,7 @@ Examinons **comment un utilisateur accède à un serveur de fichiers** sur un se
 
 | Étape | Description |
 |--------|-------------|
-| Connexion | `ws-compta-01` se connecte à `fileserver.us.computerelectronics.be` |
+| Connexion | `ws-compta-01` se connecte à `fileserver.us.maxtec.be` |
 | Résolution | `dns2` fournit l'adresse IP `192.168.0.41` |
 | Autorisation | Le serveur de fichiers vérifie les droits d'accès |
 
@@ -94,7 +94,7 @@ Les flèches vertes représentent les requêtes DNS pour la résolution des noms
 
 ## 4. 📚 Active Directory Domain Services (AD DS)
 
-**AD DS** est le service fondamental de notre infrastructure `computerelectronics.be`. Il **crée et gère la base de données centrale d'Active Directory**.
+**AD DS** est le service fondamental de notre infrastructure `maxtec.be`. Il **crée et gère la base de données centrale d'Active Directory**.
 
 ### 4.1. Fonctionnalités principales
 
@@ -115,8 +115,8 @@ Les flèches vertes représentent les requêtes DNS pour la résolution des noms
 | 🔐 Stratégies (GPOs) | Règles de sécurité, restrictions, droits |
 | 🌐 Services | Services réseau, configurations système |
 
-Toutes ces informations sont stockées dans **le domaine AD** `computerelectronics.be` créé par **AD DS**.
-Vous vous demandez peut-être comment c'est possible, puisque `computerelectronics.be` est un domaine DNS et non un domaine AD ? En fait, ils **partagent le même nom**.
+Toutes ces informations sont stockées dans **le domaine AD** `maxtec.be` créé par **AD DS**.
+Vous vous demandez peut-être comment c'est possible, puisque `maxtec.be` est un domaine DNS et non un domaine AD ? En fait, ils **partagent le même nom**.
 
 **ATTENTION !**
 
@@ -133,15 +133,14 @@ Vous vous demandez peut-être comment c'est possible, puisque `computerelectroni
    - Objectif : **Résolution de noms** et **organisation réseau**
    - Structure : Hiérarchique avec plusieurs niveaux possibles
    - Dans notre cas :
-     * Domaine **racine** : `computerelectronics.be`
-     * Zones géographiques : `eu.computerelectronics.be`, `us.computerelectronics.be`
-     * Environnements : `dev.computerelectronics.be`, `prod.computerelectronics.be`
+     * Domaine **racine** : `maxtec.be`
+     * Zones géographiques : `eu.maxtec.be`, `us.maxtec.be`
 
 2. **Domaine AD**
 
 ![Domaine AD](../diagrams/images/domaineAD.png)
 
-   - Structure : **Un seul domaine AD** `computerelectronics.be` qui **utilise l'arbre DNS** de `computerelectronics.be`.
+   - Structure : **Un seul domaine AD** `maxtec.be` qui **utilise l'arbre DNS** de `maxtec.be`.
    - Un **domaine AD est organisé via les UOs** (dossiers intelligents).
   Une **UO** (que nous étudierons plus tard) **est un conteneur** AD qui **contient des objets AD** (utilisateurs, groupes, ordinateurs, etc.) et **est complètement indépendant des sites**.
 
@@ -159,14 +158,14 @@ Vous vous demandez peut-être comment c'est possible, puisque `computerelectroni
 >
 > 🔗 **Relations avec d'autres concepts**
 > - **Sites ≠ UOs** : Les sites représentent une division physique, les UOs une organisation **logique**
-> - **Sites ≠ Zones DNS** : Les zones DNS (`eu.computerelectronics.be`) peuvent correspondre aux sites (`site EU`), mais ce n'est pas obligatoire
+> - **Sites ≠ Zones DNS** : Les zones DNS (`eu.maxtec.be`) peuvent correspondre aux sites (`site EU`), mais ce n'est pas obligatoire
 >
 > 🌐 **Notre infrastructure**
 > - `site EU` : Sous-réseau 192.168.10.0/24 (192.168.0.0/24 en laboratoire)
->   * DC principal : `dc1.computerelectronics.be`
->   * DC secondaire : `dc2.computerelectronics.be` (réplication)
+>   * DC principal : `dc1.maxtec.be`
+>   * DC secondaire : `dc2.maxtec.be` (réplication)
 > - `site US` : Sous-réseau 192.168.20.0/24 (non utilisé en laboratoire)
->   * DC local : `dc-us.computerelectronics.be`
+>   * DC local : `dc-us.maxtec.be`
 
 Nous allons créer une **UO** racine pour chaque site (UOs `EU` et `US`) par commodité, mais **ce n'est pas une obligation**. Voici deux façons possibles d'organiser la même entreprise :
 
@@ -179,14 +178,14 @@ Nous allons créer une **UO** racine pour chaque site (UOs `EU` et `US`) par com
 
 En ce qui concerne le domaine AD, notre structure se présente comme suit :
 
-1. **Domaine AD** : `computerelectronics.be`
+1. **Domaine AD** : `maxtec.be`
    - Un seul domaine AD (l'ensemble des objets AD) pour toute l'entreprise
-   - Géré par notre DC principal : `dns1.computerelectronics.be`
+   - Géré par notre DC principal : `dns1.maxtec.be`
 
 2. **Sites AD** :
    - **Site EU** (physiquement dans l'UE) (présent dans notre laboratoire)
      * Sous-réseau : 192.168.10.0/24 (192.168.0.0/24 dans le laboratoire)
-     * DC : dns1.computerelectronics.be
+     * DC : dns1.maxtec.be
    - **Site US** (physiquement aux États-Unis) (**non implémenté** dans le laboratoire) 
      * Sous-réseau : 192.168.20.0/24
 
@@ -195,7 +194,7 @@ En ce qui concerne le domaine AD, notre structure se présente comme suit :
 Voici un exemple d'organisation possible :
 
 ```
-computerelectronics.be (domaine AD)
+maxtec.be (domaine AD)
 EU
 ├── Comptabilité
 │   ├── Users
@@ -233,8 +232,8 @@ La structure de l'UO `US` est identique à celle de l'UO `EU`.
 
 | Serveur | Rôle principal | Adresse IP |
 |---------|-----------------|------------|
-| `dns1.computerelectronics.be` | DC principal + DNS | `192.168.0.2` |
-| `dns2.computerelectronics.be` | DC secondaire + DNS | `192.168.0.3` |
+| `dns1.maxtec.be` | DC principal + DNS | `192.168.0.2` |
+| `dns2.maxtec.be` | DC secondaire + DNS | `192.168.0.3` |
 
 Ces serveurs gèrent l'ensemble des sites !
 
@@ -258,7 +257,7 @@ Notre serveur Windows Server va être promu au rôle de contrôleur de domaine (
    | Paramètre | Valeur |
    |------------|--------|
    | Nom d'ordinateur | `dns1` |
-   | Suffixe DNS | `computerelectronics.be` |
+   | Suffixe DNS | `maxtec.be` |
 
 > 💡 Le serveur utilise sa propre adresse comme serveur DNS car il hébergera le service DNS du domaine.
 
@@ -272,19 +271,19 @@ Notre serveur Windows Server va être promu au rôle de contrôleur de domaine (
 | 1 | Ouvrir le **Gestionnaire de serveur** |
 | 2 | Menu **Gérer** > **Ajouter des rôles** |
 | 3 | Choisir **Installation basée sur un rôle** |
-| 4 | Sélectionner `dns1.computerelectronics.be` |
+| 4 | Sélectionner `dns1.maxtec.be` |
 | 5 | Dans **Rôles**, cocher **Services AD DS** |
 | 6 | Accepter les fonctionnalités requises |
 | 7 | Terminer l'installation |
 
 ### 6.3. Promotion du serveur en contrôleur de domaine
 
-> 💡 Cette étape transforme le serveur en contrôleur de domaine pour `computerelectronics.be`
+> 💡 Cette étape transforme le serveur en contrôleur de domaine pour `maxtec.be`
 
 | Étape | Configuration | Valeur |
 |--------|---------------|--------|
 | 1 | Type d'installation | Nouvelle forêt |
-| 2 | Nom de domaine | `computerelectronics.be` |
+| 2 | Nom de domaine | `maxtec.be` |
 | 3 | Niveau fonctionnel | Windows Server 2022 |
 | 4 | Mot de passe DSRM | `Password1!` |
 | 5 | Nom NetBIOS | `COMPUTERELECTRONICS` |
@@ -297,7 +296,7 @@ Notre serveur Windows Server va être promu au rôle de contrôleur de domaine (
 
 | Test | Commande | Objectif |
 |------|----------|----------|
-| Résolution | `nslookup dns1.computerelectronics.be` | Vérifie que `dns1` résout à `192.168.0.2` |
+| Résolution | `nslookup dns1.maxtec.be` | Vérifie que `dns1` résout à `192.168.0.2` |
 | Diagnostique | `dcdiag /test:dns` | Vérifie la configuration DNS d'AD |
 
 **AD DS** est **basé sur** l’utilisation d’un **espace de noms DNS** pour gérer un domaine **et impose donc l’utilisation d’un serveur DNS** au sein du réseau.
@@ -308,16 +307,16 @@ Ce serveur DNS doit être capable de prendre en charge les enregistrements de se
 - Les **enregistrements SRV** **(Service Record)** sont des enregistrements DNS qui permettent la **localisation des services** sur le réseau. 
 
   - Les enregistrements SRV sont utilisés par les services tels que:
-    - `_ldap._tcp.computerelectronics.be` pour le service LDAP (**protocole de communication** pour interroger et modifier des informations dans la base de données d'AD)
-    - `_kerberos._tcp.computerelectronics.be` pour le service Kerberos (**protocole d'authentification**)
-    - `_gc._tcp.computerelectronics.be` pour le catalogue global (**service qui fournit des informations sur les objets de l'annuaire**, tel que les utilisateurs, les groupes, etc.)
-    - `_kpasswd._tcp.computerelectronics.be` pour le service de changement de mot de passe (**protocole de communication** pour changer le mot de passe d'un utilisateur)
+    - `_ldap._tcp.maxtec.be` pour le service LDAP (**protocole de communication** pour interroger et modifier des informations dans la base de données d'AD)
+    - `_kerberos._tcp.maxtec.be` pour le service Kerberos (**protocole d'authentification**)
+    - `_gc._tcp.maxtec.be` pour le catalogue global (**service qui fournit des informations sur les objets de l'annuaire**, tel que les utilisateurs, les groupes, etc.)
+    - `_kpasswd._tcp.maxtec.be` pour le service de changement de mot de passe (**protocole de communication** pour changer le mot de passe d'un utilisateur)
 
 
   - Ils permettent de trouver l'**adresse IP du service** en fonction du nom de domaine et du nom du service.
-  - Par exemple, si un client cherche le contrôleur de domaine `_ldap._tcp.computerelectronics.be`, le serveur DNS renvoie l'adresse IP du contrôleur de domaine.
-  - Un autre exemple est `_kerberos._tcp.computerelectronics.be` qui permet de trouver le contrôleur de domaine pour l'authentification Kerberos.
-  - Un troisième exemple est `_gc._tcp.computerelectronics.be` qui permet de trouver le contrôleur de domaine pour le service global catalogue (GC).
+  - Par exemple, si un client cherche le contrôleur de domaine `_ldap._tcp.maxtec.be`, le serveur DNS renvoie l'adresse IP du contrôleur de domaine.
+  - Un autre exemple est `_kerberos._tcp.maxtec.be` qui permet de trouver le contrôleur de domaine pour l'authentification Kerberos.
+  - Un troisième exemple est `_gc._tcp.maxtec.be` qui permet de trouver le contrôleur de domaine pour le service global catalogue (GC).
 
 
 #### ⚙️ Vérification des services
@@ -349,8 +348,8 @@ Ce serveur DNS doit être capable de prendre en charge les enregistrements de se
 
 1. **Zone directe principale**
    - Permet **d'obtenir l'adresse IP** à partir du nom d'hôte  
-   - Nom : `computerelectronics.be`
-   - Serveur DNS primaire : `dns1.computerelectronics.be` (192.168.0.2)
+   - Nom : `maxtec.be`
+   - Serveur DNS primaire : `dns1.maxtec.be` (192.168.0.2)
    - Type : Zone principale Active Directory intégrée
    - Contient les enregistrements pour :
      * Le contrôleur de domaine principal (`dns1`)
@@ -380,7 +379,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
 | Groupe | Collection d'objets | `GG-Comptabilite` | Nom, membres |
 | Ordinateur | Machine du domaine | `ws-compta-01` | Nom, IP, DN |
    | Unité d'organisation (UO) | **Conteneur logique permettant d'organiser les objets et d'appliquer des stratégies de groupe (GPO)** | UO Comptabilité | nom, UO parente |
-   | Contact | Objet sans compte, utilisé pour stocker des informations de contact | Adolphe Sax | courriel, téléphone, **DN** (CN=Adolphe Sax,OU=Contacts,DC=computerelectronics,DC=be), etc. |
+   | Contact | Objet sans compte, utilisé pour stocker des informations de contact | Adolphe Sax | courriel, téléphone, **DN** (CN=Adolphe Sax,OU=Contacts,DC=maxtec,DC=be), etc. |
    | Partage réseau | Dossier partagé accessible sur le réseau | \\\server\files | permissions, chemin, etc. | 
 
 > ℹ️ **Notes importantes** :
@@ -394,7 +393,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
    - Stocke la **topologie** de la forêt
      * Les **domaines et leurs relations**
        - **Cas réel** : Dans une grande entreprise, nous aurions `eu.entreprise.com` et `us.entreprise.com` comme domaines AD distincts
-       - **Notre laboratoire** : Un seul domaine AD `computerelectronics.be` avec quatre zones DNS (`eu`, `us`, `dev`, `prod`)
+       - **Notre laboratoire** : Un seul domaine AD `maxtec.be` avec deux zones DNS (`eu`, `us`)
 
      * Les **liens entre contrôleurs de domaine**
        - **Cas réel** : Quatre contrôleurs de domaine (deux en Europe, deux aux États-Unis), chacun gérant son propre domaine avec réplication intra-domaine
@@ -414,7 +413,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
      * Unités d'organisation
    - Une copie de la partition existe sur chaque contrôleur de domaine. Elle est différente pour chaque forêt. 
     
-   Exemple : nous avons deux domaines dans la forêt de computerelectronics.be
+   Exemple : nous avons deux domaines dans la forêt de maxtec.be
 
 ### 8.4. Partition d'Application
 
@@ -467,13 +466,13 @@ Ahmed commence à travailler au sein du département informatique. Pour accéder
 | IP | `192.168.0.10` | Paramètres Ethernet → Options d'adaptateur |
 | DNS | `192.168.0.2` | Options d'adaptateur → DNS |
 | Nom | `ws-it-01` | Ce PC → Propriétés → Renommer |
-| Suffixe | `computerelectronics.be` | Propriétés → Paramètres avancés |
+| Suffixe | `maxtec.be` | Propriétés → Paramètres avancés |
 
 ### 2. Intégrer le poste au domaine AD
 
 1. Ouvrir les **Propriétés système**
 2. Accéder aux **Paramètres avancés**
-3. Configurer la section **Nom de l'ordinateur** et le suffixe (`computerelectronics.be`)
+3. Configurer la section **Nom de l'ordinateur** et le suffixe (`maxtec.be`)
 4. Sélectionner **Membre du domaine** : `COMPUTERELECTRONICS`
 5. Saisir les identifiants d'**administrateur de domaine**
 
@@ -485,8 +484,8 @@ Ahmed commence à travailler au sein du département informatique. Pour accéder
 
 | Format | Exemple | Description |
 |--------|---------|-------------|
-| UPN | `ahmed@computerelectronics.be` | Format moderne (recommandé) |
-| NetBIOS | `computerelectronics\ahmed` | Format classique |
+| UPN | `ahmed@maxtec.be` | Format moderne (recommandé) |
+| NetBIOS | `maxtec\ahmed` | Format classique |
 
 #### Avantages de la connexion au domaine
 

@@ -10,7 +10,7 @@
                 <mxCell id="client1" value="Poste Client" style="image;html=1;image=img/lib/clip_art/computers/Workstation_128x128.png" parent="1" vertex="1">
                     <mxGeometry x="-10" width="80" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="dns1" value="DNS Local&#10;(dns1.computerelectronics.be)" style="image;html=1;image=img/lib/clip_art/computers/Server_128x128.png" parent="1" vertex="1">
+                <mxCell id="dns1" value="DNS Local&#10;(dns1.maxtec.be)" style="image;html=1;image=img/lib/clip_art/computers/Server_128x128.png" parent="1" vertex="1">
                     <mxGeometry x="220" y="100" width="80" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="root1" value="Serveur DNS&#10;Racine" style="image;html=1;image=img/lib/clip_art/computers/Server_128x128.png" parent="1" vertex="1">

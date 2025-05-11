@@ -2,13 +2,13 @@
 
 ## Lab Environment
 1. Domain Controller
-   - Name: dns1.computerelectronics.be
+   - Name: dns1.maxtec.be
    - IP: 192.168.0.2
    - Role: Primary DC
 
 2. Workstations
-   - Primary: ws-compta-01.computerelectronics.be
-   - Secondary: ws-compta-02.computerelectronics.be
+   - Primary: ws-compta-01.maxtec.be
+   - Secondary: ws-compta-02.maxtec.be
    - Network: 192.168.0.x
 
 ## Hardware Requirements
@@ -18,9 +18,9 @@
 
 ## Network Structure
 1. DNS Structure
-   - Root domain: computerelectronics.be
+   - Root domain: maxtec.be
    - Workstations: flat DNS (directly under root)
-   - Format: ws-[dept]-[##].computerelectronics.be
+   - Format: ws-[dept]-[##].maxtec.be
 
 2. IP Addressing
    - Lab environment: 192.168.0.x
@@ -40,7 +40,7 @@
 
 ### Domain controller:
 
-- dns1.computerelectronics.be
+- dns1.maxtec.be
 
 ### Sites:
 
@@ -66,25 +66,25 @@ EU
 ### OU Root = EU
 #### OU = Ventes
 ##### Users:
-- vanessa@computerelectronics.be
-- valeria@computerelectronics.be
-- victor@computerelectronics.be
-- valentin@computerelectronics.be
+- vanessa@maxtec.be
+- valeria@maxtec.be
+- victor@maxtec.be
+- valentin@maxtec.be
 ##### Computers:
-- ws-ventes-01.computerelectronics.be
-- ws-ventes-02.computerelectronics.be
+- ws-ventes-01.maxtec.be
+- ws-ventes-02.maxtec.be
 ##### Groups:
 - GG-EU-Ventes-Admin
 - GG-EU-Ventes-Users
 
 #### OU = RH
 ##### Users: 
-- richard@computerelectronics.be
-- rebecca@computerelectronics.be
-- rene@computerelectronics.be
+- richard@maxtec.be
+- rebecca@maxtec.be
+- rene@maxtec.be
 ##### Computers:
-- ws-RH-01.computerelectronics.be
-- ws-RH-02.computerelectronics.be
+- ws-RH-01.maxtec.be
+- ws-RH-02.maxtec.be
 ##### Groups:
 - GG-EU-RH-Admin
 - GG-EU-RH-Users
@@ -92,12 +92,12 @@ EU
 
 #### OU = Comptabilité
 ##### Users:
-- charlotte@computerelectronics.be
-- cindy@computerelectronics.be
-- charles@computerelectronics.be
+- charlotte@maxtec.be
+- cindy@maxtec.be
+- charles@maxtec.be
 ##### Computers:
-- ws-compta-01.computerelectronics.be
-- ws-compta-02.computerelectronics.be
+- ws-compta-01.maxtec.be
+- ws-compta-02.maxtec.be
 ##### Groups:
 - GG-EU-Compta-Admin
 - GG-EU-Compta-Users

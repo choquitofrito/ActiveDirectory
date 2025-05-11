@@ -4,7 +4,7 @@
 Restreindre l'accès aux ordinateurs du département Ventes uniquement aux utilisateurs de ce département.
 
 ## Prérequis
-- Un domaine Active Directory fonctionnel (computerelectronics.be)
+- Un domaine Active Directory fonctionnel (maxtec.be)
 - Des ordinateurs du département Ventes (ws-ventes-*)
 - Des utilisateurs du département Ventes
 

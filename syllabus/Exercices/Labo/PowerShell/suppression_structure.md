@@ -31,7 +31,7 @@ function Remove-OUStructure {
 }
 
 # Chemin de base pour l'OU EU
-$baseOU = "OU=EU,DC=computerelectronics,DC=be"
+$baseOU = "OU=EU,DC=maxtec,DC=be"
 
 try {
     # 1. Supprimer les utilisateurs
@@ -43,7 +43,7 @@ try {
     )
     
     foreach ($user in $users) {
-        $userDN = "CN=$user,*,OU=EU,DC=computerelectronics,DC=be"
+        $userDN = "CN=$user,*,OU=EU,DC=maxtec,DC=be"
         Get-ADUser -Filter {SamAccountName -eq $user} | Remove-ADUser -Confirm:$false
         Write-Host "Utilisateur supprimé: $user"
     }

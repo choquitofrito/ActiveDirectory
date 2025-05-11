@@ -7,7 +7,7 @@
                 <mxCell id="2" value="Poste Client" style="rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
                     <mxGeometry x="40" y="90" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="3" value="dns1.&#10;computerelectronics.be" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                <mxCell id="3" value="dns1.&#10;maxtec.be" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
                     <mxGeometry x="240" y="200" width="160" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="4" value="Serveur DNS&#10;Racine" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">

@@ -16,7 +16,7 @@
 7. Gestion AD DS en PowerShell
 
 ## Core Infrastructure
-- Domain: computerelectronics.be (192.168.0.x)
+- Domain: maxtec.be (192.168.0.x)
 - Main DC + 1-2 workstations
 - Details: rules/infrastructure.rules
 
@@ -35,4 +35,4 @@
 # Current Restrictions
 - No PowerShell generation
 - No exercise creation without permission
-- Examples must use computerelectronics.be infrastructure
+- Examples must use maxtec.be infrastructure

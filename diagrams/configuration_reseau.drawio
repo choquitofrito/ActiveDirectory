@@ -17,7 +17,7 @@
                     <mxGeometry x="40" y="320" width="720" height="360" as="geometry"/>
                 </mxCell>
                 <!-- Serveur Windows -->
-                <mxCell id="5" value="Windows Server 2022&#xa;dns1.computerelectronics.be&#xa;192.168.0.2&#xa;Zones DNS :&#xa;- computerelectronics.be&#xa;- comptabilite.computerelectronics.be&#xa;- rh.computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=5;" vertex="1" parent="1">
+                <mxCell id="5" value="Windows Server 2022&#xa;dns1.maxtec.be&#xa;192.168.0.2&#xa;Zones DNS :&#xa;- maxtec.be&#xa;- comptabilite.maxtec.be&#xa;- rh.maxtec.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=5;" vertex="1" parent="1">
                     <mxGeometry x="80" y="360" width="240" height="120" as="geometry"/>
                 </mxCell>
                 <!-- Services -->
@@ -35,7 +35,7 @@
                     <mxGeometry x="400" y="480" width="160" height="80" as="geometry"/>
                 </mxCell>
                 <!-- Futur serveur -->
-                <mxCell id="10" value="Futur serveur (optionnel)&#xa;dns2.computerelectronics.be&#xa;192.168.0.3&#xa;Zone DNS :&#xa;- ventes.computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=5;dashed=1;" vertex="1" parent="1">
+                <mxCell id="10" value="Futur serveur (optionnel)&#xa;dns2.maxtec.be&#xa;192.168.0.3&#xa;Zone DNS :&#xa;- ventes.maxtec.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=5;dashed=1;" vertex="1" parent="1">
                     <mxGeometry x="80" y="560" width="240" height="100" as="geometry"/>
                 </mxCell>
                 <!-- Connexions -->

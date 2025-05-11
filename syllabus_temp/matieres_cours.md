@@ -22,7 +22,7 @@
    - Résolution des problèmes DNS
 
 3. Active Directory Domain Services (AD DS)
-   - Installation du domaine computerelectronics.be
+   - Installation du domaine maxtec.be
    - Structure organisationnelle
      * Départements (Comptabilité, RH, Ventes)
      * Infrastructure IT
@@ -66,8 +66,8 @@
    - Résolution des problèmes
 
 Environnement de formation :
-- Domaine : computerelectronics.be
-- Contrôleur de domaine : dns1.computerelectronics.be (192.168.0.2)
+- Domaine : maxtec.be
+- Contrôleur de domaine : dns1.maxtec.be (192.168.0.2)
 - Départements : Comptabilité, RH, Ventes
 - Structure : OUs par département avec séparation Utilisateurs/Ordinateurs
 

@@ -11,7 +11,7 @@ Une fois les images transférées, procédons à la création des stratégies de
 
 5. Création de la première GPO pour le département Comptabilité :
    - Lancez la console GPO : `Gestionnaire de serveur` > `Outils` > `Gestion des stratégies de groupe`
-   - Dans l'arborescence, accédez à `Forêt: computerelectronics.be` > `Domaines` > `computerelectronics.be` > `Objets de stratégie de groupe`
+   - Dans l'arborescence, accédez à `Forêt: maxtec.be` > `Domaines` > `maxtec.be` > `Objets de stratégie de groupe`
    - Effectuez un clic droit sur l'UO Comptabilité > `Créer une nouvelle GPO et la lier`
    - Nommez la GPO selon notre convention :
        - `GPO-Configuration-FondEcranCompta`

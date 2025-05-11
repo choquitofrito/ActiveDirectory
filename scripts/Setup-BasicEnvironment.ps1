@@ -41,7 +41,7 @@ function Create-UserIfNotExists {
             
             New-ADUser `
                 -SamAccountName $username `
-                -UserPrincipalName "$username@computerelectronics.be" `
+                -UserPrincipalName "$username@maxtec.be" `
                 -Name "$FirstName $LastName" `
                 -GivenName $FirstName `
                 -Surname $LastName `

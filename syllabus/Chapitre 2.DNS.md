@@ -40,7 +40,7 @@ Il est essentiel pour deux raisons principales :
 | Aspect | Description | Exemple |
 |--------|-------------|----------|
 | 🌐 **Internet** | Permet de naviguer sur internet en utilisant des noms au lieu d'IPs | `www.google.com` → `142.250.179.174` |
-| 🏢 **Active Directory** | Sert de base pour notre infrastructure Active Directory | `dns1.computerelectronics.be` → `192.168.0.2` |
+| 🏢 **Active Directory** | Sert de base pour notre infrastructure Active Directory | `dns1.maxtec.be` → `192.168.0.2` |
 
 > **Point clé:** Sans DNS, nous devrions mémoriser les adresses IP de chaque service et ordinateur!
 
@@ -66,7 +66,7 @@ Le DNS offre deux types de résolution :
    ping -4 www.google.com
    
    # Test de notre futur domaine
-   ping -4 computerelectronics.be
+   ping -4 maxtec.be
    ```
 
 3. 🧐 **Analyse:**
@@ -83,7 +83,7 @@ Le DNS offre deux types de résolution :
 | Domaine | Résultat | Explication |
 |---------|-----------|-------------|
 | `www.google.com` | ✅ Répond | Domain public avec DNS configuré |
-| `computerelectronics.be` | ❌ Ne répond pas | - Domaine interne de test<br>- Pas encore configuré<br>- Sera configuré dans notre infrastructure |
+| `maxtec.be` | ❌ Ne répond pas | - Domaine interne de test<br>- Pas encore configuré<br>- Sera configuré dans notre infrastructure |
 
 </details>
 
@@ -97,11 +97,11 @@ Le DNS offre deux types de résolution :
 
 #### 🌐 Résolution DNS Externe
 
-![Diagramme DNS](../diagrams/images/dns_resolution_computerelectronics.png)
+![Diagramme DNS](../diagrams/images/dns_resolution_maxtec.png)
 
 | Étape | Action | Détails |
 |---------|---------|----------|
-| 1️⃣ | **Requête Client** | Le **client** (extérieur) **demande** l'IP de `computerelectronics.be` |
+| 1️⃣ | **Requête Client** | Le **client** (extérieur) **demande** l'IP de `maxtec.be` |
 | 2️⃣ | **DNS Public** | **Consultation** des serveurs DNS publics |
 | 3️⃣ | **Réponse** | Le serveur **envoie au client l'IP** publique |
 | 4️⃣ | **Connexion** | Le **client** se **connecte** via Internet |
@@ -111,14 +111,14 @@ Le DNS offre deux types de résolution :
 | Étape | Action | Détails |
 |---------|---------|----------|
 | 1️⃣ | **Requête Client** | Un **poste** de travail (interne) **demande l'IP** d'une ressource locale |
-| 2️⃣ | **Réponse DNS** | Notre **serveur DNS interne** (`dns1.computerelectronics.be`) **fournit** l'IP |
+| 2️⃣ | **Réponse DNS** | Notre **serveur DNS interne** (`dns1.maxtec.be`) **fournit** l'IP |
 | 3️⃣ | **Connexion** | Le poste de travail se connecte directement à la ressource à l'intérieur du réseau |
 
 
 
 ## 3. L'Espace de Noms DNS 
 
-Un **espace de noms DNS** est **l'ensemble de noms DNS** organisés sous la forme d'un **arbre DNS**, une structure hiérarchique où **chaque nœud est un domaine** (ici: `computerelectronics.be`, `eu.computerelectronics.be`, `us.computerelectronics.be`, `dev.computerelectronics.be` et `prod.computerelectronics.be`).
+Un **espace de noms DNS** est **l'ensemble de noms DNS** organisés sous la forme d'un **arbre DNS**, une structure hiérarchique où **chaque nœud est un domaine** (ici: `maxtec.be`, `eu.maxtec.be`, `us.maxtec.be`).
 
 ![Diagramme DNS](../diagrams/images/structure_reseau_geographic_zones.png)
 
@@ -126,10 +126,9 @@ Un **espace de noms DNS** est **l'ensemble de noms DNS** organisés sous la form
 
 | Niveau | Description | Exemples |
 |--------|-------------|----------|
-| 🌐 **Domaine Racine** | Domaine principal | `computerelectronics.be` |
-| 🌎 **Zones Géographiques** | Régions | `eu.computerelectronics.be`<br>`us.computerelectronics.be` |
-| 🛠️ **Environnements** | Services | `dev.computerelectronics.be`<br>`prod.computerelectronics.be` |
- 💻 **Ressources** | Appareils et services | `ws-compta-01.computerelectronics.be`<br>`printer-01.computerelectronics.be` |
+| 🌐 **Domaine Racine** | Domaine principal | `maxtec.be` |
+| 🌎 **Zones Géographiques** | Régions | `eu.maxtec.be`<br>`us.maxtec.be` |
+ 💻 **Ressources** | Appareils et services | `ws-compta-01.maxtec.be`<br>`printer-01.maxtec.be` |
 
 
 ### 🌲 Forêts DNS
@@ -137,14 +136,14 @@ Un **espace de noms DNS** est **l'ensemble de noms DNS** organisés sous la form
 Un **forêt DNS** est un espace de noms avec plusieurs arbres.
 
 **Exemple de fusion d'entreprises:**
-- 🇪🇺 `computerelectronics.be` (Premier arbre)
+- 🇪🇺 `maxtec.be` (Premier arbre)
 - 🇫🇷 `techshop.fr` (Deuxième arbre)
 
 Chaque arbre garde son indépendance tout en permettant une collaboration entre les entreprises.
 
 ![Diagramme DNS](../diagrams/images/forest_structure.png)
 
-**Dans notre cas du laboon on a un forêt d'un arbre** (`computerelectronics.be`).
+**Dans notre cas du laboon on a un forêt d'un arbre** (`maxtec.be`).
 
 ### 📑 Cas Pratique: Computer Electronics
 
@@ -165,7 +164,7 @@ Voici l'arbre DNS de Computer Electronics, on voit aussi l'ensemble des sous-dom
   * Meilleure gestion du trafic réseau
   * Répartition logique des ressources
 - 🛠️ **Séparation des Environnements**
-  * Isolation dev/prod
+
   * Sécurité renforcée
 - 💻 **Gestion des Ressources**
   * Organisation claire
@@ -180,20 +179,20 @@ Voici l'arbre DNS de Computer Electronics, on voit aussi l'ensemble des sous-dom
 
 #### 💻 Structure Plate (Flat DNS) 
 
-Observez que les sous-domaines (`eu`, `usa`, `prod`, `dev`) **ne sont  pas utilisés pour les postes de travail et imprimantes**
+Observez que les sous-domaines (`eu`, `usa`) **ne sont pas utilisés pour les postes de travail et imprimantes**
 
 Au lieu de 
 
 ```plaintext
-ws-compta-01.eu.computerelectronics.be
-printer-rh-01.usa.computerelectronics.be
+ws-compta-01.eu.maxtec.be
+printer-rh-01.usa.maxtec.be
 ```
 
 on a 
 
 ```plaintext
-ws-compta-01.computerelectronics.be
-printer-rh-01.computerelectronics.be
+ws-compta-01.maxtec.be
+printer-rh-01.maxtec.be
 ```
 
 C'est fait exprès: si on **utilise** le nom du **sous-domaine** on devrait **gérer des certificats SSL pour chaque ressource** et on ne veut pas le faire! C'est une **approche** professionnelle **standardisée**.
@@ -202,8 +201,7 @@ Les sous-domaines sont utilisés uniquement pour les serveurs et services (obser
 
 ```plaintext
 # Pour les serveurs et services
-auth.eu.computerelectronics.be
-db.prod.computerelectronics.be
+auth.eu.maxtec.be
 ```
 
 
@@ -216,7 +214,7 @@ Une **zone DNS** est tout simplement **une partie de l'espace de noms DNS** (une
 
 ### 🛠️ Architecture DNS Centralisée
 
-> **Note:** Pour un environnement de formation ou une petite/moyenne entreprise, **un seul serveur DNS** (`dns1.computerelectronics.be`) maître avec réplication est suffisant. Dans de plus grandes infrastructures, on pourrait avoir des serveurs DNS spécialisés par zone, mais on n'en a pas besoin dans notre cas.
+> **Note:** Pour un environnement de formation ou une petite/moyenne entreprise, **un seul serveur DNS** (`dns1.maxtec.be`) maître avec réplication est suffisant. Dans de plus grandes infrastructures, on pourrait avoir des serveurs DNS spécialisés par zone, mais on n'en a pas besoin dans notre cas.
 
 | Serveur | Rôle | Fonction |
 |---------|------|----------|
@@ -258,7 +256,7 @@ Une **zone DNS** est tout simplement **une partie de l'espace de noms DNS** (une
 > - 💻 La structure **logique** (zones DNS, sous-domaines)
 > - 🖥 L'organisation **physique** (répartition géographique, adressage IP)
 
-**Bien que les ressources soient physiquement réparties entre l'Europe et les États-Unis, la gestion DNS reste centralisée sur notre serveur principal `dns1.computerelectronics.be`.**
+**Bien que les ressources soient physiquement réparties entre l'Europe et les États-Unis, la gestion DNS reste centralisée sur notre serveur principal `dns1.maxtec.be`.**
 
 
 
@@ -268,22 +266,20 @@ Une **zone DNS** est tout simplement **une partie de l'espace de noms DNS** (une
 
 > **Point clé:** Notre infrastructure DNS utilise une hiérarchie logique à plusieurs niveaux, mais avec une gestion centralisée
 
-#### 🌐 Niveau Racine (`computerelectronics.be`)
+#### 🌐 Niveau Racine (`maxtec.be`)
 
 | Type | Description |
 |------|-------------|
 | 💻 **Postes** | Directement sous la racine (structure plate) |
 | 🖥 **Serveurs** | Dans les sous-domaines (structure hiérarchique) |
-| 🔑 **Gestion** | Centralisée sur `dns1.computerelectronics.be` |
+| 🔑 **Gestion** | Centralisée sur `dns1.maxtec.be` |
 
-#### 🌎 Sous-domaines Géographiques et de Service
+#### 🌎 Sous-domaines Géographiques
 
 | Type | Sous-domaine | Usage |
 |------|--------------|--------|
-| 🇪🇺 **Europe** | `eu.computerelectronics.be` | Opérations européennes |
-| 🇺🇸 **USA** | `us.computerelectronics.be` | Opérations américaines |
-| 🛠️ **DEV** | `dev.computerelectronics.be` | Environnement de développement |
-| 🏛️ **PROD** | `prod.computerelectronics.be` | Environnement de production |
+| 🇪🇺 **Europe** | `eu.maxtec.be` | Opérations européennes |
+| 🇺🇸 **USA** | `us.maxtec.be` | Opérations américaines |
 
 > 💡 **Point Important**: La structure DNS est une **organisation logique** qui peut être **totalement indépendante** de l'emplacement physique des ressources.
 
@@ -296,17 +292,16 @@ Une **zone DNS** est tout simplement **une partie de l'espace de noms DNS** (une
 - Infrastructure: 192.168.0.0/24 (dns1, dns2)
 - Zone EU: 192.168.10.0/24 (postes EU, services EU)
 - Zone US: 192.168.20.0/24 (postes US, services US)
-- Zone Dev: 192.168.30.0/24 (services dev)
-- Zone Prod: 192.168.40.0/24 (services prod)
+
 
 ### 🌳 Structure Logique (DNS)
 
 **Structure de noms** (domaines et sous-domaines, ressources)
 
-- Domaine racine: computerelectronics.be
-- Sous-domaines géographiques: eu.computerelectronics.be, us.computerelectronics.be
-- Sous-domaines services: dev.computerelectronics.be, prod.computerelectronics.be
-- Ressources: ws-compta-01.computerelectronics.be, printer-rh-01.computerelectronics.be
+- Domaine racine: maxtec.be
+- Sous-domaines géographiques: eu.maxtec.be, us.maxtec.be
+
+- Ressources: ws-compta-01.maxtec.be, printer-rh-01.maxtec.be
 
 > 💡 **Note:** La structure logique (DNS) permet d'organiser les ressources **indépendamment de leur emplacement physique** (IP)
 
@@ -318,8 +313,8 @@ Une **zone DNS** est tout simplement **une partie de l'espace de noms DNS** (une
 
 | Serveur | Zone d'Autorité | Sous-domaines |
 |---------|-----------------|---------------|
-| `dns1.computerelectronics.be` | `computerelectronics.be` | ✔️ |
-| `dns2.computerelectronics.be` | `computerelectronics.be` | ✔️ |
+| `dns1.maxtec.be` | `maxtec.be` | ✔️ |
+| `dns2.maxtec.be` | `maxtec.be` | ✔️ |
 
 Un serveur DNS ayant autorité sur un espace de nom :
 
@@ -433,11 +428,11 @@ Voici, plus en détail, la suite d'opérations pour chercher l'IP d'un serveur D
 
 #### 📓 Instructions
 
-Analysez comment `dns1.computerelectronics.be` répondra aux requêtes suivantes:
+Analysez comment `dns1.maxtec.be` répondra aux requêtes suivantes:
 
-1. `ws-compta-01.computerelectronics.be` (poste de travail)
+1. `ws-compta-01.maxtec.be` (poste de travail)
 2. `www.google.com` (site externe)
-3. `fileserver.us.computerelectronics.be` (serveur de fichiers US)
+3. `fileserver.us.maxtec.be` (serveur de fichiers US)
 
 **Pour chaque cas:** 
 - Indiquez si dns1 a l'autorité
@@ -449,7 +444,7 @@ Analysez comment `dns1.computerelectronics.be` répondra aux requêtes suivantes
 ##### 💻 Requête Interne (ws-compta-01)
 ```plaintext
 ✅ Avec Autorité
-- Zone: computerelectronics.be
+- Zone: maxtec.be
 - IP: 192.168.10.128
 - Réponse: Directe et immédiate
 ```
@@ -465,7 +460,7 @@ Analysez comment `dns1.computerelectronics.be` répondra aux requêtes suivantes
 ##### 🇺🇸 Requête Sous-domaine (us)
 ```plaintext
 ✅ Avec Autorité
-- Zone: us.computerelectronics.be
+- Zone: us.maxtec.be
 - IP: 192.168.20.10
 - Réponse: Directe (zone déléguée)
 ```
@@ -485,14 +480,14 @@ Analysez comment `dns1.computerelectronics.be` répondra aux requêtes suivantes
 
 | Composant | Rôle |
 |-----------|-------|
-| 📝 Registrar | Gère `computerelectronics.be` |
+| 📝 Registrar | Gère `maxtec.be` |
 | 💻 DNS Public | Pointe vers nos serveurs |
 | 🌎 Services | Site web, email, etc. |
 
 ```plaintext
 # Exemple d'enregistrements publics
-computerelectronics.be.    NS    ns1.registrar.com
-www.computerelectronics.be A     203.0.113.10
+maxtec.be.    NS    ns1.registrar.com
+www.maxtec.be A     203.0.113.10
 ```
 </details>
 
@@ -508,29 +503,25 @@ www.computerelectronics.be A     203.0.113.10
 
 ```plaintext
 # Structure de délégation interne
-computerelectronics.be → dns1, dns2
-eu.computerelectronics.be → dns.eu
-us.computerelectronics.be → dns.us
+maxtec.be → dns1, dns2
+eu.maxtec.be → dns.eu
+us.maxtec.be → dns.us
 ```
 </details>
 
 Cette configuration sera faite dans le contexte d'Active Directory.
 
-- `dns1.computerelectronics.be` est configuré comme serveur autoritaire pour l'ensemble du domaine
+- `dns1.maxtec.be` est configuré comme serveur autoritaire pour l'ensemble du domaine
 - Les zones géographiques et d'environnement sont configurées dans le serveur dns1 ainsi, dans un fichier de configuration DNS :
   ```
   # Configuration des zones géographiques :
-  eu.computerelectronics.be.   IN  NS  dns1.computerelectronics.be.
-  us.computerelectronics.be.   IN  NS  dns1.computerelectronics.be.
-  
-  # Configuration des zones d'environnement :
-  dev.computerelectronics.be.  IN  NS  dns1.computerelectronics.be.
-  prod.computerelectronics.be. IN  NS  dns1.computerelectronics.be.
+  eu.maxtec.be.   IN  NS  dns1.maxtec.be.
+  us.maxtec.be.   IN  NS  dns1.maxtec.be.
   ```
 Nous allons voir plus tard les **enregistrements** de zone (IN, NS, etc.).
 
 - Chaque ligne délègue la gestion d'un sous-domaine à ce serveur DNS
-- Les services utiliseront ces sous-domaines (ex: `fileserver.eu.computerelectronics.be`)
+- Les services utiliseront ces sous-domaines (ex: `fileserver.eu.maxtec.be`)
 
 
 ## 9. Zones Secondaires
@@ -565,12 +556,12 @@ Nous allons voir plus tard les **enregistrements** de zone (IN, NS, etc.).
    - 🛡️ Isolation des modifications
 </details>
 
-### 💻 Exemple: Infrastructure computerelectronics.be
+### 💻 Exemple: Infrastructure maxtec.be
 
 ```plaintext
 # Configuration des zones
-Primaire: dns1.computerelectronics.be (192.168.0.2)
-Secondaire: dns2.computerelectronics.be (192.168.0.3)
+Primaire: dns1.maxtec.be (192.168.0.2)
+Secondaire: dns2.maxtec.be (192.168.0.3)
 
 # Transfert de zone
 Type: Incrémental
@@ -599,12 +590,12 @@ Il y a deux catégories d'enregistrements :
 
 | Type | Usage | Exemple |
 |------|--------|----------|
-| MX | Email | `computerelectronics.be → mail.eu (10)` |
+| MX | Email | `maxtec.be → mail.eu (10)` |
 | SRV | Services | `_ldap._tcp → dc1.eu (port 389)` |
-| NS | DNS | `eu → dns.eu.computerelectronics.be` |
+| NS | DNS | `eu → dns.eu.maxtec.be` |
 </details>
 
-#### 💻 Exemple: Zone computerelectronics.be
+#### 💻 Exemple: Zone maxtec.be
 
 ```plaintext
 # Postes de travail
@@ -620,14 +611,14 @@ www             IN CNAME ws-web-01
 ftp             IN CNAME ws-files-01
 ```
 
-Notez que dans les enregistrements A pour les postes, nous avons uniquement le nom de la machine, sans l'extension du domaine, car le domaine est déjà défini dans la zone ! Le nom complet de la machine s’appelle « FQDN » (Fully Qualified Domain Name) et sera `ws-compta-01.computerelectronics.be`.
+Notez que dans les enregistrements A pour les postes, nous avons uniquement le nom de la machine, sans l'extension du domaine, car le domaine est déjà défini dans la zone ! Le nom complet de la machine s’appelle « FQDN » (Fully Qualified Domain Name) et sera `ws-compta-01.maxtec.be`.
 
 
 ### 9.2. 🔄 Zones de Recherche Inverse
 
 Une **zone de recherche inverse** (Reverse Lookup Zone) **convertit les adresses IP en noms** d'hôtes.
 
-Ex: `192.168.10.128` devient `ws-compta-01.computerelectronics.be`.
+Ex: `192.168.10.128` devient `ws-compta-01.maxtec.be`.
 
 
 #### 🔑 Utilisations Principales
@@ -649,13 +640,13 @@ Administration</summary>
 
 ```plaintext
 # Zone inverse pour 192.168.0.0/24
-2.0   IN PTR   dns1.computerelectronics.be.
-3.0   IN PTR   dns2.computerelectronics.be.
+2.0   IN PTR   dns1.maxtec.be.
+3.0   IN PTR   dns2.maxtec.be.
 
 # Zone inverse pour 192.168.10.0/24
-128.10 IN PTR  ws-compta-01.computerelectronics.be.
-129.10 IN PTR  ws-compta-02.computerelectronics.be.
-10.10  IN PTR  fileserver.eu.computerelectronics.be.
+128.10 IN PTR  ws-compta-01.maxtec.be.
+129.10 IN PTR  ws-compta-02.maxtec.be.
+10.10  IN PTR  fileserver.eu.maxtec.be.
 ```
 
 ### 9.3. 🔗 Relations entre Types de Zones (opt)
@@ -669,8 +660,8 @@ Administration</summary>
 
 | Type | Description | Exemple |
 |------|-------------|----------|
-| 💻 Principale | Source autoritaire | `dns1 → computerelectronics.be` |
-| 🔄 Secondaire | Copie synchronisée | `dns2 → computerelectronics.be` |
+| 💻 Principale | Source autoritaire | `dns1 → maxtec.be` |
+| 🔄 Secondaire | Copie synchronisée | `dns2 → maxtec.be` |
 </details>
 
 <details>
@@ -686,12 +677,12 @@ Administration</summary>
 
 ```plaintext
 # Zones Principales
-computerelectronics.be      # Directe
+maxtec.be      # Directe
 0.168.192.in-addr.arpa     # Inverse
 
 # Zones Déléguées
-eu.computerelectronics.be   # Directe (EU)
-us.computerelectronics.be   # Directe (US)
+eu.maxtec.be   # Directe (EU)
+us.maxtec.be   # Directe (US)
 ```
 
 ## 10.  Enregistrement DNS en détail (opt)
@@ -740,12 +731,12 @@ us.computerelectronics.be   # Directe (US)
 | TXT | Vérification | `@ IN TXT "v=spf1 mx -all"` |
 </details>
 
-### 💻 Exemple: Zone computerelectronics.be
+### 💻 Exemple: Zone maxtec.be
 
 ```plaintext
 # SOA et NS
-@             IN SOA  dns1 admin.computerelectronics.be.
-              IN NS   dns1.computerelectronics.be.
+@             IN SOA  dns1 admin.maxtec.be.
+              IN NS   dns1.maxtec.be.
 
 # Infrastructure
 dns1          IN A    192.168.0.2
@@ -788,7 +779,7 @@ L'information ci-dessous peut juste aider à comprendre le fonctionnement du DNS
 
 | Type | Description |
 |------|-------------|
-| Zone Principale | `computerelectronics.be` créée automatiquement |
+| Zone Principale | `maxtec.be` créée automatiquement |
 | Zone Inverse | Pour la résolution inverse des IPs |
 | Zones Spéciales | `_msdcs`, ForestDNSZones, etc. |
 </details>
@@ -801,7 +792,7 @@ L'information ci-dessous peut juste aider à comprendre le fonctionnement du DNS
 1. **Créer une Zone de Sous-domaine**
    - Clic droit sur la zone avant
    - **Nouvelle Zone** → **Zone Principale**
-   - Exemple: `eu.computerelectronics.be`
+   - Exemple: `eu.maxtec.be`
 
 2. **Zone Inverse**
    - Clic droit sur **Zones de recherche inverse**
@@ -830,14 +821,14 @@ L'information ci-dessous peut juste aider à comprendre le fonctionnement du DNS
 
 ```plaintext
 # 1. Vérification du DC
-nslookup dc1.computerelectronics.be
+nslookup dc1.maxtec.be
 
 # 2. Vérification des Services AD
-nslookup -type=srv _ldap._tcp.computerelectronics.be
-nslookup -type=srv _kerberos._tcp.computerelectronics.be
+nslookup -type=srv _ldap._tcp.maxtec.be
+nslookup -type=srv _kerberos._tcp.maxtec.be
 
 # 3. Vérification du Domaine
-nslookup computerelectronics.be
+nslookup maxtec.be
 ```
 </details>
 
@@ -848,9 +839,9 @@ nslookup computerelectronics.be
 # Quand un poste rejoint le domaine:
 1. Enregistrement automatique dans DNS
 2. Création d'un enregistrement A
-   ws-compta-01.computerelectronics.be → 192.168.10.128 (par exemple)
+   ws-compta-01.maxtec.be → 192.168.10.128 (par exemple)
 
 # Vérification
-nslookup ws-compta-01.computerelectronics.be
+nslookup ws-compta-01.maxtec.be
 ```
 </details>

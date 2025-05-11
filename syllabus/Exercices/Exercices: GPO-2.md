@@ -54,6 +54,6 @@ On doit créer un GPO qui lance ce script au démarrage de session des utilisate
 Attention à rajouter le script dans la section des script PowerShell!
 
 Le script doit se lancé dans la fermeture de session. 
-Cliquez et chercher le script sur le disque dur mais **utilisez un chemin de réseau**  dans la configuration!`\\dns2\SYSVOL\computerelectronics.be\scripts`. ATTENTION AU CHEMIN!!! pas `C:\Windows\SYSVOL\domain\scripts`!
+Cliquez et chercher le script sur le disque dur mais **utilisez un chemin de réseau**  dans la configuration!`\\dns2\SYSVOL\maxtec.be\scripts`. ATTENTION AU CHEMIN!!! pas `C:\Windows\SYSVOL\domain\scripts`!
 
  

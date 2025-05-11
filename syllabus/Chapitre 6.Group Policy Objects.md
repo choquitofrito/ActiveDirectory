@@ -57,13 +57,13 @@ Les **stratégies de groupe peuvent être appliquées à différents niveaux** d
      * But : Optimisation du trafic et de la réplication
 
    - **Zone DNS** : 
-     * Section d'un espace de noms DNS (ex: computerelectronics.be)
+     * Section d'un espace de noms DNS (ex: maxtec.be)
      * But : Organisation hiérarchique des noms
 
 Dans notre infrastructure :
-- **Domaine AD** et **Zone DNS** principale : `computerelectronics.be`
+- **Domaine AD** et **Zone DNS** principale : `maxtec.be`
 - **Sites AD** : `site EU (192.168.10.0/24)` et `site US (192.168.20.0/24)`
-- **Zones DNS** : Zone EU (`eu.computerelectronics.be`), Zone US (`us.computerelectronics.be`)
+- **Zones DNS** : Zone EU (`eu.maxtec.be`), Zone US (`us.maxtec.be`)
 
 Ces concepts sont distincts mais complémentaires dans une infrastructure d'entreprise.
 
@@ -115,7 +115,7 @@ Pour faire tout ça, voici les étapes:
 Dans le **serveur**:
 
 1. Ouvrir le `Gestionnire de Serveur` > `Outils` > `Gestion de stratégies de groupe`
-2. Cliquer sur la `Forèt` > `Domaines` > `computerelectronics.be`
+2. Cliquer sur la `Forèt` > `Domaines` > `maxtec.be`
 3. Deployer l'UO `EU` (Europe)
 4. Clique droit sur l'OU `User` dans `Ventes` > `Créer un objet GPO dans ce domaine et le lier ici`
 5. Nommez la GPO `GPO-Panneau-Restreint` (par exemple)

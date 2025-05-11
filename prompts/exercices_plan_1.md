@@ -29,7 +29,7 @@ We have a Virtualized environment with 3 VMs:
 - Use the concepts learnt in previous chapters.
 - The exercices MUST be created to use the infrastructure defined in the previous chapter (partially or fully)
 - Use the tools and commands learnt in previous chapters (no powershell for the moment)
-- Use the domain computerelectronics.be (as defined in the previous chapter), but remember that we have just the server `dns1.computerelectronics.be` (DC) and two workstations `ws-compta-01.computerelectronics.be` and `ws-02.computerelectronics.be`. These exist in the virtualized environment, so exercices will be created to use them.
+- Use the domain maxtec.be (as defined in the previous chapter), but remember that we have just the server `dns1.maxtec.be` (DC) and two workstations `ws-compta-01.maxtec.be` and `ws-02.maxtec.be`. These exist in the virtualized environment, so exercices will be created to use them.
 - Use the IP addresses defined in the previous chapter for the 
 
 

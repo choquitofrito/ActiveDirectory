@@ -7,7 +7,7 @@ Vérifier GPO client
 Vérifier l'emplacement du script
 Ouvrez l'éditeur de GPO
 Allez dans : Configuration utilisateur > Paramètres Windows > Scripts
-Vérifiez que le script est bien dans : \\computerelectronics.be\SYSVOL\computerelectronics.be\Policies\{ID-GPO}\User\Scripts\Logon
+Vérifiez que le script est bien dans : \\maxtec.be\SYSVOL\maxtec.be\Policies\{ID-GPO}\User\Scripts\Logon
 Vérifier les journaux d'événements
 Sur le poste client, ouvrez l'Observateur d'événements
 Regardez dans : Applications et Services Logs > Microsoft > Windows > Group Policy > Operational

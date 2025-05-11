@@ -140,7 +140,7 @@ OU
 | IT | GPO-IT-USB | Autoriser USB |
 | RH | GPO-RH-Screen | Verrouillage 5min |
 
-## 7. 🏢 Structure pour computerelectronics.be
+## 7. 🏢 Structure pour maxtec.be
 
 ### 7.1 Hiérarchie Géographique (EU et USA)
 
@@ -226,7 +226,7 @@ Dev
 1. **Structure**
    ```
    # Profondeur maximale
-   computerelectronics.be (domaine AD)
+   maxtec.be (domaine AD)
    ├── EU                    # Niveau 1
    │   ├── Comptabilité     # Niveau 2
    │   │   ├── Users      # Niveau 3
@@ -247,7 +247,7 @@ Dev
 3. **Séparation**
    ```
    # Par environnement
-   computerelectronics.be (domaine AD)
+   maxtec.be (domaine AD)
    ├── Dev
    │   ├── Applications
    │   └── Databases
@@ -327,7 +327,7 @@ Dev
    Pour maintenir la performance et la simplicité, limitez la profondeur à 4 niveaux maximum:
    ```
    # Hiérarchie optimale
-   computerelectronics.be (domaine AD)    # Niveau 0 (Racine)
+   maxtec.be (domaine AD)    # Niveau 0 (Racine)
    ├── EU                 # Niveau 1 (Géographie)
    │   ├── RH             # Niveau 2 (Département)
    │   │   └── Users      # Niveau 3 (Objets)
@@ -632,7 +632,7 @@ Les groupes sont utilisés pour **gérer les accès aux ressources et les rôles
 
 On peut créer de groupes qui contiennent des **permissions directes sur des ressources**.
 
-**Description** : Dans un environnement mono-domaine AD comme `computerelectronics.be`, la stratégie AGLP simplifie la gestion des accès en accordant les permissions directement aux groupes globaux.
+**Description** : Dans un environnement mono-domaine AD comme `maxtec.be`, la stratégie AGLP simplifie la gestion des accès en accordant les permissions directement aux groupes globaux.
 
 1. **Ressources Partagées**
    ```plaintext

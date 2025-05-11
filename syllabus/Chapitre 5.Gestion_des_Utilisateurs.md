@@ -27,7 +27,7 @@
 
 ### Concepts Fondamentaux
 
-Un compte utilisateur Active Directory représente une **identité numérique unique** dans `computerelectronics.be` permettant :
+Un compte utilisateur Active Directory représente une **identité numérique unique** dans `maxtec.be` permettant :
 
 - **Identification** unique (ex: `sophie.lambert`)
 - **Contrôle d'accès** aux ressources
@@ -128,7 +128,7 @@ Par défaut, il y a plusieurs **conteneurs** (**ce ne sont pas des OU**, mais de
 - 👤 Prénom : Clark
 - 👤 Nom : Kent
 - 🌐 Login : clark.kent
-- 📧 UPN : clark.kent@computerelectronics.be
+- 📧 UPN : clark.kent@maxtec.be
 
 
 4. **Configuration du mot de passe** :
@@ -248,7 +248,7 @@ GG-EU-Support              # Support IT
 
 ##### 💡 Caractéristiques
 - Servent à attribuer des droits (ex: `Admin`, `Lecture`, `Modif`)
-- Limité **au domaine AD actuel** (`computerelectronics.be` dans notre cas)
+- Limité **au domaine AD actuel** (`maxtec.be` dans notre cas)
 - Gestion des ressources
 
 ##### 📄 Exemples

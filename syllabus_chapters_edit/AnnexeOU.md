@@ -107,7 +107,7 @@ Cette structure suit les meilleures pratiques d'entreprise tout en restant suffi
 - Gestion des politiques
 - Exigences de conformité
 
-## 5. Considérations Spécifiques pour computerelectronics.be
+## 5. Considérations Spécifiques pour maxtec.be
 
 ### 5.1. Adaptation à l'Échelle
 - Structure initiale focalisée sur l'Europe

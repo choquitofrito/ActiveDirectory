@@ -4,14 +4,14 @@
 
 Pour réaliser les exercices de GPO, vous utiliserez un environnement de laboratoire simplifié comprenant :
 
-* Un contrôleur de domaine (dns1.computerelectronics.be, 192.168.0.2)
-* Une machine cliente avec Windows 10/11 Professionnel (qui deviendra, par exemple, `ws-IT-01.computerelectronics.be`)
+* Un contrôleur de domaine (dns1.maxtec.be, 192.168.0.2)
+* Une machine cliente avec Windows 10/11 Professionnel (qui deviendra, par exemple, `ws-IT-01.maxtec.be`)
 
 Cet environnement est une version simplifiée de l'infrastructure complète, qui dans un contexte d'entreprise inclurait des zones géographiques (eu/us) et des environnements (dev/prod).
 
 ## Conventions de Nommage
 
-* Postes de travail : ws-[dept]-[##].computerelectronics.be
+* Postes de travail : ws-[dept]-[##].maxtec.be
 * Groupes globaux : GG-[Nom]
 * Groupes locaux de domaine : DL-[Nom]
 * Utilisateurs : prenom.nom

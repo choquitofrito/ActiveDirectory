@@ -130,7 +130,7 @@ Configuration initiale requise :
 1. 🕬️ Ouvrez le **Gestionnaire du Serveur**
 
 2. ⚙️ Configuration du serveur :
-   - 🌐 Nom : `dns1.computerelectronics.be`
+   - 🌐 Nom : `dns1.maxtec.be`
 
 > 📘 Schéma de l'infrastructure :
 
@@ -141,11 +141,11 @@ Configuration initiale requise :
    2. 💻 Sélectionnez le nom actuel
    3. ⚙️ Cliquez sur **Modifier**
    4. 🌐 Nom : **dns1**
-   5. 🌐 Suffixe DNS : **computerelectronics.be**
+   5. 🌐 Suffixe DNS : **maxtec.be**
    6. ✅ Cliquez sur **OK**
    7. 🔄 Redémarrez le serveur
 
-Le serveur aura maintenant le nom complet (FQDN) : `dns1.computerelectronics.be`
+Le serveur aura maintenant le nom complet (FQDN) : `dns1.maxtec.be`
 
 > 💻 **Note :** Vous pouvez aussi accéder au nom via **sysdm.cpl**
 
@@ -213,7 +213,7 @@ Chaque département a des besoins spécifiques :
 
 > ⚙️ Créez un nouveau serveur Windows Server 2022 :
 
-- 🌐 FQDN : `dns2.computerelectronics.be`
+- 🌐 FQDN : `dns2.maxtec.be`
 - 💻 Suivez la même procédure que pour le premier serveur
 
 

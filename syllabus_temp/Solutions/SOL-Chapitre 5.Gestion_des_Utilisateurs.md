@@ -8,8 +8,8 @@ New-ADUser -Name "Sophie Dubois" `
            -GivenName "Sophie" `
            -Surname "Dubois" `
            -SamAccountName "sophie.dubois" `
-           -UserPrincipalName "sophie.dubois@computerelectronics.be" `
-           -Path "OU=Users,OU=Comptabilité,OU=EU,DC=computerelectronics,DC=be" `
+           -UserPrincipalName "sophie.dubois@maxtec.be" `
+           -Path "OU=Users,OU=Comptabilité,OU=EU,DC=maxtec,DC=be" `
            -Description "Comptable Junior - Service Comptabilité" `
            -Office "Bâtiment A - 1er étage" `
            -OfficePhone "+32 2 123 45 68" `
@@ -112,9 +112,9 @@ New-ADUser -Name "Karim Benali (Senior)" `
            -GivenName "Karim" `
            -Surname "Benali" `
            -SamAccountName "karim.benali.sr" `
-           -UserPrincipalName "karim.benali.sr@computerelectronics.be" `
+           -UserPrincipalName "karim.benali.sr@maxtec.be" `
            -Description "Recruteur Senior - Service RH" `
-           -Path "OU=Users,OU=RH,OU=EU,DC=computerelectronics,DC=be" `
+           -Path "OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be" `
            -Enabled $true
 
 # Karim Benali Junior
@@ -122,9 +122,9 @@ New-ADUser -Name "Karim Benali (Junior)" `
            -GivenName "Karim" `
            -Surname "Benali" `
            -SamAccountName "karim.benali.jr" `
-           -UserPrincipalName "karim.benali.jr@computerelectronics.be" `
+           -UserPrincipalName "karim.benali.jr@maxtec.be" `
            -Description "Assistant RH" `
-           -Path "OU=Users,OU=RH,OU=EU,DC=computerelectronics,DC=be" `
+           -Path "OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be" `
            -Enabled $true
 ```
 
@@ -137,11 +137,11 @@ New-ADUser -Name "Marek Wojcik" `
            -GivenName "Marek" `
            -Surname "Wojcik" `
            -SamAccountName "ext.marek.wojcik" `
-           -UserPrincipalName "ext.marek.wojcik@computerelectronics.be" `
+           -UserPrincipalName "ext.marek.wojcik@maxtec.be" `
            -Description "EXT - Consultant Audit - Expire le $($expirationDate.ToString('yyyy-MM-dd'))" `
            -AccountExpirationDate $expirationDate `
            -LogonWorkstations "ws-compta-01" `
-           -Path "OU=Consultants,OU=EU,DC=computerelectronics,DC=be" `
+           -Path "OU=Consultants,OU=EU,DC=maxtec,DC=be" `
            -Enabled $true
 
 # 2. Configurer les heures de connexion (9h-17h, jours ouvrés)
@@ -227,13 +227,13 @@ foreach ($user in $users) {
 New-ADGroup -Name "GG-EU-RH-AdminDelegue" `
             -GroupCategory Security `
             -GroupScope Global `
-            -Path "OU=Groups,OU=RH,OU=EU,DC=computerelectronics,DC=be"
+            -Path "OU=Groups,OU=RH,OU=EU,DC=maxtec,DC=be"
 
 # 2. Ajouter Claire au groupe
 Add-ADGroupMember -Identity "GG-EU-RH-AdminDelegue" -Members "claire.martin"
 
 # 3. Configurer la délégation sur l'OU RH
-$ou = "OU=RH,OU=EU,DC=computerelectronics,DC=be"
+$ou = "OU=RH,OU=EU,DC=maxtec,DC=be"
 $group = "GG-EU-RH-AdminDelegue"
 $acl = Get-Acl -Path "AD:$ou"
 
@@ -254,8 +254,8 @@ Set-Acl -Path "AD:$ou" -AclObject $acl
 
 ```powershell
 # 1. Identifier et déplacer les utilisateurs
-$sourceOU = "OU=Users,OU=IT,OU=EU,DC=computerelectronics,DC=be"
-$targetOU = "OU=Users,OU=Ventes,OU=EU,DC=computerelectronics,DC=be"
+$sourceOU = "OU=Users,OU=IT,OU=EU,DC=maxtec,DC=be"
+$targetOU = "OU=Users,OU=Ventes,OU=EU,DC=maxtec,DC=be"
 $users = Get-ADUser -Filter {Department -eq "Support"} -SearchBase $sourceOU
 
 foreach ($user in $users) {
@@ -287,9 +287,9 @@ function New-ServiceAccount {
     
     New-ADUser -Name $Name `
                -SamAccountName $Name `
-               -UserPrincipalName "$Name@computerelectronics.be" `
+               -UserPrincipalName "$Name@maxtec.be" `
                -Description $Description `
-               -Path "OU=ServiceAccounts,DC=computerelectronics,DC=be" `
+               -Path "OU=ServiceAccounts,DC=maxtec,DC=be" `
                -AccountPassword $securePassword `
                -Enabled $true `
                -PasswordNeverExpires $true `

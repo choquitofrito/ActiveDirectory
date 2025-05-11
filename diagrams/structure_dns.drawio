@@ -6,24 +6,24 @@
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
                 <!-- Domaine racine -->
-                <mxCell id="2" value="computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1" vertex="1" parent="1">
+                <mxCell id="2" value="maxtec.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1" vertex="1" parent="1">
                     <mxGeometry x="320" y="40" width="160" height="40" as="geometry"/>
                 </mxCell>
                 <!-- Serveurs DNS -->
-                <mxCell id="3" value="dns1.computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666" vertex="1" parent="1">
+                <mxCell id="3" value="dns1.maxtec.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666" vertex="1" parent="1">
                     <mxGeometry x="120" y="120" width="160" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="4" value="dns2.computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666" vertex="1" parent="1">
+                <mxCell id="4" value="dns2.maxtec.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666" vertex="1" parent="1">
                     <mxGeometry x="520" y="120" width="160" height="40" as="geometry"/>
                 </mxCell>
                 <!-- Sous-domaines -->
-                <mxCell id="5" value="comptabilite.computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00" vertex="1" parent="1">
+                <mxCell id="5" value="comptabilite.maxtec.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00" vertex="1" parent="1">
                     <mxGeometry x="40" y="200" width="200" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="6" value="rh.computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00" vertex="1" parent="1">
+                <mxCell id="6" value="rh.maxtec.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00" vertex="1" parent="1">
                     <mxGeometry x="300" y="200" width="200" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="7" value="ventes.computerelectronics.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00" vertex="1" parent="1">
+                <mxCell id="7" value="ventes.maxtec.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00" vertex="1" parent="1">
                     <mxGeometry x="560" y="200" width="200" height="40" as="geometry"/>
                 </mxCell>
                 <!-- Appareils comptabilité -->
@@ -35,7 +35,7 @@
                     <mxGeometry x="300" y="280" width="200" height="40" as="geometry"/>
                 </mxCell>
                 <!-- Appareils ventes -->
-                <mxCell id="10" value="fileserver.us.computerelectronics.be&#xa;apps.ventes&#xa;database.ventes&#xa;server1.ventes&#xa;server2.ventes&#xa;ws-vnt-01&#xa;printer01.ventes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" vertex="1" parent="1">
+                <mxCell id="10" value="fileserver.us.maxtec.be&#xa;apps.ventes&#xa;database.ventes&#xa;server1.ventes&#xa;server2.ventes&#xa;ws-vnt-01&#xa;printer01.ventes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" vertex="1" parent="1">
                     <mxGeometry x="560" y="280" width="200" height="120" as="geometry"/>
                 </mxCell>
                 <!-- Connexions -->

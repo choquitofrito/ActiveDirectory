@@ -6,7 +6,7 @@
 
 ### Solution 1.1 - Message de connexion pour les Ventes
 1. Ouvrir la Console de gestion des stratégies de groupe (GPMC)
-2. Dans l'arborescence, naviguer vers la forêt → Domaines → computerelectronics.be → EU → Ventes
+2. Dans l'arborescence, naviguer vers la forêt → Domaines → maxtec.be → EU → Ventes
 3. Clic droit sur l'OU Ventes → Créer un GPO et le lier ici
 4. Nommer le GPO : `GPO-Message-Ventes`
 5. Éditer le GPO :

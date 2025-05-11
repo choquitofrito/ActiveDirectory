@@ -6,9 +6,9 @@
 - Naming: ex_Chapitre X.[Chapter_Name].md
 
 ## Infrastructure Usage
-- Domain: computerelectronics.be
-- Primary DC: dns1.computerelectronics.be
-- Workstations: ws-[dept]-[##].computerelectronics.be
+- Domain: maxtec.be
+- Primary DC: dns1.maxtec.be
+- Workstations: ws-[dept]-[##].maxtec.be
 - Network: 192.168.0.x range only
 
 ## Creation Rules

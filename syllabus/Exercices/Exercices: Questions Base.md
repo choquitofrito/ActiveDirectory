@@ -28,7 +28,7 @@ ws-compta-01 IN A 192.168.10.128
 <br>
 <details>
 <summary>Réponse</summary>
-Un arbre DNS est une structure hiérarchique de noms de domaine partageant un même suffixe (ex: .computerelectronics.be). Une forêt DNS est l'ensemble de tous les arbres DNS sur Internet.
+Un arbre DNS est une structure hiérarchique de noms de domaine partageant un même suffixe (ex: .maxtec.be). Une forêt DNS est l'ensemble de tous les arbres DNS sur Internet.
 </details>
 <br>
 
@@ -36,7 +36,7 @@ Un arbre DNS est une structure hiérarchique de noms de domaine partageant un m�
 <br>
 <details>
 <summary>Réponse</summary>
-Un serveur DNS avec autorité est responsable d'une zone DNS spécifique. Il maintient les enregistrements officiels pour cette zone et peut répondre directement aux requêtes sans consulter d'autres serveurs (comme notre `dns1.computerelectronics.be`)
+Un serveur DNS avec autorité est responsable d'une zone DNS spécifique. Il maintient les enregistrements officiels pour cette zone et peut répondre directement aux requêtes sans consulter d'autres serveurs (comme notre `dns1.maxtec.be`)
 </details>
 <br>
 
@@ -60,7 +60,7 @@ AD DS est le service principal d'Active Directory qui gère les utilisateurs et 
 3. Qu'est-ce que c'est un domaine AD?
 <details>
 <summary>Réponse</summary>
-Un domaine AD est la structure administrative qui regroupe l'ensemble des éléments qui se trouvent dans le même annuaire (utilisateurs, ordinateurs, UOs, GPOs...). Le domaine AD porte le même nom que le domaine dns, pour nous `dns1.computerelectronics.be`.
+Un domaine AD est la structure administrative qui regroupe l'ensemble des éléments qui se trouvent dans le même annuaire (utilisateurs, ordinateurs, UOs, GPOs...). Le domaine AD porte le même nom que le domaine dns, pour nous `dns1.maxtec.be`.
 </details>
 <br>
 
@@ -72,7 +72,7 @@ Il gère l'authentification des utilisateurs et applique les politiques de sécu
 </details>
 <br>
 
-5. Dans le réseau de computerelectronics.be, est-ce que la base de données d'AD est censée d'être sur dns1, dns2 ou les deux?
+5. Dans le réseau de maxtec.be, est-ce que la base de données d'AD est censée d'être sur dns1, dns2 ou les deux?
 <details>
 <summary>Réponse</summary>
 La base de données AD doit être sur les **deux serveurs** (dns1 et dns2) car ils sont tous les deux des contrôleurs de domaine. Cela assure la **redondance** et la **haute disponibilité** (repartition des charges)

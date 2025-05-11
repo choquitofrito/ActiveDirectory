@@ -1,11 +1,11 @@
 # Exercices de Dépannage AD - Scénarios Service Desk
 
 > 📝 **Environnement de Lab**:
-> - DC Principal: dns1.computerelectronics.be
+> - DC Principal: dns1.maxtec.be
 > - Postes Clients:
->   * ws-compta-01.computerelectronics.be
->   * ws-rh-01.computerelectronics.be
->   * ws-ventes-01.computerelectronics.be
+>   * ws-compta-01.maxtec.be
+>   * ws-rh-01.maxtec.be
+>   * ws-ventes-01.maxtec.be
 
 ## 1. 🔹 "Mon mot de passe a expiré pendant mes congés !"
 

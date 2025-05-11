@@ -54,7 +54,7 @@ function Test-GroupExists {
 Import-Module ActiveDirectory
 
 # Définir les variables globales
-$rootOU = "OU=EU,DC=computerelectronics,DC=be"
+$rootOU = "OU=EU,DC=maxtec,DC=be"
 $defaultPassword = "Password1!"
 
 try {
@@ -64,9 +64,9 @@ try {
     # 1. Créer l'OU racine EU
     if (Confirm-Step "Création de l'OU racine EU") {
         Write-Host "\nCréation de l'OU racine EU..." -ForegroundColor Cyan
-        $ouDN = "OU=EU,DC=computerelectronics,DC=be"
+        $ouDN = "OU=EU,DC=maxtec,DC=be"
         if (-not (Test-OUExists $ouDN)) {
-            New-ADOrganizationalUnit -Name "EU" -Path "DC=computerelectronics,DC=be" -ProtectedFromAccidentalDeletion $false
+            New-ADOrganizationalUnit -Name "EU" -Path "DC=maxtec,DC=be" -ProtectedFromAccidentalDeletion $false
             Write-Host "OU racine EU créée avec succès." -ForegroundColor Green
         } else {
             Write-Host "OU racine EU existe déjà." -ForegroundColor Yellow
@@ -108,16 +108,16 @@ try {
     if (Confirm-Step "Création des utilisateurs") {
         Write-Host "\nCréation des utilisateurs..." -ForegroundColor Cyan
         $users = @(
-            @{Name="Vanessa";Email="vanessa@computerelectronics.be";OU="Ventes"},
-            @{Name="Valeria";Email="valeria@computerelectronics.be";OU="Ventes"},
-            @{Name="Victor";Email="victor@computerelectronics.be";OU="Ventes"},
-            @{Name="Valentin";Email="valentin@computerelectronics.be";OU="Ventes"},
-            @{Name="Richard";Email="richard@computerelectronics.be";OU="RH"},
-            @{Name="Rebecca";Email="rebecca@computerelectronics.be";OU="RH"},
-            @{Name="Rene";Email="rene@computerelectronics.be";OU="RH"},
-            @{Name="Charlotte";Email="charlotte@computerelectronics.be";OU="Comptabilite"},
-            @{Name="Cindy";Email="cindy@computerelectronics.be";OU="Comptabilite"},
-            @{Name="Charles";Email="charles@computerelectronics.be";OU="Comptabilite"}
+            @{Name="Vanessa";Email="vanessa@maxtec.be";OU="Ventes"},
+            @{Name="Valeria";Email="valeria@maxtec.be";OU="Ventes"},
+            @{Name="Victor";Email="victor@maxtec.be";OU="Ventes"},
+            @{Name="Valentin";Email="valentin@maxtec.be";OU="Ventes"},
+            @{Name="Richard";Email="richard@maxtec.be";OU="RH"},
+            @{Name="Rebecca";Email="rebecca@maxtec.be";OU="RH"},
+            @{Name="Rene";Email="rene@maxtec.be";OU="RH"},
+            @{Name="Charlotte";Email="charlotte@maxtec.be";OU="Comptabilite"},
+            @{Name="Cindy";Email="cindy@maxtec.be";OU="Comptabilite"},
+            @{Name="Charles";Email="charles@maxtec.be";OU="Comptabilite"}
         )
 
         foreach ($user in $users) {

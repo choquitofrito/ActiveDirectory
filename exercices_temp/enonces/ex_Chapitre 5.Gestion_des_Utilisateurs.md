@@ -33,7 +33,7 @@ Tâches:
 
 ### Exercice 2: Restrictions d'Accès
 Pour des raisons de sécurité, Sophie ne doit pouvoir se connecter que:
-- Sur le poste `ws-compta-01.computerelectronics.be`
+- Sur le poste `ws-compta-01.maxtec.be`
 - Du lundi au vendredi, de 8h à 18h (choisissez une heure qui vous permet de tester la connexion)
 
 Tâches:
@@ -50,7 +50,7 @@ Tâches:
 3. Activer la journalisation des tentatives de connexion échouées
 
 ### Exercice 4: Désactivation d'un Compte
-Jan Vandenbergh (jan.vandenbergh@computerelectronics.be) quitte l'entreprise aujourd'hui.
+Jan Vandenbergh (jan.vandenbergh@maxtec.be) quitte l'entreprise aujourd'hui.
 
 Tâches:
 1. Désactiver son compte utilisateur

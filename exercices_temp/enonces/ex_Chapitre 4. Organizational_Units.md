@@ -20,7 +20,7 @@
 1. Créer les OUs géographiques et départementales (au moins une zone géographique)
 
 ```
-computerelectronics.be (Domain Root)
+maxtec.be (Domain Root)
 ├── EU
 │   ├── Comptabilite
 │   │   ├── Users
