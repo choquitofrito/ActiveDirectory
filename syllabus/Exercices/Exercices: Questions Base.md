@@ -2,7 +2,7 @@
 
 Essaye de repondre à ces questions en utilisant tes propres mots. Tout l'information se trouve dans le syllabus.
 
-## Chapitre 2. DNS
+## Chapitre 3. DNS
 1. À quoi sert le DNS?
 
 <details>

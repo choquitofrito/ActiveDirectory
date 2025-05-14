@@ -1,4 +1,4 @@
-# Chapitre 6: Les Stratégies de Groupe (GPO)
+# Chapitre 7: Les Stratégies de Groupe (GPO)
 
 > 📚 **Dans ce chapitre:**
 > 1. 🌐 [Introduction aux GPO](#1-introduction-aux-gpo)

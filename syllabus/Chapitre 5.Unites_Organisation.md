@@ -1,4 +1,4 @@
-# Chapitre 4 : Unités d'organisation (UOs)
+# Chapitre 5 : Unités d'organisation (UOs)
 
 > 📚 **Dans ce chapitre :**
 > 1. 🏢 [Structure organisationnelle](#1-introduction-aux-unités-dorganisation-uos)
@@ -512,7 +512,7 @@ Pour tester la délégation, nous devons d'abord préparer l'environnement :
    `
 
 2. **Configuration des accès**
-   - Activer les connexions locales : voir l'annexe à la fin du document du Chapitre 1.
+   - Activer les connexions locales : voir l'annexe sur les permission dans la section Labo.
    - Vérifier que les comptes sont dans les bons groupes selon la stratégie choisie
 
 #### 9.3.2. Validation des Droits

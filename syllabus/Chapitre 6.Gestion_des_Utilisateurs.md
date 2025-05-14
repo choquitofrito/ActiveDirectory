@@ -1,4 +1,4 @@
-# Chapitre 5: Gestion des Utilisateurs
+# Chapitre 6: Gestion des Utilisateurs
 
 > 📚 **Dans ce chapitre:**
 > 1. 👤 [Identités Numériques](#1-introduction-aux-comptes-utilisateurs)

@@ -1,4 +1,4 @@
-# Chapitre 2: DNS (Domain Name System)
+# Chapitre 3: DNS (Domain Name System)
 
 > 📚 **Dans ce chapitre:**
 > 1. 🌐 [Le service DNS](#1-le-service-dns)
