@@ -41,6 +41,16 @@
 
 3. ✅ Acceptez les termes de la licence lors de l'installation.
 
+
+Note: dans certaines configurations on peut avoir de problèmes pendant l'installation des machines virtuelles Windows.
+Source : https://askubuntu.com/questions/705720/virtualbox-kernel-driver-not-installed-error-despite-running-sbin-vboxconfig 
+
+```bash  
+sudo /usr/lib/virtualbox/vboxdrv.sh setup
+```
+
+Si la commande ne fonctionne pas, on doit installer gcc-12
+
 ### 💾 Téléchargement de Windows Server 2022
 
 > ⚠️ **Important :** Si les images sont déjà téléchargées, passez à la section suivante
