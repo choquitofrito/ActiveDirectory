@@ -1,4 +1,4 @@
-# Chapitre 1: Introduction et installation de Windows Server
+# Chapitre 0: Introduction et installation de Windows Server
 
 > 📚 **Dans ce chapitre:**
 > 1. 🔗 [Réseaux décentralisés VS centralisés](#1-les-réseaux-décentralisés-vs-centralisés)
