@@ -142,7 +142,7 @@ Qu'est-ce que vous en pensez? Ne regardez pas la solution!
 
 ### 3.2. Installation de Windows Server avec Hyper-V (Windows)
 
-**IMPORTANT:** si vous n'utilisez pas Windows, vous pouvez utiliser **VirtualBox** au lieu d'Hyper-V. Allez sur [Installation-Windows-Server-2022-VirtualBox.md](Installation-Windows-Server-2022-VirtualBox.md).
+**IMPORTANT:** si vous n'utilisez pas Windows, vous pouvez utiliser **VirtualBox** au lieu d'Hyper-V. Allez sur [Chapitre 1.Installation-Windows-Server-2022-VirtualBox.md](Chapitre%201.Installation-Windows-Server-2022-VirtualBox.md).
 
 Nous allons créer une première machine virtuelle et y installer Windows Server.
 
