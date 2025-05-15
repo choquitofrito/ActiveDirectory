@@ -122,7 +122,7 @@ Un **espace de noms DNS** est **l'ensemble de noms DNS** organisés sous la form
 
 ![Diagramme DNS](../diagrams/images/structure_reseau_geographic_zones.png)
 
-### 🏢 Structure DNS de Computer Electronics
+### 🏢 Structure DNS de Maxtec
 
 | Niveau | Description | Exemples |
 |--------|-------------|----------|
@@ -145,15 +145,15 @@ Chaque arbre garde son indépendance tout en permettant une collaboration entre 
 
 **Dans notre cas du laboon on a un forêt d'un arbre** (`maxtec.be`).
 
-### 📑 Cas Pratique: Computer Electronics
+### 📑 Cas Pratique: Maxtec
 
-**Computer Electronics** est une entreprise internationale avec:
+**Maxtec** est une entreprise internationale avec:
 - 🇪🇺 Opérations en Europe
 - 🇺🇸 Opérations aux États-Unis
 
 #### Organisation DNS
 
-Voici l'arbre DNS de Computer Electronics, on voit aussi l'ensemble des sous-domaines et les ressources (ordinateurs, imprimantes, etc)
+Voici l'arbre DNS de Maxtec, on voit aussi l'ensemble des sous-domaines et les ressources (ordinateurs, imprimantes, etc)
 
 ![Diagramme DNS](../diagrams/images/structure_reseau_geographic_zones.png)
 

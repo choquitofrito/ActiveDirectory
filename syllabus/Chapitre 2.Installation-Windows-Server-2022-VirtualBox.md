@@ -28,17 +28,10 @@
 
 > ⚠️ **Important :** Si VirtualBox est déjà installé, passez à la section suivante
 
-1. 💻 Ouvrez un terminal et mettez à jour la liste des paquets :
-   ```bash
-   sudo apt update
-   ```
+Telechargez VirtualBox sur le site officiel : https://www.virtualbox.org/wiki/Downloads et suivez les instructions d'installation.
 
-2. 📍 Installez VirtualBox et son Pack d'Extension :
-   ```bash
-   sudo apt install virtualbox virtualbox-ext-pack
-   ```
 
-3. ✅ Acceptez les termes de la licence lors de l'installation.
+1. ✅ Acceptez les termes de la licence lors de l'installation.
 
 
 Note: dans certaines configurations on peut avoir de problèmes pendant l'installation des machines virtuelles Windows.
