@@ -286,7 +286,7 @@ Notre serveur Windows Server va être promu au rôle de contrôleur de domaine (
 | 2 | Nom de domaine | `maxtec.be` |
 | 3 | Niveau fonctionnel | Windows Server 2022 |
 | 4 | Mot de passe DSRM | `Password1!` |
-| 5 | Nom NetBIOS | `COMPUTERELECTRONICS` |
+| 5 | Nom NetBIOS | `MAXTEC` |
 
 ### 6.4. Vérifications post-installation
 
@@ -473,7 +473,7 @@ Ahmed commence à travailler au sein du département informatique. Pour accéder
 1. Ouvrir les **Propriétés système**
 2. Accéder aux **Paramètres avancés**
 3. Configurer la section **Nom de l'ordinateur** et le suffixe (`maxtec.be`)
-4. Sélectionner **Membre du domaine** : `COMPUTERELECTRONICS`
+4. Sélectionner **Membre du domaine** : `MAXTEC`
 5. Saisir les identifiants d'**administrateur de domaine**
 
 > ⚠️ Redémarrer le poste après chaque modification majeure (changement de nom, intégration au domaine)
