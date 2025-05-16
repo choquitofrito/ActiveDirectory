@@ -46,10 +46,6 @@ Suite au départ de Jan Vandenbergh:
 Tâches:
 1. Identifier tous les groupes dont il est membre
 2. Le retirer de tous les groupes sauf "Domain Users"
-(3. Préparer un rapport listant:
-   - Les groupes dont il a été retiré
-   - Les ressources auxquelles il avait accès
-   - L'emplacement de ses fichiers personnels pour archivage)
 
 
 ### Exercice 6: Gestion des Homonymes

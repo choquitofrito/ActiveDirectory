@@ -174,36 +174,16 @@ EU
 
 > USA a une structure identique à EU
 
-### 7.2 Hiérarchie d'exemple pour Environnement (DEV et PROD)
+### 7.2 Conventions de Nommage
 
-```
-Dev
-├── Applications
-│   ├── app-dev-01
-│   └── app-dev-02
-├── Databases
-│   ├── db-dev-01
-│   └── db-dev-02
-├── Servers
-│   ├── srv-dev-01
-│   └── srv-dev-02
-└── Groups
-    ├── GG-Dev-Admins
-    └── GG-Dev-Users
-```
-
-> Prod a une structure identique à Dev
-
-### 7.3 Conventions de Nommage
-
-#### 7.3.1 Règles Générales
+#### 7.2.1 Règles Générales
 
 - Utiliser des noms descriptifs et cohérents
 - Éviter les abréviations (sauf standards)
 - Pas de caractères spéciaux
 - Respecter la casse selon le type d'objet
 
-#### 7.3.2. Exemples par Type
+#### 7.2.2. Exemples par Type
 
 1. **OUs**
    - Format: PascalCase
@@ -221,7 +201,7 @@ Dev
      * `ws-compta-01`
      * `ws-rh-01`
 
-#### 7.3.3 Bonnes Pratiques
+#### 7.2.3 Bonnes Pratiques
 
 1. **Structure**
    ```
@@ -232,7 +212,6 @@ Dev
    │   │   ├── Users      # Niveau 3
    │   │   └── Computers  # Niveau 3
    │   └── RH             # Niveau 2
-   └── Dev                   # Niveau 1
    ```
 
 2. **Groupement**
@@ -244,17 +223,6 @@ Dev
    └── Groups     # Groupes uniquement
    ```
 
-3. **Séparation**
-   ```
-   # Par environnement
-   maxtec.be (domaine AD)
-   ├── Dev
-   │   ├── Applications
-   │   └── Databases
-   └── Prod
-       ├── Applications
-       └── Databases
-   ```
 
 ## 8. Conteneurs vs OUs
 
