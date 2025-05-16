@@ -29,46 +29,41 @@
 
 Un compte utilisateur Active Directory représente une **identité numérique unique** dans `maxtec.be` permettant :
 
-- **Identification** unique (ex: `sophie.lambert`)
+- **Identification** unique (ex: `ivan`)
 - **Contrôle d'accès** aux ressources
 - **Gestion des informations** utilisateur
 
-> **Exemple** : Connexion de Sophie Lambert
+> **Exemple** : Connexion d'Ivan (Informatique)
 
 1. Connexion au poste de travail
 2. Vérification des identifiants
 3. Accès aux ressources autorisées
 
 
-### 📝 Standards de Nommage
+### **Standards de Nommage**
 
-#### 🌐 Convention SamAccountName
+#### **Convention SamAccountName**
 
 Un utilisateur a deux identifiants possibles:
 
-- **SamAccountName**, qui est l'identifiant unique de l'utilisateur dans le domaine, dont le format de base est **prenom.nom**
+- **SamAccountName**, qui est l'identifiant unique de l'utilisateur dans le domaine, dont le format de base est **prenom**
 
 ```plaintext
-💰 clark.kent              # Comptabilité
-👥 sophie.lambert          # RH
-💰 jean.martin.compta      # Comptabilité
-👥 jean.martin.rh          # RH
-🇫🇷 jean.martin.compta.fr   # France
-🇧🇪 jean.martin.compta.be   # Belgique
+charles              # Comptabilité
+rene                # RH
+cindy               # Comptabilité
+rebecca             # RH
+ivan                # Informatique
+victor              # Ventes
 ```
-- **UPN** (User Principal Name), dont le format de base est **prenom.nom@domaine**
+- **UPN** (User Principal Name), dont le format de base est **prenom@domaine**
  
 Pour tous les deux, suivez ces règles:
 
 - Minuscules uniquement
-- Point comme seul caractère spécial
-- En cas d'homonymes :
-  1. Ajout du département (`.compta`, `.rh`)
-  2. Ajout d'identifiants :
-     - 🌐 Pays (`.fr`, `.be`)
-     - 💼 Fonction (`.senior`, `.junior`)
-     - 🏢 Site (`.bxl`, `.anvers`)
-- Pas de chiffres
+- Pas de caractères spéciaux
+- En cas d'homonymes, on peut ajouter un identifiant supplémentaire
+- Pas de chiffres sauf si nécessaire pour distinguer des homonymes
 
 
 
@@ -112,23 +107,23 @@ Par défaut, il y a plusieurs **conteneurs** (**ce ne sont pas des OU**, mais de
 
 ### 3.1. Création de Compte
 
-> 💡 Processus pour ajouter un nouveau collaborateur
+> **Processus pour ajouter un nouveau collaborateur**
 
-#### 💻 Accès à la Console
-1. 🖥️ Ouvrir ADUC via :
-   - ⚙️ `Gestionnaire de serveur`
-   - 🔧 `Outils`
-   - 👤 `Utilisateurs et ordinateurs AD`
+#### **Accès à la Console**
+1. **Ouvrir ADUC via** :
+   - **Gestionnaire de serveur**
+   - **Outils**
+   - **Utilisateurs et ordinateurs AD**
 
-#### ➕ Assistant de Création
-1. 📂 Clic droit sur `Users`
-2. ➕ `Nouveau` > `Utilisateur`
+#### **Assistant de Création**
+1. **Clic droit sur `Users`**
+2. **Nouveau** > **Utilisateur**
 
-#### 📝 Informations de Base
-- 👤 Prénom : Clark
-- 👤 Nom : Kent
-- 🌐 Login : clark.kent
-- 📧 UPN : clark.kent@maxtec.be
+#### **Informations de Base**
+- **Prénom** : Charles
+- **Nom** : 
+- **Login** : charles
+- **UPN** : charles@maxtec.be
 
 
 4. **Configuration du mot de passe** :
@@ -171,7 +166,7 @@ Après la création du compte, il est important de configurer les **propriétés
 
 ##### Postes de travail
 - Défaut : Tous les postes
-- Exemple : `ws-compta-01, ws-compta-02`
+- Exemple : `ws-compta-01.maxtec.be`
 
 ### Profils utilisateurs
 
@@ -179,7 +174,7 @@ Après la création du compte, il est important de configurer les **propriétés
 ```plaintext
 Local     : C:\Users\username
 Itinérant : \\srv-profiles\profiles\%username%
-Exemple   : \\srv-profiles\profiles\clark.kent
+Exemple   : \\srv-profiles\profiles\charles
 ```
    > **Note** : Par défaut, ce champ est vide car Windows crée automatiquement des profils locaux (C:\Users\username). 
    > On ne le configure que si on veut implémenter des **profils itinérants** (roaming profiles) qui suivent l'utilisateur d'un poste à l'autre.
@@ -225,9 +220,9 @@ On utilisera uniquement des groupes de sécurité.
 
 ##### 📄 Exemples
 ```plaintext
-DL-EU-Comptabilite-Lecture  # Lecture comptable
-GG-EU-RH-Admin             # Admin RH
-GG-EU-Support              # Support IT
+DL-Comptabilite-Lecture  # Lecture comptable
+GG-EU-RH-Admins         # Admin RH
+GG-EU-IT-Users          # Utilisateurs IT
 ```
 
 
@@ -239,9 +234,9 @@ Nous utiliserons que les deux premiers types.
 Format standard pour les groupes :
 ```plaintext
 [Type etendue]-[Location]-[Service]-[Fonction]
-DL-EU-Comptabilite-Lecture  # Lecture comptable
-GG-EU-RH-Admin             # Admin RH
-GG-EU-Support              # Support IT
+DL-Comptabilite-Lecture  # Lecture comptable
+GG-EU-RH-Admins         # Admin RH
+GG-EU-IT-Users          # Utilisateurs IT
 ```
 
 #### 🌍 Domaine Local (DL-)
@@ -253,9 +248,9 @@ GG-EU-Support              # Support IT
 
 ##### 📄 Exemples
 ```plaintext
-DL-EU-Serveurs-Admin      # Admin
-DL-EU-Comptabilite-Lecture # Lecture
-DL-EU-RH-Modif           # Modif
+DL-Serveurs-Admin      # Admin
+DL-Comptabilite-Lecture # Lecture
+DL-RH-Modif            # Modif
 ```
 
 #### 🌎 Global (GG-)
@@ -267,9 +262,9 @@ DL-EU-RH-Modif           # Modif
 
 ##### 📄 Exemples
 ```plaintext
-GG-EU-Comptabilite-Users  # Comptables
-GG-EU-RH-Managers        # Managers
-GG-EU-IT-Support        # Support
+GG-EU-Compta-Users  # Comptables
+GG-EU-RH-Admins     # Managers RH
+GG-EU-IT-Users     # Utilisateurs IT
 ```
 
 **IMPORTANT**: Ces fonctions des groupes ont lieu dans le contexte d'une grande entreprise, mais dans notre labo ce seront les groupes globaux qui recevront les droits pour ne pas créer une couche en plus. On verra ça plus tard, dans la strategie AGDP.
@@ -298,7 +293,7 @@ La **regle d'or** est de ne jamais attribuer de droits (ex: acceder à un dossie
 
 Ceci est un exemple de test pour comprendre le fonctionnement de base des permissions.
 
-Nous allons créer un dossier partagé `IT-docs` sur le serveur (`C:\IT-docs`. Son chemin de réseau sera `\\dns2\IT-docs`).
+Nous allons créer un dossier partagé `IT-docs` sur le serveur (`C:\IT-docs`. Son chemin de réseau sera `\\dns1\IT-docs`).
 
 
 ### Préparation
@@ -307,7 +302,7 @@ Avant de commencer, assurez-vous d'avoir la structure complète de l'AD (si ce n
 Puis:
 - Créez la OU pour le département IT (si elle n'existe pas encore) 
 - Créez aussi un groupe pour les administrateurs de IT (ex: "GG-EU-IT-Admins") et un autre pour les utilisateurs (ex: "GG-EU-IT-Users"). 
-- Assurez-vous d'avoir un ordinateur (Virtual Machine client) qui porte le nom `ws-IT-01` et un autre `ws-Ventes-01`. Si ce n'est pas le cas, modifiez les noms des ordinateurs dans vos machines virtuelles et re-démarrez-les.
+- Assurez-vous d'avoir un ordinateur (Virtual Machine client) qui porte le nom `ws-IT-01` et un autre `ws-RH-01`. Si ce n'est pas le cas, modifiez les noms des ordinateurs dans vos machines virtuelles et re-démarrez-les.
 - Dans le serveur, allez dans `Utilisateurs et ordinateurs AD` et rajoutez des utilisateurs aux groupes (s'ils n'existent pas, créez-les): 
   - `GG-EU-IT-Users` : Ivan, Ines
   - `GG-EU-IT-Admins` : Irene
@@ -342,14 +337,14 @@ Dans ce menu on choisit **qui** aura le **droit  d'accéder** au dossier et avec
 Le dossier est partagé maintenant et visible par tout le monde, mais accésible uniquement par `GG-EU-IT-Users`.
 
 - Ouvrez une session dans machine client avec un User de `GG-EU-IT-Users` (ex: `ivan`)
-> Note: peu importe la machine dans ce cas, on limite par User, mais pour garder la cohérence ouvrez `ws-IT-01`)
+> Note: peu importe la machine dans ce cas, on limite par User, mais pour garder la cohérence ouvrez `ws-IT-01.maxtec.be`)
 - Ouvrez `Explorateur de fichiers`
-- Allez dans `\dns2\IT-docs`: il doit pouvoir ouvrir le dossier
+- Allez dans `\\dns1\IT-docs`: il doit pouvoir ouvrir le dossier
 
 - Ouvrez une session dans machine client avec un User de `GG-EU-Ventes-Users` (ex: `victor`)
-- Ouvrez une autre machine client (peu importe la machine dans ce cas, on limite par User, mais pour garder la cohérence ouvrez `ws-ventes-01`)
+- Ouvrez une autre machine client (peu importe la machine dans ce cas, on limite par User, mais pour garder la cohérence ouvrez `ws-ventes-01.maxtec.be`)
 - Ouvrez `Explorateur de fichiers`
-- Allez dans `\dns2\IT-docs`: **il voit le dossier mais il ne peut pas l'ouvrir**!
+- Allez dans `\\dns1\IT-docs`: **il voit le dossier mais il ne peut pas l'ouvrir**!
 
 
 **Question**: connectez-vous avec `irene` de `GG-EU-IT-Admins` et essayez de l'ouvrir le dossier. Qu'est-ce que vous observez? comment l'arranger?
@@ -369,7 +364,7 @@ Pour qu'un utilisateur ait des permissions il dot se trouver dans la liste de **
 
 Modifions maintenant les permissions NTFS pour restreindre l'accès au contenu au dossier grâce aux permissions NTFS
 
-- Faites clique-droit sur le dossier `Partage-IT` et `Propriétés`
+- Faites clique-droit sur le dossier `IT-docs` et `Propriétés`
 - Cliquez sur `Modifier`
 - On voit `Utilisateurs` dans la liste. Ceci permettrai, au niveau du système de fichiers NTFS, d'accéder au dossier à tous les utilisateurs connectés au serveur
 
@@ -472,19 +467,22 @@ Responsabilités principales :
 
 > 💡 Deux stratégies principales :
 
-#### 🏢 Structure par Département
+#### 🏒 Structure par Département
 ```plaintext
-📂 DL-EU-Dossier-Partage-RW
-  ├─ 💳 GG-EU-Compta-Users  # Comptabilité
-  ├─ 💰 GG-EU-Ventes-Users  # Ventes
+📂 DL-Dossier-Partage-RW
+  └─ 💳 GG-EU-Compta-Users  # Comptabilité
+  └─ 💰 GG-EU-Ventes-Users  # Ventes
   └─ 👥 GG-EU-RH-Users     # RH
+  └─ 💻 GG-EU-IT-Users     # Informatique
 ```
 
 #### 💼 Structure par Fonction
 ```plaintext
-📂 DL-EU-Dossier-Partage-RW
-  ├─ 👑 GG-EU-Managers   # Direction
-  └─ 👤 GG-EU-Employees  # Personnel
+📂 DL-Dossier-Partage-RW
+  └─ 👑 GG-EU-Compta-Admins   # Administrateurs Comptabilité
+  └─ 👑 GG-EU-RH-Admins      # Administrateurs RH
+  └─ 👑 GG-EU-Ventes-Admins   # Administrateurs Ventes
+  └─ 👑 GG-EU-IT-Admins      # Administrateurs IT
 ```
 
 
@@ -512,12 +510,12 @@ Règles fondamentales par type de groupe :
 Groupes Globaux (GG-) :
 - Utilisés pour la gestion des utilisateurs
 - Ne doivent pas recevoir de permissions directes
-Exemple : GG-EU-RH-Managers
+Exemple : GG-EU-RH-Users, GG-EU-RH-Admins
 
 Groupes Locaux de Domaine (DL-) :
 - Reçoivent les permissions sur les ressources
 - Contiennent les groupes globaux appropriés
-Exemple : DL-EU-RH-Modif
+Exemple : DL-RH-Lecture, DL-RH-Modification
 ```
 
 
