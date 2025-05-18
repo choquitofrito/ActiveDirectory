@@ -158,7 +158,7 @@ Qu'est-ce qu'on doit faire maintenant pour tester le fonctionnement de notre GPO
 
 ## 3. Preferences
 
-#### 3.1. GPO-LinkBureau. Créer une icone sur le Bureau de l'utilisateur pour les utilisateurs de Ventes
+#### 3.1. GPO-LinkBureau. Créer une icone sur le Bureau de l'utilisateur pour les utilisateurs de Ventes (ou un autre departement pour lequel vous avez déjà un ordinateur)
 (Config Utilisateur > Préférences -> Paramètres Windows > Raccourcis > Nouveau > Définir l'adresse et l'emplacement). 
 
 | Action choisie dans la GPO | Le lien revient s’il est supprimé ? | Quand ?                                              |

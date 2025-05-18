@@ -7,7 +7,7 @@ L’entreprise veut renforcer la sécurité en empêchant les utilisateurs d’u
 
 Pensez à comment faire ça. Astuce: on doit profiter des groupes existants dans IT et créer une GPO qui affecte les ordinateurs. 
 
-Vu que chercher dans les GPOs est une follie, voici la section de la GPO que tu dois configurer:
+Vu que chercher dans les GPOs est une folie, voici la section de la GPO que tu dois configurer:
 
 Configuration ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies locales > Attribution des droits utilisateur > Permettre l'ouverture de session locale
 
@@ -53,7 +53,7 @@ On doit créer un GPO qui lance ce script au démarrage de session des utilisate
 **Setting**: Le paramètre à configurer est : `Configuration utilisateur > Stratégies > Paramètres Windows > Scripts (ouverture de session)
 Attention à rajouter le script dans la section des script PowerShell!
 
-Le script doit se lancé dans la fermeture de session. 
-Cliquez et chercher le script sur le disque dur mais **utilisez un chemin de réseau**  dans la configuration!`\\dns2\SYSVOL\maxtec.be\scripts`. ATTENTION AU CHEMIN!!! pas `C:\Windows\SYSVOL\domain\scripts`!
+Le script doit se lancer dans la fermeture de session. 
+Cliquez et chercher le script sur le disque dur mais **utilisez un chemin de réseau**  dans la configuration!`\\dns1\SYSVOL\maxtec.be\scripts`. ATTENTION AU CHEMIN!!! pas `C:\Windows\SYSVOL\domain\scripts`!
 
  
