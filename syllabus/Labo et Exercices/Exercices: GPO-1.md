@@ -106,9 +106,9 @@ Cliquez sur `Bundle` et choisissez **.msi**
 
 Copiez ce fichier dans le dossier partagé `c:\Software`
 
-Vous pourrez ensuite appliquer la GPO sur l'OU des utilisateurs de RH : elle sera appliquée par héritage sur les ordinateurs de RH.
+Vous pourrez ensuite appliquer la GPO sur l'OU des ordinateurs de RH : elle sera appliquée par héritage sur les ordinateurs de RH.
 
-**Création de la GPO sur l'OU de RH** :
+**Création de la GPO sur l'OU des ordinateurs de RH** :
 
 Allez sur `Configuration Ordinateur > Stratégies > Paramètres du logiciel > Installation logiciel`
 
