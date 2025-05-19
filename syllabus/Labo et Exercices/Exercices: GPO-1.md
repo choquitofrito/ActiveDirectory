@@ -145,9 +145,7 @@ Vous devriez voir l'icône de Chrome sur le bureau.
 
 Créez maintenant un GPO sur l'OU `IT`.
 
-Allez dans Configuration Utilisateur > Préférences > Paramètres Windows
-
-Faites clique droit > Nouveau.
+Allez dans Configuration Utilisateur > Préférences > Paramètres Windows > Mappages lecteurs > Faites clique droit > Nouveau.
 
 Le chemin pour le dossier **doit être un chemin réseau**. Pas `C:\Shares\IT-Admin` mais `\\dns1\Shares\IT-Admin`
 

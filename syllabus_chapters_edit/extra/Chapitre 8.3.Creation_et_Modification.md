@@ -1,79 +1,6 @@
 # Atelier pratique : Création et modification
 
-## 1. 🔹 Création d'utilisateurs
-
-La création d'utilisateurs est l'une des tâches les plus courantes dans l'administration AD. PowerShell permet de l'automatiser efficacement.
-
-### Création d'un utilisateur simple
-
-```powershell
-# Créer un nouvel utilisateur
-New-ADUser -Name "Pierre Dupont" `
-    -GivenName "Pierre" `
-    -Surname "Dupont" `
-    -SamAccountName "pierre.dupont" `
-    -UserPrincipalName "pierre.dupont@computerelectronics.be" `
-    -Path "OU=Utilisateurs,OU=Comptabilité,OU=EU,DC=computerelectronics,DC=be" `
-    -AccountPassword (ConvertTo-SecureString "Password1!" -AsPlainText -Force) `
-    -Enabled $true `
-    -ChangePasswordAtLogon $true
-```
-
-### Création d'un utilisateur avec attributs avancés
-
-```powershell
-# Créer un utilisateur avec des attributs supplémentaires
-New-ADUser -Name "Marie Martin" `
-    -GivenName "Marie" `
-    -Surname "Martin" `
-    -SamAccountName "marie.martin" `
-    -UserPrincipalName "marie.martin@computerelectronics.be" `
-    -Path "OU=Utilisateurs,OU=RH,OU=EU,DC=computerelectronics,DC=be" `
-    -AccountPassword (ConvertTo-SecureString "Password1!" -AsPlainText -Force) `
-    -Enabled $true `
-    -Department "Ressources Humaines" `
-    -Title "Responsable RH" `
-    -Company "Computer Electronics" `
-    -EmailAddress "marie.martin@computerelectronics.be" `
-    -OfficePhone "+32 2 123 45 67" `
-    -Description "Responsable RH pour la zone Europe"
-```
-
-> **Exercice** : Créez un nouvel utilisateur dans le département Ventes avec les attributs appropriés.
-
-## 2. 🔹 Création de groupes
-
-Les groupes sont essentiels pour gérer les permissions dans Active Directory.
-
-### Création d'un groupe de sécurité
-
-```powershell
-# Créer un groupe global de sécurité
-New-ADGroup -Name "GG-EU-Ventes-Managers" `
-    -SamAccountName "GG-EU-Ventes-Managers" `
-    -GroupCategory Security `
-    -GroupScope Global `
-    -DisplayName "Managers des Ventes Europe" `
-    -Path "OU=Groupes,OU=EU,DC=computerelectronics,DC=be" `
-    -Description "Groupe des managers du département Ventes en Europe"
-```
-
-### Création d'un groupe de distribution
-
-```powershell
-# Créer un groupe de distribution
-New-ADGroup -Name "DL-Newsletter-Marketing" `
-    -SamAccountName "DL-Newsletter-Marketing" `
-    -GroupCategory Distribution `
-    -GroupScope Universal `
-    -DisplayName "Newsletter Marketing" `
-    -Path "OU=Groupes,OU=EU,DC=computerelectronics,DC=be" `
-    -Description "Liste de distribution pour la newsletter marketing"
-```
-
-> **Exercice** : Créez un groupe de sécurité local de domaine (DL) pour gérer l'accès à un dossier partagé du département Comptabilité.
-
-## 3. 🔹 Modification d'attributs utilisateur
+## 1. 🔹 Modification d'attributs utilisateur
 
 La modification des attributs utilisateur est une tâche courante qui peut être facilement automatisée avec PowerShell.
 
@@ -81,26 +8,14 @@ La modification des attributs utilisateur est une tâche courante qui peut être
 
 ```powershell
 # Modifier le titre et le département d'un utilisateur
-Set-ADUser -Identity "pierre.dupont" `
+# Méthode avec Filter
+Get-ADUser -Filter "SamAccountName -eq 'Victor'" | Set-ADUser `
     -Title "Comptable Senior" `
     -Department "Comptabilité" `
     -Description "Comptable senior pour les clients européens"
 ```
 
-### Modification d'attributs avancés
-
-```powershell
-# Modifier plusieurs attributs d'un utilisateur
-Set-ADUser -Identity "marie.martin" `
-    -StreetAddress "Avenue Louise 123" `
-    -City "Bruxelles" `
-    -PostalCode "1050" `
-    -Country "BE" `
-    -HomePage "https://intranet.computerelectronics.be/rh" `
-    -Manager "jean.dupuis" # SamAccountName du manager
-```
-
-> **Exercice** : Modifiez les informations de contact d'un utilisateur existant, y compris son numéro de téléphone mobile et son adresse.
+> **Exercice** : Modifiez la description de tous les utilisateurs du département Comptabilité (mettez par exemple: "Utilisateur de comptabilité")
 
 ## 4. 🔹 Gestion des mots de passe
 
@@ -110,25 +25,42 @@ La gestion des mots de passe est une tâche critique pour la sécurité.
 
 ```powershell
 # Réinitialiser le mot de passe d'un utilisateur
-Set-ADAccountPassword -Identity "pierre.dupont" `
+Get-ADUser -Filter "SamAccountName -eq 'pierre.dupont'" | Set-ADAccountPassword `
     -Reset `
     -NewPassword (ConvertTo-SecureString "Password1!" -AsPlainText -Force)
 
 # Forcer le changement de mot de passe à la prochaine connexion
-Set-ADUser -Identity "pierre.dupont" -ChangePasswordAtLogon $true
+Get-ADUser -Filter "SamAccountName -eq 'pierre.dupont'" | Set-ADUser -ChangePasswordAtLogon $true
+
+
+# Exemple: réinitialiser les mots de passe de tous les utilisateurs d'un département
+Get-ADUser -Filter "Department -eq 'Stagiaires'" | ForEach-Object {
+    Set-ADAccountPassword -Identity $_.SamAccountName `
+        -Reset `
+        -NewPassword (ConvertTo-SecureString "Password1!" -AsPlainText -Force)
+    Set-ADUser -Identity $_.SamAccountName -ChangePasswordAtLogon $true
+}
 ```
+
+> **Exercice**: Réinitialisez le mot de passe de tous les utilisateurs du département Comptabilité et forcez le changement de mot de passe à la prochaine connexion.
+
 
 ### Déverrouillage de compte
 
 ```powershell
 # Déverrouiller un compte utilisateur
-Unlock-ADAccount -Identity "marie.martin"
+Get-ADUser -Filter "SamAccountName -eq 'marie.martin'" | Unlock-ADAccount
 
 # Vérifier si un compte est verrouillé
-Get-ADUser -Identity "marie.martin" -Properties LockedOut | Select-Object Name, LockedOut
+Get-ADUser -Filter "SamAccountName -eq 'marie.martin'" -Properties LockedOut | Select-Object Name, LockedOut
+
+# Exemple: déverrouiller tous les comptes verrouillés
+Get-ADUser -Filter "LockedOut -eq $true" -Properties LockedOut | ForEach-Object {
+    Unlock-ADAccount -Identity $_.SamAccountName
+    Write-Host "Compte $($_.Name) déverrouillé" -ForegroundColor Green
+}
 ```
 
-> **Exercice** : Écrivez un script qui réinitialise le mot de passe d'un utilisateur, déverrouille son compte et force le changement de mot de passe à la prochaine connexion.
 
 ## 5. 🔹 Gestion des appartenances aux groupes
 
@@ -138,24 +70,38 @@ La gestion des appartenances aux groupes est essentielle pour contrôler les acc
 
 ```powershell
 # Ajouter un utilisateur à un groupe
-Add-ADGroupMember -Identity "GG-EU-Comptabilité-Utilisateurs" -Members "pierre.dupont"
+Get-ADUser -Filter "SamAccountName -eq 'pierre.dupont'" | Add-ADGroupMember -Identity "GG-EU-Comptabilité-Utilisateurs"
 
 # Ajouter plusieurs utilisateurs à un groupe
-Add-ADGroupMember -Identity "GG-EU-Ventes-Utilisateurs" -Members "jean.martin", "sophie.lambert"
+Get-ADUser -Filter "(SamAccountName -eq 'jean.martin') -or (SamAccountName -eq 'sophie.lambert')" | Add-ADGroupMember -Identity "GG-EU-Ventes-Utilisateurs"
+
+# Exemple: ajouter tous les utilisateurs d'un département à un groupe
+Get-ADUser -Filter "Department -eq 'Ventes'" | Add-ADGroupMember -Identity "GG-EU-Ventes-Utilisateurs"
 ```
 
 ### Retirer un utilisateur d'un groupe
 
 ```powershell
 # Retirer un utilisateur d'un groupe
-Remove-ADGroupMember -Identity "GG-EU-Comptabilité-Managers" -Members "pierre.dupont" -Confirm:$false
+Get-ADUser -Filter "SamAccountName -eq 'pierre.dupont'" | Remove-ADGroupMember -Identity "GG-EU-Comptabilité-Managers" -Confirm:$false
+
+# Exemple: retirer tous les utilisateurs d'un département d'un groupe
+Get-ADUser -Filter "Department -eq 'Stagiaires'" | Remove-ADGroupMember -Identity "GG-EU-Comptabilité-Utilisateurs" -Confirm:$false
 ```
 
 ### Vérifier les appartenances
 
 ```powershell
 # Vérifier les groupes d'un utilisateur
-Get-ADPrincipalGroupMembership -Identity "pierre.dupont" | Select-Object Name
+Get-ADUser -Filter "SamAccountName -eq 'pierre.dupont'" | ForEach-Object {
+    Get-ADPrincipalGroupMembership -Identity $_.SamAccountName | Select-Object Name
+}
+
+# Exemple: afficher les groupes pour tous les utilisateurs d'un département
+Get-ADUser -Filter "Department -eq 'Direction'" | ForEach-Object {
+    Write-Host "\nGroupes de $($_.Name):" -ForegroundColor Yellow
+    Get-ADPrincipalGroupMembership -Identity $_.SamAccountName | Select-Object Name
+}
 ```
 
 > **Exercice** : Ajoutez un utilisateur à trois groupes différents, puis vérifiez ses appartenances.
@@ -179,7 +125,7 @@ Marc,Leroy,RH,Assistant RH,OU=Utilisateurs,OU=RH,OU=EU,DC=computerelectronics,DC
 
 ```powershell
 # Importer le fichier CSV
-$utilisateurs = Import-Csv -Path "C:\Temp\nouveaux_utilisateurs.csv" -Delimiter ","
+$utilisateurs = Import-Csv -Path "C:\utilisateurs.csv" -Delimiter ","
 
 # Parcourir chaque ligne et créer les utilisateurs
 foreach ($user in $utilisateurs) {
