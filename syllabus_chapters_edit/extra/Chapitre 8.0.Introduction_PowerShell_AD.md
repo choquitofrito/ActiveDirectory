@@ -104,6 +104,6 @@ Get-Help Get-ADUser -Examples
 Get-Help Get-ADUser -ShowWindow
 ```
 
-> **Exercice final**: Utilisez l'internet, IA ou le système d'aide pour explorer la commande `New-ADUser`. Identifiez les paramètres obligatoires et facultatifs pour créer un nouvel utilisateur.
+> **Exercice**: Utilisez l'internet, IA ou le système d'aide pour explorer la commande `New-ADUser`. Identifiez les paramètres obligatoires et facultatifs pour créer un nouvel utilisateur.
 
 

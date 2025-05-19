@@ -112,13 +112,13 @@ Ce mini-projet vous permettra de créer automatiquement plusieurs utilisateurs �
 
 ### Étape 1 : Créer le fichier CSV
 
-Créez un fichier `nouveaux_utilisateurs.csv` avec le contenu suivant :
+Créez un fichier `utilisateurs.csv` avec le contenu suivant :
 
 ```
 Prenom,Nom,Departement,Titre,OU
-Thomas,Leclerc,Comptabilité,Comptable,OU=Utilisateurs,OU=Comptabilité,OU=EU,DC=computerelectronics,DC=be
-Sophie,Dubois,Ventes,Commerciale,OU=Utilisateurs,OU=Ventes,OU=EU,DC=computerelectronics,DC=be
-Marc,Leroy,RH,Assistant RH,OU=Utilisateurs,OU=RH,OU=EU,DC=computerelectronics,DC=be
+Thomas,Leclerc,Comptabilite,Comptable,OU=Users,OU=Comptabilite,OU=EU,DC=computerelectronics,DC=be
+Sophie,Dubois,Ventes,Commerciale,OU=Users,OU=Ventes,OU=EU,DC=computerelectronics,DC=be
+Marc,Leroy,RH,Assistant RH,OU=Users,OU=RH,OU=EU,DC=computerelectronics,DC=be
 ```
 
 ### Étape 2 : Script d'importation
@@ -132,7 +132,7 @@ foreach ($user in $utilisateurs) {
     # Créer le nom d'utilisateur (prénom.nom)
     $samAccountName = "$($user.Prenom.ToLower()).$($user.Nom.ToLower())"
     $displayName = "$($user.Prenom) $($user.Nom)"
-    $userPrincipalName = "$samAccountName@computerelectronics.be"
+    $userPrincipalName = "$samAccountName@maxtec.be"
     
     # Vérifier si l'utilisateur existe déjà
     if (Get-ADUser -Filter {SamAccountName -eq $samAccountName} -ErrorAction SilentlyContinue) {
@@ -151,13 +151,7 @@ foreach ($user in $utilisateurs) {
             -AccountPassword (ConvertTo-SecureString "Password1!" -AsPlainText -Force) `
             -Enabled $true `
             -ChangePasswordAtLogon $true `
-            -Department $user.Departement `
-            -Title $user.Titre `
             -EmailAddress $userPrincipalName
-            
-        # Ajouter l'utilisateur au groupe de son département
-        $groupName = "GG-EU-$($user.Departement)-Utilisateurs"
-        Add-ADGroupMember -Identity $groupName -Members $samAccountName -ErrorAction SilentlyContinue
             
         Write-Host "Utilisateur $displayName créé avec succès." -ForegroundColor Green
     }

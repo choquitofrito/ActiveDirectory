@@ -12,6 +12,8 @@ Avant de pouvoir rechercher des informations spécifiques, il est important de c
 Get-ADUser -Filter * -Properties * | Get-Member -MemberType Property
 ```
 
+> Cette commande affiche toutes les propriétés disponibles pour les objets utilisateur dans Active Directory. Elle récupère d'abord tous les utilisateurs avec toutes leurs propriétés, puis filtre l'affichage pour ne montrer que les noms des propriétés. Très utile pour découvrir quelles informations vous pouvez interroger ou modifier.
+
 ### Commandes de base
 
 ```powershell
@@ -30,20 +32,27 @@ Get-ADUser -Filter {SamAccountName -eq "victor.vanhoof"} -Properties DisplayName
 
 ### Exemple pratique : Recherche avancée d'utilisateurs
 
-Changez le pays de quelques utilisateurs vers la Belgique.
+Changez à la main le pays de quelques utilisateurs vers la Belgique.
 
 
 ```powershell
 # Trouver tous les utilisateurs de la Belgique 
 Get-ADUser -Filter {Country -eq "BE"} -Properties Country | 
     Format-Table Name, SamAccountName, Country
+```
 
-**Note**: Format-Table permet de formatter les résultats de manière lisible.
+**Note**: Format-Table permet de formatter les résultats de manière lisible, c'est juste une option
+
 
 # Trouver les utilisateurs actifs
+
+```powershell
 Get-ADUser -Filter {Enabled -eq $true} | Format-Table Name
+```
 
 # Filtre avec AND : utilisateurs belges ET du département Ventes
+
+```powershell
 Get-ADUser -Filter {Country -eq "B" -and Name -like "Re*"} -Properties Country,Department |
     Format-Table Name, SamAccountName, Country, Department
 ```
@@ -67,29 +76,35 @@ Get-ADGroup -Filter *
 Get-ADGroup -Filter {Name -eq "GG-EU-RH-Users"} | ForEach-Object {
     Get-ADGroupMember -Identity $_.DistinguishedName
 }
+```
 
-**Note:** ForEach-Object permet de parcourir chaque objet retourné par Get-ADGroup.
+**Note:** ForEach-Object permet de parcourir chaque objet retourné par Get-ADGroup. Le $_ représente l'objet actuel utilisé dans la boucle
 
+
+```powershell
 # Obtenir les groupes d'un utilisateur
 Get-ADUser -Filter {SamAccountName -eq "victor"} | ForEach-Object {
     Get-ADPrincipalGroupMembership -Identity $_.DistinguishedName
 }
 ```
 
+> **Exercice 1** : Trouvez tous les groupes dont le nom contient le mot "IT".
 
-> **Exercice 1** : Trouvez tous les groupes dont le nom contient le mot "Ventes".
-
-```powershell
-# Solution
-Get-ADGroup -Filter {Name -like "*Ventes*"}
-```
 
 > **Exercice 2** : Affichez les membres du groupe "GG-EU-IT-Users".
 
 ```powershell
-# Solution: on utilise identity car Get-ADGroupMember n'accepte pas le paramètre -Filter
+# Solution: on utilise identity car Get-ADGroupMember n'accepte pas le paramètre -Filter. Certaines commandes ne l'acceptent pas.
 Get-ADGroupMember -Identity "GG-EU-IT-Users" | Format-Table Name, SamAccountName
 ```
+
+> **Le paramètre -Identity** : Ce paramètre permet de spécifier quel objet AD vous voulez manipuler. Il accepte plusieurs formats d'identification. Par exemple... si on a le groupe "GG-EU-IT-Users", on peut le trouver de plusieurs manières en utilisant le paramètre -Identity :
+> - **Nom** : Simplement le nom du groupe (ex: -Identity "GG-EU-IT-Users")
+> - **SamAccountName** : L'identifiant unique du groupe dans le domaine (ex: -Identity "GG-EU-IT-Users")
+> - **DistinguishedName** : Le chemin complet dans l'AD (ex: -Identity "CN=GG-EU-IT-Users,OU=Groups,OU=EU,DC=computerelectronics,DC=be")
+> - **GUID** : L'identifiant unique global (ex: -Identity "123e4567-e89b-12d3-a456-426614174000")
+>
+> Pour trouver ces identifiants, utilisez d'abord une commande de recherche comme `Get-ADGroup -Filter {Name -like "*IT*"}` puis utilisez la propriété souhaitée comme valeur pour -Identity.
 
 
 ## 3. 🔹 Explorer les Unités d'Organisation (OUs)
