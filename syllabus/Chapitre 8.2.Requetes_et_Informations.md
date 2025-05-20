@@ -1,4 +1,4 @@
-# Atelier pratique : Requêtes et informations
+# Chapitre 8.2: Atelier pratique : Requêtes et informations
 
 ## 1. 🔹 Obtenir des informations sur les utilisateurs
 
@@ -6,13 +6,9 @@ Les commandes PowerShell permettent d'extraire rapidement des informations sur l
 
 ### Découvrir les attributs disponibles
 
-Avant de pouvoir rechercher des informations spécifiques, il est important de connaître les attributs disponibles. Les attributs sont disponibles dans l'onglet Propriétés > Objets dans `Utilisateurs et groupes d'AD`.
+Avant de pouvoir rechercher des informations spécifiques, il est important de connaître les propriétés disponibles. Ces propriétés sont disponibles dans l'interface graphique via le menu `Propriétés` > `Editeur d'attributs` dans `Utilisateurs et groupes d'AD` (il faut d'abord activer l'option `Fonctionnalités avancées` dans le menu principal de `Utilisateurs et groupes d'AD`).
 
-```powershell
-Get-ADUser -Filter * -Properties * | Get-Member -MemberType Property
-```
 
-> Cette commande affiche toutes les propriétés disponibles pour les objets utilisateur dans Active Directory. Elle récupère d'abord tous les utilisateurs avec toutes leurs propriétés, puis filtre l'affichage pour ne montrer que les noms des propriétés. Très utile pour découvrir quelles informations vous pouvez interroger ou modifier.
 
 ### Commandes de base
 
@@ -23,10 +19,11 @@ Get-ADUser -Filter * -ResultSetSize 10
 # Obtenir un utilisateur spécifique par son SamAccountName
 Get-ADUser -Filter {SamAccountName -eq "victor.vanhoof"}
 
-# Obtenir les utilisateurs dont le nom commence par V
+# Obtenir les utilisateurs dont le nom commence par V (il faut que le nom soit rempli!!)
 Get-ADUser -Filter {Name -like "V*"}
 
 # Obtenir un utilisateur avec des propriétés spécifiques
+# La propriété 'Department' en PowerShell correspond au champ 'Service' dans l'interface française d'AD
 Get-ADUser -Filter {SamAccountName -eq "victor.vanhoof"} -Properties DisplayName, EmailAddress, Department
 ```
 
@@ -50,10 +47,12 @@ Get-ADUser -Filter {Country -eq "BE"} -Properties Country |
 Get-ADUser -Filter {Enabled -eq $true} | Format-Table Name
 ```
 
-# Filtre avec AND : utilisateurs belges ET du département Ventes
+# Filtre avec AND : utilisateurs belges ET du service Ventes
 
 ```powershell
-Get-ADUser -Filter {Country -eq "B" -and Name -like "Re*"} -Properties Country,Department |
+# Note: Dans PowerShell, la propriété s'appelle 'Department' (en anglais)
+# mais dans l'interface française d'AD, ce champ s'appelle 'Service'
+Get-ADUser -Filter {Country -eq "B" -and Department -eq "Ventes"} -Properties Country,Department |
     Format-Table Name, SamAccountName, Country, Department
 ```
 
@@ -78,7 +77,7 @@ Get-ADGroup -Filter {Name -eq "GG-EU-RH-Users"} | ForEach-Object {
 }
 ```
 
-**Note:** ForEach-Object permet de parcourir chaque objet retourné par Get-ADGroup. Le $_ représente l'objet actuel utilisé dans la boucle
+**Rappel:** ForEach-Object permet de parcourir chaque objet retourné par Get-ADGroup. Le $_ représente l'objet actuel utilisé dans la boucle
 
 
 ```powershell
@@ -91,7 +90,7 @@ Get-ADUser -Filter {SamAccountName -eq "victor"} | ForEach-Object {
 > **Exercice 1** : Trouvez tous les groupes dont le nom contient le mot "IT".
 
 
-> **Exercice 2** : Affichez les membres du groupe "GG-EU-IT-Users".
+> **Exercice 2** : Affichez les membres du groupe "GG-EU-IT-Users". Utilisez Identity car Get-ADGroupMember n'accepte pas le paramètre -Filter.
 
 ```powershell
 # Solution: on utilise identity car Get-ADGroupMember n'accepte pas le paramètre -Filter. Certaines commandes ne l'acceptent pas.
@@ -104,7 +103,7 @@ Get-ADGroupMember -Identity "GG-EU-IT-Users" | Format-Table Name, SamAccountName
 > - **DistinguishedName** : Le chemin complet dans l'AD (ex: -Identity "CN=GG-EU-IT-Users,OU=Groups,OU=EU,DC=computerelectronics,DC=be")
 > - **GUID** : L'identifiant unique global (ex: -Identity "123e4567-e89b-12d3-a456-426614174000")
 >
-> Pour trouver ces identifiants, utilisez d'abord une commande de recherche comme `Get-ADGroup -Filter {Name -like "*IT*"}` puis utilisez la propriété souhaitée comme valeur pour -Identity.
+
 
 
 ## 3. 🔹 Explorer les Unités d'Organisation (OUs)
@@ -127,11 +126,11 @@ Get-ADUser -Filter {Country -eq "BE"}
 
 # Obtenir les objets dans une OU spécifique
 # Remarque: SearchBase est nécessaire car il définit le point de départ de la recherche
-Get-ADObject -Filter * -SearchBase "OU=Comptabilité,OU=EU,DC=computerelectronics,DC=be"
+Get-ADObject -Filter * -SearchBase "OU=Users,OU=Comptabilite,OU=EU,DC=computerelectronics,DC=be"
 
 # Compter les utilisateurs dans une OU
 # Remarque: SearchBase est nécessaire pour limiter la recherche à une OU spécifique
-(Get-ADUser -Filter * -SearchBase "OU=Utilisateurs,OU=Comptabilité,OU=EU,DC=computerelectronics,DC=be").Count
+(Get-ADUser -Filter * -SearchBase "OU=Users,OU=Comptabilite,OU=EU,DC=computerelectronics,DC=be").Count
 ```
 
 
@@ -177,22 +176,24 @@ Voici un exemple:
 ```powershell
 # Exemple d'exportation avec pipeline
 # Exporter la liste des utilisateurs vers un fichier CSV
+# Note: 'Department' (propriété PowerShell) = 'Service' (interface française d'AD)
 Get-ADUser -Filter * -Properties Department, Title, EmailAddress |
     Select-Object Name, SamAccountName, Department, Title, EmailAddress |
-    Export-Csv -Path "C:\Temp\utilisateurs.csv" -NoTypeInformation -Encoding UTF8
+    Export-Csv -Path "C:\utilisateurs.csv" -NoTypeInformation -Encoding UTF8
 ```
 
 ### Exportation au format HTML (pour visualisation dans un navigateur)
 
 ```powershell
 # Exporter vers un fichier HTML (plus visuel qu'un CSV)
+# Note: 'Department' (propriété PowerShell) = 'Service' (interface française d'AD)
 Get-ADUser -Filter * -Properties Department, Title | 
     Select-Object Name, SamAccountName, Department, Title |
     ConvertTo-Html -Title "Liste des utilisateurs" -Property Name, SamAccountName, Country |
-    Out-File -FilePath "C:\Temp\utilisateurs.html" -Encoding UTF8
+    Out-File -FilePath "C:\utilisateurs.html" -Encoding UTF8
 
 # Ouvrir le fichier HTML dans le navigateur par défaut
-Invoke-Item "C:\Temp\utilisateurs.html"
+Invoke-Item "C:\utilisateurs.html"
 ```
 
 > **Exercice** : Exportez la liste de tous les groupes et leurs membres dans un fichier CSV.

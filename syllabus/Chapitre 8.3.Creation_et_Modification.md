@@ -1,4 +1,4 @@
-# Atelier pratique : Création et modification
+# Chapitre 8.3: Atelier pratique : Création et modification
 
 ## 1. 🔹 Modification d'attributs utilisateur
 
@@ -52,10 +52,10 @@ Get-ADUser -Filter "Department -eq 'Stagiaires'" | ForEach-Object {
 Get-ADUser -Filter "SamAccountName -eq 'marie.martin'" | Unlock-ADAccount
 
 # Vérifier si un compte est verrouillé
-Get-ADUser -Filter "SamAccountName -eq 'marie.martin'" -Properties LockedOut | Select-Object Name, LockedOut
+Get-ADUser -Filter {SamAccountName -eq 'marie.martin'} -Properties LockedOut | Select-Object Name, LockedOut
 
 # Exemple: déverrouiller tous les comptes verrouillés
-Get-ADUser -Filter "LockedOut -eq $true" -Properties LockedOut | ForEach-Object {
+Get-ADUser -Filter {LockedOut -eq $true} -Properties LockedOut | ForEach-Object {
     Unlock-ADAccount -Identity $_.SamAccountName
     Write-Host "Compte $($_.Name) déverrouillé" -ForegroundColor Green
 }
@@ -74,31 +74,30 @@ Get-ADUser -Filter "SamAccountName -eq 'pierre.dupont'" | Add-ADGroupMember -Ide
 
 # Ajouter plusieurs utilisateurs à un groupe
 Get-ADUser -Filter "(SamAccountName -eq 'jean.martin') -or (SamAccountName -eq 'sophie.lambert')" | Add-ADGroupMember -Identity "GG-EU-Ventes-Utilisateurs"
-
-# Exemple: ajouter tous les utilisateurs d'un département à un groupe
-Get-ADUser -Filter "Department -eq 'Ventes'" | Add-ADGroupMember -Identity "GG-EU-Ventes-Utilisateurs"
 ```
 
 ### Retirer un utilisateur d'un groupe
 
 ```powershell
 # Retirer un utilisateur d'un groupe
-Get-ADUser -Filter "SamAccountName -eq 'pierre.dupont'" | Remove-ADGroupMember -Identity "GG-EU-Comptabilité-Managers" -Confirm:$false
+Get-ADUser -Filter {SamAccountName -eq 'pierre.dupont'} | Remove-ADGroupMember -Identity "GG-EU-Comptabilité-Managers" -Confirm:$false
 
-# Exemple: retirer tous les utilisateurs d'un département d'un groupe
-Get-ADUser -Filter "Department -eq 'Stagiaires'" | Remove-ADGroupMember -Identity "GG-EU-Comptabilité-Utilisateurs" -Confirm:$false
+# Exemple: retirer tous les utilisateurs d'un service d'un groupe
+# Note: 'Department' (propriété PowerShell) = 'Service' (interface française d'AD)
+Get-ADUser -Filter {Department -eq 'Stagiaires'} | Remove-ADGroupMember -Identity "GG-EU-Comptabilité-Utilisateurs" -Confirm:$false
 ```
 
 ### Vérifier les appartenances
 
 ```powershell
 # Vérifier les groupes d'un utilisateur
-Get-ADUser -Filter "SamAccountName -eq 'pierre.dupont'" | ForEach-Object {
+Get-ADUser -Filter {SamAccountName -eq 'Richard'} | ForEach-Object {
     Get-ADPrincipalGroupMembership -Identity $_.SamAccountName | Select-Object Name
 }
 
-# Exemple: afficher les groupes pour tous les utilisateurs d'un département
-Get-ADUser -Filter "Department -eq 'Direction'" | ForEach-Object {
+# Exemple: afficher les groupes pour tous les utilisateurs d'une OU spécifique
+$cheminOU = "OU=Users,OU=Ventes,OU=EU,DC=computerelectronics,DC=be"
+Get-ADUser -Filter * -SearchBase $cheminOU | ForEach-Object {
     Write-Host "\nGroupes de $($_.Name):" -ForegroundColor Yellow
     Get-ADPrincipalGroupMembership -Identity $_.SamAccountName | Select-Object Name
 }
@@ -121,11 +120,14 @@ Sophie,Dubois,Ventes,Commerciale,OU=Users,OU=Ventes,OU=EU,DC=computerelectronics
 Marc,Leroy,RH,Assistant RH,OU=Users,OU=RH,OU=EU,DC=computerelectronics,DC=be
 ```
 
-### Étape 2 : Script d'importation
+### Étape 2 : Script d'importation (à corriger et adapter)
 
 ```powershell
 # Importer le fichier CSV
 $utilisateurs = Import-Csv -Path "C:\utilisateurs.csv" -Delimiter ","
+# Pour déboguer, afficher le contenu de $utilisateurs
+Write-Host "`nContenu de `$utilisateurs`:" -ForegroundColor Yellow
+$utilisateurs | Format-List
 
 # Parcourir chaque ligne et créer les utilisateurs
 foreach ($user in $utilisateurs) {
