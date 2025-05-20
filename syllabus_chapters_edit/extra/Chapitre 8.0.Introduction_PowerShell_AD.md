@@ -11,15 +11,17 @@ PowerShell est un outil d'administration puissant qui permet d'automatiser et de
 
 ## 2. 🔹 Modules PowerShell pour Active Directory
 
-Pour gérer Active Directory avec PowerShell, vous devez utiliser des modules spécifiques:
+Pour gérer Active Directory avec PowerShell, vous utilisez le module ActiveDirectory. Sur un contrôleur de domaine avec le rôle AD DS installé, ce module est généralement **déjà disponible et chargé automatiquement** dans PowerShell ISE.
 
 ```powershell
-# Vérifier si le module AD est disponible
-Get-Module -Name ActiveDirectory -ListAvailable
+# Vérifier si le module AD est chargé
+Get-Module -Name ActiveDirectory
 
-# Importer le module AD si nécessaire
-Import-Module ActiveDirectory
+# Si le module n'est pas chargé (rare sur un DC), vous pouvez l'importer
+# Import-Module ActiveDirectory
 ```
+
+> **Note:** Sur un poste de travail (non-DC), l'installation des outils RSAT (Remote Server Administration Tools) est nécessaire pour obtenir ce module, et l'importation explicite peut être requise.
 
 > **Exemple pratique**: Ouvrez PowerShell sur votre contrôleur de domaine et exécutez ces commandes pour vérifier que le module AD est bien installé et disponible.
 
@@ -38,6 +40,9 @@ Les commandes PowerShell pour AD suivent une structure cohérente avec des verbe
 
 ### Exemple pratique: Explorer votre domaine
 
+Exécutez ces commandes sur votre contrôleur de domaine `dns1.computerelectronics.be` et observez les résultats. 
+
+
 ```powershell
 # Obtenir des informations sur le domaine
 Get-ADDomain
@@ -45,11 +50,32 @@ Get-ADDomain
 # Lister les contrôleurs de domaine
 Get-ADDomainController -Filter *
 
-# Afficher les 5 premiers utilisateurs du domaine
-Get-ADUser -Filter * -ResultSetSize 5 | Format-Table Name, Enabled, SamAccountName
+# Afficher tous les utilisateurs du domaine
+Get-ADUser -Filter *
+# Afficher les 15 premiers utilisateurs du domaine (ResultSetSize permet de limiter le nombre de résultats, peu importe la requête)
+Get-ADUser -Filter * -ResultSetSize 15 
+
+# Afficher les utilisateurs du domaine, mais sélectionner des attributs spécifiques
+Get-ADUser -Filter * -ResultSetSize 15 -Properties Name, Enabled, SamAccountName 
+
+# Afficher les utilisateurs du domaine, mais sélectionner des attributs spécifiques et les afficher de manière structurée
+Get-ADUser -Filter * -ResultSetSize 15 -Properties Name, Enabled, SamAccountName | 
+    Format-Table Name, Enabled, SamAccountName
+
+# Obtenir d'autres types d'objets AD
+
+# Afficher tous les groupes du domaine
+Get-ADGroup -Filter *
+
+# Afficher tous les ordinateurs du domaine
+Get-ADComputer -Filter *
+
+# Afficher toutes les unités d'organisation (OUs)
+Get-ADOrganizationalUnit -Filter *
 ```
 
-> **Exercice**: Exécutez ces commandes sur votre contrôleur de domaine `dns1.computerelectronics.be` et observez les résultats. Notez comment les informations sont présentées de manière structurée.
+(On verra les filtres plus tard)
+
 
 ## 4. 🔹 Comparaison avec l'interface graphique
 
@@ -81,25 +107,16 @@ Pour travailler efficacement avec PowerShell, quelques configurations sont recom
 # Définir l'exécution des scripts (sur votre station de travail d'administration)
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 
-# Créer un dossier pour vos scripts
+# Créer un dossier pour vos scripts (vous pourriez le faire à la main aussi)
 New-Item -Path "C:\Scripts" -ItemType Directory -Force
-
-# Vérifier la version de PowerShell
-$PSVersionTable.PSVersion
 ```
 
 
 ## 6. 🔹 Aide et documentation
 
-PowerShell dispose d'un système d'aide intégré très complet:
+PowerShell dispose d'un système d'aide intégré complet mais très technique pour débuter:
 
 ```powershell
-# Obtenir de l'aide sur une commande
-Get-Help Get-ADUser
-
-# Obtenir des exemples d'utilisation
-Get-Help Get-ADUser -Examples
-
 # Afficher l'aide dans une fenêtre séparée
 Get-Help Get-ADUser -ShowWindow
 ```
