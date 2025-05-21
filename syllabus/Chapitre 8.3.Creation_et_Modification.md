@@ -115,9 +115,9 @@ Créez un fichier `utilisateurs.csv` avec le contenu suivant :
 
 ```
 Prenom,Nom,Departement,Titre,OU
-Thomas,Leclerc,Comptabilite,Comptable,OU=Users,OU=Comptabilite,OU=EU,DC=computerelectronics,DC=be
-Sophie,Dubois,Ventes,Commerciale,OU=Users,OU=Ventes,OU=EU,DC=computerelectronics,DC=be
-Marc,Leroy,RH,Assistant RH,OU=Users,OU=RH,OU=EU,DC=computerelectronics,DC=be
+Thomas,Leclerc,Comptabilite,Comptable,"OU=Users,OU=Comptabilite,OU=EU,DC=computerelectronics,DC=be"
+Sophie,Dubois,Ventes,Commerciale,"OU=Users,OU=Ventes,OU=EU,DC=computerelectronics,DC=be"
+Marc,Leroy,RH,Assistant RH,"OU=Users,OU=RH,OU=EU,DC=computerelectronics,DC=be"
 ```
 
 ### Étape 2 : Script d'importation (à corriger et adapter)
