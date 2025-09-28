@@ -1,5 +1,18 @@
 # Chapitre 6: Gestion des Utilisateurs
 
+## 🧭 Navigation du Cours
+[⏮️ Chapitre Précédent: Unités d'Organisation](Chapitre%205.Unites_Organisation.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Group Policy Objects](Chapitre%207.Group%20Policy%20Objects.md)
+
+## 📊 Votre Progrès
+- [✅] Chapitre 1: Introduction et installation
+- [✅] Chapitre 2: Installation VirtualBox
+- [✅] Chapitre 3: DNS
+- [✅] Chapitre 4: Active Directory Domain Services
+- [✅] Chapitre 5: Unités d'Organisation
+- [🔄] **Chapitre 6**: Gestion des Utilisateurs *(En cours)*
+
+---
+
 > 📚 **Dans ce chapitre:**
 > 1. 👤 [Identités Numériques](#1-introduction-aux-comptes-utilisateurs)
 >    - Concepts de base
@@ -33,6 +46,8 @@ Un compte utilisateur Active Directory représente une **identité numérique un
 - **Contrôle d'accès** aux ressources
 - **Gestion des informations** utilisateur
 
+> 💡 **Pour débutants:** Pensez à un compte utilisateur comme une carte d'identité numérique qui dit qui vous êtes et ce que vous pouvez faire dans l'entreprise!
+
 > **Exemple** : Connexion d'Ivan (Informatique)
 
 1. Connexion au poste de travail
@@ -57,13 +72,22 @@ ivan                # Informatique
 victor              # Ventes
 ```
 - **UPN** (User Principal Name), dont le format de base est **prenom@domaine**
- 
+
+> 💡 **Pour débutants:** SamAccountName = nom court (`ivan`), UPN = adresse email style (`ivan@maxtec.be`)
+
 Pour tous les deux, suivez ces règles:
 
 - Minuscules uniquement
 - Pas de caractères spéciaux
 - En cas d'homonymes, on peut ajouter un identifiant supplémentaire
 - Pas de chiffres sauf si nécessaire pour distinguer des homonymes
+
+## 🎯 Checkpoint: Concepts des Comptes
+Avant de créer vos premiers utilisateurs:
+- [ ] Je sais qu'un compte utilisateur est une identité numérique
+- [ ] Je comprends SamAccountName vs UPN
+- [ ] Je connais les règles de nommage (minuscules, pas de caractères spéciaux)
+- [ ] Je sais que le format standard est "prenom" et "prenom@maxtec.be"
 
 
 
@@ -73,6 +97,8 @@ Pour tous les deux, suivez ces règles:
 
 Vous pouvez l'ouvrir de plusieur formes: tapez `Utilisateurs et ordinateurs Active Directory` depuis le menu Démarrer ou via `dsa.msc`. C'est la méthode traditionnelle de gérer l'AD.
 Ou même `Gestionnaire de serveur`->`Outils`->`Utilisateurs et ordinateurs Active Directory`.
+
+> 💡 **Pour débutants:** ADUC = l'outil principal pour créer et gérer vos utilisateurs et groupes. C'est votre "tableau de bord" d'Active Directory!
 
  C'est la méthode traditionnelle pour gérer l'AD, mais il y a aussi la **méthode moderne via l'interface web de l'AD** (`Gestionnaire de serveur`->`Outils`->`Centre d'administration d'AD`).
 
@@ -517,6 +543,37 @@ Groupes Locaux de Domaine (DL-) :
 - Contiennent les groupes globaux appropriés
 Exemple : DL-RH-Lecture, DL-RH-Modification
 ```
+
+## 🎯 Checkpoint Final: Gestion des Utilisateurs
+Avant de passer aux Group Policy Objects:
+- [ ] Je sais créer un utilisateur avec ADUC
+- [ ] Je comprends les standards de nommage (SamAccountName et UPN)
+- [ ] Je sais organiser les utilisateurs dans les UOs appropriées
+- [ ] Je comprends les concepts de groupes et leur utilisation
+- [ ] Je connais la différence entre groupes globaux et locaux
+
+---
+
+## 🎉 Félicitations! Chapitre 6 Terminé
+
+### 🎯 Ce que vous avez appris:
+- ✅ **Identités numériques**: Concepts et standards de nommage des comptes
+- ✅ **ADUC**: Outil principal pour gérer utilisateurs et groupes
+- ✅ **Création d'utilisateurs**: Process complet avec bonnes pratiques
+- ✅ **Gestion des groupes**: Organisation et stratégies d'accès
+- ✅ **Sécurité**: Principes de base pour la gestion des identités
+
+### 🚀 Prochaine étape:
+Vos utilisateurs sont créés et organisés! Il est maintenant temps d'apprendre à contrôler leurs environnements avec les **Group Policy Objects (GPOs)**!
+
+> 💡 **Superbe travail:** Vous maîtrisez maintenant la gestion des identités dans Active Directory!
+
+## 🧭 Navigation
+[⏮️ Chapitre Précédent: Unités d'Organisation](Chapitre%205.Unites_Organisation.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 7: Group Policy Objects](Chapitre%207.Group%20Policy%20Objects.md)
+
+---
+
+**📚 Cours Active Directory - H2EB | 👨‍💻 Pour débutants**
 
 
 

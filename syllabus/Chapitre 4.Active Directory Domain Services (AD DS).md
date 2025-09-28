@@ -1,5 +1,16 @@
 # Chapitre 4: Active Directory Domain Services (AD DS)
 
+## 🧭 Navigation du Cours
+[⏮️ Chapitre Précédent: DNS](Chapitre%203.DNS.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Unités d'Organisation](Chapitre%205.Unites_Organisation.md)
+
+## 📊 Votre Progrès
+- [✅] Chapitre 1: Introduction et installation
+- [✅] Chapitre 2: Installation VirtualBox
+- [✅] Chapitre 3: DNS
+- [🔄] **Chapitre 4**: Active Directory Domain Services *(En cours)*
+
+---
+
 > 📚 **Dans ce chapitre :**
 > 1. 🔍 [Introduction à AD DS](#1-introduction-à-ad-ds)
 >    - Concepts fondamentaux
@@ -44,6 +55,8 @@ Bien qu'on le confonde souvent avec l'ensemble d'Active Directory, AD DS n'est q
 | 🔗 **AD FS** | Authentification unique (SSO) et fédération d'identités entre organisations |
 
 **La force d'Active Directory** réside dans sa capacité à **centraliser l'administration**. Au lieu de gérer chaque ordinateur individuellement, les administrateurs peuvent appliquer des politiques et des configurations depuis un point central.
+
+> 💡 **Pour débutants:** Rappelez-vous du Chapitre 1 - c'est exactement le problème que nous résolvions pour l'entreprise Maxtec!
 
 <br>
 
@@ -117,6 +130,8 @@ Les flèches vertes représentent les requêtes DNS pour la résolution des noms
 
 Toutes ces informations sont stockées dans **le domaine AD** `maxtec.be` créé par **AD DS**.
 Vous vous demandez peut-être comment c'est possible, puisque `maxtec.be` est un domaine DNS et non un domaine AD ? En fait, ils **partagent le même nom**.
+
+> 💡 **Pour débutants:** C'est normal d'être confus! DNS et AD utilisent le même nom mais font des choses différentes. On va clarifier ça maintenant.
 
 **ATTENTION !**
 
@@ -237,6 +252,13 @@ La structure de l'UO `US` est identique à celle de l'UO `EU`.
 
 Ces serveurs gèrent l'ensemble des sites !
 
+## 🎯 Checkpoint: DNS vs AD - Avez-vous compris?
+Cette distinction est cruciale. Vérifiez votre compréhension:
+- [ ] DNS organise les noms et adresses IP
+- [ ] AD organise les utilisateurs, groupes et permissions
+- [ ] Ils partagent le nom `maxtec.be` mais font des choses différentes
+- [ ] Les UOs organisent les objets AD logiquement
+- [ ] Les Sites organisent les ressources physiquement
 
 ## 6. Laboratoire : promotion du serveur Windows Server en contrôleur de domaine
 
@@ -287,6 +309,11 @@ Notre serveur Windows Server va être promu au rôle de contrôleur de domaine (
 | 3 | Niveau fonctionnel | Windows Server 2022 |
 | 4 | Mot de passe DSRM | `Password1!` |
 | 5 | Nom NetBIOS | `MAXTEC` |
+
+> 💡 **Pour débutants:**
+> - **Nouvelle forêt** = nous créons tout depuis zéro
+> - **DSRM** = mode de récupération (comme un mot de passe de secours)
+> - **NetBIOS** = nom court pour compatibilité avec anciens systèmes
 
 ### 6.4. Vérifications post-installation
 
@@ -492,4 +519,35 @@ Ahmed commence à travailler au sein du département informatique. Pour accéder
 - **Accès aux ressources partagées** du domaine (dossiers, imprimantes, applications, etc.)
 - Application des **stratégies de sécurité** (par exemple, configuration du pare-feu)
 - Journalisation de l'activité utilisateur sur le serveur
+
+## 🎯 Checkpoint Final: Installation AD DS
+Avant de continuer vers les Unités d'Organisation:
+- [ ] J'ai installé le rôle AD DS sur mon serveur
+- [ ] J'ai promu le serveur en contrôleur de domaine
+- [ ] J'ai vérifié que DNS fonctionne correctement
+- [ ] Je comprends les différents types de partitions AD
+- [ ] Je sais comment intégrer un poste au domaine
+
+---
+
+## 🎉 Félicitations! Chapitre 4 Terminé
+
+### 🎯 Ce que vous avez appris:
+- ✅ **Architecture AD DS**: Composants et services d'Active Directory
+- ✅ **DNS vs AD**: Distinction claire entre les deux domaines
+- ✅ **Installation pratique**: Promotion d'un serveur en contrôleur de domaine
+- ✅ **Structure de données**: Partitions et catalogue global
+- ✅ **Intégration**: Comment connecter des postes au domaine
+
+### 🚀 Prochaine étape:
+Votre infrastructure Active Directory est maintenant fonctionnelle! Il est temps d'organiser vos utilisateurs et ressources avec les **Unités d'Organisation**.
+
+> 💡 **Bonne progression:** Vous avez maintenant la base solide pour gérer l'entreprise Maxtec!
+
+## 🧭 Navigation
+[⏮️ Chapitre Précédent: DNS](Chapitre%203.DNS.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 5: Unités d'Organisation](Chapitre%205.Unites_Organisation.md)
+
+---
+
+**📚 Cours Active Directory - H2EB | 👨‍💻 Pour débutants**
 

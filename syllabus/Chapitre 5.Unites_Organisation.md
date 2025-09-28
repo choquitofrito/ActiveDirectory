@@ -1,5 +1,17 @@
 # Chapitre 5 : Unités d'organisation (UOs)
 
+## 🧭 Navigation du Cours
+[⏮️ Chapitre Précédent: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Gestion des Utilisateurs](Chapitre%206.Gestion_des_Utilisateurs.md)
+
+## 📊 Votre Progrès
+- [✅] Chapitre 1: Introduction et installation
+- [✅] Chapitre 2: Installation VirtualBox
+- [✅] Chapitre 3: DNS
+- [✅] Chapitre 4: Active Directory Domain Services
+- [🔄] **Chapitre 5**: Unités d'Organisation *(En cours)*
+
+---
+
 > 📚 **Dans ce chapitre :**
 > 1. 🏢 [Structure organisationnelle](#1-introduction-aux-unités-dorganisation-uos)
 >    - Concepts fondamentaux
@@ -39,6 +51,8 @@ Une **unité d'organisation** (UO) est un **conteneur Active Directory** offrant
    - 🔒 Application des GPOs
 
 > 💡 **Analogie** : Une UO est un **conteneur intelligent** qui combine organisation et gestion.
+>
+> 💡 **Pour débutants:** Pensez aux UOs comme aux dossiers sur votre ordinateur, mais qui peuvent aussi avoir des règles et des permissions!
 
 ## 3. 📂 Structure des OUs
 
@@ -62,6 +76,13 @@ OU
 | Délégation | Limitée | **Complète** |
 | Structure | Plate | **Hiérarchique** (arbre d'OUs et héritage) |
 
+## 🎯 Checkpoint: Concept des UOs
+Avant de créer vos premières UOs, vérifiez votre compréhension:
+- [ ] Je sais qu'une UO est un conteneur intelligent
+- [ ] Je comprends qu'elle peut contenir utilisateurs, groupes, ordinateurs
+- [ ] Je sais que les UOs permettent d'appliquer des GPOs
+- [ ] Je comprends l'avantage sur les conteneurs par défaut
+
 ## 4. 🔧 Création d'une OU
 
 1. **Ouvrir la Console**
@@ -81,11 +102,13 @@ OU
    Format: [Location]/[Département]
    Exemple: EU/Comptabilite
    ```
+   > 💡 **Pour débutants:** Utilisez des noms simples et clairs sans espaces ni caractères spéciaux
 
 4. **Protection**
    ```
    ☑ Protéger contre la suppression
    ```
+   > 💡 **Conseil:** Toujours cocher cette option pour éviter les suppressions accidentelles!
 
 ## 5. 🗑️ Suppression d'une OU Protégée
 
@@ -815,3 +838,34 @@ La structure en OUs permet de **déléguer des droits administratifs** à diffé
    GG-EU-Projet-ERP-Test → DL-EU-Projet-ERP-Test
    GG-EU-Projet-ERP-Admin → [Tous les DL]
    ```
+
+## 🎯 Checkpoint Final: Maîtrise des UOs
+Avant de passer à la gestion des utilisateurs:
+- [ ] Je sais créer une UO et la protéger contre la suppression
+- [ ] Je comprends la différence entre UO et conteneur par défaut
+- [ ] Je connais les bonnes pratiques de nommage et structure
+- [ ] Je comprends les concepts de délégation (AGLP vs AGDLP)
+- [ ] Je sais comment les UOs et groupes travaillent ensemble
+
+---
+
+## 🎉 Félicitations! Chapitre 5 Terminé
+
+### 🎯 Ce que vous avez appris:
+- ✅ **Concept UO**: Conteneurs intelligents pour organiser Active Directory
+- ✅ **Structure**: Comment créer une hiérarchie logique et efficace
+- ✅ **Délégation**: Décentraliser l'administration avec AGLP et AGDLP
+- ✅ **Bonnes pratiques**: Nommage, sécurité et maintenance
+- ✅ **UOs vs Groupes**: Quand utiliser quoi et comment les combiner
+
+### 🚀 Prochaine étape:
+Maintenant que votre structure organisationnelle est en place, il est temps de créer et gérer vos **utilisateurs** dans ces UOs!
+
+> 💡 **Progression excellente:** Vous maîtrisez maintenant l'organisation logique d'Active Directory!
+
+## 🧭 Navigation
+[⏮️ Chapitre Précédent: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 6: Gestion des Utilisateurs](Chapitre%206.Gestion_des_Utilisateurs.md)
+
+---
+
+**📚 Cours Active Directory - H2EB | 👨‍💻 Pour débutants**

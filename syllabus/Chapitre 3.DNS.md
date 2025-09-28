@@ -1,5 +1,16 @@
 # Chapitre 3: DNS (Domain Name System)
 
+## 🧭 Navigation du Cours
+[⏮️ Chapitre Précédent: Installation VirtualBox](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Active Directory](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md)
+
+## 📊 Votre Progrès
+- [✅] Chapitre 1: Introduction et installation
+- [✅] Chapitre 2: Installation VirtualBox
+- [🔄] **Chapitre 3**: DNS *(En cours)*
+- [⏸️] Chapitre 4: Active Directory Domain Services
+
+---
+
 > 📚 **Dans ce chapitre:**
 > 1. 🌐 [Le service DNS](#1-le-service-dns)
 >    - Principes fondamentaux
@@ -41,6 +52,8 @@ Il est essentiel pour deux raisons principales :
 |--------|-------------|----------|
 | 🌐 **Internet** | Permet de naviguer sur internet en utilisant des noms au lieu d'IPs | `www.google.com` → `142.250.179.174` |
 | 🏢 **Active Directory** | Sert de base pour notre infrastructure Active Directory | `dns1.maxtec.be` → `192.168.0.2` |
+
+> 💡 **Pour débutants:** Pensez au DNS comme l'annuaire téléphonique d'internet. Au lieu de mémoriser `142.250.179.174`, vous tapez `google.com`!
 
 > **Point clé:** Sans DNS, nous devrions mémoriser les adresses IP de chaque service et ordinateur!
 
@@ -87,6 +100,12 @@ Le DNS offre deux types de résolution :
 
 </details>
 
+## 🎯 Checkpoint: Concept DNS de Base
+Avant de continuer, assurez-vous de comprendre:
+- [ ] Pourquoi on utilise des noms au lieu d'adresses IP
+- [ ] La différence entre DNS public et DNS interne
+- [ ] Pourquoi `maxtec.be` ne répond pas encore
+
 ---
 
 ## 2. Processus de Résolution DNS
@@ -96,6 +115,8 @@ Le DNS offre deux types de résolution :
 > **Point clé:** Le processus de résolution DNS diffère selon que la ressource est interne (une poste de travail cherche une ressource locale) ou externe (on essaie de se connecter au réseau depuis l'extérieur - l'Internet)
 
 #### 🌐 Résolution DNS Externe
+
+> 💡 **Conseil:** C'est quand quelqu'un de l'extérieur essaie de se connecter à notre entreprise
 
 ![Diagramme DNS](../diagrams/images/dns_resolution_maxtec.png)
 
@@ -107,6 +128,8 @@ Le DNS offre deux types de résolution :
 | 4️⃣ | **Connexion** | Le **client** se **connecte** via Internet |
 
 #### 🏛️ Résolution DNS Interne
+
+> 💡 **Conseil:** C'est quand nos employés utilisent leurs ordinateurs au bureau
 
 | Étape | Action | Détails |
 |---------|---------|----------|
@@ -143,7 +166,9 @@ Chaque arbre garde son indépendance tout en permettant une collaboration entre 
 
 ![Diagramme DNS](../diagrams/images/forest_structure.png)
 
-**Dans notre cas du laboon on a un forêt d'un arbre** (`maxtec.be`).
+**Dans notre cas du labo on a une forêt d'un arbre** (`maxtec.be`).
+
+> 💡 **Pour débutants:** Pour ce cours, nous avons une structure simple avec un seul arbre. Les grandes entreprises peuvent en avoir plusieurs.
 
 ### 📑 Cas Pratique: Maxtec
 
@@ -845,3 +870,25 @@ nslookup maxtec.be
 nslookup ws-compta-01.maxtec.be
 ```
 </details>
+
+---
+
+## 🎉 Félicitations! Chapitre 3 Terminé
+
+### 🎯 Ce que vous avez appris:
+- ✅ **Concept DNS**: L'annuaire d'internet et de notre entreprise
+- ✅ **Résolution**: Comment les noms deviennent des adresses IP
+- ✅ **Structure**: Organisation hiérarchique de maxtec.be
+- ✅ **Zones et autorité**: Qui répond à quelles questions
+
+### 🚀 Prochaine étape:
+Maintenant que vous comprenez le DNS, vous êtes prêt(e) pour **Active Directory Domain Services**!
+
+> 💡 **Bonne nouvelle:** Quand vous installerez AD DS, le DNS se configurera automatiquement!
+
+## 🧭 Navigation
+[⏮️ Chapitre Précédent: Installation VirtualBox](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 4: Active Directory](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md)
+
+---
+
+**📚 Cours Active Directory - H2EB | 👨‍💻 Pour débutants**

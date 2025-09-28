@@ -1,5 +1,19 @@
 # Chapitre 7: Les Stratégies de Groupe (GPO)
 
+## 🧭 Navigation du Cours
+[⏮️ Chapitre Précédent: Gestion des Utilisateurs](Chapitre%206.Gestion_des_Utilisateurs.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: PowerShell AD](Chapitre%208.0.Powershell%20AD%20-%20Introduction.md)
+
+## 📊 Votre Progrès
+- [✅] Chapitre 1: Introduction et installation
+- [✅] Chapitre 2: Installation VirtualBox
+- [✅] Chapitre 3: DNS
+- [✅] Chapitre 4: Active Directory Domain Services
+- [✅] Chapitre 5: Unités d'Organisation
+- [✅] Chapitre 6: Gestion des Utilisateurs
+- [🔄] **Chapitre 7**: Group Policy Objects *(En cours)*
+
+---
+
 > 📚 **Dans ce chapitre:**
 > 1. 🌐 [Introduction aux GPO](#1-introduction-aux-gpo)
 >    - Concepts de base
@@ -26,6 +40,8 @@ Une GPO est aussi un objet qu'on peut créer dans la base de données de AD-DS e
 | 🖥️ **Scripts** | Configurer des scripts de démarrage/arrêt |
 
 > 💡 **Principe clé**: Modifier **un seul GPO** pour configurer **plusieurs machines ou utilisateurs**!
+>
+> 💡 **Pour débutants:** Une GPO = un ensemble de règles que vous appliquez à vos utilisateurs ou ordinateurs. Au lieu de configurer chaque PC un par un, vous créez une règle une fois et elle s'applique partout!
 
 
 
@@ -92,6 +108,15 @@ Ce sera notre site pour l'Europe, **alors renommez-le à `Site-EU`** (click droi
 On pourrait créer un autre site si on avait un autre adaptateur réseau, chacun associé a un sous-réseau, mais ce n'est pas le but de notre labo.
 
 Connaissant la notion de site, continuons maintenant avec la classification des GPOs.
+
+## 🎯 Checkpoint: Concepts GPO et Sites
+Avant de créer vos premières GPOs:
+- [ ] Je sais qu'une GPO est un ensemble de règles pour configurer plusieurs machines
+- [ ] Je comprends que les GPOs s'appliquent à différents niveaux (site, domaine, UO)
+- [ ] Je sais que notre labo a un seul site (Site-EU)
+- [ ] Je comprends que les sites sont distincts des zones DNS
+
+> 💡 **Pour débutants:** Ne vous inquiétez pas si les concepts de sites semblent complexes. L'important est de comprendre que les GPOs sont des règles que vous appliquez à vos utilisateurs et ordinateurs!
 
 ## 2. Création des GPOs
 
@@ -395,3 +420,27 @@ Une fois qu'une GPO est liée à un niveau (Site, Domaine ou OU), on peut affine
      * Appliquer des paramètres d'économie d'énergie uniquement aux ordinateurs portables
 
 > **Note importante** : En cas de conflit entre GPO, la règle est simple : la dernière GPO appliquée (la plus spécifique) l'emporte sur les précédentes.
+
+---
+
+## 🎯 Checkpoint Final - Maîtrise des GPOs
+
+Avant de terminer ce chapitre, assurez-vous de bien comprendre :
+
+✅ **Ce qu'est une GPO** : Un ensemble de règles qui s'applique automatiquement
+✅ **L'ordre d'application** : Site → Domaine → OU
+✅ **Le filtrage** : Comment cibler des groupes ou types d'ordinateurs spécifiques
+✅ **L'héritage** : Comment les règles se propagent dans la hiérarchie
+
+> 💡 **Pour débutants** : Si vous pouvez expliquer les GPOs avec l'analogie des règles d'une école (règles générales + règles spécifiques par classe), vous avez compris l'essentiel !
+
+---
+
+## 🎉 Félicitations ! Chapitre 7 Terminé
+
+Vous maîtrisez maintenant un des outils les plus puissants d'Active Directory ! Les Group Policy Objects vous permettront d'automatiser et de standardiser la configuration de tous vos ordinateurs et utilisateurs.
+
+### 🚀 Prochaine Étape
+Dans le prochain chapitre, nous explorerons des concepts avancés qui vous permettront de gérer des environnements encore plus complexes.
+
+**Progression du cours : 7/X chapitres complétés** 🎯
