@@ -1,5 +1,16 @@
 # Chapitre 1: Introduction et installation de Windows Server
 
+## 🧭 Navigation du Cours
+[🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Installation VirtualBox](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md)
+
+## 📊 Votre Progrès
+- [🔄] **Chapitre 1**: Introduction et installation *(En cours)*
+- [⏸️] Chapitre 2: Installation VirtualBox
+- [⏸️] Chapitre 3: DNS
+- [⏸️] Chapitre 4: Active Directory Domain Services
+
+---
+
 > 📚 **Dans ce chapitre:**
 > 1. 🔗 [Réseaux décentralisés VS centralisés](#1-les-réseaux-décentralisés-vs-centralisés)
 >    - Avantages et inconvénients
@@ -7,7 +18,7 @@
 > 2. 🖥️ [Active Directory](#2-quest-ce-que-cest-active-directory)
 >    - Composants principaux
 >    - Fonctionnalités clés
-> 3. 💻 [Windows Server](#3-installation-de-windows-server)
+> 3. 💻 [Windows Server](#3-windows-server)
 >    - Configuration de base
 >    - Préparation pour AD
 
@@ -32,11 +43,22 @@ Vous **devez gérer chaque ordinateur individuellement**, en vous assurant que c
 Vous **allez vite vous trouver en difficulté**. Pourquoi?
 
 <details>
-<summary>Reponse</summary>
-- Chaque fois qu'un employé part, il est difficile de s'assurer que son compte est supprimé sur tous les ordinateurs et serveurs.
-- Si vous ajoutez une nouvelle imprimante, vous devez configurer chaque ordinateur séparément pour qu'il puisse l'utiliser. Si vous oubliez un ordinateur, les utilisateurs de cet ordinateur ne pourront pas imprimer. 
-- Pareil pour les serveurs. Si vous avez des unités de stockage dans serveurs, vous devez refaire le mapping sur chaque ordinateur.
+<summary>👀 Cliquez pour voir la réponse</summary>
+
+💼 **Problèmes de gestion décentralisée:**
+- 👤 **Départs d'employés**: Difficile de s'assurer que son compte est supprimé sur tous les ordinateurs et serveurs
+- 🖨️ **Nouvelles imprimantes**: Configuration manuelle sur chaque ordinateur séparément (risque d'oubli)
+- 💾 **Serveurs de stockage**: Refaire le mapping sur chaque ordinateur individuellement
+- 🔐 **Mots de passe**: Chaque utilisateur doit se souvenir de multiples comptes
+- 🔄 **Mises à jour**: Installation manuelle sur chaque poste
+
 </details>
+
+## 🎯 Checkpoint: Avez-vous compris le problème?
+Avant de continuer, assurez-vous de pouvoir:
+- [ ] Expliquer pourquoi la gestion décentralisée pose problème
+- [ ] Donner 3 exemples concrets de difficultés
+- [ ] Imaginer l'impact sur une entreprise de 50+ employés
 
 
 ---
@@ -60,10 +82,14 @@ Tous ces aspects **peuvent être gérés depuis un seul endroit, le serveur Acti
 **AD fonctionne sur Windows**. Nous allons l'utiliser concrètement sur **Windows Server**.
 
 
-**Centraliser ou ne pas centraliser?**
+## 🤔 Réflexion: Centraliser ou ne pas centraliser?
 
-Vous vous posez la question : "Est-ce une bonne idée de centraliser toute la gestion?"
-Qu'est-ce que vous en pensez? Ne regardez pas la solution!
+> 💭 **Question importante**: "Est-ce une bonne idée de centraliser toute la gestion?"
+>
+> 🔍 **Réfléchissez 2 minutes** avant de regarder la réponse:
+> - Quels seraient les **avantages**?
+> - Quels seraient les **risques**?
+> - Comment **minimiser** les risques?
 
 <details>
 <summary>📘 Les avantages de la centralisation</summary>
@@ -97,6 +123,13 @@ Qu'est-ce que vous en pensez? Ne regardez pas la solution!
 </details>
 
 
+
+## 🎯 Checkpoint: Active Directory
+Avant de passer à l'installation, vérifiez votre compréhension:
+- [ ] Je sais ce qu'est Active Directory
+- [ ] Je comprends pourquoi on centralise la gestion
+- [ ] Je connais les avantages ET les risques
+- [ ] Je suis prêt(e) à installer Windows Server
 
 ---
 
@@ -209,6 +242,8 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 ### 💾 Téléchargement de Windows Server
 
 > ⏰ **Version d'évaluation:** Cette version est valable pendant 180 jours, parfaite pour notre environnement d'apprentissage.
+>
+> 💡 **Conseil pour débutants:** Ne vous inquiétez pas des 180 jours, c'est largement suffisant pour apprendre!
 
 #### 📍 Prérequis
 
@@ -269,8 +304,10 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
    - Format de temps : **Français**
    - Clavier : **Français**
 3. Choisissez **Windows Server 2022 Standard (Desktop Experience)**
+   > 💡 **Pourquoi Desktop Experience?** Interface graphique familière pour débutants
 4. Acceptez la licence
 5. Sélectionnez **Installation personnalisée**
+   > ⚠️ **Attention:** Pas "Mise à niveau" car nous partons de zéro
 6. Configurez le disque dur
 </details>
 
@@ -285,7 +322,8 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 <details>
 <summary>💻 Paramètres de base</summary>
 
-1. Définissez le mot de passe administrateur
+1. Définissez le mot de passe administrateur: **Password1!**
+   > 💡 **Pour le labo:** Nous utilisons `Password1!` pour simplicité
 2. Connectez-vous avec le compte administrateur
 3. Configurez les paramètres régionaux :
    - Région : **France**
@@ -355,6 +393,11 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 
 > ℹ️ **Note:** Si un problème persiste après ces vérifications, consultez la [documentation Microsoft](https://docs.microsoft.com/fr-fr/windows-server/troubleshoot/).
 
+### 🚀 Prochaine étape:
+Vous êtes maintenant prêt(e) pour le **Chapitre 2: Installation avec VirtualBox**
+
+## 🧭 Navigation
+[🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 2: Installation VirtualBox](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md)
 
 
 ## Annexe: configuration pour permettre une connexion locale au serveur

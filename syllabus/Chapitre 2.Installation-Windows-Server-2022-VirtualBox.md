@@ -1,5 +1,16 @@
 # Chapitre 2: Installation de Windows Server 2022 sur VirtualBox
 
+## 🧭 Navigation du Cours
+[⏮️ Chapitre Précédent: Introduction](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: DNS](Chapitre%203.DNS.md)
+
+## 📊 Votre Progrès
+- [✅] Chapitre 1: Introduction et installation
+- [🔄] **Chapitre 2**: Installation VirtualBox *(En cours)*
+- [⏸️] Chapitre 3: DNS
+- [⏸️] Chapitre 4: Active Directory Domain Services
+
+---
+
 > 📚 **Dans ce guide:**
 > 1. 🛠️ [Prérequis](#1-prérequis)
 >    - Installation de VirtualBox
@@ -46,6 +57,8 @@ Si la commande ne fonctionne pas, on doit installer gcc-12
 ### 💾 Téléchargement de Windows Server 2022
 
 > ⚠️ **Important :** Si les images sont déjà téléchargées, passez à la section suivante
+>
+> 💡 **Pour débutants:** Même processus que dans le Chapitre 1, mais cette fois pour VirtualBox!
 
 1. 🌐 Visitez le [Centre d'évaluation Microsoft](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022)
 2. 💾 Téléchargez le fichier ISO de Windows Server 2022 (version d'évaluation 180 jours)
@@ -59,6 +72,7 @@ Si la commande ne fonctionne pas, on doit installer gcc-12
 2. ➕ Cliquez sur **Nouvelle**
 3. ⚙️ Configurez les paramètres de base :
    - 🎮 Nom : `WindowsServerM1`
+      > 💡 **Tip:** M1 = Machine 1 (si vous créez plus tard M2, M3...)
    - 💾 Choisissez "VDI (Image disque VirtualBox)"
    - 📚 ISO Image (fichier Windows Server)
    - 💻 Type : Microsoft Windows
@@ -111,8 +125,8 @@ Si la commande ne fonctionne pas, on doit installer gcc-12
 7. ⏳ Attendez que l'installation se termine
 
 8. 🔐 Configuration administrateur :
-   - 🔑 Mot de passe : **Password1!** (labos uniquement)
-   - ⚠️ Sauvegardez ce mot de passe
+   - 🔑 Mot de passe : **Password1!** (standard pour nos labos)
+   - ⚠️ Notez ce mot de passe quelque part
 
 9. 🔓 Attendez l'écran de login administrateur
 
@@ -144,6 +158,7 @@ Configuration initiale requise :
    3. ⚙️ Cliquez sur **Modifier**
    4. 🌐 Nom : **dns1**
    5. 🌐 Suffixe DNS : **maxtec.be**
+      > 💡 **Pourquoi maxtec.be?** C'est notre entreprise fictive d'exemple
    6. ✅ Cliquez sur **OK**
    7. 🔄 Redémarrez le serveur
 
@@ -198,6 +213,7 @@ Chaque département a des besoins spécifiques :
    - 🖥️ Version : Windows 10 Pro
    - ⚙️ Mode : Installation personnalisée
    - 👤 Compte : **clark.kent** / **Password1!**
+      > 💡 **Noms amusants:** Nous utilisons des noms de super-héros pour mémoriser facilement
 
 2. 🔄 Configuration :
    - 🔄 Mises à jour Windows
@@ -209,6 +225,7 @@ Chaque département a des besoins spécifiques :
 
 - 🎮 Nom VM : `Windows10M2`
 - 👤 Compte : **peter.parker** / **Password1!**
+   > 🕷️ **Spider-Man:** Un autre super-héros pour nos tests!
 - 💽 Hardware identique à la première machine
 
 ### 🖥️ Exercice 2 : Serveur Secondaire
@@ -218,4 +235,29 @@ Chaque département a des besoins spécifiques :
 - 🌐 FQDN : `dns2.maxtec.be`
 - 💻 Suivez la même procédure que pour le premier serveur
 
+## 🎯 Checkpoint: Installation VirtualBox
+Avant de continuer vers le prochain chapitre, vérifiez que vous avez:
+- [ ] Installé Windows Server sur VirtualBox
+- [ ] Configuré le nom de serveur (dns1.maxtec.be)
+- [ ] Testé la connectivité réseau
+- [ ] Créé au moins une machine cliente
 
+---
+
+## 🎉 Félicitations! Chapitre 2 Terminé
+
+### 🎯 Ce que vous avez appris:
+- ✅ **Alternative VirtualBox**: Installation sur différentes plateformes
+- ✅ **Configuration réseau**: Réseau interne vs externe
+- ✅ **Environnement complet**: Serveur + machines clientes
+- ✅ **Préparation**: Infrastructure prête pour Active Directory
+
+### 🚀 Prochaine étape:
+Vous êtes maintenant prêt(e) pour le **Chapitre 3: Configuration DNS**
+
+## 🧭 Navigation
+[⏮️ Chapitre Précédent: Introduction](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 3: DNS](Chapitre%203.DNS.md)
+
+---
+
+**📚 Cours Active Directory - H2EB | 👨‍💻 Pour débutants**
