@@ -213,7 +213,6 @@ Chaque département a des besoins spécifiques :
    - 🖥️ Version : Windows 10 Pro
    - ⚙️ Mode : Installation personnalisée
    - 👤 Compte : **clark.kent** / **Password1!**
-      > 💡 **Noms amusants:** Nous utilisons des noms de super-héros pour mémoriser facilement
 
 2. 🔄 Configuration :
    - 🔄 Mises à jour Windows
@@ -225,7 +224,6 @@ Chaque département a des besoins spécifiques :
 
 - 🎮 Nom VM : `Windows10M2`
 - 👤 Compte : **peter.parker** / **Password1!**
-   > 🕷️ **Spider-Man:** Un autre super-héros pour nos tests!
 - 💽 Hardware identique à la première machine
 
 ### 🖥️ Exercice 2 : Serveur Secondaire
@@ -260,4 +258,4 @@ Vous êtes maintenant prêt(e) pour le **Chapitre 3: Configuration DNS**
 
 ---
 
-**📚 Cours Active Directory - H2EB | 👨‍💻 Pour débutants**
+**📚 Cours Active Directory -  | 👨‍💻 Pour débutants**

@@ -549,5 +549,5 @@ Votre infrastructure Active Directory est maintenant fonctionnelle! Il est temps
 
 ---
 
-**📚 Cours Active Directory - H2EB | 👨‍💻 Pour débutants**
+**📚 Cours Active Directory -  | 👨‍💻 Pour débutants**
 

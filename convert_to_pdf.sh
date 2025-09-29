@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Répertoire contenant les fichiers Markdown
-SYLLABUS_DIR="/home/bender/Documents/Trabajo/Cursos-Estudio/H2EB/ActiveDirectory/syllabus"
+SYLLABUS_DIR="/home/bender/Documents/Trabajo/Cursos-Estudio//ActiveDirectory/syllabus"
 
 # Fonction pour convertir un fichier Markdown en PDF
 convert_file() {

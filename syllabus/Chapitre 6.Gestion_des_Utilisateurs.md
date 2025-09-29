@@ -573,7 +573,7 @@ Vos utilisateurs sont créés et organisés! Il est maintenant temps d'apprendre
 
 ---
 
-**📚 Cours Active Directory - H2EB | 👨‍💻 Pour débutants**
+**📚 Cours Active Directory -  | 👨‍💻 Pour débutants**
 
 
 

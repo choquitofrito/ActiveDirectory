@@ -213,16 +213,17 @@ ws-compta-01.eu.maxtec.be
 printer-rh-01.usa.maxtec.be
 ```
 
-on a 
+on aura 
 
 ```plaintext
 ws-compta-01.maxtec.be
 printer-rh-01.maxtec.be
 ```
 
+
 C'est fait exprès: si on **utilise** le nom du **sous-domaine** on devrait **gérer des certificats SSL pour chaque ressource** et on ne veut pas le faire! C'est une **approche** professionnelle **standardisée**.
 
-Les sous-domaines sont utilisés uniquement pour les serveurs et services (observez les adresses)
+Les **sous-domaines** sont utilisés uniquement pour les serveurs et services (observez les adresses)
 
 ```plaintext
 # Pour les serveurs et services
@@ -891,4 +892,4 @@ Maintenant que vous comprenez le DNS, vous êtes prêt(e) pour **Active Director
 
 ---
 
-**📚 Cours Active Directory - H2EB | 👨‍💻 Pour débutants**
+**📚 Cours Active Directory -  | 👨‍💻 Pour débutants**

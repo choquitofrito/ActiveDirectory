@@ -868,4 +868,4 @@ Maintenant que votre structure organisationnelle est en place, il est temps de c
 
 ---
 
-**📚 Cours Active Directory - H2EB | 👨‍💻 Pour débutants**
+**📚 Cours Active Directory -  | 👨‍💻 Pour débutants**

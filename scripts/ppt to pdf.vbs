@@ -3,10 +3,10 @@
 
 Dim pptApp, pptPresentation, fso, folder, file, inputFolder, outputPath
 
-inputFolder = "C:\Users\bender\Desktop\H2EB\ActiveDirectory\docsBase\20410D - FR"
+inputFolder = "C:\Users\bender\Desktop\\ActiveDirectory\docsBase\20410D - FR"
 
 ' Set the output folder for PDF handouts
-outputPath = "C:\Users\bender\Desktop\H2EB\ActiveDirectory\docsBase\20410D - FR\handouts"
+outputPath = "C:\Users\bender\Desktop\\ActiveDirectory\docsBase\20410D - FR\handouts"
 
 
 ' Create FileSystemObject to iterate over files

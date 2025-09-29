@@ -55,7 +55,7 @@ Vous êtes maintenant prêt(e) pour le **Chapitre X: [Titre]**
 
 ---
 
-**📚 Cours Active Directory - H2EB | 👨‍💻 Pour débutants**
+**📚 Cours Active Directory -  | 👨‍💻 Pour débutants**
 ```
 
 ## 📋 Guidelines pour Application
@@ -111,4 +111,4 @@ Vous êtes maintenant prêt(e) pour le **Chapitre X: [Titre]**
 
 ---
 
-*Template créé pour le cours Active Directory H2EB - Version 1.0*
+*Template créé pour le cours Active Directory  - Version 1.0*
