@@ -296,7 +296,7 @@ Une **zone DNS** est tout simplement **une partie de l'espace de noms DNS** (une
 
 | Type | Description |
 |------|-------------|
-| 💻 **Postes** | Directement sous la racine (structure plate) |
+| 💻 **Postes** | Directement sous la racine (structure plate, les noms n'incluent pas .eu ni .us: **ws-compta01.maxtec.be**) |
 | 🖥 **Serveurs** | Dans les sous-domaines (structure hiérarchique) |
 | 🔑 **Gestion** | Centralisée sur `dns1.maxtec.be` |
 
@@ -311,15 +311,6 @@ Une **zone DNS** est tout simplement **une partie de l'espace de noms DNS** (une
 
 ## 6. Structure Physique vs Logique
 
-### 🏗️ Structure Physique (IP)
-
-**Elements physiques** (machines) ayant leurs IPs.
-
-- Infrastructure: 192.168.0.0/24 (dns1, dns2)
-- Zone EU: 192.168.10.0/24 (postes EU, services EU)
-- Zone US: 192.168.20.0/24 (postes US, services US)
-
-
 ### 🌳 Structure Logique (DNS)
 
 **Structure de noms** (domaines et sous-domaines, ressources)
@@ -330,6 +321,18 @@ Une **zone DNS** est tout simplement **une partie de l'espace de noms DNS** (une
 - Ressources: ws-compta-01.maxtec.be, printer-rh-01.maxtec.be
 
 > 💡 **Note:** La structure logique (DNS) permet d'organiser les ressources **indépendamment de leur emplacement physique** (IP)
+
+
+### 🏗️ Structure Physique (IP)
+
+**Elements physiques** (machines) ayant leurs IPs.
+
+- Infrastructure: 192.168.0.0/24 (dns1, dns2)
+- Zone EU: 192.168.10.0/24 (postes EU, services EU)
+- Zone US: 192.168.20.0/24 (postes US, services US)
+
+
+
 
 ## 7. Autorité DNS
 
