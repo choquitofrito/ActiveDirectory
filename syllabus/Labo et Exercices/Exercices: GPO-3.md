@@ -15,10 +15,10 @@ Avant de commencer, assurez-vous d'avoir la structure complète de l'AD avec les
   - `GG-EU-IT-Admins` : Irene
 
 - Assurez-vous d'avoir au moins un ordinateur dans chaque département :
-  - `ws-compta-01.computerelectronics.be`
-  - `ws-rh-01.computerelectronics.be`
-  - `ws-ventes-01.computerelectronics.be`
-  - `ws-it-01.computerelectronics.be`
+  - `ws-compta-01.maxtec.be`
+  - `ws-rh-01.maxtec.be`
+  - `ws-ventes-01.maxtec.be`
+  - `ws-it-01.maxtec.be`
 
 ## 1. 🔹 Redirection de dossiers vers un serveur
 

@@ -288,7 +288,7 @@ Créer un rapport qui liste **tous les utilisateurs** d'une **Unité d'Organisat
 # Demander le nom de l'OU à l'utilisateur
 $nomOU = Read-Host "Entrez le nom de l'OU à auditer (ex: Ventes, RH...)"
 
-# Construire le chemin de l'OU (adapté au domaine computerelectronics.be)
+# Construire le chemin de l'OU (adapté au domaine maxtec.be)
 # Note: Le chemin exact dépend de votre structure AD
 $cheminOU = "OU=Users,OU=$nomOU,OU=EU,DC=computerelectronics,DC=be"
 

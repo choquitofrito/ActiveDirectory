@@ -40,7 +40,7 @@ Les commandes PowerShell pour AD suivent une structure cohérente avec des verbe
 
 ### Exemple pratique: Explorer votre domaine
 
-Exécutez ces commandes sur votre contrôleur de domaine `dns1.computerelectronics.be` et observez les résultats. 
+Exécutez ces commandes sur votre contrôleur de domaine `dns1.maxtec.be` et observez les résultats. 
 
 
 ```powershell
