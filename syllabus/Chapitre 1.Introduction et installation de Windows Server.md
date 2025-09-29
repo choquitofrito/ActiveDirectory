@@ -84,7 +84,7 @@ Tous ces aspects **peuvent être gérés depuis un seul endroit, le serveur Acti
 
 ## 🤔 Réflexion: Centraliser ou ne pas centraliser?
 
-> 💭 **Question importante**: "Est-ce une bonne idée de centraliser toute la gestion?"
+> 💭 **Question importante**: "Est-ce une bonne idée de centraliser toute la gestion sur (eventuellement) un seul serveur?"
 >
 > 🔍 **Réfléchissez 2 minutes** avant de regarder la réponse:
 > - Quels seraient les **avantages**?
@@ -98,8 +98,8 @@ Tous ces aspects **peuvent être gérés depuis un seul endroit, le serveur Acti
 
 | Catégorie | Avantages |
 |------------|------------|
-| 💻 **Gestion Simplifiée** | • Administration centralisée<br>• Déploiement simultané<br>• Mises à jour automatisées |
-| 🔐 **Sécurité Améliorée** | • Gestion centralisée des mots de passe<br>• Contrôle d'accès précis<br>• Traçabilité des actions |
+| 💻 **Gestion Simplifiée** | • Administration centralisée<br>• Déploiement simultané (ex: installer un même logiciel sur plusieurs machines)<br>• Mises à jour automatisées sur plusieurs machines|
+| 🔐 **Sécurité Améliorée** | • Gestion centralisée des mots de passe (tous dans la même BD)<br>• Contrôle d'accès précis<br>• Traçabilité des actions |
 | 💰 **Optimisation des Coûts** | • Réduction du temps de maintenance<br>• Moins de déplacements<br>• Optimisation des licences |
 </details>
 
@@ -122,14 +122,6 @@ Tous ces aspects **peuvent être gérés depuis un seul endroit, le serveur Acti
 > - Procédures d'urgence documentées
 </details>
 
-
-
-## 🎯 Checkpoint: Active Directory
-Avant de passer à l'installation, vérifiez votre compréhension:
-- [ ] Je sais ce qu'est Active Directory
-- [ ] Je comprends pourquoi on centralise la gestion
-- [ ] Je connais les avantages ET les risques
-- [ ] Je suis prêt(e) à installer Windows Server
 
 ---
 

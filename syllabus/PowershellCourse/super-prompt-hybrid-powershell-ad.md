@@ -194,9 +194,9 @@ Cada script bomba tiene:
 Import-Module ActiveDirectory
 
 # Obtener usuarios inactivos (última conexión > 90 días)
-$fechaLimite = (Get-Date).AddDays(-90)
+$dateLimite = (Get-Date).AddDays(-90)
 $usuariosInactivos = Get-ADUser -Filter * -Properties LastLogonDate |
-    Where-Object {$_.LastLogonDate -lt $fechaLimite}
+    Where-Object {$_.LastLogonDate -lt $dateLimite}
 
 Write-Host "Encontrados $($usuariosInactivos.Count) usuarios inactivos"
 

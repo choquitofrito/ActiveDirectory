@@ -12,17 +12,17 @@ Write-Host "=== NETTOYAGE DES COMPTES INACTIFS ===" -ForegroundColor Green
 Write-Host "Recherche des utilisateurs inactifs..." -ForegroundColor Yellow
 
 # Configuration
-$fechaLimite = (Get-Date).AddDays(-90)
+$dateLimite = (Get-Date).AddDays(-90)
 $domainBase = "DC=maxtec,DC=be"
 
-Write-Host "Date limite pour inactivité: $fechaLimite" -ForegroundColor Cyan
+Write-Host "Date limite pour inactivité: $dateLimite" -ForegroundColor Cyan
 
 # Obtenir tous les utilisateurs du domaine avec leur date de dernière connexion
 Write-Host "Récupération de la liste des utilisateurs..." -ForegroundColor Yellow
 
 $utilisateursInactifs = Get-ADUser -Filter * -SearchBase $domainBase -Properties LastLogonDate |
     Where-Object {
-        $_.LastLogonDate -lt $fechaLimite -and
+        $_.LastLogonDate -lt $dateLimite -and
         $_.Enabled -eq $true
     }
 
