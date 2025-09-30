@@ -65,7 +65,7 @@ Avant de continuer, assurez-vous de pouvoir:
 
 ## 2. Qu'est-ce que c'est Active Directory? 
 
-🔑 Active Directory **arrange ce problème en centralisant** la gestion des utilisateurs et des ordinateurs:
+🔑 Active Directory (ou son évolution: Azure Active Directory) **arrange ce problème en centralisant** la gestion des utilisateurs et des ordinateurs:
 
 > **Point clé:** Active Directory implique de stocker toutes les informations dans une seule base de données qui se trouvera sur un serveur (et non sur chaque ordinateur).
 
@@ -138,7 +138,6 @@ Tous ces aspects **peuvent être gérés depuis un seul endroit, le serveur Acti
 | **1. Préparation** | 🖥 Configuration VM | Création et paramétrage de la machine virtuelle |
 | | 💾 Installation Windows | Installation de Windows Server 2022 |
 | **2. Configuration** | 🔑 Services AD DS | Déploiement d'Active Directory |
-| | 🌐 Services DNS | Intégration avec le service DNS |
 | **3. Finalisation** | ✅ Tests | Vérification de la configuration |
 
 **Active Directory (AD)** est un ensemble de services qui a besoin d'être installé sur **Windows Server**. 
