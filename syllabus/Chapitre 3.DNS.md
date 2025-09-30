@@ -103,8 +103,8 @@ nslookup google.com
 #### Configuration réseau pour AD
 
 1. **Ouvrir les Paramètres réseau**
-   - Panneau de configuration → Réseau → Modifier les paramètres de la carte
-   - Ou : `ncpa.cpl` dans Exécuter
+   - État du Réseau → Ethernet → Modifier les options de l'adaptateur
+   - Ou : `ncpa.cpl` dans Exécuter... plus simple!
 
 2. **Configurer l'adaptateur LAN-VM** (réseau interne)
    - Clic droit sur la carte réseau LAN-VM → Propriétés
@@ -164,7 +164,7 @@ Quand vous lancerez l'installation d'Active Directory Domain Services :
    - Quand vous créez un utilisateur → DNS mis à jour
    - Tout est intégré !
 
-**C'est pour ça qu'on attend le Chapitre 4-bis pour pratiquer DNS !** Vous aurez un vrai domaine fonctionnel.
+**Dans le Chapitre 4-bis on pratiquera DNS**
 
 ---
 
@@ -187,7 +187,7 @@ Avant de passer au Chapitre 4, assurez-vous que :
 <details>
 <summary>❓ Pourquoi si peu de théorie DNS ?</summary>
 
-**Réponse:** Parce que la meilleure façon d'apprendre DNS c'est de le manipuler avec un domaine réel. Une fois AD installé (Chapitre 4), vous aurez `maxtec.be` fonctionnel et nous ferons 90 minutes de labs pratiques (Chapitre 4-bis) !
+**Réponse:** Parce que la meilleure façon d'apprendre DNS c'est de le manipuler avec un domaine réel. Une fois AD installé (Chapitre 4), vous aurez `maxtec.be` fonctionnel et nous ferons de la pratique (Chapitre 4-bis) !
 </details>
 
 <details>
@@ -201,7 +201,7 @@ Avant de passer au Chapitre 4, assurez-vous que :
 
 **Réponse:** Dans **deux endroits** :
 1. **Chapitre 4-bis** (après installation AD) : Labs pratiques avec votre domaine réel
-2. **Annexe A** : Théorie DNS avancée pour consultation/approfondissement
+2. **Théorie DNS** : Théorie DNS avancée pour consultation/approfondissement
 </details>
 
 <details>
@@ -215,17 +215,14 @@ Avant de passer au Chapitre 4, assurez-vous que :
 ## 📚 Pour aller plus loin (optionnel maintenant)
 
 Si vous voulez approfondir la théorie DNS **avant** l'installation AD :
-- 📖 [Annexe A - DNS Concepts Avancés](Annexe%20A%20-%20DNS%20Concepts%20Avances%20(Reference).md)
+- 📖 [Théorie DNS - DNS Concepts Avancés](Théorie%20DNS-%20DNS%20Concepts%20Avances%20(Reference).md)
 
-Mais nous recommandons d'**installer AD d'abord** (Chapitre 4) puis de faire les **labs pratiques DNS** (Chapitre 4-bis). C'est beaucoup plus efficace pédagogiquement !
+Mais nous recommandons d'**installer AD d'abord** (Chapitre 4) puis de faire les **labs pratiques DNS** (Chapitre 4-bis). 
 
 ---
 
 ## 🚀 Vous êtes prêt(e) !
 
-**Temps total du chapitre:** ~30 minutes
-- Lecture + compréhension : 15 minutes
-- Tests et configuration : 15 minutes
 
 **Prochaine étape:** Installation d'Active Directory Domain Services qui transformera votre serveur en contrôleur de domaine avec DNS intégré !
 
@@ -234,4 +231,3 @@ Mais nous recommandons d'**installer AD d'abord** (Chapitre 4) puis de faire les
 
 ---
 
-**📚 Cours Active Directory - Chapitre 3/8 | ⏱️ Durée: 30 minutes | 👨‍💻 Pour débutants**
