@@ -1,4 +1,4 @@
-# Chapitre 4-bis: DNS en Pratique avec Active Directory
+# Chapitre 4: DNS en Pratique avec Active Directory
 
 ## 🧭 Navigation du Cours
 [⏮️ Chapitre Précédent: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Unités d'Organisation](Chapitre%205.Unites_Organisation.md)
@@ -6,7 +6,7 @@
 ## 📊 Votre Progrès
 - [✅] Chapitre 1-3: Préparation
 - [✅] Chapitre 4: Active Directory DS installé
-- [🔄] **Chapitre 4-bis**: DNS Pratique avec AD *(En cours - 90 minutes)*
+- [🔄] **Chapitre 4**: DNS Pratique avec AD *(En cours - 90 minutes)*
 - [⏸️] Chapitre 5: Unités d'Organisation
 
 ---
@@ -574,4 +574,4 @@ Si vous voulez approfondir les concepts théoriques DNS:
 
 ---
 
-**📚 Cours Active Directory - Chapitre 4-bis/8 | ⏱️ Durée: 90 minutes pratiques | 💻 Hands-on complet**
+**📚 Cours Active Directory - Chapitre 4/8 | ⏱️ Durée: 90 minutes pratiques | 💻 Hands-on complet**

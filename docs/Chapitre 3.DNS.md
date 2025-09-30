@@ -8,13 +8,13 @@
 - [✅] Chapitre 2: Installation VirtualBox
 - [🔄] **Chapitre 3**: DNS Préparation *(En cours)*
 - [⏸️] Chapitre 4: Active Directory Domain Services
-- [⏸️] Chapitre 4-bis: DNS Pratique avec AD
+- [⏸️] Chapitre 4: DNS Pratique avec AD
 
 ---
 
 > 📚 **Objectif de ce chapitre court:**
 > Comprendre **juste assez** de DNS pour installer Active Directory avec succès.
-> La pratique DNS approfondie viendra **APRÈS** installation AD (Chapitre 4-bis).
+> La pratique DNS approfondie viendra **APRÈS** installation AD (Chapitre 4).
 
 ---
 
@@ -166,7 +166,7 @@ Quand vous lancerez l'installation d'Active Directory Domain Services :
    - Quand vous créez un utilisateur → DNS mis à jour
    - Tout est intégré !
 
-**Dans le Chapitre 4-bis on pratiquera DNS**
+**Dans le Chapitre 4 on pratiquera DNS**
 
 ---
 
@@ -189,7 +189,7 @@ Avant de passer au Chapitre 4, assurez-vous que :
 <details>
 <summary>❓ Pourquoi si peu de théorie DNS ?</summary>
 
-**Réponse:** Parce que la meilleure façon d'apprendre DNS c'est de le manipuler avec un domaine réel. Une fois AD installé (Chapitre 4), vous aurez `maxtec.be` fonctionnel et nous ferons de la pratique (Chapitre 4-bis) !
+**Réponse:** Parce que la meilleure façon d'apprendre DNS c'est de le manipuler avec un domaine réel. Une fois AD installé (Chapitre 4), vous aurez `maxtec.be` fonctionnel et nous ferons de la pratique (Chapitre 4) !
 </details>
 
 <details>
@@ -202,7 +202,7 @@ Avant de passer au Chapitre 4, assurez-vous que :
 <summary>❓ Où est toute la théorie DNS (zones, délégation, etc.) ?</summary>
 
 **Réponse:** Dans **deux endroits** :
-1. **Chapitre 4-bis** (après installation AD) : Labs pratiques avec votre domaine réel
+1. **Chapitre 4** (après installation AD) : Labs pratiques avec votre domaine réel
 2. **Théorie DNS** : Théorie DNS avancée pour consultation/approfondissement
 </details>
 
@@ -219,7 +219,7 @@ Avant de passer au Chapitre 4, assurez-vous que :
 Si vous voulez approfondir la théorie DNS **avant** l'installation AD :
 - 📖 [Théorie DNS - DNS Concepts Avancés](Théorie%20DNS-%20DNS%20Concepts%20Avances%20(Reference).md)
 
-Mais nous recommandons d'**installer AD d'abord** (Chapitre 4) puis de faire les **labs pratiques DNS** (Chapitre 4-bis). 
+Mais nous recommandons d'**installer AD d'abord** (Chapitre 4) puis de faire les **labs pratiques DNS** (Chapitre 4). 
 
 ---
 

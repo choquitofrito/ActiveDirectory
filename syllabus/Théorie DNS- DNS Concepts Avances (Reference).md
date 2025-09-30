@@ -1,7 +1,7 @@
 # Annexe A: DNS - Concepts Avancés (Référence)
 
 ## 🧭 Navigation
-[🏠 Retour au Syllabus](../README.md) | [📖 Chapitre 3: DNS Préparation](Chapitre%203.DNS.md) | [💻 Chapitre 4-bis: DNS Pratique](Chapitre%204-bis.DNS-Pratique-avec-AD.md)
+[🏠 Retour au Syllabus](../README.md) | [📖 Chapitre 3: DNS Préparation](Chapitre%203.DNS.md) | [💻 Chapitre 4: DNS Pratique](Chapitre%204.DNS-Pratique-avec-AD.md)
 
 ---
 
@@ -12,7 +12,7 @@
 > **📋 Parcours recommandé:**
 > 1. ✅ Complétez d'abord le [Chapitre 3: DNS Préparation](Chapitre%203.DNS.md)
 > 2. ✅ Installez Active Directory (Chapitre 4)
-> 3. ✅ Complétez les [Labs DNS Pratiques (Chapitre 4-bis)](Chapitre%204-bis.DNS-Pratique-avec-AD.md)
+> 3. ✅ Complétez les [Labs DNS Pratiques (Chapitre 4)](Chapitre%204.DNS-Pratique-avec-AD.md)
 > 4. 📖 Ensuite, consultez cette annexe pour la théorie approfondie
 >
 > **🎯 Public cible:** Étudiants avancés, admins expérimentés, ou pour consultation/révision
