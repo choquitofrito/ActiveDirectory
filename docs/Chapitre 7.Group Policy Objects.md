@@ -198,11 +198,11 @@ L'application des stratégies de groupe dépend de l'état du poste de travail e
 **Notes importantes sur le rafraîchissement** :
 - Les stratégies ordinateur :
   * S'appliquent **au démarrage initial** (il faut re-démarrer si on les change!!)
-  * Se rafraîchissent automatiquement toutes les 90-120 minutes
+  * Se rafraîchissent automatiquement périodiquement
   * Peuvent être forcées avec `gpupdate /force /target:computer` (dans certains cas on a besoin de redémarrer le poste)
 - Les stratégies utilisateur :
   * S'appliquent à chaque connexion utilisateur
-  * Se rafraîchissent toutes les 90-120 minutes
+  * Se rafraîchissent périodiquement
   * Peuvent être forcées avec `gpupdate /force /target:user`
 
 `gpupdate /force` lancera le tout.

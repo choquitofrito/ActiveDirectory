@@ -6,7 +6,7 @@
 ## 📊 Votre Progrès
 - [✅] Chapitre 1: Introduction et installation
 - [✅] Chapitre 2: Installation VirtualBox
-- [🔄] **Chapitre 3**: DNS Préparation *(En cours - 30 minutes)*
+- [🔄] **Chapitre 3**: DNS Préparation *(En cours)*
 - [⏸️] Chapitre 4: Active Directory Domain Services
 - [⏸️] Chapitre 4-bis: DNS Pratique avec AD
 
@@ -18,7 +18,7 @@
 
 ---
 
-## 📙 Objectifs Pédagogiques (30 minutes)
+## 📙 Objectifs Pédagogiques
 
 À la fin de ce chapitre, vous serez capable de :
 1. ✅ Expliquer en 30 secondes **pourquoi AD a besoin de DNS**
@@ -29,7 +29,7 @@
 
 ---
 
-## 1. DNS en 5 Minutes - L'Essentiel ⏱️
+## 1. DNS - L'Essentiel
 
 ### 🌐 Qu'est-ce que le DNS ?
 
@@ -209,7 +209,7 @@ Avant de passer au Chapitre 4, assurez-vous que :
 <details>
 <summary>❓ Est-ce que je peux sauter ce chapitre et aller directement au Chapitre 4 ?</summary>
 
-**Réponse:** NON ! Sans configurer DNS = 127.0.0.1, l'installation d'AD échouera. Ce sont 10 minutes de configuration vitales.
+**Réponse:** NON ! Sans configurer DNS = 127.0.0.1, l'installation d'AD échouera. Cette configuration est vitale.
 </details>
 
 ---

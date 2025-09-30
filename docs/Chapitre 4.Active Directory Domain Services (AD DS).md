@@ -560,7 +560,7 @@ Vous avez installé Active Directory qui a **automatiquement configuré DNS**. C
 ```
 Chapitre 4 (✅ Vous êtes ici)
     ↓
-Chapitre 4-bis: DNS Pratique (90 min de labs)
+Chapitre 4: DNS Pratique (labs pratiques)
     ↓
 Chapitre 5: Unités d'Organisation
 ```

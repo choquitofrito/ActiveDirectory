@@ -593,7 +593,7 @@ Secondaire: dns2.maxtec.be (192.168.0.3)
 
 # Transfert de zone
 Type: Incrémental
-Fréquence: 15 minutes
+Fréquence: périodique
 Sécurité: Signature TSIG
 ```
 Les zones secondaires se synchronisent automatiquement avec leur zone principale via un processus appelé **transfert de zone**.

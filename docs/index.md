@@ -11,7 +11,7 @@ Ce cours vous guide à travers l'installation, la configuration et l'administrat
 
 **Public:** Étudiants en informatique, administrateurs systèmes débutants
 **Prérequis:** Connaissances de base Windows Server
-**Durée estimée:** 60-80 heures (théorie + pratique)
+**Contenu:** Théorie + pratique complète
 
 ---
 
@@ -19,22 +19,22 @@ Ce cours vous guide à travers l'installation, la configuration et l'administrat
 
 ### 🏗️ Fondations (Chapitres 1-2)
 
-| Chapitre | Titre | Contenu | Durée |
+| Chapitre | Titre | Contenu |
 |----------|-------|---------|-------|
 | **[Chapitre 1](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md)** | Introduction et Installation Windows Server | Concepts de base, architecture serveur, installation Windows Server 2022 | 3h |
 | **[Chapitre 2](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md)** | Installation VirtualBox | Configuration environnement de virtualisation, création VMs | 2h |
 
 ### 🌐 Infrastructure réseau (Chapitres 3-4)
 
-| Chapitre | Titre | Contenu | Durée |
+| Chapitre | Titre | Contenu |
 |----------|-------|---------|-------|
-| **[Chapitre 3](Chapitre%203.DNS.md)** | DNS - Préparation pour AD | Concepts DNS essentiels pour Active Directory | 30min |
+| **[Chapitre 3](Chapitre%203.DNS.md)** | DNS - Préparation pour AD | Concepts DNS essentiels pour Active Directory |
 | **[Chapitre 4](Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29.md)** | Active Directory Domain Services | Installation et configuration AD DS sur maxtec.be | 4h |
-| **[Chapitre 4-bis](Chapitre%204bis.DNS-Pratique-avec-AD.md)** | DNS Pratique avec AD | Labs DNS avec domaine fonctionnel (5 labs progressifs) | 90min |
+| **[Chapitre 4-bis](Chapitre%204bis.DNS-Pratique-avec-AD.md)** | DNS Pratique avec AD | Labs DNS avec domaine fonctionnel (5 labs progressifs) |
 
 ### 🏢 Organisation et gestion (Chapitres 5-7)
 
-| Chapitre | Titre | Contenu | Durée |
+| Chapitre | Titre | Contenu |
 |----------|-------|---------|-------|
 | **[Chapitre 5](Chapitre%205.Unites_Organisation.md)** | Unités d'Organisation (OUs) | Structure hiérarchique, délégation AGLP/AGDLP | 4h |
 | **[Chapitre 6](Chapitre%206.Gestion_des_Utilisateurs.md)** | Gestion des Utilisateurs | Création comptes, groupes, permissions NTFS/partage | 5h |
@@ -42,7 +42,7 @@ Ce cours vous guide à travers l'installation, la configuration et l'administrat
 
 ### 💻 Automatisation PowerShell (Chapitre 8)
 
-| Chapitre | Titre | Contenu | Durée |
+| Chapitre | Titre | Contenu |
 |----------|-------|---------|-------|
 | **[Chapitre 8.0](Chapitre%208.0.Powershell%20AD%20-%20Introduction.md)** | PowerShell AD - Introduction | Premiers pas avec le module Active Directory | 1h |
 | **[Chapitre 8.1](Chapitre%208.1.Powershell%20AD%20-%20Concepts%20base.md)** | PowerShell AD - Concepts de base | Cmdlets essentiels, syntaxe, pipelines | 2h |

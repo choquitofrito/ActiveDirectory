@@ -6,7 +6,7 @@
 ## 📊 Votre Progrès
 - [✅] Chapitre 1-3: Préparation
 - [✅] Chapitre 4: Active Directory DS installé
-- [🔄] **Chapitre 4**: DNS Pratique avec AD *(En cours - 90 minutes)*
+- [🔄] **Chapitre 4**: DNS Pratique avec AD *(En cours)*
 - [⏸️] Chapitre 5: Unités d'Organisation
 
 ---
@@ -17,7 +17,7 @@
 
 ---
 
-## 📙 Objectifs Pédagogiques (90 minutes de pratique)
+## 📙 Objectifs Pédagogiques
 
 À la fin de ce chapitre, vous serez capable de :
 1. ✅ **Explorer** les zones DNS créées automatiquement par AD
@@ -29,7 +29,7 @@
 
 ---
 
-## 🔍 Lab 1: Explorer le DNS créé par Active Directory (20 minutes)
+## 🔍 Lab 1: Explorer le DNS créé par Active Directory
 
 ### Objectif
 Découvrir et comprendre ce qu'Active Directory a créé automatiquement dans le DNS.
@@ -108,7 +108,7 @@ nslookup -type=SRV _ldap._tcp.maxtec.be
 
 ---
 
-## 🛠️ Lab 2: Créer des Enregistrements Manuellement (25 minutes)
+## 🛠️ Lab 2: Créer des Enregistrements Manuellement
 
 ### Objectif
 Apprendre à ajouter des enregistrements DNS pour des ressources spécifiques (serveurs, alias, etc.)
@@ -192,7 +192,7 @@ Vérifiez que vous avez créé:
 
 ---
 
-## 💻 Lab 3: Joindre un Poste au Domaine et Observer le DNS (20 minutes)
+## 💻 Lab 3: Joindre un Poste au Domaine et Observer le DNS
 
 ### Objectif
 Comprendre comment l'enregistrement DNS automatique fonctionne quand un poste rejoint le domaine.
@@ -279,7 +279,7 @@ Observez:
 
 ---
 
-## 🔄 Lab 4: Configurer une Zone de Recherche Inverse (15 minutes)
+## 🔄 Lab 4: Configurer une Zone de Recherche Inverse
 
 ### Objectif
 Permettre la résolution IP → Nom (l'inverse de la résolution normale)
@@ -356,7 +356,7 @@ nslookup 192.168.10.128  # (remplacez par l'IP de votre client)
 
 ---
 
-## 🔧 Lab 5: Dépannage DNS - Troubleshooting (10 minutes)
+## 🔧 Lab 5: Dépannage DNS - Troubleshooting
 
 ### Objectif
 Apprendre à diagnostiquer et résoudre les problèmes DNS courants.
@@ -483,7 +483,7 @@ Maintenant que vous avez **pratiqué**, récapitulons les concepts importants :
 
 ---
 
-## 🎯 Exercice Final: Validation Complète (10 minutes)
+## 🎯 Exercice Final: Validation Complète
 
 ### Mission Complète
 
@@ -574,4 +574,4 @@ Si vous voulez approfondir les concepts théoriques DNS:
 
 ---
 
-**📚 Cours Active Directory - Chapitre 4-bis/8 | ⏱️ Durée: 90 minutes pratiques | 💻 Hands-on complet**
+**📚 Cours Active Directory - Chapitre 4/8 | 💻 Hands-on complet**
