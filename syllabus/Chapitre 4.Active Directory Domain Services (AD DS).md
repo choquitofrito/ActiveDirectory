@@ -539,13 +539,51 @@ Avant de continuer vers les Unités d'Organisation:
 - ✅ **Structure de données**: Partitions et catalogue global
 - ✅ **Intégration**: Comment connecter des postes au domaine
 
-### 🚀 Prochaine étape:
-Votre infrastructure Active Directory est maintenant fonctionnelle! Il est temps d'organiser vos utilisateurs et ressources avec les **Unités d'Organisation**.
+---
 
-> 💡 **Bonne progression:** Vous avez maintenant la base solide pour gérer l'entreprise Maxtec!
+## 🔔 Important: Prochaine Étape DNS Pratique !
+
+> 🎯 **Avant de continuer vers le Chapitre 5**, nous vous recommandons **fortement** de compléter le **Chapitre 4-bis: DNS Pratique avec AD**.
+
+### Pourquoi maintenant ?
+
+Vous avez installé Active Directory qui a **automatiquement configuré DNS**. C'est le moment parfait pour:
+- 🔍 **Explorer** les zones DNS créées par AD
+- 💻 **Pratiquer** la gestion DNS avec votre domaine réel maxtec.be
+- 🛠️ **Apprendre** à créer des enregistrements DNS
+- 🔧 **Maîtriser** le troubleshooting DNS-AD
+
+### Options de Parcours
+
+**Option A (Recommandée)** - Parcours complet immédiat:
+```
+Chapitre 4 (✅ Vous êtes ici)
+    ↓
+Chapitre 4-bis: DNS Pratique (90 min de labs)
+    ↓
+Chapitre 5: Unités d'Organisation
+```
+
+**Option B** - Continuer et revenir plus tard:
+```
+Chapitre 4 (✅ Vous êtes ici)
+    ↓
+Chapitre 5: Unités d'Organisation
+    ↓
+[Plus tard] Chapitre 4-bis: DNS Pratique
+```
+
+> 💡 **Notre recommandation:** Faites le Chapitre 4-bis maintenant ! DNS est fondamental pour AD et les labs pratiques consolideront votre compréhension avant d'organiser votre structure AD.
+
+---
 
 ## 🧭 Navigation
-[⏮️ Chapitre Précédent: DNS](Chapitre%203.DNS.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 5: Unités d'Organisation](Chapitre%205.Unites_Organisation.md)
+
+**Parcours recommandé:**
+[⏮️ Chapitre 3: DNS Préparation](Chapitre%203.DNS.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ **Chapitre 4-bis: DNS Pratique avec AD** (Recommandé)](Chapitre%204-bis.DNS-Pratique-avec-AD.md)
+
+**Parcours alternatif (continuer sans DNS pratique):**
+[⏭️ Chapitre 5: Unités d'Organisation](Chapitre%205.Unites_Organisation.md)
 
 ---
 
