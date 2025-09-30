@@ -15,184 +15,14 @@
 >
 > Dans ce chapitre, nous allons **pratiquer DNS** avec votre infrastructure réelle. Fini la théorie abstraite, place à la manipulation concrète !
 
----
 
-## 📙 Objectifs Pédagogiques
 
-À la fin de ce chapitre, vous serez capable de :
-1. ✅ **Explorer** les zones DNS créées automatiquement par AD
-2. ✅ **Comprendre** les enregistrements DNS critiques pour AD
-3. ✅ **Créer** des enregistrements DNS manuellement
-4. ✅ **Joindre** un poste au domaine et observer l'enregistrement DNS automatique
-5. ✅ **Configurer** une zone de recherche inverse
-6. ✅ **Dépanner** les problèmes DNS courants
+
+
 
 ---
 
-## 🔍 Lab 1: Explorer le DNS créé par Active Directory
-
-### Objectif
-Découvrir et comprendre ce qu'Active Directory a créé automatiquement dans le DNS.
-
-### 🖥️ Étape 1: Ouvrir le Gestionnaire DNS
-
-1. **Sur votre serveur** (dc1 ou dns1), ouvrir **Gestionnaire de serveur**
-2. Menu **Outils** → **DNS**
-3. La console **Gestionnaire DNS** s'ouvre
-
-> 💡 **Astuce rapide:** Vous pouvez aussi taper `dnsmgmt.msc` dans Exécuter (Win+R)
-
-### 🌐 Étape 2: Explorer la Zone maxtec.be
-
-Dans le volet gauche, déroulez :
-```
-DNS
-└── DNS1 (ou nom de votre serveur)
-    └── Zones de recherche directes
-        └── maxtec.be  ← CLIQUEZ ICI
-```
-
-**Observez les enregistrements créés automatiquement !**
-
-### 📋 Étape 3: Identifier les Enregistrements Critiques
-
-Dans le volet droit, vous devriez voir plusieurs enregistrements. Complétons ce tableau ensemble :
-
-| Nom | Type | Valeur/Données | À quoi ça sert ? |
-|-----|------|----------------|------------------|
-| (identique au dossier parent) | SOA | dns1.maxtec.be | 🔑 **Start of Authority** - définit l'autorité sur cette zone |
-| (identique au dossier parent) | NS | dns1.maxtec.be | 🌐 **Name Server** - indique quel serveur DNS est autoritaire |
-| dns1 | A | 192.168.0.2 | 💻 **Adresse** de votre contrôleur de domaine |
-| _msdcs | ... | ... | 📁 **Dossier spécial** pour les services AD |
-| _sites | ... | ... | 📁 Services AD par site géographique |
-| _tcp | ... | ... | 📁 Services TCP (LDAP, Kerberos) |
-| _udp | ... | ... | 📁 Services UDP |
-
-### 🔎 Étape 4: Explorer les Enregistrements SRV
-
-Les enregistrements SRV (Service) sont **CRITIQUES** pour Active Directory !
-
-1. **Déroulez** `_tcp` dans la zone maxtec.be
-2. **Cliquez** sur `_ldap`
-3. **Observez** les enregistrements SRV
-
-**Exemple d'enregistrement SRV que vous devriez voir:**
-```
-_ldap._tcp.maxtec.be
-Service: LDAP
-Protocole: TCP
-Port: 389
-Hôte cible: dns1.maxtec.be
-```
-
-> 🔑 **Pourquoi c'est important ?**
-> Quand un poste veut joindre le domaine, il demande : "Où est le serveur LDAP ?"
-> Le DNS répond grâce à cet enregistrement SRV !
-
-### ✅ Checkpoint Lab 1
-
-Assurez-vous de pouvoir répondre :
-- [ ] Où se trouvent les zones DNS ? (Gestionnaire DNS → Zones de recherche directes)
-- [ ] Qu'est-ce qu'un enregistrement SOA ? (Start of Authority - autorité sur la zone)
-- [ ] Pourquoi les enregistrements SRV sont importants ? (Localisation des services AD)
-- [ ] Combien d'enregistrements A voyez-vous ? (Au moins un pour votre DC)
-
-**🎯 Test rapide en PowerShell:**
-```powershell
-# Vérifier que le DNS résout votre domaine
-nslookup maxtec.be
-
-# Vérifier les services LDAP
-nslookup -type=SRV _ldap._tcp.maxtec.be
-```
-
----
-
-## 🛠️ Lab 2: Créer des Enregistrements Manuellement
-
-### Objectif
-Apprendre à ajouter des enregistrements DNS pour des ressources spécifiques (serveurs, alias, etc.)
-
-### 📝 Exercice 2.1: Créer un Enregistrement A (Hôte)
-
-**Scénario:** Vous avez un serveur de fichiers qui aura l'IP `192.168.10.10`
-
-1. **Dans Gestionnaire DNS**, clic droit sur la zone **maxtec.be**
-2. **Nouveau hôte (A ou AAAA)...**
-3. **Remplir:**
-   - Nom: `fileserver`
-   - Adresse IP: `192.168.10.10`
-   - ☑️ Créer un enregistrement PTR associé (si zone inverse existe)
-4. **Cliquer** sur "Ajouter un hôte"
-
-**✅ Vérification:**
-```powershell
-# Test 1: Résolution DNS
-nslookup fileserver.maxtec.be
-
-# Résultat attendu:
-# Nom :    fileserver.maxtec.be
-# Address: 192.168.10.10
-
-# Test 2: Ping
-ping fileserver.maxtec.be
-```
-
-### 🔗 Exercice 2.2: Créer un Alias (CNAME)
-
-**Scénario:** Vous voulez que `files.maxtec.be` pointe vers `fileserver.maxtec.be`
-
-1. **Dans Gestionnaire DNS**, clic droit sur la zone **maxtec.be**
-2. **Nouvel alias (CNAME)...**
-3. **Remplir:**
-   - Nom de l'alias: `files`
-   - Nom de domaine complet (FQDN) de l'hôte cible: `fileserver.maxtec.be`
-4. **OK**
-
-**✅ Vérification:**
-```powershell
-nslookup files.maxtec.be
-
-# Résultat attendu:
-# Nom :    fileserver.maxtec.be  ← Notez l'alias !
-# Address: 192.168.10.10
-```
-
-> 💡 **Avantage des CNAME:**
-> Si `fileserver` change d'IP, vous mettez à jour UNE SEULE fois l'enregistrement A, et l'alias `files` fonctionne toujours !
-
-### 🌐 Exercice 2.3: Créer un Enregistrement pour un Service Web
-
-**Scénario:** Vous voulez que `www.maxtec.be` pointe vers un serveur web
-
-**Mission:** Créez un enregistrement CNAME `www` qui pointe vers `fileserver` (pour simuler)
-
-<details>
-<summary>💡 Cliquez pour voir la solution</summary>
-
-1. Clic droit sur zone **maxtec.be** → **Nouvel alias (CNAME)**
-2. Nom: `www`
-3. FQDN cible: `fileserver.maxtec.be`
-4. OK
-
-Vérification:
-```powershell
-nslookup www.maxtec.be
-# Devrait résoudre vers fileserver.maxtec.be → 192.168.10.10
-```
-</details>
-
-### ✅ Checkpoint Lab 2
-
-Vérifiez que vous avez créé:
-- [ ] Enregistrement A: `fileserver.maxtec.be` → `192.168.10.10`
-- [ ] Alias CNAME: `files.maxtec.be` → `fileserver.maxtec.be`
-- [ ] Alias CNAME: `www.maxtec.be` → `fileserver.maxtec.be`
-- [ ] Tous se résolvent correctement avec `nslookup`
-
----
-
-## 💻 Lab 3: Joindre un Poste au Domaine et Observer le DNS
+## 💻 Lab 1: Joindre un Poste au Domaine et Observer le DNS
 
 ### Objectif
 Comprendre comment l'enregistrement DNS automatique fonctionne quand un poste rejoint le domaine.
@@ -270,7 +100,7 @@ Observez:
 > 💡 **Magie de l'intégration DNS-AD !**
 > Quand un poste rejoint le domaine, AD communique automatiquement avec DNS pour créer l'enregistrement. Aucune intervention manuelle nécessaire !
 
-### ✅ Checkpoint Lab 3
+### ✅ Checkpoint Lab 1
 
 - [ ] Le poste client est membre du domaine maxtec.be
 - [ ] L'enregistrement DNS `ws-compta-01.maxtec.be` existe
@@ -279,7 +109,257 @@ Observez:
 
 ---
 
-## 🔄 Lab 4: Configurer une Zone de Recherche Inverse
+## 🔍 Lab 2: Explorer le DNS créé par Active Directory
+
+### Objectif
+Découvrir et comprendre ce qu'Active Directory a créé automatiquement dans le DNS.
+
+### 🖥️ Étape 1: Ouvrir le Gestionnaire DNS
+
+1. **Sur votre serveur** (dc1 ou dns1), ouvrir **Gestionnaire de serveur**
+2. Menu **Outils** → **DNS**
+3. La console **Gestionnaire DNS** s'ouvre
+
+> 💡 **Astuce rapide:** Vous pouvez aussi taper `dnsmgmt.msc` dans Exécuter (Win+R)
+
+### 🌐 Étape 2: Explorer la Zone maxtec.be
+
+Dans le volet gauche, déroulez :
+```
+DNS
+└── DNS1 (ou nom de votre serveur)
+    └── Zones de recherche directes
+        └── maxtec.be  ← CLIQUEZ ICI
+```
+
+**Observez les enregistrements créés automatiquement !**
+
+### 📋 Étape 3: Identifier les Enregistrements Critiques
+
+Dans le volet droit, vous devriez voir plusieurs enregistrements. Complétons ce tableau ensemble :
+
+| Nom | Type | Valeur/Données | À quoi ça sert ? |
+|-----|------|----------------|------------------|
+| (identique au dossier parent) | SOA | dns1.maxtec.be | 🔑 **Start of Authority** - définit l'autorité sur cette zone |
+| (identique au dossier parent) | NS | dns1.maxtec.be | 🌐 **Name Server** - indique quel serveur DNS est autoritaire |
+| dns1 | A | 192.168.0.2 | 💻 **Adresse** de votre contrôleur de domaine |
+| _msdcs | ... | ... | 📁 **Dossier spécial** pour les services AD |
+| _sites | ... | ... | 📁 Services AD par site géographique |
+| _tcp | ... | ... | 📁 Services TCP (LDAP, Kerberos) |
+| _udp | ... | ... | 📁 Services UDP |
+
+### 🔎 Étape 4: Explorer les Enregistrements SRV
+
+Les enregistrements SRV (Service) sont **CRITIQUES** pour Active Directory !
+
+1. **Déroulez** `_tcp` dans la zone maxtec.be
+2. **Cliquez** sur `_ldap`
+3. **Observez** les enregistrements SRV
+
+**Exemple d'enregistrement SRV que vous devriez voir:**
+```
+_ldap._tcp.maxtec.be
+Service: LDAP
+Protocole: TCP
+Port: 389
+Hôte cible: dns1.maxtec.be
+```
+
+> 🔑 **Pourquoi c'est important ?**
+> Quand un poste veut joindre le domaine, il demande : "Où est le serveur LDAP ?"
+> Le DNS répond grâce à cet enregistrement SRV !
+
+### ✅ Checkpoint Lab 2
+
+Assurez-vous de pouvoir répondre :
+- [ ] Où se trouvent les zones DNS ? (Gestionnaire DNS → Zones de recherche directes)
+- [ ] Qu'est-ce qu'un enregistrement SOA ? (Start of Authority - autorité sur la zone)
+- [ ] Pourquoi les enregistrements SRV sont importants ? (Localisation des services AD)
+- [ ] Combien d'enregistrements A voyez-vous ? (Au moins un pour votre DC)
+
+**🎯 Test rapide en PowerShell:**
+```powershell
+# Vérifier que le DNS résout votre domaine
+nslookup maxtec.be
+
+# Vérifier les services LDAP
+nslookup -type=SRV _ldap._tcp.maxtec.be
+```
+
+---
+
+## 🛠️ Lab 3: Créer des Enregistrements Manuellement
+
+### Objectif
+Apprendre à ajouter des enregistrements DNS pour des ressources spécifiques (serveurs, alias, etc.)
+
+### 📝 Exercice 2.1: Créer un Enregistrement A (Hôte)
+
+**Scénario:** Vous avez un serveur de fichiers qui aura l'IP `192.168.10.10`
+
+1. **Dans Gestionnaire DNS**, clic droit sur la zone **maxtec.be**
+2. **Nouveau hôte (A ou AAAA)...**
+3. **Remplir:**
+   - Nom: `fileserver`
+   - Adresse IP: `192.168.10.10`
+   - ☑️ Créer un enregistrement PTR associé (si zone inverse existe)
+4. **Cliquer** sur "Ajouter un hôte"
+
+**✅ Vérification:**
+```powershell
+# Test 1: Résolution DNS
+nslookup fileserver.maxtec.be
+
+# Résultat attendu:
+# Nom :    fileserver.maxtec.be
+# Address: 192.168.10.10
+
+# Test 2: Ping
+ping fileserver.maxtec.be
+```
+
+### 🔗 Exercice 2.2: Créer un Alias (CNAME)
+
+**Scénario:** Vous voulez que `files.maxtec.be` pointe vers `fileserver.maxtec.be`
+
+1. **Dans Gestionnaire DNS**, clic droit sur la zone **maxtec.be**
+2. **Nouvel alias (CNAME)...**
+3. **Remplir:**
+   - Nom de l'alias: `files`
+   - Nom de domaine complet (FQDN) de l'hôte cible: `fileserver.maxtec.be`
+4. **OK**
+
+**✅ Vérification:**
+```powershell
+nslookup files.maxtec.be
+
+# Résultat attendu:
+# Nom :    fileserver.maxtec.be  ← Notez l'alias !
+# Address: 192.168.10.10
+```
+
+> 💡 **Avantage des CNAME:**
+> Si `fileserver` change d'IP, vous mettez à jour UNE SEULE fois l'enregistrement A, et l'alias `files` fonctionne toujours !
+
+### 🌐 Exercice 2.3: Créer un Enregistrement pour un Service Web
+
+**Scénario:** Vous voulez que `www.maxtec.be` pointe vers un serveur web
+
+**Mission:** Créez un enregistrement CNAME `www` qui pointe vers `fileserver` (pour simuler)
+
+<details>
+<summary>💡 Cliquez pour voir la solution</summary>
+
+1. Clic droit sur zone **maxtec.be** → **Nouvel alias (CNAME)**
+2. Nom: `www`
+3. FQDN cible: `fileserver.maxtec.be`
+4. OK
+
+Vérification:
+```powershell
+nslookup www.maxtec.be
+# Devrait résoudre vers fileserver.maxtec.be → 192.168.10.10
+```
+</details>
+
+### ✅ Checkpoint Lab 3
+
+Vérifiez que vous avez créé:
+- [ ] Enregistrement A: `fileserver.maxtec.be` → `192.168.10.10`
+- [ ] Alias CNAME: `files.maxtec.be` → `fileserver.maxtec.be`
+- [ ] Alias CNAME: `www.maxtec.be` → `fileserver.maxtec.be`
+- [ ] Tous se résolvent correctement avec `nslookup`
+
+---
+
+## 💻 Lab 4: Joindre un Poste au Domaine et Observer le DNS
+
+### Objectif
+Comprendre comment l'enregistrement DNS automatique fonctionne quand un poste rejoint le domaine.
+
+### 🖥️ Prérequis
+Vous avez besoin d'une **deuxième VM** (machine cliente Windows 10/11 Pro):
+- Nom: `ws-compta-01` (ou autre)
+- Réseau: Même réseau que le serveur (LAN-VM)
+- DNS configuré: `192.168.0.2` (votre serveur)
+
+### 📋 Étape 1: Avant de Joindre le Domaine
+
+**Sur le serveur**, vérifier que le poste n'est PAS encore dans le DNS :
+
+```powershell
+nslookup ws-compta-01.maxtec.be
+
+# Résultat attendu:
+# Serveur peut pas trouver ws-compta-01.maxtec.be : Non-existent domain
+```
+
+**Dans Gestionnaire DNS**, vérifier visuellement:
+- Zone **maxtec.be**
+- Chercher `ws-compta-01` → **N'existe pas encore**
+
+### 🔗 Étape 2: Joindre le Poste au Domaine
+
+**Sur la machine cliente (ws-compta-01):**
+
+1. **Paramètres Système**:
+   - Clic droit sur Démarrer → Système
+   - Paramètres système avancés
+   - Onglet **Nom de l'ordinateur**
+   - **Modifier**
+
+2. **Configuration:**
+   - Nom de l'ordinateur: `ws-compta-01`
+   - Membre de: **Domaine** → `maxtec.be`
+   - **OK**
+
+3. **Authentification:**
+   - Utilisateur: `Administrateur@maxtec.be`
+   - Mot de passe: `Password1!`
+
+4. **Redémarrer** la machine cliente
+
+### 🎉 Étape 3: Observer l'Enregistrement DNS Automatique
+
+**Immédiatement après le redémarrage**, retour sur le serveur :
+
+**Test PowerShell:**
+```powershell
+nslookup ws-compta-01.maxtec.be
+
+# Résultat MAINTENANT:
+# Nom :    ws-compta-01.maxtec.be
+# Address: 192.168.10.128  (ou l'IP de votre poste client)
+```
+
+**Dans Gestionnaire DNS:**
+1. Actualiser la vue (F5 ou clic droit → Actualiser)
+2. Zone **maxtec.be**
+3. **Chercher** `ws-compta-01` → **Il existe maintenant ! 🎉**
+
+### 🔍 Étape 4: Analyser l'Enregistrement Créé
+
+**Double-cliquez** sur `ws-compta-01` dans le Gestionnaire DNS :
+
+Observez:
+- **Type:** A (Host)
+- **Adresse IP:** L'IP du poste client
+- **Horodatage:** Date/heure de création
+- **Option:** "Supprimer cet enregistrement lorsqu'il devient obsolète"
+
+> 💡 **Magie de l'intégration DNS-AD !**
+> Quand un poste rejoint le domaine, AD communique automatiquement avec DNS pour créer l'enregistrement. Aucune intervention manuelle nécessaire !
+
+### ✅ Checkpoint Lab 5
+
+- [ ] Le poste client est membre du domaine maxtec.be
+- [ ] L'enregistrement DNS `ws-compta-01.maxtec.be` existe
+- [ ] `nslookup ws-compta-01.maxtec.be` retourne l'IP correcte
+- [ ] Vous comprenez pourquoi c'est automatique (intégration AD-DNS)
+
+---
+
+## 🔄 Lab 5: Configurer une Zone de Recherche Inverse
 
 ### Objectif
 Permettre la résolution IP → Nom (l'inverse de la résolution normale)
@@ -347,7 +427,7 @@ nslookup 192.168.10.128  # (remplacez par l'IP de votre client)
 4. **Nom de domaine complet de l'hôte:** `ws-compta-01.maxtec.be`
 5. **OK**
 
-### ✅ Checkpoint Lab 4
+### ✅ Checkpoint Lab 5
 
 - [ ] Zone inverse créée: `0.168.192.in-addr.arpa`
 - [ ] Enregistrement PTR pour le serveur existe
@@ -457,7 +537,7 @@ Maintenant que vous avez **pratiqué**, récapitulons les concepts importants :
 5. 📝 **AD** demande à DNS de créer enregistrement A pour le poste
 6. 🎉 **DNS** crée automatiquement `ws-compta-01.maxtec.be`
 
-**Vous avez VU tout ce processus dans le Lab 3 !**
+**Vous avez VU tout ce processus dans le Lab 1 !**
 
 ### 🏗️ Architecture DNS-AD Intégrée
 
