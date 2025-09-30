@@ -1,4 +1,4 @@
-# Cours Active Directory - Haute École Bruxelles-Brabant (H2EB)
+# Cours Active Directory 
 
 > 📚 **Formation complète sur Active Directory Domain Services**
 > Infrastructure d'entreprise moderne avec labs pratiques sur **maxtec.be**
