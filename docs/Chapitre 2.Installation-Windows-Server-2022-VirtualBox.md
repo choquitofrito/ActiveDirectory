@@ -12,12 +12,15 @@
 ---
 
 > 📚 **Dans ce guide:**
+> 
 > 1. 🛠️ [Prérequis](#1-prérequis)
 >    - Installation de VirtualBox
 >    - Téléchargement de Windows Server
+> 
 > 2. 🖥️ [Configuration de VirtualBox](#2-configuration-de-virtualbox)
 >    - Création de la VM
 >    - Paramètres réseau
+> 
 > 3. 🔩 [Installation de Windows Server](#3-installation-de-windows-server)
 >    - Étapes d'installation
 >    - Configuration initiale
