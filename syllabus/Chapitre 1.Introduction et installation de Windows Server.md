@@ -143,11 +143,21 @@ Tous ces aspects **peuvent être gérés depuis un seul endroit, le serveur Acti
 **Active Directory (AD)** est un ensemble de services qui a besoin d'être installé sur **Windows Server**. 
 
 **Windows Server est un système d'exploitation** conçu spécifiquement pour les serveurs d'entreprise. Il offre :
-- Des fonctionnalités avancées de **gestion de réseau**
-- La possibilité d'installer des **services d'entreprise comme Active Directory**
-- Une **sécurité renforcée** adaptée aux environnements professionnels
-- Des **outils d'administration centralisés**
-- La possibilité de **gérer de nombreux utilisateurs** et connexions simultanées
+
+- Des fonctionnalités de **gestion de réseau**  
+  _Exemple : attribuer une IP fixe au serveur._
+
+- La possibilité d'installer des **services d'entreprise comme Active Directory**  
+  _Exemple : créer un domaine pour centraliser la connexion des utilisateurs._
+
+- Une **sécurité renforcée** adaptée aux environnements professionnels  
+  _Exemple : forcer des mots de passe complexes._
+
+- Des **outils d'administration centralisés**  
+  _Exemple : gérer tous les serveurs depuis une console._
+
+- La possibilité de **gérer les ressources de nombreux utilisateurs** et connexions simultanées  
+  _Exemple : partager des dossiers à plusieurs utilisateurs en même temps._
 
 
 ### 3.1. Les machines virtuelles ?
