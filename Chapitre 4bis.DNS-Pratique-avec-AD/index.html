@@ -1,0 +1,2991 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/">
+      
+      
+        <link rel="next" href="../Chapitre%205.Unites_Organisation/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Chapitre 4-bis: DNS en Pratique avec Active Directory - Active Directory</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapitre-4-bis-dns-en-pratique-avec-active-directory" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Active Directory" class="md-header__button md-logo" aria-label="Active Directory" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Active Directory
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chapitre 4-bis: DNS en Pratique avec Active Directory
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 1: Introduction et installation de Windows Server
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%202.Installation-Windows-Server-2022-VirtualBox/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 2: Installation de Windows Server 2022 sur VirtualBox
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%203.DNS/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 3: DNS - Préparation pour Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 4: Active Directory Domain Services (AD DS)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 4-bis: DNS en Pratique avec Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%205.Unites_Organisation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 5 : Unités d'organisation (UOs)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%206.Gestion_des_Utilisateurs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 6: Gestion des Utilisateurs
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%207.Group%20Policy%20Objects/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 7: Les Stratégies de Groupe (GPO)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%208.0.Powershell%20AD%20-%20Introduction/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.0: Powershell AD - Introduction
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%208.1.Powershell%20AD%20-%20Concepts%20base/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.1: Les concepts de base PowerShell pour Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%208.2.Powershell%20AD%20-%20Requetes_et_Informations/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.2: Atelier pratique : Requêtes et informations
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%208.3.Powershell%20AD%20-%20Creation_et_Modification/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.3: Atelier pratique : Création et modification
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Th%C3%A9orie%20DNS-%20DNS%20Concepts%20Avances%20%28Reference%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Annexe A: DNS - Concepts Avancés (Référence)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../_template_navigation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  🧭 Template de Navigation - Cours Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Labo%20et%20Exercices/Exercices%3A%20GPO-1/" class="md-tabs__link">
+          
+  
+  
+  Labo et Exercices
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../PowershellCourse/prompt-curso-powershell/" class="md-tabs__link">
+          
+  
+  
+  PowershellCourse
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Active Directory" class="md-nav__button md-logo" aria-label="Active Directory" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Active Directory
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 1: Introduction et installation de Windows Server
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%202.Installation-Windows-Server-2022-VirtualBox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 2: Installation de Windows Server 2022 sur VirtualBox
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%203.DNS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 3: DNS - Préparation pour Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 4: Active Directory Domain Services (AD DS)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 4-bis: DNS en Pratique avec Active Directory
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 4-bis: DNS en Pratique avec Active Directory
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#navigation-du-cours" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧭 Navigation du Cours
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#votre-progres" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Votre Progrès
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objectifs-pedagogiques-90-minutes-de-pratique" class="md-nav__link">
+    <span class="md-ellipsis">
+      📙 Objectifs Pédagogiques (90 minutes de pratique)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-1-explorer-le-dns-cree-par-active-directory-20-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Lab 1: Explorer le DNS créé par Active Directory (20 minutes)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Lab 1: Explorer le DNS créé par Active Directory (20 minutes)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objectif" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectif
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-ouvrir-le-gestionnaire-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      🖥️ Étape 1: Ouvrir le Gestionnaire DNS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-explorer-la-zone-maxtecbe" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌐 Étape 2: Explorer la Zone maxtec.be
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-3-identifier-les-enregistrements-critiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Étape 3: Identifier les Enregistrements Critiques
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-4-explorer-les-enregistrements-srv" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔎 Étape 4: Explorer les Enregistrements SRV
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkpoint-lab-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Checkpoint Lab 1
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-2-creer-des-enregistrements-manuellement-25-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Lab 2: Créer des Enregistrements Manuellement (25 minutes)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛠️ Lab 2: Créer des Enregistrements Manuellement (25 minutes)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objectif_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectif
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-21-creer-un-enregistrement-a-hote" class="md-nav__link">
+    <span class="md-ellipsis">
+      📝 Exercice 2.1: Créer un Enregistrement A (Hôte)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-22-creer-un-alias-cname" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Exercice 2.2: Créer un Alias (CNAME)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-23-creer-un-enregistrement-pour-un-service-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌐 Exercice 2.3: Créer un Enregistrement pour un Service Web
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkpoint-lab-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Checkpoint Lab 2
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-3-joindre-un-poste-au-domaine-et-observer-le-dns-20-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      💻 Lab 3: Joindre un Poste au Domaine et Observer le DNS (20 minutes)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💻 Lab 3: Joindre un Poste au Domaine et Observer le DNS (20 minutes)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objectif_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectif
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequis" class="md-nav__link">
+    <span class="md-ellipsis">
+      🖥️ Prérequis
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-avant-de-joindre-le-domaine" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Étape 1: Avant de Joindre le Domaine
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-joindre-le-poste-au-domaine" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Étape 2: Joindre le Poste au Domaine
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-3-observer-lenregistrement-dns-automatique" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎉 Étape 3: Observer l'Enregistrement DNS Automatique
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-4-analyser-lenregistrement-cree" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Étape 4: Analyser l'Enregistrement Créé
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkpoint-lab-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Checkpoint Lab 3
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-4-configurer-une-zone-de-recherche-inverse-15-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Lab 4: Configurer une Zone de Recherche Inverse (15 minutes)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Lab 4: Configurer une Zone de Recherche Inverse (15 minutes)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objectif_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectif
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pourquoi-une-zone-inverse" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌐 Pourquoi une Zone Inverse ?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-creer-la-zone-inverse" class="md-nav__link">
+    <span class="md-ellipsis">
+      📝 Étape 1: Créer la Zone Inverse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-verifier-la-zone-creee" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Étape 2: Vérifier la Zone Créée
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-3-observer-les-enregistrements-ptr" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Étape 3: Observer les Enregistrements PTR
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-4-tester-la-resolution-inverse" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Étape 4: Tester la Résolution Inverse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-5-ajouter-un-enregistrement-ptr-manuellement" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Étape 5: Ajouter un Enregistrement PTR Manuellement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkpoint-lab-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Checkpoint Lab 4
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-5-depannage-dns-troubleshooting-10-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Lab 5: Dépannage DNS - Troubleshooting (10 minutes)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 Lab 5: Dépannage DNS - Troubleshooting (10 minutes)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objectif_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectif
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-1-je-ne-peux-plus-rejoindre-le-domaine" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚨 Scénario 1: "Je ne peux plus rejoindre le domaine"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-2-un-poste-ne-senregistre-pas-automatiquement-dans-le-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Scénario 2: "Un poste ne s'enregistre pas automatiquement dans le DNS"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commandes-de-depannage-essentielles" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Commandes de Dépannage Essentielles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkpoint-lab-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Checkpoint Lab 5
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#concepts-dns-cles-recapitulatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Concepts DNS Clés - Récapitulatif
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Concepts DNS Clés - Récapitulatif">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#types-denregistrements-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌐 Types d'Enregistrements DNS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resolution-dns-dans-active-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Résolution DNS dans Active Directory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architecture-dns-ad-integree" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏗️ Architecture DNS-AD Intégrée
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-final-validation-complete-10-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Exercice Final: Validation Complète (10 minutes)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Exercice Final: Validation Complète (10 minutes)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mission-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mission Complète
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etapes-a-realiser" class="md-nav__link">
+    <span class="md-ellipsis">
+      📝 Étapes à Réaliser
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation-finale" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Validation Finale
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#felicitations-vous-maitrisez-dns-avec-active-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎉 Félicitations ! Vous Maîtrisez DNS avec Active Directory !
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎉 Félicitations ! Vous Maîtrisez DNS avec Active Directory !">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ce-que-vous-avez-accompli" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏆 Ce que vous avez accompli
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#competences-acquises" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Compétences Acquises
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pour-aller-plus-loin" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Pour Aller Plus Loin
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#navigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧭 Navigation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%205.Unites_Organisation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 5 : Unités d'organisation (UOs)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%206.Gestion_des_Utilisateurs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 6: Gestion des Utilisateurs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%207.Group%20Policy%20Objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 7: Les Stratégies de Groupe (GPO)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%208.0.Powershell%20AD%20-%20Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.0: Powershell AD - Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%208.1.Powershell%20AD%20-%20Concepts%20base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.1: Les concepts de base PowerShell pour Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%208.2.Powershell%20AD%20-%20Requetes_et_Informations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.2: Atelier pratique : Requêtes et informations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%208.3.Powershell%20AD%20-%20Creation_et_Modification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.3: Atelier pratique : Création et modification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Th%C3%A9orie%20DNS-%20DNS%20Concepts%20Avances%20%28Reference%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Annexe A: DNS - Concepts Avancés (Référence)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../_template_navigation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🧭 Template de Navigation - Cours Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Labo et Exercices
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            Labo et Exercices
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Exercices%3A%20GPO-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: GPO 1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Exercices%3A%20GPO-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: GPO 2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Exercices%3A%20GPO-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: GPO 3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Exercices%3A%20Gestion_des_Utilisateurs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: Gestion des Utilisateurs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Exercices%3A%20OUs_Departements_Complementaires/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: Unités d'Organisation et Utilisateurs - Départements Complémentaires
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Exercices%3A%20Questions%20Base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: Questions Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_15_7" id="__nav_15_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Labo
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_15_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_7">
+            <span class="md-nav__icon md-icon"></span>
+            Labo
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Labo/Annexe.Permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Annexe.Permissions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration du Laboratoire GPO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_15_7_3" id="__nav_15_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    PowerShell scriptsStructure
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_15_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            PowerShell scriptsStructure
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/creation_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Creation structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/suppression_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Suppression structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    PowershellCourse
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            PowershellCourse
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/prompt-curso-powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prompt para Claude Code - Curso PowerShell para Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/super-prompt-hybrid-powershell-ad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Super Prompt Híbrido - Curso PowerShell AD Moderno para maxtec.be
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_3" id="__nav_16_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Cours powershell ad moderne
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_16_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_3">
+            <span class="md-nav__icon md-icon"></span>
+            Cours powershell ad moderne
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/README-COURSE-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🚀 Cours PowerShell AD Moderne 2025 - Résumé Complet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/README-INSTRUCTEUR/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🚀 PowerShell AD Moderne 2025 - Guide de l'Instructeur
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_3_3" id="__nav_16_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Cas horreur reels
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_16_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Cas horreur reels
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/cas-horreur-reels/vendredi-17h-sans-whatif/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🚨 CAS D'HORREUR RÉEL: Le Vendredi Qui A Failli Ruiner Une Carrière
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_3_4" id="__nav_16_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Materiels poche
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_16_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Materiels poche
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/materiels-poche/carte-survie-maxtec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🆘 CARTE DE SURVIE PowerShell AD - maxtec.be
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/materiels-poche/checklist-validation-scripts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ✅ Checklist Validation Scripts PowerShell AD
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_3_5" id="__nav_16_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Modules modernes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_16_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Modules modernes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M1-realite-2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 1: Réalité 2025 - Comment les Admins Travaillent Vraiment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M2-survie-tickets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 2: Survie Tickets - Les 10 Commandes Qui Sauvent des Carrières
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M3-ia-comme-copilote/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 3: L'IA comme Copilote - Prompts Sécurisés et Validation Critique
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M4-scripts-bomba-lab/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 4: Scripts Bomba Lab - Détecter les Erreurs Mortelles Cachées
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M5-whatif-religieux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 5: -WhatIf Religieux - Pourquoi -WhatIf est Sacré
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M6-kit-urgence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 6: Kit d'Urgence - Procédures "Break Glass" Quand Tout Explose
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="chapitre-4-bis-dns-en-pratique-avec-active-directory">Chapitre 4-bis: DNS en Pratique avec Active Directory</h1>
+<h2 id="navigation-du-cours">🧭 Navigation du Cours</h2>
+<p><a href="../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/">⏮️ Chapitre Précédent: Active Directory DS</a> | <a href="../README.md">🏠 Retour au Syllabus</a> | <a href="../Chapitre%205.Unites_Organisation/">⏭️ Chapitre Suivant: Unités d'Organisation</a></p>
+<h2 id="votre-progres">📊 Votre Progrès</h2>
+<ul>
+<li>[✅] Chapitre 1-3: Préparation</li>
+<li>[✅] Chapitre 4: Active Directory DS installé</li>
+<li>[🔄] <strong>Chapitre 4-bis</strong>: DNS Pratique avec AD <em>(En cours - 90 minutes)</em></li>
+<li>[⏸️] Chapitre 5: Unités d'Organisation</li>
+</ul>
+<hr />
+<blockquote>
+<p>🎉 <strong>Félicitations !</strong> Vous avez installé Active Directory et maintenant vous avez un domaine <strong>maxtec.be</strong> fonctionnel !</p>
+<p>Dans ce chapitre, nous allons <strong>pratiquer DNS</strong> avec votre infrastructure réelle. Fini la théorie abstraite, place à la manipulation concrète !</p>
+</blockquote>
+<hr />
+<h2 id="objectifs-pedagogiques-90-minutes-de-pratique">📙 Objectifs Pédagogiques (90 minutes de pratique)</h2>
+<p>À la fin de ce chapitre, vous serez capable de :
+1. ✅ <strong>Explorer</strong> les zones DNS créées automatiquement par AD
+2. ✅ <strong>Comprendre</strong> les enregistrements DNS critiques pour AD
+3. ✅ <strong>Créer</strong> des enregistrements DNS manuellement
+4. ✅ <strong>Joindre</strong> un poste au domaine et observer l'enregistrement DNS automatique
+5. ✅ <strong>Configurer</strong> une zone de recherche inverse
+6. ✅ <strong>Dépanner</strong> les problèmes DNS courants</p>
+<hr />
+<h2 id="lab-1-explorer-le-dns-cree-par-active-directory-20-minutes">🔍 Lab 1: Explorer le DNS créé par Active Directory (20 minutes)</h2>
+<h3 id="objectif">Objectif</h3>
+<p>Découvrir et comprendre ce qu'Active Directory a créé automatiquement dans le DNS.</p>
+<h3 id="etape-1-ouvrir-le-gestionnaire-dns">🖥️ Étape 1: Ouvrir le Gestionnaire DNS</h3>
+<ol>
+<li><strong>Sur votre serveur</strong> (dc1 ou dns1), ouvrir <strong>Gestionnaire de serveur</strong></li>
+<li>Menu <strong>Outils</strong> → <strong>DNS</strong></li>
+<li>La console <strong>Gestionnaire DNS</strong> s'ouvre</li>
+</ol>
+<blockquote>
+<p>💡 <strong>Astuce rapide:</strong> Vous pouvez aussi taper <code>dnsmgmt.msc</code> dans Exécuter (Win+R)</p>
+</blockquote>
+<h3 id="etape-2-explorer-la-zone-maxtecbe">🌐 Étape 2: Explorer la Zone maxtec.be</h3>
+<p>Dans le volet gauche, déroulez :</p>
+<pre><code>DNS
+└── DNS1 (ou nom de votre serveur)
+    └── Zones de recherche directes
+        └── maxtec.be  ← CLIQUEZ ICI
+</code></pre>
+<p><strong>Observez les enregistrements créés automatiquement !</strong></p>
+<h3 id="etape-3-identifier-les-enregistrements-critiques">📋 Étape 3: Identifier les Enregistrements Critiques</h3>
+<p>Dans le volet droit, vous devriez voir plusieurs enregistrements. Complétons ce tableau ensemble :</p>
+<table>
+<thead>
+<tr>
+<th>Nom</th>
+<th>Type</th>
+<th>Valeur/Données</th>
+<th>À quoi ça sert ?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(identique au dossier parent)</td>
+<td>SOA</td>
+<td>dns1.maxtec.be</td>
+<td>🔑 <strong>Start of Authority</strong> - définit l'autorité sur cette zone</td>
+</tr>
+<tr>
+<td>(identique au dossier parent)</td>
+<td>NS</td>
+<td>dns1.maxtec.be</td>
+<td>🌐 <strong>Name Server</strong> - indique quel serveur DNS est autoritaire</td>
+</tr>
+<tr>
+<td>dns1</td>
+<td>A</td>
+<td>192.168.0.2</td>
+<td>💻 <strong>Adresse</strong> de votre contrôleur de domaine</td>
+</tr>
+<tr>
+<td>_msdcs</td>
+<td>...</td>
+<td>...</td>
+<td>📁 <strong>Dossier spécial</strong> pour les services AD</td>
+</tr>
+<tr>
+<td>_sites</td>
+<td>...</td>
+<td>...</td>
+<td>📁 Services AD par site géographique</td>
+</tr>
+<tr>
+<td>_tcp</td>
+<td>...</td>
+<td>...</td>
+<td>📁 Services TCP (LDAP, Kerberos)</td>
+</tr>
+<tr>
+<td>_udp</td>
+<td>...</td>
+<td>...</td>
+<td>📁 Services UDP</td>
+</tr>
+</tbody>
+</table>
+<h3 id="etape-4-explorer-les-enregistrements-srv">🔎 Étape 4: Explorer les Enregistrements SRV</h3>
+<p>Les enregistrements SRV (Service) sont <strong>CRITIQUES</strong> pour Active Directory !</p>
+<ol>
+<li><strong>Déroulez</strong> <code>_tcp</code> dans la zone maxtec.be</li>
+<li><strong>Cliquez</strong> sur <code>_ldap</code></li>
+<li><strong>Observez</strong> les enregistrements SRV</li>
+</ol>
+<p><strong>Exemple d'enregistrement SRV que vous devriez voir:</strong></p>
+<pre><code>_ldap._tcp.maxtec.be
+Service: LDAP
+Protocole: TCP
+Port: 389
+Hôte cible: dns1.maxtec.be
+</code></pre>
+<blockquote>
+<p>🔑 <strong>Pourquoi c'est important ?</strong>
+Quand un poste veut joindre le domaine, il demande : "Où est le serveur LDAP ?"
+Le DNS répond grâce à cet enregistrement SRV !</p>
+</blockquote>
+<h3 id="checkpoint-lab-1">✅ Checkpoint Lab 1</h3>
+<p>Assurez-vous de pouvoir répondre :
+- [ ] Où se trouvent les zones DNS ? (Gestionnaire DNS → Zones de recherche directes)
+- [ ] Qu'est-ce qu'un enregistrement SOA ? (Start of Authority - autorité sur la zone)
+- [ ] Pourquoi les enregistrements SRV sont importants ? (Localisation des services AD)
+- [ ] Combien d'enregistrements A voyez-vous ? (Au moins un pour votre DC)</p>
+<p><strong>🎯 Test rapide en PowerShell:</strong></p>
+<pre><code class="language-powershell"># Vérifier que le DNS résout votre domaine
+nslookup maxtec.be
+
+# Vérifier les services LDAP
+nslookup -type=SRV _ldap._tcp.maxtec.be
+</code></pre>
+<hr />
+<h2 id="lab-2-creer-des-enregistrements-manuellement-25-minutes">🛠️ Lab 2: Créer des Enregistrements Manuellement (25 minutes)</h2>
+<h3 id="objectif_1">Objectif</h3>
+<p>Apprendre à ajouter des enregistrements DNS pour des ressources spécifiques (serveurs, alias, etc.)</p>
+<h3 id="exercice-21-creer-un-enregistrement-a-hote">📝 Exercice 2.1: Créer un Enregistrement A (Hôte)</h3>
+<p><strong>Scénario:</strong> Vous avez un serveur de fichiers qui aura l'IP <code>192.168.10.10</code></p>
+<ol>
+<li><strong>Dans Gestionnaire DNS</strong>, clic droit sur la zone <strong>maxtec.be</strong></li>
+<li><strong>Nouveau hôte (A ou AAAA)...</strong></li>
+<li><strong>Remplir:</strong></li>
+<li>Nom: <code>fileserver</code></li>
+<li>Adresse IP: <code>192.168.10.10</code></li>
+<li>☑️ Créer un enregistrement PTR associé (si zone inverse existe)</li>
+<li><strong>Cliquer</strong> sur "Ajouter un hôte"</li>
+</ol>
+<p><strong>✅ Vérification:</strong></p>
+<pre><code class="language-powershell"># Test 1: Résolution DNS
+nslookup fileserver.maxtec.be
+
+# Résultat attendu:
+# Nom :    fileserver.maxtec.be
+# Address: 192.168.10.10
+
+# Test 2: Ping
+ping fileserver.maxtec.be
+</code></pre>
+<h3 id="exercice-22-creer-un-alias-cname">🔗 Exercice 2.2: Créer un Alias (CNAME)</h3>
+<p><strong>Scénario:</strong> Vous voulez que <code>files.maxtec.be</code> pointe vers <code>fileserver.maxtec.be</code></p>
+<ol>
+<li><strong>Dans Gestionnaire DNS</strong>, clic droit sur la zone <strong>maxtec.be</strong></li>
+<li><strong>Nouvel alias (CNAME)...</strong></li>
+<li><strong>Remplir:</strong></li>
+<li>Nom de l'alias: <code>files</code></li>
+<li>Nom de domaine complet (FQDN) de l'hôte cible: <code>fileserver.maxtec.be</code></li>
+<li><strong>OK</strong></li>
+</ol>
+<p><strong>✅ Vérification:</strong></p>
+<pre><code class="language-powershell">nslookup files.maxtec.be
+
+# Résultat attendu:
+# Nom :    fileserver.maxtec.be  ← Notez l'alias !
+# Address: 192.168.10.10
+</code></pre>
+<blockquote>
+<p>💡 <strong>Avantage des CNAME:</strong>
+Si <code>fileserver</code> change d'IP, vous mettez à jour UNE SEULE fois l'enregistrement A, et l'alias <code>files</code> fonctionne toujours !</p>
+</blockquote>
+<h3 id="exercice-23-creer-un-enregistrement-pour-un-service-web">🌐 Exercice 2.3: Créer un Enregistrement pour un Service Web</h3>
+<p><strong>Scénario:</strong> Vous voulez que <code>www.maxtec.be</code> pointe vers un serveur web</p>
+<p><strong>Mission:</strong> Créez un enregistrement CNAME <code>www</code> qui pointe vers <code>fileserver</code> (pour simuler)</p>
+<details>
+<summary>💡 Cliquez pour voir la solution</summary>
+
+1. Clic droit sur zone **maxtec.be** → **Nouvel alias (CNAME)**
+2. Nom: `www`
+3. FQDN cible: `fileserver.maxtec.be`
+4. OK
+
+Vérification:
+
+<pre><code class="language-powershell">nslookup www.maxtec.be
+# Devrait résoudre vers fileserver.maxtec.be → 192.168.10.10
+</code></pre>
+
+</details>
+
+<h3 id="checkpoint-lab-2">✅ Checkpoint Lab 2</h3>
+<p>Vérifiez que vous avez créé:
+- [ ] Enregistrement A: <code>fileserver.maxtec.be</code> → <code>192.168.10.10</code>
+- [ ] Alias CNAME: <code>files.maxtec.be</code> → <code>fileserver.maxtec.be</code>
+- [ ] Alias CNAME: <code>www.maxtec.be</code> → <code>fileserver.maxtec.be</code>
+- [ ] Tous se résolvent correctement avec <code>nslookup</code></p>
+<hr />
+<h2 id="lab-3-joindre-un-poste-au-domaine-et-observer-le-dns-20-minutes">💻 Lab 3: Joindre un Poste au Domaine et Observer le DNS (20 minutes)</h2>
+<h3 id="objectif_2">Objectif</h3>
+<p>Comprendre comment l'enregistrement DNS automatique fonctionne quand un poste rejoint le domaine.</p>
+<h3 id="prerequis">🖥️ Prérequis</h3>
+<p>Vous avez besoin d'une <strong>deuxième VM</strong> (machine cliente Windows 10/11 Pro):
+- Nom: <code>ws-compta-01</code> (ou autre)
+- Réseau: Même réseau que le serveur (LAN-VM)
+- DNS configuré: <code>192.168.0.2</code> (votre serveur)</p>
+<h3 id="etape-1-avant-de-joindre-le-domaine">📋 Étape 1: Avant de Joindre le Domaine</h3>
+<p><strong>Sur le serveur</strong>, vérifier que le poste n'est PAS encore dans le DNS :</p>
+<pre><code class="language-powershell">nslookup ws-compta-01.maxtec.be
+
+# Résultat attendu:
+# Serveur peut pas trouver ws-compta-01.maxtec.be : Non-existent domain
+</code></pre>
+<p><strong>Dans Gestionnaire DNS</strong>, vérifier visuellement:
+- Zone <strong>maxtec.be</strong>
+- Chercher <code>ws-compta-01</code> → <strong>N'existe pas encore</strong></p>
+<h3 id="etape-2-joindre-le-poste-au-domaine">🔗 Étape 2: Joindre le Poste au Domaine</h3>
+<p><strong>Sur la machine cliente (ws-compta-01):</strong></p>
+<ol>
+<li><strong>Paramètres Système</strong>:</li>
+<li>Clic droit sur Démarrer → Système</li>
+<li>Paramètres système avancés</li>
+<li>Onglet <strong>Nom de l'ordinateur</strong></li>
+<li>
+<p><strong>Modifier</strong></p>
+</li>
+<li>
+<p><strong>Configuration:</strong></p>
+</li>
+<li>Nom de l'ordinateur: <code>ws-compta-01</code></li>
+<li>Membre de: <strong>Domaine</strong> → <code>maxtec.be</code></li>
+<li>
+<p><strong>OK</strong></p>
+</li>
+<li>
+<p><strong>Authentification:</strong></p>
+</li>
+<li>Utilisateur: <code>Administrateur@maxtec.be</code></li>
+<li>
+<p>Mot de passe: <code>Password1!</code></p>
+</li>
+<li>
+<p><strong>Redémarrer</strong> la machine cliente</p>
+</li>
+</ol>
+<h3 id="etape-3-observer-lenregistrement-dns-automatique">🎉 Étape 3: Observer l'Enregistrement DNS Automatique</h3>
+<p><strong>Immédiatement après le redémarrage</strong>, retour sur le serveur :</p>
+<p><strong>Test PowerShell:</strong></p>
+<pre><code class="language-powershell">nslookup ws-compta-01.maxtec.be
+
+# Résultat MAINTENANT:
+# Nom :    ws-compta-01.maxtec.be
+# Address: 192.168.10.128  (ou l'IP de votre poste client)
+</code></pre>
+<p><strong>Dans Gestionnaire DNS:</strong>
+1. Actualiser la vue (F5 ou clic droit → Actualiser)
+2. Zone <strong>maxtec.be</strong>
+3. <strong>Chercher</strong> <code>ws-compta-01</code> → <strong>Il existe maintenant ! 🎉</strong></p>
+<h3 id="etape-4-analyser-lenregistrement-cree">🔍 Étape 4: Analyser l'Enregistrement Créé</h3>
+<p><strong>Double-cliquez</strong> sur <code>ws-compta-01</code> dans le Gestionnaire DNS :</p>
+<p>Observez:
+- <strong>Type:</strong> A (Host)
+- <strong>Adresse IP:</strong> L'IP du poste client
+- <strong>Horodatage:</strong> Date/heure de création
+- <strong>Option:</strong> "Supprimer cet enregistrement lorsqu'il devient obsolète"</p>
+<blockquote>
+<p>💡 <strong>Magie de l'intégration DNS-AD !</strong>
+Quand un poste rejoint le domaine, AD communique automatiquement avec DNS pour créer l'enregistrement. Aucune intervention manuelle nécessaire !</p>
+</blockquote>
+<h3 id="checkpoint-lab-3">✅ Checkpoint Lab 3</h3>
+<ul>
+<li>[ ] Le poste client est membre du domaine maxtec.be</li>
+<li>[ ] L'enregistrement DNS <code>ws-compta-01.maxtec.be</code> existe</li>
+<li>[ ] <code>nslookup ws-compta-01.maxtec.be</code> retourne l'IP correcte</li>
+<li>[ ] Vous comprenez pourquoi c'est automatique (intégration AD-DNS)</li>
+</ul>
+<hr />
+<h2 id="lab-4-configurer-une-zone-de-recherche-inverse-15-minutes">🔄 Lab 4: Configurer une Zone de Recherche Inverse (15 minutes)</h2>
+<h3 id="objectif_3">Objectif</h3>
+<p>Permettre la résolution IP → Nom (l'inverse de la résolution normale)</p>
+<h3 id="pourquoi-une-zone-inverse">🌐 Pourquoi une Zone Inverse ?</h3>
+<p><strong>Résolution normale:</strong> <code>ws-compta-01.maxtec.be</code> → <code>192.168.10.128</code>
+<strong>Résolution inverse:</strong> <code>192.168.10.128</code> → <code>ws-compta-01.maxtec.be</code></p>
+<p><strong>Utilisations:</strong>
+- 🔐 Authentification (vérifier qu'une IP correspond bien à un nom attendu)
+- 📧 Anti-spam (serveurs mail vérifient les noms des expéditeurs)
+- 🔍 Troubleshooting (logs plus lisibles)</p>
+<h3 id="etape-1-creer-la-zone-inverse">📝 Étape 1: Créer la Zone Inverse</h3>
+<ol>
+<li><strong>Dans Gestionnaire DNS</strong>, clic droit sur <strong>Zones de recherche inversée</strong></li>
+<li><strong>Nouvelle zone...</strong></li>
+<li>Assistant de création:</li>
+<li>Type: <strong>Zone principale</strong> ✓ "Stocker la zone dans Active Directory"</li>
+<li>Portée: <strong>Vers tous les serveurs DNS exécutés sur des contrôleurs de domaine dans ce domaine</strong></li>
+<li>Nom de zone inverse: <strong>Zone de recherche inversée IPv4</strong></li>
+<li>ID réseau: <code>192.168.0</code> (sans le dernier octet !)</li>
+<li>Mises à jour dynamiques: <strong>Autoriser uniquement les mises à jour dynamiques sécurisées</strong></li>
+<li><strong>Terminer</strong></li>
+</ol>
+<h3 id="etape-2-verifier-la-zone-creee">🔍 Étape 2: Vérifier la Zone Créée</h3>
+<p>Dans <strong>Zones de recherche inversée</strong>, vous devriez voir:
+- <code>0.168.192.in-addr.arpa</code></p>
+<blockquote>
+<p>📘 <strong>Note:</strong> L'ordre des octets est inversé dans les zones inverses (convention DNS)</p>
+</blockquote>
+<h3 id="etape-3-observer-les-enregistrements-ptr">📋 Étape 3: Observer les Enregistrements PTR</h3>
+<p><strong>Déroulez</strong> la zone <code>0.168.192.in-addr.arpa</code>:
+- Vous devriez voir des enregistrements PTR pour votre serveur
+- Exemple: <code>2</code> → <code>dns1.maxtec.be</code> (si votre serveur est 192.168.0.2)</p>
+<h3 id="etape-4-tester-la-resolution-inverse">✅ Étape 4: Tester la Résolution Inverse</h3>
+<pre><code class="language-powershell"># Test résolution inverse de votre serveur
+nslookup 192.168.0.2
+
+# Résultat attendu:
+# Nom :    dns1.maxtec.be
+# Address: 192.168.0.2
+
+# Test résolution inverse du poste client
+nslookup 192.168.10.128  # (remplacez par l'IP de votre client)
+
+# Si configuré automatiquement:
+# Nom :    ws-compta-01.maxtec.be
+# Address: 192.168.10.128
+</code></pre>
+<h3 id="etape-5-ajouter-un-enregistrement-ptr-manuellement">🔧 Étape 5: Ajouter un Enregistrement PTR Manuellement</h3>
+<p><strong>Si un enregistrement PTR n'existe pas</strong> pour le poste client:</p>
+<ol>
+<li><strong>Clic droit</strong> sur la zone <code>0.168.192.in-addr.arpa</code></li>
+<li><strong>Nouveau pointeur (PTR)...</strong></li>
+<li><strong>Adresse IP de l'hôte:</strong> <code>192.168.10.128</code> (exemple)</li>
+<li><strong>Nom de domaine complet de l'hôte:</strong> <code>ws-compta-01.maxtec.be</code></li>
+<li><strong>OK</strong></li>
+</ol>
+<h3 id="checkpoint-lab-4">✅ Checkpoint Lab 4</h3>
+<ul>
+<li>[ ] Zone inverse créée: <code>0.168.192.in-addr.arpa</code></li>
+<li>[ ] Enregistrement PTR pour le serveur existe</li>
+<li>[ ] <code>nslookup 192.168.0.2</code> retourne <code>dns1.maxtec.be</code></li>
+<li>[ ] Vous comprenez la différence entre résolution directe et inverse</li>
+</ul>
+<hr />
+<h2 id="lab-5-depannage-dns-troubleshooting-10-minutes">🔧 Lab 5: Dépannage DNS - Troubleshooting (10 minutes)</h2>
+<h3 id="objectif_4">Objectif</h3>
+<p>Apprendre à diagnostiquer et résoudre les problèmes DNS courants.</p>
+<h3 id="scenario-1-je-ne-peux-plus-rejoindre-le-domaine">🚨 Scénario 1: "Je ne peux plus rejoindre le domaine"</h3>
+<p><strong>Symptôme:</strong> Un nouveau poste ne peut pas joindre le domaine maxtec.be</p>
+<p><strong>Diagnostic étape par étape:</strong></p>
+<pre><code class="language-powershell"># Sur le poste client, vérifier la configuration réseau
+ipconfig /all
+
+# Vérifier:
+# 1. L'adresse IP est correcte ?
+# 2. Le serveur DNS est 192.168.0.2 ?
+# 3. Le suffixe DNS principal est maxtec.be ?
+</code></pre>
+<p><strong>Test DNS:</strong></p>
+<pre><code class="language-powershell"># Test 1: Peut-on résoudre le domaine ?
+nslookup maxtec.be
+
+# Test 2: Peut-on trouver le contrôleur de domaine ?
+nslookup dns1.maxtec.be
+
+# Test 3: Les services AD sont-ils visibles ?
+nslookup -type=SRV _ldap._tcp.maxtec.be
+</code></pre>
+<p><strong>Solutions courantes:</strong>
+| Problème | Solution |
+|----------|----------|
+| DNS serveur incorrect | Configurer DNS = 192.168.0.2 |
+| Pas de connectivité réseau | Vérifier carte réseau LAN-VM |
+| Cache DNS corrompu | <code>ipconfig /flushdns</code> |</p>
+<h3 id="scenario-2-un-poste-ne-senregistre-pas-automatiquement-dans-le-dns">🔍 Scénario 2: "Un poste ne s'enregistre pas automatiquement dans le DNS"</h3>
+<p><strong>Diagnostic:</strong></p>
+<pre><code class="language-powershell"># Sur le poste client
+ipconfig /registerdns
+
+# Force le ré-enregistrement DNS
+</code></pre>
+<p><strong>Sur le serveur</strong>, vérifier les paramètres de mise à jour dynamique:
+1. Gestionnaire DNS → Zone maxtec.be → Propriétés
+2. Onglet <strong>Général</strong>
+3. Mises à jour dynamiques: <strong>Sécurisées uniquement</strong></p>
+<h3 id="commandes-de-depannage-essentielles">🛠️ Commandes de Dépannage Essentielles</h3>
+<table>
+<thead>
+<tr>
+<th>Commande</th>
+<th>Usage</th>
+<th>Exemple</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>nslookup nom</code></td>
+<td>Résoudre un nom</td>
+<td><code>nslookup www.maxtec.be</code></td>
+</tr>
+<tr>
+<td><code>nslookup IP</code></td>
+<td>Résolution inverse</td>
+<td><code>nslookup 192.168.0.2</code></td>
+</tr>
+<tr>
+<td><code>ipconfig /flushdns</code></td>
+<td>Vider cache DNS</td>
+<td>Après modification enregistrement</td>
+</tr>
+<tr>
+<td><code>ipconfig /registerdns</code></td>
+<td>Forcer enregistrement</td>
+<td>Poste pas dans DNS</td>
+</tr>
+<tr>
+<td><code>nslookup -type=SRV</code></td>
+<td>Vérifier services</td>
+<td><code>nslookup -type=SRV _ldap._tcp.maxtec.be</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="checkpoint-lab-5">✅ Checkpoint Lab 5</h3>
+<ul>
+<li>[ ] Vous savez vérifier la configuration DNS d'un poste (<code>ipconfig /all</code>)</li>
+<li>[ ] Vous savez tester la résolution DNS (<code>nslookup</code>)</li>
+<li>[ ] Vous connaissez les commandes de dépannage essentielles</li>
+<li>[ ] Vous comprenez les mises à jour dynamiques sécurisées</li>
+</ul>
+<hr />
+<h2 id="concepts-dns-cles-recapitulatif">📚 Concepts DNS Clés - Récapitulatif</h2>
+<p>Maintenant que vous avez <strong>pratiqué</strong>, récapitulons les concepts importants :</p>
+<h3 id="types-denregistrements-dns">🌐 Types d'Enregistrements DNS</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Nom complet</th>
+<th>Usage</th>
+<th>Exemple vécu dans les labs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A</strong></td>
+<td>Address</td>
+<td>Nom → IPv4</td>
+<td><code>fileserver.maxtec.be</code> → <code>192.168.10.10</code></td>
+</tr>
+<tr>
+<td><strong>CNAME</strong></td>
+<td>Canonical Name</td>
+<td>Alias</td>
+<td><code>www</code> → <code>fileserver</code></td>
+</tr>
+<tr>
+<td><strong>PTR</strong></td>
+<td>Pointer</td>
+<td>IP → Nom (inverse)</td>
+<td><code>192.168.0.2</code> → <code>dns1.maxtec.be</code></td>
+</tr>
+<tr>
+<td><strong>SRV</strong></td>
+<td>Service</td>
+<td>Localisation service</td>
+<td><code>_ldap._tcp</code> pour AD</td>
+</tr>
+<tr>
+<td><strong>NS</strong></td>
+<td>Name Server</td>
+<td>Serveur DNS autoritaire</td>
+<td><code>maxtec.be</code> → <code>dns1.maxtec.be</code></td>
+</tr>
+<tr>
+<td><strong>SOA</strong></td>
+<td>Start of Authority</td>
+<td>Autorité sur zone</td>
+<td>Paramètres de la zone</td>
+</tr>
+</tbody>
+</table>
+<h3 id="resolution-dns-dans-active-directory">🔄 Résolution DNS dans Active Directory</h3>
+<p><strong>Ce qui se passe quand un poste rejoint le domaine:</strong></p>
+<ol>
+<li>🖥️ <strong>Poste client</strong> envoie requête DNS: "Où est le contrôleur de domaine ?"</li>
+<li>🌐 <strong>DNS</strong> répond avec enregistrement SRV: "C'est dns1.maxtec.be:389 (LDAP)"</li>
+<li>🔐 <strong>Poste</strong> se connecte au DC via LDAP</li>
+<li>✅ <strong>AD</strong> authentifie le poste et l'ajoute au domaine</li>
+<li>📝 <strong>AD</strong> demande à DNS de créer enregistrement A pour le poste</li>
+<li>🎉 <strong>DNS</strong> crée automatiquement <code>ws-compta-01.maxtec.be</code></li>
+</ol>
+<p><strong>Vous avez VU tout ce processus dans le Lab 3 !</strong></p>
+<h3 id="architecture-dns-ad-integree">🏗️ Architecture DNS-AD Intégrée</h3>
+<pre><code>┌─────────────────────────────────────┐
+│   Active Directory (maxtec.be)      │
+│                                     │
+│   ┌─────────────────────────────┐  │
+│   │         DNS Intégré         │  │
+│   │                             │  │
+│   │  • Zones AD automatiques    │  │
+│   │  • Enregistrements SRV      │  │
+│   │  • Mises à jour dynamiques  │  │
+│   └─────────────────────────────┘  │
+│                │                    │
+│                ↓                    │
+│   ┌──────────────────────────────┐ │
+│   │ Postes clients s'enregistrent│ │
+│   │    automatiquement           │ │
+│   └──────────────────────────────┘ │
+└─────────────────────────────────────┘
+</code></pre>
+<hr />
+<h2 id="exercice-final-validation-complete-10-minutes">🎯 Exercice Final: Validation Complète (10 minutes)</h2>
+<h3 id="mission-complete">Mission Complète</h3>
+<p>Vous devez configurer un nouveau serveur web pour maxtec.be. Voici les exigences:</p>
+<ol>
+<li><strong>Serveur web</strong> aura le nom <code>webserver</code> et l'IP <code>192.168.10.15</code></li>
+<li><strong>Les utilisateurs</strong> doivent pouvoir accéder via <code>www.maxtec.be</code></li>
+<li><strong>Les admins</strong> doivent pouvoir accéder via <code>webadmin.maxtec.be</code></li>
+<li><strong>La résolution inverse</strong> doit fonctionner pour l'IP du serveur</li>
+</ol>
+<h3 id="etapes-a-realiser">📝 Étapes à Réaliser</h3>
+<details>
+<summary>💡 Cliquez pour voir la solution complète</summary>
+
+**Étape 1: Créer l'enregistrement A**
+
+<pre><code>Gestionnaire DNS → maxtec.be → Clic droit → Nouveau hôte
+- Nom: webserver
+- IP: 192.168.10.15
+- ☑️ Créer enregistrement PTR associé
+</code></pre>
+
+
+**Étape 2: Créer les alias CNAME**
+
+<pre><code>Alias 1:
+- Nom: www
+- FQDN cible: webserver.maxtec.be
+
+Alias 2:
+- Nom: webadmin
+- FQDN cible: webserver.maxtec.be
+</code></pre>
+
+
+**Étape 3: Vérifier**
+
+<pre><code class="language-powershell">nslookup webserver.maxtec.be  # → 192.168.10.15
+nslookup www.maxtec.be         # → webserver.maxtec.be → 192.168.10.15
+nslookup webadmin.maxtec.be    # → webserver.maxtec.be → 192.168.10.15
+nslookup 192.168.10.15         # → webserver.maxtec.be
+</code></pre>
+
+
+**✅ Tous les tests doivent fonctionner !**
+</details>
+
+<h3 id="validation-finale">✅ Validation Finale</h3>
+<ul>
+<li>[ ] Enregistrement A créé pour webserver</li>
+<li>[ ] Alias www.maxtec.be fonctionne</li>
+<li>[ ] Alias webadmin.maxtec.be fonctionne</li>
+<li>[ ] Résolution inverse de 192.168.10.15 fonctionne</li>
+<li>[ ] Tous les nslookup réussissent</li>
+</ul>
+<hr />
+<h2 id="felicitations-vous-maitrisez-dns-avec-active-directory">🎉 Félicitations ! Vous Maîtrisez DNS avec Active Directory !</h2>
+<h3 id="ce-que-vous-avez-accompli">🏆 Ce que vous avez accompli</h3>
+<ul>
+<li>✅ <strong>Exploré</strong> les zones DNS créées automatiquement par AD</li>
+<li>✅ <strong>Compris</strong> les enregistrements critiques (A, CNAME, PTR, SRV)</li>
+<li>✅ <strong>Créé</strong> des enregistrements manuellement</li>
+<li>✅ <strong>Observé</strong> l'enregistrement automatique lors de la jonction au domaine</li>
+<li>✅ <strong>Configuré</strong> une zone de recherche inverse</li>
+<li>✅ <strong>Dépanné</strong> des problèmes DNS courants</li>
+</ul>
+<h3 id="competences-acquises">🚀 Compétences Acquises</h3>
+<p>Vous savez maintenant:
+- 🔧 Gérer le DNS dans un environnement Active Directory
+- 🔍 Diagnostiquer les problèmes de résolution DNS
+- 📝 Créer et maintenir des enregistrements DNS
+- 🔄 Comprendre l'intégration DNS-AD</p>
+<h3 id="pour-aller-plus-loin">📚 Pour Aller Plus Loin</h3>
+<p>Si vous voulez approfondir les concepts théoriques DNS:
+- 📖 <a href="Annexe%20A%20-%20DNS%20Concepts%20Avances%20(Reference).md">Annexe A - DNS Concepts Avancés (Référence)</a>
+  - Délégation DNS en détail
+  - Architecture multi-sites
+  - Zones secondaires avancées
+  - Enregistrements spécialisés</p>
+<hr />
+<h2 id="navigation">🧭 Navigation</h2>
+<p><a href="../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/">⏮️ Chapitre 4: Active Directory DS</a> | <a href="../README.md">🏠 Retour au Syllabus</a> | <a href="../Chapitre%205.Unites_Organisation/">⏭️ Chapitre 5: Unités d'Organisation</a></p>
+<hr />
+<p><strong>📚 Cours Active Directory - Chapitre 4-bis/8 | ⏱️ Durée: 90 minutes pratiques | 💻 Hands-on complet</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

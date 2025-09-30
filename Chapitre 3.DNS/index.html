@@ -1,0 +1,2299 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Chapitre%202.Installation-Windows-Server-2022-VirtualBox/">
+      
+      
+        <link rel="next" href="../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Chapitre 3: DNS - Préparation pour Active Directory - Active Directory</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapitre-3-dns-preparation-pour-active-directory" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Active Directory" class="md-header__button md-logo" aria-label="Active Directory" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Active Directory
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chapitre 3: DNS - Préparation pour Active Directory
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 1: Introduction et installation de Windows Server
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%202.Installation-Windows-Server-2022-VirtualBox/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 2: Installation de Windows Server 2022 sur VirtualBox
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 3: DNS - Préparation pour Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 4: Active Directory Domain Services (AD DS)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 4-bis: DNS en Pratique avec Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%205.Unites_Organisation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 5 : Unités d'organisation (UOs)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%206.Gestion_des_Utilisateurs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 6: Gestion des Utilisateurs
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%207.Group%20Policy%20Objects/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 7: Les Stratégies de Groupe (GPO)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%208.0.Powershell%20AD%20-%20Introduction/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.0: Powershell AD - Introduction
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%208.1.Powershell%20AD%20-%20Concepts%20base/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.1: Les concepts de base PowerShell pour Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%208.2.Powershell%20AD%20-%20Requetes_et_Informations/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.2: Atelier pratique : Requêtes et informations
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%208.3.Powershell%20AD%20-%20Creation_et_Modification/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.3: Atelier pratique : Création et modification
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Th%C3%A9orie%20DNS-%20DNS%20Concepts%20Avances%20%28Reference%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Annexe A: DNS - Concepts Avancés (Référence)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../_template_navigation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  🧭 Template de Navigation - Cours Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Labo%20et%20Exercices/Exercices%3A%20GPO-1/" class="md-tabs__link">
+          
+  
+  
+  Labo et Exercices
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../PowershellCourse/prompt-curso-powershell/" class="md-tabs__link">
+          
+  
+  
+  PowershellCourse
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Active Directory" class="md-nav__button md-logo" aria-label="Active Directory" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Active Directory
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 1: Introduction et installation de Windows Server
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%202.Installation-Windows-Server-2022-VirtualBox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 2: Installation de Windows Server 2022 sur VirtualBox
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 3: DNS - Préparation pour Active Directory
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 3: DNS - Préparation pour Active Directory
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#navigation-du-cours" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧭 Navigation du Cours
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#votre-progres" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Votre Progrès
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objectifs-pedagogiques-30-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      📙 Objectifs Pédagogiques (30 minutes)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-dns-en-5-minutes-lessentiel" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. DNS en 5 Minutes - L'Essentiel ⏱️
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. DNS en 5 Minutes - L&#39;Essentiel ⏱️">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quest-ce-que-le-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌐 Qu'est-ce que le DNS ?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pourquoi-active-directory-a-besoin-de-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏢 Pourquoi Active Directory A BESOIN de DNS ?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-verification-pre-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Vérification Pré-Installation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Vérification Pré-Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-1-votre-serveur-peut-il-resoudre-des-noms-est-il-connecte-a-linternet" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Test 1: Votre serveur peut-il résoudre des noms ? est-il connecté à l'internet?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-2-preparer-le-dns-pour-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Test 2: Préparer le DNS pour AD
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛠️ Test 2: Préparer le DNS pour AD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration-reseau-pour-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration réseau pour AD
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-3-verification-finale" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Test 3: Vérification finale
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-quest-ce-qui-va-se-passer-au-chapitre-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Qu'est-ce qui va se passer au Chapitre 4 ? 🔮
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-recapitulatif-checklist-pre-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Récapitulatif - Checklist Pré-AD ✅
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#questions-frequentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Questions Fréquentes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pour-aller-plus-loin-optionnel-maintenant" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Pour aller plus loin (optionnel maintenant)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vous-etes-prete" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Vous êtes prêt(e) !
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#navigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧭 Navigation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 4: Active Directory Domain Services (AD DS)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 4-bis: DNS en Pratique avec Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%205.Unites_Organisation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 5 : Unités d'organisation (UOs)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%206.Gestion_des_Utilisateurs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 6: Gestion des Utilisateurs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%207.Group%20Policy%20Objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 7: Les Stratégies de Groupe (GPO)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%208.0.Powershell%20AD%20-%20Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.0: Powershell AD - Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%208.1.Powershell%20AD%20-%20Concepts%20base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.1: Les concepts de base PowerShell pour Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%208.2.Powershell%20AD%20-%20Requetes_et_Informations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.2: Atelier pratique : Requêtes et informations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%208.3.Powershell%20AD%20-%20Creation_et_Modification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.3: Atelier pratique : Création et modification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Th%C3%A9orie%20DNS-%20DNS%20Concepts%20Avances%20%28Reference%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Annexe A: DNS - Concepts Avancés (Référence)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../_template_navigation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🧭 Template de Navigation - Cours Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Labo et Exercices
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            Labo et Exercices
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Exercices%3A%20GPO-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: GPO 1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Exercices%3A%20GPO-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: GPO 2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Exercices%3A%20GPO-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: GPO 3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Exercices%3A%20Gestion_des_Utilisateurs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: Gestion des Utilisateurs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Exercices%3A%20OUs_Departements_Complementaires/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: Unités d'Organisation et Utilisateurs - Départements Complémentaires
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Exercices%3A%20Questions%20Base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: Questions Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_15_7" id="__nav_15_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Labo
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_15_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_7">
+            <span class="md-nav__icon md-icon"></span>
+            Labo
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Labo/Annexe.Permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Annexe.Permissions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration du Laboratoire GPO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_15_7_3" id="__nav_15_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    PowerShell scriptsStructure
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_15_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            PowerShell scriptsStructure
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/creation_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Creation structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/suppression_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Suppression structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    PowershellCourse
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            PowershellCourse
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/prompt-curso-powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prompt para Claude Code - Curso PowerShell para Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/super-prompt-hybrid-powershell-ad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Super Prompt Híbrido - Curso PowerShell AD Moderno para maxtec.be
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_3" id="__nav_16_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Cours powershell ad moderne
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_16_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_3">
+            <span class="md-nav__icon md-icon"></span>
+            Cours powershell ad moderne
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/README-COURSE-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🚀 Cours PowerShell AD Moderne 2025 - Résumé Complet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/README-INSTRUCTEUR/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🚀 PowerShell AD Moderne 2025 - Guide de l'Instructeur
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_3_3" id="__nav_16_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Cas horreur reels
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_16_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Cas horreur reels
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/cas-horreur-reels/vendredi-17h-sans-whatif/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🚨 CAS D'HORREUR RÉEL: Le Vendredi Qui A Failli Ruiner Une Carrière
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_3_4" id="__nav_16_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Materiels poche
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_16_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Materiels poche
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/materiels-poche/carte-survie-maxtec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🆘 CARTE DE SURVIE PowerShell AD - maxtec.be
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/materiels-poche/checklist-validation-scripts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ✅ Checklist Validation Scripts PowerShell AD
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_3_5" id="__nav_16_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Modules modernes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_16_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Modules modernes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M1-realite-2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 1: Réalité 2025 - Comment les Admins Travaillent Vraiment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M2-survie-tickets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 2: Survie Tickets - Les 10 Commandes Qui Sauvent des Carrières
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M3-ia-comme-copilote/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 3: L'IA comme Copilote - Prompts Sécurisés et Validation Critique
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M4-scripts-bomba-lab/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 4: Scripts Bomba Lab - Détecter les Erreurs Mortelles Cachées
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M5-whatif-religieux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 5: -WhatIf Religieux - Pourquoi -WhatIf est Sacré
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M6-kit-urgence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 6: Kit d'Urgence - Procédures "Break Glass" Quand Tout Explose
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="chapitre-3-dns-preparation-pour-active-directory">Chapitre 3: DNS - Préparation pour Active Directory</h1>
+<h2 id="navigation-du-cours">🧭 Navigation du Cours</h2>
+<p><a href="../Chapitre%202.Installation-Windows-Server-2022-VirtualBox/">⏮️ Chapitre Précédent: Installation VirtualBox</a> | <a href="../README.md">🏠 Retour au Syllabus</a> | <a href="../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/">⏭️ Chapitre Suivant: Active Directory</a></p>
+<h2 id="votre-progres">📊 Votre Progrès</h2>
+<ul>
+<li>[✅] Chapitre 1: Introduction et installation</li>
+<li>[✅] Chapitre 2: Installation VirtualBox</li>
+<li>[🔄] <strong>Chapitre 3</strong>: DNS Préparation <em>(En cours - 30 minutes)</em></li>
+<li>[⏸️] Chapitre 4: Active Directory Domain Services</li>
+<li>[⏸️] Chapitre 4-bis: DNS Pratique avec AD</li>
+</ul>
+<hr />
+<blockquote>
+<p>📚 <strong>Objectif de ce chapitre court:</strong>
+Comprendre <strong>juste assez</strong> de DNS pour installer Active Directory avec succès.
+La pratique DNS approfondie viendra <strong>APRÈS</strong> installation AD (Chapitre 4-bis).</p>
+</blockquote>
+<hr />
+<h2 id="objectifs-pedagogiques-30-minutes">📙 Objectifs Pédagogiques (30 minutes)</h2>
+<p>À la fin de ce chapitre, vous serez capable de :
+1. ✅ Expliquer en 30 secondes <strong>pourquoi AD a besoin de DNS</strong>
+2. ✅ Vérifier que votre serveur <strong>peut résoudre des noms</strong>
+3. ✅ Configurer le <strong>DNS du serveur</strong> pour préparer l'installation AD</p>
+<blockquote>
+<p>💡 <strong>Note importante:</strong> Nous verrons la théorie DNS complète et les manipulations pratiques <strong>APRÈS avoir installé AD</strong>. Pourquoi ? Parce qu'AD installe automatiquement DNS et vous aurez un domaine réel (maxtec.be) pour pratiquer !</p>
+</blockquote>
+<hr />
+<h2 id="1-dns-en-5-minutes-lessentiel">1. DNS en 5 Minutes - L'Essentiel ⏱️</h2>
+<h3 id="quest-ce-que-le-dns">🌐 Qu'est-ce que le DNS ?</h3>
+<p><strong>DNS = Annuaire téléphonique de l'internet</strong></p>
+<pre><code>Vous tapez : www.google.com
+DNS traduit : 142.250.179.174
+</code></pre>
+<p><strong>Sans DNS</strong>, vous devriez mémoriser : <code>142.250.179.174</code> pour Google, <code>151.101.1.140</code> pour Reddit, etc. Impossible !</p>
+<h3 id="pourquoi-active-directory-a-besoin-de-dns">🏢 Pourquoi Active Directory A BESOIN de DNS ?</h3>
+<blockquote>
+<p>🔑 <strong>Point clé:</strong> Active Directory utilise les <strong>noms de domaine</strong> pour TOUT !</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Ce qu'AD doit faire</th>
+<th>Comment DNS aide</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🖥 Trouver les contrôleurs de domaine</td>
+<td><code>dc1.maxtec.be</code> → <code>192.168.0.2</code></td>
+</tr>
+<tr>
+<td>🔐 Authentifier les utilisateurs</td>
+<td>Localise le serveur Kerberos via DNS</td>
+</tr>
+<tr>
+<td>💻 Joindre des postes au domaine</td>
+<td><code>ws-compta-01.maxtec.be</code> → enregistrement DNS</td>
+</tr>
+<tr>
+<td>📋 Appliquer les stratégies de groupe</td>
+<td>DNS trouve où sont les GPO</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sans DNS fonctionnel → Active Directory NE PEUT PAS fonctionner ! ☠️</strong></p>
+<blockquote>
+<p>💡 Quand vous installerez AD DS au Chapitre 4, Windows Server installera et configurera automatiquement DNS pour vous !</p>
+</blockquote>
+<hr />
+<h2 id="2-verification-pre-installation">2. Vérification Pré-Installation</h2>
+<h3 id="test-1-votre-serveur-peut-il-resoudre-des-noms-est-il-connecte-a-linternet">🔍 Test 1: Votre serveur peut-il résoudre des noms ? est-il connecté à l'internet?</h3>
+<p><strong>Sur votre serveur Windows Server</strong>, ouvrez PowerShell et testez :</p>
+<pre><code class="language-powershell"># Test 1: Résoudre google.com
+ping google.com
+
+# Résultat attendu:
+# Envoi d'une requête 'ping' sur google.com [142.250.xxx.xxx] avec 32 octets de données
+</code></pre>
+<p><strong>✅ Si vous voyez une adresse IP</strong> → DNS externe fonctionne !
+<strong>❌ Si erreur "Impossible de trouver l'hôte"</strong> → Problème réseau/DNS, ou adaptateur de réseau</p>
+<pre><code class="language-powershell"># Test 2: Vérifier quel serveur DNS vous utilisez
+nslookup google.com
+
+# Résultat montre:
+# Serveur :   dns.google
+# Address:  8.8.8.8  (ou autre DNS de votre FAI)
+</code></pre>
+<h3 id="test-2-preparer-le-dns-pour-ad">🛠️ Test 2: Préparer le DNS pour AD</h3>
+<p><strong>Actuellement</strong>, votre serveur utilise probablement le DNS de votre FAI (exemple: 8.8.8.8). Si on cherche un nom de domaine, ce sera ce serveur qui nous donnera l'ip.</p>
+<p><strong>Pour installer AD</strong>, il est indispensable de configurer le serveur pour qu’il utilise <strong>son propre service DNS</strong>. Cela signifie que, lors d’une requête de résolution de nom de domaine, c’est le serveur lui-même qui répondra (par exemple, lorsqu’on tape un nom de machine du domaine comme <code>dns1.maxtec.be</code> ou <code>ws-compta-01.maxtec.be</code> ce notre propre serveur qui nous donnera l'ip).</p>
+<blockquote>
+<p>🛠️ <strong>À faire maintenant :</strong>
+- Modifiez la configuration réseau de votre serveur pour que l’adresse du serveur DNS soit <code>127.0.0.1</code> (localhost).
+- Cela garantit que toutes les requêtes DNS passent par le service DNS local, ce qui est obligatoire pour le bon fonctionnement d’Active Directory.
+- Après l’installation d’AD DS, le serveur DNS local sera automatiquement configuré pour gérer la zone du domaine AD.</p>
+</blockquote>
+<p><strong>Résumé :</strong><br />
+- Le serveur doit utiliser son propre DNS (127.0.0.1) avant d’installer AD DS.
+- Sans cette configuration, l’installation d’Active Directory échouera ou ne fonctionnera pas correctement.</p>
+<h4 id="configuration-reseau-pour-ad">Configuration réseau pour AD</h4>
+<ol>
+<li><strong>Ouvrir les Paramètres réseau</strong></li>
+<li>État du Réseau → Ethernet → Modifier les options de l'adaptateur</li>
+<li>
+<p>Ou : <code>ncpa.cpl</code> dans Exécuter... plus simple!</p>
+</li>
+<li>
+<p><strong>Configurer l'adaptateur LAN-VM</strong> (réseau interne)</p>
+</li>
+<li>Clic droit sur la carte réseau LAN-VM → Propriétés</li>
+<li>Sélectionner "Protocole Internet version 4 (TCP/IPv4)"</li>
+<li>
+<p>Cliquer sur Propriétés</p>
+</li>
+<li>
+<p><strong>Paramètres réseau pour AD</strong></p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Valeur</th>
+<th>Explication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adresse IP</td>
+<td><code>192.168.0.2</code></td>
+<td>IP de votre serveur</td>
+</tr>
+<tr>
+<td>Masque</td>
+<td><code>255.255.255.0</code></td>
+<td>Réseau local</td>
+</tr>
+<tr>
+<td>Passerelle</td>
+<td><em>(vide pour l'instant)</em></td>
+<td>Pas nécessaire pour le réseau interne</td>
+</tr>
+<tr>
+<td><strong>DNS préféré</strong></td>
+<td><code>127.0.0.1</code></td>
+<td>🔑 <strong>Le serveur s'utilise lui-même !</strong></td>
+</tr>
+<tr>
+<td>DNS auxiliaire</td>
+<td><em>(vide)</em></td>
+<td>Sera configuré après installation AD</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🔑 <strong>Pourquoi 127.0.0.1 ?</strong>
+- <code>127.0.0.1</code> = localhost = "moi-même"
+- Quand AD s'installera, il créera un serveur DNS sur cette machine
+- Le serveur devra utiliser son propre DNS pour fonctionner</p>
+</blockquote>
+<ol>
+<li><strong>Valider et fermer</strong></li>
+</ol>
+<h3 id="test-3-verification-finale">✅ Test 3: Vérification finale</h3>
+<pre><code class="language-powershell"># Vérifier la configuration IP
+ipconfig /all
+
+# Cherchez dans le résultat:
+# Serveurs DNS. . . : 127.0.0.1
+</code></pre>
+<p><strong>✅ Si vous voyez <code>127.0.0.1</code></strong> → Parfait ! Prêt pour installer AD
+<strong>❌ Si vous voyez autre chose</strong> → Revérifier la configuration</p>
+<blockquote>
+<p>⚠️ <strong>Attention:</strong> Après cette configuration, vous ne pourrez <strong>temporairement plus</strong> accéder à internet depuis le serveur (normal). L'accès internet sera restauré après l'installation d'AD avec les redirecteurs DNS.</p>
+</blockquote>
+<hr />
+<h2 id="3-quest-ce-qui-va-se-passer-au-chapitre-4">3. Qu'est-ce qui va se passer au Chapitre 4 ? 🔮</h2>
+<p>Quand vous lancerez l'installation d'Active Directory Domain Services :</p>
+<ol>
+<li><strong>📦 Installation automatique DNS</strong></li>
+<li>Windows Server installe le rôle DNS automatiquement</li>
+<li>Crée la zone DNS <code>maxtec.be</code></li>
+<li>
+<p>Configure tous les enregistrements nécessaires pour AD</p>
+</li>
+<li>
+<p><strong>🌐 Configuration automatique</strong></p>
+</li>
+<li>Enregistrements SRV pour Kerberos, LDAP</li>
+<li>Enregistrement A pour <code>dc1.maxtec.be</code></li>
+<li>
+<p>Zone de recherche directe et inverse</p>
+</li>
+<li>
+<p><strong>✨ Magie DNS-AD</strong></p>
+</li>
+<li>Quand un poste rejoint le domaine → DNS l'enregistre automatiquement</li>
+<li>Quand vous créez un utilisateur → DNS mis à jour</li>
+<li>Tout est intégré !</li>
+</ol>
+<p><strong>Dans le Chapitre 4-bis on pratiquera DNS</strong></p>
+<hr />
+<h2 id="4-recapitulatif-checklist-pre-ad">4. Récapitulatif - Checklist Pré-AD ✅</h2>
+<p>Avant de passer au Chapitre 4, assurez-vous que :</p>
+<ul>
+<li>[ ] Vous comprenez que <strong>DNS = annuaire de noms → IP</strong></li>
+<li>[ ] Vous savez que <strong>AD ne peut PAS fonctionner sans DNS</strong></li>
+<li>[ ] Vous avez testé <code>ping google.com</code> avec succès</li>
+<li>[ ] Vous avez configuré DNS = <code>127.0.0.1</code> sur l'adaptateur LAN-VM</li>
+<li>[ ] Vous avez vérifié avec <code>ipconfig /all</code></li>
+</ul>
+<blockquote>
+<p>💡 <strong>Prochaine étape:</strong> Installation d'Active Directory Domain Services qui installera automatiquement le DNS !</p>
+</blockquote>
+<hr />
+<h2 id="questions-frequentes">🎯 Questions Fréquentes</h2>
+<details>
+<summary>❓ Pourquoi si peu de théorie DNS ?</summary>
+
+**Réponse:** Parce que la meilleure façon d'apprendre DNS c'est de le manipuler avec un domaine réel. Une fois AD installé (Chapitre 4), vous aurez `maxtec.be` fonctionnel et nous ferons de la pratique (Chapitre 4-bis) !
+</details>
+
+<details>
+<summary>❓ Je ne peux plus accéder à internet sur le serveur, c'est normal ?</summary>
+
+**Réponse:** Oui ! Temporairement. Vous avez configuré le DNS vers `127.0.0.1` (vous-même), mais le serveur DNS n'est pas encore installé. Dès que AD sera installé avec DNS, on configurera les "redirecteurs" pour restaurer l'accès internet.
+</details>
+
+<details>
+<summary>❓ Où est toute la théorie DNS (zones, délégation, etc.) ?</summary>
+
+**Réponse:** Dans **deux endroits** :
+1. **Chapitre 4-bis** (après installation AD) : Labs pratiques avec votre domaine réel
+2. **Théorie DNS** : Théorie DNS avancée pour consultation/approfondissement
+</details>
+
+<details>
+<summary>❓ Est-ce que je peux sauter ce chapitre et aller directement au Chapitre 4 ?</summary>
+
+**Réponse:** NON ! Sans configurer DNS = 127.0.0.1, l'installation d'AD échouera. Ce sont 10 minutes de configuration vitales.
+</details>
+
+<hr />
+<h2 id="pour-aller-plus-loin-optionnel-maintenant">📚 Pour aller plus loin (optionnel maintenant)</h2>
+<p>Si vous voulez approfondir la théorie DNS <strong>avant</strong> l'installation AD :
+- 📖 <a href="../Th%C3%A9orie%20DNS-%20DNS%20Concepts%20Avances%20%28Reference%29/">Théorie DNS - DNS Concepts Avancés</a></p>
+<p>Mais nous recommandons d'<strong>installer AD d'abord</strong> (Chapitre 4) puis de faire les <strong>labs pratiques DNS</strong> (Chapitre 4-bis). </p>
+<hr />
+<h2 id="vous-etes-prete">🚀 Vous êtes prêt(e) !</h2>
+<p><strong>Prochaine étape:</strong> Installation d'Active Directory Domain Services qui transformera votre serveur en contrôleur de domaine avec DNS intégré !</p>
+<h2 id="navigation">🧭 Navigation</h2>
+<p><a href="../Chapitre%202.Installation-Windows-Server-2022-VirtualBox/">⏮️ Chapitre 2: Installation VirtualBox</a> | <a href="../README.md">🏠 Retour au Syllabus</a> | <a href="../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/">⏭️ Chapitre 4: Installation AD DS</a></p>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

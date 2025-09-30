@@ -1,0 +1,2410 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Chapitre%208.0.Powershell%20AD%20-%20Introduction/">
+      
+      
+        <link rel="next" href="../Chapitre%208.2.Powershell%20AD%20-%20Requetes_et_Informations/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Chapitre 8.1: Les concepts de base PowerShell pour Active Directory - Active Directory</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapitre-81-les-concepts-de-base-powershell-pour-active-directory" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Active Directory" class="md-header__button md-logo" aria-label="Active Directory" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Active Directory
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chapitre 8.1: Les concepts de base PowerShell pour Active Directory
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 1: Introduction et installation de Windows Server
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%202.Installation-Windows-Server-2022-VirtualBox/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 2: Installation de Windows Server 2022 sur VirtualBox
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%203.DNS/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 3: DNS - Préparation pour Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 4: Active Directory Domain Services (AD DS)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 4-bis: DNS en Pratique avec Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%205.Unites_Organisation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 5 : Unités d'organisation (UOs)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%206.Gestion_des_Utilisateurs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 6: Gestion des Utilisateurs
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%207.Group%20Policy%20Objects/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 7: Les Stratégies de Groupe (GPO)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%208.0.Powershell%20AD%20-%20Introduction/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.0: Powershell AD - Introduction
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.1: Les concepts de base PowerShell pour Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%208.2.Powershell%20AD%20-%20Requetes_et_Informations/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.2: Atelier pratique : Requêtes et informations
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Chapitre%208.3.Powershell%20AD%20-%20Creation_et_Modification/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.3: Atelier pratique : Création et modification
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Th%C3%A9orie%20DNS-%20DNS%20Concepts%20Avances%20%28Reference%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Annexe A: DNS - Concepts Avancés (Référence)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../_template_navigation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  🧭 Template de Navigation - Cours Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Labo%20et%20Exercices/Exercices%3A%20GPO-1/" class="md-tabs__link">
+          
+  
+  
+  Labo et Exercices
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../PowershellCourse/prompt-curso-powershell/" class="md-tabs__link">
+          
+  
+  
+  PowershellCourse
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Active Directory" class="md-nav__button md-logo" aria-label="Active Directory" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Active Directory
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 1: Introduction et installation de Windows Server
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%202.Installation-Windows-Server-2022-VirtualBox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 2: Installation de Windows Server 2022 sur VirtualBox
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%203.DNS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 3: DNS - Préparation pour Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 4: Active Directory Domain Services (AD DS)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 4-bis: DNS en Pratique avec Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%205.Unites_Organisation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 5 : Unités d'organisation (UOs)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%206.Gestion_des_Utilisateurs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 6: Gestion des Utilisateurs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%207.Group%20Policy%20Objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 7: Les Stratégies de Groupe (GPO)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%208.0.Powershell%20AD%20-%20Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.0: Powershell AD - Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.1: Les concepts de base PowerShell pour Active Directory
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.1: Les concepts de base PowerShell pour Active Directory
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-les-variables-des-boites-de-rangement" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. 🔹 Les variables : des boîtes de rangement
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 🔹 Les variables : des boîtes de rangement">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creation-dune-variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Création d'une variable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-11-creez-votre-premiere-variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 1.1 : Créez votre première variable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-12-variables-et-concatenation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 1.2 : Variables et concaténation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variables-et-commandes-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables et commandes AD
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mais-quelles-sont-les-proprietes-disponibles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mais quelles sont les propriétés disponibles ?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-les-tableaux-vos-collections-dobjets" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. 🔹 Les tableaux : vos collections d'objets
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 🔹 Les tableaux : vos collections d&#39;objets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creation-dun-tableau-simple" class="md-nav__link">
+    <span class="md-ellipsis">
+      Création d'un tableau simple
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-21-creez-et-manipulez-un-tableau" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 2.1 : Créez et manipulez un tableau
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tableaux-dobjets-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tableaux d'objets AD
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-22-manipuler-des-collections-dobjets-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 2.2 : Manipuler des collections d'objets AD
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-les-boucles-repeter-des-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. 🔹 Les boucles : répéter des actions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 🔹 Les boucles : répéter des actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#la-boucle-foreach" class="md-nav__link">
+    <span class="md-ellipsis">
+      La boucle ForEach
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-31-votre-premiere-boucle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 3.1 : Votre première boucle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-32-utiliser-le-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 3.2 : Utiliser le pipeline
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-les-conditions-prendre-des-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. 🔹 Les conditions : prendre des décisions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 🔹 Les conditions : prendre des décisions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#structure-if-else" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structure If-Else
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-41-conditions-simples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 4.1 : Conditions simples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conditions-multiples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conditions multiples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-42-analyse-dutilisateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 4.2 : Analyse d'utilisateurs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemple-pratique-rechercher-un-utilisateur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exemple pratique : Rechercher un utilisateur
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-43-ameliorer-le-script-de-recherche" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 4.3 : Améliorer le script de recherche
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-mini-projet-rapport-daudit-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. 🔹 Mini-projet : Rapport d'audit AD
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 🔹 Mini-projet : Rapport d&#39;audit AD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objectif" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectif
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-final-personnalisez-le-rapport" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice final : Personnalisez le rapport
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%208.2.Powershell%20AD%20-%20Requetes_et_Informations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.2: Atelier pratique : Requêtes et informations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%208.3.Powershell%20AD%20-%20Creation_et_Modification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.3: Atelier pratique : Création et modification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Th%C3%A9orie%20DNS-%20DNS%20Concepts%20Avances%20%28Reference%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Annexe A: DNS - Concepts Avancés (Référence)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../_template_navigation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🧭 Template de Navigation - Cours Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Labo et Exercices
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            Labo et Exercices
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Exercices%3A%20GPO-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: GPO 1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Exercices%3A%20GPO-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: GPO 2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Exercices%3A%20GPO-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: GPO 3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Exercices%3A%20Gestion_des_Utilisateurs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: Gestion des Utilisateurs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Exercices%3A%20OUs_Departements_Complementaires/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: Unités d'Organisation et Utilisateurs - Départements Complémentaires
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Exercices%3A%20Questions%20Base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: Questions Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_15_7" id="__nav_15_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Labo
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_15_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_7">
+            <span class="md-nav__icon md-icon"></span>
+            Labo
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Labo/Annexe.Permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Annexe.Permissions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration du Laboratoire GPO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_15_7_3" id="__nav_15_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    PowerShell scriptsStructure
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_15_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            PowerShell scriptsStructure
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/creation_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Creation structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/suppression_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Suppression structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    PowershellCourse
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            PowershellCourse
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/prompt-curso-powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prompt para Claude Code - Curso PowerShell para Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/super-prompt-hybrid-powershell-ad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Super Prompt Híbrido - Curso PowerShell AD Moderno para maxtec.be
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_3" id="__nav_16_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Cours powershell ad moderne
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_16_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_3">
+            <span class="md-nav__icon md-icon"></span>
+            Cours powershell ad moderne
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/README-COURSE-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🚀 Cours PowerShell AD Moderne 2025 - Résumé Complet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/README-INSTRUCTEUR/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🚀 PowerShell AD Moderne 2025 - Guide de l'Instructeur
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_3_3" id="__nav_16_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Cas horreur reels
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_16_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Cas horreur reels
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/cas-horreur-reels/vendredi-17h-sans-whatif/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🚨 CAS D'HORREUR RÉEL: Le Vendredi Qui A Failli Ruiner Une Carrière
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_3_4" id="__nav_16_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Materiels poche
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_16_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Materiels poche
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/materiels-poche/carte-survie-maxtec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🆘 CARTE DE SURVIE PowerShell AD - maxtec.be
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/materiels-poche/checklist-validation-scripts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ✅ Checklist Validation Scripts PowerShell AD
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_3_5" id="__nav_16_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Modules modernes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_16_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Modules modernes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M1-realite-2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 1: Réalité 2025 - Comment les Admins Travaillent Vraiment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M2-survie-tickets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 2: Survie Tickets - Les 10 Commandes Qui Sauvent des Carrières
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M3-ia-comme-copilote/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 3: L'IA comme Copilote - Prompts Sécurisés et Validation Critique
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M4-scripts-bomba-lab/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 4: Scripts Bomba Lab - Détecter les Erreurs Mortelles Cachées
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M5-whatif-religieux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 5: -WhatIf Religieux - Pourquoi -WhatIf est Sacré
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M6-kit-urgence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 6: Kit d'Urgence - Procédures "Break Glass" Quand Tout Explose
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="chapitre-81-les-concepts-de-base-powershell-pour-active-directory">Chapitre 8.1: Les concepts de base PowerShell pour Active Directory</h1>
+<p>Ce chapitre vous introduira aux concepts fondamentaux de PowerShell dans le contexte d'Active Directory. Vous n'avez pas besoin d'être développeur pour comprendre et utiliser ces concepts !</p>
+<h2 id="1-les-variables-des-boites-de-rangement">1. 🔹 Les variables : des boîtes de rangement</h2>
+<p>Une variable est simplement un conteneur qui stocke une information. Pensez-y comme à une boîte étiquetée où vous rangez temporairement des données.</p>
+<h3 id="creation-dune-variable">Création d'une variable</h3>
+<pre><code class="language-powershell"># Créer une variable pour stocker un nom d'utilisateur
+$nomUtilisateur = &quot;jean.dupont&quot;
+
+# Afficher le contenu de la variable (plusieurs méthodes)
+Write-Host $nomUtilisateur           # Méthode 1: Utiliser Write-Host (affichage formaté)
+$nomUtilisateur                      # Méthode 2: Simplement taper le nom de la variable
+Write-Output $nomUtilisateur         # Méthode 3: Utiliser Write-Output (pour le pipeline, on le verra plus tard)
+echo $nomUtilisateur                 # Méthode 4: Utiliser l'alias 'echo' (comme Write-Output)
+</code></pre>
+<blockquote>
+<p>Remarquez le symbole <code>$</code> qui indique qu'il s'agit d'une variable.</p>
+</blockquote>
+<h3 id="exercice-11-creez-votre-premiere-variable">Exercice 1.1 : Créez votre première variable</h3>
+<ol>
+<li>Créez une variable <code>$monDomaine</code> contenant le nom de votre domaine AD</li>
+<li>Affichez son contenu</li>
+<li>Modifiez sa valeur et affichez-la à nouveau</li>
+</ol>
+<h3 id="exercice-12-variables-et-concatenation">Exercice 1.2 : Variables et concaténation</h3>
+<ol>
+<li>Créez une variable <code>$prenom</code> contenant votre prénom</li>
+<li>Créez une variable <code>$nom</code> contenant votre nom de famille</li>
+<li>Créez une variable <code>$nomComplet</code> qui combine les deux avec un espace entre eux (indice : utilisez <code>$prenom + " " + $nom</code>)</li>
+<li>Créez une variable <code>$loginAD</code> qui serait votre identifiant AD au format <code>prenom.nom</code> (comme "jean.dupont")</li>
+<li>Affichez un message qui dit "Bonjour [nomComplet], votre login est [loginAD]"</li>
+</ol>
+<h3 id="variables-et-commandes-ad">Variables et commandes AD</h3>
+<p>Les variables sont particulièrement utiles pour stocker les résultats de vos commandes AD :</p>
+<pre><code class="language-powershell"># Stocker un utilisateur dans une variable avec toutes ses propriétés
+$utilisateur = Get-ADUser -Identity &quot;jean.dupont&quot; -Properties *
+$groupe = Get-ADGroup -Identity &quot;CN=GG-EU-RH-Admin,OU=Groups,OU=RH,OU=EU,DC=computerelectronics,DC=be&quot; -Properties *
+</code></pre>
+<p><strong>Note</strong>: ceci était une rechercher par <strong>identifiant</strong>. </p>
+<blockquote>
+<p><strong>Le paramètre -Identity</strong> : Ce paramètre permet de spécifier quel objet AD vous voulez obtenir/modifier. Il accepte plusieurs formats d'identification. Par exemple... si on a le groupe "GG-EU-IT-Users", on peut le trouver de plusieurs manières en utilisant le paramètre -Identity :
+- <strong>Nom</strong> : Simplement le nom du groupe (ex: -Identity "GG-EU-IT-Users")
+- <strong>SamAccountName</strong> : L'identifiant unique du groupe dans le domaine (ex: -Identity "GG-EU-IT-Users")
+- <strong>DistinguishedName</strong> : Le chemin complet dans l'AD (ex: -Identity "CN=GG-EU-IT-Users,OU=Groups,OU=EU,DC=maxtec,DC=be")
+- <strong>GUID</strong> : L'identifiant unique global (ex: -Identity "123e4567-e89b-12d3-a456-426614174000")
+</p>
+</blockquote>
+<pre><code class="language-powershell"># Maintenant on peut accéder facilement à ses propriétés (créez de valeurs pour les champs manquants dans AD, car le script est simplifié et crée des utilisateurs qui n'ont pas toutes les propriétés)
+Write-Host $utilisateur.Surname
+Write-Host $utilisateur.GivenName
+Write-Host $utilisateur.Email
+</code></pre>
+<blockquote>
+<p><strong>Note sur la langue</strong> : Même si votre interface AD est en français, les noms des propriétés dans PowerShell sont toujours en anglais. Utilisez donc <code>GivenName</code> (prénom), <code>Surname</code> (nom de famille), <code>Title</code> (titre), etc. Ces noms sont standardisés et ne changent pas avec la langue de l'interface.</p>
+</blockquote>
+<h3 id="mais-quelles-sont-les-proprietes-disponibles">Mais quelles sont les propriétés disponibles ?</h3>
+<p>Avant de pouvoir rechercher des informations spécifiques, il est important de connaître les attributs/propriétés disponibles. Ces propriétés sont aussi accessibles dans le menu <code>Propriétés</code> &gt; <code>Editeur d'attributs</code> dans <code>Utilisateurs et groupes d'AD</code> (il faut activer l'option <code>Fonctionnalités avancées</code> dans le menu principal de <code>Utilisateurs et groupes d'AD</code>)</p>
+<pre><code class="language-powershell">Get-ADUser -Filter * -Properties * | Get-Member -MemberType Property
+</code></pre>
+<p>Avec <strong>Filter</strong> on peut rechercher des éléments à partir des valeurs de leurs propriétés. Par <strong>exemple, on peut rechercher des utilisateurs par leur nom, leur titre, leur service</strong> ('department' en anglais. La propriété est dans l'onglet <code>Organisation</code> dans les propriétés des utilisateurs), etc.</p>
+<pre><code class="language-powershell"># Exemple 1: Rechercher tous les utilisateurs dont le SamAccountName commence par 'Ri' (observez que le script n'a pas crée les prénoms ni les noms des utilisateurs)
+Get-ADUser -Filter {SamAccountName -like 'Ri*'} -Properties GivenName | Select-Object Name, SamAccountName, GivenName
+
+# Exemple 2: Rechercher les utilisateurs créés après le 1er janvier 2023
+$date = Get-Date &quot;01/01/2023&quot;
+Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated | Select-Object Name, SamAccountName, WhenCreated
+</code></pre>
+<h2 id="2-les-tableaux-vos-collections-dobjets">2. 🔹 Les tableaux : vos collections d'objets</h2>
+<p>Un tableau est une collection d'éléments. Imaginez un classeur avec plusieurs tiroirs numérotés.</p>
+<h3 id="creation-dun-tableau-simple">Création d'un tableau simple</h3>
+<pre><code class="language-powershell"># Créer un tableau de noms d'utilisateurs (attention à la notation de @ et parenthèses)
+$utilisateurs = @(&quot;jean.dupont&quot;, &quot;marie.martin&quot;, &quot;pierre.durand&quot;)
+
+# Afficher le premier élément (les indices commencent à 0)
+$utilisateurs[0]
+
+# Afficher le dernier élément
+$utilisateurs[-1]
+</code></pre>
+<h3 id="exercice-21-creez-et-manipulez-un-tableau">Exercice 2.1 : Créez et manipulez un tableau</h3>
+<ol>
+<li>Créez un tableau contenant les noms de serveurs de votre réseau (par exemple: "dns1", "fileserver", "webserver")</li>
+<li>Affichez le deuxième serveur du tableau</li>
+<li>Ajoutez un quatrième serveur avec <code>$tableauServeurs += "mailserver"</code></li>
+<li>Faites une boucle <code>foreach</code> pour afficher chaque serveur sans utiliser le pipeline</li>
+<li>Affichez chaque élément du tableau avec le pipeline</li>
+</ol>
+<h3 id="tableaux-dobjets-ad">Tableaux d'objets AD</h3>
+<p>En PowerShell, les résultats de nombreuses commandes sont automatiquement des tableaux :</p>
+<pre><code class="language-powershell"># Récupérer tous les utilisateurs du service Comptabilité: tableau d'objets ADUser
+$comptabilite = Get-ADUser -Filter *
+
+# Combien d'utilisateurs avons-nous ? (nombre d'objets dans le tableau)
+Write-Host $comptabilite.Count
+
+# Accéder au premier utilisateur (accès au premier objet du tableau)
+Write-Host $comptabilite[0].Name
+</code></pre>
+<h3 id="exercice-22-manipuler-des-collections-dobjets-ad">Exercice 2.2 : Manipuler des collections d'objets AD</h3>
+<ol>
+<li>Récupérez tous les groupes dont le nom contient "GG-EU" (utiliser <code>Filter</code> - expliqué plus haut - et <code>like</code>)</li>
+<li>Affichez le nombre de groupes trouvés</li>
+<li>Affichez uniquement le nom du premier et du dernier groupe</li>
+</ol>
+<h2 id="3-les-boucles-repeter-des-actions">3. 🔹 Les boucles : répéter des actions</h2>
+<p>Les boucles permettent de répéter une action pour chaque élément d'une collection. C'est comme traiter un dossier de documents un par un.</p>
+<h3 id="la-boucle-foreach">La boucle ForEach</h3>
+<pre><code class="language-powershell"># Obtenir tous les utilisateurs
+$utilisateurs = Get-ADUser -Filter *
+
+# Afficher chaque élément avec une boucle
+foreach ($utilisateur in $utilisateurs) {
+    Write-Host $utilisateur
+}
+
+&gt; Le bloc `{ }` contient les actions à répéter pour chaque élément.
+
+# Voici une autre version qui utilise le pipeline. Le pipeline (`|`) permet de chaîner des commandes.
+# Le symbole $_ représente l'élément actuel dans la boucle. 
+$utilisateurs | ForEach-Object { Write-Host $_ }  
+# $_ est juste un alias pour l'élément actuel dans la boucle. On peut en plus accéder aux propriétés de l'élément, par exemple: $_.Name, $_.SamAccountName, $_.Title, etc.
+$utilisateurs | ForEach-Object { Write-Host $_.Name }  
+</code></pre>
+<h3 id="exercice-31-votre-premiere-boucle">Exercice 3.1 : Votre première boucle</h3>
+<ol>
+<li>Récupérez tous les groupes de sécurité dont le nom commence par "GG-" (groupes globaux)</li>
+<li>Créez une boucle qui affiche pour chacun : "Le groupe [Nom] a la description: [Description]"</li>
+<li>Modifiez votre boucle pour n'afficher que les groupes créés après le 1er janvier 2023</li>
+</ol>
+<h3 id="exercice-32-utiliser-le-pipeline">Exercice 3.2 : Utiliser le pipeline</h3>
+<ol>
+<li>Utilisez le pipeline pour lister tous les groupes de sécurité</li>
+<li>Pour chaque groupe, affichez son nom et le nombre de membres</li>
+<li>Bonus : triez les résultats par nombre de membres (indice : <code>Sort-Object</code>)</li>
+</ol>
+<h2 id="4-les-conditions-prendre-des-decisions">4. 🔹 Les conditions : prendre des décisions</h2>
+<p>Les conditions permettent d'exécuter du code uniquement si certains critères sont remplis. C'est comme suivre un arbre de décision.</p>
+<h3 id="structure-if-else">Structure If-Else</h3>
+<p>Les conditions <code>if</code> permettent d'exécuter du code uniquement si une condition est vraie. Voici quelques exemples simples :</p>
+<pre><code class="language-powershell"># Exemple 1: Condition simple
+$estActif = $true
+if ($estActif) {
+    Write-Host &quot;Le compte est actif&quot;
+}
+
+# Exemple 2: Condition avec if/else
+$nombreUtilisateurs = 5
+if ($nombreUtilisateurs -gt 10) {
+    Write-Host &quot;Plus de 10 utilisateurs&quot;
+} else {
+    Write-Host &quot;10 utilisateurs ou moins&quot;
+}
+
+# Exemple 3: Vérifier si un utilisateur existe
+$nomUtilisateur = &quot;jean.dupont&quot;
+if (Get-ADUser -Filter {SamAccountName -eq $nomUtilisateur} -ErrorAction SilentlyContinue) {
+    Write-Host &quot;L'utilisateur $nomUtilisateur existe&quot;
+} else {
+    Write-Host &quot;L'utilisateur $nomUtilisateur n'existe pas&quot;
+}
+
+# Exemple 4: Vérifier si une valeur est vide
+$description = &quot;&quot;
+if ([string]::IsNullOrEmpty($description)) {
+    Write-Host &quot;La description est vide&quot;
+} else {
+    Write-Host &quot;La description contient: $description&quot;
+}
+</code></pre>
+<blockquote>
+<p>Les opérateurs de comparaison courants sont: <code>-eq</code> (égal), <code>-ne</code> (différent), <code>-gt</code> (supérieur), <code>-lt</code> (inférieur), <code>-ge</code> (supérieur ou égal), <code>-le</code> (inférieur ou égal).</p>
+</blockquote>
+<h3 id="exercice-41-conditions-simples">Exercice 4.1 : Conditions simples</h3>
+<ol>
+<li>Récupérez un utilisateur de votre choix</li>
+<li>Vérifiez s'il a une adresse email renseignée (modifiez les utilisateurs dans AD si besoin)</li>
+<li>Affichez un message approprié selon le cas</li>
+</ol>
+<h3 id="conditions-multiples">Conditions multiples</h3>
+<pre><code class="language-powershell"># Vérifier le statut d'un utilisateur
+$user = Get-ADUser -Identity &quot;Richard&quot; -Properties Enabled, LockedOut
+
+if ($user.Enabled -eq $false) {
+    Write-Host &quot;Le compte est désactivé&quot;
+} elseif ($user.LockedOut -eq $true) {
+    Write-Host &quot;Le compte est verrouillé&quot;
+} else {
+    Write-Host &quot;Le compte est actif et utilisable&quot;
+}
+</code></pre>
+<h3 id="exercice-42-analyse-dutilisateurs">Exercice 4.2 : Analyse d'utilisateurs</h3>
+<ol>
+<li>Créez un script qui demande un nom d'utilisateur et indique :</li>
+<li>Si son compte est activé ou désactivé</li>
+<li>S'il est membre du groupe "GG-EU-IT-Admins"</li>
+<li>Si son mot de passe n'expire jamais</li>
+</ol>
+<h3 id="exemple-pratique-rechercher-un-utilisateur">Exemple pratique : Rechercher un utilisateur</h3>
+<p>Voici un exemple de script qui combine variables, conditions et propriétés AD pour rechercher un utilisateur et afficher ses informations.</p>
+<pre><code class="language-powershell"># Demander le nom d'utilisateur à rechercher (Read-Host attendra la saisie de l'utilisateur)
+$nomUtilisateurRecherche = Read-Host &quot;Entrez le nom d'utilisateur à rechercher&quot;
+
+# Récupérer l'utilisateur dans une variable (filtrer par SamAccountName) et obtenir les propriétés GivenName, Surname et Title
+$utilisateurTrouve = Get-ADUser -Filter {SamAccountName -eq $nomUtilisateurRecherche} -Properties GivenName, Surname, Title, Department, WhenCreated
+
+# Vérifier si l'utilisateur existe
+if ($utilisateurTrouve) {
+    Write-Host &quot;Utilisateur trouvé !&quot;
+    Write-Host &quot;Prénom : $($utilisateurTrouve.GivenName)&quot;
+    Write-Host &quot;Nom : $($utilisateurTrouve.Surname)&quot;
+    Write-Host &quot;Titre : $($utilisateurTrouve.Title)&quot;
+    Write-Host &quot;Service : $($utilisateurTrouve.Department)&quot;
+    Write-Host &quot;Date de création : $($utilisateurTrouve.WhenCreated)&quot;
+
+    # Vérifier si l'utilisateur fait partie du service IT
+    if ($utilisateurTrouve.Department -eq &quot;IT&quot;) {
+        Write-Host &quot;Cet utilisateur fait partie du service informatique&quot; -ForegroundColor Green
+    }
+} else {
+    Write-Host &quot;Aucun utilisateur trouvé avec ce nom.&quot; -ForegroundColor Red
+}
+</code></pre>
+<blockquote>
+<p><strong>Important</strong> : Modifier les valeurs dans une variable n'a aucun effet sur l'objet réel dans Active Directory. Par exemple, si vous faites <code>$utilisateurTrouve.Title = "Nouveau Titre"</code>, cela change uniquement la valeur dans votre variable locale, pas dans AD. Pour modifier réellement un objet AD, vous devez utiliser des commandes spécifiques comme <code>Set-ADUser</code> que nous verrons plus tard.</p>
+</blockquote>
+<h3 id="exercice-43-ameliorer-le-script-de-recherche">Exercice 4.3 : Améliorer le script de recherche</h3>
+<ol>
+<li>Modifiez le script ci-dessus pour afficher également si le compte est activé ou désactivé</li>
+<li>Ajoutez une condition pour afficher un message spécial si l'utilisateur fait partie du service "Comptabilité"</li>
+<li>Affichez les trois premiers groupes dont l'utilisateur est membre</li>
+</ol>
+<h2 id="5-mini-projet-rapport-daudit-ad">5. 🔹 Mini-projet : Rapport d'audit AD</h2>
+<h3 id="objectif">Objectif</h3>
+<p>Créer un rapport qui liste <strong>tous les utilisateurs</strong> d'une <strong>Unité d'Organisation (OU)</strong> spécifique, avec leur statut de compte et leurs groupes principaux.</p>
+<pre><code class="language-powershell"># Demander le nom de l'OU à l'utilisateur
+$nomOU = Read-Host &quot;Entrez le nom de l'OU à auditer (ex: Ventes, RH...)&quot;
+
+# Construire le chemin de l'OU (adapté au domaine maxtec.be)
+# Note: Le chemin exact dépend de votre structure AD
+$cheminOU = &quot;OU=Users,OU=$nomOU,OU=EU,DC=computerelectronics,DC=be&quot;
+
+# Récupérer les utilisateurs de cette OU
+$users = Get-ADUser -Filter * -SearchBase $cheminOU -Properties Enabled, MemberOf
+
+# Vérifier si des utilisateurs ont été trouvés
+if ($users.Count -eq 0) {
+    Write-Host &quot;Aucun utilisateur trouvé dans l'OU $nomOU&quot; -ForegroundColor Yellow
+} else {
+    # Afficher un en-tête
+    Write-Host &quot;=== RAPPORT D'AUDIT : OU $nomOU ===&quot; -ForegroundColor Cyan
+    Write-Host &quot;Nombre d'utilisateurs : $($users.Count)&quot; -ForegroundColor Cyan
+    Write-Host &quot;----------------------------------------&quot;
+
+    # Pour chaque utilisateur
+    foreach ($user in $users) {
+        # Statut du compte
+        $statut = if ($user.Enabled) {&quot;ACTIF&quot;} else {&quot;DÉSACTIVÉ&quot;}
+        $couleur = if ($user.Enabled) {&quot;Green&quot;} else {&quot;Red&quot;}
+
+        # Afficher les informations de base
+        Write-Host &quot;UTILISATEUR : $($user.Name) - $statut&quot; -ForegroundColor $couleur
+
+        # Récupérer et afficher les 3 premiers groupes
+        $groupes = Get-ADPrincipalGroupMembership -Identity $user.SamAccountName | Select-Object -First 3
+        Write-Host &quot;  Groupes principaux :&quot;
+        foreach ($groupe in $groupes) {
+            Write-Host &quot;    - $($groupe.Name)&quot;
+        }
+
+        Write-Host &quot;----------------------------------------&quot;
+    }
+}
+</code></pre>
+<h3 id="exercice-final-personnalisez-le-rapport">Exercice final : Personnalisez le rapport</h3>
+<ol>
+<li>Adaptez le script pour qu'il affiche également :</li>
+<li>La date de dernière connexion (LastLogonDate)</li>
+<li>Si le mot de passe expire ou non</li>
+<li>Ajoutez une condition pour mettre en évidence les comptes inactifs depuis plus de 30 jours</li>
+<li>Bonus : Permettez de filtrer les utilisateurs par leur statut (actif/inactif)</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

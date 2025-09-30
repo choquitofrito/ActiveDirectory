@@ -1,0 +1,2715 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../M3-ia-comme-copilote/">
+      
+      
+        <link rel="next" href="../M5-whatif-religieux/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Module 4: Scripts Bomba Lab - Détecter les Erreurs Mortelles Cachées - Active Directory</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#module-4-scripts-bomba-lab-detecter-les-erreurs-mortelles-cachees" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Active Directory" class="md-header__button md-logo" aria-label="Active Directory" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Active Directory
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Module 4: Scripts Bomba Lab - Détecter les Erreurs Mortelles Cachées
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 1: Introduction et installation de Windows Server
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../Chapitre%202.Installation-Windows-Server-2022-VirtualBox/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 2: Installation de Windows Server 2022 sur VirtualBox
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../Chapitre%203.DNS/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 3: DNS - Préparation pour Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 4: Active Directory Domain Services (AD DS)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 4-bis: DNS en Pratique avec Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../Chapitre%205.Unites_Organisation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 5 : Unités d'organisation (UOs)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../Chapitre%206.Gestion_des_Utilisateurs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 6: Gestion des Utilisateurs
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../Chapitre%207.Group%20Policy%20Objects/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 7: Les Stratégies de Groupe (GPO)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../Chapitre%208.0.Powershell%20AD%20-%20Introduction/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.0: Powershell AD - Introduction
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../Chapitre%208.1.Powershell%20AD%20-%20Concepts%20base/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.1: Les concepts de base PowerShell pour Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../Chapitre%208.2.Powershell%20AD%20-%20Requetes_et_Informations/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.2: Atelier pratique : Requêtes et informations
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../Chapitre%208.3.Powershell%20AD%20-%20Creation_et_Modification/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.3: Atelier pratique : Création et modification
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../Th%C3%A9orie%20DNS-%20DNS%20Concepts%20Avances%20%28Reference%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Annexe A: DNS - Concepts Avancés (Référence)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../_template_navigation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  🧭 Template de Navigation - Cours Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Labo%20et%20Exercices/Exercices%3A%20GPO-1/" class="md-tabs__link">
+          
+  
+  
+  Labo et Exercices
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../prompt-curso-powershell/" class="md-tabs__link">
+          
+  
+  
+  PowershellCourse
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Active Directory" class="md-nav__button md-logo" aria-label="Active Directory" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Active Directory
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 1: Introduction et installation de Windows Server
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%202.Installation-Windows-Server-2022-VirtualBox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 2: Installation de Windows Server 2022 sur VirtualBox
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%203.DNS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 3: DNS - Préparation pour Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 4: Active Directory Domain Services (AD DS)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 4-bis: DNS en Pratique avec Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%205.Unites_Organisation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 5 : Unités d'organisation (UOs)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%206.Gestion_des_Utilisateurs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 6: Gestion des Utilisateurs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%207.Group%20Policy%20Objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 7: Les Stratégies de Groupe (GPO)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%208.0.Powershell%20AD%20-%20Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.0: Powershell AD - Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%208.1.Powershell%20AD%20-%20Concepts%20base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.1: Les concepts de base PowerShell pour Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%208.2.Powershell%20AD%20-%20Requetes_et_Informations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.2: Atelier pratique : Requêtes et informations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%208.3.Powershell%20AD%20-%20Creation_et_Modification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.3: Atelier pratique : Création et modification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Th%C3%A9orie%20DNS-%20DNS%20Concepts%20Avances%20%28Reference%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Annexe A: DNS - Concepts Avancés (Référence)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../_template_navigation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🧭 Template de Navigation - Cours Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Labo et Exercices
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            Labo et Exercices
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Labo%20et%20Exercices/Exercices%3A%20GPO-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: GPO 1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Labo%20et%20Exercices/Exercices%3A%20GPO-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: GPO 2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Labo%20et%20Exercices/Exercices%3A%20GPO-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: GPO 3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Labo%20et%20Exercices/Exercices%3A%20Gestion_des_Utilisateurs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: Gestion des Utilisateurs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Labo%20et%20Exercices/Exercices%3A%20OUs_Departements_Complementaires/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: Unités d'Organisation et Utilisateurs - Départements Complémentaires
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Labo%20et%20Exercices/Exercices%3A%20Questions%20Base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: Questions Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_15_7" id="__nav_15_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Labo
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_15_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_7">
+            <span class="md-nav__icon md-icon"></span>
+            Labo
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Labo%20et%20Exercices/Labo/Annexe.Permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Annexe.Permissions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration du Laboratoire GPO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_15_7_3" id="__nav_15_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    PowerShell scriptsStructure
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_15_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            PowerShell scriptsStructure
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/creation_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Creation structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/suppression_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Suppression structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    PowershellCourse
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            PowershellCourse
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../prompt-curso-powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prompt para Claude Code - Curso PowerShell para Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../super-prompt-hybrid-powershell-ad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Super Prompt Híbrido - Curso PowerShell AD Moderno para maxtec.be
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_16_3" id="__nav_16_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Cours powershell ad moderne
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_16_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_16_3">
+            <span class="md-nav__icon md-icon"></span>
+            Cours powershell ad moderne
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../README-COURSE-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🚀 Cours PowerShell AD Moderne 2025 - Résumé Complet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../README-INSTRUCTEUR/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🚀 PowerShell AD Moderne 2025 - Guide de l'Instructeur
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_3_3" id="__nav_16_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Cas horreur reels
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_16_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Cas horreur reels
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cas-horreur-reels/vendredi-17h-sans-whatif/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🚨 CAS D'HORREUR RÉEL: Le Vendredi Qui A Failli Ruiner Une Carrière
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_3_4" id="__nav_16_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Materiels poche
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_16_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Materiels poche
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../materiels-poche/carte-survie-maxtec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🆘 CARTE DE SURVIE PowerShell AD - maxtec.be
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../materiels-poche/checklist-validation-scripts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ✅ Checklist Validation Scripts PowerShell AD
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_16_3_5" id="__nav_16_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Modules modernes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_16_3_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_16_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Modules modernes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M1-realite-2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 1: Réalité 2025 - Comment les Admins Travaillent Vraiment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M2-survie-tickets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 2: Survie Tickets - Les 10 Commandes Qui Sauvent des Carrières
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M3-ia-comme-copilote/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 3: L'IA comme Copilote - Prompts Sécurisés et Validation Critique
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Module 4: Scripts Bomba Lab - Détecter les Erreurs Mortelles Cachées
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 4: Scripts Bomba Lab - Détecter les Erreurs Mortelles Cachées
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectif-de-ce-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objectif de ce Module
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#philosophie-du-module-apprendre-du-desastre-avant-quil-arrive" class="md-nav__link">
+    <span class="md-ellipsis">
+      💣 Philosophie du Module: Apprendre du Désastre AVANT qu'il Arrive
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💣 Philosophie du Module: Apprendre du Désastre AVANT qu&#39;il Arrive">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pourquoi-ce-module-existe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pourquoi ce Module Existe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lart-de-la-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      L'Art de la Détection
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anatomie-dun-script-bomba" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔬 Anatomie d'un Script Bomba
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔬 Anatomie d&#39;un Script Bomba">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#les-5-techniques-de-camouflage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Les 5 Techniques de Camouflage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Les 5 Techniques de Camouflage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-commentaires-trompeurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Commentaires Trompeurs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-erreur-subtile-dans-une-ligne-innocente" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Erreur Subtile dans une Ligne Innocente
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-todo-rassurant" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. TODO Rassurant
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-apparence-professionnelle" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Apparence Professionnelle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-erreur-de-logic-business" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Erreur de Logic Business
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-pratique-detecter-les-bombes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎪 Lab Pratique: Détecter les Bombes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎪 Lab Pratique: Détecter les Bombes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#script-bomba-1-le-nettoyeur-innocent" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚨 SCRIPT BOMBA #1: Le Nettoyeur Innocent
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚨 SCRIPT BOMBA #1: Le Nettoyeur Innocent">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mission-detective-41" class="md-nav__link">
+    <span class="md-ellipsis">
+      🕵️ MISSION DÉTECTIVE 4.1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solution-detaillee" class="md-nav__link">
+    <span class="md-ellipsis">
+      💡 SOLUTION DÉTAILLÉE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-securisee" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ VERSION SÉCURISÉE
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#script-bomba-2-lorganisateur-de-demenagement" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚨 SCRIPT BOMBA #2: L'Organisateur de Déménagement
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚨 SCRIPT BOMBA #2: L&#39;Organisateur de Déménagement">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mission-detective-42" class="md-nav__link">
+    <span class="md-ellipsis">
+      🕵️ MISSION DÉTECTIVE 4.2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analyse-forensique" class="md-nav__link">
+    <span class="md-ellipsis">
+      💀 ANALYSE FORENSIQUE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-du-desastre" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎭 Scénario du Désastre
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#script-bomba-3-le-securisateur-de-mots-de-passe" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚨 SCRIPT BOMBA #3: Le Sécurisateur de Mots de Passe
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚨 SCRIPT BOMBA #3: Le Sécurisateur de Mots de Passe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mission-detective-43" class="md-nav__link">
+    <span class="md-ellipsis">
+      🕵️ MISSION DÉTECTIVE 4.3
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#revelation-choc" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚡ RÉVÉLATION CHOC
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#approche-securisee-alternative" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛡️ APPROCHE SÉCURISÉE ALTERNATIVE
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recapitulatif-devenir-detecteur-de-bombes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎓 Récapitulatif: Devenir Détecteur de Bombes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Récapitulatif: Devenir Détecteur de Bombes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#les-7-signaux-dalarme-a-retenir" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Les 7 Signaux d'Alarme à Retenir
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#votre-checklist-de-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Votre Checklist de Validation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vos-nouvelles-habitudes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Vos Nouvelles Habitudes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M5-whatif-religieux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 5: -WhatIf Religieux - Pourquoi -WhatIf est Sacré
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M6-kit-urgence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 6: Kit d'Urgence - Procédures "Break Glass" Quand Tout Explose
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="module-4-scripts-bomba-lab-detecter-les-erreurs-mortelles-cachees">Module 4: Scripts Bomba Lab - Détecter les Erreurs Mortelles Cachées</h1>
+<p><em>Durée: 2h00 | Prérequis: Modules 1-3 complétés</em></p>
+<h2 id="objectif-de-ce-module">🎯 Objectif de ce Module</h2>
+<p><strong>À la fin</strong>: Vous serez un détecteur humain de scripts dangereux, capable d'identifier les erreurs mortelles avant qu'elles explosent en production.</p>
+<hr />
+<h2 id="philosophie-du-module-apprendre-du-desastre-avant-quil-arrive">💣 Philosophie du Module: Apprendre du Désastre AVANT qu'il Arrive</h2>
+<h3 id="pourquoi-ce-module-existe">Pourquoi ce Module Existe</h3>
+<pre><code>📊 STATISTIQUES RÉELLES:
+- 73% des pannes AD = erreurs humaines de script
+- 89% des scripts dangereux = apparence légitimes
+- 95% des désastres = évitables avec validation
+- 100% des admins = ont une histoire d'horreur
+</code></pre>
+<h3 id="lart-de-la-detection">L'Art de la Détection</h3>
+<p><strong>Un script bomba parfait</strong> :
+- ✅ Semble légitime à première vue
+- ✅ Commentaires rassurants
+- ✅ Vient de source "fiable"
+- ☠️ Contient 1-2 erreurs mortelles cachées
+- ☠️ Explose seulement en production</p>
+<hr />
+<h2 id="anatomie-dun-script-bomba">🔬 Anatomie d'un Script Bomba</h2>
+<h3 id="les-5-techniques-de-camouflage">Les 5 Techniques de Camouflage</h3>
+<h4 id="1-commentaires-trompeurs">1. <strong>Commentaires Trompeurs</strong></h4>
+<pre><code class="language-powershell"># Script validé par l'équipe sécurité ✅
+# Testé sur environnement de dev ✅
+# Approuvé pour production ✅
+
+Get-ADUser -Filter * | Remove-ADUser -Confirm:$false  # ☠️
+</code></pre>
+<h4 id="2-erreur-subtile-dans-une-ligne-innocente">2. <strong>Erreur Subtile dans une Ligne Innocente</strong></h4>
+<pre><code class="language-powershell"># Script parfaitement normal...
+$users = Get-ADUser -Filter {Department -eq &quot;Stagiaires&quot;}
+# 50 lignes de code propre...
+$users | Set-ADUser -Enabled $fase  # ☠️ $false écrit $fase
+</code></pre>
+<h4 id="3-todo-rassurant">3. <strong>TODO Rassurant</strong></h4>
+<pre><code class="language-powershell"># TODO: Tester sur environnement de dev d'abord
+# TODO: Valider avec l'équipe avant prod
+Remove-ADUser -Identity * -Confirm:$false  # ☠️ Mais exécuté quand même
+</code></pre>
+<h4 id="4-apparence-professionnelle">4. <strong>Apparence Professionnelle</strong></h4>
+<pre><code class="language-powershell">&lt;#
+.SYNOPSIS
+    Script de maintenance AD approuvé
+.DESCRIPTION
+    Nettoyage automatisé des comptes inactifs
+.AUTHOR
+    Équipe Infrastructure Senior
+.VERSION
+    2.1.5 - Production Ready
+#&gt;
+
+# Code qui semble parfait mais contient erreur fatale...
+</code></pre>
+<h4 id="5-erreur-de-logic-business">5. <strong>Erreur de Logic Business</strong></h4>
+<pre><code class="language-powershell"># Désactiver les comptes des employés qui partent
+Get-ADUser -Filter {Department -eq &quot;Départs&quot;} |  # ☠️ Département qui n'existe pas
+    Set-ADUser -Enabled $false
+# Résultat: Aucun utilisateur trouvé, script &quot;réussi&quot; mais rien fait
+</code></pre>
+<hr />
+<h2 id="lab-pratique-detecter-les-bombes">🎪 Lab Pratique: Détecter les Bombes</h2>
+<h3 id="script-bomba-1-le-nettoyeur-innocent">🚨 <strong>SCRIPT BOMBA #1: Le Nettoyeur Innocent</strong></h3>
+<pre><code class="language-powershell"># Script de nettoyage des groupes vides
+# Auteur: Administrateur Principal
+# Date: 2024-11-28
+# Objectif: Supprimer les groupes qui ne contiennent aucun membre
+
+Import-Module ActiveDirectory
+
+Write-Host &quot;=== NETTOYAGE DES GROUPES VIDES ===&quot; -ForegroundColor Green
+Write-Host &quot;Recherche des groupes sans membres...&quot; -ForegroundColor Yellow
+
+# Récupérer tous les groupes du domaine maxtec.be
+$tousLesGroupes = Get-ADGroup -Filter * -SearchBase &quot;DC=maxtec,DC=be&quot;
+
+Write-Host &quot;Total groupes trouvés: $($tousLesGroupes.Count)&quot; -ForegroundColor Cyan
+
+$groupesVides = @()
+
+# Vérifier chaque groupe pour voir s'il a des membres
+foreach ($groupe in $tousLesGroupes) {
+    try {
+        $membres = Get-ADGroupMember -Identity $groupe.SamAccountName -ErrorAction SilentlyContinue
+
+        if ($membres.Count -eq 0) {
+            $groupesVides += $groupe
+            Write-Host &quot;Groupe vide trouvé: $($groupe.Name)&quot; -ForegroundColor Yellow
+        }
+    } catch {
+        # Ignorer les erreurs de lecture
+        continue
+    }
+}
+
+Write-Host &quot;`nGroupes vides trouvés: $($groupesVides.Count)&quot; -ForegroundColor Yellow
+
+if ($groupesVides.Count -gt 0) {
+    Write-Host &quot;Suppression des groupes vides...&quot; -ForegroundColor Red
+
+    foreach ($groupeVide in $groupesVides) {
+        Write-Host &quot;Suppression: $($groupeVide.Name)&quot; -ForegroundColor Red
+
+        # TODO: Ajouter validation supplémentaire avant production
+        Remove-ADGroup -Identity $groupeVide.SamAccountName -Confirm:$false
+    }
+
+    Write-Host &quot;✅ Nettoyage terminé avec succès!&quot; -ForegroundColor Green
+} else {
+    Write-Host &quot;Aucun groupe vide trouvé.&quot; -ForegroundColor Green
+}
+</code></pre>
+<h4 id="mission-detective-41">🕵️ <strong>MISSION DÉTECTIVE 4.1</strong></h4>
+<p><strong>Temps limite</strong>: 10 minutes
+<strong>Consignes</strong>:
+1. Lisez ce script ligne par ligne
+2. Identifiez TOUS les problèmes (minimum 5)
+3. Évaluez le risque si exécuté sur maxtec.be
+4. Proposez 3 améliorations critiques</p>
+<h4 id="solution-detaillee">💡 <strong>SOLUTION DÉTAILLÉE</strong></h4>
+<p><strong>🚨 ERREURS CRITIQUES IDENTIFIÉES:</strong></p>
+<ol>
+<li>
+<p><strong>ABSENCE DE -WhatIf</strong> (MORTEL)
+   <code>powershell
+   Remove-ADGroup -Identity $groupeVide.SamAccountName -Confirm:$false  # ☠️</code>
+   <strong>Risque</strong>: Suppression immédiate et irréversible</p>
+</li>
+<li>
+<p><strong>LOGIQUE BUSINESS ERRONÉE</strong> (GRAVE)</p>
+</li>
+<li>Groupe vide ≠ Groupe inutile</li>
+<li>Groupes système peuvent être vides temporairement</li>
+<li>
+<p>Groupes de sécurité peuvent être vides par design</p>
+</li>
+<li>
+<p><strong>AUCUNE EXCLUSION</strong> (MORTEL)
+   <code>powershell
+   $tousLesGroupes = Get-ADGroup -Filter * -SearchBase "DC=maxtec,DC=be"  # ☠️</code>
+   <strong>Risque</strong>: Inclut groupes système critiques (Domain Admins vide = supprimé)</p>
+</li>
+<li>
+<p><strong>PAS DE VÉRIFICATION TYPE GROUPE</strong> (GRAVE)</p>
+</li>
+<li>Pas de distinction Distribution vs Sécurité</li>
+<li>
+<p>Pas de vérification des groupes built-in</p>
+</li>
+<li>
+<p><strong>GESTION D'ERREURS INSUFFISANTE</strong> (MOYEN)
+   <code>powershell
+   } catch {
+       continue  # ☠️ Masque les erreurs importantes
+   }</code></p>
+</li>
+<li>
+<p><strong>ABSENCE DE LOGGING</strong> (MOYEN)</p>
+</li>
+<li>Aucune trace de ce qui a été supprimé</li>
+<li>Impossible de rollback</li>
+</ol>
+<h4 id="version-securisee">🛠️ <strong>VERSION SÉCURISÉE</strong></h4>
+<pre><code class="language-powershell"># Script de nettoyage des groupes vides - VERSION SÉCURISÉE
+param(
+    [switch]$WhatIf = $true,  # -WhatIf par défaut !
+    [switch]$IncludeBuiltIn = $false
+)
+
+Import-Module ActiveDirectory
+
+Write-Host &quot;=== NETTOYAGE SÉCURISÉ DES GROUPES VIDES ===&quot; -ForegroundColor Cyan
+Write-Host &quot;Mode: $($WhatIf ? 'SIMULATION' : 'RÉEL')&quot; -ForegroundColor $(if($WhatIf){'Yellow'}else{'Red'})
+
+# Groupes à JAMAIS supprimer (whitelist sécurité)
+$groupesCritiques = @(
+    &quot;Domain Admins&quot;, &quot;Enterprise Admins&quot;, &quot;Schema Admins&quot;,
+    &quot;Account Operators&quot;, &quot;Backup Operators&quot;, &quot;Server Operators&quot;,
+    &quot;Print Operators&quot;, &quot;Replicator&quot;, &quot;Domain Users&quot;, &quot;Domain Computers&quot;,
+    &quot;Domain Controllers&quot;, &quot;Cert Publishers&quot;, &quot;Domain Guests&quot;
+)
+
+# SearchBase spécifique pour éviter les groupes système
+$searchBase = if ($IncludeBuiltIn) { &quot;DC=maxtec,DC=be&quot; } else { &quot;OU=EU,DC=maxtec,DC=be&quot; }
+
+try {
+    # Récupérer groupes avec propriétés nécessaires
+    $tousLesGroupes = Get-ADGroup -Filter * -SearchBase $searchBase -Properties GroupCategory, GroupScope
+
+    Write-Host &quot;Groupes analysés dans: $searchBase&quot; -ForegroundColor Cyan
+    Write-Host &quot;Total groupes trouvés: $($tousLesGroupes.Count)&quot; -ForegroundColor Cyan
+
+    $groupesCandidats = @()
+
+    foreach ($groupe in $tousLesGroupes) {
+        # Vérifier si groupe critique
+        if ($groupe.Name -in $groupesCritiques) {
+            Write-Host &quot;SKIP: Groupe critique protégé - $($groupe.Name)&quot; -ForegroundColor Green
+            continue
+        }
+
+        try {
+            $membres = Get-ADGroupMember -Identity $groupe.SamAccountName -ErrorAction Stop
+
+            if ($membres.Count -eq 0) {
+                $groupesCandidats += [PSCustomObject]@{
+                    Name = $groupe.Name
+                    SamAccountName = $groupe.SamAccountName
+                    GroupCategory = $groupe.GroupCategory
+                    GroupScope = $groupe.GroupScope
+                    DistinguishedName = $groupe.DistinguishedName
+                }
+
+                Write-Host &quot;Candidat suppression: $($groupe.Name) ($($groupe.GroupCategory))&quot; -ForegroundColor Yellow
+            }
+
+        } catch {
+            Write-Warning &quot;Erreur lecture groupe $($groupe.Name): $($_.Exception.Message)&quot;
+        }
+    }
+
+    if ($groupesCandidats.Count -eq 0) {
+        Write-Host &quot;✅ Aucun groupe vide trouvé (hors groupes critiques)&quot; -ForegroundColor Green
+        return
+    }
+
+    # Afficher résumé AVANT action
+    Write-Host &quot;`n=== RÉSUMÉ SUPPRESSION ===&quot; -ForegroundColor Yellow
+    $groupesCandidats | Format-Table Name, GroupCategory, GroupScope -AutoSize
+    Write-Host &quot;Total à supprimer: $($groupesCandidats.Count)&quot; -ForegroundColor Yellow
+
+    if (-not $WhatIf) {
+        $confirmation = Read-Host &quot;Confirmer suppression ? (tapez 'SUPPRIMER' pour confirmer)&quot;
+        if ($confirmation -ne &quot;SUPPRIMER&quot;) {
+            Write-Host &quot;❌ Opération annulée par l'utilisateur&quot; -ForegroundColor Red
+            return
+        }
+    }
+
+    # Suppression avec logging
+    foreach ($groupe in $groupesCandidats) {
+        $message = &quot;Suppression groupe: $($groupe.Name) ($($groupe.GroupCategory))&quot;
+
+        if ($WhatIf) {
+            Write-Host &quot;SIMULATION: $message&quot; -ForegroundColor Yellow
+        } else {
+            Write-Host &quot;RÉEL: $message&quot; -ForegroundColor Red
+
+            # Log avant suppression
+            Add-Content -Path &quot;C:\Scripts\Logs\groupes-supprimes-$(Get-Date -Format 'yyyyMMdd').log&quot; `
+                        -Value &quot;$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss'): $($groupe.DistinguishedName)&quot;
+        }
+
+        Remove-ADGroup -Identity $groupe.SamAccountName -Confirm:$false -WhatIf:$WhatIf
+    }
+
+    if ($WhatIf) {
+        Write-Host &quot;`n🎯 SIMULATION TERMINÉE&quot; -ForegroundColor Yellow
+        Write-Host &quot;Pour exécuter: .\script.ps1 -WhatIf:`$false&quot; -ForegroundColor Cyan
+    } else {
+        Write-Host &quot;`n✅ SUPPRESSION TERMINÉE&quot; -ForegroundColor Green
+        Write-Host &quot;Log sauvegardé dans: C:\Scripts\Logs\&quot; -ForegroundColor Cyan
+    }
+
+} catch {
+    Write-Error &quot;Erreur fatale: $($_.Exception.Message)&quot;
+}
+</code></pre>
+<hr />
+<h3 id="script-bomba-2-lorganisateur-de-demenagement">🚨 <strong>SCRIPT BOMBA #2: L'Organisateur de Déménagement</strong></h3>
+<pre><code class="language-powershell"># Script de migration utilisateurs suite réorganisation
+# Auteur: Consultant Senior Migration AD
+# Date: 2024-12-01
+# Contexte: Fusion départements RH + Compta → &quot;Administration&quot;
+
+Import-Module ActiveDirectory
+
+Write-Host &quot;=== MIGRATION ORGANISATIONNELLE ===&quot; -ForegroundColor Green
+Write-Host &quot;Fusion RH + Compta → Administration&quot; -ForegroundColor Yellow
+
+# Configuration de la migration
+$sourceOUs = @(
+    &quot;OU=RH,OU=EU,DC=maxtec,DC=be&quot;,
+    &quot;OU=Compta,OU=EU,DC=maxtec,DC=be&quot;
+)
+
+$destinationOU = &quot;OU=Administration,OU=EU,DC=maxtec,DC=be&quot;
+
+Write-Host &quot;Migration vers: $destinationOU&quot; -ForegroundColor Cyan
+
+# Vérifier que l'OU destination existe
+try {
+    Get-ADOrganizationalUnit -Identity $destinationOU -ErrorAction Stop
+    Write-Host &quot;✅ OU destination confirmée&quot; -ForegroundColor Green
+} catch {
+    Write-Host &quot;Création de l'OU destination...&quot; -ForegroundColor Yellow
+    New-ADOrganizationalUnit -Name &quot;Administration&quot; -Path &quot;OU=EU,DC=maxtec,DC=be&quot;
+    Write-Host &quot;✅ OU destination créée&quot; -ForegroundColor Green
+}
+
+# Migration des utilisateurs
+foreach ($sourceOU in $sourceOUs) {
+    Write-Host &quot;`nTraitement de: $sourceOU&quot; -ForegroundColor Yellow
+
+    try {
+        # Récupérer tous les utilisateurs de l'OU source
+        $utilisateurs = Get-ADUser -Filter * -SearchBase $sourceOU
+
+        Write-Host &quot;Utilisateurs trouvés: $($utilisateurs.Count)&quot; -ForegroundColor Cyan
+
+        foreach ($user in $utilisateurs) {
+            Write-Host &quot;Migration: $($user.Name)&quot; -ForegroundColor Yellow
+
+            # Déplacer l'utilisateur vers la nouvelle OU
+            Move-ADObject -Identity $user.DistinguishedName -TargetPath $destinationOU
+
+            # Mettre à jour le département
+            Set-ADUser -Identity $user.SamAccountName -Department &quot;Administration&quot;
+
+            Write-Host &quot;✅ $($user.Name) migré&quot; -ForegroundColor Green
+        }
+
+    } catch {
+        Write-Error &quot;Erreur migration $sourceOU : $($_.Exception.Message)&quot;
+    }
+}
+
+Write-Host &quot;`n🎯 MIGRATION TERMINÉE&quot; -ForegroundColor Green
+Write-Host &quot;Tous les utilisateurs sont maintenant dans Administration&quot; -ForegroundColor Green
+
+# Nettoyage: supprimer les anciennes OUs vides
+Write-Host &quot;`nNettoyage des anciennes OUs...&quot; -ForegroundColor Yellow
+foreach ($oldOU in $sourceOUs) {
+    Write-Host &quot;Suppression: $oldOU&quot; -ForegroundColor Red
+    Remove-ADOrganizationalUnit -Identity $oldOU -Recursive -Confirm:$false
+}
+
+Write-Host &quot;✅ Migration organisationnelle complète!&quot; -ForegroundColor Green
+</code></pre>
+<h4 id="mission-detective-42">🕵️ <strong>MISSION DÉTECTIVE 4.2</strong></h4>
+<p><strong>Temps limite</strong>: 15 minutes
+<strong>Question cruciale</strong>: "Si j'exécute ce script sur maxtec.be vendredi 17h, que se passe-t-il lundi matin ?"</p>
+<h4 id="analyse-forensique">💀 <strong>ANALYSE FORENSIQUE</strong></h4>
+<p><strong>🚨 ERREURS MORTELLES:</strong></p>
+<ol>
+<li><strong>ABSENCE TOTALE DE -WhatIf</strong> (CRITIQUE)</li>
+<li>Migrations immédiatement irréversibles</li>
+<li>
+<p>Suppressions d'OUs avec -Recursive</p>
+</li>
+<li>
+<p><strong>SUPPRESSION -RECURSIVE SANS VÉRIFICATION</strong> (MORTEL)
+   <code>powershell
+   Remove-ADOrganizationalUnit -Identity $oldOU -Recursive -Confirm:$false  # ☠️</code>
+   <strong>Conséquence</strong>: Supprime TOUT le contenu des OUs (groupes, politiques, sous-OUs)</p>
+</li>
+<li>
+<p><strong>LOGIQUE DE NETTOYAGE DÉFAILLANTE</strong> (GRAVE)</p>
+</li>
+<li>Script assume que migration = réussite</li>
+<li>
+<p>Supprime OUs même si migration partielle échouée</p>
+</li>
+<li>
+<p><strong>PAS DE VÉRIFICATION GROUPES</strong> (CRITIQUE)</p>
+</li>
+<li>Utilisateurs déplacés mais leurs groupes restent dans anciennes OUs</li>
+<li>
+<p>Rupture des permissions et accès</p>
+</li>
+<li>
+<p><strong>DÉPARTEMENT HARDCODÉ</strong> (MOYEN)
+   <code>powershell
+   Set-ADUser -Identity $user.SamAccountName -Department "Administration"  # ☠️</code>
+   <strong>Problème</strong>: Force TOUS les users dans même département (perte granularité)</p>
+</li>
+</ol>
+<h4 id="scenario-du-desastre">🎭 <strong>Scénario du Désastre</strong></h4>
+<p><strong>Vendredi 17h</strong>: Script exécuté
+- ✅ Users RH/Compta déplacés vers Administration
+- ☠️ Groupes GG-EU-RH-<em>, GG-EU-Compta-</em> supprimés avec OUs
+- ☠️ GPOs liées aux OUs supprimées
+- ☠️ Toute structure organisationnelle perdue</p>
+<p><strong>Lundi 8h</strong>: Chaos
+- Users existent mais n'ont plus aucun droit
+- Groupes de sécurité introuvables
+- Applications métier bloquées
+- Sauvegarde complète nécessaire = weekend entier</p>
+<hr />
+<h3 id="script-bomba-3-le-securisateur-de-mots-de-passe">🚨 <strong>SCRIPT BOMBA #3: Le Sécurisateur de Mots de Passe</strong></h3>
+<pre><code class="language-powershell"># Script de sécurisation des mots de passe faibles
+# Auteur: Équipe Cybersécurité
+# Objectif: Forcer changement des mots de passe non-conformes
+
+Import-Module ActiveDirectory
+
+$motsDePasse = @(
+    &quot;password&quot;, &quot;123456&quot;, &quot;admin&quot;, &quot;root&quot;, &quot;user&quot;,
+    &quot;welcome&quot;, &quot;temp&quot;, &quot;test&quot;, &quot;maxtec&quot;, &quot;2024&quot;
+)
+
+Write-Host &quot;=== AUDIT SÉCURITÉ MOTS DE PASSE ===&quot; -ForegroundColor Red
+Write-Host &quot;Recherche des mots de passe faibles...&quot; -ForegroundColor Yellow
+
+foreach ($mdp in $motsDePasse) {
+    Write-Host &quot;Test mot de passe: $mdp&quot; -ForegroundColor Cyan
+
+    # Tester chaque utilisateur avec ce mot de passe
+    $users = Get-ADUser -Filter * -SearchBase &quot;OU=EU,DC=maxtec,DC=be&quot;
+
+    foreach ($user in $users) {
+        try {
+            # Tenter connexion avec mot de passe faible
+            $credential = New-Object System.Management.Automation.PSCredential(
+                &quot;$($user.SamAccountName)@maxtec.be&quot;,
+                (ConvertTo-SecureString $mdp -AsPlainText -Force)
+            )
+
+            # Test de connexion LDAP
+            $connection = New-Object System.DirectoryServices.DirectoryEntry(
+                &quot;LDAP://dns1.maxtec.be&quot;,
+                $credential.UserName,
+                $credential.GetNetworkCredential().Password
+            )
+
+            if ($connection.Name -ne $null) {
+                Write-Host &quot;TROUVÉ: $($user.Name) utilise '$mdp'&quot; -ForegroundColor Red
+
+                # Forcer changement immédiat
+                Set-ADUser -Identity $user.SamAccountName -ChangePasswordAtLogon $true
+                Set-ADAccountPassword -Identity $user.SamAccountName -Reset -NewPassword (ConvertTo-SecureString &quot;TempSecure123!&quot; -AsPlainText -Force)
+
+                Write-Host &quot;✅ Mot de passe réinitialisé pour $($user.Name)&quot; -ForegroundColor Green
+            }
+        } catch {
+            # Connexion échouée = mot de passe différent (normal)
+        }
+    }
+}
+
+Write-Host &quot;✅ Audit de sécurité terminé&quot; -ForegroundColor Green
+</code></pre>
+<h4 id="mission-detective-43">🕵️ <strong>MISSION DÉTECTIVE 4.3</strong></h4>
+<p><strong>Question piège</strong>: "Ce script semble améliorer la sécurité. Où est le problème ?"</p>
+<h4 id="revelation-choc">⚡ <strong>RÉVÉLATION CHOC</strong></h4>
+<p><strong>🚨 PROBLÈME CACHÉ MAJEUR:</strong></p>
+<p>Ce script est une <strong>ATTAQUE PAR BRUTE FORCE</strong> déguisée !</p>
+<ol>
+<li><strong>TENTATIVES DE CONNEXION MASSIVES</strong> (CRITIQUE)</li>
+<li>Teste systématiquement mots de passe courants</li>
+<li>Génère des millions de tentatives de connexion</li>
+<li>
+<p>Peut déclencher verrouillages massifs de comptes</p>
+</li>
+<li>
+<p><strong>LOGS DE SÉCURITÉ POLLUÉS</strong> (GRAVE)</p>
+</li>
+<li>Chaque tentative = événement sécurité logged</li>
+<li>Masque les vraies tentatives d'intrusion</li>
+<li>
+<p>SIEM/SOC saturé d'alertes</p>
+</li>
+<li>
+<p><strong>DÉNI DE SERVICE POTENTIEL</strong> (CRITIQUE)</p>
+</li>
+<li>Peut verrouiller TOUS les comptes utilisateurs</li>
+<li>Surcharge contrôleur de domaine</li>
+<li>
+<p>Impact business catastrophique</p>
+</li>
+<li>
+<p><strong>VIOLATION POLITIQUE SÉCURITÉ</strong> (LÉGAL)</p>
+</li>
+<li>Test non autorisé de mots de passe</li>
+<li>Peut violer réglementations (RGPD, etc.)</li>
+<li>Risque disciplinaire/légal</li>
+</ol>
+<h4 id="approche-securisee-alternative">🛡️ <strong>APPROCHE SÉCURISÉE ALTERNATIVE</strong></h4>
+<pre><code class="language-powershell"># BONNE PRATIQUE: Audit sans test actif
+# Utiliser outils Microsoft natifs
+
+# 1. Analyser longueur/complexité via propriétés AD
+Get-ADUser -Filter * -Properties PasswordLastSet, PasswordNeverExpires |
+    Where-Object {
+        $_.PasswordNeverExpires -eq $true -or
+        $_.PasswordLastSet -lt (Get-Date).AddDays(-90)
+    }
+
+# 2. Utiliser Group Policy pour imposer complexity
+# 3. Utiliser Azure AD Password Protection
+# 4. Sensibiliser utilisateurs = éducation &gt; force
+</code></pre>
+<hr />
+<h2 id="recapitulatif-devenir-detecteur-de-bombes">🎓 Récapitulatif: Devenir Détecteur de Bombes</h2>
+<h3 id="les-7-signaux-dalarme-a-retenir">🔍 <strong>Les 7 Signaux d'Alarme à Retenir</strong></h3>
+<ol>
+<li><strong>🚨 ABSENCE -WhatIf</strong> sur commandes destructives</li>
+<li><strong>🚨 -Recursive sans vérification</strong> préalable</li>
+<li><strong>🚨 -Filter *</strong> sans limitations scope</li>
+<li><strong>⚠️ Gestion erreurs</strong> qui masque problèmes</li>
+<li><strong>⚠️ Hardcoding</strong> paths/valeurs spécifiques</li>
+<li><strong>⚠️ Logique business</strong> non validée avec métier</li>
+<li><strong>⚠️ "TODO" dans script</strong> supposé prêt prod</li>
+</ol>
+<h3 id="votre-checklist-de-validation">🛠️ <strong>Votre Checklist de Validation</strong></h3>
+<p>Avant d'exécuter TOUT script:</p>
+<pre><code>□ Commandes destructives ont -WhatIf ?
+□ Scope limité avec SearchBase/Filter précis ?
+□ Gestion d'erreurs robuste ?
+□ Exclusions pour objets critiques ?
+□ Logging des actions importantes ?
+□ Validation business logic ?
+□ Test possible sur environnement non-critique ?
+□ Rollback plan en cas de problème ?
+</code></pre>
+<h3 id="vos-nouvelles-habitudes">🎯 <strong>Vos Nouvelles Habitudes</strong></h3>
+<ol>
+<li><strong>Lire CHAQUE ligne</strong> même si script semble simple</li>
+<li><strong>Questionner la logique</strong> business avant technique</li>
+<li><strong>Chercher ce qui manque</strong> (exclusions, validations)</li>
+<li><strong>Tester d'abord</strong> avec -WhatIf ou échantillon réduit</li>
+<li><strong>Documenter</strong> ce que vous validez et pourquoi</li>
+</ol>
+<hr />
+<p><em>☕ </em><em>PAUSE OBLIGATOIRE 15 minutes</em><em> - Digérer les révélations</em></p>
+<hr />
+<p><strong>🎯 Prochaine étape</strong>: Module 5 - -WhatIf Religieux (Pourquoi -WhatIf est Sacré)</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest"], "search": "../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2455 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../prompt-curso-powershell/">
+      
+      
+        <link rel="next" href="../cours-powershell-ad-moderne/README-COURSE-SUMMARY/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Super Prompt Híbrido - Curso PowerShell AD Moderno para maxtec.be - Active Directory</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#super-prompt-hibrido-curso-powershell-ad-moderno-para-maxtecbe" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Active Directory" class="md-header__button md-logo" aria-label="Active Directory" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Active Directory
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Super Prompt Híbrido - Curso PowerShell AD Moderno para maxtec.be
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 1: Introduction et installation de Windows Server
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Chapitre%202.Installation-Windows-Server-2022-VirtualBox/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 2: Installation de Windows Server 2022 sur VirtualBox
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Chapitre%203.DNS/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 3: DNS - Préparation pour Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 4: Active Directory Domain Services (AD DS)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 4-bis: DNS en Pratique avec Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Chapitre%205.Unites_Organisation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 5 : Unités d'organisation (UOs)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Chapitre%206.Gestion_des_Utilisateurs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 6: Gestion des Utilisateurs
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Chapitre%207.Group%20Policy%20Objects/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 7: Les Stratégies de Groupe (GPO)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Chapitre%208.0.Powershell%20AD%20-%20Introduction/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.0: Powershell AD - Introduction
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Chapitre%208.1.Powershell%20AD%20-%20Concepts%20base/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.1: Les concepts de base PowerShell pour Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Chapitre%208.2.Powershell%20AD%20-%20Requetes_et_Informations/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.2: Atelier pratique : Requêtes et informations
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Chapitre%208.3.Powershell%20AD%20-%20Creation_et_Modification/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Chapitre 8.3: Atelier pratique : Création et modification
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Th%C3%A9orie%20DNS-%20DNS%20Concepts%20Avances%20%28Reference%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Annexe A: DNS - Concepts Avancés (Référence)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../_template_navigation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  🧭 Template de Navigation - Cours Active Directory
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Labo%20et%20Exercices/Exercices%3A%20GPO-1/" class="md-tabs__link">
+          
+  
+  
+  Labo et Exercices
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../prompt-curso-powershell/" class="md-tabs__link">
+          
+  
+  
+  PowershellCourse
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Active Directory" class="md-nav__button md-logo" aria-label="Active Directory" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Active Directory
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 1: Introduction et installation de Windows Server
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Chapitre%202.Installation-Windows-Server-2022-VirtualBox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 2: Installation de Windows Server 2022 sur VirtualBox
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Chapitre%203.DNS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 3: DNS - Préparation pour Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 4: Active Directory Domain Services (AD DS)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 4-bis: DNS en Pratique avec Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Chapitre%205.Unites_Organisation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 5 : Unités d'organisation (UOs)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Chapitre%206.Gestion_des_Utilisateurs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 6: Gestion des Utilisateurs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Chapitre%207.Group%20Policy%20Objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 7: Les Stratégies de Groupe (GPO)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Chapitre%208.0.Powershell%20AD%20-%20Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.0: Powershell AD - Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Chapitre%208.1.Powershell%20AD%20-%20Concepts%20base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.1: Les concepts de base PowerShell pour Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Chapitre%208.2.Powershell%20AD%20-%20Requetes_et_Informations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.2: Atelier pratique : Requêtes et informations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Chapitre%208.3.Powershell%20AD%20-%20Creation_et_Modification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapitre 8.3: Atelier pratique : Création et modification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Th%C3%A9orie%20DNS-%20DNS%20Concepts%20Avances%20%28Reference%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Annexe A: DNS - Concepts Avancés (Référence)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../_template_navigation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🧭 Template de Navigation - Cours Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Labo et Exercices
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            Labo et Exercices
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Labo%20et%20Exercices/Exercices%3A%20GPO-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: GPO 1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Labo%20et%20Exercices/Exercices%3A%20GPO-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: GPO 2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Labo%20et%20Exercices/Exercices%3A%20GPO-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: GPO 3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Labo%20et%20Exercices/Exercices%3A%20Gestion_des_Utilisateurs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: Gestion des Utilisateurs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Labo%20et%20Exercices/Exercices%3A%20OUs_Departements_Complementaires/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: Unités d'Organisation et Utilisateurs - Départements Complémentaires
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Labo%20et%20Exercices/Exercices%3A%20Questions%20Base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercices: Questions Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_15_7" id="__nav_15_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Labo
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_15_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_7">
+            <span class="md-nav__icon md-icon"></span>
+            Labo
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Labo%20et%20Exercices/Labo/Annexe.Permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Annexe.Permissions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration du Laboratoire GPO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_15_7_3" id="__nav_15_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    PowerShell scriptsStructure
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_15_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            PowerShell scriptsStructure
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/creation_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Creation structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/suppression_structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Suppression structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    PowershellCourse
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            PowershellCourse
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prompt-curso-powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prompt para Claude Code - Curso PowerShell para Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Super Prompt Híbrido - Curso PowerShell AD Moderno para maxtec.be
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Super Prompt Híbrido - Curso PowerShell AD Moderno para maxtec.be
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#contexto-e-integracion-existente" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contexto e Integración Existente
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filosofia-revolucionaria-2025" class="md-nav__link">
+    <span class="md-ellipsis">
+      FILOSOFÍA REVOLUCIONARIA 2025
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FILOSOFÍA REVOLUCIONARIA 2025">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cambio-de-paradigma" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cambio de Paradigma
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principios-fundamentales" class="md-nav__link">
+    <span class="md-ellipsis">
+      Principios Fundamentales
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estructura-de-archivos-complementarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      ESTRUCTURA DE ARCHIVOS COMPLEMENTARIOS
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integracion-con-infraestructura-existente" class="md-nav__link">
+    <span class="md-ellipsis">
+      INTEGRACIÓN CON INFRAESTRUCTURA EXISTENTE
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INTEGRACIÓN CON INFRAESTRUCTURA EXISTENTE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dominio-y-usuarios-base-ya-existentes-en-maxtecbe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dominio y Usuarios Base (YA EXISTENTES en maxtec.be)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grupos-existentes-usar-en-ejemplos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Grupos Existentes (USAR EN EJEMPLOS)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contenido-especifico-por-modulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      CONTENIDO ESPECÍFICO POR MÓDULO
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CONTENIDO ESPECÍFICO POR MÓDULO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#m1-realidad-2025-2h-post-capitulos-8x" class="md-nav__link">
+    <span class="md-ellipsis">
+      M1: Realidad 2025 (2h - Post capítulos 8.x)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#m2-supervivencia-tickets-2h" class="md-nav__link">
+    <span class="md-ellipsis">
+      M2: Supervivencia Tickets (2h)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#m5-whatif-religioso-15h" class="md-nav__link">
+    <span class="md-ellipsis">
+      M5: -WhatIf Religioso (1.5h)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#m6-kit-emergencia-1h" class="md-nav__link">
+    <span class="md-ellipsis">
+      M6: Kit Emergencia (1h)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-error-catastrofico" class="md-nav__link">
+    <span class="md-ellipsis">
+      El error catastrófico:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-desastre" class="md-nav__link">
+    <span class="md-ellipsis">
+      El desastre:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#costo-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      Costo real:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#como-evitarlo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cómo evitarlo:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#timing-total-y-certificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      TIMING TOTAL Y CERTIFICACIÓN
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instrucciones-de-generacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      INSTRUCCIONES DE GENERACIÓN
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_3" id="__nav_16_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Cours powershell ad moderne
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_16_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_3">
+            <span class="md-nav__icon md-icon"></span>
+            Cours powershell ad moderne
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cours-powershell-ad-moderne/README-COURSE-SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🚀 Cours PowerShell AD Moderne 2025 - Résumé Complet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cours-powershell-ad-moderne/README-INSTRUCTEUR/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🚀 PowerShell AD Moderne 2025 - Guide de l'Instructeur
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_3_3" id="__nav_16_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Cas horreur reels
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_16_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Cas horreur reels
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cours-powershell-ad-moderne/cas-horreur-reels/vendredi-17h-sans-whatif/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🚨 CAS D'HORREUR RÉEL: Le Vendredi Qui A Failli Ruiner Une Carrière
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_3_4" id="__nav_16_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Materiels poche
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_16_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Materiels poche
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cours-powershell-ad-moderne/materiels-poche/carte-survie-maxtec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🆘 CARTE DE SURVIE PowerShell AD - maxtec.be
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cours-powershell-ad-moderne/materiels-poche/checklist-validation-scripts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ✅ Checklist Validation Scripts PowerShell AD
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_3_5" id="__nav_16_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Modules modernes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_16_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Modules modernes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cours-powershell-ad-moderne/modules-modernes/M1-realite-2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 1: Réalité 2025 - Comment les Admins Travaillent Vraiment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cours-powershell-ad-moderne/modules-modernes/M2-survie-tickets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 2: Survie Tickets - Les 10 Commandes Qui Sauvent des Carrières
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cours-powershell-ad-moderne/modules-modernes/M3-ia-comme-copilote/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 3: L'IA comme Copilote - Prompts Sécurisés et Validation Critique
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cours-powershell-ad-moderne/modules-modernes/M4-scripts-bomba-lab/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 4: Scripts Bomba Lab - Détecter les Erreurs Mortelles Cachées
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cours-powershell-ad-moderne/modules-modernes/M5-whatif-religieux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 5: -WhatIf Religieux - Pourquoi -WhatIf est Sacré
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cours-powershell-ad-moderne/modules-modernes/M6-kit-urgence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Module 6: Kit d'Urgence - Procédures "Break Glass" Quand Tout Explose
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="super-prompt-hibrido-curso-powershell-ad-moderno-para-maxtecbe">Super Prompt Híbrido - Curso PowerShell AD Moderno para maxtec.be</h1>
+<h2 id="contexto-e-integracion-existente">Contexto e Integración Existente</h2>
+<p><strong>IMPORTANTE</strong>: Este prompt complementa y moderniza los capítulos 8.x existentes del syllabus. Los estudiantes ya han completado:
+- 3 días de teoría AD (Capítulos 1-7)
+- Configuración del laboratorio maxtec.be (dns1.maxtec.be, estructura OU completa)
+- Capítulos 8.0-8.3: Conceptos base PowerShell AD (tradicionales)
+- Usuarios ya creados: Richard, Irene, Ivan, Ines, Victor, Vanessa, etc.</p>
+<h2 id="filosofia-revolucionaria-2025">FILOSOFÍA REVOLUCIONARIA 2025</h2>
+<h3 id="cambio-de-paradigma">Cambio de Paradigma</h3>
+<p><strong>DE</strong>: "PowerShell como programación compleja para expertos"
+<strong>A</strong>: "PowerShell como herramienta de supervivencia para admins reales en era IA"</p>
+<h3 id="principios-fundamentales">Principios Fundamentales</h3>
+<ol>
+<li><strong>Honestidad Total</strong>: "Sí, yo también uso ChatGPT para recordar sintaxis"</li>
+<li><strong>Lectura &gt; Escritura</strong>: Validar scripts de IA es más importante que escribir desde cero</li>
+<li><strong>Supervivencia Real</strong>: Solo comandos que usarán en tickets reales del lunes</li>
+<li><strong>Aprender del Desastre</strong>: Mostrar qué pasa cuando falta -WhatIf un viernes a las 17h</li>
+<li><strong>Progresión Microscópica</strong>: Desde <code>Get-Date</code> hasta scripts complejos en pasos de bebé</li>
+</ol>
+<h2 id="estructura-de-archivos-complementarios">ESTRUCTURA DE ARCHIVOS COMPLEMENTARIOS</h2>
+<pre><code>/curso-powershell-ad-moderno/
+├── README-INSTRUCTOR.md (timing detallado + integración con capítulos 8.x)
+├── setup-post-teoria.md (configuración después de los capítulos existentes)
+│
+├── modulos-modernos/
+│   ├── M1-realidad-2025.md (2h - &quot;Cómo realmente trabajo con PS en 2025&quot;)
+│   ├── M2-supervivencia-tickets.md (2h - Los 10 comandos que salvan carreras)
+│   ├── M3-ia-como-copiloto.md (1.5h - Prompts seguros + validación crítica)
+│   ├── M4-scripts-bomba-lab.md (2h - Encontrar errores mortales ocultos)
+│   ├── M5-whatif-religioso.md (1.5h - Por qué -WhatIf es sagrado)
+│   └── M6-kit-emergencia.md (1h - &quot;Cuando todo explota un viernes&quot;)
+│
+├── laboratorio-maxtec/
+│   ├── usuarios-realistas-maxtec.csv (datos hispanos con acentos)
+│   ├── escenarios-tickets-reales.ps1 (casos del mundo real anonimizados)
+│   ├── validacion-scripts-maxtec.ps1 (verificar estructura AD existente)
+│   └── scripts-bomba-maxtec/
+│       ├── bomba1-remove-all-users.ps1 (ERROR línea 18: sin filtro específico)
+│       ├── bomba2-move-ou-incorrect.ps1 (ERROR línea 11: path hardcodeado)
+│       ├── bomba3-password-in-clear.ps1 (ERROR línea 7: credenciales en claro)
+│       ├── bomba4-infinite-loop-groups.ps1 (ERROR línea 15: sin break condition)
+│       └── bomba5-production-friday.ps1 (ERROR línea 23: sin -WhatIf)
+│
+├── casos-horror-reales/
+│   ├── viernes-17h-sin-whatif.md (El becario que borró Ventas)
+│   ├── script-de-reddit-maxtec.md (Por qué no copiar código de foros)
+│   ├── loop-infinito-ou.md (El servidor que se quedó sin memoria)
+│   ├── credenciales-en-slack.md (El screenshot que costó un trabajo)
+│   └── backup-que-no-era.md (Restauración de 72 horas un domingo)
+│
+├── materiales-bolsillo/
+│   ├── tarjeta-supervivencia-maxtec.md (10x6cm - comandos vitales)
+│   ├── checklist-validacion-scripts.md (A4 - 20 puntos críticos)
+│   ├── prompts-ia-seguros.md (15 prompts probados + palabras mágicas)
+│   ├── interpretacion-errores.md (50 errores comunes traducidos)
+│   └── comandos-panico.md (break glass procedures)
+│
+├── evaluacion-practica/
+│   ├── examen-ticket-real.md (Onboarding 25 usuarios nuevos)
+│   ├── simulacro-desastre.md (Recuperar de script bomba ejecutado)
+│   ├── rubrica-mundo-real.md (competencias laborales reales)
+│   └── certificacion-supervivencia.md (template con firma digital)
+│
+└── recursos-expansion/
+    ├── siguiente-nivel-ps.md (Exchange, Azure, advanced scripting)
+    ├── comunidades-utiles.md (Discord, Reddit, Stack Overflow)
+    ├── canales-youtube-espanol.md (creadores hispanos recomendados)
+    └── troubleshooting-por-empresa.md (errores específicos por sector)
+</code></pre>
+<h2 id="integracion-con-infraestructura-existente">INTEGRACIÓN CON INFRAESTRUCTURA EXISTENTE</h2>
+<h3 id="dominio-y-usuarios-base-ya-existentes-en-maxtecbe">Dominio y Usuarios Base (YA EXISTENTES en maxtec.be)</h3>
+<pre><code>- Dominio: maxtec.be
+- DC: dns1.maxtec.be (192.168.0.2)
+- Estructura OU: OU=EU,DC=maxtec,DC=be
+  ├── OU=IT (Ivan, Ines, Irene)
+  ├── OU=Ventes (Victor, Vanessa, Valeria, Valentin)
+  ├── OU=RH (Rene, Rebecca, Richard)
+  └── OU=Compta (Charles, Cindy, Charlotte)
+</code></pre>
+<h3 id="grupos-existentes-usar-en-ejemplos">Grupos Existentes (USAR EN EJEMPLOS)</h3>
+<ul>
+<li>GG-EU-IT-Users, GG-EU-IT-Admins</li>
+<li>GG-EU-Ventes-Users, GG-EU-Ventes-Admins</li>
+<li>GG-EU-RH-Users, GG-EU-RH-Admins</li>
+<li>GG-EU-Compta-Users, GG-EU-Compta-Admins</li>
+</ul>
+<h2 id="contenido-especifico-por-modulo">CONTENIDO ESPECÍFICO POR MÓDULO</h2>
+<h3 id="m1-realidad-2025-2h-post-capitulos-8x">M1: Realidad 2025 (2h - Post capítulos 8.x)</h3>
+<p><strong>Timing</strong>: ⏱️ 2 horas exactas
+<strong>Prerrequisito</strong>: Haber completado capítulos 8.0-8.3
+<strong>Objetivo SMART</strong>: "Al terminar, entenderás cómo trabajan los admins PS reales en 2025"</p>
+<p><strong>Contenido revolucionario</strong>:
+1. <strong>Sección "Confesiones de un Admin Real"</strong>:
+   - "Sí, uso ChatGPT para recordar sintaxis"
+   - "90% del tiempo leo scripts, 10% escribo desde cero"
+   - "Get-Help es mi mejor amigo, no mi vergüenza"</p>
+<ol>
+<li>
+<p><strong>Demo en vivo con maxtec.be</strong>:
+   <code>powershell
+   # Lo que realmente hago lunes por la mañana:
+   Get-ADUser -Filter * -SearchBase "OU=IT,OU=EU,DC=maxtec,DC=be" -Properties LastLogonDate |
+   Where-Object {$_.LastLogonDate -lt (Get-Date).AddDays(-7)} |
+   Select-Object Name, LastLogonDate</code></p>
+</li>
+<li>
+<p><strong>🔴 HISTORIA REAL</strong>: "El admin que fingía saber PowerShell"</p>
+</li>
+<li>Costo del error: 3 días de trabajo manual</li>
+<li>Moraleja: La honestidad acelera el aprendizaje</li>
+</ol>
+<h3 id="m2-supervivencia-tickets-2h">M2: Supervivencia Tickets (2h)</h3>
+<p><strong>Los 10 comandos que salvan carreras profesionales</strong></p>
+<p>Para cada comando, estructura fija:
+- ✅ Comando seguro para producción
+- ⚠️ Versión con precaución
+- 🔴 Versión peligrosa (NUNCA hacer)
+- 💡 Tip de supervivencia
+- 🎯 Ejercicio con usuarios maxtec.be</p>
+<p><strong>Ejemplo de estructura</strong>:</p>
+<pre><code class="language-markdown">#### Comando 2: Buscar usuario por nombre parcial
+
+✅ **SEGURO**:
+```powershell
+Get-ADUser -Filter {GivenName -like &quot;Ire*&quot;} -SearchBase &quot;OU=EU,DC=maxtec,DC=be&quot;
+</code></pre>
+<p>⚠️ <strong>PRECAUCIÓN</strong>:</p>
+<pre><code class="language-powershell">Get-ADUser -Filter {Name -like &quot;*Ire*&quot;} -Properties *
+# Puede ser lento con muchos usuarios
+</code></pre>
+<p>🔴 <strong>PELIGROSO - NUNCA</strong>:</p>
+<pre><code class="language-powershell">Get-ADUser -Filter * -Properties * | Where-Object {$_.Name -match &quot;.*&quot;}
+# Carga TODOS los usuarios con TODAS las propiedades
+</code></pre>
+<p>💡 <strong>TIP SUPERVIVENCIA</strong>: Siempre usa -SearchBase para limitar el scope</p>
+<p>🎯 <strong>EJERCICIO MAXTEC</strong>: Encuentra todos los usuarios del departamento IT cuyo nombre empiece por "I"</p>
+<pre><code>
+### M3: IA como Copiloto (1.5h)
+**&quot;ChatGPT es tu amigo, pero TÚ eres el piloto&quot;**
+
+**Prompts seguros probados**:
+</code></pre>
+<ol>
+<li>
+<p>"Crea un script PowerShell para buscar usuarios AD inactivos,
+   INCLUYE -WhatIf, validación de errores y comentarios explicativos"</p>
+</li>
+<li>
+<p>"Modifica este script para que sea seguro en producción:
+   [PEGAR SCRIPT]. Agrega validaciones y -WhatIf donde corresponda"</p>
+</li>
+<li>
+<p>"Explica línea por línea qué hace este script de AD y
+   identifica posibles riesgos: [PEGAR SCRIPT]"</p>
+</li>
+</ol>
+<pre><code>
+**Palabras mágicas para IA**:
+- &quot;seguro en producción&quot;
+- &quot;incluye -WhatIf&quot;
+- &quot;valida errores&quot;
+- &quot;incremental no masivo&quot;
+- &quot;explica riesgos&quot;
+
+### M4: Scripts Bomba Lab (2h)
+**&quot;Aprende a detectar minas terrestres antes de que exploten&quot;**
+
+Cada script bomba tiene:
+- Aspecto legítimo a primera vista
+- Comentarios que despistan
+- 1-2 errores educativos ocultos
+- Línea: `# TODO: Revisar antes de producción`
+
+**Bomba1-remove-all-users.ps1** (snippet):
+```powershell
+# Script para limpiar cuentas de usuarios inactivos
+# Autor: Admin Senior (confiable)
+# Fecha: 2024-12-15
+
+Import-Module ActiveDirectory
+
+# Obtener usuarios inactivos (última conexión &gt; 90 días)
+$dateLimite = (Get-Date).AddDays(-90)
+$usuariosInactivos = Get-ADUser -Filter * -Properties LastLogonDate |
+    Where-Object {$_.LastLogonDate -lt $dateLimite}
+
+Write-Host &quot;Encontrados $($usuariosInactivos.Count) usuarios inactivos&quot;
+
+# TODO: Revisar antes de producción
+foreach ($usuario in $usuariosInactivos) {
+    Write-Host &quot;Eliminando usuario: $($usuario.Name)&quot;
+    Remove-ADUser -Identity $usuario.SamAccountName -Confirm:$false
+    # ☢️ ERROR OCULTO: Sin -WhatIf, sin validación de grupos críticos
+}
+</code></pre>
+<h3 id="m5-whatif-religioso-15h">M5: -WhatIf Religioso (1.5h)</h3>
+<p><strong>"Tratamos -WhatIf como artículo de fe"</strong></p>
+<p><strong>Estructura de contenido</strong>:
+1. <strong>🚨 Historia de Horror</strong>: "El viernes sin -WhatIf"
+2. <strong>Demostraciones dramáticas</strong>:
+   ```powershell
+   # ☠️ NUNCA ejecutar (solo mostrar)
+   Get-ADUser -Filter * | Remove-ADUser -Confirm:$false</p>
+<p># ✅ SIEMPRE empezar así
+   Get-ADUser -Filter * | Remove-ADUser -WhatIf
+   ```
+3. <strong>Comandos que SIEMPRE necesitan -WhatIf</strong>:
+   - Remove-<em>
+   - Set-</em> (cambios masivos)
+   - Move-<em>
+   - Disable-</em></p>
+<h3 id="m6-kit-emergencia-1h">M6: Kit Emergencia (1h)</h3>
+<p><strong>"Cuando todo explota un viernes a las 17h"</strong></p>
+<p><strong>Procedures "break glass"</strong>:</p>
+<pre><code class="language-markdown">🚨 EMERGENCY CHECKLIST 🚨
+
+□ 1. RESPIRAR (literalmente, cuenta hasta 10)
+□ 2. NO ejecutar nada más hasta entender el problema
+□ 3. Documentar QUÉ se ejecutó exactamente
+□ 4. Verificar backups disponibles
+□ 5. Contactar supervisor ANTES de intentar &quot;arreglar&quot;
+
+COMANDOS DE DIAGNÓSTICO RÁPIDO:
+```powershell
+# Estado del dominio
+Get-ADDomain | Select-Object DNSRoot, DomainMode
+
+# Últimas modificaciones (buscar el desastre)
+Get-WinEvent -LogName &quot;Security&quot; -MaxEvents 50 |
+Where-Object {$_.Id -eq 4728 -or $_.Id -eq 4729}
+</code></pre>
+<pre><code>
+## CASOS HORROR ESPECIFICACIÓN DETALLADA
+
+### Historia 1: &quot;Viernes 17h sin -WhatIf&quot;
+```markdown
+# 🚨 HISTORIA REAL: El Viernes Que Casi Acaba Una Carrera
+
+**Contexto**: Viernes 16:45h, oficina vaciándose, deadline urgente
+**Protagonist**: Admin junior con 6 meses experiencia
+**Tarea**: &quot;Desactivar las cuentas de los becarios que terminaron&quot;
+
+## Lo que debía pasar:
+- Desactivar 5 cuentas específicas de becarios
+- Verificar que no afecte a usuarios críticos
+- Documentar cambios
+
+## Lo que realmente pasó:
+```powershell
+# El script &quot;inofensivo&quot; copiado de un foro
+Get-ADUser -Filter {Department -eq &quot;Becarios&quot;} | Disable-ADAccount
+</code></pre>
+<h2 id="el-error-catastrofico">El error catastrófico:</h2>
+<ul>
+<li>El filtro no encontró exactamente "Becarios"</li>
+<li>Alguien había escrito "Becario" (singular) en algunos perfiles</li>
+<li>El script no desactivó a NADIE</li>
+<li>Luego intentó "arreglar" con:</li>
+</ul>
+<pre><code class="language-powershell">Get-ADUser -Filter {Title -like &quot;*Becario*&quot;} | Disable-ADAccount
+</code></pre>
+<h2 id="el-desastre">El desastre:</h2>
+<ul>
+<li>Capturó también "Becario Senior" y "Ex-Becario"</li>
+<li>Desactivó al Director Financiero (título: "Ex-Becario, ahora Director")</li>
+<li>Desactivó a 3 desarrolladores seniors</li>
+<li>Sistema ERP perdió acceso</li>
+<li>Bloqueo de nóminas</li>
+</ul>
+<h2 id="costo-real">Costo real:</h2>
+<ul>
+<li><strong>Tiempo</strong>: 12 horas de restauración (fin de semana)</li>
+<li><strong>Dinero</strong>: €15,000 en consultores externos urgentes</li>
+<li><strong>Reputación</strong>: Reunión con RRHH, plan de mejora</li>
+<li><strong>Estrés</strong>: Ataque de ansiedad, 2 semanas de baja</li>
+</ul>
+<h2 id="como-evitarlo">Cómo evitarlo:</h2>
+<ol>
+<li><strong>SIEMPRE empezar con -WhatIf</strong>:
+   <code>powershell
+   Get-ADUser -Filter {Department -eq "Becarios"} | Disable-ADAccount -WhatIf</code></li>
+<li><strong>Verificar ANTES</strong>:
+   <code>powershell
+   Get-ADUser -Filter {Department -eq "Becarios"} | Select-Object Name, Title, Department</code></li>
+<li><strong>Filtros específicos</strong>:
+   <code>powershell
+   $becariosADesactivar = @("user1", "user2", "user3", "user4", "user5")
+   $becariosADesactivar | ForEach-Object {
+       Disable-ADAccount -Identity $_ -WhatIf
+   }</code></li>
+</ol>
+<p><strong>Moraleja</strong>: -WhatIf no es opcional. Es supervivencia profesional.</p>
+<pre><code>
+## MATERIALES IMPRESOS ESPECÍFICOS
+
+### Tarjeta de Bolsillo maxtec.be (10x6 cm)
+**ANVERSO**:
+</code></pre>
+<p>🆘 SUPERVIVENCIA PS - maxtec.be 🆘</p>
+<ol>
+<li>Get-ADUser -Identity [name] -Properties *</li>
+<li>Get-ADUser -Filter * -SearchBase "OU=XX,OU=EU,DC=maxtec,DC=be"</li>
+<li>Get-ADGroup -Filter {Name -like "GG-EU-*"}</li>
+<li>Add-ADGroupMember -Identity [group] -Members [user] -WhatIf</li>
+<li>Set-ADUser -Identity [user] -Enabled $false -WhatIf</li>
+</ol>
+<p>🔴 NUNCA sin -WhatIf: Remove-<em>, Set-</em> masivo, Move-*</p>
+<pre><code>
+**REVERSO**:
+</code></pre>
+<p>SINTAXIS FILTROS:
+-Filter {Propiedad -eq "Valor"}
+-Filter {Propiedad -like "Val*"}
+-Filter {Propiedad -ne "Valor"}</p>
+<p>EMERGENCIA maxtec.be:
+DC: dns1.maxtec.be
+Base: OU=EU,DC=maxtec,DC=be
+Backup Admin: richard@maxtec.be
+```</p>
+<h2 id="timing-total-y-certificacion">TIMING TOTAL Y CERTIFICACIÓN</h2>
+<p><strong>Duración total</strong>: 10 horas exactas (complementa capítulos 8.x existentes)
+- M1: Realidad 2025 (2h)
+- M2: Supervivencia Tickets (2h)
+- M3: IA como Copiloto (1.5h)
+- ☕ Break 15 min
+- M4: Scripts Bomba Lab (2h)
+- M5: -WhatIf Religioso (1.5h)
+- M6: Kit Emergencia (1h)</p>
+<p><strong>Evaluación final</strong>: Resolver ticket real simulado en maxtec.be con script bomba oculto</p>
+<h2 id="instrucciones-de-generacion">INSTRUCCIONES DE GENERACIÓN</h2>
+<p><strong>CRÍTICO - Características de cada archivo</strong>:</p>
+<ol>
+<li>
+<p><strong>Integración total</strong>: Todos los ejemplos usan maxtec.be, usuarios existentes (Richard, Irene, etc.)</p>
+</li>
+<li>
+<p><strong>Outputs reales</strong>: Cada comando debe mostrar output completo simulado:
+   ```powershell
+   PS C:&gt; Get-ADUser -Identity Richard -Properties Department</p>
+</li>
+</ol>
+<p>Department        : RH
+   DistinguishedName : CN=Richard,OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be
+   Enabled           : True
+   GivenName         : Richard
+   Name              : Richard
+   SamAccountName    : Richard
+   Surname           :
+   UserPrincipalName : Richard@maxtec.be
+   ```</p>
+<ol>
+<li>
+<p><strong>Casos horror reales pero anónimos</strong>: Inspirados en desastres reales, adaptados a maxtec.be</p>
+</li>
+<li>
+<p><strong>Scripts bomba educativos</strong>: Funcionales pero con errores pedagógicos específicos</p>
+</li>
+<li>
+<p><strong>Tono revolucionario</strong>: Directo, honesto, "cómplice". Ejemplos:</p>
+</li>
+<li>"Sí, Google es parte del toolkit profesional"</li>
+<li>"No finjas que memorizas sintaxis, todos consultamos documentación"</li>
+<li>
+<p>"Tu trabajo es validar, no escribir desde cero"</p>
+</li>
+<li>
+<p><strong>Progresión microscópica</strong>: Cada concepto en pasos de bebé, con verificación</p>
+</li>
+<li>
+<p><strong>Enlaces con capítulos existentes</strong>: Referencias explícitas como "Como vimos en el capítulo 8.1..."</p>
+</li>
+<li>
+<p><strong>Breaks explícitos</strong>: "☕ Pausa de 10 minutos aquí - es obligatoria"</p>
+</li>
+<li>
+<p><strong>Validación constante</strong>: Cada ejercicio debe verificar que el comando funcionó</p>
+</li>
+<li>
+<p><strong>Checklist de seguridad</strong>: Antes de cada comando potencialmente peligroso</p>
+</li>
+</ol>
+<p><strong>RESULTADO ESPERADO</strong>: 25-30 archivos markdown autocontenidos, listos para usar inmediatamente en aula real con estudiantes que vienen de completar los capítulos 8.x existentes.</p>
+<p>Genera todos los archivos con contenido completo, realista y pedagógicamente revolucionario. Cada archivo debe respirar la filosofía 2025 de "supervivencia profesional con honestidad total".</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
