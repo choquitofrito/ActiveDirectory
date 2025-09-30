@@ -394,7 +394,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
 
 > 💡 La base de données AD DS est divisée en 4 **partitions distinctes**.
 
-<img src="diagrams/images/partition_schema.png" alt="Partition Schéma" style="width:10%;" />
+![Partition Schéma](diagrams/images/partition_schema.png)
 
 ### 8.1. Partition Schéma
 
@@ -458,7 +458,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
 
 > 💡 Cache des attributs fréquemment utilisés pour accélérer les recherches.
 
-<img src="diagrams/images/catalogue_global.png" alt="Catalogue Global" style="width:50%;" />
+![Catalogue Global](diagrams/images/catalogue_global.png)
 
 ### Exemple de réplication
 
