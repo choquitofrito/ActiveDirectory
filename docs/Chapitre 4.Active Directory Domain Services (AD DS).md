@@ -177,9 +177,11 @@ Vous vous demandez peut-être comment c'est possible, puisque `maxtec.be` est un
 > - **Sites ≠ Zones DNS** : Les zones DNS (`eu.maxtec.be`) peuvent correspondre aux sites (`site EU`), mais ce n'est pas obligatoire
 >
 > 🌐 **Notre infrastructure**
+> 
 > - `site EU` : Sous-réseau 192.168.10.0/24 (192.168.0.0/24 en laboratoire)
 >   * DC principal : `dc1.maxtec.be`
 >   * DC secondaire : `dc2.maxtec.be` (réplication)
+> 
 > - `site US` : Sous-réseau 192.168.20.0/24 (non utilisé en laboratoire)
 >   * DC local : `dc-us.maxtec.be`
 
