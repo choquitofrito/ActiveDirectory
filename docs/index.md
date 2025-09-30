@@ -81,24 +81,19 @@ Un cours complémentaire axé sur la **réalité du terrain** et l'utilisation m
 
 | Module | Titre | Philosophie |
 |--------|-------|-------------|
-| **[M1](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M1-realite-2025.md)** | Réalité 2025 | Google/IA comme outils, pas comme tricherie |
-| **[M2](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M2-survie-tickets.md)** | Survie Tickets | Résoudre des incidents réels rapidement |
-| **[M3](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M3-ia-comme-copilote.md)** | IA comme Copilote | ChatGPT/Copilot pour PowerShell AD |
-| **[M4](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M4-scripts-bomba-lab.md)** | Scripts Bomba Lab | Désactiver 800 users sans -WhatIf |
-| **[M5](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M5-whatif-religieux.md)** | -WhatIf Religieux | La religion du -WhatIf |
-| **[M6](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M6-kit-urgence.md)** | Kit Urgence | One-liners de survie pour tickets urgents |
+| **[M1](../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M1-realite-2025.md)** | Réalité 2025 | Google/IA comme outils, pas comme tricherie |
+| **[M2](../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M2-survie-tickets.md)** | Survie Tickets | Résoudre des incidents réels rapidement |
+| **[M3](../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M3-ia-comme-copilote.md)** | IA comme Copilote | ChatGPT/Copilot pour PowerShell AD |
+| **[M4](../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M4-scripts-bomba-lab.md)** | Scripts Bomba Lab | Désactiver 800 users sans -WhatIf |
+| **[M5](../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M5-whatif-religieux.md)** | -WhatIf Religieux | La religion du -WhatIf |
+| **[M6](../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M6-kit-urgence.md)** | Kit Urgence | One-liners de survie pour tickets urgents |
 
 ### 📚 Ressources complémentaires
 
-- **[Cas d'horreur réels](PowershellCourse/cours-powershell-ad-moderne/cas-horreur-reels/vendredi-17h-sans-whatif.md)** : Vendredi 17h sans -WhatIf
-- **[Carte de survie maxtec.be](PowershellCourse/cours-powershell-ad-moderne/materiels-poche/carte-survie-maxtec.md)** : One-liners essentiels
-- **[Checklist validation scripts](PowershellCourse/cours-powershell-ad-moderne/materiels-poche/checklist-validation-scripts.md)** : Liste de contrôle avant exécution
-- **[Scripts "bomba"](PowershellCourse/cours-powershell-ad-moderne/laboratoire-maxtec/scripts-bomba-maxtec/)** : Exemples de scripts dangereux (à des fins pédagogiques)
-
-### 📖 Documentation instructeur
-
-- **[README Instructeur](PowershellCourse/cours-powershell-ad-moderne/README-INSTRUCTEUR.md)** : Guide pour l'enseignant
-- **[Résumé du cours](PowershellCourse/cours-powershell-ad-moderne/README-COURSE-SUMMARY.md)** : Vue d'ensemble et objectifs
+- **[Cas d'horreur réels](../PowershellCourse/cours-powershell-ad-moderne/cas-horreur-reels/vendredi-17h-sans-whatif.md)** : Vendredi 17h sans -WhatIf
+- **[Carte de survie maxtec.be](../PowershellCourse/cours-powershell-ad-moderne/materiels-poche/carte-survie-maxtec.md)** : One-liners essentiels
+- **[Checklist validation scripts](../PowershellCourse/cours-powershell-ad-moderne/materiels-poche/checklist-validation-scripts.md)** : Liste de contrôle avant exécution
+- **[Scripts "bomba"](../PowershellCourse/cours-powershell-ad-moderne/laboratoire-maxtec/scripts-bomba-maxtec/)** : Exemples de scripts dangereux (à des fins pédagogiques)
 
 ---
 
@@ -108,89 +103,5 @@ Un cours complémentaire axé sur la **réalité du terrain** et l'utilisation m
 |----------|---------|
 | **[Théorie DNS Avancée](Th%C3%A9orie%20DNS-%20DNS%20Concepts%20Avances%20%28Reference%29.md)** | Concepts DNS approfondis (référence) |
 
----
-
-## 📥 Versions PDF
-
-Tous les chapitres et exercices sont disponibles en PDF dans le dossier **[pdfs/](pdfs/)**:
-
-- Chapitres individuels (Chapitre 1 à 8)
-- Exercices (GPO-1 à GPO-3, OUs, Gestion Utilisateurs)
-- **[Cours complet.pdf](pdfs/Cours%20complet.pdf)** : Tous les chapitres en un seul document
 
 ---
-
-## 🗺️ Parcours d'apprentissage recommandé
-
-### 🟢 Niveau Débutant (Semaines 1-4)
-
-1. Chapitres 1-2: Installation et configuration environnement
-2. Chapitre 3-4: DNS et installation AD DS
-3. Installation du laboratoire maxtec.be
-4. Exercices: Questions de Base
-
-### 🟡 Niveau Intermédiaire (Semaines 5-8)
-
-1. Chapitre 5: Unités d'Organisation
-2. Chapitre 6: Gestion des Utilisateurs
-3. Chapitre 7: Group Policy Objects
-4. Exercices: Gestion Utilisateurs, OUs, GPO-1
-
-### 🔴 Niveau Avancé (Semaines 9-12)
-
-1. Chapitre 8 (complet): PowerShell AD
-2. Cours PowerShell AD Moderne (M1-M6)
-3. Exercices: GPO-2, GPO-3
-4. Labs pratiques avancés
-
----
-
-## 🛠️ Infrastructure du cours
-
-### Domaine: **maxtec.be**
-
-**Architecture:**
-- **Domaine AD principal:** maxtec.be
-- **Sites:** Site-EU (192.168.10.0/24), Site-US (192.168.20.0/24)
-- **Contrôleur de domaine:** dns1.maxtec.be
-- **Structure organisationnelle:**
-  - EU/
-    - Comptabilité/
-    - RH/
-    - Ventes/
-    - IT/
-  - USA/ (structure identique)
-
----
-
-## 💡 Philosophie pédagogique
-
-Ce cours adopte une approche **"Just-in-Time Learning"**:
-
-✅ **Théorie minimale** avant la pratique
-✅ **Labs hands-on** avec infrastructure réelle
-✅ **Concepts expliqués** au moment où ils sont nécessaires
-✅ **Exercices progressifs** du simple au complexe
-✅ **Checkpoints réguliers** pour valider la compréhension
-
-> 💡 **Règle d'or:** 40% théorie, 60% pratique pour un apprentissage optimal
-
----
-
-## 📞 Support et Ressources
-
-- **Labo complet:** [Labo_structure.md](Labo%20et%20Exercices/Labo/Labo_structure.md)
-- **Scripts automatisés:** Dossier [PowerShell-scriptsStructure](Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/)
-- **Template navigation:** [_template_navigation.md](_template_navigation.md)
-
----
-
-## 📝 TODO et Améliorations
-
-Consultez [TODO.txt](TODO.txt) pour les améliorations planifiées du cours.
-
----
-
-**📚 Cours Active Directory - H2EB | 2025 | 👨‍💻 Pour débutants et intermédiaires**
-
-> 🎯 *"Apprendre Active Directory en construisant une vraie infrastructure d'entreprise"*
