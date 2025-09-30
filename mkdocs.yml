@@ -15,15 +15,6 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/choquitofrito/ActiveDirectory
 
-# Configuración para archivos estáticos
-docs_dir: docs
-site_dir: site
-
-# Plugins para manejar archivos estáticos
-plugins:
-  - search
-  - material
-
 theme:
   name: material
   palette:
