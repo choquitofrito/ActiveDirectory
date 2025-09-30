@@ -559,39 +559,6 @@ Vous avez installé Active Directory qui a **automatiquement configuré DNS**. C
 - 🛠️ **Apprendre** à créer des enregistrements DNS
 - 🔧 **Maîtriser** le troubleshooting DNS-AD
 
-### Options de Parcours
-
-**Option A (Recommandée)** - Parcours complet immédiat:
-```
-Chapitre 4 (✅ Vous êtes ici)
-    ↓
-Chapitre 4: DNS Pratique (labs pratiques)
-    ↓
-Chapitre 5: Unités d'Organisation
-```
-
-**Option B** - Continuer et revenir plus tard:
-```
-Chapitre 4 (✅ Vous êtes ici)
-    ↓
-Chapitre 5: Unités d'Organisation
-    ↓
-[Plus tard] Chapitre 4: DNS Pratique
-```
-
-> 💡 **Notre recommandation:** Faites le Chapitre 4 maintenant ! DNS est fondamental pour AD et les labs pratiques consolideront votre compréhension avant d'organiser votre structure AD.
-
----
-
-## 🧭 Navigation
-
-**Parcours recommandé:**
-[⏮️ Chapitre 3: DNS Préparation](Chapitre%203.DNS.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ **Chapitre 4: DNS Pratique avec AD** (Recommandé)](Chapitre%204.DNS-Pratique-avec-AD.md)
-
-**Parcours alternatif (continuer sans DNS pratique):**
-[⏭️ Chapitre 5: Unités d'Organisation](Chapitre%205.Unites_Organisation.md)
-
----
 
 **📚 Cours Active Directory -  | 👨‍💻 Pour débutants**
 
