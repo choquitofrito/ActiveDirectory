@@ -34,6 +34,7 @@ Ce cours vous guide à travers l'installation, la configuration et l'administrat
 
 ### 🏢 Organisation et gestion (Chapitres 5-7)
 
+
 | Chapitre | Titre | Contenu |
 |----------|-------|---------|-------|
 | **[Chapitre 5](Chapitre%205.Unites_Organisation.md)** | Unités d'Organisation (OUs) | Structure hiérarchique, délégation AGLP/AGDLP | 4h |
