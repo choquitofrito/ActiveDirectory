@@ -256,7 +256,9 @@ La structure de l'UO `US` est identique à celle de l'UO `EU`.
 Ces serveurs gèrent l'ensemble des sites !
 
 ## 🎯 Checkpoint: DNS vs AD - Avez-vous compris?
+
 Cette distinction est cruciale. Vérifiez votre compréhension:
+
 - [ ] DNS organise les noms et adresses IP
 - [ ] AD organise les utilisateurs, groupes et permissions
 - [ ] Ils partagent le nom `maxtec.be` mais font des choses différentes
