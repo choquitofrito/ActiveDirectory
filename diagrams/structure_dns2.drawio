@@ -1,0 +1,49 @@
+<mxfile host="65bd71144e">
+    <diagram name="DNS2 - Ventes" id="dns2-diagram">
+        <mxGraphModel dx="1394" dy="533" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="root_domain" value="maxtec.be&#10;(Domaine racine)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="320" y="40" width="200" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="dns2" value="dns2.maxtec.be&#10;192.168.0.3" style="shape=mxgraph.cisco.servers.directory_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="395" y="180" width="50" height="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_root_dns2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="root_domain" target="dns2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ventes_domain" value="ventes.&#10;maxtec.be" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="330" y="320" width="180" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_dns2_ventes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="dns2" target="ventes_domain" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="sw-ventes" value="sw-ventes.ventes.maxtec.be&#10;192.168.0.5" style="shape=mxgraph.cisco.switches.workgroup_switch;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="383" y="440" width="74" height="42" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_ventes_sw" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ventes_domain" target="sw-ventes" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="server_files" value="fileserver.us.maxtec.be.maxtec.be&#10;192.168.0.20" style="shape=mxgraph.cisco.servers.file_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="170" y="560" width="50" height="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="server_apps" value="apps.ventes.maxtec.be&#10;192.168.0.21" style="shape=mxgraph.cisco.servers.www_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="395" y="560" width="50" height="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="server_db" value="database.ventes.maxtec.be&#10;192.168.0.22" style="shape=mxgraph.cisco.servers.database_server;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="630" y="560" width="50" height="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_sw_files" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="sw-ventes" target="server_files" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_sw_apps" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="sw-ventes" target="server_apps" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_sw_db" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="sw-ventes" target="server_db" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

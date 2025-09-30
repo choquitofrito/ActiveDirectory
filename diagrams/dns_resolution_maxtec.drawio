@@ -1,0 +1,42 @@
+<mxfile host="65bd71144e">
+    <diagram id="dns_resolution" name="DNS Resolution">
+        <mxGraphModel dx="346" dy="423" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="Client&#10;(192.168.0.101)" style="points=[[0.35,0,0],[0.98,0.51,0],[1,0.71,0],[0.67,1,0],[0,0.795,0],[0,0.65,0]];verticalLabelPosition=bottom;sketch=0;html=1;verticalAlign=top;aspect=fixed;align=center;pointerEvents=1;shape=mxgraph.cisco19.user;fillColor=#005073;strokeColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="180" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="DNS Externe&#10;(8.8.8.8)" style="points=[[0.015,0.015,0],[0.985,0.015,0],[0.985,0.985,0],[0.015,0.985,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];verticalLabelPosition=bottom;html=1;verticalAlign=top;aspect=fixed;align=center;pointerEvents=1;shape=mxgraph.cisco19.dns_server;fillColor=#005073;strokeColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="360" y="40" width="64" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="maxtec.be&#10;Site Web Public&#10;(203.0.113.10)" style="points=[[0.015,0.015,0],[0.985,0.015,0],[0.985,0.985,0],[0.015,0.985,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];verticalLabelPosition=bottom;html=1;verticalAlign=top;aspect=fixed;align=center;pointerEvents=1;shape=mxgraph.cisco19.server;fillColor=#005073;strokeColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="550" y="200" width="70" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="1. Requête DNS&#10;maxtec.be ?" style="endArrow=classic;html=1;entryX=0;entryY=0.3;entryDx=0;entryDy=0;" parent="1" source="2" target="3" edge="1">
+                    <mxGeometry x="0.0742" y="50" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="6" value="2. Réponse: IP&#10;203.0.113.10" style="endArrow=classic;html=1;exitX=0;exitY=0.7;exitDx=0;exitDy=0;dashed=1;" parent="1" source="3" target="2" edge="1">
+                    <mxGeometry x="-0.1827" y="38" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="7" value="3. Connexion Internet&#10;vers 203.0.113.10" style="endArrow=classic;html=1;curved=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="2" target="4" edge="1">
+                    <mxGeometry y="-20" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="320" y="320"/>
+                            <mxPoint x="440" y="300"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                        <mxPoint x="180" y="280" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cloud" value="Internet" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="160" width="120" height="80" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
