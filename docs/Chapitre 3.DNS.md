@@ -85,6 +85,7 @@ nslookup google.com
 # Address:  8.8.8.8  (ou autre DNS de votre FAI)
 ```
 
+
 ### 🛠️ Test 2: Préparer le DNS pour AD
 
 **Actuellement**, votre serveur utilise probablement le DNS de votre FAI (exemple: 8.8.8.8). Si on cherche un nom de domaine, ce sera ce serveur qui nous donnera l'ip.
