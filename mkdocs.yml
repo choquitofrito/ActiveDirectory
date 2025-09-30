@@ -3,6 +3,8 @@ site_url: https://choquitofrito.github.io/ActiveDirectory
 repo_url: https://github.com/choquitofrito/ActiveDirectory
 repo_name: choquitofrito/ActiveDirectory
 
+
+
 # Configuración para archivos estáticos (diagramas)
 extra_css:
   - stylesheets/extra.css
@@ -25,6 +27,13 @@ theme:
     - toc.integrate
   navigation:
     collapse: true
+
+markdown_extensions:
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.superfences
+  - admonition
+
 
 nav:
   - Home: index.md
