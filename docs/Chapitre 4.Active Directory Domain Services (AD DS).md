@@ -271,7 +271,9 @@ Notre serveur Windows Server va être promu au rôle de contrôleur de domaine (
 
 > ⚠️ Avant de promouvoir le serveur en DC, nous devons configurer correctement son réseau.
 
+
 1. **Configuration IP**
+
    | Paramètre | Valeur |
    |------------|--------|
    | Adresse IP | `192.168.0.2` |
@@ -279,6 +281,7 @@ Notre serveur Windows Server va être promu au rôle de contrôleur de domaine (
    | Serveur DNS | `192.168.0.2` |
 
 2. **Configuration du nom**
+
    | Paramètre | Valeur |
    |------------|--------|
    | Nom d'ordinateur | `dns1` |
