@@ -569,12 +569,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+      <a href="../Chapitre%204.DNS-Pratique-avec-AD/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Chapitre 4bis.DNS-Pratique-avec-AD
+    Chapitre 4.DNS-Pratique-avec-AD
     
   </span>
   
@@ -1402,35 +1402,35 @@
 <h3 id="decouvrir-les-attributs-disponibles">Découvrir les attributs disponibles</h3>
 <p>Avant de pouvoir rechercher des informations spécifiques, il est important de connaître les propriétés disponibles. Ces propriétés sont disponibles dans l'interface graphique via le menu <code>Propriétés</code> &gt; <code>Editeur d'attributs</code> dans <code>Utilisateurs et groupes d'AD</code> (il faut d'abord activer l'option <code>Fonctionnalités avancées</code> dans le menu principal de <code>Utilisateurs et groupes d'AD</code>).</p>
 <h3 id="commandes-de-base">Commandes de base</h3>
-<pre><code class="language-powershell"># Lister tous les utilisateurs (limité aux 10 premiers pour l'exemple)
-Get-ADUser -Filter * -ResultSetSize 10
+<div class="highlight"><pre><span></span><code><span class="c"># Lister tous les utilisateurs (limité aux 10 premiers pour l&#39;exemple)</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-ResultSetSize</span> <span class="n">10</span>
 
-# Obtenir un utilisateur spécifique par son SamAccountName
-Get-ADUser -Filter {SamAccountName -eq &quot;victor.vanhoof&quot;}
+<span class="c"># Obtenir un utilisateur spécifique par son SamAccountName</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">SamAccountName</span> <span class="o">-eq</span> <span class="s2">&quot;victor.vanhoof&quot;</span><span class="p">}</span>
 
-# Obtenir les utilisateurs dont le nom commence par V (il faut que le nom soit rempli!!)
-Get-ADUser -Filter {Name -like &quot;V*&quot;}
+<span class="c"># Obtenir les utilisateurs dont le nom commence par V (il faut que le nom soit rempli!!)</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Name</span> <span class="o">-like</span> <span class="s2">&quot;V*&quot;</span><span class="p">}</span>
 
-# Obtenir un utilisateur avec des propriétés spécifiques
-# La propriété 'Department' en PowerShell correspond au champ 'Service' dans l'interface française d'AD
-Get-ADUser -Filter {SamAccountName -eq &quot;victor.vanhoof&quot;} -Properties DisplayName, EmailAddress, Department
-</code></pre>
+<span class="c"># Obtenir un utilisateur avec des propriétés spécifiques</span>
+<span class="c"># La propriété &#39;Department&#39; en PowerShell correspond au champ &#39;Service&#39; dans l&#39;interface française d&#39;AD</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">SamAccountName</span> <span class="o">-eq</span> <span class="s2">&quot;victor.vanhoof&quot;</span><span class="p">}</span> <span class="n">-Properties</span> <span class="n">DisplayName</span><span class="p">,</span> <span class="n">EmailAddress</span><span class="p">,</span> <span class="n">Department</span>
+</code></pre></div>
 <h3 id="exemple-pratique-recherche-avancee-dutilisateurs">Exemple pratique : Recherche avancée d'utilisateurs</h3>
 <p>Changez à la main le pays de quelques utilisateurs vers la Belgique.</p>
-<pre><code class="language-powershell"># Trouver tous les utilisateurs de la Belgique 
-Get-ADUser -Filter {Country -eq &quot;BE&quot;} -Properties Country | 
-    Format-Table Name, SamAccountName, Country
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c"># Trouver tous les utilisateurs de la Belgique </span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Country</span> <span class="o">-eq</span> <span class="s2">&quot;BE&quot;</span><span class="p">}</span> <span class="n">-Properties</span> <span class="n">Country</span> <span class="p">|</span> 
+    <span class="nb">Format-Table</span> <span class="n">Name</span><span class="p">,</span> <span class="n">SamAccountName</span><span class="p">,</span> <span class="n">Country</span>
+</code></pre></div>
 <p><strong>Note</strong>: Format-Table permet de formatter les résultats de manière lisible, c'est juste une option</p>
 <h1 id="trouver-les-utilisateurs-actifs">Trouver les utilisateurs actifs</h1>
-<pre><code class="language-powershell">Get-ADUser -Filter {Enabled -eq $true} | Format-Table Name
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Enabled</span> <span class="o">-eq</span> <span class="nv">$true</span><span class="p">}</span> <span class="p">|</span> <span class="nb">Format-Table</span> <span class="n">Name</span>
+</code></pre></div>
 <h1 id="filtre-avec-and-utilisateurs-belges-et-du-service-ventes">Filtre avec AND : utilisateurs belges ET du service Ventes</h1>
-<pre><code class="language-powershell"># Note: Dans PowerShell, la propriété s'appelle 'Department' (en anglais)
-# mais dans l'interface française d'AD, ce champ s'appelle 'Service'
-Get-ADUser -Filter {Country -eq &quot;B&quot; -and Department -eq &quot;Ventes&quot;} -Properties Country,Department |
-    Format-Table Name, SamAccountName, Country, Department
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c"># Note: Dans PowerShell, la propriété s&#39;appelle &#39;Department&#39; (en anglais)</span>
+<span class="c"># mais dans l&#39;interface française d&#39;AD, ce champ s&#39;appelle &#39;Service&#39;</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Country</span> <span class="o">-eq</span> <span class="s2">&quot;B&quot;</span> <span class="o">-and</span> <span class="n">Department</span> <span class="o">-eq</span> <span class="s2">&quot;Ventes&quot;</span><span class="p">}</span> <span class="n">-Properties</span> <span class="n">Country</span><span class="p">,</span><span class="n">Department</span> <span class="p">|</span>
+    <span class="nb">Format-Table</span> <span class="n">Name</span><span class="p">,</span> <span class="n">SamAccountName</span><span class="p">,</span> <span class="n">Country</span><span class="p">,</span> <span class="n">Department</span>
+</code></pre></div>
 <blockquote>
 <p><strong>Exercice</strong> : Trouvez tous les utilisateurs dont le nom contient "va" et affichez leur nom complet.</p>
 <p><strong>Exercice</strong> : Pensez à une recherche outile au niveau de votre Active Directory et exécutez-la.</p>
@@ -1438,27 +1438,27 @@ Get-ADUser -Filter {Country -eq &quot;B&quot; -and Department -eq &quot;Ventes&q
 <h2 id="2-obtenir-des-informations-sur-les-groupes">2. 🔹 Obtenir des informations sur les groupes</h2>
 <p>Les groupes sont essentiels dans AD pour gérer les permissions. PowerShell permet de les explorer facilement.</p>
 <h3 id="commandes-de-base_1">Commandes de base</h3>
-<pre><code class="language-powershell"># Lister tous les groupes
-Get-ADGroup -Filter *
+<div class="highlight"><pre><span></span><code><span class="c"># Lister tous les groupes</span>
+<span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">*</span>
 
-# Obtenir les membres d'un groupe
-Get-ADGroup -Filter {Name -eq &quot;GG-EU-RH-Users&quot;} | ForEach-Object {
-    Get-ADGroupMember -Identity $_.DistinguishedName
-}
-</code></pre>
+<span class="c"># Obtenir les membres d&#39;un groupe</span>
+<span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Name</span> <span class="o">-eq</span> <span class="s2">&quot;GG-EU-RH-Users&quot;</span><span class="p">}</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nb">Get-ADGroupMember</span> <span class="n">-Identity</span> <span class="nv">$_</span><span class="p">.</span><span class="n">DistinguishedName</span>
+<span class="p">}</span>
+</code></pre></div>
 <p><strong>Rappel:</strong> ForEach-Object permet de parcourir chaque objet retourné par Get-ADGroup. Le $_ représente l'objet actuel utilisé dans la boucle</p>
-<pre><code class="language-powershell"># Obtenir les groupes d'un utilisateur
-Get-ADUser -Filter {SamAccountName -eq &quot;victor&quot;} | ForEach-Object {
-    Get-ADPrincipalGroupMembership -Identity $_.DistinguishedName
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c"># Obtenir les groupes d&#39;un utilisateur</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">SamAccountName</span> <span class="o">-eq</span> <span class="s2">&quot;victor&quot;</span><span class="p">}</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nb">Get-ADPrincipalGroupMembership</span> <span class="n">-Identity</span> <span class="nv">$_</span><span class="p">.</span><span class="n">DistinguishedName</span>
+<span class="p">}</span>
+</code></pre></div>
 <blockquote>
 <p><strong>Exercice 1</strong> : Trouvez tous les groupes dont le nom contient le mot "IT".</p>
 <p><strong>Exercice 2</strong> : Affichez les membres du groupe "GG-EU-IT-Users". Utilisez Identity car Get-ADGroupMember n'accepte pas le paramètre -Filter.</p>
 </blockquote>
-<pre><code class="language-powershell"># Solution: on utilise identity car Get-ADGroupMember n'accepte pas le paramètre -Filter. Certaines commandes ne l'acceptent pas.
-Get-ADGroupMember -Identity &quot;GG-EU-IT-Users&quot; | Format-Table Name, SamAccountName
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c"># Solution: on utilise identity car Get-ADGroupMember n&#39;accepte pas le paramètre -Filter. Certaines commandes ne l&#39;acceptent pas.</span>
+<span class="nb">Get-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-EU-IT-Users&quot;</span> <span class="p">|</span> <span class="nb">Format-Table</span> <span class="n">Name</span><span class="p">,</span> <span class="n">SamAccountName</span>
+</code></pre></div>
 <blockquote>
 <p><strong>Le paramètre -Identity</strong> : Ce paramètre permet de spécifier quel objet AD vous voulez manipuler. Il accepte plusieurs formats d'identification. Par exemple... si on a le groupe "GG-EU-IT-Users", on peut le trouver de plusieurs manières en utilisant le paramètre -Identity :
 - <strong>Nom</strong> : Simplement le nom du groupe (ex: -Identity "GG-EU-IT-Users")
@@ -1470,23 +1470,23 @@ Get-ADGroupMember -Identity &quot;GG-EU-IT-Users&quot; | Format-Table Name, SamA
 <h2 id="3-explorer-les-unites-dorganisation-ous">3. 🔹 Explorer les Unités d'Organisation (OUs)</h2>
 <p>Les OUs structurent votre Active Directory. PowerShell permet de les explorer et de comprendre leur hiérarchie.</p>
 <h3 id="commandes-de-base_2">Commandes de base</h3>
-<pre><code class="language-powershell"># Lister toutes les OUs
-Get-ADOrganizationalUnit -Filter *
+<div class="highlight"><pre><span></span><code><span class="c"># Lister toutes les OUs</span>
+<span class="nb">Get-ADOrganizationalUnit</span> <span class="n">-Filter</span> <span class="p">*</span>
 
-# Lister une OU spécifique
-Get-ADOrganizationalUnit -Filter { Name -eq &quot;RH&quot;}
+<span class="c"># Lister une OU spécifique</span>
+<span class="nb">Get-ADOrganizationalUnit</span> <span class="n">-Filter</span> <span class="p">{</span> <span class="n">Name</span> <span class="o">-eq</span> <span class="s2">&quot;RH&quot;</span><span class="p">}</span>
 
-# Trouver un user spécifique par son nom
-Get-ADUser -Filter {Country -eq &quot;BE&quot;}
+<span class="c"># Trouver un user spécifique par son nom</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Country</span> <span class="o">-eq</span> <span class="s2">&quot;BE&quot;</span><span class="p">}</span>
 
-# Obtenir les objets dans une OU spécifique
-# Remarque: SearchBase est nécessaire car il définit le point de départ de la recherche
-Get-ADObject -Filter * -SearchBase &quot;OU=Users,OU=Comptabilite,OU=EU,DC=computerelectronics,DC=be&quot;
+<span class="c"># Obtenir les objets dans une OU spécifique</span>
+<span class="c"># Remarque: SearchBase est nécessaire car il définit le point de départ de la recherche</span>
+<span class="nb">Get-ADObject</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=Users,OU=Comptabilite,OU=EU,DC=computerelectronics,DC=be&quot;</span>
 
-# Compter les utilisateurs dans une OU
-# Remarque: SearchBase est nécessaire pour limiter la recherche à une OU spécifique
-(Get-ADUser -Filter * -SearchBase &quot;OU=Users,OU=Comptabilite,OU=EU,DC=computerelectronics,DC=be&quot;).Count
-</code></pre>
+<span class="c"># Compter les utilisateurs dans une OU</span>
+<span class="c"># Remarque: SearchBase est nécessaire pour limiter la recherche à une OU spécifique</span>
+<span class="p">(</span><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=Users,OU=Comptabilite,OU=EU,DC=computerelectronics,DC=be&quot;</span><span class="p">).</span><span class="n">Count</span>
+</code></pre></div>
 <h2 id="4-exportation-des-donnees">4. 🔹 Exportation des données</h2>
 <p>L'exportation des données est essentielle pour le reporting et l'analyse.</p>
 <h3 id="exportation-vers-csv">Exportation vers CSV</h3>
@@ -1496,21 +1496,21 @@ Get-ADObject -Filter * -SearchBase &quot;OU=Users,OU=Comptabilite,OU=EU,DC=compu
 <ol>
 <li>
 <p><strong>Le pipeline (|)</strong> : Utilisé pour passer les résultats d'une commande à une autre. Idéal quand la commande suivante accepte des objets en entrée via le pipeline.
-   <code>powershell
-   # Exemple avec pipeline
-   Get-ADUser -Filter {Country -eq "BE"} | Select-Object Name, SamAccountName</code></p>
+   <div class="highlight"><pre><span></span><code><span class="c"># Exemple avec pipeline</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Country</span> <span class="o">-eq</span> <span class="s2">&quot;BE&quot;</span><span class="p">}</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">SamAccountName</span>
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>ForEach-Object</strong> : Utilisé quand vous devez exécuter <strong>un bloc de code plus complexe</strong> pour chaque objet ou quand la commande suivante n'accepte pas d'entrée via le pipeline.</p>
 </li>
 </ol>
 <p>Voici un exemple: </p>
-<p><code>powershell
-   # Exemple avec ForEach-Object
-   Get-ADGroup -Filter {Name -like "GG-*"} | ForEach-Object {
-       # Bloc de code exécuté pour chaque groupe
-       Get-ADGroupMember -Identity $_.Name
-   }</code></p>
+<div class="highlight"><pre><span></span><code><span class="c"># Exemple avec ForEach-Object</span>
+<span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Name</span> <span class="o">-like</span> <span class="s2">&quot;GG-*&quot;</span><span class="p">}</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="c"># Bloc de code exécuté pour chaque groupe</span>
+    <span class="nb">Get-ADGroupMember</span> <span class="n">-Identity</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span>
+<span class="p">}</span>
+</code></pre></div>
 <p><strong>Explication de cet exemple</strong> :
    1. <code>Get-ADGroup -Filter {Name -like "GG-*"}</code> : Cette commande recherche tous les groupes AD dont le nom commence par "GG-"
    2. <code>| ForEach-Object { ... }</code> : Pour chaque groupe trouvé, on exécute le bloc de code entre accolades
@@ -1519,24 +1519,24 @@ Get-ADObject -Filter * -SearchBase &quot;OU=Users,OU=Comptabilite,OU=EU,DC=compu
 <blockquote>
 <p><strong>Explication de <code>$_</code></strong> : Dans PowerShell, <code>$_</code> est une variable spéciale qui représente l'objet actuel dans le pipeline. Quand vous utilisez ForEach-Object, <code>$_</code> fait référence à chaque objet qui est traité un par un. Par exemple, dans <code>$_.Name</code>, le <code>$_</code> représente un groupe AD et <code>.Name</code> accède à la propriété "Name" de ce groupe.</p>
 </blockquote>
-<pre><code class="language-powershell"># Exemple d'exportation avec pipeline
-# Exporter la liste des utilisateurs vers un fichier CSV
-# Note: 'Department' (propriété PowerShell) = 'Service' (interface française d'AD)
-Get-ADUser -Filter * -Properties Department, Title, EmailAddress |
-    Select-Object Name, SamAccountName, Department, Title, EmailAddress |
-    Export-Csv -Path &quot;C:\utilisateurs.csv&quot; -NoTypeInformation -Encoding UTF8
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c"># Exemple d&#39;exportation avec pipeline</span>
+<span class="c"># Exporter la liste des utilisateurs vers un fichier CSV</span>
+<span class="c"># Note: &#39;Department&#39; (propriété PowerShell) = &#39;Service&#39; (interface française d&#39;AD)</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-Properties</span> <span class="n">Department</span><span class="p">,</span> <span class="n">Title</span><span class="p">,</span> <span class="n">EmailAddress</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">SamAccountName</span><span class="p">,</span> <span class="n">Department</span><span class="p">,</span> <span class="n">Title</span><span class="p">,</span> <span class="n">EmailAddress</span> <span class="p">|</span>
+    <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;C:\utilisateurs.csv&quot;</span> <span class="n">-NoTypeInformation</span> <span class="n">-Encoding</span> <span class="n">UTF8</span>
+</code></pre></div>
 <h3 id="exportation-au-format-html-pour-visualisation-dans-un-navigateur">Exportation au format HTML (pour visualisation dans un navigateur)</h3>
-<pre><code class="language-powershell"># Exporter vers un fichier HTML (plus visuel qu'un CSV)
-# Note: 'Department' (propriété PowerShell) = 'Service' (interface française d'AD)
-Get-ADUser -Filter * -Properties Department, Title | 
-    Select-Object Name, SamAccountName, Department, Title |
-    ConvertTo-Html -Title &quot;Liste des utilisateurs&quot; -Property Name, SamAccountName, Country |
-    Out-File -FilePath &quot;C:\utilisateurs.html&quot; -Encoding UTF8
+<div class="highlight"><pre><span></span><code><span class="c"># Exporter vers un fichier HTML (plus visuel qu&#39;un CSV)</span>
+<span class="c"># Note: &#39;Department&#39; (propriété PowerShell) = &#39;Service&#39; (interface française d&#39;AD)</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-Properties</span> <span class="n">Department</span><span class="p">,</span> <span class="n">Title</span> <span class="p">|</span> 
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">SamAccountName</span><span class="p">,</span> <span class="n">Department</span><span class="p">,</span> <span class="n">Title</span> <span class="p">|</span>
+    <span class="nb">ConvertTo-Html</span> <span class="n">-Title</span> <span class="s2">&quot;Liste des utilisateurs&quot;</span> <span class="n">-Property</span> <span class="n">Name</span><span class="p">,</span> <span class="n">SamAccountName</span><span class="p">,</span> <span class="n">Country</span> <span class="p">|</span>
+    <span class="nb">Out-File</span> <span class="n">-FilePath</span> <span class="s2">&quot;C:\utilisateurs.html&quot;</span> <span class="n">-Encoding</span> <span class="n">UTF8</span>
 
-# Ouvrir le fichier HTML dans le navigateur par défaut
-Invoke-Item &quot;C:\utilisateurs.html&quot;
-</code></pre>
+<span class="c"># Ouvrir le fichier HTML dans le navigateur par défaut</span>
+<span class="nb">Invoke-Item</span> <span class="s2">&quot;C:\utilisateurs.html&quot;</span>
+</code></pre></div>
 <blockquote>
 <p><strong>Exercice</strong> : Exportez la liste de tous les groupes et leurs membres dans un fichier CSV.</p>
 </blockquote>

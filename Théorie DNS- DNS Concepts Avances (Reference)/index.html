@@ -567,12 +567,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+      <a href="../Chapitre%204.DNS-Pratique-avec-AD/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Chapitre 4bis.DNS-Pratique-avec-AD
+    Chapitre 4.DNS-Pratique-avec-AD
     
   </span>
   
@@ -2086,7 +2086,7 @@
 
 <h1 id="annexe-a-dns-concepts-avances-reference">Annexe A: DNS - Concepts Avancés (Référence)</h1>
 <h2 id="navigation">🧭 Navigation</h2>
-<p><a href="../README.md">🏠 Retour au Syllabus</a> | <a href="../Chapitre%203.DNS/">📖 Chapitre 3: DNS Préparation</a> | <a href="Chapitre%204-bis.DNS-Pratique-avec-AD.md">💻 Chapitre 4-bis: DNS Pratique</a></p>
+<p><a href="../README.md">🏠 Retour au Syllabus</a> | <a href="../Chapitre%203.DNS/">📖 Chapitre 3: DNS Préparation</a> | <a href="../Chapitre%204.DNS-Pratique-avec-AD/">💻 Chapitre 4: DNS Pratique</a></p>
 <hr />
 <blockquote>
 <p>📚 <strong>À propos de cette annexe:</strong></p>
@@ -2094,7 +2094,7 @@
 <p><strong>📋 Parcours recommandé:</strong>
 1. ✅ Complétez d'abord le <a href="../Chapitre%203.DNS/">Chapitre 3: DNS Préparation</a>
 2. ✅ Installez Active Directory (Chapitre 4)
-3. ✅ Complétez les <a href="Chapitre%204-bis.DNS-Pratique-avec-AD.md">Labs DNS Pratiques (Chapitre 4-bis)</a>
+3. ✅ Complétez les <a href="../Chapitre%204.DNS-Pratique-avec-AD/">Labs DNS Pratiques (Chapitre 4)</a>
 4. 📖 Ensuite, consultez cette annexe pour la théorie approfondie</p>
 <p><strong>🎯 Public cible:</strong> Étudiants avancés, admins expérimentés, ou pour consultation/révision</p>
 </blockquote>
@@ -2152,13 +2152,12 @@ Il est essentiel pour deux raisons principales :</p>
    - Assurez-vous d'être connecté à Internet
 
 2. 🔍 **Tests de résolution DNS:**
-   ```powershell
-   # Test d'un domaine public
-   ping -4 www.google.com
+   <div class="highlight"><pre><span></span><code><span class="c"># Test d&#39;un domaine public</span>
+<span class="n">ping</span> <span class="p">-</span><span class="n">4</span> <span class="n">www</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">com</span>
 
-   # Test de notre futur domaine
-   ping -4 maxtec.be
-   ```
+<span class="c"># Test de notre futur domaine</span>
+<span class="n">ping</span> <span class="p">-</span><span class="n">4</span> <span class="n">maxtec</span><span class="p">.</span><span class="n">be</span>
+</code></pre></div>
 
 3. 🧐 **Analyse:**
    - Observez les adresses IP retournées
@@ -2173,12 +2172,13 @@ Il est essentiel pour deux raisons principales :</p>
 <ol>
 <li><strong>Ouvrez l'invite de commandes</strong> (CMD) ou PowerShell.</li>
 <li>Tapez la commande suivante :
-   <code>powershell
-   nslookup 8.8.8.8</code></li>
+   <div class="highlight"><pre><span></span><code><span class="n">nslookup</span> <span class="n">8</span><span class="p">.</span><span class="n">8</span><span class="p">.</span><span class="n">8</span><span class="p">.</span><span class="n">8</span>
+</code></pre></div></li>
 <li><strong>Analysez le résultat</strong> :<br />
    Vous verrez une réponse similaire à :
-   <code>Nom :    dns.google
-   Address: 8.8.8.8</code>
+   <div class="highlight"><pre><span></span><code>Nom :    dns.google
+Address: 8.8.8.8
+</code></pre></div>
    Cela signifie que l'adresse IP <code>8.8.8.8</code> correspond au nom de domaine <code>dns.google</code>.</li>
 </ol>
 <blockquote>
@@ -2330,18 +2330,18 @@ Il est essentiel pour deux raisons principales :</p>
 <h4 id="structure-plate-flat-dns">💻 Structure Plate (Flat DNS)</h4>
 <p>Observez que les sous-domaines (<code>eu</code>, <code>usa</code>) <strong>ne sont pas utilisés pour les postes de travail et imprimantes</strong></p>
 <p>Au lieu de </p>
-<pre><code class="language-plaintext">ws-compta-01.eu.maxtec.be
+<div class="highlight"><pre><span></span><code>ws-compta-01.eu.maxtec.be
 printer-rh-01.usa.maxtec.be
-</code></pre>
+</code></pre></div>
 <p>on aura </p>
-<pre><code class="language-plaintext">ws-compta-01.maxtec.be
+<div class="highlight"><pre><span></span><code>ws-compta-01.maxtec.be
 printer-rh-01.maxtec.be
-</code></pre>
+</code></pre></div>
 <p>C'est fait exprès: si on <strong>utilise</strong> le nom du <strong>sous-domaine</strong> on devrait <strong>gérer des certificats SSL pour chaque ressource</strong> et on ne veut pas le faire! C'est une <strong>approche</strong> professionnelle <strong>standardisée</strong>.</p>
 <p>Les <strong>sous-domaines</strong> sont utilisés uniquement pour les serveurs et services (observez les adresses)</p>
-<pre><code class="language-plaintext"># Pour les serveurs et services
+<div class="highlight"><pre><span></span><code># Pour les serveurs et services
 auth.eu.maxtec.be
-</code></pre>
+</code></pre></div>
 <h2 id="4-les-zones-dns">4. Les Zones DNS</h2>
 <h3 id="quest-ce-quune-zone-dns">📍 Qu'est-ce qu'une Zone DNS?</h3>
 <p>Une <strong>zone DNS</strong> est tout simplement <strong>une partie de l'espace de noms DNS</strong> (une partie de l'arbre DNS) contenant les enregistrements d'un domaine spécifique. </p>
@@ -2629,31 +2629,25 @@ auth.eu.maxtec.be
 <summary>🔧 Solution</summary>
 
 ##### 💻 Requête Interne (ws-compta-01)
-
-<pre><code class="language-plaintext">✅ Avec Autorité
+<div class="highlight"><pre><span></span><code>✅ Avec Autorité
 - Zone: maxtec.be
 - IP: 192.168.10.128
 - Réponse: Directe et immédiate
-</code></pre>
-
+</code></pre></div>
 
 ##### 🌍 Requête Externe (google.com)
-
-<pre><code class="language-plaintext">❌ Sans Autorité
+<div class="highlight"><pre><span></span><code>❌ Sans Autorité
 - Cache ? → Réponse rapide
 - Sinon → Redirecteur (FAI)
 - Ou → Résolution itérative
-</code></pre>
-
+</code></pre></div>
 
 ##### 🇺🇸 Requête Sous-domaine (us)
-
-<pre><code class="language-plaintext">✅ Avec Autorité
+<div class="highlight"><pre><span></span><code>✅ Avec Autorité
 - Zone: us.maxtec.be
 - IP: 192.168.20.10
 - Réponse: Directe (zone déléguée)
-</code></pre>
-
+</code></pre></div>
 </details>
 
 <p><br></p>
@@ -2671,12 +2665,10 @@ auth.eu.maxtec.be
 | 💻 DNS Public | Pointe vers nos serveurs |
 | 🌎 Services | Site web, email, etc. |
 
-
-<pre><code class="language-plaintext"># Exemple d'enregistrements publics
+<div class="highlight"><pre><span></span><code># Exemple d&#39;enregistrements publics
 maxtec.be.    NS    ns1.registrar.com
 www.maxtec.be A     203.0.113.10
-</code></pre>
-
+</code></pre></div>
 </details>
 
 <details>
@@ -2689,13 +2681,11 @@ www.maxtec.be A     203.0.113.10
 | EU | `dns.eu` (192.168.10.2) | Services EU |
 | US | `dns.us` (192.168.20.2) | Services US |
 
-
-<pre><code class="language-plaintext"># Structure de délégation interne
+<div class="highlight"><pre><span></span><code># Structure de délégation interne
 maxtec.be → dns1, dns2
 eu.maxtec.be → dns.eu
 us.maxtec.be → dns.us
-</code></pre>
-
+</code></pre></div>
 </details>
 
 <p>Cette configuration sera faite dans le contexte d'Active Directory.</p>
@@ -2703,9 +2693,10 @@ us.maxtec.be → dns.us
 <li><code>dns1.maxtec.be</code> est configuré comme serveur autoritaire pour l'ensemble du domaine</li>
 <li>
 <p>Les zones géographiques et d'environnement sont configurées dans le serveur dns1 ainsi, dans un fichier de configuration DNS :
-  <code># Configuration des zones géographiques :
-  eu.maxtec.be.   IN  NS  dns1.maxtec.be.
-  us.maxtec.be.   IN  NS  dns1.maxtec.be.</code>
+  <div class="highlight"><pre><span></span><code># Configuration des zones géographiques :
+eu.maxtec.be.   IN  NS  dns1.maxtec.be.
+us.maxtec.be.   IN  NS  dns1.maxtec.be.
+</code></pre></div>
 Nous allons voir plus tard les <strong>enregistrements</strong> de zone (IN, NS, etc.).</p>
 </li>
 <li>
@@ -2745,16 +2736,16 @@ Nous allons voir plus tard les <strong>enregistrements</strong> de zone (IN, NS,
 </details>
 
 <h3 id="exemple-infrastructure-maxtecbe">💻 Exemple: Infrastructure maxtec.be</h3>
-<pre><code class="language-plaintext"># Configuration des zones
+<p><div class="highlight"><pre><span></span><code># Configuration des zones
 Primaire: dns1.maxtec.be (192.168.0.2)
 Secondaire: dns2.maxtec.be (192.168.0.3)
 
 # Transfert de zone
 Type: Incrémental
-Fréquence: 15 minutes
+Fréquence: périodique
 Sécurité: Signature TSIG
-</code></pre>
-<p>Les zones secondaires se synchronisent automatiquement avec leur zone principale via un processus appelé <strong>transfert de zone</strong>.</p>
+</code></pre></div>
+Les zones secondaires se synchronisent automatiquement avec leur zone principale via un processus appelé <strong>transfert de zone</strong>.</p>
 <h3 id="91-zones-de-recherche-directe">9.1. 🔍 Zones de Recherche Directe</h3>
 <p>Une <strong>zone de recherche directe</strong> (Direct Lookup Zone) contient des <strong>enregistrements</strong> pour faire correspondre un nom d'hôte à une adresse IP.</p>
 <p>Il y a deux catégories d'enregistrements :</p>
@@ -2818,7 +2809,7 @@ Sécurité: Signature TSIG
 </tbody>
 </table>
 <h4 id="exemple-zone-maxtecbe">💻 Exemple: Zone maxtec.be</h4>
-<pre><code class="language-plaintext"># Postes de travail
+<div class="highlight"><pre><span></span><code># Postes de travail
 ws-compta-01    IN A    192.168.10.128
 ws-compta-02    IN A    192.168.10.129
 
@@ -2829,7 +2820,7 @@ fileserver.eu   IN A    192.168.10.10
 # Alias
 www             IN CNAME ws-web-01
 ftp             IN CNAME ws-files-01
-</code></pre>
+</code></pre></div>
 <p>Notez que dans les enregistrements A pour les postes, nous avons uniquement le nom de la machine, sans l'extension du domaine, car le domaine est déjà défini dans la zone ! Le nom complet de la machine s’appelle « FQDN » (Fully Qualified Domain Name) et sera <code>ws-compta-01.maxtec.be</code>.</p>
 <h3 id="92-zones-de-recherche-inverse">9.2. 🔄 Zones de Recherche Inverse</h3>
 <p>Une <strong>zone de recherche inverse</strong> (Reverse Lookup Zone) <strong>convertit les adresses IP en noms</strong> d'hôtes.</p>
@@ -2884,7 +2875,7 @@ ftp             IN CNAME ws-files-01
 </tbody>
 </table>
 <h4 id="exemple-zone-0168192in-addrarpa">💻 Exemple: Zone 0.168.192.in-addr.arpa</h4>
-<pre><code class="language-plaintext"># Zone inverse pour 192.168.0.0/24
+<div class="highlight"><pre><span></span><code># Zone inverse pour 192.168.0.0/24
 2.0   IN PTR   dns1.maxtec.be.
 3.0   IN PTR   dns2.maxtec.be.
 
@@ -2892,7 +2883,7 @@ ftp             IN CNAME ws-files-01
 128.10 IN PTR  ws-compta-01.maxtec.be.
 129.10 IN PTR  ws-compta-02.maxtec.be.
 10.10  IN PTR  fileserver.eu.maxtec.be.
-</code></pre>
+</code></pre></div>
 <h3 id="93-relations-entre-types-de-zones-opt">9.3. 🔗 Relations entre Types de Zones (opt)</h3>
 <blockquote>
 <p>💡 <strong>Concept:</strong> Une zone DNS combine deux aspects indépendants: son autorité et sa direction de recherche.</p>
@@ -2917,14 +2908,14 @@ ftp             IN CNAME ws-files-01
 </details>
 
 <h4 id="exemple-configuration-dns1">💻 Exemple: Configuration DNS1</h4>
-<pre><code class="language-plaintext"># Zones Principales
+<div class="highlight"><pre><span></span><code># Zones Principales
 maxtec.be      # Directe
 0.168.192.in-addr.arpa     # Inverse
 
 # Zones Déléguées
 eu.maxtec.be   # Directe (EU)
 us.maxtec.be   # Directe (US)
-</code></pre>
+</code></pre></div>
 <h2 id="10-enregistrement-dns-en-detail-opt">10.  Enregistrement DNS en détail (opt)</h2>
 <blockquote>
 <p>💡 <strong>Concept:</strong> Les enregistrements DNS sont les briques de base qui définissent le comportement et la structure d'une zone DNS.</p>
@@ -2970,7 +2961,7 @@ us.maxtec.be   # Directe (US)
 </details>
 
 <h3 id="exemple-zone-maxtecbe_1">💻 Exemple: Zone maxtec.be</h3>
-<pre><code class="language-plaintext"># SOA et NS
+<div class="highlight"><pre><span></span><code># SOA et NS
 @             IN SOA  dns1 admin.maxtec.be.
               IN NS   dns1.maxtec.be.
 
@@ -2981,7 +2972,7 @@ dns2          IN A    192.168.0.3
 # Services
 mail.eu       IN A    192.168.10.11
 _ldap._tcp    IN SRV  10 0 389 dc1.eu
-</code></pre>
+</code></pre></div>
 <h2 id="11-configuration-dns-dans-windows-server-opt">11. Configuration DNS dans Windows Server (opt)</h2>
 <p>Cette section est optionnelle, car l'installation d'AD DS configure automatiquement le serveur DNS.
 L'information ci-dessous peut juste aider à comprendre le fonctionnement du DNS une fois AD DS installé.</p>
@@ -3049,8 +3040,7 @@ L'information ci-dessous peut juste aider à comprendre le fonctionnement du DNS
 <details>
 <summary>🔍 Tests Essentiels</summary>
 
-
-<pre><code class="language-plaintext"># 1. Vérification du DC
+<div class="highlight"><pre><span></span><code># 1. Vérification du DC
 nslookup dc1.maxtec.be
 
 # 2. Vérification des Services AD
@@ -3059,23 +3049,20 @@ nslookup -type=srv _kerberos._tcp.maxtec.be
 
 # 3. Vérification du Domaine
 nslookup maxtec.be
-</code></pre>
-
+</code></pre></div>
 </details>
 
 <details>
 <summary>🔄 Enregistrement Dynamique</summary>
 
-
-<pre><code class="language-plaintext"># Quand un poste rejoint le domaine:
+<div class="highlight"><pre><span></span><code># Quand un poste rejoint le domaine:
 1. Enregistrement automatique dans DNS
-2. Création d'un enregistrement A
+2. Création d&#39;un enregistrement A
    ws-compta-01.maxtec.be → 192.168.10.128 (par exemple)
 
 # Vérification
 nslookup ws-compta-01.maxtec.be
-</code></pre>
-
+</code></pre></div>
 </details>
 
 <hr />

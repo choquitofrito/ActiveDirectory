@@ -569,12 +569,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+      <a href="../Chapitre%204.DNS-Pratique-avec-AD/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Chapitre 4bis.DNS-Pratique-avec-AD
+    Chapitre 4.DNS-Pratique-avec-AD
     
   </span>
   
@@ -1940,11 +1940,11 @@ Ceci lance la commande à distance <strong>sur les ordinateurs contenus dans l'O
 <p><strong>Notes importantes sur le rafraîchissement</strong> :
 - Les stratégies ordinateur :
   * S'appliquent <strong>au démarrage initial</strong> (il faut re-démarrer si on les change!!)
-  * Se rafraîchissent automatiquement toutes les 90-120 minutes
+  * Se rafraîchissent automatiquement périodiquement
   * Peuvent être forcées avec <code>gpupdate /force /target:computer</code> (dans certains cas on a besoin de redémarrer le poste)
 - Les stratégies utilisateur :
   * S'appliquent à chaque connexion utilisateur
-  * Se rafraîchissent toutes les 90-120 minutes
+  * Se rafraîchissent périodiquement
   * Peuvent être forcées avec <code>gpupdate /force /target:user</code></p>
 <p><code>gpupdate /force</code> lancera le tout.</p>
 <p>Les stratégies ordinateur sont visibles uniquement si on ouvre un console en tant qu'administrateur et on lance:</p>
@@ -2081,13 +2081,13 @@ Ceci lance la commande à distance <strong>sur les ordinateurs contenus dans l'O
 <li>Écrit dans la base de registre <strong>hors "Policies"</strong>, donc modifiable après application</li>
 <li>Exemples : configuration des imprimantes, mappage de lecteurs réseau</li>
 </ul>
-<p><strong>Exemple pratique</strong> :</p>
-<pre><code>Configuration utilisateur &gt; Préférences &gt; Paramètres Windows &gt; Lecteurs réseau
+<p><strong>Exemple pratique</strong> :
+<div class="highlight"><pre><span></span><code>Configuration utilisateur &gt; Préférences &gt; Paramètres Windows &gt; Lecteurs réseau
 Action: Créer
 Emplacement: \\srv-files\commun
 Lettre: Z:
-</code></pre>
-<p>L'utilisateur peut modifier la lettre du lecteur si nécessaire.</p>
+</code></pre></div>
+L'utilisateur peut modifier la lettre du lecteur si nécessaire.</p>
 <h2 id="resume-final-en-une-image-mentale"><strong>Résumé final en une image mentale</strong></h2>
 <p>🔹 <strong>Configuration ordinateur</strong> = Gère le PC et ses paramètres système.<br />
 🔹 <strong>Configuration utilisateur</strong> = Gère l'expérience de l’utilisateur.<br />

@@ -569,12 +569,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+      <a href="../../Chapitre%204.DNS-Pratique-avec-AD/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Chapitre 4bis.DNS-Pratique-avec-AD
+    Chapitre 4.DNS-Pratique-avec-AD
     
   </span>
   
@@ -1413,10 +1413,10 @@
 <p><strong>Chemin du script</strong> : <strong>C:\Windows\SYSVOL\domain\scripts</strong>
 L'admin créera le script à l'intérieur du dossier <code>scripts</code>. </p>
 <p>Contenu du script : créez un nouveau document de texte <code>nettoyage_telechargements.ps1</code> et copiez ce contenu:</p>
-<pre><code class="language-powershell">$shell = New-Object -ComObject Shell.Application
-$downloads = $shell.Namespace('shell:Downloads').Self.Path
-Remove-Item &quot;$downloads\*&quot; -Recurse -Force -ErrorAction SilentlyContinue
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nv">$shell</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">-ComObject</span> <span class="n">Shell</span><span class="p">.</span><span class="n">Application</span>
+<span class="nv">$downloads</span> <span class="p">=</span> <span class="nv">$shell</span><span class="p">.</span><span class="n">Namespace</span><span class="p">(</span><span class="s1">&#39;shell:Downloads&#39;</span><span class="p">).</span><span class="n">Self</span><span class="p">.</span><span class="n">Path</span>
+<span class="nb">Remove-Item</span> <span class="s2">&quot;$downloads\*&quot;</span> <span class="n">-Recurse</span> <span class="n">-Force</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span>
+</code></pre></div>
 <p>On doit créer un GPO qui lance ce script au démarrage de session des utilisateurs ciblés.</p>
 <p><strong>Setting</strong>: Le paramètre à configurer est : `Configuration utilisateur &gt; Stratégies &gt; Paramètres Windows &gt; Scripts (ouverture de session)
 Attention à rajouter le script dans la section des script PowerShell!</p>

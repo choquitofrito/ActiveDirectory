@@ -569,12 +569,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+      <a href="../../../Chapitre%204.DNS-Pratique-avec-AD/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Chapitre 4bis.DNS-Pratique-avec-AD
+    Chapitre 4.DNS-Pratique-avec-AD
     
   </span>
   
@@ -1468,16 +1468,14 @@
 <li>Confirmez le changement d'extension.</li>
 <li>Collez le script (de gitbook) dans le fichier <code>creation_structure.ps1</code>. Enregistrez le fichier.</li>
 <li>Ouvrez une console powershell dans ce dossier (barre d'adresse, tapez <strong>powershell</strong> et puis Enter)</li>
-<li>Dans certains cas on a de problèmes pour lancer de scripts (signatures). Nous allons enlever les restrictions pour pouvoir lancer notre script</li>
+<li>Dans certains cas on a de problèmes pour lancer de scripts (signatures). Nous allons enlever les restrictions pour pouvoir lancer notre script
+<div class="highlight"><pre><span></span><code><span class="nb">Set-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="n">-Scope</span> <span class="n">CurrentUser</span>   <span class="c"># No restrictions (not recommended long-term)</span>
+<span class="nb">Set-ExecutionPolicy</span> <span class="n">Unrestricted</span> <span class="n">-Scope</span> <span class="n">CurrentUser</span>
+</code></pre></div></li>
+<li>Lancez le script
+<div class="highlight"><pre><span></span><code><span class="p">.\</span><span class="n">creation_structure</span><span class="p">.</span><span class="n">ps1</span>
+</code></pre></div></li>
 </ol>
-<pre><code class="language-powershell">Set-ExecutionPolicy Bypass -Scope CurrentUser   # No restrictions (not recommended long-term)
-Set-ExecutionPolicy Unrestricted -Scope CurrentUser
-</code></pre>
-<ol>
-<li>Lancez le script</li>
-</ol>
-<pre><code class="language-powershell">.\creation_structure.ps1
-</code></pre>
 <p>Puis, pour pratiquer:
 - Créez la OU pour le département IT (si elle n'existe pas encore) 
 - Créez aussi un groupe pour les administrateurs de IT (ex: "GG-EU-IT-Admins") et un autre pour les utilisateurs (ex: "GG-EU-IT-Users"). 

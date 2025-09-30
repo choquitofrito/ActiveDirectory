@@ -569,12 +569,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+      <a href="../Chapitre%204.DNS-Pratique-avec-AD/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Chapitre 4bis.DNS-Pratique-avec-AD
+    Chapitre 4.DNS-Pratique-avec-AD
     
   </span>
   
@@ -2080,13 +2080,13 @@
 </blockquote>
 <h2 id="3-structure-des-ous">3. 📂 Structure des OUs</h2>
 <h3 id="31-hierarchie-des-contenus">3.1 📊 Hiérarchie des Contenus</h3>
-<pre><code>OU
+<div class="highlight"><pre><span></span><code>OU
 ├── Utilisateurs (ex: jean.dupont)
 ├── Groupes (ex: GG-EU-Compta-Users)
 ├── Ordinateurs (ex: ws-compta-01)
 ├── Autres OUs
 └── Autres objets (imprimantes, contacts)
-</code></pre>
+</code></pre></div>
 <h3 id="32-avantages-vs-conteneurs-par-defaut">3.2 Avantages vs Conteneurs par Défaut</h3>
 <table>
 <thead>
@@ -2129,25 +2129,29 @@
 <ol>
 <li>
 <p><strong>Ouvrir la Console</strong>
-   <code>Utilisateurs et ordinateurs d'Active Directory</code></p>
+   <div class="highlight"><pre><span></span><code>Utilisateurs et ordinateurs d&#39;Active Directory
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>Créer l'OU</strong>
-   <code>Domaine AD ou OU parent → Clic droit
-   ├── Nouveau
-   └── Unité d'organisation</code></p>
+   <div class="highlight"><pre><span></span><code>Domaine AD ou OU parent → Clic droit
+├── Nouveau
+└── Unité d&#39;organisation
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>Nommage</strong>
-   <code>Format: [Location]/[Département]
-   Exemple: EU/Comptabilite</code></p>
+   <div class="highlight"><pre><span></span><code>Format: [Location]/[Département]
+Exemple: EU/Comptabilite
+</code></pre></div></p>
 <blockquote>
 <p>💡 <strong>Pour débutants:</strong> Utilisez des noms simples et clairs sans espaces ni caractères spéciaux</p>
 </blockquote>
 </li>
 <li>
 <p><strong>Protection</strong>
-   <code>☑ Protéger contre la suppression</code></p>
+   <div class="highlight"><pre><span></span><code>☑ Protéger contre la suppression
+</code></pre></div></p>
 <blockquote>
 <p>💡 <strong>Conseil:</strong> Toujours cocher cette option pour éviter les suppressions accidentelles!</p>
 </blockquote>
@@ -2158,23 +2162,27 @@
 <ol>
 <li>
 <p><strong>Ouvrir ADUC</strong>
-   <code>Active Directory Users and Computers</code></p>
+   <div class="highlight"><pre><span></span><code>Active Directory Users and Computers
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>Activer les Options Avancées</strong>
-   <code>Menu View → Advanced Features</code></p>
+   <div class="highlight"><pre><span></span><code>Menu View → Advanced Features
+</code></pre></div></p>
 </li>
 </ol>
 <h3 id="52-desactivation-de-la-protection">5.2 Désactivation de la Protection</h3>
 <ol>
 <li>
 <p><strong>Accéder aux Propriétés</strong>
-   <code>OU cible → Clic droit → Properties</code></p>
+   <div class="highlight"><pre><span></span><code>OU cible → Clic droit → Properties
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>Modifier la Protection</strong>
-   <code>Onglet Object
-   ☐ Protect object from accidental deletion</code></p>
+   <div class="highlight"><pre><span></span><code>Onglet Object
+☐ Protect object from accidental deletion
+</code></pre></div></p>
 </li>
 <li>
 <p>Clique sur OK pour appliquer les modifications.</p>
@@ -2188,11 +2196,13 @@
 <ol>
 <li>
 <p><strong>Déplacement d'Objets</strong>
-   <code>Source OU → Glisser-Déposer → Destination OU</code></p>
+   <div class="highlight"><pre><span></span><code>Source OU → Glisser-Déposer → Destination OU
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>Application des GPOs</strong>
-   <code>OU → Clic droit → Lier une GPO</code></p>
+   <div class="highlight"><pre><span></span><code>OU → Clic droit → Lier une GPO
+</code></pre></div></p>
 </li>
 </ol>
 <h3 id="62-exemples-de-gpos-par-departement">6.2 Exemples de GPOs par Département</h3>
@@ -2224,7 +2234,7 @@
 </table>
 <h2 id="7-structure-pour-maxtecbe">7. 🏢 Structure pour maxtec.be</h2>
 <h3 id="71-hierarchie-geographique-eu-et-usa">7.1 Hiérarchie Géographique (EU et USA)</h3>
-<pre><code>EU
+<div class="highlight"><pre><span></span><code>EU
 ├── Comptabilité
 │   ├── Users
 │   │   ├── jean.dupont
@@ -2248,7 +2258,7 @@
     │   └── ws-ventes-01
     └── Groups
         └── GG-EU-Ventes-Users
-</code></pre>
+</code></pre></div>
 <blockquote>
 <p>USA a une structure identique à EU</p>
 </blockquote>
@@ -2292,21 +2302,23 @@
 <ol>
 <li>
 <p><strong>Structure</strong>
-   <code># Profondeur maximale
-   maxtec.be (domaine AD)
-   ├── EU                    # Niveau 1
-   │   ├── Comptabilité     # Niveau 2
-   │   │   ├── Users      # Niveau 3
-   │   │   └── Computers  # Niveau 3
-   │   └── RH             # Niveau 2</code></p>
+   <div class="highlight"><pre><span></span><code># Profondeur maximale
+maxtec.be (domaine AD)
+├── EU                    # Niveau 1
+│   ├── Comptabilité     # Niveau 2
+│   │   ├── Users      # Niveau 3
+│   │   └── Computers  # Niveau 3
+│   └── RH             # Niveau 2
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>Groupement</strong>
-   <code># Par type d'objet
-   EU/Comptabilité
-   ├── Users      # Utilisateurs uniquement
-   ├── Computers  # Ordinateurs uniquement
-   └── Groups     # Groupes uniquement</code></p>
+   <div class="highlight"><pre><span></span><code># Par type d&#39;objet
+EU/Comptabilité
+├── Users      # Utilisateurs uniquement
+├── Computers  # Ordinateurs uniquement
+└── Groups     # Groupes uniquement
+</code></pre></div></p>
 </li>
 </ol>
 <h2 id="8-conteneurs-vs-ous">8. Conteneurs vs OUs</h2>
@@ -2346,23 +2358,26 @@
 <ol>
 <li>
 <p><strong>Administration</strong>
-   <code># Délégation par département
-   EU/RH → GG-EU-RH-Admins
-   EU/IT → GG-EU-IT-Admins</code></p>
+   <div class="highlight"><pre><span></span><code># Délégation par département
+EU/RH → GG-EU-RH-Admins
+EU/IT → GG-EU-IT-Admins
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>Sécurité</strong>
-   <code># GPOs par fonction
-   EU/Compta/Users → GPO-Compta-Security
-   EU/IT/Dev → GPO-Dev-Tools</code></p>
+   <div class="highlight"><pre><span></span><code># GPOs par fonction
+EU/Compta/Users → GPO-Compta-Security
+EU/IT/Dev → GPO-Dev-Tools
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>Évolutivité</strong>
-   <code># Structure modulaire
-   EU
-   ├── Département1    # Ajout facile
-   ├── Département2    # de nouveaux
-   └── Département3    # départements</code></p>
+   <div class="highlight"><pre><span></span><code># Structure modulaire
+EU
+├── Département1    # Ajout facile
+├── Département2    # de nouveaux
+└── Département3    # départements
+</code></pre></div></p>
 </li>
 <li>Qui gère quoi ?</li>
 <li>
@@ -2393,38 +2408,41 @@
 <li>
 <p><strong>Structure Simple et Claire</strong>
    La structure doit être facilement compréhensible et maintenable. Chaque département suit la même organisation:
-   <code># Organisation standardisée
-   EU
-   ├── Département
-   │   ├── Users      # Comptes utilisateurs
-   │   ├── Computers  # Postes de travail
-   │   └── Groups     # Groupes de sécurité
-   └── [Autres Départements...]</code>
+   <div class="highlight"><pre><span></span><code># Organisation standardisée
+EU
+├── Département
+│   ├── Users      # Comptes utilisateurs
+│   ├── Computers  # Postes de travail
+│   └── Groups     # Groupes de sécurité
+└── [Autres Départements...]
+</code></pre></div>
    Cette organisation permet une gestion efficace des droits et des stratégies de groupe.</p>
 </li>
 <li>
 <p><strong>Limitation des Niveaux d'Imbrication</strong>
    Pour maintenir la performance et la simplicité, limitez la profondeur à 4 niveaux maximum:
-   <code># Hiérarchie optimale
-   maxtec.be (domaine AD)    # Niveau 0 (Racine)
-   ├── EU                 # Niveau 1 (Géographie)
-   │   ├── RH             # Niveau 2 (Département)
-   │   │   └── Users      # Niveau 3 (Objets)
-   │   └── [Autres...]
-   └── Dev                # Branche parallèle</code>
+   <div class="highlight"><pre><span></span><code># Hiérarchie optimale
+maxtec.be (domaine AD)    # Niveau 0 (Racine)
+├── EU                 # Niveau 1 (Géographie)
+│   ├── RH             # Niveau 2 (Département)
+│   │   └── Users      # Niveau 3 (Objets)
+│   └── [Autres...]
+└── Dev                # Branche parallèle
+</code></pre></div>
    Une structure plus profonde peut compliquer la gestion des GPOs et l'héritage des permissions.</p>
 </li>
 <li>
 <p><strong>Alignement avec l'Organisation</strong>
    La structure des OUs doit refléter l'organisation de l'entreprise tout en facilitant l'administration:
-   <code># Structure fonctionnelle
-   EU
-   ├── Comptabilité         # Données financières sécurisées
-   │   └── GPO: Restrictions USB
-   ├── RH                   # Gestion du personnel
-   │   └── GPO: Verrouillage 5min
-   └── Ventes               # Équipe commerciale
-       └── GPO: Accès CRM</code>
+   <div class="highlight"><pre><span></span><code># Structure fonctionnelle
+EU
+├── Comptabilité         # Données financières sécurisées
+│   └── GPO: Restrictions USB
+├── RH                   # Gestion du personnel
+│   └── GPO: Verrouillage 5min
+└── Ventes               # Équipe commerciale
+    └── GPO: Accès CRM
+</code></pre></div>
    Cette organisation permet d'appliquer des politiques spécifiques à chaque service tout en maintenant une cohérence globale.</p>
 </li>
 </ol>
@@ -2443,13 +2461,14 @@
 </ol>
 <p><strong>Example</strong>: Le service RH a besoin de gérer ses propres utilisateurs. Sophie Lambert, administratrice RH, doit pouvoir créer des comptes, réinitialiser les mots de passe et modifier les propriétés des utilisateurs, mais uniquement dans l'OU RH.</p>
 <p><strong>Structure de l'organisation</strong>:
-   <code># Structure AGLP Simple
-   EU (OU)
-   ├── RH (OU)
-   │   ├── Users (OU)           # Contient sophie.lambert (et peut-être d'autres utilisateurs)
-   │   ├── Groups (OU)          # Contient GG-EU-RH-Admins
-   │   └── Computers (OU)       # Postes de travail RH
-   └── Autres services...</code></p>
+   <div class="highlight"><pre><span></span><code># Structure AGLP Simple
+EU (OU)
+├── RH (OU)
+│   ├── Users (OU)           # Contient sophie.lambert (et peut-être d&#39;autres utilisateurs)
+│   ├── Groups (OU)          # Contient GG-EU-RH-Admins
+│   └── Computers (OU)       # Postes de travail RH
+└── Autres services...
+</code></pre></div></p>
 <p><strong>Avec cette structure mais sans délégation</strong>, le service RH <strong>aurait ses propres OUs mais ne pourrait pas gérer les comptes des utilisateurs qu'elle contient</strong> :
    - <strong>Malgré l'existence d'une OU RH dédiée, seuls les administrateurs globaux d'Active Directory pourraient y créer ou modifier des comptes</strong>, jamais des users comme sophie.lambert. Il faudra passer toujours par les administrateurs AD!
    - La structure organisationnelle serait en place mais sans l'autonomie opérationnelle correspondante</p>
@@ -2470,16 +2489,17 @@
 </ol>
 <p><strong>Example</strong>: L'entreprise a plusieurs sites (EU, US) avec des équipes RH locales. Pierre Dupont, administrateur RH senior, doit pouvoir gérer les comptes, les groupes et les stratégies de sécurité pour toute l'équipe RH européenne.</p>
 <p><strong>Structure de l'organisation</strong>:
-   <code># Structure AGDLP Multi-sites
-   EU (OU)
-   ├── RH (OU)
-   │   ├── Users (OU)           # Contient pierre.dupont et autres utilisateurs RH
-   │   ├── Groups (OU)
-   │   │   ├── GG-EU-RH-Admins   # Groupe global (rôles)
-   │   │   └── DL-EU-RH-Admin   # Groupe local (droits)
-   │   └── Computers (OU)
-   ├── IT (OU)
-   └── Ventes (OU)</code></p>
+   <div class="highlight"><pre><span></span><code># Structure AGDLP Multi-sites
+EU (OU)
+├── RH (OU)
+│   ├── Users (OU)           # Contient pierre.dupont et autres utilisateurs RH
+│   ├── Groups (OU)
+│   │   ├── GG-EU-RH-Admins   # Groupe global (rôles)
+│   │   └── DL-EU-RH-Admin   # Groupe local (droits)
+│   └── Computers (OU)
+├── IT (OU)
+└── Ventes (OU)
+</code></pre></div></p>
 <p><strong>Avec cette structure mais sans délégation</strong>, nous aurions un problème de <strong>gestion multi-sites</strong> :
    - Les administrateurs RH locaux ne pourraient pas gérer leurs propres équipes malgré la structure hiérarchique en place
    - La gestion centralisée ne serait pas adaptée aux besoins spécifiques de chaque site
@@ -2566,46 +2586,38 @@
 </ol>
 <h4 id="932-validation-des-droits">9.3.2. Validation des Droits</h4>
 <ol>
-<li><strong>Tests de Base (AGLP)</strong>
-   ```
-   # Se connecter avec sophie.lambert</li>
-<li>Créer un nouvel utilisateur dans EU/RH/Users</li>
-<li>Réinitialiser le mot de passe de pierre.dupont</li>
 <li>
-<p>Modifier les informations de profil (téléphone, titre)
-   ```</p>
+<p><strong>Tests de Base (AGLP)</strong>
+   <div class="highlight"><pre><span></span><code># Se connecter avec sophie.lambert
+- Créer un nouvel utilisateur dans EU/RH/Users
+- Réinitialiser le mot de passe de pierre.dupont
+- Modifier les informations de profil (téléphone, titre)
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>Tests Avancés (AGDLP)</strong>
-   ```
-   # Vérifier la séparation des droits</p>
-</li>
-<li>Réinitialiser MDP avec DL-EU-RH-PWReset</li>
-<li>Gérer comptes avec DL-EU-RH-UserAdmin</li>
-<li>
-<p>Tester l'ajout d'autres admins RH
-   ```</p>
+   <div class="highlight"><pre><span></span><code># Vérifier la séparation des droits
+- Réinitialiser MDP avec DL-EU-RH-PWReset
+- Gérer comptes avec DL-EU-RH-UserAdmin
+- Tester l&#39;ajout d&#39;autres admins RH
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>Vérification des Limites</strong>
-   ```
-   # Tester les restrictions</p>
-</li>
-<li>Essayer d'accéder à EU/IT/Users (refusé)</li>
-<li>Tenter de modifier une GPO (refusé)</li>
-<li>
-<p>Essayer de gérer les groupes (refusé)
-   ```</p>
+   <div class="highlight"><pre><span></span><code># Tester les restrictions
+- Essayer d&#39;accéder à EU/IT/Users (refusé)
+- Tenter de modifier une GPO (refusé)
+- Essayer de gérer les groupes (refusé)
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>Validation Multi-sites</strong>
-   ```
-   # Pour AGDLP uniquement</p>
+   <div class="highlight"><pre><span></span><code># Pour AGDLP uniquement
+- Vérifier droits sur EU/RH et sous-OUs
+- Tester ajout admin local avec droits limités
+- Confirmer isolation entre sites (EU vs US)
+</code></pre></div></p>
 </li>
-<li>Vérifier droits sur EU/RH et sous-OUs</li>
-<li>Tester ajout admin local avec droits limités</li>
-<li>Confirmer isolation entre sites (EU vs US)
-   ```</li>
 </ol>
 <h2 id="10-bonnes-pratiques">10. Bonnes Pratiques</h2>
 <h3 id="101-securite">10.1. Sécurité</h3>
@@ -2726,19 +2738,19 @@
 <ol>
 <li>
 <p><strong>Ressources Partagées</strong>
-   <code>plaintext
-   # Groupes avec permissions directes
-   GG-EU-Compta-Finance-RW → Dossier Financier (R/W)
-   GG-EU-Compta-Finance-R  → Dossier Financier (R)
-   GG-EU-RH-Salaires-RW    → App Salaires (Admin)</code></p>
+   <div class="highlight"><pre><span></span><code># Groupes avec permissions directes
+GG-EU-Compta-Finance-RW → Dossier Financier (R/W)
+GG-EU-Compta-Finance-R  → Dossier Financier (R)
+GG-EU-RH-Salaires-RW    → App Salaires (Admin)
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>Applications Métier</strong>
-   <code>plaintext
-   # Accès directs aux applications
-   GG-EU-Ventes-CRM-Users  → CRM (Utilisateur)
-   GG-EU-Ventes-CRM-Admin  → CRM (Admin)
-   GG-EU-IT-Tools-Support  → Outils Support (Full)</code></p>
+   <div class="highlight"><pre><span></span><code># Accès directs aux applications
+GG-EU-Ventes-CRM-Users  → CRM (Utilisateur)
+GG-EU-Ventes-CRM-Admin  → CRM (Admin)
+GG-EU-IT-Tools-Support  → Outils Support (Full)
+</code></pre></div></p>
 </li>
 </ol>
 <p><strong>Note</strong> : Cette approche est plus simple mais moins flexible que AGDLP. Elle est recommandée uniquement pour les petites structures avec un seul domaine.</p>
@@ -2747,15 +2759,17 @@
 <ol>
 <li>
 <p><strong>Support Technique</strong>
-   <code>GG-EU-IT-Helpdesk    # Techniciens support niveau 1
-   GG-EU-IT-Support     # Support niveau 2
-   GG-EU-IT-Admins      # Administrateurs système</code></p>
+   <div class="highlight"><pre><span></span><code>GG-EU-IT-Helpdesk    # Techniciens support niveau 1
+GG-EU-IT-Support     # Support niveau 2
+GG-EU-IT-Admins      # Administrateurs système
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>Développement</strong>
-   <code>GG-EU-IT-Devs        # Développeurs
-   GG-EU-IT-DevOps      # Équipe DevOps
-   GG-EU-IT-QA          # Testeurs</code></p>
+   <div class="highlight"><pre><span></span><code>GG-EU-IT-Devs        # Développeurs
+GG-EU-IT-DevOps      # Équipe DevOps
+GG-EU-IT-QA          # Testeurs
+</code></pre></div></p>
 </li>
 </ol>
 <h2 id="12-utilisation-des-ous">12. Utilisation des OUs</h2>
@@ -2763,28 +2777,31 @@
 <p>Les OUs permettent de <strong>créer une structure hiérarchique</strong> qui reflète l'organisation de l'entreprise, facilitant ainsi la gestion des ressources par zone géographique et par département.</p>
 <ol>
 <li><strong>Hiérarchie Géographique</strong>
-   <code>EU
-   ├── Comptabilite
-   │   ├── Users
-   │   └── Computers
-   └── RH
-       ├── Users
-       └── Computers</code></li>
+   <div class="highlight"><pre><span></span><code>EU
+├── Comptabilite
+│   ├── Users
+│   └── Computers
+└── RH
+    ├── Users
+    └── Computers
+</code></pre></div></li>
 </ol>
 <h3 id="122-application-des-gpos">12.2. Application des GPOs</h3>
 <p>Les OUs servent de points d'application pour les <strong>stratégies de groupe (GPOs)</strong>, permettant d'appliquer des <strong>paramètres de sécurité et de configuration spécifiques</strong> à différents niveaux de l'organisation.</p>
 <ol>
 <li>
 <p><strong>Sécurité</strong>
-   <code>EU/Comptabilite/Computers
-   ├── GPO: Désactivation USB
-   └── GPO: Chiffrement obligatoire</code></p>
+   <div class="highlight"><pre><span></span><code>EU/Comptabilite/Computers
+├── GPO: Désactivation USB
+└── GPO: Chiffrement obligatoire
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>Conformité</strong>
-   <code>EU/RH/Users
-   ├── GPO: Verrouillage 5 min
-   └── GPO: Audit renforcé</code></p>
+   <div class="highlight"><pre><span></span><code>EU/RH/Users
+├── GPO: Verrouillage 5 min
+└── GPO: Audit renforcé
+</code></pre></div></p>
 </li>
 </ol>
 <h3 id="123-delegation-administrative">12.3. Délégation Administrative</h3>
@@ -2792,17 +2809,17 @@
 <ol>
 <li>
 <p><strong>Par Département</strong>
-   <code>plaintext
-   # Droits d'administration par département
-   GG-EU-Ventes-Admin → EU/Ventes (Full Control)
-   GG-EU-IT-Admin    → EU/IT (Full Control)</code></p>
+   <div class="highlight"><pre><span></span><code># Droits d&#39;administration par département
+GG-EU-Ventes-Admin → EU/Ventes (Full Control)
+GG-EU-IT-Admin    → EU/IT (Full Control)
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>Par Fonction</strong>
-   <code>plaintext
-   # Droits spécifiques par fonction
-   GG-EU-RH-Users-Admin  → EU/RH/Users (User Management)
-   GG-EU-IT-Dev-Admin   → EU/IT/Dev (GPO Management)</code></p>
+   <div class="highlight"><pre><span></span><code># Droits spécifiques par fonction
+GG-EU-RH-Users-Admin  → EU/RH/Users (User Management)
+GG-EU-IT-Dev-Admin   → EU/IT/Dev (GPO Management)
+</code></pre></div></p>
 </li>
 </ol>
 <h2 id="124-exemples-de-combinaison-des-deux-approches-ou-gpo">12.4. Exemples de combinaison des deux approches (OU + GPO)</h2>
@@ -2810,120 +2827,127 @@
 <ol>
 <li>
 <p><strong>Structure OU</strong>
-   <code>EU
-   ├── Stagiaires
-       ├── Users
-       └── Computers</code></p>
+   <div class="highlight"><pre><span></span><code>EU
+├── Stagiaires
+    ├── Users
+    └── Computers
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>GPOs</strong>
-   <code>EU/Stagiaires
-   ├── GPO: Restrictions Internet
-   ├── GPO: Blocage Installation
-   └── GPO: Audit Renforcé</code></p>
+   <div class="highlight"><pre><span></span><code>EU/Stagiaires
+├── GPO: Restrictions Internet
+├── GPO: Blocage Installation
+└── GPO: Audit Renforcé
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>Stratégie AGLP</strong> (petites organisations)
-   ```
-   # Groupes globaux
-   GG-EU-Stagiaires          # Tous les stagiaires
-   GG-EU-Stagiaires-IT       # Stagiaires IT
-   GG-EU-Stagiaires-RH       # Stagiaires RH</p>
+   <div class="highlight"><pre><span></span><code># Groupes globaux
+GG-EU-Stagiaires          # Tous les stagiaires
+GG-EU-Stagiaires-IT       # Stagiaires IT
+GG-EU-Stagiaires-RH       # Stagiaires RH
+
+# Permissions directes
+GG-EU-Stagiaires-IT → Outils Développement
+GG-EU-Stagiaires-RH → Base CV
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Stratégie AGDLP</strong> (grandes organisations)
+   <div class="highlight"><pre><span></span><code># Groupes globaux (rôles)
+GG-EU-Stagiaires-IT
+GG-EU-Stagiaires-RH
+
+# Groupes domain local (permissions)
+DL-EU-Stagiaires-Dev      # Accès outils dev
+DL-EU-Stagiaires-Docs     # Accès documentation
+DL-EU-Stagiaires-Apps     # Accès applications
+
+# Association
+GG-EU-Stagiaires-IT → DL-EU-Stagiaires-Dev
+GG-EU-Stagiaires-RH → DL-EU-Stagiaires-Apps
+</code></pre></div></p>
 </li>
 </ol>
-<p># Permissions directes
-   GG-EU-Stagiaires-IT → Outils Développement
-   GG-EU-Stagiaires-RH → Base CV
-   ```</p>
-<ol>
-<li><strong>Stratégie AGDLP</strong> (grandes organisations)
-   ```
-   # Groupes globaux (rôles)
-   GG-EU-Stagiaires-IT
-   GG-EU-Stagiaires-RH</li>
-</ol>
-<p># Groupes domain local (permissions)
-   DL-EU-Stagiaires-Dev      # Accès outils dev
-   DL-EU-Stagiaires-Docs     # Accès documentation
-   DL-EU-Stagiaires-Apps     # Accès applications</p>
-<p># Association
-   GG-EU-Stagiaires-IT → DL-EU-Stagiaires-Dev
-   GG-EU-Stagiaires-RH → DL-EU-Stagiaires-Apps
-   ```</p>
 <h3 id="1242-departement-commercial">12.4.2 Département Commercial</h3>
 <ol>
 <li>
 <p><strong>Structure OU</strong>
-   <code>EU
-   ├── Ventes
-       ├── Users
-       └── Computers</code></p>
+   <div class="highlight"><pre><span></span><code>EU
+├── Ventes
+    ├── Users
+    └── Computers
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>Stratégie AGLP</strong>
-   ```
-   # Groupes avec permissions directes
-   GG-EU-Ventes-Lecture      # Lecture catalogues
-   GG-EU-Ventes-Edition      # Édition devis
-   GG-EU-Ventes-Admin        # Admin CRM</p>
+   <div class="highlight"><pre><span></span><code># Groupes avec permissions directes
+GG-EU-Ventes-Lecture      # Lecture catalogues
+GG-EU-Ventes-Edition      # Édition devis
+GG-EU-Ventes-Admin        # Admin CRM
+
+# Permissions
+GG-EU-Ventes-Lecture → Catalogues (lecture)
+GG-EU-Ventes-Edition → Devis (lecture/écriture)
+GG-EU-Ventes-Admin → CRM (admin)
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Stratégie AGDLP</strong>
+   <div class="highlight"><pre><span></span><code># Groupes globaux (rôles)
+GG-EU-Ventes-Vendeurs     # Vendeurs
+GG-EU-Ventes-Managers     # Managers
+
+# Groupes domain local (permissions)
+DL-EU-Ventes-Catalogues   # Accès catalogues
+DL-EU-Ventes-Devis        # Gestion devis
+DL-EU-Ventes-CRM          # Accès CRM
+
+# Associations
+GG-EU-Ventes-Vendeurs → DL-EU-Ventes-Catalogues
+GG-EU-Ventes-Managers → DL-EU-Ventes-CRM
+</code></pre></div></p>
 </li>
 </ol>
-<p># Permissions
-   GG-EU-Ventes-Lecture → Catalogues (lecture)
-   GG-EU-Ventes-Edition → Devis (lecture/écriture)
-   GG-EU-Ventes-Admin → CRM (admin)
-   ```</p>
-<ol>
-<li><strong>Stratégie AGDLP</strong>
-   ```
-   # Groupes globaux (rôles)
-   GG-EU-Ventes-Vendeurs     # Vendeurs
-   GG-EU-Ventes-Managers     # Managers</li>
-</ol>
-<p># Groupes domain local (permissions)
-   DL-EU-Ventes-Catalogues   # Accès catalogues
-   DL-EU-Ventes-Devis        # Gestion devis
-   DL-EU-Ventes-CRM          # Accès CRM</p>
-<p># Associations
-   GG-EU-Ventes-Vendeurs → DL-EU-Ventes-Catalogues
-   GG-EU-Ventes-Managers → DL-EU-Ventes-CRM
-   ```</p>
 <h3 id="1243-projet-multi-departemental">12.4.3 Projet Multi-Départemental</h3>
 <ol>
 <li>
 <p><strong>Structure Existante</strong>
-   <code>EU
-   ├── Compta
-   ├── IT
-   └── RH</code></p>
+   <div class="highlight"><pre><span></span><code>EU
+├── Compta
+├── IT
+└── RH
+</code></pre></div></p>
 </li>
 <li>
 <p><strong>Stratégie AGLP</strong>
-   ```
-   # Groupe projet unique
-   GG-EU-Projet-ERP          # Accès direct aux ressources</p>
+   <div class="highlight"><pre><span></span><code># Groupe projet unique
+GG-EU-Projet-ERP          # Accès direct aux ressources
+
+# Permissions
+GG-EU-Projet-ERP → Ressources Projet
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Stratégie AGDLP</strong>
+   <div class="highlight"><pre><span></span><code># Groupes globaux (rôles)
+GG-EU-Projet-ERP-Dev      # Développeurs
+GG-EU-Projet-ERP-Test     # Testeurs
+GG-EU-Projet-ERP-Admin    # Administrateurs
+
+# Groupes domain local (permissions)
+DL-EU-Projet-ERP-Code     # Accès code source
+DL-EU-Projet-ERP-Docs     # Accès documentation
+DL-EU-Projet-ERP-Test     # Accès env. test
+
+# Associations
+GG-EU-Projet-ERP-Dev → DL-EU-Projet-ERP-Code
+GG-EU-Projet-ERP-Test → DL-EU-Projet-ERP-Test
+GG-EU-Projet-ERP-Admin → [Tous les DL]
+</code></pre></div></p>
 </li>
 </ol>
-<p># Permissions
-   GG-EU-Projet-ERP → Ressources Projet
-   ```</p>
-<ol>
-<li><strong>Stratégie AGDLP</strong>
-   ```
-   # Groupes globaux (rôles)
-   GG-EU-Projet-ERP-Dev      # Développeurs
-   GG-EU-Projet-ERP-Test     # Testeurs
-   GG-EU-Projet-ERP-Admin    # Administrateurs</li>
-</ol>
-<p># Groupes domain local (permissions)
-   DL-EU-Projet-ERP-Code     # Accès code source
-   DL-EU-Projet-ERP-Docs     # Accès documentation
-   DL-EU-Projet-ERP-Test     # Accès env. test</p>
-<p># Associations
-   GG-EU-Projet-ERP-Dev → DL-EU-Projet-ERP-Code
-   GG-EU-Projet-ERP-Test → DL-EU-Projet-ERP-Test
-   GG-EU-Projet-ERP-Admin → [Tous les DL]
-   ```</p>
 <h2 id="checkpoint-final-maitrise-des-uos">🎯 Checkpoint Final: Maîtrise des UOs</h2>
 <p>Avant de passer à la gestion des utilisateurs:
 - [ ] Je sais créer une UO et la protéger contre la suppression

@@ -564,12 +564,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+      <a href="../../../../Chapitre%204.DNS-Pratique-avec-AD/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Chapitre 4bis.DNS-Pratique-avec-AD
+    Chapitre 4.DNS-Pratique-avec-AD
     
   </span>
   
@@ -1320,181 +1320,181 @@
 
   <h1>creation_structure</h1>
 
-<pre><code class="language-powershell"># Script pour créer la structure des OUs, utilisateurs et groupes
-# Stocker ce script dans un fichier creation.ps1
-# Auteur: Cascade
-# Date: 2025-04-02
+<div class="highlight"><pre><span></span><code><span class="c"># Script pour créer la structure des OUs, utilisateurs et groupes</span>
+<span class="c"># Stocker ce script dans un fichier creation.ps1</span>
+<span class="c"># Auteur: Cascade</span>
+<span class="c"># Date: 2025-04-02</span>
 
-# Fonction pour demander confirmation
-function Confirm-Step {
-    param($stepName)
-    Write-Host &quot;
-Prêt à exécuter: $stepName&quot; -ForegroundColor Yellow
-    $response = Read-Host &quot;Appuyez sur 'O' pour continuer, 'N' pour sauter cette étape, ou 'Q' pour quitter&quot;
-    if ($response.ToUpper() -eq 'Q') {
-        Write-Host &quot;Script arrêté par l'utilisateur.&quot; -ForegroundColor Red
-        exit
-    }
-    return $response.ToUpper() -eq 'O'
-}
+<span class="c"># Fonction pour demander confirmation</span>
+<span class="k">function</span> <span class="nb">Confirm-Step</span> <span class="p">{</span>
+    <span class="k">param</span><span class="p">(</span><span class="nv">$stepName</span><span class="p">)</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;</span>
+<span class="s2">Prêt à exécuter: $stepName&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="nv">$response</span> <span class="p">=</span> <span class="nb">Read-Host</span> <span class="s2">&quot;Appuyez sur &#39;O&#39; pour continuer, &#39;N&#39; pour sauter cette étape, ou &#39;Q&#39; pour quitter&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="p">.</span><span class="n">ToUpper</span><span class="p">()</span> <span class="o">-eq</span> <span class="s1">&#39;Q&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;Script arrêté par l&#39;utilisateur.&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+        <span class="n">exit</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nv">$response</span><span class="p">.</span><span class="n">ToUpper</span><span class="p">()</span> <span class="o">-eq</span> <span class="s1">&#39;O&#39;</span>
+<span class="p">}</span>
 
-# Fonction pour vérifier l'existence d'une OU
-function Test-OUExists {
-    param($ouDN)
-    try {
-        Get-ADOrganizationalUnit -Identity $ouDN
-        return $true
-    } catch {
-        return $false
-    }
-}
+<span class="c"># Fonction pour vérifier l&#39;existence d&#39;une OU</span>
+<span class="k">function</span> <span class="nb">Test-OUExists</span> <span class="p">{</span>
+    <span class="k">param</span><span class="p">(</span><span class="nv">$ouDN</span><span class="p">)</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="nb">Get-ADOrganizationalUnit</span> <span class="n">-Identity</span> <span class="nv">$ouDN</span>
+        <span class="k">return</span> <span class="nv">$true</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$false</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-# Fonction pour vérifier l'existence d'un utilisateur
-function Test-UserExists {
-    param($samAccountName)
-    try {
-        Get-ADUser -Identity $samAccountName
-        return $true
-    } catch {
-        return $false
-    }
-}
+<span class="c"># Fonction pour vérifier l&#39;existence d&#39;un utilisateur</span>
+<span class="k">function</span> <span class="nb">Test-UserExists</span> <span class="p">{</span>
+    <span class="k">param</span><span class="p">(</span><span class="nv">$samAccountName</span><span class="p">)</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="nb">Get-ADUser</span> <span class="n">-Identity</span> <span class="nv">$samAccountName</span>
+        <span class="k">return</span> <span class="nv">$true</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$false</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-# Fonction pour vérifier l'existence d'un groupe
-function Test-GroupExists {
-    param($groupName)
-    try {
-        Get-ADGroup -Identity $groupName
-        return $true
-    } catch {
-        return $false
-    }
-}
+<span class="c"># Fonction pour vérifier l&#39;existence d&#39;un groupe</span>
+<span class="k">function</span> <span class="nb">Test-GroupExists</span> <span class="p">{</span>
+    <span class="k">param</span><span class="p">(</span><span class="nv">$groupName</span><span class="p">)</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="nb">Get-ADGroup</span> <span class="n">-Identity</span> <span class="nv">$groupName</span>
+        <span class="k">return</span> <span class="nv">$true</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$false</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-# Importer le module Active Directory
-Import-Module ActiveDirectory
+<span class="c"># Importer le module Active Directory</span>
+<span class="nb">Import-Module</span> <span class="n">ActiveDirectory</span>
 
-# Définir les variables globales
-$rootOU = &quot;OU=EU,DC=maxtec,DC=be&quot;
-$defaultPassword = &quot;Password1!&quot;
+<span class="c"># Définir les variables globales</span>
+<span class="nv">$rootOU</span> <span class="p">=</span> <span class="s2">&quot;OU=EU,DC=maxtec,DC=be&quot;</span>
+<span class="nv">$defaultPassword</span> <span class="p">=</span> <span class="s2">&quot;Password1!&quot;</span>
 
-try {
-    Write-Host &quot;Script de création de structure Active Directory&quot; -ForegroundColor Green
-    Write-Host &quot;===========================================&quot; -ForegroundColor Green
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Script de création de structure Active Directory&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;===========================================&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
 
-    # 1. Créer l'OU racine EU
-    if (Confirm-Step &quot;Création de l'OU racine EU&quot;) {
-        Write-Host &quot;\nCréation de l'OU racine EU...&quot; -ForegroundColor Cyan
-        $ouDN = &quot;OU=EU,DC=maxtec,DC=be&quot;
-        if (-not (Test-OUExists $ouDN)) {
-            New-ADOrganizationalUnit -Name &quot;EU&quot; -Path &quot;DC=maxtec,DC=be&quot; -ProtectedFromAccidentalDeletion $false
-            Write-Host &quot;OU racine EU créée avec succès.&quot; -ForegroundColor Green
-        } else {
-            Write-Host &quot;OU racine EU existe déjà.&quot; -ForegroundColor Yellow
-        }
-    }
+    <span class="c"># 1. Créer l&#39;OU racine EU</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">Confirm-Step</span> <span class="s2">&quot;Création de l&#39;OU racine EU&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;\nCréation de l&#39;OU racine EU...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+        <span class="nv">$ouDN</span> <span class="p">=</span> <span class="s2">&quot;OU=EU,DC=maxtec,DC=be&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">-not</span> <span class="p">(</span><span class="nb">Test-OUExists</span> <span class="nv">$ouDN</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nb">New-ADOrganizationalUnit</span> <span class="n">-Name</span> <span class="s2">&quot;EU&quot;</span> <span class="n">-Path</span> <span class="s2">&quot;DC=maxtec,DC=be&quot;</span> <span class="n">-ProtectedFromAccidentalDeletion</span> <span class="nv">$false</span>
+            <span class="nb">Write-Host</span> <span class="s2">&quot;OU racine EU créée avec succès.&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nb">Write-Host</span> <span class="s2">&quot;OU racine EU existe déjà.&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 
-    # 2. Créer les départements et leurs sous-OUs
-    if (Confirm-Step &quot;Création des départements et leurs sous-OUs&quot;) {
-        $departments = @(&quot;Ventes&quot;, &quot;RH&quot;, &quot;Comptabilite&quot;)
-        Write-Host &quot;\nCréation des départements et leurs sous-OUs...&quot; -ForegroundColor Cyan
+    <span class="c"># 2. Créer les départements et leurs sous-OUs</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">Confirm-Step</span> <span class="s2">&quot;Création des départements et leurs sous-OUs&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$departments</span> <span class="p">=</span> <span class="p">@(</span><span class="s2">&quot;Ventes&quot;</span><span class="p">,</span> <span class="s2">&quot;RH&quot;</span><span class="p">,</span> <span class="s2">&quot;Comptabilite&quot;</span><span class="p">)</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;\nCréation des départements et leurs sous-OUs...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
 
-        foreach ($dept in $departments) {
-            Write-Host &quot;Traitement du département $dept...&quot; -NoNewline
-            $ouPath = &quot;OU=$dept,$rootOU&quot;
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$dept</span> <span class="k">in</span> <span class="nv">$departments</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nb">Write-Host</span> <span class="s2">&quot;Traitement du département $dept...&quot;</span> <span class="n">-NoNewline</span>
+            <span class="nv">$ouPath</span> <span class="p">=</span> <span class="s2">&quot;OU=$dept,$rootOU&quot;</span>
 
-            # Vérifier si le département existe
-            if (-not (Test-OUExists $ouPath)) {
-                New-ADOrganizationalUnit -Name $dept -Path $rootOU -ProtectedFromAccidentalDeletion $false
-                Write-Host &quot;créé&quot; -ForegroundColor Green
-            } else {
-                Write-Host &quot;existe déjà&quot; -ForegroundColor Yellow
-            }
+            <span class="c"># Vérifier si le département existe</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">-not</span> <span class="p">(</span><span class="nb">Test-OUExists</span> <span class="nv">$ouPath</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nb">New-ADOrganizationalUnit</span> <span class="n">-Name</span> <span class="nv">$dept</span> <span class="n">-Path</span> <span class="nv">$rootOU</span> <span class="n">-ProtectedFromAccidentalDeletion</span> <span class="nv">$false</span>
+                <span class="nb">Write-Host</span> <span class="s2">&quot;créé&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nb">Write-Host</span> <span class="s2">&quot;existe déjà&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+            <span class="p">}</span>
 
-            # Créer les sous-OUs
-            foreach ($subOU in @(&quot;Users&quot;, &quot;Computers&quot;, &quot;Groups&quot;)) {
-                Write-Host &quot;  - Sous-OU $subOU...&quot; -NoNewline
-                $subOUPath = &quot;OU=$subOU,$ouPath&quot;
-                if (-not (Test-OUExists $subOUPath)) {
-                    New-ADOrganizationalUnit -Name $subOU -Path $ouPath -ProtectedFromAccidentalDeletion $false
-                    Write-Host &quot;créée&quot; -ForegroundColor Green
-                } else {
-                    Write-Host &quot;existe déjà&quot; -ForegroundColor Yellow
-                }
-            }
-        }
-    }
+            <span class="c"># Créer les sous-OUs</span>
+            <span class="k">foreach</span> <span class="p">(</span><span class="nv">$subOU</span> <span class="k">in</span> <span class="p">@(</span><span class="s2">&quot;Users&quot;</span><span class="p">,</span> <span class="s2">&quot;Computers&quot;</span><span class="p">,</span> <span class="s2">&quot;Groups&quot;</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nb">Write-Host</span> <span class="s2">&quot;  - Sous-OU $subOU...&quot;</span> <span class="n">-NoNewline</span>
+                <span class="nv">$subOUPath</span> <span class="p">=</span> <span class="s2">&quot;OU=$subOU,$ouPath&quot;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">-not</span> <span class="p">(</span><span class="nb">Test-OUExists</span> <span class="nv">$subOUPath</span><span class="p">))</span> <span class="p">{</span>
+                    <span class="nb">New-ADOrganizationalUnit</span> <span class="n">-Name</span> <span class="nv">$subOU</span> <span class="n">-Path</span> <span class="nv">$ouPath</span> <span class="n">-ProtectedFromAccidentalDeletion</span> <span class="nv">$false</span>
+                    <span class="nb">Write-Host</span> <span class="s2">&quot;créée&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="nb">Write-Host</span> <span class="s2">&quot;existe déjà&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 
-    # 3. Créer les utilisateurs
-    if (Confirm-Step &quot;Création des utilisateurs&quot;) {
-        Write-Host &quot;\nCréation des utilisateurs...&quot; -ForegroundColor Cyan
-        $users = @(
-            @{Name=&quot;Vanessa&quot;;Email=&quot;vanessa@maxtec.be&quot;;OU=&quot;Ventes&quot;},
-            @{Name=&quot;Valeria&quot;;Email=&quot;valeria@maxtec.be&quot;;OU=&quot;Ventes&quot;},
-            @{Name=&quot;Victor&quot;;Email=&quot;victor@maxtec.be&quot;;OU=&quot;Ventes&quot;},
-            @{Name=&quot;Valentin&quot;;Email=&quot;valentin@maxtec.be&quot;;OU=&quot;Ventes&quot;},
-            @{Name=&quot;Richard&quot;;Email=&quot;richard@maxtec.be&quot;;OU=&quot;RH&quot;},
-            @{Name=&quot;Rebecca&quot;;Email=&quot;rebecca@maxtec.be&quot;;OU=&quot;RH&quot;},
-            @{Name=&quot;Rene&quot;;Email=&quot;rene@maxtec.be&quot;;OU=&quot;RH&quot;},
-            @{Name=&quot;Charlotte&quot;;Email=&quot;charlotte@maxtec.be&quot;;OU=&quot;Comptabilite&quot;},
-            @{Name=&quot;Cindy&quot;;Email=&quot;cindy@maxtec.be&quot;;OU=&quot;Comptabilite&quot;},
-            @{Name=&quot;Charles&quot;;Email=&quot;charles@maxtec.be&quot;;OU=&quot;Comptabilite&quot;}
-        )
+    <span class="c"># 3. Créer les utilisateurs</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">Confirm-Step</span> <span class="s2">&quot;Création des utilisateurs&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;\nCréation des utilisateurs...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+        <span class="nv">$users</span> <span class="p">=</span> <span class="p">@(</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Vanessa&quot;</span><span class="p">;</span><span class="n">Email</span><span class="p">=</span><span class="s2">&quot;vanessa@maxtec.be&quot;</span><span class="p">;</span><span class="n">OU</span><span class="p">=</span><span class="s2">&quot;Ventes&quot;</span><span class="p">},</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Valeria&quot;</span><span class="p">;</span><span class="n">Email</span><span class="p">=</span><span class="s2">&quot;valeria@maxtec.be&quot;</span><span class="p">;</span><span class="n">OU</span><span class="p">=</span><span class="s2">&quot;Ventes&quot;</span><span class="p">},</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Victor&quot;</span><span class="p">;</span><span class="n">Email</span><span class="p">=</span><span class="s2">&quot;victor@maxtec.be&quot;</span><span class="p">;</span><span class="n">OU</span><span class="p">=</span><span class="s2">&quot;Ventes&quot;</span><span class="p">},</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Valentin&quot;</span><span class="p">;</span><span class="n">Email</span><span class="p">=</span><span class="s2">&quot;valentin@maxtec.be&quot;</span><span class="p">;</span><span class="n">OU</span><span class="p">=</span><span class="s2">&quot;Ventes&quot;</span><span class="p">},</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Richard&quot;</span><span class="p">;</span><span class="n">Email</span><span class="p">=</span><span class="s2">&quot;richard@maxtec.be&quot;</span><span class="p">;</span><span class="n">OU</span><span class="p">=</span><span class="s2">&quot;RH&quot;</span><span class="p">},</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Rebecca&quot;</span><span class="p">;</span><span class="n">Email</span><span class="p">=</span><span class="s2">&quot;rebecca@maxtec.be&quot;</span><span class="p">;</span><span class="n">OU</span><span class="p">=</span><span class="s2">&quot;RH&quot;</span><span class="p">},</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Rene&quot;</span><span class="p">;</span><span class="n">Email</span><span class="p">=</span><span class="s2">&quot;rene@maxtec.be&quot;</span><span class="p">;</span><span class="n">OU</span><span class="p">=</span><span class="s2">&quot;RH&quot;</span><span class="p">},</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Charlotte&quot;</span><span class="p">;</span><span class="n">Email</span><span class="p">=</span><span class="s2">&quot;charlotte@maxtec.be&quot;</span><span class="p">;</span><span class="n">OU</span><span class="p">=</span><span class="s2">&quot;Comptabilite&quot;</span><span class="p">},</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Cindy&quot;</span><span class="p">;</span><span class="n">Email</span><span class="p">=</span><span class="s2">&quot;cindy@maxtec.be&quot;</span><span class="p">;</span><span class="n">OU</span><span class="p">=</span><span class="s2">&quot;Comptabilite&quot;</span><span class="p">},</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Charles&quot;</span><span class="p">;</span><span class="n">Email</span><span class="p">=</span><span class="s2">&quot;charles@maxtec.be&quot;</span><span class="p">;</span><span class="n">OU</span><span class="p">=</span><span class="s2">&quot;Comptabilite&quot;</span><span class="p">}</span>
+        <span class="p">)</span>
 
-        foreach ($user in $users) {
-            Write-Host &quot;Création de l'utilisateur $($user.Name)...&quot; -NoNewline
-            $ouPath = &quot;OU=Users,OU=$($user.OU),$rootOU&quot;
-            $securePassword = ConvertTo-SecureString $defaultPassword -AsPlainText -Force
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$user</span> <span class="k">in</span> <span class="nv">$users</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nb">Write-Host</span> <span class="s2">&quot;Création de l&#39;utilisateur </span><span class="p">$(</span><span class="nv">$user</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">...&quot;</span> <span class="n">-NoNewline</span>
+            <span class="nv">$ouPath</span> <span class="p">=</span> <span class="s2">&quot;OU=Users,OU=</span><span class="p">$(</span><span class="nv">$user</span><span class="p">.</span><span class="n">OU</span><span class="p">)</span><span class="s2">,$rootOU&quot;</span>
+            <span class="nv">$securePassword</span> <span class="p">=</span> <span class="nb">ConvertTo-SecureString</span> <span class="nv">$defaultPassword</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span>
 
-            $samAccountName = $user.Name.ToLower()
-            if (-not (Test-UserExists $samAccountName)) {
-                New-ADUser -Name $user.Name `
-                          -SamAccountName $samAccountName `
-                          -UserPrincipalName $user.Email `
-                          -Path $ouPath `
-                          -AccountPassword $securePassword `
-                          -Enabled $true
-                Write-Host &quot;OK&quot; -ForegroundColor Green
-            } else {
-                Write-Host &quot;Utilisateur existe déjà&quot; -ForegroundColor Yellow
-            }
-        }
-    }
+            <span class="nv">$samAccountName</span> <span class="p">=</span> <span class="nv">$user</span><span class="p">.</span><span class="n">Name</span><span class="p">.</span><span class="n">ToLower</span><span class="p">()</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">-not</span> <span class="p">(</span><span class="nb">Test-UserExists</span> <span class="nv">$samAccountName</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nb">New-ADUser</span> <span class="n">-Name</span> <span class="nv">$user</span><span class="p">.</span><span class="n">Name</span> <span class="p">`</span>
+                          <span class="n">-SamAccountName</span> <span class="nv">$samAccountName</span> <span class="p">`</span>
+                          <span class="n">-UserPrincipalName</span> <span class="nv">$user</span><span class="p">.</span><span class="n">Email</span> <span class="p">`</span>
+                          <span class="n">-Path</span> <span class="nv">$ouPath</span> <span class="p">`</span>
+                          <span class="n">-AccountPassword</span> <span class="nv">$securePassword</span> <span class="p">`</span>
+                          <span class="n">-Enabled</span> <span class="nv">$true</span>
+                <span class="nb">Write-Host</span> <span class="s2">&quot;OK&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nb">Write-Host</span> <span class="s2">&quot;Utilisateur existe déjà&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 
 
-    # 4. Créer les groupes
-    if (Confirm-Step &quot;Création des groupes&quot;) {
-        Write-Host &quot;\nCréation des groupes...&quot; -ForegroundColor Cyan
-        $groups = @(
-            @{Name=&quot;GG-EU-Ventes-Admin&quot;;OU=&quot;Ventes&quot;},
-            @{Name=&quot;GG-EU-Ventes-Users&quot;;OU=&quot;Ventes&quot;},
-            @{Name=&quot;GG-EU-RH-Admin&quot;;OU=&quot;RH&quot;},
-            @{Name=&quot;GG-EU-RH-Users&quot;;OU=&quot;RH&quot;},
-            @{Name=&quot;GG-EU-Compta-Admin&quot;;OU=&quot;Comptabilite&quot;},
-            @{Name=&quot;GG-EU-Compta-Users&quot;;OU=&quot;Comptabilite&quot;}
-        )
+    <span class="c"># 4. Créer les groupes</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">Confirm-Step</span> <span class="s2">&quot;Création des groupes&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;\nCréation des groupes...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+        <span class="nv">$groups</span> <span class="p">=</span> <span class="p">@(</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;GG-EU-Ventes-Admin&quot;</span><span class="p">;</span><span class="n">OU</span><span class="p">=</span><span class="s2">&quot;Ventes&quot;</span><span class="p">},</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;GG-EU-Ventes-Users&quot;</span><span class="p">;</span><span class="n">OU</span><span class="p">=</span><span class="s2">&quot;Ventes&quot;</span><span class="p">},</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;GG-EU-RH-Admin&quot;</span><span class="p">;</span><span class="n">OU</span><span class="p">=</span><span class="s2">&quot;RH&quot;</span><span class="p">},</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;GG-EU-RH-Users&quot;</span><span class="p">;</span><span class="n">OU</span><span class="p">=</span><span class="s2">&quot;RH&quot;</span><span class="p">},</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;GG-EU-Compta-Admin&quot;</span><span class="p">;</span><span class="n">OU</span><span class="p">=</span><span class="s2">&quot;Comptabilite&quot;</span><span class="p">},</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;GG-EU-Compta-Users&quot;</span><span class="p">;</span><span class="n">OU</span><span class="p">=</span><span class="s2">&quot;Comptabilite&quot;</span><span class="p">}</span>
+        <span class="p">)</span>
 
-        foreach ($group in $groups) {
-            Write-Host &quot;Traitement du groupe $($group.Name)...&quot; -NoNewline
-            $ouPath = &quot;OU=Groups,OU=$($group.OU),$rootOU&quot;
-            if (-not (Test-GroupExists $group.Name)) {
-                New-ADGroup -Name $group.Name -GroupScope Global -GroupCategory Security -Path $ouPath
-                Write-Host &quot;créé&quot; -ForegroundColor Green
-            } else {
-                Write-Host &quot;existe déjà&quot; -ForegroundColor Yellow
-            }
-        }
-    }
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$group</span> <span class="k">in</span> <span class="nv">$groups</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nb">Write-Host</span> <span class="s2">&quot;Traitement du groupe </span><span class="p">$(</span><span class="nv">$group</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">...&quot;</span> <span class="n">-NoNewline</span>
+            <span class="nv">$ouPath</span> <span class="p">=</span> <span class="s2">&quot;OU=Groups,OU=</span><span class="p">$(</span><span class="nv">$group</span><span class="p">.</span><span class="n">OU</span><span class="p">)</span><span class="s2">,$rootOU&quot;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">-not</span> <span class="p">(</span><span class="nb">Test-GroupExists</span> <span class="nv">$group</span><span class="p">.</span><span class="n">Name</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nb">New-ADGroup</span> <span class="n">-Name</span> <span class="nv">$group</span><span class="p">.</span><span class="n">Name</span> <span class="n">-GroupScope</span> <span class="n">Global</span> <span class="n">-GroupCategory</span> <span class="n">Security</span> <span class="n">-Path</span> <span class="nv">$ouPath</span>
+                <span class="nb">Write-Host</span> <span class="s2">&quot;créé&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nb">Write-Host</span> <span class="s2">&quot;existe déjà&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 
-    Write-Host &quot;\nStructure créée avec succès!&quot; -ForegroundColor Green
-}
-catch {
-    Write-Host &quot;\nERREUR: Une erreur s'est produite lors de la création de la structure:&quot; -ForegroundColor Red
-    Write-Host $_.Exception.Message -ForegroundColor Red
-    Write-Host &quot;Stack Trace:&quot; -ForegroundColor Red
-    Write-Host $_.ScriptStackTrace -ForegroundColor Red
-}
-</code></pre>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;\nStructure créée avec succès!&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="p">}</span>
+<span class="k">catch</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;\nERREUR: Une erreur s&#39;est produite lors de la création de la structure:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+    <span class="nb">Write-Host</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Stack Trace:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+    <span class="nb">Write-Host</span> <span class="nv">$_</span><span class="p">.</span><span class="n">ScriptStackTrace</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+<span class="p">}</span>
+</code></pre></div>
 
 
 

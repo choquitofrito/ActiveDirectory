@@ -851,12 +851,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+      <a href="../Chapitre%204.DNS-Pratique-avec-AD/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Chapitre 4bis.DNS-Pratique-avec-AD
+    Chapitre 4.DNS-Pratique-avec-AD
     
   </span>
   
@@ -1603,16 +1603,26 @@
 </ul>
 <hr />
 <blockquote>
-<p>📚 <strong>Dans ce guide:</strong>
-1. 🛠️ <a href="#1-prérequis">Prérequis</a>
-   - Installation de VirtualBox
-   - Téléchargement de Windows Server
-2. 🖥️ <a href="#2-configuration-de-virtualbox">Configuration de VirtualBox</a>
-   - Création de la VM
-   - Paramètres réseau
-3. 🔩 <a href="#3-installation-de-windows-server">Installation de Windows Server</a>
-   - Étapes d'installation
-   - Configuration initiale</p>
+<p>📚 <strong>Dans ce guide:</strong></p>
+<ol>
+<li>🛠️ <a href="#1-prérequis">Prérequis</a></li>
+<li>Installation de VirtualBox</li>
+<li>
+<p>Téléchargement de Windows Server</p>
+</li>
+<li>
+<p>🖥️ <a href="#2-configuration-de-virtualbox">Configuration de VirtualBox</a></p>
+</li>
+<li>Création de la VM</li>
+<li>
+<p>Paramètres réseau</p>
+</li>
+<li>
+<p>🔩 <a href="#3-installation-de-windows-server">Installation de Windows Server</a></p>
+</li>
+<li>Étapes d'installation</li>
+<li>Configuration initiale</li>
+</ol>
 </blockquote>
 <hr />
 <h2 id="objectifs">🏑 Objectifs</h2>
@@ -1632,8 +1642,8 @@
 </ol>
 <p>Note: dans certaines configurations on peut avoir de problèmes pendant l'installation des machines virtuelles Windows.
 Source : https://askubuntu.com/questions/705720/virtualbox-kernel-driver-not-installed-error-despite-running-sbin-vboxconfig </p>
-<pre><code class="language-bash">sudo /usr/lib/virtualbox/vboxdrv.sh setup
-</code></pre>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>/usr/lib/virtualbox/vboxdrv.sh<span class="w"> </span>setup
+</code></pre></div>
 <p>Si la commande ne fonctionne pas, on doit installer gcc-12</p>
 <h3 id="telechargement-de-windows-server-2022">💾 Téléchargement de Windows Server 2022</h3>
 <blockquote>

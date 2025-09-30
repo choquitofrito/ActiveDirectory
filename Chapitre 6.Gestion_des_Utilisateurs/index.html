@@ -569,12 +569,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+      <a href="../Chapitre%204.DNS-Pratique-avec-AD/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Chapitre 4bis.DNS-Pratique-avec-AD
+    Chapitre 4.DNS-Pratique-avec-AD
     
   </span>
   
@@ -2118,16 +2118,14 @@
 <ul>
 <li><strong>SamAccountName</strong>, qui est l'identifiant unique de l'utilisateur dans le domaine, dont le format de base est <strong>prenom</strong></li>
 </ul>
-<pre><code class="language-plaintext">charles              # Comptabilité
+<p><div class="highlight"><pre><span></span><code>charles              # Comptabilité
 rene                # RH
 cindy               # Comptabilité
 rebecca             # RH
 ivan                # Informatique
 victor              # Ventes
-</code></pre>
-<ul>
-<li><strong>UPN</strong> (User Principal Name), dont le format de base est <strong>prenom@domaine</strong></li>
-</ul>
+</code></pre></div>
+- <strong>UPN</strong> (User Principal Name), dont le format de base est <strong>prenom@domaine</strong></p>
 <blockquote>
 <p>💡 <strong>Pour débutants:</strong> SamAccountName = nom court (<code>ivan</code>), UPN = adresse email style (<code>ivan@maxtec.be</code>)</p>
 </blockquote>
@@ -2242,10 +2240,10 @@ Ou même <code>Gestionnaire de serveur</code>-&gt;<code>Outils</code>-&gt;<code>
 </ul>
 <h3 id="profils-utilisateurs">Profils utilisateurs</h3>
 <h4 id="types-de-profils">Types de profils</h4>
-<pre><code class="language-plaintext">Local     : C:\Users\username
+<div class="highlight"><pre><span></span><code>Local     : C:\Users\username
 Itinérant : \\srv-profiles\profiles\%username%
 Exemple   : \\srv-profiles\profiles\charles
-</code></pre>
+</code></pre></div>
 <blockquote>
 <p><strong>Note</strong> : Par défaut, ce champ est vide car Windows crée automatiquement des profils locaux (C:\Users\username). 
 On ne le configure que si on veut implémenter des <strong>profils itinérants</strong> (roaming profiles) qui suivent l'utilisateur d'un poste à l'autre.</p>
@@ -2263,8 +2261,8 @@ On ne le configure que si on veut implémenter des <strong>profils itinérants</
      * <code>\AppData\Local</code> : Données spécifiques à la machine (cache, temp)
      * <code>\AppData\Roaming</code> : Données qui suivent l'utilisateur entre les machines
    - <strong>Script de connexion</strong> : Si on veut lancer une suite d'opérations lors de la connexion 
-     <code>plaintext
-     \\srv-scripts\dept\compta\logon.bat</code></p>
+     <div class="highlight"><pre><span></span><code>\\srv-scripts\dept\compta\logon.bat
+</code></pre></div></p>
 <h4 id="recommandations">Recommandations</h4>
 <ul>
 <li>Attention aux profils itinérants</li>
@@ -2283,19 +2281,19 @@ On ne le configure que si on veut implémenter des <strong>profils itinérants</
 <p>Il y a deux types de groupes : <strong>groupes de sécurité</strong> (qui gèrent les privilèges) et <strong>groupes de distribution</strong> (qui sont liés uniquement à l'envoi d'emails).</p>
 <p>On utilisera uniquement des groupes de sécurité.</p>
 <h5 id="exemples">📄 Exemples</h5>
-<pre><code class="language-plaintext">DL-Comptabilite-Lecture  # Lecture comptable
+<div class="highlight"><pre><span></span><code>DL-Comptabilite-Lecture  # Lecture comptable
 GG-EU-RH-Admins         # Admin RH
 GG-EU-IT-Users          # Utilisateurs IT
-</code></pre>
+</code></pre></div>
 <h3 id="types-des-groupes-selon-son-etendue">🌐 Types des Groupes selon son étendue</h3>
 <p>Les groupes se classifient en 3 étendues: <strong>Domaine Local</strong>, <strong>Global</strong> et Universel.
 Nous utiliserons que les deux premiers types.</p>
-<p>Format standard pour les groupes :</p>
-<pre><code class="language-plaintext">[Type etendue]-[Location]-[Service]-[Fonction]
+<p>Format standard pour les groupes :
+<div class="highlight"><pre><span></span><code>[Type etendue]-[Location]-[Service]-[Fonction]
 DL-Comptabilite-Lecture  # Lecture comptable
 GG-EU-RH-Admins         # Admin RH
 GG-EU-IT-Users          # Utilisateurs IT
-</code></pre>
+</code></pre></div></p>
 <h4 id="domaine-local-dl-">🌍 Domaine Local (DL-)</h4>
 <h5 id="caracteristiques">💡 Caractéristiques</h5>
 <ul>
@@ -2304,10 +2302,10 @@ GG-EU-IT-Users          # Utilisateurs IT
 <li>Gestion des ressources</li>
 </ul>
 <h5 id="exemples_1">📄 Exemples</h5>
-<pre><code class="language-plaintext">DL-Serveurs-Admin      # Admin
+<div class="highlight"><pre><span></span><code>DL-Serveurs-Admin      # Admin
 DL-Comptabilite-Lecture # Lecture
 DL-RH-Modif            # Modif
-</code></pre>
+</code></pre></div>
 <h4 id="global-gg-">🌎 Global (GG-)</h4>
 <h5 id="caracteristiques_1">💡 Caractéristiques</h5>
 <ul>
@@ -2316,10 +2314,10 @@ DL-RH-Modif            # Modif
 <li>Regroupe par rôle</li>
 </ul>
 <h5 id="exemples_2">📄 Exemples</h5>
-<pre><code class="language-plaintext">GG-EU-Compta-Users  # Comptables
+<div class="highlight"><pre><span></span><code>GG-EU-Compta-Users  # Comptables
 GG-EU-RH-Admins     # Managers RH
 GG-EU-IT-Users     # Utilisateurs IT
-</code></pre>
+</code></pre></div>
 <p><strong>IMPORTANT</strong>: Ces fonctions des groupes ont lieu dans le contexte d'une grande entreprise, mais dans notre labo ce seront les groupes globaux qui recevront les droits pour ne pas créer une couche en plus. On verra ça plus tard, dans la strategie AGDP.</p>
 <h4 id="universel-u-">🌏 Universel (U-)</h4>
 <h5 id="caracteristiques_2">💡 Caractéristiques</h5>
@@ -2329,10 +2327,10 @@ GG-EU-IT-Users     # Utilisateurs IT
 <li>Usage restreint</li>
 </ul>
 <h5 id="exemples_3">📄 Exemples</h5>
-<pre><code class="language-plaintext">U-Direction              # Direction générale
+<div class="highlight"><pre><span></span><code>U-Direction              # Direction générale
 U-Projet-Global          # Projets multi-sites
 U-Admin-Global           # Administration globale
-</code></pre>
+</code></pre></div>
 <h2 id="5-comment-est-quon-donne-des-droits-aux-utilisateurs">5. Comment est-qu'on donne des droits aux utilisateurs ?</h2>
 <p>La <strong>regle d'or</strong> est de ne jamais attribuer de droits (ex: acceder à un dossier partagé, changer son mot de passe) directement aux utilisateurs. Alors on donnera les droits aux <strong>groupes</strong>.</p>
 <h4 id="exemple-pratique">Exemple pratique</h4>
@@ -2479,33 +2477,33 @@ Puis:
 <p>💡 Deux stratégies principales :</p>
 </blockquote>
 <h4 id="structure-par-departement">🏒 Structure par Département</h4>
-<pre><code class="language-plaintext">📂 DL-Dossier-Partage-RW
+<div class="highlight"><pre><span></span><code>📂 DL-Dossier-Partage-RW
   └─ 💳 GG-EU-Compta-Users  # Comptabilité
   └─ 💰 GG-EU-Ventes-Users  # Ventes
   └─ 👥 GG-EU-RH-Users     # RH
   └─ 💻 GG-EU-IT-Users     # Informatique
-</code></pre>
+</code></pre></div>
 <h4 id="structure-par-fonction">💼 Structure par Fonction</h4>
-<pre><code class="language-plaintext">📂 DL-Dossier-Partage-RW
+<div class="highlight"><pre><span></span><code>📂 DL-Dossier-Partage-RW
   └─ 👑 GG-EU-Compta-Admins   # Administrateurs Comptabilité
   └─ 👑 GG-EU-RH-Admins      # Administrateurs RH
   └─ 👑 GG-EU-Ventes-Admins   # Administrateurs Ventes
   └─ 👑 GG-EU-IT-Admins      # Administrateurs IT
-</code></pre>
+</code></pre></div>
 <h2 id="regles-dimbrication-de-groupes">Règles d'Imbrication de Groupes</h2>
 <p>Limitations par type de groupe :</p>
-<pre><code class="language-plaintext">Groupe Global :
+<div class="highlight"><pre><span></span><code>Groupe Global :
 - Peut contenir : Groupes globaux du même domaine AD
 
 Groupe Local de Domaine :
-- Ne peut pas contenir : Groupes globaux d'autres domaines
+- Ne peut pas contenir : Groupes globaux d&#39;autres domaines
 
 Groupe Universel :
-- Ne peut pas contenir : Groupes globaux d'autres domaines
-</code></pre>
+- Ne peut pas contenir : Groupes globaux d&#39;autres domaines
+</code></pre></div>
 <h2 id="securite-et-maintenance">Sécurité et Maintenance</h2>
 <p>Règles fondamentales par type de groupe :</p>
-<pre><code class="language-plaintext">Groupes Globaux (GG-) :
+<div class="highlight"><pre><span></span><code>Groupes Globaux (GG-) :
 - Utilisés pour la gestion des utilisateurs
 - Ne doivent pas recevoir de permissions directes
 Exemple : GG-EU-RH-Users, GG-EU-RH-Admins
@@ -2514,7 +2512,7 @@ Groupes Locaux de Domaine (DL-) :
 - Reçoivent les permissions sur les ressources
 - Contiennent les groupes globaux appropriés
 Exemple : DL-RH-Lecture, DL-RH-Modification
-</code></pre>
+</code></pre></div>
 <h2 id="checkpoint-final-gestion-des-utilisateurs">🎯 Checkpoint Final: Gestion des Utilisateurs</h2>
 <p>Avant de passer aux Group Policy Objects:
 - [ ] Je sais créer un utilisateur avec ADUC

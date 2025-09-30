@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://choquitofrito.github.io/ActiveDirectory/Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/">
       
       
-        <link rel="prev" href="../Chapitre%204bis.DNS-Pratique-avec-AD/">
+        <link rel="prev" href="../Chapitre%204.DNS-Pratique-avec-AD/">
       
       
         <link rel="next" href="../Chapitre%205.Unites_Organisation/">
@@ -569,12 +569,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+      <a href="../Chapitre%204.DNS-Pratique-avec-AD/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Chapitre 4bis.DNS-Pratique-avec-AD
+    Chapitre 4.DNS-Pratique-avec-AD
     
   </span>
   
@@ -1198,26 +1198,8 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#options-de-parcours" class="md-nav__link">
-    <span class="md-ellipsis">
-      Options de Parcours
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#navigation" class="md-nav__link">
-    <span class="md-ellipsis">
-      🧭 Navigation
-    </span>
-  </a>
   
 </li>
       
@@ -2170,12 +2152,18 @@ Vous vous demandez peut-être comment c'est possible, puisque <code>maxtec.be</c
 <p>🔗 <strong>Relations avec d'autres concepts</strong>
 - <strong>Sites ≠ UOs</strong> : Les sites représentent une division physique, les UOs une organisation <strong>logique</strong>
 - <strong>Sites ≠ Zones DNS</strong> : Les zones DNS (<code>eu.maxtec.be</code>) peuvent correspondre aux sites (<code>site EU</code>), mais ce n'est pas obligatoire</p>
-<p>🌐 <strong>Notre infrastructure</strong>
-- <code>site EU</code> : Sous-réseau 192.168.10.0/24 (192.168.0.0/24 en laboratoire)
-  * DC principal : <code>dc1.maxtec.be</code>
-  * DC secondaire : <code>dc2.maxtec.be</code> (réplication)
-- <code>site US</code> : Sous-réseau 192.168.20.0/24 (non utilisé en laboratoire)
-  * DC local : <code>dc-us.maxtec.be</code></p>
+<p>🌐 <strong>Notre infrastructure</strong></p>
+<ul>
+<li><code>site EU</code> : Sous-réseau 192.168.10.0/24 (192.168.0.0/24 en laboratoire)</li>
+<li>DC principal : <code>dc1.maxtec.be</code></li>
+<li>
+<p>DC secondaire : <code>dc2.maxtec.be</code> (réplication)</p>
+</li>
+<li>
+<p><code>site US</code> : Sous-réseau 192.168.20.0/24 (non utilisé en laboratoire)</p>
+</li>
+<li>DC local : <code>dc-us.maxtec.be</code></li>
+</ul>
 </blockquote>
 <p>Nous allons créer une <strong>UO</strong> racine pour chaque site (UOs <code>EU</code> et <code>US</code>) par commodité, mais <strong>ce n'est pas une obligation</strong>. Voici deux façons possibles d'organiser la même entreprise :</p>
 <h4 id="diagramme-dinstallation-du-laboratoire">Diagramme d'installation du laboratoire</h4>
@@ -2209,7 +2197,7 @@ Vous vous demandez peut-être comment c'est possible, puisque <code>maxtec.be</c
 </li>
 </ol>
 <p>Voici un exemple d'organisation possible :</p>
-<pre><code>maxtec.be (domaine AD)
+<div class="highlight"><pre><span></span><code>maxtec.be (domaine AD)
 EU
 ├── Comptabilité
 │   ├── Users
@@ -2234,7 +2222,7 @@ EU
     │   └── ws-ventes-01
     └── Groups
         └── GG-EU-Ventes-Users
-</code></pre>
+</code></pre></div>
 <p>La structure de l'UO <code>US</code> est identique à celle de l'UO <code>EU</code>.</p>
 <blockquote>
 <p>💡 Cette structure nous permet de :
@@ -2279,22 +2267,51 @@ EU
 <p>⚠️ Avant de promouvoir le serveur en DC, nous devons configurer correctement son réseau.</p>
 </blockquote>
 <ol>
-<li>
-<p><strong>Configuration IP</strong>
-   | Paramètre | Valeur |
-   |------------|--------|
-   | Adresse IP | <code>192.168.0.2</code> |
-   | Masque | <code>255.255.255.0</code> |
-   | Serveur DNS | <code>192.168.0.2</code> |</p>
-</li>
-<li>
-<p><strong>Configuration du nom</strong>
-   | Paramètre | Valeur |
-   |------------|--------|
-   | Nom d'ordinateur | <code>dns1</code> |
-   | Suffixe DNS | <code>maxtec.be</code> |</p>
-</li>
+<li><strong>Configuration IP</strong></li>
 </ol>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adresse IP</td>
+<td><code>192.168.0.2</code></td>
+</tr>
+<tr>
+<td>Masque</td>
+<td><code>255.255.255.0</code></td>
+</tr>
+<tr>
+<td>Serveur DNS</td>
+<td><code>192.168.0.2</code></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><strong>Configuration du nom</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nom d'ordinateur</td>
+<td><code>dns1</code></td>
+</tr>
+<tr>
+<td>Suffixe DNS</td>
+<td><code>maxtec.be</code></td>
+</tr>
+</tbody>
+</table>
 <blockquote>
 <p>💡 Le serveur utilise sa propre adresse comme serveur DNS car il hébergera le service DNS du domaine.</p>
 </blockquote>
@@ -2801,7 +2818,7 @@ EU
 <hr />
 <h2 id="important-prochaine-etape-dns-pratique">🔔 Important: Prochaine Étape DNS Pratique !</h2>
 <blockquote>
-<p>🎯 <strong>Avant de continuer vers le Chapitre 5</strong>, nous vous recommandons <strong>fortement</strong> de compléter le <strong>Chapitre 4-bis: DNS Pratique avec AD</strong>.</p>
+<p>🎯 <strong>Avant de continuer vers le Chapitre 5</strong>, nous vous recommandons <strong>fortement</strong> de compléter le <strong>Chapitre 4: DNS Pratique avec AD</strong>.</p>
 </blockquote>
 <h3 id="pourquoi-maintenant">Pourquoi maintenant ?</h3>
 <p>Vous avez installé Active Directory qui a <strong>automatiquement configuré DNS</strong>. C'est le moment parfait pour:
@@ -2809,31 +2826,6 @@ EU
 - 💻 <strong>Pratiquer</strong> la gestion DNS avec votre domaine réel maxtec.be
 - 🛠️ <strong>Apprendre</strong> à créer des enregistrements DNS
 - 🔧 <strong>Maîtriser</strong> le troubleshooting DNS-AD</p>
-<h3 id="options-de-parcours">Options de Parcours</h3>
-<p><strong>Option A (Recommandée)</strong> - Parcours complet immédiat:</p>
-<pre><code>Chapitre 4 (✅ Vous êtes ici)
-    ↓
-Chapitre 4-bis: DNS Pratique (90 min de labs)
-    ↓
-Chapitre 5: Unités d'Organisation
-</code></pre>
-<p><strong>Option B</strong> - Continuer et revenir plus tard:</p>
-<pre><code>Chapitre 4 (✅ Vous êtes ici)
-    ↓
-Chapitre 5: Unités d'Organisation
-    ↓
-[Plus tard] Chapitre 4-bis: DNS Pratique
-</code></pre>
-<blockquote>
-<p>💡 <strong>Notre recommandation:</strong> Faites le Chapitre 4-bis maintenant ! DNS est fondamental pour AD et les labs pratiques consolideront votre compréhension avant d'organiser votre structure AD.</p>
-</blockquote>
-<hr />
-<h2 id="navigation">🧭 Navigation</h2>
-<p><strong>Parcours recommandé:</strong>
-<a href="../Chapitre%203.DNS/">⏮️ Chapitre 3: DNS Préparation</a> | <a href="../README.md">🏠 Retour au Syllabus</a> | <a href="Chapitre%204-bis.DNS-Pratique-avec-AD.md">⏭️ <strong>Chapitre 4-bis: DNS Pratique avec AD</strong> (Recommandé)</a></p>
-<p><strong>Parcours alternatif (continuer sans DNS pratique):</strong>
-<a href="../Chapitre%205.Unites_Organisation/">⏭️ Chapitre 5: Unités d'Organisation</a></p>
-<hr />
 <p><strong>📚 Cours Active Directory -  | 👨‍💻 Pour débutants</strong></p>
 
 

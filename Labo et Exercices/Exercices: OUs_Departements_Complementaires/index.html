@@ -569,12 +569,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+      <a href="../../Chapitre%204.DNS-Pratique-avec-AD/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Chapitre 4bis.DNS-Pratique-avec-AD
+    Chapitre 4.DNS-Pratique-avec-AD
     
   </span>
   
@@ -1556,14 +1556,12 @@
    - Cliquez sur "Affichage" > "Fonctionnalités avancées" pour activer les fonctionnalités avancées
    - Cliquez sur "Affichage" > "Recherche avancée"
    - Dans le champ "LDAP Query", entrez:
-     ```
-     (&(objectCategory=person)(objectClass=user)(whenCreated>=DATE))
-     ```
+     <div class="highlight"><pre><span></span><code>(&amp;(objectCategory=person)(objectClass=user)(whenCreated&gt;=DATE))
+</code></pre></div>
      où DATE est la date du jour au format AAAAMMJJ000000.0Z
      Par exemple, pour le 16 mai 2025:
-     ```
-     (&(objectCategory=person)(objectClass=user)(whenCreated>=20250516000000.0Z))
-     ```
+     <div class="highlight"><pre><span></span><code>(&amp;(objectCategory=person)(objectClass=user)(whenCreated&gt;=20250516000000.0Z))
+</code></pre></div>
    - Cliquez sur "Rechercher"
 
 </details>

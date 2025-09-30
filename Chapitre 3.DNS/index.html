@@ -14,7 +14,7 @@
         <link rel="prev" href="../Chapitre%202.Installation-Windows-Server-2022-VirtualBox/">
       
       
-        <link rel="next" href="../Chapitre%204bis.DNS-Pratique-avec-AD/">
+        <link rel="next" href="../Chapitre%204.DNS-Pratique-avec-AD/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -617,22 +617,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#objectifs-pedagogiques-30-minutes" class="md-nav__link">
+  <a href="#objectifs-pedagogiques" class="md-nav__link">
     <span class="md-ellipsis">
-      📙 Objectifs Pédagogiques (30 minutes)
+      📙 Objectifs Pédagogiques
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#1-dns-en-5-minutes-lessentiel" class="md-nav__link">
+  <a href="#1-dns-lessentiel" class="md-nav__link">
     <span class="md-ellipsis">
-      1. DNS en 5 Minutes - L'Essentiel ⏱️
+      1. DNS - L'Essentiel
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="1. DNS en 5 Minutes - L&#39;Essentiel ⏱️">
+    <nav class="md-nav" aria-label="1. DNS - L&#39;Essentiel">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -785,12 +785,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+      <a href="../Chapitre%204.DNS-Pratique-avec-AD/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Chapitre 4bis.DNS-Pratique-avec-AD
+    Chapitre 4.DNS-Pratique-avec-AD
     
   </span>
   
@@ -1532,18 +1532,18 @@
 <ul>
 <li>[✅] Chapitre 1: Introduction et installation</li>
 <li>[✅] Chapitre 2: Installation VirtualBox</li>
-<li>[🔄] <strong>Chapitre 3</strong>: DNS Préparation <em>(En cours - 30 minutes)</em></li>
+<li>[🔄] <strong>Chapitre 3</strong>: DNS Préparation <em>(En cours)</em></li>
 <li>[⏸️] Chapitre 4: Active Directory Domain Services</li>
-<li>[⏸️] Chapitre 4-bis: DNS Pratique avec AD</li>
+<li>[⏸️] Chapitre 4: DNS Pratique avec AD</li>
 </ul>
 <hr />
 <blockquote>
 <p>📚 <strong>Objectif de ce chapitre court:</strong>
 Comprendre <strong>juste assez</strong> de DNS pour installer Active Directory avec succès.
-La pratique DNS approfondie viendra <strong>APRÈS</strong> installation AD (Chapitre 4-bis).</p>
+La pratique DNS approfondie viendra <strong>APRÈS</strong> installation AD (Chapitre 4).</p>
 </blockquote>
 <hr />
-<h2 id="objectifs-pedagogiques-30-minutes">📙 Objectifs Pédagogiques (30 minutes)</h2>
+<h2 id="objectifs-pedagogiques">📙 Objectifs Pédagogiques</h2>
 <p>À la fin de ce chapitre, vous serez capable de :
 1. ✅ Expliquer en 30 secondes <strong>pourquoi AD a besoin de DNS</strong>
 2. ✅ Vérifier que votre serveur <strong>peut résoudre des noms</strong>
@@ -1552,12 +1552,12 @@ La pratique DNS approfondie viendra <strong>APRÈS</strong> installation AD (Cha
 <p>💡 <strong>Note importante:</strong> Nous verrons la théorie DNS complète et les manipulations pratiques <strong>APRÈS avoir installé AD</strong>. Pourquoi ? Parce qu'AD installe automatiquement DNS et vous aurez un domaine réel (maxtec.be) pour pratiquer !</p>
 </blockquote>
 <hr />
-<h2 id="1-dns-en-5-minutes-lessentiel">1. DNS en 5 Minutes - L'Essentiel ⏱️</h2>
+<h2 id="1-dns-lessentiel">1. DNS - L'Essentiel</h2>
 <h3 id="quest-ce-que-le-dns">🌐 Qu'est-ce que le DNS ?</h3>
 <p><strong>DNS = Annuaire téléphonique de l'internet</strong></p>
-<pre><code>Vous tapez : www.google.com
+<div class="highlight"><pre><span></span><code>Vous tapez : www.google.com
 DNS traduit : 142.250.179.174
-</code></pre>
+</code></pre></div>
 <p><strong>Sans DNS</strong>, vous devriez mémoriser : <code>142.250.179.174</code> pour Google, <code>151.101.1.140</code> pour Reddit, etc. Impossible !</p>
 <h3 id="pourquoi-active-directory-a-besoin-de-dns">🏢 Pourquoi Active Directory A BESOIN de DNS ?</h3>
 <blockquote>
@@ -1597,21 +1597,21 @@ DNS traduit : 142.250.179.174
 <h2 id="2-verification-pre-installation">2. Vérification Pré-Installation</h2>
 <h3 id="test-1-votre-serveur-peut-il-resoudre-des-noms-est-il-connecte-a-linternet">🔍 Test 1: Votre serveur peut-il résoudre des noms ? est-il connecté à l'internet?</h3>
 <p><strong>Sur votre serveur Windows Server</strong>, ouvrez PowerShell et testez :</p>
-<pre><code class="language-powershell"># Test 1: Résoudre google.com
-ping google.com
+<div class="highlight"><pre><span></span><code><span class="c"># Test 1: Résoudre google.com</span>
+<span class="n">ping</span> <span class="n">google</span><span class="p">.</span><span class="n">com</span>
 
-# Résultat attendu:
-# Envoi d'une requête 'ping' sur google.com [142.250.xxx.xxx] avec 32 octets de données
-</code></pre>
+<span class="c"># Résultat attendu:</span>
+<span class="c"># Envoi d&#39;une requête &#39;ping&#39; sur google.com [142.250.xxx.xxx] avec 32 octets de données</span>
+</code></pre></div>
 <p><strong>✅ Si vous voyez une adresse IP</strong> → DNS externe fonctionne !
 <strong>❌ Si erreur "Impossible de trouver l'hôte"</strong> → Problème réseau/DNS, ou adaptateur de réseau</p>
-<pre><code class="language-powershell"># Test 2: Vérifier quel serveur DNS vous utilisez
-nslookup google.com
+<div class="highlight"><pre><span></span><code><span class="c"># Test 2: Vérifier quel serveur DNS vous utilisez</span>
+<span class="n">nslookup</span> <span class="n">google</span><span class="p">.</span><span class="n">com</span>
 
-# Résultat montre:
-# Serveur :   dns.google
-# Address:  8.8.8.8  (ou autre DNS de votre FAI)
-</code></pre>
+<span class="c"># Résultat montre:</span>
+<span class="c"># Serveur :   dns.google</span>
+<span class="c"># Address:  8.8.8.8  (ou autre DNS de votre FAI)</span>
+</code></pre></div>
 <h3 id="test-2-preparer-le-dns-pour-ad">🛠️ Test 2: Préparer le DNS pour AD</h3>
 <p><strong>Actuellement</strong>, votre serveur utilise probablement le DNS de votre FAI (exemple: 8.8.8.8). Si on cherche un nom de domaine, ce sera ce serveur qui nous donnera l'ip.</p>
 <p><strong>Pour installer AD</strong>, il est indispensable de configurer le serveur pour qu’il utilise <strong>son propre service DNS</strong>. Cela signifie que, lors d’une requête de résolution de nom de domaine, c’est le serveur lui-même qui répondra (par exemple, lorsqu’on tape un nom de machine du domaine comme <code>dns1.maxtec.be</code> ou <code>ws-compta-01.maxtec.be</code> ce notre propre serveur qui nous donnera l'ip).</p>
@@ -1689,12 +1689,12 @@ nslookup google.com
 <li><strong>Valider et fermer</strong></li>
 </ol>
 <h3 id="test-3-verification-finale">✅ Test 3: Vérification finale</h3>
-<pre><code class="language-powershell"># Vérifier la configuration IP
-ipconfig /all
+<div class="highlight"><pre><span></span><code><span class="c"># Vérifier la configuration IP</span>
+<span class="n">ipconfig</span> <span class="p">/</span><span class="n">all</span>
 
-# Cherchez dans le résultat:
-# Serveurs DNS. . . : 127.0.0.1
-</code></pre>
+<span class="c"># Cherchez dans le résultat:</span>
+<span class="c"># Serveurs DNS. . . : 127.0.0.1</span>
+</code></pre></div>
 <p><strong>✅ Si vous voyez <code>127.0.0.1</code></strong> → Parfait ! Prêt pour installer AD
 <strong>❌ Si vous voyez autre chose</strong> → Revérifier la configuration</p>
 <blockquote>
@@ -1725,16 +1725,16 @@ ipconfig /all
 <li>Quand vous créez un utilisateur → DNS mis à jour</li>
 <li>Tout est intégré !</li>
 </ol>
-<p><strong>Dans le Chapitre 4-bis on pratiquera DNS</strong></p>
+<p><strong>Dans le Chapitre 4 on pratiquera DNS</strong></p>
 <hr />
 <h2 id="4-recapitulatif-checklist-pre-ad">4. Récapitulatif - Checklist Pré-AD ✅</h2>
 <p>Avant de passer au Chapitre 4, assurez-vous que :</p>
-<ul>
-<li>[ ] Vous comprenez que <strong>DNS = annuaire de noms → IP</strong></li>
-<li>[ ] Vous savez que <strong>AD ne peut PAS fonctionner sans DNS</strong></li>
-<li>[ ] Vous avez testé <code>ping google.com</code> avec succès</li>
-<li>[ ] Vous avez configuré DNS = <code>127.0.0.1</code> sur l'adaptateur LAN-VM</li>
-<li>[ ] Vous avez vérifié avec <code>ipconfig /all</code></li>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Vous comprenez que <strong>DNS = annuaire de noms → IP</strong></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Vous savez que <strong>AD ne peut PAS fonctionner sans DNS</strong></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Vous avez testé <code>ping google.com</code> avec succès</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Vous avez configuré DNS = <code>127.0.0.1</code> sur l'adaptateur LAN-VM</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Vous avez vérifié avec <code>ipconfig /all</code></li>
 </ul>
 <blockquote>
 <p>💡 <strong>Prochaine étape:</strong> Installation d'Active Directory Domain Services qui installera automatiquement le DNS !</p>
@@ -1744,7 +1744,7 @@ ipconfig /all
 <details>
 <summary>❓ Pourquoi si peu de théorie DNS ?</summary>
 
-**Réponse:** Parce que la meilleure façon d'apprendre DNS c'est de le manipuler avec un domaine réel. Une fois AD installé (Chapitre 4), vous aurez `maxtec.be` fonctionnel et nous ferons de la pratique (Chapitre 4-bis) !
+**Réponse:** Parce que la meilleure façon d'apprendre DNS c'est de le manipuler avec un domaine réel. Une fois AD installé (Chapitre 4), vous aurez `maxtec.be` fonctionnel et nous ferons de la pratique (Chapitre 4) !
 </details>
 
 <details>
@@ -1757,21 +1757,21 @@ ipconfig /all
 <summary>❓ Où est toute la théorie DNS (zones, délégation, etc.) ?</summary>
 
 **Réponse:** Dans **deux endroits** :
-1. **Chapitre 4-bis** (après installation AD) : Labs pratiques avec votre domaine réel
+1. **Chapitre 4** (après installation AD) : Labs pratiques avec votre domaine réel
 2. **Théorie DNS** : Théorie DNS avancée pour consultation/approfondissement
 </details>
 
 <details>
 <summary>❓ Est-ce que je peux sauter ce chapitre et aller directement au Chapitre 4 ?</summary>
 
-**Réponse:** NON ! Sans configurer DNS = 127.0.0.1, l'installation d'AD échouera. Ce sont 10 minutes de configuration vitales.
+**Réponse:** NON ! Sans configurer DNS = 127.0.0.1, l'installation d'AD échouera. Cette configuration est vitale.
 </details>
 
 <hr />
 <h2 id="pour-aller-plus-loin-optionnel-maintenant">📚 Pour aller plus loin (optionnel maintenant)</h2>
 <p>Si vous voulez approfondir la théorie DNS <strong>avant</strong> l'installation AD :
 - 📖 <a href="../Th%C3%A9orie%20DNS-%20DNS%20Concepts%20Avances%20%28Reference%29/">Théorie DNS - DNS Concepts Avancés</a></p>
-<p>Mais nous recommandons d'<strong>installer AD d'abord</strong> (Chapitre 4) puis de faire les <strong>labs pratiques DNS</strong> (Chapitre 4-bis). </p>
+<p>Mais nous recommandons d'<strong>installer AD d'abord</strong> (Chapitre 4) puis de faire les <strong>labs pratiques DNS</strong> (Chapitre 4). </p>
 <hr />
 <h2 id="vous-etes-prete">🚀 Vous êtes prêt(e) !</h2>
 <p><strong>Prochaine étape:</strong> Installation d'Active Directory Domain Services qui transformera votre serveur en contrôleur de domaine avec DNS intégré !</p>

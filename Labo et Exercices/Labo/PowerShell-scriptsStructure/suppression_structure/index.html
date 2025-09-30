@@ -564,12 +564,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+      <a href="../../../../Chapitre%204.DNS-Pratique-avec-AD/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Chapitre 4bis.DNS-Pratique-avec-AD
+    Chapitre 4.DNS-Pratique-avec-AD
     
   </span>
   
@@ -1320,100 +1320,100 @@
 
   <h1>suppression_structure</h1>
 
-<pre><code class="language-powershell"># Script pour supprimer la structure des OUs
-# Stocker ce script dans un fichier supression.ps1
+<div class="highlight"><pre><span></span><code><span class="c"># Script pour supprimer la structure des OUs</span>
+<span class="c"># Stocker ce script dans un fichier supression.ps1</span>
 
-# ATTENTION: Ce script supprime des objets AD. À utiliser avec précaution!
+<span class="c"># ATTENTION: Ce script supprime des objets AD. À utiliser avec précaution!</span>
 
-# Importer le module Active Directory
-Import-Module ActiveDirectory
+<span class="c"># Importer le module Active Directory</span>
+<span class="nb">Import-Module</span> <span class="n">ActiveDirectory</span>
 
-# Fonction pour supprimer récursivement les OUs
-function Remove-OUStructure {
-    param (
-        [Parameter(Mandatory=$true)]
-        [string]$OUPath
-    )
+<span class="c"># Fonction pour supprimer récursivement les OUs</span>
+<span class="k">function</span> <span class="nb">Remove-OUStructure</span> <span class="p">{</span>
+    <span class="k">param</span> <span class="p">(</span>
+        <span class="p">[</span><span class="k">Parameter</span><span class="p">(</span><span class="k">Mandatory</span><span class="p">=</span><span class="nv">$true</span><span class="p">)]</span>
+        <span class="no">[string]</span><span class="nv">$OUPath</span>
+    <span class="p">)</span>
 
-    # Récupérer toutes les sous-OUs
-    $childOUs = Get-ADOrganizationalUnit -Filter * -SearchBase $OUPath -SearchScope OneLevel
+    <span class="c"># Récupérer toutes les sous-OUs</span>
+    <span class="nv">$childOUs</span> <span class="p">=</span> <span class="nb">Get-ADOrganizationalUnit</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="nv">$OUPath</span> <span class="n">-SearchScope</span> <span class="n">OneLevel</span>
 
-    foreach ($childOU in $childOUs) {
-        # Supprimer récursivement les sous-OUs
-        Remove-OUStructure -OUPath $childOU.DistinguishedName
+    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$childOU</span> <span class="k">in</span> <span class="nv">$childOUs</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c"># Supprimer récursivement les sous-OUs</span>
+        <span class="nb">Remove-OUStructure</span> <span class="n">-OUPath</span> <span class="nv">$childOU</span><span class="p">.</span><span class="n">DistinguishedName</span>
 
-        # Désactiver la protection contre la suppression accidentelle
-        Set-ADOrganizationalUnit -Identity $childOU.DistinguishedName -ProtectedFromAccidentalDeletion $false
+        <span class="c"># Désactiver la protection contre la suppression accidentelle</span>
+        <span class="nb">Set-ADOrganizationalUnit</span> <span class="n">-Identity</span> <span class="nv">$childOU</span><span class="p">.</span><span class="n">DistinguishedName</span> <span class="n">-ProtectedFromAccidentalDeletion</span> <span class="nv">$false</span>
 
-        # Supprimer l'OU
-        Write-Host &quot;Suppression de l'OU: $($childOU.Name)&quot;
-        Remove-ADOrganizationalUnit -Identity $childOU.DistinguishedName -Confirm:$false
-    }
-}
+        <span class="c"># Supprimer l&#39;OU</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;Suppression de l&#39;OU: </span><span class="p">$(</span><span class="nv">$childOU</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">&quot;</span>
+        <span class="nb">Remove-ADOrganizationalUnit</span> <span class="n">-Identity</span> <span class="nv">$childOU</span><span class="p">.</span><span class="n">DistinguishedName</span> <span class="n">-Confirm</span><span class="p">:</span><span class="nv">$false</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-# Chemin de base pour l'OU EU
-$baseOU = &quot;OU=EU,DC=maxtec,DC=be&quot;
+<span class="c"># Chemin de base pour l&#39;OU EU</span>
+<span class="nv">$baseOU</span> <span class="p">=</span> <span class="s2">&quot;OU=EU,DC=maxtec,DC=be&quot;</span>
 
-try {
-    # 1. Supprimer les utilisateurs
-    Write-Host &quot;Suppression des utilisateurs...&quot;
-    $users = @(
-        &quot;vanessa&quot;, &quot;valeria&quot;, &quot;victor&quot;, &quot;valentin&quot;,  # Ventes
-        &quot;richard&quot;, &quot;rebecca&quot;, &quot;rene&quot;,                # RH
-        &quot;charlotte&quot;, &quot;cindy&quot;, &quot;charles&quot;              # Comptabilité
-    )
+<span class="k">try</span> <span class="p">{</span>
+    <span class="c"># 1. Supprimer les utilisateurs</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Suppression des utilisateurs...&quot;</span>
+    <span class="nv">$users</span> <span class="p">=</span> <span class="p">@(</span>
+        <span class="s2">&quot;vanessa&quot;</span><span class="p">,</span> <span class="s2">&quot;valeria&quot;</span><span class="p">,</span> <span class="s2">&quot;victor&quot;</span><span class="p">,</span> <span class="s2">&quot;valentin&quot;</span><span class="p">,</span>  <span class="c"># Ventes</span>
+        <span class="s2">&quot;richard&quot;</span><span class="p">,</span> <span class="s2">&quot;rebecca&quot;</span><span class="p">,</span> <span class="s2">&quot;rene&quot;</span><span class="p">,</span>                <span class="c"># RH</span>
+        <span class="s2">&quot;charlotte&quot;</span><span class="p">,</span> <span class="s2">&quot;cindy&quot;</span><span class="p">,</span> <span class="s2">&quot;charles&quot;</span>              <span class="c"># Comptabilité</span>
+    <span class="p">)</span>
 
-    foreach ($user in $users) {
-        $userDN = &quot;CN=$user,*,OU=EU,DC=maxtec,DC=be&quot;
-        Get-ADUser -Filter {SamAccountName -eq $user} | Remove-ADUser -Confirm:$false
-        Write-Host &quot;Utilisateur supprimé: $user&quot;
-    }
+    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$user</span> <span class="k">in</span> <span class="nv">$users</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$userDN</span> <span class="p">=</span> <span class="s2">&quot;CN=$user,*,OU=EU,DC=maxtec,DC=be&quot;</span>
+        <span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">SamAccountName</span> <span class="o">-eq</span> <span class="nv">$user</span><span class="p">}</span> <span class="p">|</span> <span class="nb">Remove-ADUser</span> <span class="n">-Confirm</span><span class="p">:</span><span class="nv">$false</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;Utilisateur supprimé: $user&quot;</span>
+    <span class="p">}</span>
 
-    # 2. Supprimer les ordinateurs
-    Write-Host &quot;Suppression des ordinateurs...&quot;
-    $computers = @(
-        &quot;ws-ventes-01&quot;, &quot;ws-ventes-02&quot;,  # Ventes
-        &quot;ws-RH-01&quot;, &quot;ws-RH-02&quot;,          # RH
-        &quot;ws-compta-01&quot;, &quot;ws-compta-02&quot;   # Comptabilité
-    )
+    <span class="c"># 2. Supprimer les ordinateurs</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Suppression des ordinateurs...&quot;</span>
+    <span class="nv">$computers</span> <span class="p">=</span> <span class="p">@(</span>
+        <span class="s2">&quot;ws-ventes-01&quot;</span><span class="p">,</span> <span class="s2">&quot;ws-ventes-02&quot;</span><span class="p">,</span>  <span class="c"># Ventes</span>
+        <span class="s2">&quot;ws-RH-01&quot;</span><span class="p">,</span> <span class="s2">&quot;ws-RH-02&quot;</span><span class="p">,</span>          <span class="c"># RH</span>
+        <span class="s2">&quot;ws-compta-01&quot;</span><span class="p">,</span> <span class="s2">&quot;ws-compta-02&quot;</span>   <span class="c"># Comptabilité</span>
+    <span class="p">)</span>
 
-    foreach ($computer in $computers) {
-        Get-ADComputer -Filter {Name -eq $computer} | Remove-ADComputer -Confirm:$false
-        Write-Host &quot;Ordinateur supprimé: $computer&quot;
-    }
+    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$computer</span> <span class="k">in</span> <span class="nv">$computers</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Get-ADComputer</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Name</span> <span class="o">-eq</span> <span class="nv">$computer</span><span class="p">}</span> <span class="p">|</span> <span class="nb">Remove-ADComputer</span> <span class="n">-Confirm</span><span class="p">:</span><span class="nv">$false</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;Ordinateur supprimé: $computer&quot;</span>
+    <span class="p">}</span>
 
-    # 3. Supprimer les groupes
-    Write-Host &quot;Suppression des groupes...&quot;
-    $groups = @(
-        &quot;GG-EU-Ventes-Admin&quot;, &quot;GG-EU-Ventes-Users&quot;,    # Ventes
-        &quot;GG-EU-RH-Admin&quot;, &quot;GG-EU-RH-Users&quot;,           # RH
-        &quot;GG-EU-Compta-Admin&quot;, &quot;GG-EU-Compta-Users&quot;    # Comptabilité
-    )
+    <span class="c"># 3. Supprimer les groupes</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Suppression des groupes...&quot;</span>
+    <span class="nv">$groups</span> <span class="p">=</span> <span class="p">@(</span>
+        <span class="s2">&quot;GG-EU-Ventes-Admin&quot;</span><span class="p">,</span> <span class="s2">&quot;GG-EU-Ventes-Users&quot;</span><span class="p">,</span>    <span class="c"># Ventes</span>
+        <span class="s2">&quot;GG-EU-RH-Admin&quot;</span><span class="p">,</span> <span class="s2">&quot;GG-EU-RH-Users&quot;</span><span class="p">,</span>           <span class="c"># RH</span>
+        <span class="s2">&quot;GG-EU-Compta-Admin&quot;</span><span class="p">,</span> <span class="s2">&quot;GG-EU-Compta-Users&quot;</span>    <span class="c"># Comptabilité</span>
+    <span class="p">)</span>
 
-    foreach ($group in $groups) {
-        Get-ADGroup -Filter {Name -eq $group} | Remove-ADGroup -Confirm:$false
-        Write-Host &quot;Groupe supprimé: $group&quot;
-    }
+    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$group</span> <span class="k">in</span> <span class="nv">$groups</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Name</span> <span class="o">-eq</span> <span class="nv">$group</span><span class="p">}</span> <span class="p">|</span> <span class="nb">Remove-ADGroup</span> <span class="n">-Confirm</span><span class="p">:</span><span class="nv">$false</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;Groupe supprimé: $group&quot;</span>
+    <span class="p">}</span>
 
-    # 4. Supprimer la structure d'OUs
-    Write-Host &quot;Suppression de la structure d'OUs...&quot;
+    <span class="c"># 4. Supprimer la structure d&#39;OUs</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Suppression de la structure d&#39;OUs...&quot;</span>
 
-    # Désactiver la protection contre la suppression accidentelle sur l'OU racine
-    Set-ADOrganizationalUnit -Identity $baseOU -ProtectedFromAccidentalDeletion $false
+    <span class="c"># Désactiver la protection contre la suppression accidentelle sur l&#39;OU racine</span>
+    <span class="nb">Set-ADOrganizationalUnit</span> <span class="n">-Identity</span> <span class="nv">$baseOU</span> <span class="n">-ProtectedFromAccidentalDeletion</span> <span class="nv">$false</span>
 
-    # Supprimer récursivement toute la structure
-    Remove-OUStructure -OUPath $baseOU
+    <span class="c"># Supprimer récursivement toute la structure</span>
+    <span class="nb">Remove-OUStructure</span> <span class="n">-OUPath</span> <span class="nv">$baseOU</span>
 
-    # Supprimer l'OU racine EU
-    Remove-ADOrganizationalUnit -Identity $baseOU -Confirm:$false
-    Write-Host &quot;OU racine EU supprimée&quot;
+    <span class="c"># Supprimer l&#39;OU racine EU</span>
+    <span class="nb">Remove-ADOrganizationalUnit</span> <span class="n">-Identity</span> <span class="nv">$baseOU</span> <span class="n">-Confirm</span><span class="p">:</span><span class="nv">$false</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;OU racine EU supprimée&quot;</span>
 
-    Write-Host &quot;Structure supprimée avec succès!&quot;
-}
-catch {
-    Write-Error &quot;Une erreur s'est produite: $_&quot;
-}
-</code></pre>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Structure supprimée avec succès!&quot;</span>
+<span class="p">}</span>
+<span class="k">catch</span> <span class="p">{</span>
+    <span class="nb">Write-Error</span> <span class="s2">&quot;Une erreur s&#39;est produite: $_&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
 
 
 

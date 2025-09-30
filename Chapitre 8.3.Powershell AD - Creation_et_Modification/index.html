@@ -569,12 +569,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+      <a href="../Chapitre%204.DNS-Pratique-avec-AD/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Chapitre 4bis.DNS-Pratique-avec-AD
+    Chapitre 4.DNS-Pratique-avec-AD
     
   </span>
   
@@ -1508,82 +1508,82 @@
 <h2 id="1-modification-dattributs-utilisateur">1. 🔹 Modification d'attributs utilisateur</h2>
 <p>La modification des attributs utilisateur est une tâche courante qui peut être facilement automatisée avec PowerShell.</p>
 <h3 id="modification-dattributs-simples">Modification d'attributs simples</h3>
-<pre><code class="language-powershell"># Modifier le titre et le département d'un utilisateur
-# Méthode avec Filter
-Get-ADUser -Filter &quot;SamAccountName -eq 'Victor'&quot; | Set-ADUser `
-    -Title &quot;Comptable Senior&quot; `
-    -Department &quot;Comptabilité&quot; `
-    -Description &quot;Comptable senior pour les clients européens&quot;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c"># Modifier le titre et le département d&#39;un utilisateur</span>
+<span class="c"># Méthode avec Filter</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="s2">&quot;SamAccountName -eq &#39;Victor&#39;&quot;</span> <span class="p">|</span> <span class="nb">Set-ADUser</span> <span class="p">`</span>
+    <span class="n">-Title</span> <span class="s2">&quot;Comptable Senior&quot;</span> <span class="p">`</span>
+    <span class="n">-Department</span> <span class="s2">&quot;Comptabilité&quot;</span> <span class="p">`</span>
+    <span class="n">-Description</span> <span class="s2">&quot;Comptable senior pour les clients européens&quot;</span>
+</code></pre></div>
 <blockquote>
 <p><strong>Exercice</strong> : Modifiez la description de tous les utilisateurs du département Comptabilité (mettez par exemple: "Utilisateur de comptabilité")</p>
 </blockquote>
 <h2 id="4-gestion-des-mots-de-passe">4. 🔹 Gestion des mots de passe</h2>
 <p>La gestion des mots de passe est une tâche critique pour la sécurité.</p>
 <h3 id="reinitialisation-de-mot-de-passe">Réinitialisation de mot de passe</h3>
-<pre><code class="language-powershell"># Réinitialiser le mot de passe d'un utilisateur
-Get-ADUser -Filter &quot;SamAccountName -eq 'pierre.dupont'&quot; | Set-ADAccountPassword `
-    -Reset `
-    -NewPassword (ConvertTo-SecureString &quot;Password1!&quot; -AsPlainText -Force)
+<div class="highlight"><pre><span></span><code><span class="c"># Réinitialiser le mot de passe d&#39;un utilisateur</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="s2">&quot;SamAccountName -eq &#39;pierre.dupont&#39;&quot;</span> <span class="p">|</span> <span class="nb">Set-ADAccountPassword</span> <span class="p">`</span>
+    <span class="n">-Reset</span> <span class="p">`</span>
+    <span class="n">-NewPassword</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="s2">&quot;Password1!&quot;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
 
-# Forcer le changement de mot de passe à la prochaine connexion
-Get-ADUser -Filter &quot;SamAccountName -eq 'pierre.dupont'&quot; | Set-ADUser -ChangePasswordAtLogon $true
+<span class="c"># Forcer le changement de mot de passe à la prochaine connexion</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="s2">&quot;SamAccountName -eq &#39;pierre.dupont&#39;&quot;</span> <span class="p">|</span> <span class="nb">Set-ADUser</span> <span class="n">-ChangePasswordAtLogon</span> <span class="nv">$true</span>
 
 
-# Exemple: réinitialiser les mots de passe de tous les utilisateurs d'un département
-Get-ADUser -Filter &quot;Department -eq 'Stagiaires'&quot; | ForEach-Object {
-    Set-ADAccountPassword -Identity $_.SamAccountName `
-        -Reset `
-        -NewPassword (ConvertTo-SecureString &quot;Password1!&quot; -AsPlainText -Force)
-    Set-ADUser -Identity $_.SamAccountName -ChangePasswordAtLogon $true
-}
-</code></pre>
+<span class="c"># Exemple: réinitialiser les mots de passe de tous les utilisateurs d&#39;un département</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="s2">&quot;Department -eq &#39;Stagiaires&#39;&quot;</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nb">Set-ADAccountPassword</span> <span class="n">-Identity</span> <span class="nv">$_</span><span class="p">.</span><span class="n">SamAccountName</span> <span class="p">`</span>
+        <span class="n">-Reset</span> <span class="p">`</span>
+        <span class="n">-NewPassword</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="s2">&quot;Password1!&quot;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
+    <span class="nb">Set-ADUser</span> <span class="n">-Identity</span> <span class="nv">$_</span><span class="p">.</span><span class="n">SamAccountName</span> <span class="n">-ChangePasswordAtLogon</span> <span class="nv">$true</span>
+<span class="p">}</span>
+</code></pre></div>
 <blockquote>
 <p><strong>Exercice</strong>: Réinitialisez le mot de passe de tous les utilisateurs du département Comptabilité et forcez le changement de mot de passe à la prochaine connexion.</p>
 </blockquote>
 <h3 id="deverrouillage-de-compte">Déverrouillage de compte</h3>
-<pre><code class="language-powershell"># Déverrouiller un compte utilisateur
-Get-ADUser -Filter &quot;SamAccountName -eq 'marie.martin'&quot; | Unlock-ADAccount
+<div class="highlight"><pre><span></span><code><span class="c"># Déverrouiller un compte utilisateur</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="s2">&quot;SamAccountName -eq &#39;marie.martin&#39;&quot;</span> <span class="p">|</span> <span class="nb">Unlock-ADAccount</span>
 
-# Vérifier si un compte est verrouillé
-Get-ADUser -Filter {SamAccountName -eq 'marie.martin'} -Properties LockedOut | Select-Object Name, LockedOut
+<span class="c"># Vérifier si un compte est verrouillé</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">SamAccountName</span> <span class="o">-eq</span> <span class="s1">&#39;marie.martin&#39;</span><span class="p">}</span> <span class="n">-Properties</span> <span class="n">LockedOut</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">LockedOut</span>
 
-# Exemple: déverrouiller tous les comptes verrouillés
-Get-ADUser -Filter {LockedOut -eq $true} -Properties LockedOut | ForEach-Object {
-    Unlock-ADAccount -Identity $_.SamAccountName
-    Write-Host &quot;Compte $($_.Name) déverrouillé&quot; -ForegroundColor Green
-}
-</code></pre>
+<span class="c"># Exemple: déverrouiller tous les comptes verrouillés</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">LockedOut</span> <span class="o">-eq</span> <span class="nv">$true</span><span class="p">}</span> <span class="n">-Properties</span> <span class="n">LockedOut</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nb">Unlock-ADAccount</span> <span class="n">-Identity</span> <span class="nv">$_</span><span class="p">.</span><span class="n">SamAccountName</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Compte </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2"> déverrouillé&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="5-gestion-des-appartenances-aux-groupes">5. 🔹 Gestion des appartenances aux groupes</h2>
 <p>La gestion des appartenances aux groupes est essentielle pour contrôler les accès.</p>
 <h3 id="ajouter-un-utilisateur-a-un-groupe">Ajouter un utilisateur à un groupe</h3>
-<pre><code class="language-powershell"># Ajouter un utilisateur à un groupe
-Get-ADUser -Filter &quot;SamAccountName -eq 'pierre.dupont'&quot; | Add-ADGroupMember -Identity &quot;GG-EU-Comptabilité-Utilisateurs&quot;
+<div class="highlight"><pre><span></span><code><span class="c"># Ajouter un utilisateur à un groupe</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="s2">&quot;SamAccountName -eq &#39;pierre.dupont&#39;&quot;</span> <span class="p">|</span> <span class="nb">Add-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-EU-Comptabilité-Utilisateurs&quot;</span>
 
-# Ajouter plusieurs utilisateurs à un groupe
-Get-ADUser -Filter &quot;(SamAccountName -eq 'jean.martin') -or (SamAccountName -eq 'sophie.lambert')&quot; | Add-ADGroupMember -Identity &quot;GG-EU-Ventes-Utilisateurs&quot;
-</code></pre>
+<span class="c"># Ajouter plusieurs utilisateurs à un groupe</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="s2">&quot;(SamAccountName -eq &#39;jean.martin&#39;) -or (SamAccountName -eq &#39;sophie.lambert&#39;)&quot;</span> <span class="p">|</span> <span class="nb">Add-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-EU-Ventes-Utilisateurs&quot;</span>
+</code></pre></div>
 <h3 id="retirer-un-utilisateur-dun-groupe">Retirer un utilisateur d'un groupe</h3>
-<pre><code class="language-powershell"># Retirer un utilisateur d'un groupe
-Get-ADUser -Filter {SamAccountName -eq 'pierre.dupont'} | Remove-ADGroupMember -Identity &quot;GG-EU-Comptabilité-Managers&quot; -Confirm:$false
+<div class="highlight"><pre><span></span><code><span class="c"># Retirer un utilisateur d&#39;un groupe</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">SamAccountName</span> <span class="o">-eq</span> <span class="s1">&#39;pierre.dupont&#39;</span><span class="p">}</span> <span class="p">|</span> <span class="nb">Remove-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-EU-Comptabilité-Managers&quot;</span> <span class="n">-Confirm</span><span class="p">:</span><span class="nv">$false</span>
 
-# Exemple: retirer tous les utilisateurs d'un service d'un groupe
-# Note: 'Department' (propriété PowerShell) = 'Service' (interface française d'AD)
-Get-ADUser -Filter {Department -eq 'Stagiaires'} | Remove-ADGroupMember -Identity &quot;GG-EU-Comptabilité-Utilisateurs&quot; -Confirm:$false
-</code></pre>
+<span class="c"># Exemple: retirer tous les utilisateurs d&#39;un service d&#39;un groupe</span>
+<span class="c"># Note: &#39;Department&#39; (propriété PowerShell) = &#39;Service&#39; (interface française d&#39;AD)</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Department</span> <span class="o">-eq</span> <span class="s1">&#39;Stagiaires&#39;</span><span class="p">}</span> <span class="p">|</span> <span class="nb">Remove-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-EU-Comptabilité-Utilisateurs&quot;</span> <span class="n">-Confirm</span><span class="p">:</span><span class="nv">$false</span>
+</code></pre></div>
 <h3 id="verifier-les-appartenances">Vérifier les appartenances</h3>
-<pre><code class="language-powershell"># Vérifier les groupes d'un utilisateur
-Get-ADUser -Filter {SamAccountName -eq 'Richard'} | ForEach-Object {
-    Get-ADPrincipalGroupMembership -Identity $_.SamAccountName | Select-Object Name
-}
+<div class="highlight"><pre><span></span><code><span class="c"># Vérifier les groupes d&#39;un utilisateur</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">SamAccountName</span> <span class="o">-eq</span> <span class="s1">&#39;Richard&#39;</span><span class="p">}</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nb">Get-ADPrincipalGroupMembership</span> <span class="n">-Identity</span> <span class="nv">$_</span><span class="p">.</span><span class="n">SamAccountName</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span>
+<span class="p">}</span>
 
-# Exemple: afficher les groupes pour tous les utilisateurs d'une OU spécifique
-$cheminOU = &quot;OU=Users,OU=Ventes,OU=EU,DC=maxtec,DC=be&quot;
-Get-ADUser -Filter * -SearchBase $cheminOU | ForEach-Object {
-    Write-Host &quot;\nGroupes de $($_.Name):&quot; -ForegroundColor Yellow
-    Get-ADPrincipalGroupMembership -Identity $_.SamAccountName | Select-Object Name
-}
-</code></pre>
+<span class="c"># Exemple: afficher les groupes pour tous les utilisateurs d&#39;une OU spécifique</span>
+<span class="nv">$cheminOU</span> <span class="p">=</span> <span class="s2">&quot;OU=Users,OU=Ventes,OU=EU,DC=maxtec,DC=be&quot;</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="nv">$cheminOU</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;\nGroupes de </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="nb">Get-ADPrincipalGroupMembership</span> <span class="n">-Identity</span> <span class="nv">$_</span><span class="p">.</span><span class="n">SamAccountName</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span>
+<span class="p">}</span>
+</code></pre></div>
 <blockquote>
 <p><strong>Exercice</strong> : Ajoutez un utilisateur à trois groupes différents, puis vérifiez ses appartenances.</p>
 </blockquote>
@@ -1591,64 +1591,64 @@ Get-ADUser -Filter * -SearchBase $cheminOU | ForEach-Object {
 <p>Ce mini-projet vous permettra de créer automatiquement plusieurs utilisateurs à partir d'un fichier CSV.</p>
 <h3 id="etape-1-creer-le-fichier-csv">Étape 1 : Créer le fichier CSV</h3>
 <p>Créez un fichier <code>utilisateurs.csv</code> avec le contenu suivant :</p>
-<pre><code>Prenom,Nom,Departement,Titre,OU
+<div class="highlight"><pre><span></span><code>Prenom,Nom,Departement,Titre,OU
 Thomas,Leclerc,Comptabilite,Comptable,&quot;OU=Users,OU=Comptabilite,OU=EU,DC=maxtec,DC=be&quot;
 Sophie,Dubois,Ventes,Commerciale,&quot;OU=Users,OU=Ventes,OU=EU,DC=maxtec,DC=be&quot;
 Marc,Leroy,RH,Assistant RH,&quot;OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be&quot;
-</code></pre>
+</code></pre></div>
 <h3 id="etape-2-script-dimportation-a-corriger-et-adapter">Étape 2 : Script d'importation (à corriger et adapter)</h3>
-<pre><code class="language-powershell"># Importer le fichier CSV
-$utilisateurs = Import-Csv -Path &quot;C:\utilisateurs.csv&quot; -Delimiter &quot;,&quot;
-# Pour déboguer, afficher le contenu de $utilisateurs
-Write-Host &quot;`nContenu de `$utilisateurs`:&quot; -ForegroundColor Yellow
-$utilisateurs | Format-List
+<div class="highlight"><pre><span></span><code><span class="c"># Importer le fichier CSV</span>
+<span class="nv">$utilisateurs</span> <span class="p">=</span> <span class="nb">Import-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;C:\utilisateurs.csv&quot;</span> <span class="n">-Delimiter</span> <span class="s2">&quot;,&quot;</span>
+<span class="c"># Pour déboguer, afficher le contenu de $utilisateurs</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Contenu de </span><span class="se">`$</span><span class="s2">utilisateurs`:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nv">$utilisateurs</span> <span class="p">|</span> <span class="nb">Format-List</span>
 
-# Parcourir chaque ligne et créer les utilisateurs
-foreach ($user in $utilisateurs) {
-    # Créer le nom d'utilisateur (prénom.nom)
-    $samAccountName = &quot;$($user.Prenom.ToLower()).$($user.Nom.ToLower())&quot;
-    $displayName = &quot;$($user.Prenom) $($user.Nom)&quot;
-    $userPrincipalName = &quot;$samAccountName@maxtec.be&quot;
+<span class="c"># Parcourir chaque ligne et créer les utilisateurs</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$user</span> <span class="k">in</span> <span class="nv">$utilisateurs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c"># Créer le nom d&#39;utilisateur (prénom.nom)</span>
+    <span class="nv">$samAccountName</span> <span class="p">=</span> <span class="s2">&quot;</span><span class="p">$(</span><span class="nv">$user</span><span class="p">.</span><span class="n">Prenom</span><span class="p">.</span><span class="n">ToLower</span><span class="p">())</span><span class="s2">.</span><span class="p">$(</span><span class="nv">$user</span><span class="p">.</span><span class="n">Nom</span><span class="p">.</span><span class="n">ToLower</span><span class="p">())</span><span class="s2">&quot;</span>
+    <span class="nv">$displayName</span> <span class="p">=</span> <span class="s2">&quot;</span><span class="p">$(</span><span class="nv">$user</span><span class="p">.</span><span class="n">Prenom</span><span class="p">)</span><span class="s2"> </span><span class="p">$(</span><span class="nv">$user</span><span class="p">.</span><span class="n">Nom</span><span class="p">)</span><span class="s2">&quot;</span>
+    <span class="nv">$userPrincipalName</span> <span class="p">=</span> <span class="s2">&quot;$samAccountName@maxtec.be&quot;</span>
 
-    # Vérifier si l'utilisateur existe déjà
-    if (Get-ADUser -Filter {SamAccountName -eq $samAccountName} -ErrorAction SilentlyContinue) {
-        Write-Warning &quot;L'utilisateur $samAccountName existe déjà.&quot;
-        continue
-    }
+    <span class="c"># Vérifier si l&#39;utilisateur existe déjà</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">SamAccountName</span> <span class="o">-eq</span> <span class="nv">$samAccountName</span><span class="p">}</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Write-Warning</span> <span class="s2">&quot;L&#39;utilisateur $samAccountName existe déjà.&quot;</span>
+        <span class="k">continue</span>
+    <span class="p">}</span>
 
-    # Créer l'utilisateur
-    try {
-        New-ADUser -Name $displayName `
-            -GivenName $user.Prenom `
-            -Surname $user.Nom `
-            -SamAccountName $samAccountName `
-            -UserPrincipalName $userPrincipalName `
-            -Path $user.OU `
-            -AccountPassword (ConvertTo-SecureString &quot;Password1!&quot; -AsPlainText -Force) `
-            -Enabled $true `
-            -ChangePasswordAtLogon $true `
-            -EmailAddress $userPrincipalName
+    <span class="c"># Créer l&#39;utilisateur</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="nb">New-ADUser</span> <span class="n">-Name</span> <span class="nv">$displayName</span> <span class="p">`</span>
+            <span class="n">-GivenName</span> <span class="nv">$user</span><span class="p">.</span><span class="n">Prenom</span> <span class="p">`</span>
+            <span class="n">-Surname</span> <span class="nv">$user</span><span class="p">.</span><span class="n">Nom</span> <span class="p">`</span>
+            <span class="n">-SamAccountName</span> <span class="nv">$samAccountName</span> <span class="p">`</span>
+            <span class="n">-UserPrincipalName</span> <span class="nv">$userPrincipalName</span> <span class="p">`</span>
+            <span class="n">-Path</span> <span class="nv">$user</span><span class="p">.</span><span class="n">OU</span> <span class="p">`</span>
+            <span class="n">-AccountPassword</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="s2">&quot;Password1!&quot;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span> <span class="p">`</span>
+            <span class="n">-Enabled</span> <span class="nv">$true</span> <span class="p">`</span>
+            <span class="n">-ChangePasswordAtLogon</span> <span class="nv">$true</span> <span class="p">`</span>
+            <span class="n">-EmailAddress</span> <span class="nv">$userPrincipalName</span>
 
-        Write-Host &quot;Utilisateur $displayName créé avec succès.&quot; -ForegroundColor Green
-    }
-    catch {
-        Write-Host &quot;Erreur lors de la création de $displayName : $_&quot; -ForegroundColor Red
-    }
-}
+        <span class="nb">Write-Host</span> <span class="s2">&quot;Utilisateur $displayName créé avec succès.&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="p">}</span>
+    <span class="k">catch</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;Erreur lors de la création de $displayName : $_&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-# Afficher un résumé
-Write-Host &quot;`nRésumé de l'importation :&quot; -ForegroundColor Yellow
-Write-Host &quot;Nombre d'utilisateurs traités : $($utilisateurs.Count)&quot; -ForegroundColor Yellow
-</code></pre>
+<span class="c"># Afficher un résumé</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Résumé de l&#39;importation :&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;Nombre d&#39;utilisateurs traités : </span><span class="p">$(</span><span class="nv">$utilisateurs</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+</code></pre></div>
 <h3 id="etape-3-verification-et-rapport">Étape 3 : Vérification et rapport</h3>
-<pre><code class="language-powershell"># Vérifier les utilisateurs créés
-$departements = $utilisateurs | Select-Object -ExpandProperty Departement -Unique
+<div class="highlight"><pre><span></span><code><span class="c"># Vérifier les utilisateurs créés</span>
+<span class="nv">$departements</span> <span class="p">=</span> <span class="nv">$utilisateurs</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-ExpandProperty</span> <span class="n">Departement</span> <span class="n">-Unique</span>
 
-foreach ($dept in $departements) {
-    $count = (Get-ADUser -Filter {Department -eq $dept}).Count
-    Write-Host &quot;Département $dept : $count utilisateurs&quot; -ForegroundColor Cyan
-}
-</code></pre>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$dept</span> <span class="k">in</span> <span class="nv">$departements</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$count</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Department</span> <span class="o">-eq</span> <span class="nv">$dept</span><span class="p">}).</span><span class="n">Count</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Département $dept : $count utilisateurs&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="p">}</span>
+</code></pre></div>
 <blockquote>
 <p><strong>Exercice final</strong> : Modifiez le script pour ajouter des attributs supplémentaires comme le bureau, le téléphone, et l'adresse. Ajoutez également une gestion d'erreurs plus robuste.</p>
 </blockquote>

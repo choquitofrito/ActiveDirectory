@@ -569,12 +569,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+      <a href="../Chapitre%204.DNS-Pratique-avec-AD/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Chapitre 4bis.DNS-Pratique-avec-AD
+    Chapitre 4.DNS-Pratique-avec-AD
     
   </span>
   
@@ -1614,15 +1614,15 @@
 <h2 id="1-les-variables-des-boites-de-rangement">1. 🔹 Les variables : des boîtes de rangement</h2>
 <p>Une variable est simplement un conteneur qui stocke une information. Pensez-y comme à une boîte étiquetée où vous rangez temporairement des données.</p>
 <h3 id="creation-dune-variable">Création d'une variable</h3>
-<pre><code class="language-powershell"># Créer une variable pour stocker un nom d'utilisateur
-$nomUtilisateur = &quot;jean.dupont&quot;
+<div class="highlight"><pre><span></span><code><span class="c"># Créer une variable pour stocker un nom d&#39;utilisateur</span>
+<span class="nv">$nomUtilisateur</span> <span class="p">=</span> <span class="s2">&quot;jean.dupont&quot;</span>
 
-# Afficher le contenu de la variable (plusieurs méthodes)
-Write-Host $nomUtilisateur           # Méthode 1: Utiliser Write-Host (affichage formaté)
-$nomUtilisateur                      # Méthode 2: Simplement taper le nom de la variable
-Write-Output $nomUtilisateur         # Méthode 3: Utiliser Write-Output (pour le pipeline, on le verra plus tard)
-echo $nomUtilisateur                 # Méthode 4: Utiliser l'alias 'echo' (comme Write-Output)
-</code></pre>
+<span class="c"># Afficher le contenu de la variable (plusieurs méthodes)</span>
+<span class="nb">Write-Host</span> <span class="nv">$nomUtilisateur</span>           <span class="c"># Méthode 1: Utiliser Write-Host (affichage formaté)</span>
+<span class="nv">$nomUtilisateur</span>                      <span class="c"># Méthode 2: Simplement taper le nom de la variable</span>
+<span class="nb">Write-Output</span> <span class="nv">$nomUtilisateur</span>         <span class="c"># Méthode 3: Utiliser Write-Output (pour le pipeline, on le verra plus tard)</span>
+<span class="nb">echo </span><span class="nv">$nomUtilisateur</span>                 <span class="c"># Méthode 4: Utiliser l&#39;alias &#39;echo&#39; (comme Write-Output)</span>
+</code></pre></div>
 <blockquote>
 <p>Remarquez le symbole <code>$</code> qui indique qu'il s'agit d'une variable.</p>
 </blockquote>
@@ -1642,10 +1642,10 @@ echo $nomUtilisateur                 # Méthode 4: Utiliser l'alias 'echo' (comm
 </ol>
 <h3 id="variables-et-commandes-ad">Variables et commandes AD</h3>
 <p>Les variables sont particulièrement utiles pour stocker les résultats de vos commandes AD :</p>
-<pre><code class="language-powershell"># Stocker un utilisateur dans une variable avec toutes ses propriétés
-$utilisateur = Get-ADUser -Identity &quot;jean.dupont&quot; -Properties *
-$groupe = Get-ADGroup -Identity &quot;CN=GG-EU-RH-Admin,OU=Groups,OU=RH,OU=EU,DC=computerelectronics,DC=be&quot; -Properties *
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c"># Stocker un utilisateur dans une variable avec toutes ses propriétés</span>
+<span class="nv">$utilisateur</span> <span class="p">=</span> <span class="nb">Get-ADUser</span> <span class="n">-Identity</span> <span class="s2">&quot;jean.dupont&quot;</span> <span class="n">-Properties</span> <span class="p">*</span>
+<span class="nv">$groupe</span> <span class="p">=</span> <span class="nb">Get-ADGroup</span> <span class="n">-Identity</span> <span class="s2">&quot;CN=GG-EU-RH-Admin,OU=Groups,OU=RH,OU=EU,DC=computerelectronics,DC=be&quot;</span> <span class="n">-Properties</span> <span class="p">*</span>
+</code></pre></div>
 <p><strong>Note</strong>: ceci était une rechercher par <strong>identifiant</strong>. </p>
 <blockquote>
 <p><strong>Le paramètre -Identity</strong> : Ce paramètre permet de spécifier quel objet AD vous voulez obtenir/modifier. Il accepte plusieurs formats d'identification. Par exemple... si on a le groupe "GG-EU-IT-Users", on peut le trouver de plusieurs manières en utilisant le paramètre -Identity :
@@ -1655,38 +1655,38 @@ $groupe = Get-ADGroup -Identity &quot;CN=GG-EU-RH-Admin,OU=Groups,OU=RH,OU=EU,DC
 - <strong>GUID</strong> : L'identifiant unique global (ex: -Identity "123e4567-e89b-12d3-a456-426614174000")
 </p>
 </blockquote>
-<pre><code class="language-powershell"># Maintenant on peut accéder facilement à ses propriétés (créez de valeurs pour les champs manquants dans AD, car le script est simplifié et crée des utilisateurs qui n'ont pas toutes les propriétés)
-Write-Host $utilisateur.Surname
-Write-Host $utilisateur.GivenName
-Write-Host $utilisateur.Email
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c"># Maintenant on peut accéder facilement à ses propriétés (créez de valeurs pour les champs manquants dans AD, car le script est simplifié et crée des utilisateurs qui n&#39;ont pas toutes les propriétés)</span>
+<span class="nb">Write-Host</span> <span class="nv">$utilisateur</span><span class="p">.</span><span class="n">Surname</span>
+<span class="nb">Write-Host</span> <span class="nv">$utilisateur</span><span class="p">.</span><span class="n">GivenName</span>
+<span class="nb">Write-Host</span> <span class="nv">$utilisateur</span><span class="p">.</span><span class="n">Email</span>
+</code></pre></div>
 <blockquote>
 <p><strong>Note sur la langue</strong> : Même si votre interface AD est en français, les noms des propriétés dans PowerShell sont toujours en anglais. Utilisez donc <code>GivenName</code> (prénom), <code>Surname</code> (nom de famille), <code>Title</code> (titre), etc. Ces noms sont standardisés et ne changent pas avec la langue de l'interface.</p>
 </blockquote>
 <h3 id="mais-quelles-sont-les-proprietes-disponibles">Mais quelles sont les propriétés disponibles ?</h3>
 <p>Avant de pouvoir rechercher des informations spécifiques, il est important de connaître les attributs/propriétés disponibles. Ces propriétés sont aussi accessibles dans le menu <code>Propriétés</code> &gt; <code>Editeur d'attributs</code> dans <code>Utilisateurs et groupes d'AD</code> (il faut activer l'option <code>Fonctionnalités avancées</code> dans le menu principal de <code>Utilisateurs et groupes d'AD</code>)</p>
-<pre><code class="language-powershell">Get-ADUser -Filter * -Properties * | Get-Member -MemberType Property
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-Properties</span> <span class="p">*</span> <span class="p">|</span> <span class="nb">Get-Member</span> <span class="n">-MemberType</span> <span class="n">Property</span>
+</code></pre></div>
 <p>Avec <strong>Filter</strong> on peut rechercher des éléments à partir des valeurs de leurs propriétés. Par <strong>exemple, on peut rechercher des utilisateurs par leur nom, leur titre, leur service</strong> ('department' en anglais. La propriété est dans l'onglet <code>Organisation</code> dans les propriétés des utilisateurs), etc.</p>
-<pre><code class="language-powershell"># Exemple 1: Rechercher tous les utilisateurs dont le SamAccountName commence par 'Ri' (observez que le script n'a pas crée les prénoms ni les noms des utilisateurs)
-Get-ADUser -Filter {SamAccountName -like 'Ri*'} -Properties GivenName | Select-Object Name, SamAccountName, GivenName
+<div class="highlight"><pre><span></span><code><span class="c"># Exemple 1: Rechercher tous les utilisateurs dont le SamAccountName commence par &#39;Ri&#39; (observez que le script n&#39;a pas crée les prénoms ni les noms des utilisateurs)</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">SamAccountName</span> <span class="o">-like</span> <span class="s1">&#39;Ri*&#39;</span><span class="p">}</span> <span class="n">-Properties</span> <span class="n">GivenName</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">SamAccountName</span><span class="p">,</span> <span class="n">GivenName</span>
 
-# Exemple 2: Rechercher les utilisateurs créés après le 1er janvier 2023
-$date = Get-Date &quot;01/01/2023&quot;
-Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated | Select-Object Name, SamAccountName, WhenCreated
-</code></pre>
+<span class="c"># Exemple 2: Rechercher les utilisateurs créés après le 1er janvier 2023</span>
+<span class="nv">$date</span> <span class="p">=</span> <span class="nb">Get-Date</span> <span class="s2">&quot;01/01/2023&quot;</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">WhenCreated</span> <span class="o">-ge</span> <span class="nv">$date</span><span class="p">}</span> <span class="n">-Properties</span> <span class="n">WhenCreated</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">SamAccountName</span><span class="p">,</span> <span class="n">WhenCreated</span>
+</code></pre></div>
 <h2 id="2-les-tableaux-vos-collections-dobjets">2. 🔹 Les tableaux : vos collections d'objets</h2>
 <p>Un tableau est une collection d'éléments. Imaginez un classeur avec plusieurs tiroirs numérotés.</p>
 <h3 id="creation-dun-tableau-simple">Création d'un tableau simple</h3>
-<pre><code class="language-powershell"># Créer un tableau de noms d'utilisateurs (attention à la notation de @ et parenthèses)
-$utilisateurs = @(&quot;jean.dupont&quot;, &quot;marie.martin&quot;, &quot;pierre.durand&quot;)
+<div class="highlight"><pre><span></span><code><span class="c"># Créer un tableau de noms d&#39;utilisateurs (attention à la notation de @ et parenthèses)</span>
+<span class="nv">$utilisateurs</span> <span class="p">=</span> <span class="p">@(</span><span class="s2">&quot;jean.dupont&quot;</span><span class="p">,</span> <span class="s2">&quot;marie.martin&quot;</span><span class="p">,</span> <span class="s2">&quot;pierre.durand&quot;</span><span class="p">)</span>
 
-# Afficher le premier élément (les indices commencent à 0)
-$utilisateurs[0]
+<span class="c"># Afficher le premier élément (les indices commencent à 0)</span>
+<span class="nv">$utilisateurs</span><span class="p">[</span><span class="n">0</span><span class="p">]</span>
 
-# Afficher le dernier élément
-$utilisateurs[-1]
-</code></pre>
+<span class="c"># Afficher le dernier élément</span>
+<span class="nv">$utilisateurs</span><span class="p">[-</span><span class="n">1</span><span class="p">]</span>
+</code></pre></div>
 <h3 id="exercice-21-creez-et-manipulez-un-tableau">Exercice 2.1 : Créez et manipulez un tableau</h3>
 <ol>
 <li>Créez un tableau contenant les noms de serveurs de votre réseau (par exemple: "dns1", "fileserver", "webserver")</li>
@@ -1697,15 +1697,15 @@ $utilisateurs[-1]
 </ol>
 <h3 id="tableaux-dobjets-ad">Tableaux d'objets AD</h3>
 <p>En PowerShell, les résultats de nombreuses commandes sont automatiquement des tableaux :</p>
-<pre><code class="language-powershell"># Récupérer tous les utilisateurs du service Comptabilité: tableau d'objets ADUser
-$comptabilite = Get-ADUser -Filter *
+<div class="highlight"><pre><span></span><code><span class="c"># Récupérer tous les utilisateurs du service Comptabilité: tableau d&#39;objets ADUser</span>
+<span class="nv">$comptabilite</span> <span class="p">=</span> <span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span>
 
-# Combien d'utilisateurs avons-nous ? (nombre d'objets dans le tableau)
-Write-Host $comptabilite.Count
+<span class="c"># Combien d&#39;utilisateurs avons-nous ? (nombre d&#39;objets dans le tableau)</span>
+<span class="nb">Write-Host</span> <span class="nv">$comptabilite</span><span class="p">.</span><span class="n">Count</span>
 
-# Accéder au premier utilisateur (accès au premier objet du tableau)
-Write-Host $comptabilite[0].Name
-</code></pre>
+<span class="c"># Accéder au premier utilisateur (accès au premier objet du tableau)</span>
+<span class="nb">Write-Host</span> <span class="nv">$comptabilite</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">Name</span>
+</code></pre></div>
 <h3 id="exercice-22-manipuler-des-collections-dobjets-ad">Exercice 2.2 : Manipuler des collections d'objets AD</h3>
 <ol>
 <li>Récupérez tous les groupes dont le nom contient "GG-EU" (utiliser <code>Filter</code> - expliqué plus haut - et <code>like</code>)</li>
@@ -1715,22 +1715,22 @@ Write-Host $comptabilite[0].Name
 <h2 id="3-les-boucles-repeter-des-actions">3. 🔹 Les boucles : répéter des actions</h2>
 <p>Les boucles permettent de répéter une action pour chaque élément d'une collection. C'est comme traiter un dossier de documents un par un.</p>
 <h3 id="la-boucle-foreach">La boucle ForEach</h3>
-<pre><code class="language-powershell"># Obtenir tous les utilisateurs
-$utilisateurs = Get-ADUser -Filter *
+<div class="highlight"><pre><span></span><code><span class="c"># Obtenir tous les utilisateurs</span>
+<span class="nv">$utilisateurs</span> <span class="p">=</span> <span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span>
 
-# Afficher chaque élément avec une boucle
-foreach ($utilisateur in $utilisateurs) {
-    Write-Host $utilisateur
-}
+<span class="c"># Afficher chaque élément avec une boucle</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$utilisateur</span> <span class="k">in</span> <span class="nv">$utilisateurs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="nv">$utilisateur</span>
+<span class="p">}</span>
 
-&gt; Le bloc `{ }` contient les actions à répéter pour chaque élément.
+<span class="p">&gt;</span> <span class="n">Le</span> <span class="n">bloc</span> <span class="p">`{</span> <span class="p">}`</span> <span class="n">contient</span> <span class="n">les</span> <span class="n">actions</span> <span class="n">à</span> <span class="n">répéter</span> <span class="n">pour</span> <span class="n">chaque</span> <span class="n">élément</span><span class="p">.</span>
 
-# Voici une autre version qui utilise le pipeline. Le pipeline (`|`) permet de chaîner des commandes.
-# Le symbole $_ représente l'élément actuel dans la boucle. 
-$utilisateurs | ForEach-Object { Write-Host $_ }  
-# $_ est juste un alias pour l'élément actuel dans la boucle. On peut en plus accéder aux propriétés de l'élément, par exemple: $_.Name, $_.SamAccountName, $_.Title, etc.
-$utilisateurs | ForEach-Object { Write-Host $_.Name }  
-</code></pre>
+<span class="c"># Voici une autre version qui utilise le pipeline. Le pipeline (`|`) permet de chaîner des commandes.</span>
+<span class="c"># Le symbole $_ représente l&#39;élément actuel dans la boucle. </span>
+<span class="nv">$utilisateurs</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nb">Write-Host</span> <span class="nv">$_</span> <span class="p">}</span>  
+<span class="c"># $_ est juste un alias pour l&#39;élément actuel dans la boucle. On peut en plus accéder aux propriétés de l&#39;élément, par exemple: $_.Name, $_.SamAccountName, $_.Title, etc.</span>
+<span class="nv">$utilisateurs</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nb">Write-Host</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>  
+</code></pre></div>
 <h3 id="exercice-31-votre-premiere-boucle">Exercice 3.1 : Votre première boucle</h3>
 <ol>
 <li>Récupérez tous les groupes de sécurité dont le nom commence par "GG-" (groupes globaux)</li>
@@ -1747,36 +1747,36 @@ $utilisateurs | ForEach-Object { Write-Host $_.Name }
 <p>Les conditions permettent d'exécuter du code uniquement si certains critères sont remplis. C'est comme suivre un arbre de décision.</p>
 <h3 id="structure-if-else">Structure If-Else</h3>
 <p>Les conditions <code>if</code> permettent d'exécuter du code uniquement si une condition est vraie. Voici quelques exemples simples :</p>
-<pre><code class="language-powershell"># Exemple 1: Condition simple
-$estActif = $true
-if ($estActif) {
-    Write-Host &quot;Le compte est actif&quot;
-}
+<div class="highlight"><pre><span></span><code><span class="c"># Exemple 1: Condition simple</span>
+<span class="nv">$estActif</span> <span class="p">=</span> <span class="nv">$true</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$estActif</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Le compte est actif&quot;</span>
+<span class="p">}</span>
 
-# Exemple 2: Condition avec if/else
-$nombreUtilisateurs = 5
-if ($nombreUtilisateurs -gt 10) {
-    Write-Host &quot;Plus de 10 utilisateurs&quot;
-} else {
-    Write-Host &quot;10 utilisateurs ou moins&quot;
-}
+<span class="c"># Exemple 2: Condition avec if/else</span>
+<span class="nv">$nombreUtilisateurs</span> <span class="p">=</span> <span class="n">5</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$nombreUtilisateurs</span> <span class="o">-gt</span> <span class="n">10</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Plus de 10 utilisateurs&quot;</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;10 utilisateurs ou moins&quot;</span>
+<span class="p">}</span>
 
-# Exemple 3: Vérifier si un utilisateur existe
-$nomUtilisateur = &quot;jean.dupont&quot;
-if (Get-ADUser -Filter {SamAccountName -eq $nomUtilisateur} -ErrorAction SilentlyContinue) {
-    Write-Host &quot;L'utilisateur $nomUtilisateur existe&quot;
-} else {
-    Write-Host &quot;L'utilisateur $nomUtilisateur n'existe pas&quot;
-}
+<span class="c"># Exemple 3: Vérifier si un utilisateur existe</span>
+<span class="nv">$nomUtilisateur</span> <span class="p">=</span> <span class="s2">&quot;jean.dupont&quot;</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">SamAccountName</span> <span class="o">-eq</span> <span class="nv">$nomUtilisateur</span><span class="p">}</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;L&#39;utilisateur $nomUtilisateur existe&quot;</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;L&#39;utilisateur $nomUtilisateur n&#39;existe pas&quot;</span>
+<span class="p">}</span>
 
-# Exemple 4: Vérifier si une valeur est vide
-$description = &quot;&quot;
-if ([string]::IsNullOrEmpty($description)) {
-    Write-Host &quot;La description est vide&quot;
-} else {
-    Write-Host &quot;La description contient: $description&quot;
-}
-</code></pre>
+<span class="c"># Exemple 4: Vérifier si une valeur est vide</span>
+<span class="nv">$description</span> <span class="p">=</span> <span class="s2">&quot;&quot;</span>
+<span class="k">if</span> <span class="p">(</span><span class="no">[string]</span><span class="p">::</span><span class="n">IsNullOrEmpty</span><span class="p">(</span><span class="nv">$description</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;La description est vide&quot;</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;La description contient: $description&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
 <blockquote>
 <p>Les opérateurs de comparaison courants sont: <code>-eq</code> (égal), <code>-ne</code> (différent), <code>-gt</code> (supérieur), <code>-lt</code> (inférieur), <code>-ge</code> (supérieur ou égal), <code>-le</code> (inférieur ou égal).</p>
 </blockquote>
@@ -1787,17 +1787,17 @@ if ([string]::IsNullOrEmpty($description)) {
 <li>Affichez un message approprié selon le cas</li>
 </ol>
 <h3 id="conditions-multiples">Conditions multiples</h3>
-<pre><code class="language-powershell"># Vérifier le statut d'un utilisateur
-$user = Get-ADUser -Identity &quot;Richard&quot; -Properties Enabled, LockedOut
+<div class="highlight"><pre><span></span><code><span class="c"># Vérifier le statut d&#39;un utilisateur</span>
+<span class="nv">$user</span> <span class="p">=</span> <span class="nb">Get-ADUser</span> <span class="n">-Identity</span> <span class="s2">&quot;Richard&quot;</span> <span class="n">-Properties</span> <span class="n">Enabled</span><span class="p">,</span> <span class="n">LockedOut</span>
 
-if ($user.Enabled -eq $false) {
-    Write-Host &quot;Le compte est désactivé&quot;
-} elseif ($user.LockedOut -eq $true) {
-    Write-Host &quot;Le compte est verrouillé&quot;
-} else {
-    Write-Host &quot;Le compte est actif et utilisable&quot;
-}
-</code></pre>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$user</span><span class="p">.</span><span class="n">Enabled</span> <span class="o">-eq</span> <span class="nv">$false</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Le compte est désactivé&quot;</span>
+<span class="p">}</span> <span class="k">elseif</span> <span class="p">(</span><span class="nv">$user</span><span class="p">.</span><span class="n">LockedOut</span> <span class="o">-eq</span> <span class="nv">$true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Le compte est verrouillé&quot;</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Le compte est actif et utilisable&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="exercice-42-analyse-dutilisateurs">Exercice 4.2 : Analyse d'utilisateurs</h3>
 <ol>
 <li>Créez un script qui demande un nom d'utilisateur et indique :</li>
@@ -1807,29 +1807,29 @@ if ($user.Enabled -eq $false) {
 </ol>
 <h3 id="exemple-pratique-rechercher-un-utilisateur">Exemple pratique : Rechercher un utilisateur</h3>
 <p>Voici un exemple de script qui combine variables, conditions et propriétés AD pour rechercher un utilisateur et afficher ses informations.</p>
-<pre><code class="language-powershell"># Demander le nom d'utilisateur à rechercher (Read-Host attendra la saisie de l'utilisateur)
-$nomUtilisateurRecherche = Read-Host &quot;Entrez le nom d'utilisateur à rechercher&quot;
+<div class="highlight"><pre><span></span><code><span class="c"># Demander le nom d&#39;utilisateur à rechercher (Read-Host attendra la saisie de l&#39;utilisateur)</span>
+<span class="nv">$nomUtilisateurRecherche</span> <span class="p">=</span> <span class="nb">Read-Host</span> <span class="s2">&quot;Entrez le nom d&#39;utilisateur à rechercher&quot;</span>
 
-# Récupérer l'utilisateur dans une variable (filtrer par SamAccountName) et obtenir les propriétés GivenName, Surname et Title
-$utilisateurTrouve = Get-ADUser -Filter {SamAccountName -eq $nomUtilisateurRecherche} -Properties GivenName, Surname, Title, Department, WhenCreated
+<span class="c"># Récupérer l&#39;utilisateur dans une variable (filtrer par SamAccountName) et obtenir les propriétés GivenName, Surname et Title</span>
+<span class="nv">$utilisateurTrouve</span> <span class="p">=</span> <span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">SamAccountName</span> <span class="o">-eq</span> <span class="nv">$nomUtilisateurRecherche</span><span class="p">}</span> <span class="n">-Properties</span> <span class="n">GivenName</span><span class="p">,</span> <span class="n">Surname</span><span class="p">,</span> <span class="n">Title</span><span class="p">,</span> <span class="n">Department</span><span class="p">,</span> <span class="n">WhenCreated</span>
 
-# Vérifier si l'utilisateur existe
-if ($utilisateurTrouve) {
-    Write-Host &quot;Utilisateur trouvé !&quot;
-    Write-Host &quot;Prénom : $($utilisateurTrouve.GivenName)&quot;
-    Write-Host &quot;Nom : $($utilisateurTrouve.Surname)&quot;
-    Write-Host &quot;Titre : $($utilisateurTrouve.Title)&quot;
-    Write-Host &quot;Service : $($utilisateurTrouve.Department)&quot;
-    Write-Host &quot;Date de création : $($utilisateurTrouve.WhenCreated)&quot;
+<span class="c"># Vérifier si l&#39;utilisateur existe</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$utilisateurTrouve</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Utilisateur trouvé !&quot;</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Prénom : </span><span class="p">$(</span><span class="nv">$utilisateurTrouve</span><span class="p">.</span><span class="n">GivenName</span><span class="p">)</span><span class="s2">&quot;</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Nom : </span><span class="p">$(</span><span class="nv">$utilisateurTrouve</span><span class="p">.</span><span class="n">Surname</span><span class="p">)</span><span class="s2">&quot;</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Titre : </span><span class="p">$(</span><span class="nv">$utilisateurTrouve</span><span class="p">.</span><span class="n">Title</span><span class="p">)</span><span class="s2">&quot;</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Service : </span><span class="p">$(</span><span class="nv">$utilisateurTrouve</span><span class="p">.</span><span class="n">Department</span><span class="p">)</span><span class="s2">&quot;</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Date de création : </span><span class="p">$(</span><span class="nv">$utilisateurTrouve</span><span class="p">.</span><span class="n">WhenCreated</span><span class="p">)</span><span class="s2">&quot;</span>
 
-    # Vérifier si l'utilisateur fait partie du service IT
-    if ($utilisateurTrouve.Department -eq &quot;IT&quot;) {
-        Write-Host &quot;Cet utilisateur fait partie du service informatique&quot; -ForegroundColor Green
-    }
-} else {
-    Write-Host &quot;Aucun utilisateur trouvé avec ce nom.&quot; -ForegroundColor Red
-}
-</code></pre>
+    <span class="c"># Vérifier si l&#39;utilisateur fait partie du service IT</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$utilisateurTrouve</span><span class="p">.</span><span class="n">Department</span> <span class="o">-eq</span> <span class="s2">&quot;IT&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;Cet utilisateur fait partie du service informatique&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="p">}</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Aucun utilisateur trouvé avec ce nom.&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+<span class="p">}</span>
+</code></pre></div>
 <blockquote>
 <p><strong>Important</strong> : Modifier les valeurs dans une variable n'a aucun effet sur l'objet réel dans Active Directory. Par exemple, si vous faites <code>$utilisateurTrouve.Title = "Nouveau Titre"</code>, cela change uniquement la valeur dans votre variable locale, pas dans AD. Pour modifier réellement un objet AD, vous devez utiliser des commandes spécifiques comme <code>Set-ADUser</code> que nous verrons plus tard.</p>
 </blockquote>
@@ -1842,45 +1842,45 @@ if ($utilisateurTrouve) {
 <h2 id="5-mini-projet-rapport-daudit-ad">5. 🔹 Mini-projet : Rapport d'audit AD</h2>
 <h3 id="objectif">Objectif</h3>
 <p>Créer un rapport qui liste <strong>tous les utilisateurs</strong> d'une <strong>Unité d'Organisation (OU)</strong> spécifique, avec leur statut de compte et leurs groupes principaux.</p>
-<pre><code class="language-powershell"># Demander le nom de l'OU à l'utilisateur
-$nomOU = Read-Host &quot;Entrez le nom de l'OU à auditer (ex: Ventes, RH...)&quot;
+<div class="highlight"><pre><span></span><code><span class="c"># Demander le nom de l&#39;OU à l&#39;utilisateur</span>
+<span class="nv">$nomOU</span> <span class="p">=</span> <span class="nb">Read-Host</span> <span class="s2">&quot;Entrez le nom de l&#39;OU à auditer (ex: Ventes, RH...)&quot;</span>
 
-# Construire le chemin de l'OU (adapté au domaine maxtec.be)
-# Note: Le chemin exact dépend de votre structure AD
-$cheminOU = &quot;OU=Users,OU=$nomOU,OU=EU,DC=computerelectronics,DC=be&quot;
+<span class="c"># Construire le chemin de l&#39;OU (adapté au domaine maxtec.be)</span>
+<span class="c"># Note: Le chemin exact dépend de votre structure AD</span>
+<span class="nv">$cheminOU</span> <span class="p">=</span> <span class="s2">&quot;OU=Users,OU=$nomOU,OU=EU,DC=computerelectronics,DC=be&quot;</span>
 
-# Récupérer les utilisateurs de cette OU
-$users = Get-ADUser -Filter * -SearchBase $cheminOU -Properties Enabled, MemberOf
+<span class="c"># Récupérer les utilisateurs de cette OU</span>
+<span class="nv">$users</span> <span class="p">=</span> <span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="nv">$cheminOU</span> <span class="n">-Properties</span> <span class="n">Enabled</span><span class="p">,</span> <span class="n">MemberOf</span>
 
-# Vérifier si des utilisateurs ont été trouvés
-if ($users.Count -eq 0) {
-    Write-Host &quot;Aucun utilisateur trouvé dans l'OU $nomOU&quot; -ForegroundColor Yellow
-} else {
-    # Afficher un en-tête
-    Write-Host &quot;=== RAPPORT D'AUDIT : OU $nomOU ===&quot; -ForegroundColor Cyan
-    Write-Host &quot;Nombre d'utilisateurs : $($users.Count)&quot; -ForegroundColor Cyan
-    Write-Host &quot;----------------------------------------&quot;
+<span class="c"># Vérifier si des utilisateurs ont été trouvés</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$users</span><span class="p">.</span><span class="n">Count</span> <span class="o">-eq</span> <span class="n">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Aucun utilisateur trouvé dans l&#39;OU $nomOU&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="c"># Afficher un en-tête</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;=== RAPPORT D&#39;AUDIT : OU $nomOU ===&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Nombre d&#39;utilisateurs : </span><span class="p">$(</span><span class="nv">$users</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;----------------------------------------&quot;</span>
 
-    # Pour chaque utilisateur
-    foreach ($user in $users) {
-        # Statut du compte
-        $statut = if ($user.Enabled) {&quot;ACTIF&quot;} else {&quot;DÉSACTIVÉ&quot;}
-        $couleur = if ($user.Enabled) {&quot;Green&quot;} else {&quot;Red&quot;}
+    <span class="c"># Pour chaque utilisateur</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$user</span> <span class="k">in</span> <span class="nv">$users</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c"># Statut du compte</span>
+        <span class="nv">$statut</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$user</span><span class="p">.</span><span class="n">Enabled</span><span class="p">)</span> <span class="p">{</span><span class="s2">&quot;ACTIF&quot;</span><span class="p">}</span> <span class="k">else</span> <span class="p">{</span><span class="s2">&quot;DÉSACTIVÉ&quot;</span><span class="p">}</span>
+        <span class="nv">$couleur</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$user</span><span class="p">.</span><span class="n">Enabled</span><span class="p">)</span> <span class="p">{</span><span class="s2">&quot;Green&quot;</span><span class="p">}</span> <span class="k">else</span> <span class="p">{</span><span class="s2">&quot;Red&quot;</span><span class="p">}</span>
 
-        # Afficher les informations de base
-        Write-Host &quot;UTILISATEUR : $($user.Name) - $statut&quot; -ForegroundColor $couleur
+        <span class="c"># Afficher les informations de base</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;UTILISATEUR : </span><span class="p">$(</span><span class="nv">$user</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2"> - $statut&quot;</span> <span class="n">-ForegroundColor</span> <span class="nv">$couleur</span>
 
-        # Récupérer et afficher les 3 premiers groupes
-        $groupes = Get-ADPrincipalGroupMembership -Identity $user.SamAccountName | Select-Object -First 3
-        Write-Host &quot;  Groupes principaux :&quot;
-        foreach ($groupe in $groupes) {
-            Write-Host &quot;    - $($groupe.Name)&quot;
-        }
+        <span class="c"># Récupérer et afficher les 3 premiers groupes</span>
+        <span class="nv">$groupes</span> <span class="p">=</span> <span class="nb">Get-ADPrincipalGroupMembership</span> <span class="n">-Identity</span> <span class="nv">$user</span><span class="p">.</span><span class="n">SamAccountName</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">3</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;  Groupes principaux :&quot;</span>
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$groupe</span> <span class="k">in</span> <span class="nv">$groupes</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nb">Write-Host</span> <span class="s2">&quot;    - </span><span class="p">$(</span><span class="nv">$groupe</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">&quot;</span>
+        <span class="p">}</span>
 
-        Write-Host &quot;----------------------------------------&quot;
-    }
-}
-</code></pre>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;----------------------------------------&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="exercice-final-personnalisez-le-rapport">Exercice final : Personnalisez le rapport</h3>
 <ol>
 <li>Adaptez le script pour qu'il affiche également :</li>

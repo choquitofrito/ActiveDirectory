@@ -569,12 +569,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../Chapitre%204bis.DNS-Pratique-avec-AD/" class="md-nav__link">
+      <a href="../Chapitre%204.DNS-Pratique-avec-AD/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Chapitre 4bis.DNS-Pratique-avec-AD
+    Chapitre 4.DNS-Pratique-avec-AD
     
   </span>
   
@@ -1449,12 +1449,12 @@
 </ul>
 <h2 id="2-modules-powershell-pour-active-directory">2. 🔹 Modules PowerShell pour Active Directory</h2>
 <p>Pour gérer Active Directory avec PowerShell, vous utilisez le module ActiveDirectory. Sur un contrôleur de domaine avec le rôle AD DS installé, ce module est généralement <strong>déjà disponible et chargé automatiquement</strong> dans PowerShell ISE.</p>
-<pre><code class="language-powershell"># Vérifier si le module AD est chargé
-Get-Module -Name ActiveDirectory
+<div class="highlight"><pre><span></span><code><span class="c"># Vérifier si le module AD est chargé</span>
+<span class="nb">Get-Module</span> <span class="n">-Name</span> <span class="n">ActiveDirectory</span>
 
-# Si le module n'est pas chargé (rare sur un DC), vous pouvez l'importer
-# Import-Module ActiveDirectory
-</code></pre>
+<span class="c"># Si le module n&#39;est pas chargé (rare sur un DC), vous pouvez l&#39;importer</span>
+<span class="c"># Import-Module ActiveDirectory</span>
+</code></pre></div>
 <blockquote>
 <p><strong>Note:</strong> Sur un poste de travail (non-DC), l'installation des outils RSAT (Remote Server Administration Tools) est nécessaire pour obtenir ce module, et l'importation explicite peut être requise.</p>
 <p><strong>Exemple pratique</strong>: Ouvrez PowerShell sur votre contrôleur de domaine et exécutez ces commandes pour vérifier que le module AD est bien installé et disponible.</p>
@@ -1504,35 +1504,35 @@ Get-Module -Name ActiveDirectory
 </table>
 <h3 id="exemple-pratique-explorer-votre-domaine">Exemple pratique: Explorer votre domaine</h3>
 <p>Exécutez ces commandes sur votre contrôleur de domaine <code>dns1.maxtec.be</code> et observez les résultats. </p>
-<pre><code class="language-powershell"># Obtenir des informations sur le domaine
-Get-ADDomain
+<div class="highlight"><pre><span></span><code><span class="c"># Obtenir des informations sur le domaine</span>
+<span class="nb">Get-ADDomain</span>
 
-# Lister les contrôleurs de domaine
-Get-ADDomainController -Filter *
+<span class="c"># Lister les contrôleurs de domaine</span>
+<span class="nb">Get-ADDomainController</span> <span class="n">-Filter</span> <span class="p">*</span>
 
-# Afficher tous les utilisateurs du domaine
-Get-ADUser -Filter *
-# Afficher les 15 premiers utilisateurs du domaine (ResultSetSize permet de limiter le nombre de résultats, peu importe la requête)
-Get-ADUser -Filter * -ResultSetSize 15 
+<span class="c"># Afficher tous les utilisateurs du domaine</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span>
+<span class="c"># Afficher les 15 premiers utilisateurs du domaine (ResultSetSize permet de limiter le nombre de résultats, peu importe la requête)</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-ResultSetSize</span> <span class="n">15</span> 
 
-# Afficher les utilisateurs du domaine, mais sélectionner des attributs spécifiques
-Get-ADUser -Filter * -ResultSetSize 15 -Properties Name, Enabled, SamAccountName 
+<span class="c"># Afficher les utilisateurs du domaine, mais sélectionner des attributs spécifiques</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-ResultSetSize</span> <span class="n">15</span> <span class="n">-Properties</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Enabled</span><span class="p">,</span> <span class="n">SamAccountName</span> 
 
-# Afficher les utilisateurs du domaine, mais sélectionner des attributs spécifiques et les afficher de manière structurée
-Get-ADUser -Filter * -ResultSetSize 15 -Properties Name, Enabled, SamAccountName | 
-    Format-Table Name, Enabled, SamAccountName
+<span class="c"># Afficher les utilisateurs du domaine, mais sélectionner des attributs spécifiques et les afficher de manière structurée</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-ResultSetSize</span> <span class="n">15</span> <span class="n">-Properties</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Enabled</span><span class="p">,</span> <span class="n">SamAccountName</span> <span class="p">|</span> 
+    <span class="nb">Format-Table</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Enabled</span><span class="p">,</span> <span class="n">SamAccountName</span>
 
-# Obtenir d'autres types d'objets AD
+<span class="c"># Obtenir d&#39;autres types d&#39;objets AD</span>
 
-# Afficher tous les groupes du domaine
-Get-ADGroup -Filter *
+<span class="c"># Afficher tous les groupes du domaine</span>
+<span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">*</span>
 
-# Afficher tous les ordinateurs du domaine
-Get-ADComputer -Filter *
+<span class="c"># Afficher tous les ordinateurs du domaine</span>
+<span class="nb">Get-ADComputer</span> <span class="n">-Filter</span> <span class="p">*</span>
 
-# Afficher toutes les unités d'organisation (OUs)
-Get-ADOrganizationalUnit -Filter *
-</code></pre>
+<span class="c"># Afficher toutes les unités d&#39;organisation (OUs)</span>
+<span class="nb">Get-ADOrganizationalUnit</span> <span class="n">-Filter</span> <span class="p">*</span>
+</code></pre></div>
 <p>(On verra les filtres plus tard)</p>
 <h2 id="4-comparaison-avec-linterface-graphique">4. 🔹 Comparaison avec l'interface graphique</h2>
 <table>
@@ -1573,27 +1573,27 @@ Get-ADOrganizationalUnit -Filter *
 </table>
 <h3 id="exemple-pratique-tache-impossible-en-gui">Exemple pratique: Tâche impossible en GUI</h3>
 <p>Trouvez tous les utilisateurs qui n'ont pas changé leur mot de passe depuis plus de 4 jours:</p>
-<pre><code class="language-powershell">$date = (Get-Date).AddDays(-4)
-Get-ADUser -Filter {PasswordLastSet -lt $date -and Enabled -eq $true} -Properties PasswordLastSet |
-    Select-Object Name, PasswordLastSet |
-    Sort-Object PasswordLastSet
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nv">$date</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddDays</span><span class="p">(-</span><span class="n">4</span><span class="p">)</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">PasswordLastSet</span> <span class="o">-lt</span> <span class="nv">$date</span> <span class="o">-and</span> <span class="n">Enabled</span> <span class="o">-eq</span> <span class="nv">$true</span><span class="p">}</span> <span class="n">-Properties</span> <span class="n">PasswordLastSet</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">PasswordLastSet</span> <span class="p">|</span>
+    <span class="nb">Sort-Object</span> <span class="n">PasswordLastSet</span>
+</code></pre></div>
 <blockquote>
 <p><strong>Exercice</strong>: Exécutez cette commande et discutez de la façon dont vous pourriez accomplir la même tâche avec l'interface graphique (spoiler: c'est très difficile).</p>
 </blockquote>
 <h2 id="5-configuration-de-lenvironnement-powershell">5. 🔹 Configuration de l'environnement PowerShell</h2>
 <p>Pour travailler efficacement avec PowerShell, quelques configurations sont recommandées:</p>
-<pre><code class="language-powershell"># Définir l'exécution des scripts (sur votre station de travail d'administration)
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+<div class="highlight"><pre><span></span><code><span class="c"># Définir l&#39;exécution des scripts (sur votre station de travail d&#39;administration)</span>
+<span class="nb">Set-ExecutionPolicy</span> <span class="n">RemoteSigned</span> <span class="n">-Scope</span> <span class="n">CurrentUser</span>
 
-# Créer un dossier pour vos scripts (vous pourriez le faire à la main aussi)
-New-Item -Path &quot;C:\Scripts&quot; -ItemType Directory -Force
-</code></pre>
+<span class="c"># Créer un dossier pour vos scripts (vous pourriez le faire à la main aussi)</span>
+<span class="nb">New-Item</span> <span class="n">-Path</span> <span class="s2">&quot;C:\Scripts&quot;</span> <span class="n">-ItemType</span> <span class="n">Directory</span> <span class="n">-Force</span>
+</code></pre></div>
 <h2 id="6-aide-et-documentation">6. 🔹 Aide et documentation</h2>
 <p>PowerShell dispose d'un système d'aide intégré complet mais très technique pour débuter:</p>
-<pre><code class="language-powershell"># Afficher l'aide dans une fenêtre séparée
-Get-Help Get-ADUser -ShowWindow
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c"># Afficher l&#39;aide dans une fenêtre séparée</span>
+<span class="nb">Get-Help</span> <span class="nb">Get-ADUser</span> <span class="n">-ShowWindow</span>
+</code></pre></div>
 <blockquote>
 <p><strong>Exercice</strong>: Utilisez l'internet, IA ou le système d'aide pour explorer la commande <code>New-ADUser</code>. Identifiez les paramètres obligatoires et facultatifs pour créer un nouvel utilisateur.</p>
 </blockquote>
