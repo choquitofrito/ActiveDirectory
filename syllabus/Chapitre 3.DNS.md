@@ -90,20 +90,30 @@ Le DNS offre deux types de résolution :
 > **Note:** L'option `-4` force l'utilisation de l'IPv4
 </details>
 
-<details>
-<summary>🔓 Solution</summary>
+### Exemple de resolution inverse sous Windows
 
-| Domaine | Résultat | Explication |
-|---------|-----------|-------------|
-| `www.google.com` | ✅ Répond | Domain public avec DNS configuré |
-| `maxtec.be` | ❌ Ne répond pas | - Domaine interne de test<br>- Pas encore configuré<br>- Sera configuré dans notre infrastructure |
+Imaginons que vous souhaitez connaître le nom de domaine associé à l'adresse IP `8.8.8.8` (serveur DNS public de Google). Voici comment faire une résolution inverse sous Windows :
 
-</details>
+1. **Ouvrez l'invite de commandes** (CMD) ou PowerShell.
+2. Tapez la commande suivante :
+   ```powershell
+   nslookup 8.8.8.8
+   ```
+3. **Analysez le résultat** :  
+   Vous verrez une réponse similaire à :
+   ```
+   Nom :    dns.google
+   Address: 8.8.8.8
+   ```
+   Cela signifie que l'adresse IP `8.8.8.8` correspond au nom de domaine `dns.google`.
+
+> 💡 **À tester aussi** : Essayez avec l'adresse IP de votre serveur DNS interne (par exemple `192.168.0.2`) une fois qu'il sera configuré (fin chapitre 3)
+
+
 
 ## 🎯 Checkpoint: Concept DNS de Base
 Avant de continuer, assurez-vous de comprendre:
 - [ ] Pourquoi on utilise des noms au lieu d'adresses IP
-- [ ] La différence entre DNS public et DNS interne
 - [ ] Pourquoi `maxtec.be` ne répond pas encore
 
 ---
