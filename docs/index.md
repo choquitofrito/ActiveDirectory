@@ -36,19 +36,19 @@ Ce cours vous guide à travers l'installation, la configuration et l'administrat
 
 
 | Chapitre | Titre | Contenu |
-|----------|-------|---------|-------|
-| **[Chapitre 5](Chapitre%205.Unites_Organisation.md)** | Unités d'Organisation (OUs) | Structure hiérarchique, délégation AGLP/AGDLP | 4h |
-| **[Chapitre 6](Chapitre%206.Gestion_des_Utilisateurs.md)** | Gestion des Utilisateurs | Création comptes, groupes, permissions NTFS/partage | 5h |
-| **[Chapitre 7](Chapitre%207.Group%20Policy%20Objects.md)** | Group Policy Objects (GPO) | Stratégies de groupe, LSDO, filtrage et délégation | 6h |
+|----------|-------|---------|
+| **[Chapitre 5](Chapitre%205.Unites_Organisation.md)** | Unités d'Organisation (OUs) | Structure hiérarchique, délégation AGLP/AGDLP | 
+| **[Chapitre 6](Chapitre%206.Gestion_des_Utilisateurs.md)** | Gestion des Utilisateurs | Création comptes, groupes, permissions NTFS/partage | 
+| **[Chapitre 7](Chapitre%207.Group%20Policy%20Objects.md)** | Group Policy Objects (GPO) | Stratégies de groupe, LSDO, filtrage et délégation |
 
 ### 💻 Automatisation PowerShell (Chapitre 8)
 
 | Chapitre | Titre | Contenu |
-|----------|-------|---------|-------|
-| **[Chapitre 8.0](Chapitre%208.0.Powershell%20AD%20-%20Introduction.md)** | PowerShell AD - Introduction | Premiers pas avec le module Active Directory | 1h |
-| **[Chapitre 8.1](Chapitre%208.1.Powershell%20AD%20-%20Concepts%20base.md)** | PowerShell AD - Concepts de base | Cmdlets essentiels, syntaxe, pipelines | 2h |
-| **[Chapitre 8.2](Chapitre%208.2.Powershell%20AD%20-%20Requetes_et_Informations.md)** | PowerShell AD - Requêtes | Get-ADUser, Get-ADGroup, filtres et recherches | 3h |
-| **[Chapitre 8.3](Chapitre%208.3.Powershell%20AD%20-%20Creation_et_Modification.md)** | PowerShell AD - Création et Modification | New-ADUser, Set-ADUser, gestion en masse | 4h |
+|----------|-------|---------|
+| **[Chapitre 8.0](Chapitre%208.0.Powershell%20AD%20-%20Introduction.md)** | PowerShell AD - Introduction | Premiers pas avec le module Active Directory | 
+| **[Chapitre 8.1](Chapitre%208.1.Powershell%20AD%20-%20Concepts%20base.md)** | PowerShell AD - Concepts de base | Cmdlets essentiels, syntaxe, pipelines |
+| **[Chapitre 8.2](Chapitre%208.2.Powershell%20AD%20-%20Requetes_et_Informations.md)** | PowerShell AD - Requêtes | Get-ADUser, Get-ADGroup, filtres et recherches |
+| **[Chapitre 8.3](Chapitre%208.3.Powershell%20AD%20-%20Creation_et_Modification.md)** | PowerShell AD - Création et Modification | New-ADUser, Set-ADUser, gestion en masse | 
 
 ---
 
