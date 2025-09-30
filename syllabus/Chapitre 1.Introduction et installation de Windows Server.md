@@ -43,7 +43,7 @@ Vous **devez gérer chaque ordinateur individuellement**, en vous assurant que c
 Vous **allez vite vous trouver en difficulté**. Pourquoi?
 
 <details>
-<summary>👀 Cliquez pour voir la réponse</summary>
+<summary>👀 Reflechissez bien... puis cliquez pour voir la réponse</summary>
 
 💼 **Problèmes de gestion décentralisée:**
 - 👤 **Départs d'employés**: Difficile de s'assurer que son compte est supprimé sur tous les ordinateurs et serveurs
