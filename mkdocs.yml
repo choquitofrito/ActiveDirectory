@@ -11,22 +11,29 @@ theme:
     - navigation.tabs
     - navigation.sections
     - navigation.expand
+    - navigation.top
     - toc.integrate
+  navigation:
+    collapse: true
 
 nav:
   - Home: index.md
-  - "Chapitre 1.Introduction et installation de Windows Server": Chapitre 1.Introduction et installation de Windows Server.md
-  - "Chapitre 2.Installation-Windows-Server-2022-VirtualBox": Chapitre 2.Installation-Windows-Server-2022-VirtualBox.md
-  - "Chapitre 3.DNS": Chapitre 3.DNS.md
-  - "Chapitre 4bis.DNS-Pratique-avec-AD": Chapitre 4bis.DNS-Pratique-avec-AD.md
-  - "Chapitre 4.Active Directory Domain Services (AD DS)": Chapitre 4.Active Directory Domain Services (AD DS).md
-  - "Chapitre 5.Unites_Organisation": Chapitre 5.Unites_Organisation.md
-  - "Chapitre 6.Gestion_des_Utilisateurs": Chapitre 6.Gestion_des_Utilisateurs.md
-  - "Chapitre 7.Group Policy Objects": Chapitre 7.Group Policy Objects.md
-  - "Chapitre 8.0.Powershell AD - Introduction": Chapitre 8.0.Powershell AD - Introduction.md
-  - "Chapitre 8.1.Powershell AD - Concepts base": Chapitre 8.1.Powershell AD - Concepts base.md
-  - "Chapitre 8.2.Powershell AD - Requetes_et_Informations": Chapitre 8.2.Powershell AD - Requetes_et_Informations.md
-  - "Chapitre 8.3.Powershell AD - Creation_et_Modification": Chapitre 8.3.Powershell AD - Creation_et_Modification.md
+  - Windows Server:
+      - "Chapitre 1.Introduction et installation de Windows Server": Chapitre 1.Introduction et installation de Windows Server.md
+      - "Chapitre 2.Installation-Windows-Server-2022-VirtualBox": Chapitre 2.Installation-Windows-Server-2022-VirtualBox.md
+  - DNS:
+      - "Chapitre 3.DNS": Chapitre 3.DNS.md
+      - "Chapitre 4bis.DNS-Pratique-avec-AD": Chapitre 4bis.DNS-Pratique-avec-AD.md
+  - Active Directory:
+      - "Chapitre 4.Active Directory Domain Services (AD DS)": Chapitre 4.Active Directory Domain Services (AD DS).md
+      - "Chapitre 5.Unites_Organisation": Chapitre 5.Unites_Organisation.md
+      - "Chapitre 6.Gestion_des_Utilisateurs": Chapitre 6.Gestion_des_Utilisateurs.md
+      - "Chapitre 7.Group Policy Objects": Chapitre 7.Group Policy Objects.md
+  - PowerShell:
+      - "Chapitre 8.0.Powershell AD - Introduction": Chapitre 8.0.Powershell AD - Introduction.md
+      - "Chapitre 8.1.Powershell AD - Concepts base": Chapitre 8.1.Powershell AD - Concepts base.md
+      - "Chapitre 8.2.Powershell AD - Requetes_et_Informations": Chapitre 8.2.Powershell AD - Requetes_et_Informations.md
+      - "Chapitre 8.3.Powershell AD - Creation_et_Modification": Chapitre 8.3.Powershell AD - Creation_et_Modification.md
   - Labs et Exercices:
       - "Exercices: Gestion_des_Utilisateurs": "Labo et Exercices/Exercices: Gestion_des_Utilisateurs.md"
       - "Exercices: GPO-1": "Labo et Exercices/Exercices: GPO-1.md"
