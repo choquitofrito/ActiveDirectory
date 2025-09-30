@@ -20,16 +20,16 @@ Ce cours vous guide à travers l'installation, la configuration et l'administrat
 ### 🏗️ Fondations (Chapitres 1-2)
 
 | Chapitre | Titre | Contenu |
-|----------|-------|---------|-------|
-| **[Chapitre 1](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md)** | Introduction et Installation Windows Server | Concepts de base, architecture serveur, installation Windows Server 2022 | 3h |
-| **[Chapitre 2](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md)** | Installation VirtualBox | Configuration environnement de virtualisation, création VMs | 2h |
+|----------|-------|---------|
+| **[Chapitre 1](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md)** | Introduction et Installation Windows Server | Concepts de base, architecture serveur, installation Windows Server 2022 | 
+| **[Chapitre 2](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md)** | Installation VirtualBox | Configuration environnement de virtualisation, création VMs | 
 
 ### 🌐 Infrastructure réseau (Chapitres 3-4)
 
 | Chapitre | Titre | Contenu |
 |----------|-------|---------|-------|
 | **[Chapitre 3](Chapitre%203.DNS.md)** | DNS - Préparation pour AD | Concepts DNS essentiels pour Active Directory |
-| **[Chapitre 4](Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29.md)** | Active Directory Domain Services | Installation et configuration AD DS sur maxtec.be | 4h |
+| **[Chapitre 4](Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29.md)** | Active Directory Domain Services | Installation et configuration AD DS sur maxtec.be | 
 | **[Chapitre 4.DNS-Pratique-avec-AD](Chapitre%204.DNS-Pratique-avec-AD.md)** | DNS Pratique avec AD | Labs DNS avec domaine fonctionnel (5 labs progressifs) |
 
 ### 🏢 Organisation et gestion (Chapitres 5-7)
