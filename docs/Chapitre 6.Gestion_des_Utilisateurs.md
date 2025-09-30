@@ -554,7 +554,6 @@ Avant de passer aux Group Policy Objects:
 
 ---
 
-## 🎉 Félicitations! Chapitre 6 Terminé
 
 ### 🎯 Ce que vous avez appris:
 - ✅ **Identités numériques**: Concepts et standards de nommage des comptes

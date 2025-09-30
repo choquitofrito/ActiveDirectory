@@ -11,7 +11,7 @@
 
 ---
 
-> 🎉 **Félicitations !** Vous avez installé Active Directory et maintenant vous avez un domaine **maxtec.be** fonctionnel !
+
 >
 > Dans ce chapitre, nous allons **pratiquer DNS** avec votre infrastructure réelle. Fini la théorie abstraite, place à la manipulation concrète !
 
@@ -539,7 +539,6 @@ nslookup 192.168.10.15         # → webserver.maxtec.be
 
 ---
 
-## 🎉 Félicitations ! Vous Maîtrisez DNS avec Active Directory !
 
 ### 🏆 Ce que vous avez accompli
 

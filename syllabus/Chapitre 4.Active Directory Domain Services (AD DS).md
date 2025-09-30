@@ -532,7 +532,7 @@ Avant de continuer vers les Unités d'Organisation:
 
 ---
 
-## 🎉 Félicitations! Chapitre 4 Terminé
+
 
 ### 🎯 Ce que vous avez appris:
 - ✅ **Architecture AD DS**: Composants et services d'Active Directory

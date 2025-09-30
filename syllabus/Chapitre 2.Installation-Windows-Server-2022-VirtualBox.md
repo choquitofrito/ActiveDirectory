@@ -235,7 +235,7 @@ Avant de continuer vers le prochain chapitre, vérifiez que vous avez:
 
 ---
 
-## 🎉 Félicitations! Chapitre 2 Terminé
+
 
 ### 🎯 Ce que vous avez appris:
 - ✅ **Alternative VirtualBox**: Installation sur différentes plateformes

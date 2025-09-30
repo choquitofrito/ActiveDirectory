@@ -850,7 +850,6 @@ Avant de passer à la gestion des utilisateurs:
 
 ---
 
-## 🎉 Félicitations! Chapitre 5 Terminé
 
 ### 🎯 Ce que vous avez appris:
 - ✅ **Concept UO**: Conteneurs intelligents pour organiser Active Directory

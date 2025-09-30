@@ -39,7 +39,7 @@ Avant de continuer, assurez-vous de pouvoir:
 ```markdown
 ---
 
-## 🎉 Félicitations! Chapitre X Terminé
+
 
 ### 🎯 Ce que vous avez appris:
 - ✅ **[Concept 1]**: [Description courte]
@@ -91,7 +91,7 @@ Vous êtes maintenant prêt(e) pour le **Chapitre X: [Titre]**
 - 🎯 Checkpoint/Objectif
 - 💡 Conseil/Tip
 - ⚠️ Attention/Important
-- 🎉 Félicitations
+
 - 🚀 Prochaine étape
 
 ### Contenu

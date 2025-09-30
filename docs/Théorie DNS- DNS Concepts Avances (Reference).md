@@ -876,7 +876,6 @@ nslookup ws-compta-01.maxtec.be
 
 ---
 
-## 🎉 Félicitations! Chapitre 3 Terminé
 
 ### 🎯 Ce que vous avez appris:
 - ✅ **Concept DNS**: L'annuaire d'internet et de notre entreprise

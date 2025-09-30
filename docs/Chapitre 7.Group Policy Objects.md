@@ -436,7 +436,6 @@ Avant de terminer ce chapitre, assurez-vous de bien comprendre :
 
 ---
 
-## 🎉 Félicitations ! Chapitre 7 Terminé
 
 Vous maîtrisez maintenant un des outils les plus puissants d'Active Directory ! Les Group Policy Objects vous permettront d'automatiser et de standardiser la configuration de tous vos ordinateurs et utilisateurs.
 

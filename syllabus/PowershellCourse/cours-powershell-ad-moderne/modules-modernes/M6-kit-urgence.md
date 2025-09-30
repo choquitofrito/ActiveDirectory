@@ -471,9 +471,3 @@ Un **Crisis PowerShell Warrior** certifié, capable de:
 - Partager **cas d'usage** avec la communauté
 
 ---
-
-**🎉 FÉLICITATIONS ! Vous êtes maintenant un Admin PowerShell AD Moderne 2025 !**
-
-*Votre vraie formation commence maintenant, dans le monde réel. Ces bases vous protégeront et vous feront prospérer.*
-
-**Bon courage, et que -WhatIf soit avec vous ! 🛡️**
