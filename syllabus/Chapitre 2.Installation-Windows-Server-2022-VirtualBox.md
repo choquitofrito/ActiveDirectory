@@ -130,7 +130,7 @@ Si la commande ne fonctionne pas, on doit installer gcc-12
 
 9. 🔓 Attendez l'écran de login administrateur
 
-10. ⌨️ Utilisez **Ctrl + Alt + Suppr** via le menu
+10. ⌨️ Utilisez **Ctrl + Alt + Suppr** via la barre de menu de la fenêtre de la machine virtuelle dans VirtualBox (pas la barre de VirtualBox)
 
 ### ⚙️ Post-Installation
 
