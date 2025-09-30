@@ -117,7 +117,7 @@ Avant de continuer, assurez-vous de comprendre:
 
 > 💡 **Conseil:** C'est quand quelqu'un de l'extérieur essaie de se connecter à notre entreprise
 
-![Diagramme DNS](../diagrams/images/dns_resolution_maxtec.png)
+![Diagramme DNS](diagrams/images/dns_resolution_maxtec.png)
 
 | Étape | Action | Détails |
 |---------|---------|----------|
@@ -142,7 +142,7 @@ Avant de continuer, assurez-vous de comprendre:
 
 Un **espace de noms DNS** est **l'ensemble de noms DNS** organisés sous la forme d'un **arbre DNS**, une structure hiérarchique où **chaque nœud est un domaine** (ici: `maxtec.be`, `eu.maxtec.be`, `us.maxtec.be`).
 
-![Diagramme DNS](../diagrams/images/structure_reseau_geographic_zones.png)
+![Diagramme DNS](diagrams/images/structure_reseau_geographic_zones.png)
 
 ### 🏢 Structure DNS de Maxtec
 
@@ -163,7 +163,7 @@ Un **forêt DNS** est un espace de noms avec plusieurs arbres.
 
 Chaque arbre garde son indépendance tout en permettant une collaboration entre les entreprises.
 
-![Diagramme DNS](../diagrams/images/forest_structure.png)
+![Diagramme DNS](diagrams/images/forest_structure.png)
 
 **Dans notre cas du labo on a une forêt d'un arbre** (`maxtec.be`).
 
@@ -179,7 +179,7 @@ Chaque arbre garde son indépendance tout en permettant une collaboration entre 
 
 Voici l'arbre DNS de Maxtec, on voit aussi l'ensemble des sous-domaines et les ressources (ordinateurs, imprimantes, etc)
 
-![Diagramme DNS](../diagrams/images/structure_reseau_geographic_zones.png)
+![Diagramme DNS](diagrams/images/structure_reseau_geographic_zones.png)
 
 <details>
 <summary>💡 Avantages de cette structure</summary>
@@ -275,7 +275,7 @@ Une **zone DNS** est tout simplement **une partie de l'espace de noms DNS** (une
 
 ### 🏛️ Structure du Réseau
 
-![Diagramme DNS](../diagrams/images/structure_reseau_geographic_zones.png)
+![Diagramme DNS](diagrams/images/structure_reseau_geographic_zones.png)
 
 > **Note:** Ce diagramme est hybride - il montre à la fois:
 > - 💻 La structure **logique** (zones DNS, sous-domaines)
@@ -376,7 +376,7 @@ Un serveur DNS ayant autorité sur un espace de nom :
    - Le serveur fait tout le travail de recherche
    - Retourne une réponse complète au client
 
-![Requête DNS récursive](../diagrams/images/requetes_dns_recursive.png)
+![Requête DNS récursive](diagrams/images/requetes_dns_recursive.png)
 
 #### 💻 Exemple de Requête Récursive
 
@@ -410,7 +410,7 @@ Un serveur DNS ayant autorité sur un espace de nom :
 
 > 💡 **Définition:** Dans une requête itérative, chaque serveur renvoie la meilleure référence possible vers la réponse.
 
-![Requête DNS itérative](../diagrams/images/requetes_dns_iterative.png)
+![Requête DNS itérative](diagrams/images/requetes_dns_iterative.png)
 
 **Exemple de requête itérative :**
 

@@ -3,6 +3,16 @@ site_url: https://choquitofrito.github.io/ActiveDirectory
 repo_url: https://github.com/choquitofrito/ActiveDirectory
 repo_name: choquitofrito/ActiveDirectory
 
+# Configuración para archivos estáticos (diagramas)
+extra_css:
+  - stylesheets/extra.css
+
+# Incluir archivos estáticos desde la carpeta diagrams
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/choquitofrito/ActiveDirectory
+
 theme:
   name: material
   palette:

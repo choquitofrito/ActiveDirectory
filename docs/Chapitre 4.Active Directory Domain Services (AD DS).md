@@ -27,6 +27,7 @@
 ## 1. 📙 Objectifs pédagogiques
 
 À la fin de ce chapitre, vous serez capable de :
+
 1. Comprendre l'architecture d'Active Directory
 2. Installer et configurer AD DS sur Windows Server
 3. Créer et configurer le domaine AD `maxtec.be` (même nom que le domaine DNS !)
@@ -64,7 +65,7 @@ Bien qu'on le confonde souvent avec l'ensemble d'Active Directory, AD DS n'est q
 
 Examinons **comment un utilisateur accède à un serveur de fichiers** sur un serveur qui utilise Active Directory.
 
-![Intégration DNS-AD DS](../diagrams/images/ad_auth_flow.png)
+![Intégration DNS-AD DS](diagrams/images/ad_auth_flow.png)
 
 > 💡 **Note** : Observez les flèches colorées : le bleu pour l'authentification, le jaune pour l'accès aux ressources, et le bleu bidirectionnel pour la réplication. Les flèches vertes seront expliquées ultérieurement.
 
@@ -143,7 +144,7 @@ Vous vous demandez peut-être comment c'est possible, puisque `maxtec.be` est un
 
 1. **Domaine DNS**
    
-![Forêt](../diagrams/images/structure_reseau_geographic_zones.png)
+![Forêt](diagrams/images/structure_reseau_geographic_zones.png)
    
    - Objectif : **Résolution de noms** et **organisation réseau**
    - Structure : Hiérarchique avec plusieurs niveaux possibles
@@ -153,7 +154,7 @@ Vous vous demandez peut-être comment c'est possible, puisque `maxtec.be` est un
 
 2. **Domaine AD**
 
-![Domaine AD](../diagrams/images/domaineAD.png)
+![Domaine AD](diagrams/images/domaineAD.png)
 
    - Structure : **Un seul domaine AD** `maxtec.be` qui **utilise l'arbre DNS** de `maxtec.be`.
    - Un **domaine AD est organisé via les UOs** (dossiers intelligents).
@@ -189,7 +190,7 @@ Nous allons créer une **UO** racine pour chaque site (UOs `EU` et `US`) par com
 
 > Le schéma suivant illustre l'installation d'AD DS sur notre serveur principal :
 
-![Installation AD](../diagrams/images/dns_ad_installation.png)
+![Installation AD](diagrams/images/dns_ad_installation.png)
 
 En ce qui concerne le domaine AD, notre structure se présente comme suit :
 
@@ -392,7 +393,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
 
 > 💡 La base de données AD DS est divisée en 4 **partitions distinctes**.
 
-<img src="../diagrams/images/partition_schema.png" alt="Partition Schéma" style="width:10%;" />
+<img src="diagrams/images/partition_schema.png" alt="Partition Schéma" style="width:10%;" />
 
 ### 8.1. Partition Schéma
 
@@ -456,7 +457,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
 
 > 💡 Cache des attributs fréquemment utilisés pour accélérer les recherches.
 
-<img src="../diagrams/images/catalogue_global.png" alt="Catalogue Global" style="width:50%;" />
+<img src="diagrams/images/catalogue_global.png" alt="Catalogue Global" style="width:50%;" />
 
 ### Exemple de réplication
 

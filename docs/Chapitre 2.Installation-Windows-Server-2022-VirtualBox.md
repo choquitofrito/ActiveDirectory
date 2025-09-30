@@ -147,7 +147,7 @@ Nous travaillerons sur un sous-ensemble de cette structure de réseau:
 
 > 📘 Schéma de l'infrastructure :
 
-![Infrastructure](../diagrams/images/structure_reseau_geographic_zones.png)
+![Infrastructure](diagrams/images/structure_reseau_geographic_zones.png)
 
 1. ⚙️ Configuration du nom :
    1. 🖥️ Ouvrez le **Gestionnaire de serveur** > **Serveur local**

@@ -62,7 +62,7 @@ Une GPO est aussi un objet qu'on peut créer dans la base de données de AD-DS e
 
 Les **stratégies de groupe peuvent être appliquées à différents niveaux** de la hiérarchie AD : un ordinateur, un **site**, un domaine AD, une OU...  
 
-![Domaine AD](../diagrams/images/domaineAD.png)
+![Domaine AD](diagrams/images/domaineAD.png)
 
 **Rappel**:
 
