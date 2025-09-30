@@ -71,7 +71,7 @@ Si la commande ne fonctionne pas, on doit installer gcc-12
 1. 🖥️ Ouvrez VirtualBox
 2. ➕ Cliquez sur **Nouvelle**
 3. ⚙️ Configurez les paramètres de base :
-   - 🎮 Nom : `WindowsServerM1`
+   - 🎮 Nom : `Serveur1`
       > 💡 **Tip:** M1 = Machine 1 (si vous créez plus tard M2, M3...)
    - 💾 Choisissez "VDI (Image disque VirtualBox)"
    - 📚 ISO Image (fichier Windows Server)
@@ -96,8 +96,8 @@ Si la commande ne fonctionne pas, on doit installer gcc-12
    - 🎮 Activer l'Accélération 3D
 
 4. 🔗 Réseau :
-   - 📶 Adaptateur : Changer **NAT** par **réseau interne**
-   - Si besoin de l'internet dans votre laboratoire, vous pouvez ajouter un adaptateur NAT ou un pont (selon les circomstances)
+   - 📶 Adaptateur 1 (par défaut): Changer **NAT** par **réseau interne**
+   - Rajoutez un deuxième adaptateur de réseau (il faut éteindre la machine) et choisissez pont pour avoir accès à l'internet
 
 5. 💾 Stockage :
    - 📚 Sélectionnez le lecteur optique
@@ -143,16 +143,13 @@ Configuration initiale requise :
 
 🖥️ Console de configuration des rôles et caractéristiques :
 
-1. 🕬️ Ouvrez le **Gestionnaire du Serveur**
-
-2. ⚙️ Configuration du serveur :
-   - 🌐 Nom : `dns1.maxtec.be`
+Nous travaillerons sur un sous-ensemble de cette structure de réseau:
 
 > 📘 Schéma de l'infrastructure :
 
 ![Infrastructure](../diagrams/images/structure_reseau_geographic_zones.png)
 
-3. ⚙️ Configuration du nom :
+1. ⚙️ Configuration du nom :
    1. 🖥️ Ouvrez le **Gestionnaire de serveur** > **Serveur local**
    2. 💻 Sélectionnez le nom actuel
    3. ⚙️ Cliquez sur **Modifier**
@@ -161,6 +158,8 @@ Configuration initiale requise :
       > 💡 **Pourquoi maxtec.be?** C'est notre entreprise fictive d'exemple
    6. ✅ Cliquez sur **OK**
    7. 🔄 Redémarrez le serveur
+
+
 
 Le serveur aura maintenant le nom complet (FQDN) : `dns1.maxtec.be`
 
@@ -183,28 +182,22 @@ Chaque département a des besoins spécifiques :
 
 > 💻 **Objectif :** Nous allons créer deux machines virtuelles Windows 10 pour simuler :
 
-1. 🏢 **Postes de travail départementaux**
+Supossons qu'on a deux départements pour le moment:
+
    - 💰 Comptabilité : accès aux dossiers financiers
    - 👥 RH : accès aux dossiers du personnel
 
-2. 🔐 **Sécurité personnalisée**
-   - 📂 Accès aux ressources spécifiques
-   - 🔒 Restrictions appropriées
-
-3. 🔗 **Environnement de test**
-   - 🏢 Mini-réseau d'entreprise
-   - ⚙️ Tests sans risque
-   - 📝 Configurations multiples
+Le but est de simuler qu'on a une machine pour chaque département. On peut créer autant de machines qu'on veut (bien qu'on ne pourra pas lancer toutes au même temps! :D)
 
 ### 💻 Installation de Windows 10
 
 > ⚙️ Paramètres de la machine virtuelle :
 
-- 🎮 Nom : `Windows10M1`
+- 🎮 Nom : `Client1`
 - 💻 Génération : 2 (64 bits)
 - 💽 Mémoire : 4 GB
-- 📶 Adaptateur : Changer **NAT** par **réseau interne**
-- Si besoin de l'internet dans votre laboratoire, vous pouvez ajouter un adaptateur NAT ou un pont (selon les circomstances)
+- 📶 Adaptateur 1 (par défaut): Changer **NAT** par **réseau interne**
+- Rajoutez un deuxième adaptateur de réseau et choisissez pont pour avoir accès à l'internet
 - 💾 Disque : 30 GB
 - 📚 ISO : Windows 10
 
@@ -222,7 +215,7 @@ Chaque département a des besoins spécifiques :
 
 > ⚙️ Créez une nouvelle VM Windows 10 avec :
 
-- 🎮 Nom VM : `Windows10M2`
+- 🎮 Nom VM : `Client2`
 - 👤 Compte : **peter.parker** / **Password1!**
 - 💽 Hardware identique à la première machine
 
@@ -230,7 +223,7 @@ Chaque département a des besoins spécifiques :
 
 > ⚙️ Créez un nouveau serveur Windows Server 2022 :
 
-- 🌐 FQDN : `dns2.maxtec.be`
+- 🌐 Nom du serveur (FQDN) : `dns2.maxtec.be`
 - 💻 Suivez la même procédure que pour le premier serveur
 
 ## 🎯 Checkpoint: Installation VirtualBox
