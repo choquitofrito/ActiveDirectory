@@ -244,6 +244,8 @@ Ces serveurs gèrent l'ensemble des sites !
 
 ## 6. Laboratoire : promotion du serveur Windows Server en contrôleur de domaine
 
+> 📄 **Pour le guide complet d'installation d'Active Directory Domain Services (AD DS), consultez l'annexe : [Guide de base installation AD-DS](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md)**
+
 ### 6.1. Configuration réseau initiale
 
 Notre serveur Windows Server va être promu au rôle de contrôleur de domaine (DC). Pour ce faire on doit installer le rôle `AD-DS`, mais avant de le faire, nous devons configurer correctement les paramètres réseau du serveur.
