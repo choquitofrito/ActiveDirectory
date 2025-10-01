@@ -67,10 +67,11 @@ Les **stratégies de groupe peuvent être appliquées à différents niveaux** d
      * Section d'un espace de noms DNS (ex: maxtec.be)
      * But : Organisation hiérarchique des noms
 
-Dans notre infrastructure :
-- **Domaine AD** et **Zone DNS** principale : `maxtec.be`
-- **Sites AD** : `site EU (192.168.10.0/24)` et `site US (192.168.20.0/24)`
-- **Zones DNS** : Zone EU (`eu.maxtec.be`), Zone US (`us.maxtec.be`)
+!!! info "Notre infrastructure"
+    
+    - **Domaine AD** et **Zone DNS** principale : `maxtec.be`
+    - **Sites AD** : `site EU (192.168.10.0/24)` et `site US (192.168.20.0/24)`
+    - **Zones DNS** : Zone EU (`eu.maxtec.be`), Zone US (`us.maxtec.be`)
 
 Ces concepts sont distincts mais complémentaires dans une infrastructure d'entreprise.
 
@@ -101,11 +102,15 @@ On pourrait créer un autre site si on avait un autre adaptateur réseau, chacun
 Connaissant la notion de site, continuons maintenant avec la classification des GPOs.
 
 ## 🎯 Checkpoint: Concepts GPO et Sites
-Avant de créer vos premières GPOs:
-- [ ] Je sais qu'une GPO est un ensemble de règles pour configurer plusieurs machines
-- [ ] Je comprends que les GPOs s'appliquent à différents niveaux (site, domaine, UO)
-- [ ] Je sais que notre labo a un seul site (Site-EU)
-- [ ] Je comprends que les sites sont distincts des zones DNS
+
+!!! info "Vérification de compréhension"
+    
+    Avant de créer vos premières GPOs:
+    
+    - [ ] Je sais qu'une GPO est un ensemble de règles pour configurer plusieurs machines
+    - [ ] Je comprends que les GPOs s'appliquent à différents niveaux (site, domaine, UO)
+    - [ ] Je sais que notre labo a un seul site (Site-EU)
+    - [ ] Je comprends que les sites sont distincts des zones DNS
 
 > 💡 **Pour débutants:** Ne vous inquiétez pas si les concepts de sites semblent complexes. L'important est de comprendre que les GPOs sont des règles que vous appliquez à vos utilisateurs et ordinateurs!
 
@@ -117,14 +122,18 @@ Avant de commencer, assurez-vous d'avoir installé le laboratoire en suivant les
 
 ### Exemple pratique: restreindre le panneau de configuration aux membres de Ventes
 
-Créons une GPO pour cacher certains éléments du panneau de configuration aux Users de Ventes. La suite d'opérations sera la suivante:
- `
-- **Créer** une GPO nommée `GPO-Restrictions-VentesPC` et liée à l'OU `Ventes`. Dans ce cas, elle affectera aux utilisateurs de Ventes, peu importe sur quel ordinateur ils se connectent.
-- **Modifier** la GPO (vide au départ): elle doit empêcher l'accès des utilisateurs de Ventes aux éléments suivants du panneau de configuration:
-   - Programmes et fonctionnalités
-   - Système
-- **Appliquer** la GPU (dans ce cas à l'OU `Ventes`)
-- **Se connecter** au serveur avec un user de `Ventes` et vérifier que le panneau de configuration est restreint (on voit que les options `Programmes et fonctionnalités` et `Système` sont cachées)
+!!! example "Objectif"
+    
+    Créons une GPO pour cacher certains éléments du panneau de configuration aux Users de Ventes.
+
+!!! info "Suite d'opérations"
+    
+    - **Créer** une GPO nommée `GPO-Restrictions-VentesPC` et liée à l'OU `Ventes`. Dans ce cas, elle affectera aux utilisateurs de Ventes, peu importe sur quel ordinateur ils se connectent.
+    - **Modifier** la GPO (vide au départ): elle doit empêcher l'accès des utilisateurs de Ventes aux éléments suivants du panneau de configuration:
+      - Programmes et fonctionnalités
+      - Système
+    - **Appliquer** la GPU (dans ce cas à l'OU `Ventes`)
+    - **Se connecter** au serveur avec un user de `Ventes` et vérifier que le panneau de configuration est restreint (on voit que les options `Programmes et fonctionnalités` et `Système` sont cachées)
 
 Pour faire tout ça, voici les étapes:
 
@@ -310,9 +319,10 @@ Voyons en détail chaque type.
 - Restriction sur l’installation des pilotes
 - Paramètres de Windows Update
 
-**Exemples :**  
-- **Désactiver l'installation automatique des imprimantes réseau** : *Configuration ordinateur > Strategies > Modèles d’administration > Menu Démarrer et Barre des tâches > Ne pas conserver d'historique des documents récemment ouverts*.
-- **Forcer une mise à jour Windows automatique** : *Configuration ordinateur > Strategies > Modèles d’administration > Composants Windows > Windows Update > Configurer les mises à jour automatiques*.
+!!! example "Exemples"
+    
+    - **Désactiver l'installation automatique des imprimantes réseau** : *Configuration ordinateur > Strategies > Modèles d'administration > Menu Démarrer et Barre des tâches > Ne pas conserver d'historique des documents récemment ouverts*.
+    - **Forcer une mise à jour Windows automatique** : *Configuration ordinateur > Strategies > Modèles d'administration > Composants Windows > Windows Update > Configurer les mises à jour automatiques*.
 **Vous devez d'abord desactiver le pare-feu dans les ordinateurs client**!
 
 
@@ -332,9 +342,10 @@ Voyons en détail chaque type.
 - Paramètres d’interface (ex. masquer les paramètres système)
 - Gestion des extensions de navigateur
 
-**Exemples :**  
-- **Désactiver la modification du fond d’écran** : *Configuration utilisateur > Modèles d'administration > Panneau de configuration > Personnalisation > Empêcher de modifier l'arrière-plan*.
-- **Restreindre l’accès au gestionnaire de tâches** : *Configuration utilisateur > Modèles d’administration > Système > Options Ctrl+Alt+Suppr > Supprimer le Gestionnaire des tâches*.
+!!! example "Exemples"
+    
+    - **Désactiver la modification du fond d'écran** : *Configuration utilisateur > Modèles d'administration > Panneau de configuration > Personnalisation > Empêcher de modifier l'arrière-plan*.
+    - **Restreindre l'accès au gestionnaire de tâches** : *Configuration utilisateur > Modèles d'administration > Système > Options Ctrl+Alt+Suppr > Supprimer le Gestionnaire des tâches*.
 
 
 #### 🛑 **Piège courant : le filtrage GPO par cible**
@@ -416,12 +427,14 @@ Une fois qu'une GPO est liée à un niveau (Site, Domaine ou OU), on peut affine
 
 ## 🎯 Checkpoint Final - Maîtrise des GPOs
 
-Avant de terminer ce chapitre, assurez-vous de bien comprendre :
-
-✅ **Ce qu'est une GPO** : Un ensemble de règles qui s'applique automatiquement
-✅ **L'ordre d'application** : Site → Domaine → OU
-✅ **Le filtrage** : Comment cibler des groupes ou types d'ordinateurs spécifiques
-✅ **L'héritage** : Comment les règles se propagent dans la hiérarchie
+!!! info "Vérification finale"
+    
+    Avant de terminer ce chapitre, assurez-vous de bien comprendre :
+    
+    ✅ **Ce qu'est une GPO** : Un ensemble de règles qui s'applique automatiquement
+    ✅ **L'ordre d'application** : Site → Domaine → OU
+    ✅ **Le filtrage** : Comment cibler des groupes ou types d'ordinateurs spécifiques
+    ✅ **L'héritage** : Comment les règles se propagent dans la hiérarchie
 
 > 💡 **Pour débutants** : Si vous pouvez expliquer les GPOs avec l'analogie des règles d'une école (règles générales + règles spécifiques par classe), vous avez compris l'essentiel !
 

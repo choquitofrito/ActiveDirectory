@@ -91,10 +91,12 @@ Un cours complémentaire axé sur la **réalité du terrain** et l'utilisation m
 
 ### 📚 Ressources complémentaires
 
-- **[Cas d'horreur réels](PowershellCourse/cours-powershell-ad-moderne/cas-horreur-reels/vendredi-17h-sans-whatif.md)** : Vendredi 17h sans -WhatIf
-- **[Carte de survie maxtec.be](PowershellCourse/cours-powershell-ad-moderne/materiels-poche/carte-survie-maxtec.md)** : One-liners essentiels
-- **[Checklist validation scripts](PowershellCourse/cours-powershell-ad-moderne/materiels-poche/checklist-validation-scripts.md)** : Liste de contrôle avant exécution
-- **[Scripts "bomba"](PowershellCourse/cours-powershell-ad-moderne/laboratoire-maxtec/scripts-bomba-maxtec/)** : Exemples de scripts dangereux (à des fins pédagogiques)
+!!! info "Matériel de poche PowerShell"
+    
+    - **[Cas d'horreur réels](PowershellCourse/cours-powershell-ad-moderne/cas-horreur-reels/vendredi-17h-sans-whatif.md)** : Vendredi 17h sans -WhatIf
+    - **[Carte de survie maxtec.be](PowershellCourse/cours-powershell-ad-moderne/materiels-poche/carte-survie-maxtec.md)** : One-liners essentiels
+    - **[Checklist validation scripts](PowershellCourse/cours-powershell-ad-moderne/materiels-poche/checklist-validation-scripts.md)** : Liste de contrôle avant exécution
+    - **[Scripts "bomba"](PowershellCourse/cours-powershell-ad-moderne/laboratoire-maxtec/scripts-bomba-maxtec/)** : Exemples de scripts dangereux (à des fins pédagogiques)
 
 ---
 

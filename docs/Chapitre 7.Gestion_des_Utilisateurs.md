@@ -34,9 +34,11 @@
 
 Un compte utilisateur Active Directory représente une **identité numérique unique** dans `maxtec.be` permettant :
 
-- **Identification** unique (ex: `ivan`)
-- **Contrôle d'accès** aux ressources
-- **Gestion des informations** utilisateur
+!!! info "Fonctionnalités d'un compte utilisateur"
+    
+    - **Identification** unique (ex: `ivan`)
+    - **Contrôle d'accès** aux ressources
+    - **Gestion des informations** utilisateur
 
 !!! tip "Pour débutants"
     
@@ -79,11 +81,15 @@ Pour tous les deux, suivez ces règles:
 - Pas de chiffres sauf si nécessaire pour distinguer des homonymes
 
 ## 🎯 Checkpoint: Concepts des Comptes
-Avant de créer vos premiers utilisateurs:
-- [ ] Je sais qu'un compte utilisateur est une identité numérique
-- [ ] Je comprends SamAccountName vs UPN
-- [ ] Je connais les règles de nommage (minuscules, pas de caractères spéciaux)
-- [ ] Je sais que le format standard est "prenom" et "prenom@maxtec.be"
+
+!!! info "Vérification de compréhension"
+    
+    Avant de créer vos premiers utilisateurs:
+    
+    - [ ] Je sais qu'un compte utilisateur est une identité numérique
+    - [ ] Je comprends SamAccountName vs UPN
+    - [ ] Je connais les règles de nommage (minuscules, pas de caractères spéciaux)
+    - [ ] Je sais que le format standard est "prenom" et "prenom@maxtec.be"
 
 
 
@@ -101,14 +107,16 @@ Ou même `Gestionnaire de serveur`->`Outils`->`Utilisateurs et ordinateurs Activ
  C'est la méthode traditionnelle pour gérer l'AD, mais il y a aussi la **méthode moderne via l'interface web de l'AD** (`Gestionnaire de serveur`->`Outils`->`Centre d'administration d'AD`).
 
 
-Dans les deux outils vous avez accès aux **éléments suivants**:
-
-- **Structure du domaine AD** : Affiche plusieurs containers d'objects (ex: Users, Computers, Domain Controllers) et les **Unités d'organisation (OU)** (dont on en a pas pour l'instant).
-
-- **Objets du domaine AD** , entre autres :
-  - **Utilisateurs** : Comptes des utilisateurs du domaine AD et leurs propriétés.
-  - **Ordinateurs** : Machines jointes au domaine AD.
-  - **Contrôleurs de domaine** : Liste des DC du domaine AD.
+!!! info "Éléments accessibles"
+    
+    Dans les deux outils vous avez accès aux **éléments suivants**:
+    
+    - **Structure du domaine AD** : Affiche plusieurs containers d'objects (ex: Users, Computers, Domain Controllers) et les **Unités d'organisation (OU)** (dont on en a pas pour l'instant).
+    
+    - **Objets du domaine AD** , entre autres :
+      - **Utilisateurs** : Comptes des utilisateurs du domaine AD et leurs propriétés.
+      - **Ordinateurs** : Machines jointes au domaine AD.
+      - **Contrôleurs de domaine** : Liste des DC du domaine AD.
 
 Par défaut, il y a plusieurs **conteneurs** (**ce ne sont pas des OU**, mais des conteneurs d'objets) :
  :
@@ -598,12 +606,16 @@ Exemple : DL-RH-Lecture, DL-RH-Modification
 ```
 
 ## 🎯 Checkpoint Final: Gestion des Utilisateurs
-Avant de passer aux Group Policy Objects:
-- [ ] Je sais créer un utilisateur avec ADUC
-- [ ] Je comprends les standards de nommage (SamAccountName et UPN)
-- [ ] Je sais organiser les utilisateurs dans les UOs appropriées
-- [ ] Je comprends les concepts de groupes et leur utilisation
-- [ ] Je connais la différence entre groupes globaux et locaux
+
+!!! info "Vérification finale"
+    
+    Avant de passer aux Group Policy Objects:
+    
+    - [ ] Je sais créer un utilisateur avec ADUC
+    - [ ] Je comprends les standards de nommage (SamAccountName et UPN)
+    - [ ] Je sais organiser les utilisateurs dans les UOs appropriées
+    - [ ] Je comprends les concepts de groupes et leur utilisation
+    - [ ] Je connais la différence entre groupes globaux et locaux
 
 ---
 

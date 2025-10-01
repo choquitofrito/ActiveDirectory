@@ -100,9 +100,13 @@ Imaginons que vous souhaitez connaître le nom de domaine associé à l'adresse 
 
 
 ## 🎯 Checkpoint: Concept DNS de Base
-Avant de continuer, assurez-vous de comprendre:
-- [ ] Pourquoi on utilise des noms au lieu d'adresses IP
-- [ ] Pourquoi `maxtec.be` ne répond pas encore
+
+!!! info "Vérification de compréhension"
+    
+    Avant de continuer, assurez-vous de comprendre:
+    
+    - [ ] Pourquoi on utilise des noms au lieu d'adresses IP
+    - [ ] Pourquoi `maxtec.be` ne répond pas encore
 
 ---
 
@@ -313,10 +317,11 @@ Une **zone DNS** est tout simplement **une partie de l'espace de noms DNS** (une
 
 **Structure de noms** (domaines et sous-domaines, ressources)
 
-- Domaine racine: maxtec.be
-- Sous-domaines géographiques: eu.maxtec.be, us.maxtec.be
-
-- Ressources: ws-compta-01.maxtec.be, printer-rh-01.maxtec.be
+!!! info "Organisation des noms"
+    
+    - Domaine racine: maxtec.be
+    - Sous-domaines géographiques: eu.maxtec.be, us.maxtec.be
+    - Ressources: ws-compta-01.maxtec.be, printer-rh-01.maxtec.be
 
 > 💡 **Note:** La structure logique (DNS) permet d'organiser les ressources **indépendamment de leur emplacement physique** (IP)
 
@@ -325,9 +330,11 @@ Une **zone DNS** est tout simplement **une partie de l'espace de noms DNS** (une
 
 **Elements physiques** (machines) ayant leurs IPs.
 
-- Infrastructure: 192.168.0.0/24 (dns1, dns2)
-- Zone EU: 192.168.10.0/24 (postes EU, services EU)
-- Zone US: 192.168.20.0/24 (postes US, services US)
+!!! info "Réseaux physiques"
+    
+    - Infrastructure: 192.168.0.0/24 (dns1, dns2)
+    - Zone EU: 192.168.10.0/24 (postes EU, services EU)
+    - Zone US: 192.168.20.0/24 (postes US, services US)
 
 
 

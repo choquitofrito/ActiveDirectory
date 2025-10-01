@@ -21,10 +21,14 @@ Vous **allez vite vous trouver en difficulté**. Pourquoi?
     - 🔄 **Mises à jour** : Installation manuelle sur chaque poste
 
 ## 🎯 Checkpoint: Avez-vous compris le problème?
-Avant de continuer, assurez-vous de pouvoir:
-- [ ] Expliquer pourquoi la gestion décentralisée pose problème
-- [ ] Donner 3 exemples concrets de difficultés
-- [ ] Imaginer l'impact sur une entreprise de 50+ employés
+
+!!! info "Vérification de compréhension"
+    
+    Avant de continuer, assurez-vous de pouvoir:
+    
+    - [ ] Expliquer pourquoi la gestion décentralisée pose problème
+    - [ ] Donner 3 exemples concrets de difficultés
+    - [ ] Imaginer l'impact sur une entreprise de 50+ employés
 
 
 ---

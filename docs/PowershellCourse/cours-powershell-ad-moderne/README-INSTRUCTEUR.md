@@ -91,10 +91,13 @@ Get-ADGroup -Filter {Name -like "GG-EU-*"} | Measure-Object
    - Culture de "-WhatIf d'abord, exécuter après"
 
 ### Méthodologie "Mains Sales"
-- **80% terminal, 20% théorie**
-- Exercices avec données réelles de maxtec.be
-- Erreurs provoquées pour apprendre le troubleshooting
-- Validation constante en laboratoire vivant
+
+!!! info "Approche pratique"
+    
+    - **80% terminal, 20% théorie**
+    - Exercices avec données réelles de maxtec.be
+    - Erreurs provoquées pour apprendre le troubleshooting
+    - Validation constante en laboratoire vivant
 
 ## 🚨 Protocole de Sécurité de la Classe
 
@@ -218,9 +221,12 @@ Au lieu d'un examen théorique :
 ## 📞 Support Post-Cours
 
 ### Canal d'Urgence
-- **Slack/Teams** : #powershell-survival
-- **Email** : powershell-help@maxtec.be
-- **Horaire** : L-V 9h-17h réponse < 2h
+
+!!! info "Contact d'urgence"
+    
+    - **Slack/Teams** : #powershell-survival
+    - **Email** : powershell-help@maxtec.be
+    - **Horaire** : L-V 9h-17h réponse < 2h
 
 ### Révision Mensuelle
 - **Follow-up** 30 jours : Qu'avez-vous appliqué ?

@@ -232,13 +232,15 @@ Ces serveurs gèrent l'ensemble des sites !
 
 ## 🎯 Checkpoint: DNS vs AD - Avez-vous compris?
 
-Cette distinction est cruciale. Vérifiez votre compréhension:
-
-- [ ] DNS organise les noms et adresses IP
-- [ ] AD organise les utilisateurs, groupes et permissions
-- [ ] Ils partagent le nom `maxtec.be` mais font des choses différentes
-- [ ] Les UOs organisent les objets AD logiquement
-- [ ] Les Sites organisent les ressources physiquement
+!!! info "Vérification de compréhension"
+    
+    Cette distinction est cruciale. Vérifiez votre compréhension:
+    
+    - [ ] DNS organise les noms et adresses IP
+    - [ ] AD organise les utilisateurs, groupes et permissions
+    - [ ] Ils partagent le nom `maxtec.be` mais font des choses différentes
+    - [ ] Les UOs organisent les objets AD logiquement
+    - [ ] Les Sites organisent les ressources physiquement
 
 ## 6. Laboratoire : promotion du serveur Windows Server en contrôleur de domaine
 
@@ -455,8 +457,11 @@ Les **attributs répliqués sont sélectionnés selon leur importance** pour :
 - L'accès aux ressources
 
 Par exemple, pour un **utilisateur** :
-- Attributs toujours **répliqués** : nom, prénom, identifiant de connexion
-- Attributs **non répliqués** : photo de profil, scripts de connexion
+
+!!! info "Types d'attributs"
+    
+    - Attributs toujours **répliqués** : nom, prénom, identifiant de connexion
+    - Attributs **non répliqués** : photo de profil, scripts de connexion
 
 
 ## 10. Laboratoire : Accès aux ressources du domaine
@@ -499,17 +504,23 @@ Ahmed commence à travailler au sein du département informatique. Pour accéder
 
 #### Avantages de la connexion au domaine
 
-- **Accès aux ressources partagées** du domaine (dossiers, imprimantes, applications, etc.)
-- Application des **stratégies de sécurité** (par exemple, configuration du pare-feu)
-- Journalisation de l'activité utilisateur sur le serveur
+!!! info "Bénéfices"
+    
+    - **Accès aux ressources partagées** du domaine (dossiers, imprimantes, applications, etc.)
+    - Application des **stratégies de sécurité** (par exemple, configuration du pare-feu)
+    - Journalisation de l'activité utilisateur sur le serveur
 
 ## 🎯 Checkpoint Final: Installation AD DS
-Avant de continuer vers les Unités d'Organisation:
-- [ ] J'ai installé le rôle AD DS sur mon serveur
-- [ ] J'ai promu le serveur en contrôleur de domaine
-- [ ] J'ai vérifié que DNS fonctionne correctement
-- [ ] Je comprends les différents types de partitions AD
-- [ ] Je sais comment intégrer un poste au domaine
+
+!!! info "Vérification finale"
+    
+    Avant de continuer vers les Unités d'Organisation:
+    
+    - [ ] J'ai installé le rôle AD DS sur mon serveur
+    - [ ] J'ai promu le serveur en contrôleur de domaine
+    - [ ] J'ai vérifié que DNS fonctionne correctement
+    - [ ] Je comprends les différents types de partitions AD
+    - [ ] Je sais comment intégrer un poste au domaine
 
 ---
 

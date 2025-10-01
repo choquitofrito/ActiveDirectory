@@ -43,7 +43,6 @@ nav:
       - "Chapitre 2.Installation-Windows-Server-2022-VirtualBox": Chapitre 2.Installation-Windows-Server-2022-VirtualBox.md
   - DNS:
       - "Chapitre 3.DNS": Chapitre 3.DNS.md
-      - "Chapitre 4.DNS-Pratique-avec-AD": Chapitre 4.DNS-Pratique-avec-AD.md
   - Active Directory:
       - "Chapitre 4.Active Directory Domain Services (AD DS)": Chapitre 4.Active Directory Domain Services (AD DS).md
       - "Chapitre 5.DNS-Pratique-avec-AD": Chapitre 5.DNS-Pratique-avec-AD.md
