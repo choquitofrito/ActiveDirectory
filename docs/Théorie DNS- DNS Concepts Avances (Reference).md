@@ -5,17 +5,16 @@
 
 ---
 
-> 📚 **À propos de cette annexe:**
->
-> Ceci est une **ressource de référence avancée** pour approfondir vos connaissances DNS au-delà des labs pratiques.
->
-> **📋 Parcours recommandé:**
-> 1. ✅ Complétez d'abord le [Chapitre 3: DNS Préparation](Chapitre%203.DNS.md)
-> 2. ✅ Installez Active Directory (Chapitre 4)
-> 3. ✅ Complétez les [Labs DNS Pratiques (Chapitre 5)](Chapitre%205.DNS-Pratique-avec-AD.md)
-> 4. 📖 Ensuite, consultez cette annexe pour la théorie approfondie
->
-> **🎯 Public cible:** Étudiants avancés, admins expérimentés, ou pour consultation/révision
+!!! info "📚 À propos de cette annexe:"
+    Ceci est une **ressource de référence avancée** pour approfondir vos connaissances DNS au-delà des labs pratiques.
+    
+    **📋 Parcours recommandé:**
+    1. ✅ Complétez d'abord le [Chapitre 3: DNS Préparation](Chapitre%203.DNS.md)
+    2. ✅ Installez Active Directory (Chapitre 4)
+    3. ✅ Complétez les [Labs DNS Pratiques (Chapitre 5)](Chapitre%205.DNS-Pratique-avec-AD.md)
+    4. 📖 Ensuite, consultez cette annexe pour la théorie approfondie
+    
+    **🎯 Public cible:** Étudiants avancés, admins expérimentés, ou pour consultation/révision
 
 ---
 

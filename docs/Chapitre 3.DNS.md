@@ -6,9 +6,9 @@
 
 ---
 
-> 📚 **Objectif de ce chapitre court:**
-> Comprendre **juste assez** de DNS pour installer Active Directory avec succès.
-> La pratique DNS approfondie viendra **APRÈS** installation AD (Chapitre 4).
+!!! info "📚 Objectif de ce chapitre court:"
+    Comprendre **juste assez** de DNS pour installer Active Directory avec succès.
+    La pratique DNS approfondie viendra **APRÈS** installation AD (Chapitre 4).
 
 ---
 

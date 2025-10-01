@@ -6,16 +6,16 @@
 
 ---
 
-> 📚 **Dans ce chapitre :**
-> 1. 🏢 [Structure organisationnelle](#1-introduction-aux-unités-dorganisation-uos)
->    - Concepts fondamentaux
->    - Hiérarchie des UOs
-> 2. ⚙️ [Administration](#2-gestion-des-uos)
->    - Création et configuration
->    - Bonnes pratiques
-> 3. 🔐 [Sécurité et délégation](#3-délégation-administrative)
->    - Stratégies de gestion
->    - Contrôle d'accès
+!!! info "📚 Dans ce chapitre :"
+    1. 🏢 [Structure organisationnelle](#1-introduction-aux-unités-dorganisation-uos)
+       - Concepts fondamentaux
+       - Hiérarchie des UOs
+    2. ⚙️ [Administration](#2-gestion-des-uos)
+       - Création et configuration
+       - Bonnes pratiques
+    3. 🔐 [Sécurité et délégation](#3-délégation-administrative)
+       - Stratégies de gestion
+       - Contrôle d'accès
 
 ---
 

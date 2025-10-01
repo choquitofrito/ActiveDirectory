@@ -1,7 +1,7 @@
 # Cours Active Directory 
 
-> 📚 **Formation complète sur Active Directory Domain Services**
-> Infrastructure d'entreprise moderne avec labs pratiques sur **maxtec.be**
+!!! info "📚 Formation complète sur Active Directory Domain Services"
+    Infrastructure d'entreprise moderne avec labs pratiques sur **maxtec.be**
 
 ---
 

@@ -4,16 +4,16 @@
 [⏮️ Chapitre Précédent: Unités d'Organisation](Chapitre%206.Unites_Organisation.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Group Policy Objects](Chapitre%208.Group%20Policy%20Objects.md)
 
 
-> 📚 **Dans ce chapitre:**
-> 1. 👤 [Identités Numériques](#1-introduction-aux-comptes-utilisateurs)
->    - Concepts de base
->    - Conventions de nommage
-> 2. ⚙️ [Administration ADUC](#2-utilisateurs-et-ordinateurs-active-directory)
->    - Configuration des comptes
->    - Gestion des accès
-> 3. 🔐 [Sécurité et Groupes](#5-gestion-des-groupes)
->    - Stratégies de sécurité
->    - Organisation des accès
+!!! info "📚 Dans ce chapitre:"
+    1. 👤 [Identités Numériques](#1-introduction-aux-comptes-utilisateurs)
+       - Concepts de base
+       - Conventions de nommage
+    2. ⚙️ [Administration ADUC](#2-utilisateurs-et-ordinateurs-active-directory)
+       - Configuration des comptes
+       - Gestion des accès
+    3. 🔐 [Sécurité et Groupes](#5-gestion-des-groupes)
+       - Stratégies de sécurité
+       - Organisation des accès
 
 ---
 

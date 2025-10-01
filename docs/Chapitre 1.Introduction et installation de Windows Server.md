@@ -1,21 +1,5 @@
 # Chapitre 1: Introduction et installation de Windows Server
 
-## 🧭 Navigation du Cours
-[🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Installation VirtualBox](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md)
-
----
-
-!!! info "📚 Dans ce chapitre:"
-    1. 🔗 [Réseaux décentralisés VS centralisés](#1-les-réseaux-décentralisés-vs-centralisés)
-       - Avantages et inconvénients
-       - Cas d'utilisation
-    2. 🖥️ [Active Directory](#2-quest-ce-que-cest-active-directory)
-       - Composants principaux
-       - Fonctionnalités clés
-    3. 💻 [Windows Server](#3-windows-server)
-       - Configuration de base
-       - Préparation pour AD
-
 ---
 
 ## 📙 Objectifs Pédagogiques
@@ -270,11 +254,11 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 
 | Paramètre | Valeur |
 |------------|--------|
-| Nom | **DC1** |
+| Nom | **Serveur1** |
 | Génération | Generation 2 |
 | Mémoire | 2048 MB (dynamique) |
 | Réseau | **LAN-VM** |
-| Disque dur | 60 GB (dynamique) |
+| Disque dur | 50 GB (dynamique) |
 | Image | Votre fichier ISO Windows Server |
 </details>
 
@@ -345,7 +329,7 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 
 | Vérification | Commande | Résultat attendu |
 |--------------|----------|------------------|
-| Nom du serveur | `hostname` | **DC1** |
+| Nom du serveur | `hostname` | **dns1** |
 | Connexion Internet | `ping 8.8.8.8` | Réponses reçues |
 | Résolution DNS | `nslookup google.fr` | Adresse IP retournée |
 </details>

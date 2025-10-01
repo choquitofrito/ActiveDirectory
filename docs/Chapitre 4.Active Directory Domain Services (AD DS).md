@@ -5,16 +5,16 @@
 
 
 
-> 📚 **Dans ce chapitre :**
-> 1. 🔍 [Introduction à AD DS](#1-introduction-à-ad-ds)
->    - Concepts fondamentaux
->    - Architecture AD DS
-> 2. 💻 [Installation d'AD DS](#2-installation-dad-ds)
->    - Prérequis
->    - Étapes d'installation
-> 3. 🌐 [Configuration du domaine AD](#3-configuration-du-domaine-ad)
->    - Structure du domaine
->    - Paramètres essentiels
+!!! info "📚 Dans ce chapitre :"
+    1. 🔍 [Introduction à AD DS](#1-introduction-à-ad-ds)
+       - Concepts fondamentaux
+       - Architecture AD DS
+    2. 💻 [Installation d'AD DS](#2-installation-dad-ds)
+       - Prérequis
+       - Étapes d'installation
+    3. 🌐 [Configuration du domaine AD](#3-configuration-du-domaine-ad)
+       - Structure du domaine
+       - Paramètres essentiels
 
 ---
 

@@ -4,16 +4,16 @@
 [⏮️ Chapitre Précédent: Gestion des Utilisateurs](Chapitre%207.Gestion_des_Utilisateurs.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: PowerShell AD](Chapitre%209.0.Powershell%20AD%20-%20Introduction.md)
 
 
-> 📚 **Dans ce chapitre:**
-> 1. 🌐 [Introduction aux GPO](#1-introduction-aux-gpo)
->    - Concepts de base
->    - Types de stratégies
-> 2. 🔰 [Hiérarchie et Application](#2-hiérarchie-et-application)
->    - Niveaux d'application
->    - Ordre de traitement
-> 3. 💻 [Configuration des GPO](#3-configuration-des-gpo)
->    - Outils de gestion
->    - Exemples pratiques
+!!! info "📚 Dans ce chapitre:"
+    1. 🌐 [Introduction aux GPO](#1-introduction-aux-gpo)
+       - Concepts de base
+       - Types de stratégies
+    2. 🔰 [Hiérarchie et Application](#2-hiérarchie-et-application)
+       - Niveaux d'application
+       - Ordre de traitement
+    3. 💻 [Configuration des GPO](#3-configuration-des-gpo)
+       - Outils de gestion
+       - Exemples pratiques
 
 
 ## 1. Introduction aux GPO
