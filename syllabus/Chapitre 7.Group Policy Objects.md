@@ -3,16 +3,7 @@
 ## 🧭 Navigation du Cours
 [⏮️ Chapitre Précédent: Gestion des Utilisateurs](Chapitre%206.Gestion_des_Utilisateurs.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: PowerShell AD](Chapitre%208.0.Powershell%20AD%20-%20Introduction.md)
 
-## 📊 Votre Progrès
-- [✅] Chapitre 1: Introduction et installation
-- [✅] Chapitre 2: Installation VirtualBox
-- [✅] Chapitre 3: DNS
-- [✅] Chapitre 4: Active Directory Domain Services
-- [✅] Chapitre 5: Unités d'Organisation
-- [✅] Chapitre 6: Gestion des Utilisateurs
-- [🔄] **Chapitre 7**: Group Policy Objects *(En cours)*
 
----
 
 > 📚 **Dans ce chapitre:**
 > 1. 🌐 [Introduction aux GPO](#1-introduction-aux-gpo)

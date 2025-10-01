@@ -3,14 +3,6 @@
 ## 🧭 Navigation du Cours
 [⏮️ Chapitre Précédent: DNS Pratique avec AD](Chapitre%205.DNS-Pratique-avec-AD.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Gestion des Utilisateurs](Chapitre%207.Gestion_des_Utilisateurs.md)
 
-## 📊 Votre Progrès
-- [✅] Chapitre 1: Introduction et installation
-- [✅] Chapitre 2: Installation VirtualBox
-- [✅] Chapitre 3: DNS
-- [✅] Chapitre 4: Active Directory Domain Services
-- [✅] Chapitre 5: DNS Pratique avec AD
-- [🔄] **Chapitre 6**: Unités d'Organisation *(En cours)*
-
 
 ---
 

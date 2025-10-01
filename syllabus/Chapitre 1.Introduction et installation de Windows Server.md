@@ -3,13 +3,7 @@
 ## 🧭 Navigation du Cours
 [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Installation VirtualBox](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md)
 
-## 📊 Votre Progrès
-- [🔄] **Chapitre 1**: Introduction et installation *(En cours)*
-- [⏸️] Chapitre 2: Installation VirtualBox
-- [⏸️] Chapitre 3: DNS
-- [⏸️] Chapitre 4: Active Directory Domain Services
 
----
 
 > 📚 **Dans ce chapitre:**
 > 1. 🔗 [Réseaux décentralisés VS centralisés](#1-les-réseaux-décentralisés-vs-centralisés)

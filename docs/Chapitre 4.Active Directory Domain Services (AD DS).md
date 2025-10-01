@@ -3,13 +3,7 @@
 ## 🧭 Navigation du Cours
 [⏮️ Chapitre Précédent: DNS](Chapitre%203.DNS.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: DNS Pratique avec AD](Chapitre%205.DNS-Pratique-avec-AD.md)
 
-## 📊 Votre Progrès
-- [✅] Chapitre 1: Introduction et installation
-- [✅] Chapitre 2: Installation VirtualBox
-- [✅] Chapitre 3: DNS
-- [🔄] **Chapitre 4**: Active Directory Domain Services *(En cours)*
 
----
 
 > 📚 **Dans ce chapitre :**
 > 1. 🔍 [Introduction à AD DS](#1-introduction-à-ad-ds)

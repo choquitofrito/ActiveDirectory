@@ -27,13 +27,13 @@ Ce cours **complète** (ne remplace PAS) le contenu existant :
 
 | Module | Durée | Contenu | Pause |
 |--------|-------|---------|-------|
-| **M1: Réalité 2025** | 2h00 | Confessions d'admin réel + démo live | ☕ 15 min |
-| **M2: Survie Tickets** | 2h00 | 10 commandes qui sauvent des carrières | 🍽️ 45 min |
-| **M3: IA comme Copilote** | 1h30 | Prompts sécurisés + validation critique | ☕ 10 min |
-| **M4: Scripts Bombes Lab** | 2h00 | Détecter erreurs mortelles cachées | ☕ 15 min |
-| **M5: -WhatIf Religieux** | 1h30 | Pourquoi -WhatIf est sacré | ☕ 10 min |
-| **M6: Kit d'Urgence** | 1h00 | Procédures de panique | |
-| **TOTAL** | **10h00** | | **1h35 pauses** |
+| **M1: Réalité 2025** |  | Confessions d'admin réel + démo live | ☕ |
+| **M2: Survie Tickets** |  | 10 commandes qui sauvent des carrières | 🍽️ |
+| **M3: IA comme Copilote** |  | Prompts sécurisés + validation critique | ☕ |
+| **M4: Scripts Bombes Lab** |  | Détecter erreurs mortelles cachées | ☕ |
+| **M5: -WhatIf Religieux** |  | Pourquoi -WhatIf est sacré | ☕ |
+| **M6: Kit d'Urgence** |  | Procédures de panique | |
+| **TOTAL** |  | | |
 
 ## 🏗️ Infrastructure Existante (maxtec.be)
 

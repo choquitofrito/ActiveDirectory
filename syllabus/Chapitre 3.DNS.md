@@ -3,14 +3,7 @@
 ## 🧭 Navigation du Cours
 [⏮️ Chapitre Précédent: Installation VirtualBox](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Active Directory](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md)
 
-## 📊 Votre Progrès
-- [✅] Chapitre 1: Introduction et installation
-- [✅] Chapitre 2: Installation VirtualBox
-- [🔄] **Chapitre 3**: DNS Préparation *(En cours - 30 minutes)*
-- [⏸️] Chapitre 4: Active Directory Domain Services
-- [⏸️] Chapitre 4: DNS Pratique avec AD
 
----
 
 > 📚 **Objectif de ce chapitre court:**
 > Comprendre **juste assez** de DNS pour installer Active Directory avec succès.

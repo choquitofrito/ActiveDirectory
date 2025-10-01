@@ -24,7 +24,7 @@ Ce cours vous guide à travers l'installation, la configuration et l'administrat
 | **[Chapitre 1](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md)** | Introduction et Installation Windows Server | Concepts de base, architecture serveur, installation Windows Server 2022 | 
 | **[Chapitre 2](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md)** | Installation VirtualBox | Configuration environnement de virtualisation, création VMs | 
 
-### 🌐 Infrastructure réseau (Chapitres 3-4)
+### 🌐 Infrastructure réseau (Chapitres 3-5)
 
 | Chapitre | Titre | Contenu |
 |----------|-------|---------|-------|
