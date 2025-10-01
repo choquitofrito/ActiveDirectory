@@ -2,8 +2,7 @@
 
 ## 📋 Vue d'Ensemble du Cours
 
-Ce cours révolutionnaire transforme l'approche traditionnelle de PowerShell AD vers une méthode de **survie professionnelle moderne**, intégrant parfaitement l'IA comme copilote tout en maintenant des standards de sécurité absolus.
-
+Ce cours transforme l'approche traditionnelle de PowerShell AD vers une méthode de **survie professionnelle moderne**
 ---
 
 ## 🎯 Objectifs Pédagogiques Atteints

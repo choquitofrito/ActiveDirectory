@@ -3,13 +3,6 @@
 ## 🧭 Navigation du Cours
 [⏮️ Chapitre Précédent: DNS](Chapitre%203.DNS.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Unités d'Organisation](Chapitre%205.Unites_Organisation.md)
 
-## 📊 Votre Progrès
-- [✅] Chapitre 1: Introduction et installation
-- [✅] Chapitre 2: Installation VirtualBox
-- [✅] Chapitre 3: DNS
-- [🔄] **Chapitre 4**: Active Directory Domain Services *(En cours)*
-
----
 
 > 📚 **Dans ce chapitre :**
 > 1. 🔍 [Introduction à AD DS](#1-introduction-à-ad-ds)

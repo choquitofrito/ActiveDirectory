@@ -1,13 +1,13 @@
-# Chapitre 4: DNS en Pratique avec Active Directory
+# Chapitre 5: DNS en Pratique avec Active Directory
 
 ## 🧭 Navigation du Cours
-[⏮️ Chapitre Précédent: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Unités d'Organisation](Chapitre%205.Unites_Organisation.md)
+[⏮️ Chapitre Précédent: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Unités d'Organisation](Chapitre%206.Unites_Organisation.md)
 
 ## 📊 Votre Progrès
 - [✅] Chapitre 1-3: Préparation
 - [✅] Chapitre 4: Active Directory DS installé
-- [🔄] **Chapitre 4**: DNS Pratique avec AD *(En cours)*
-- [⏸️] Chapitre 5: Unités d'Organisation
+- [🔄] **Chapitre 5**: DNS Pratique avec AD *(En cours)*
+- [⏸️] Chapitre 6: Unités d'Organisation
 
 ---
 
@@ -17,102 +17,15 @@
 
 
 
-
-
-
 ---
 
-## 💻 Lab 1: Joindre un Poste au Domaine et Observer le DNS
+## 💻 Lab 1: Explorer le DNS créé par Active Directory
+
+> 💡 **Prérequis** : Vous devez avoir complété la jonction d'un poste au domaine dans le [Chapitre 4: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md#10-laboratoire--accès-aux-ressources-du-domaine)
 
 ### Objectif
-Comprendre comment l'enregistrement DNS automatique fonctionne quand un poste rejoint le domaine.
+Découvrir et comprendre ce qu'Active Directory a créé automatiquement dans le DNS après la jonction d'un poste au domaine.
 
-### 🖥️ Prérequis
-Vous avez besoin d'une **deuxième VM** (machine cliente Windows 10/11 Pro):
-- Nom: `ws-compta-01` (ou autre)
-- Réseau: Même réseau que le serveur (LAN-VM)
-- DNS configuré: `192.168.0.2` (votre serveur)
-
-### 📋 Étape 1: Avant de Joindre le Domaine
-
-**Sur le serveur**, vérifier que le poste n'est PAS encore dans le DNS :
-
-```powershell
-nslookup ws-compta-01.maxtec.be
-
-# Résultat attendu:
-# Serveur peut pas trouver ws-compta-01.maxtec.be : Non-existent domain
-```
-
-**Dans Gestionnaire DNS**, vérifier visuellement:
-- Zone **maxtec.be**
-- Chercher `ws-compta-01` → **N'existe pas encore**
-
-### 🔗 Étape 2: Joindre le Poste au Domaine
-
-**Sur la machine cliente (ws-compta-01):**
-
-1. **Paramètres Système**:
-   - Clic droit sur Démarrer → Système
-   - Paramètres système avancés
-   - Onglet **Nom de l'ordinateur**
-   - **Modifier**
-
-2. **Configuration:**
-   - Nom de l'ordinateur: `ws-compta-01`
-   - Membre de: **Domaine** → `maxtec.be`
-   - **OK**
-
-3. **Authentification:**
-   - Utilisateur: `Administrateur@maxtec.be`
-   - Mot de passe: `Password1!`
-
-4. **Redémarrer** la machine cliente
-
-### 🎉 Étape 3: Observer l'Enregistrement DNS Automatique
-
-**Immédiatement après le redémarrage**, retour sur le serveur :
-
-**Test PowerShell:**
-```powershell
-nslookup ws-compta-01.maxtec.be
-
-# Résultat MAINTENANT:
-# Nom :    ws-compta-01.maxtec.be
-# Address: 192.168.10.128  (ou l'IP de votre poste client)
-```
-
-**Dans Gestionnaire DNS:**
-1. Actualiser la vue (F5 ou clic droit → Actualiser)
-2. Zone **maxtec.be**
-3. **Chercher** `ws-compta-01` → **Il existe maintenant ! 🎉**
-
-### 🔍 Étape 4: Analyser l'Enregistrement Créé
-
-**Double-cliquez** sur `ws-compta-01` dans le Gestionnaire DNS :
-
-Observez:
-- **Type:** A (Host)
-- **Adresse IP:** L'IP du poste client
-- **Horodatage:** Date/heure de création
-- **Option:** "Supprimer cet enregistrement lorsqu'il devient obsolète"
-
-> 💡 **Magie de l'intégration DNS-AD !**
-> Quand un poste rejoint le domaine, AD communique automatiquement avec DNS pour créer l'enregistrement. Aucune intervention manuelle nécessaire !
-
-### ✅ Checkpoint Lab 1
-
-- [ ] Le poste client est membre du domaine maxtec.be
-- [ ] L'enregistrement DNS `ws-compta-01.maxtec.be` existe
-- [ ] `nslookup ws-compta-01.maxtec.be` retourne l'IP correcte
-- [ ] Vous comprenez pourquoi c'est automatique (intégration AD-DNS)
-
----
-
-## 🔍 Lab 2: Explorer le DNS créé par Active Directory
-
-### Objectif
-Découvrir et comprendre ce qu'Active Directory a créé automatiquement dans le DNS.
 
 ### 🖥️ Étape 1: Ouvrir le Gestionnaire DNS
 
@@ -188,7 +101,7 @@ nslookup -type=SRV _ldap._tcp.maxtec.be
 
 ---
 
-## 🛠️ Lab 3: Créer des Enregistrements Manuellement
+## 🛠️ Lab 2: Créer des Enregistrements Manuellement
 
 ### Objectif
 Apprendre à ajouter des enregistrements DNS pour des ressources spécifiques (serveurs, alias, etc.)
@@ -262,7 +175,7 @@ nslookup www.maxtec.be
 ```
 </details>
 
-### ✅ Checkpoint Lab 3
+### ✅ Checkpoint Lab 2
 
 Vérifiez que vous avez créé:
 - [ ] Enregistrement A: `fileserver.maxtec.be` → `192.168.10.10`
@@ -272,94 +185,7 @@ Vérifiez que vous avez créé:
 
 ---
 
-## 💻 Lab 4: Joindre un Poste au Domaine et Observer le DNS
-
-### Objectif
-Comprendre comment l'enregistrement DNS automatique fonctionne quand un poste rejoint le domaine.
-
-### 🖥️ Prérequis
-Vous avez besoin d'une **deuxième VM** (machine cliente Windows 10/11 Pro):
-- Nom: `ws-compta-01` (ou autre)
-- Réseau: Même réseau que le serveur (LAN-VM)
-- DNS configuré: `192.168.0.2` (votre serveur)
-
-### 📋 Étape 1: Avant de Joindre le Domaine
-
-**Sur le serveur**, vérifier que le poste n'est PAS encore dans le DNS :
-
-```powershell
-nslookup ws-compta-01.maxtec.be
-
-# Résultat attendu:
-# Serveur peut pas trouver ws-compta-01.maxtec.be : Non-existent domain
-```
-
-**Dans Gestionnaire DNS**, vérifier visuellement:
-- Zone **maxtec.be**
-- Chercher `ws-compta-01` → **N'existe pas encore**
-
-### 🔗 Étape 2: Joindre le Poste au Domaine
-
-**Sur la machine cliente (ws-compta-01):**
-
-1. **Paramètres Système**:
-   - Clic droit sur Démarrer → Système
-   - Paramètres système avancés
-   - Onglet **Nom de l'ordinateur**
-   - **Modifier**
-
-2. **Configuration:**
-   - Nom de l'ordinateur: `ws-compta-01`
-   - Membre de: **Domaine** → `maxtec.be`
-   - **OK**
-
-3. **Authentification:**
-   - Utilisateur: `Administrateur@maxtec.be`
-   - Mot de passe: `Password1!`
-
-4. **Redémarrer** la machine cliente
-
-### 🎉 Étape 3: Observer l'Enregistrement DNS Automatique
-
-**Immédiatement après le redémarrage**, retour sur le serveur :
-
-**Test PowerShell:**
-```powershell
-nslookup ws-compta-01.maxtec.be
-
-# Résultat MAINTENANT:
-# Nom :    ws-compta-01.maxtec.be
-# Address: 192.168.10.128  (ou l'IP de votre poste client)
-```
-
-**Dans Gestionnaire DNS:**
-1. Actualiser la vue (F5 ou clic droit → Actualiser)
-2. Zone **maxtec.be**
-3. **Chercher** `ws-compta-01` → **Il existe maintenant ! 🎉**
-
-### 🔍 Étape 4: Analyser l'Enregistrement Créé
-
-**Double-cliquez** sur `ws-compta-01` dans le Gestionnaire DNS :
-
-Observez:
-- **Type:** A (Host)
-- **Adresse IP:** L'IP du poste client
-- **Horodatage:** Date/heure de création
-- **Option:** "Supprimer cet enregistrement lorsqu'il devient obsolète"
-
-> 💡 **Magie de l'intégration DNS-AD !**
-> Quand un poste rejoint le domaine, AD communique automatiquement avec DNS pour créer l'enregistrement. Aucune intervention manuelle nécessaire !
-
-### ✅ Checkpoint Lab 5
-
-- [ ] Le poste client est membre du domaine maxtec.be
-- [ ] L'enregistrement DNS `ws-compta-01.maxtec.be` existe
-- [ ] `nslookup ws-compta-01.maxtec.be` retourne l'IP correcte
-- [ ] Vous comprenez pourquoi c'est automatique (intégration AD-DNS)
-
----
-
-## 🔄 Lab 5: Configurer une Zone de Recherche Inverse
+## 🔄 Lab 3: Configurer une Zone de Recherche Inverse
 
 ### Objectif
 Permettre la résolution IP → Nom (l'inverse de la résolution normale)
@@ -427,7 +253,7 @@ nslookup 192.168.10.128  # (remplacez par l'IP de votre client)
 4. **Nom de domaine complet de l'hôte:** `ws-compta-01.maxtec.be`
 5. **OK**
 
-### ✅ Checkpoint Lab 5
+### ✅ Checkpoint Lab 3
 
 - [ ] Zone inverse créée: `0.168.192.in-addr.arpa`
 - [ ] Enregistrement PTR pour le serveur existe
@@ -436,7 +262,7 @@ nslookup 192.168.10.128  # (remplacez par l'IP de votre client)
 
 ---
 
-## 🔧 Lab 5: Dépannage DNS - Troubleshooting
+## 🔧 Lab 4: Dépannage DNS - Troubleshooting
 
 ### Objectif
 Apprendre à diagnostiquer et résoudre les problèmes DNS courants.
@@ -502,7 +328,7 @@ ipconfig /registerdns
 | `ipconfig /registerdns` | Forcer enregistrement | Poste pas dans DNS |
 | `nslookup -type=SRV` | Vérifier services | `nslookup -type=SRV _ldap._tcp.maxtec.be` |
 
-### ✅ Checkpoint Lab 5
+### ✅ Checkpoint Lab 4
 
 - [ ] Vous savez vérifier la configuration DNS d'un poste (`ipconfig /all`)
 - [ ] Vous savez tester la résolution DNS (`nslookup`)
@@ -650,8 +476,8 @@ Si vous voulez approfondir les concepts théoriques DNS:
 ---
 
 ## 🧭 Navigation
-[⏮️ Chapitre 4: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 5: Unités d'Organisation](Chapitre%205.Unites_Organisation.md)
+[⏮️ Chapitre 4: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 6: Unités d'Organisation](Chapitre%206.Unites_Organisation.md)
 
 ---
 
-**📚 Cours Active Directory - Chapitre 4/8 | 💻 Hands-on complet**
+**📚 Cours Active Directory - Chapitre 5/9 | 💻 Hands-on complet**

@@ -1,8 +1,6 @@
 # 🚀 PowerShell AD Moderne 2025 - Guide de l'Instructeur
 
-## 📋 Résumé Exécutif
 
-**Cours révolutionnaire** qui transforme l'enseignement traditionnel de PowerShell AD vers une approche de **survie professionnelle réelle** à l'ère de l'IA.
 
 ### Philosophie Centrale
 - **PowerShell comme outil**, pas de programmation
@@ -14,9 +12,9 @@
 
 ### Prérequis OBLIGATOIRES
 Les étudiants DOIVENT avoir complété :
-- ✅ Chapitres 1-7 (théorie AD complète)
+- ✅ Chapitres 1-8 (théorie AD complète)
 - ✅ Laboratoire maxtec.be configuré et fonctionnel
-- ✅ Chapitres 8.0-8.3 (concepts de base PowerShell)
+- ✅ Chapitres 9.0-9.3 (concepts de base PowerShell)
 - ✅ Utilisateurs et groupes existants créés
 
 ### Continuité Pédagogique
@@ -25,19 +23,17 @@ Ce cours **complète** (ne remplace PAS) le contenu existant :
 - **Modernise** les pratiques avec la philosophie 2025
 - **Applique** les connaissances à des scénarios professionnels réels
 
-## ⏱️ Timing Détaillé (10 heures exactes)
-
 ### Journée de Formation Intensive
 
 | Module | Durée | Contenu | Pause |
 |--------|-------|---------|-------|
-| **M1: Réalité 2025** | 2h00 | Confessions d'admin réel + démo live | ☕ 15 min |
-| **M2: Survie Tickets** | 2h00 | 10 commandes qui sauvent des carrières | 🍽️ 45 min |
-| **M3: IA comme Copilote** | 1h30 | Prompts sécurisés + validation critique | ☕ 10 min |
-| **M4: Scripts Bombes Lab** | 2h00 | Détecter erreurs mortelles cachées | ☕ 15 min |
-| **M5: -WhatIf Religieux** | 1h30 | Pourquoi -WhatIf est sacré | ☕ 10 min |
-| **M6: Kit d'Urgence** | 1h00 | Procédures de panique | |
-| **TOTAL** | **10h00** | | **1h35 pauses** |
+| **M1: Réalité 2025** |  | Confessions d'admin réel + démo live | ☕ |
+| **M2: Survie Tickets** |  | 10 commandes qui sauvent des carrières | 🍽️ |
+| **M3: IA comme Copilote** |  | Prompts sécurisés + validation critique | ☕ |
+| **M4: Scripts Bombes Lab** |  | Détecter erreurs mortelles cachées | ☕ |
+| **M5: -WhatIf Religieux** |  | Pourquoi -WhatIf est sacré | ☕ |
+| **M6: Kit d'Urgence** |  | Procédures de panique | |
+| **TOTAL** |  | | |
 
 ## 🏗️ Infrastructure Existante (maxtec.be)
 

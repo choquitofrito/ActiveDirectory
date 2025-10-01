@@ -9,14 +9,6 @@ Ce fichier sert de référence pour maintenir la consistance de navigation entre
 ## 🧭 Navigation du Cours
 [⏮️ Chapitre Précédent: Titre](lien-precedent.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Titre](lien-suivant.md)
 
-## 📊 Votre Progrès
-- [✅] Chapitre 1: Introduction et installation
-- [🔄] **Chapitre 2**: Installation VirtualBox *(En cours)*
-- [⏸️] Chapitre 3: DNS
-- [⏸️] Chapitre 4: Active Directory Domain Services
-
----
-```
 
 ### Checkpoints Standard
 ```markdown

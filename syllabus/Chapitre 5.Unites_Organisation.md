@@ -3,15 +3,6 @@
 ## 🧭 Navigation du Cours
 [⏮️ Chapitre Précédent: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Gestion des Utilisateurs](Chapitre%206.Gestion_des_Utilisateurs.md)
 
-## 📊 Votre Progrès
-- [✅] Chapitre 1: Introduction et installation
-- [✅] Chapitre 2: Installation VirtualBox
-- [✅] Chapitre 3: DNS
-- [✅] Chapitre 4: Active Directory Domain Services
-- [🔄] **Chapitre 5**: Unités d'Organisation *(En cours)*
-
----
-
 > 📚 **Dans ce chapitre :**
 > 1. 🏢 [Structure organisationnelle](#1-introduction-aux-unités-dorganisation-uos)
 >    - Concepts fondamentaux

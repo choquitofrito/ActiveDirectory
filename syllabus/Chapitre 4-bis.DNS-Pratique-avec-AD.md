@@ -3,13 +3,6 @@
 ## 🧭 Navigation du Cours
 [⏮️ Chapitre Précédent: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Unités d'Organisation](Chapitre%205.Unites_Organisation.md)
 
-## 📊 Votre Progrès
-- [✅] Chapitre 1-3: Préparation
-- [✅] Chapitre 4: Active Directory DS installé
-- [🔄] **Chapitre 4**: DNS Pratique avec AD *(En cours - 90 minutes)*
-- [⏸️] Chapitre 5: Unités d'Organisation
-
----
 
 
 >

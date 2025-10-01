@@ -1,4 +1,4 @@
-# Chapitre 8.3: Atelier pratique : Création et modification
+# Chapitre 9.3: Atelier pratique : Création et modification
 
 ## 1. 🔹 Modification d'attributs utilisateur
 

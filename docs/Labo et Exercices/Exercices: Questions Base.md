@@ -113,7 +113,7 @@ Le catalogue global est une base de données qui contient une copie partielle de
 </details>
 <br>
 
-## Chapitre 4. Gestion des Utilisateurs
+## Chapitre 7. Gestion des Utilisateurs
 
 1. Quel est l'outil le plus utilisé pour gérer l'AD?
 <details>
@@ -122,7 +122,7 @@ L'outil le plus utilisé est "Utilisateurs et ordinateurs Active Directory" (Act
 </details>
 <br>
 
-## Chapitre 5. Unités d'Organisation (OU)
+## Chapitre 6. Unités d'Organisation (OU)
 1. Quelle est la différence entre une OU et un groupe?
 <details>
 <summary>Réponse</summary>

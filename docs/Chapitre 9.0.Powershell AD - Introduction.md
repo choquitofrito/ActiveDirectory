@@ -1,4 +1,4 @@
-# Chapitre 8.0: Powershell AD - Introduction
+# Chapitre 9.0: Powershell AD - Introduction
 
 ## 1. 🔹 Qu'est-ce que PowerShell pour AD ?
 

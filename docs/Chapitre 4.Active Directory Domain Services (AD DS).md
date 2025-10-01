@@ -1,15 +1,9 @@
 # Chapitre 4: Active Directory Domain Services (AD DS)
 
 ## 🧭 Navigation du Cours
-[⏮️ Chapitre Précédent: DNS](Chapitre%203.DNS.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Unités d'Organisation](Chapitre%205.Unites_Organisation.md)
+[⏮️ Chapitre Précédent: DNS](Chapitre%203.DNS.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: DNS Pratique avec AD](Chapitre%205.DNS-Pratique-avec-AD.md)
 
-## 📊 Votre Progrès
-- [✅] Chapitre 1: Introduction et installation
-- [✅] Chapitre 2: Installation VirtualBox
-- [✅] Chapitre 3: DNS
-- [🔄] **Chapitre 4**: Active Directory Domain Services *(En cours)*
 
----
 
 > 📚 **Dans ce chapitre :**
 > 1. 🔍 [Introduction à AD DS](#1-introduction-à-ad-ds)
@@ -546,20 +540,4 @@ Avant de continuer vers les Unités d'Organisation:
 - ✅ **Structure de données**: Partitions et catalogue global
 - ✅ **Intégration**: Comment connecter des postes au domaine
 
----
-
-## 🔔 Important: Prochaine Étape DNS Pratique !
-
-> 🎯 **Avant de continuer vers le Chapitre 5**, nous vous recommandons **fortement** de compléter le **Chapitre 4: DNS Pratique avec AD**.
-
-### Pourquoi maintenant ?
-
-Vous avez installé Active Directory qui a **automatiquement configuré DNS**. C'est le moment parfait pour:
-- 🔍 **Explorer** les zones DNS créées par AD
-- 💻 **Pratiquer** la gestion DNS avec votre domaine réel maxtec.be
-- 🛠️ **Apprendre** à créer des enregistrements DNS
-- 🔧 **Maîtriser** le troubleshooting DNS-AD
-
-
-**📚 Cours Active Directory -  | 👨‍💻 Pour débutants**
 

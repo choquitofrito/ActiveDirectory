@@ -3,14 +3,6 @@
 ## 🧭 Navigation du Cours
 [⏮️ Chapitre Précédent: Introduction](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: DNS](Chapitre%203.DNS.md)
 
-## 📊 Votre Progrès
-- [✅] Chapitre 1: Introduction et installation
-- [🔄] **Chapitre 2**: Installation VirtualBox *(En cours)*
-- [⏸️] Chapitre 3: DNS
-- [⏸️] Chapitre 4: Active Directory Domain Services
-
----
-
 > 📚 **Dans ce guide:**
 > 1. 🛠️ [Prérequis](#1-prérequis)
 >    - Installation de VirtualBox

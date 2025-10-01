@@ -3,15 +3,7 @@
 ## 🧭 Navigation du Cours
 [⏮️ Chapitre Précédent: Unités d'Organisation](Chapitre%205.Unites_Organisation.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Group Policy Objects](Chapitre%207.Group%20Policy%20Objects.md)
 
-## 📊 Votre Progrès
-- [✅] Chapitre 1: Introduction et installation
-- [✅] Chapitre 2: Installation VirtualBox
-- [✅] Chapitre 3: DNS
-- [✅] Chapitre 4: Active Directory Domain Services
-- [✅] Chapitre 5: Unités d'Organisation
-- [🔄] **Chapitre 6**: Gestion des Utilisateurs *(En cours)*
 
----
 
 > 📚 **Dans ce chapitre:**
 > 1. 👤 [Identités Numériques](#1-introduction-aux-comptes-utilisateurs)
