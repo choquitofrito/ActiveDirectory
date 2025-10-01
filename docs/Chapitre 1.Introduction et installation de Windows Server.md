@@ -35,7 +35,9 @@ Avant de continuer, assurez-vous de pouvoir:
 
 🔑 Active Directory (ou son évolution: Azure Active Directory) **arrange ce problème en centralisant** la gestion des utilisateurs et des ordinateurs:
 
-> **Point clé:** Active Directory implique de stocker toutes les informations dans une seule base de données qui se trouvera sur un serveur (et non sur chaque ordinateur).
+!!! tip "Point clé"
+    
+    Active Directory implique de stocker toutes les informations dans une seule base de données qui se trouvera sur un serveur (et non sur chaque ordinateur).
 
 💻 **Active Directory** est une technologie de Microsoft qui fonctionne comme un "annuaire d'entreprise" numérique centralisant:
 
@@ -52,12 +54,14 @@ Tous ces aspects **peuvent être gérés depuis un seul endroit, le serveur Acti
 
 ## 🤔 Réflexion: Centraliser ou ne pas centraliser?
 
-> 💭 **Question importante**: "Est-ce une bonne idée de centraliser toute la gestion sur (eventuellement) un seul serveur?"
->
-> 🔍 **Réfléchissez 2 minutes** avant de regarder la réponse:
-> - Quels seraient les **avantages**?
-> - Quels seraient les **risques**?
-> - Comment **minimiser** les risques?
+!!! question "Question importante"
+    
+    **"Est-ce une bonne idée de centraliser toute la gestion sur (eventuellement) un seul serveur?"**
+    
+    🔍 **Réfléchissez 2 minutes** avant de regarder la réponse:
+    - Quels seraient les **avantages** ?
+    - Quels seraient les **risques** ?
+    - Comment **minimiser** les risques ?
 
 <details>
 <summary>📘 Les avantages de la centralisation</summary>
@@ -84,10 +88,11 @@ Tous ces aspects **peuvent être gérés depuis un seul endroit, le serveur Acti
 
 ### 🔧 Stratégies de Mitigation
 
-> 📘 **Plan de continuité:**
-> - Serveur secondaire de backup
-> - Sauvegardes régulières
-> - Procédures d'urgence documentées
+!!! example "Plan de continuité"
+    
+    - Serveur secondaire de backup
+    - Sauvegardes régulières
+    - Procédures d'urgence documentées
 </details>
 
 
@@ -95,11 +100,15 @@ Tous ces aspects **peuvent être gérés depuis un seul endroit, le serveur Acti
 
 ## 3. Windows Server 
 
-> 📍 **Point de départ:** On a considéré que les avantages étaient plus importants que les risques ! Nous allons donc utiliser Active Directory.
+!!! success "Point de départ"
+    
+    On a considéré que les avantages étaient plus importants que les risques ! Nous allons donc utiliser Active Directory.
 
 ### Étapes d'installation
 
-> Pour mettre en place Active Directory, nous suivrons un processus en trois phases. Chaque phase est essentielle pour assurer une installation réussie.
+!!! info "Processus d'installation"
+    
+    Pour mettre en place Active Directory, nous suivrons un processus en trois phases. Chaque phase est essentielle pour assurer une installation réussie.
 
 | 📆 Phase | ⚙️ Étape | 📘 Description |
 |-------|--------|-------------|
@@ -130,9 +139,11 @@ Tous ces aspects **peuvent être gérés depuis un seul endroit, le serveur Acti
 
 ### 3.1. Les machines virtuelles ?
 
-**Nous devons nous assurer que nos expériences ne modifient pas la configuration de notre ordinateur**. Nous devons également **pouvoir facilement restorer une configuration de départ** si nous faisons des erreurs.
-
-**La solution est d'utiliser des machines virtuelles**. Les avantages sont :
+!!! tip "Pourquoi utiliser des machines virtuelles ?"
+    
+    **Nous devons nous assurer que nos expériences ne modifient pas la configuration de notre ordinateur**. Nous devons également **pouvoir facilement restorer une configuration de départ** si nous faisons des erreurs.
+    
+    **La solution est d'utiliser des machines virtuelles**. Les avantages sont :
 * **Chaque machine virtuelle sera indépendante de l'autre et de notre ordinateur physique**.
 
 **Exemple**: on peut créer une machine virtuelle qui contiendra Windows Server, et une autre qui contiendra un autre système d'exploitation. Ou deux machines virtuelles, chacun avec un système d'exploitation différent... les posibilités sont infinies!
@@ -144,7 +155,9 @@ Tous ces aspects **peuvent être gérés depuis un seul endroit, le serveur Acti
 
 ### 3.2. Installation de Windows Server avec Hyper-V (Windows)
 
-**IMPORTANT:** si vous n'utilisez pas Windows, vous pouvez utiliser **VirtualBox** au lieu d'Hyper-V. Allez sur [Chapitre 2.Installation-Windows-Server-2022-VirtualBox.md](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md).
+!!! info "Alternative pour non-Windows"
+    
+    Si vous n'utilisez pas Windows, vous pouvez utiliser **VirtualBox** au lieu d'Hyper-V. Allez sur [Chapitre 2.Installation-Windows-Server-2022-VirtualBox.md](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md).
 
 Nous allons créer une première machine virtuelle et y installer Windows Server.
 
@@ -210,9 +223,11 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 
 ### 💾 Téléchargement de Windows Server
 
-> ⏰ **Version d'évaluation:** Cette version est valable pendant 180 jours, parfaite pour notre environnement d'apprentissage.
->
-> 💡 **Conseil pour débutants:** Ne vous inquiétez pas des 180 jours, c'est largement suffisant pour apprendre!
+!!! info "Version d'évaluation"
+    
+    Cette version est valable pendant 180 jours, parfaite pour notre environnement d'apprentissage.
+    
+    💡 **Conseil pour débutants:** Ne vous inquiétez pas des 180 jours, c'est largement suffisant pour apprendre !
 
 #### 📍 Prérequis
 
@@ -232,7 +247,9 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 
 ### ⚙️ Installation de Windows Server
 
-> 🚨 **Important:** Assurez-vous d'avoir activé la virtualisation dans le BIOS de votre ordinateur.
+!!! warning "Important"
+    
+    Assurez-vous d'avoir activé la virtualisation dans le BIOS de votre ordinateur.
 
 #### 🖥 Création de la machine virtuelle
 
@@ -273,18 +290,26 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
    - Format de temps : **Français**
    - Clavier : **Français**
 3. Choisissez **Windows Server 2022 Standard (Desktop Experience)**
-   > 💡 **Pourquoi Desktop Experience?** Interface graphique familière pour débutants
+   !!! tip "Pourquoi Desktop Experience ?"
+    
+    Interface graphique familière pour débutants
 4. Acceptez la licence
 5. Sélectionnez **Installation personnalisée**
-   > ⚠️ **Attention:** Pas "Mise à niveau" car nous partons de zéro
+   !!! warning "Attention"
+    
+    Pas "Mise à niveau" car nous partons de zéro
 6. Configurez le disque dur
 </details>
 
-> 📘 **Note:** L'installation prend environ 15-20 minutes. Profitez-en pour revoir les concepts d'Active Directory.
+!!! note "Note"
+    
+    L'installation prend environ 15-20 minutes. Profitez-en pour revoir les concepts d'Active Directory.
 
 ### 🔧 Configuration post-installation
 
-> 💡 **Objectif:** Préparer le serveur pour le déploiement d'Active Directory.
+!!! info "Objectif"
+    
+    Préparer le serveur pour le déploiement d'Active Directory.
 
 #### 🔑 Configuration initiale
 
@@ -292,7 +317,9 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 <summary>💻 Paramètres de base</summary>
 
 1. Définissez le mot de passe administrateur: **Password1!**
-   > 💡 **Pour le labo:** Nous utilisons `Password1!` pour simplicité
+   !!! tip "Pour le labo"
+    
+    Nous utilisons `Password1!` pour simplicité
 2. Connectez-vous avec le compte administrateur
 3. Configurez les paramètres régionaux :
    - Région : **France**
@@ -324,11 +351,15 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 | Résolution DNS | `nslookup google.fr` | Adresse IP retournée |
 </details>
 
-> 🚨 **Important:** Assurez-vous que toutes les vérifications sont validées avant de continuer avec l'installation d'Active Directory.
+!!! warning "Important"
+    
+    Assurez-vous que toutes les vérifications sont validées avant de continuer avec l'installation d'Active Directory.
 
 ### 🔧 Dépannage
 
-> 💡 **Conseil:** La plupart des problèmes peuvent être résolus en vérifiant la configuration de base.
+!!! tip "Conseil"
+    
+    La plupart des problèmes peuvent être résolus en vérifiant la configuration de base.
 
 <details>
 <summary>💻 Problèmes de virtualisation</summary>
@@ -360,7 +391,9 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 | Performance lente | Augmentez la RAM à 4 GB |
 </details>
 
-> ℹ️ **Note:** Si un problème persiste après ces vérifications, consultez la [documentation Microsoft](https://docs.microsoft.com/fr-fr/windows-server/troubleshoot/).
+!!! note "Note"
+    
+    Si un problème persiste après ces vérifications, consultez la [documentation Microsoft](https://docs.microsoft.com/fr-fr/windows-server/troubleshoot/).
 
 ### 🚀 Prochaine étape:
 Vous êtes maintenant prêt(e) pour le **Chapitre 2: Installation avec VirtualBox**
