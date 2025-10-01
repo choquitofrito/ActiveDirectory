@@ -527,13 +527,6 @@ Avant de continuer vers les Unités d'Organisation:
 
 
 
-### 🎯 Ce que vous avez appris:
-- ✅ **Architecture AD DS**: Composants et services d'Active Directory
-- ✅ **DNS vs AD**: Distinction claire entre les deux domaines
-- ✅ **Installation pratique**: Promotion d'un serveur en contrôleur de domaine
-- ✅ **Structure de données**: Partitions et catalogue global
-- ✅ **Intégration**: Comment connecter des postes au domaine
-
 ---
 
 ## 🔔 Important: Prochaine Étape DNS Pratique !

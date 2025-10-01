@@ -447,14 +447,6 @@ nslookup 192.168.10.15         # → webserver.maxtec.be
 
 ## 🎯 Vous Maîtrisez DNS avec Active Directory !
 
-### 🏆 Ce que vous avez accompli
-
-- ✅ **Exploré** les zones DNS créées automatiquement par AD
-- ✅ **Compris** les enregistrements critiques (A, CNAME, PTR, SRV)
-- ✅ **Créé** des enregistrements manuellement
-- ✅ **Observé** l'enregistrement automatique lors de la jonction au domaine
-- ✅ **Configuré** une zone de recherche inverse
-- ✅ **Dépanné** des problèmes DNS courants
 
 ### 🚀 Compétences Acquises
 

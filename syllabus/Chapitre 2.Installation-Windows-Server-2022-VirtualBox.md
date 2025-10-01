@@ -229,12 +229,6 @@ Avant de continuer vers le prochain chapitre, vérifiez que vous avez:
 
 
 
-### 🎯 Ce que vous avez appris:
-- ✅ **Alternative VirtualBox**: Installation sur différentes plateformes
-- ✅ **Configuration réseau**: Réseau interne vs externe
-- ✅ **Environnement complet**: Serveur + machines clientes
-- ✅ **Préparation**: Infrastructure prête pour Active Directory
-
 ### 🚀 Prochaine étape:
 Vous êtes maintenant prêt(e) pour le **Chapitre 3: Configuration DNS**
 

@@ -620,13 +620,6 @@ Exemple : DL-RH-Lecture, DL-RH-Modification
 ---
 
 
-### 🎯 Ce que vous avez appris:
-- ✅ **Identités numériques**: Concepts et standards de nommage des comptes
-- ✅ **ADUC**: Outil principal pour gérer utilisateurs et groupes
-- ✅ **Création d'utilisateurs**: Process complet avec bonnes pratiques
-- ✅ **Gestion des groupes**: Organisation et stratégies d'accès
-- ✅ **Sécurité**: Principes de base pour la gestion des identités
-
 ### 🚀 Prochaine étape:
 Vos utilisateurs sont créés et organisés! Il est maintenant temps d'apprendre à contrôler leurs environnements avec les **Group Policy Objects (GPOs)**!
 

@@ -883,12 +883,6 @@ nslookup ws-compta-01.maxtec.be
 ---
 
 
-### 🎯 Ce que vous avez appris:
-- ✅ **Concept DNS**: L'annuaire d'internet et de notre entreprise
-- ✅ **Résolution**: Comment les noms deviennent des adresses IP
-- ✅ **Structure**: Organisation hiérarchique de maxtec.be
-- ✅ **Zones et autorité**: Qui répond à quelles questions
-
 ### 🚀 Prochaine étape:
 Maintenant que vous comprenez le DNS, vous êtes prêt(e) pour **Active Directory Domain Services**!
 

@@ -33,11 +33,6 @@ Avant de continuer, assurez-vous de pouvoir:
 
 
 
-### 🎯 Ce que vous avez appris:
-- ✅ **[Concept 1]**: [Description courte]
-- ✅ **[Concept 2]**: [Description courte]
-- ✅ **[Concept 3]**: [Description courte]
-- ✅ **[Concept 4]**: [Description courte]
 
 ### 🚀 Prochaine étape:
 Vous êtes maintenant prêt(e) pour le **Chapitre X: [Titre]**

@@ -163,7 +163,7 @@ Vous vous demandez peut-être comment c'est possible, puisque `maxtec.be` est un
 Nous allons créer une **UO** racine pour chaque site (UOs `EU` et `US`) par commodité, mais **ce n'est pas une obligation**. Voici deux façons possibles d'organiser la même entreprise :
 
 
-#### Diagramme d'installation du laboratoire
+## 5. Diagramme d'installation du laboratoire
 
 > Le schéma suivant illustre l'installation d'AD DS sur notre serveur principal :
 
@@ -524,12 +524,5 @@ Ahmed commence à travailler au sein du département informatique. Pour accéder
 
 ---
 
-
-### 🎯 Ce que vous avez appris:
-- ✅ **Architecture AD DS**: Composants et services d'Active Directory
-- ✅ **DNS vs AD**: Distinction claire entre les deux domaines
-- ✅ **Installation pratique**: Promotion d'un serveur en contrôleur de domaine
-- ✅ **Structure de données**: Partitions et catalogue global
-- ✅ **Intégration**: Comment connecter des postes au domaine
 
 

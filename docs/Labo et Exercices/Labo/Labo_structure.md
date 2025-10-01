@@ -56,7 +56,7 @@ Puis, pour pratiquer:
 ## Installation d'un adaptateur réseau extra pour avoir l'internet (si besoin)
 
 1.  eteignez la machine 
-2.  rajoutez un adaptateur réseau NAT
+2.  rajoutez un adaptateur réseau "pont"
 3.  redémarrez la machine
 
 ## Installation des VirtualBox Guest Additions (pour pouvoir copier-coller et glisser-deposer)

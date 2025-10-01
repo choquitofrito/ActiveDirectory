@@ -841,14 +841,6 @@ Avant de passer à la gestion des utilisateurs:
 ---
 
 
-
-### 🎯 Ce que vous avez appris:
-- ✅ **Concept UO**: Conteneurs intelligents pour organiser Active Directory
-- ✅ **Structure**: Comment créer une hiérarchie logique et efficace
-- ✅ **Délégation**: Décentraliser l'administration avec AGLP et AGDLP
-- ✅ **Bonnes pratiques**: Nommage, sécurité et maintenance
-- ✅ **UOs vs Groupes**: Quand utiliser quoi et comment les combiner
-
 ### 🚀 Prochaine étape:
 Maintenant que votre structure organisationnelle est en place, il est temps de créer et gérer vos **utilisateurs** dans ces UOs!
 

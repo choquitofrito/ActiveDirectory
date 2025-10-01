@@ -1,0 +1,16 @@
+/* Estilos personalizados para MkDocs Material */
+
+/* Solo títulos del primer nivel (secciones principales) en negrita */
+.md-nav__item--section > .md-nav__link {
+    font-weight: bold !important;
+}
+
+/* Solo títulos del segundo nivel (capítulos) en negrita */
+.md-nav__item--nested > .md-nav__link {
+    font-weight: bold !important;
+}
+
+/* Títulos principales de navegación */
+.md-nav__title {
+    font-weight: bold !important;
+}
