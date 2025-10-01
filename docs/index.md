@@ -27,7 +27,7 @@ Ce cours vous guide à travers l'installation, la configuration et l'administrat
 ### 🌐 Infrastructure réseau (Chapitres 3-4)
 
 | Chapitre | Titre | Contenu |
-|----------|-------|---------|-------|
+|----------|-------|---------|
 | **[Chapitre 3](Chapitre%203.DNS.md)** | DNS - Préparation pour AD | Concepts DNS essentiels pour Active Directory |
 | **[Chapitre 4](Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29.md)** | Active Directory Domain Services | Installation et configuration AD DS sur maxtec.be | 
 | **[Chapitre 4.DNS-Pratique-avec-AD](Chapitre%204.DNS-Pratique-avec-AD.md)** | DNS Pratique avec AD | Labs DNS avec domaine fonctionnel (5 labs progressifs) |
