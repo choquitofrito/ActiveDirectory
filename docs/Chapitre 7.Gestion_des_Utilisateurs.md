@@ -422,11 +422,15 @@ Après la création du compte, il est important de configurer les **propriétés
 
 ### Permissions NTFS (système de fichiers)
 
+!!! info "Objectif"
+    
+    Contrôle d'accès **au niveau du système de fichiers**, pas du réseau
 
-**Objectif** : Contrôle d'accès **au niveau du système de fichiers**, pas du réseau
-- **S'appliquent uniquement si l'utilisateur peut déjà accéder au dossier partagé** 
-- Offrent plusieurs niveaux de permissions (autorisations): Contrôle total, Lecture, Écriture, Modification, Lecture et exécution, Affichage....
-- Constituent une **autre barrière de sécurité**
+!!! info "Caractéristiques des permissions NTFS"
+    
+    - **S'appliquent uniquement si l'utilisateur peut déjà accéder au dossier partagé** 
+    - Offrent plusieurs niveaux de permissions (autorisations): Contrôle total, Lecture, Écriture, Modification, Lecture et exécution, Affichage....
+    - Constituent une **autre barrière de sécurité**
 
 
 !!! warning "Note importante"
