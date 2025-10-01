@@ -70,66 +70,80 @@ sudo /usr/lib/virtualbox/vboxdrv.sh setup
 
 ### ⚙️ Configuration de Base
 
-1. 🖥️ Ouvrez VirtualBox
-2. ➕ Cliquez sur **Nouvelle**
-3. ⚙️ Configurez les paramètres de base :
-   - 🎮 Nom : `Serveur1` (par exemple)
-      !!! tip "Tip"
+!!! example "Configuration de la machine virtuelle"
+    
+    1. **Ouvrez VirtualBox**
+    2. **Cliquez sur "Nouvelle"**
+    3. **Configurez les paramètres de base :**
+    
+    | Paramètre | Valeur |
+    |-----------|--------|
+    | **Nom** | `Serveur1` (par exemple) |
+    | **Type de disque** | VDI (Image disque VirtualBox) |
+    | **Image ISO** | Fichier Windows Server |
+    | **Type** | Microsoft Windows |
+    | **Installation** | ⚠️ **Cochez Skip Unattended Installation** |
+    
+    **Configuration matérielle :**
+    
+    | Composant | Spécification |
+    |-----------|---------------|
+    | **RAM** | 4096 Mo (4 Go) |
+    | **Processeurs** | 2 processeurs |
+    | **Disque dur** | 50 Go |
+    
+    ✅ **Appuyez sur Finish !**
+
+!!! tip "Convention de nommage"
     
     M1 = Machine 1 (si vous créez plus tard M2, M3...)
-   - 💾 Choisissez "VDI (Image disque VirtualBox)"
-   - 📚 ISO Image (fichier Windows Server)
-   - 💻 Type : Microsoft Windows
-   - ⚠️ **Cochez Skip Unattended Installation**
-   - 📊 Dans la section **Hardware** :
-     - 💽 4096 Mo (4 Go) RAM
-     - 🖥️ 2 processeurs
-     - 💾 50 Go disque dur
-
-   ✅ Appuyez sur Finish!
 
 ### ⚙️ Paramètres Additionnels
 
-1. ⚙️ Sélectionnez la VM et cliquez sur "Paramètres"
-
-2. 💻 Système :
-   - 🖥️ Onglet Processeur : 2 processeurs minimum
-
-3. 📺 Affichage :
-   - 💽 Mémoire vidéo : 128 Mo
-   - 🎮 Activer l'Accélération 3D
-
-4. 🔗 Réseau :
-   - 📶 Adaptateur 1 (par défaut): Changer **NAT** par **réseau interne**, on en aura besoin après pour AD
-   - Rajoutez un deuxième adaptateur de réseau (il faut éteindre la machine) et choisissez **accès pont** pour avoir accès à l'internet
+!!! info "Paramètres additionnels"
+    
+    1. **Sélectionnez la VM et cliquez sur "Paramètres"**
+    
+    2. **Système :**
+       - Onglet Processeur : 2 processeurs minimum
+    
+    3. **Affichage :**
+       - Mémoire vidéo : 128 Mo
+       - Activer l'Accélération 3D
+    
+    4. **Réseau :**
+       - Adaptateur 1 (par défaut) : Changer **NAT** par **réseau interne** (nécessaire pour AD)
+       - Ajoutez un deuxième adaptateur de réseau (éteindre la machine) et choisissez **accès pont** pour l'accès Internet
 
 ## 3. 💻 Installation de Windows Server 2022
 
-1. 🔽 Démarrez la machine virtuelle
-
-2. 💻 Configuration initiale :
-   - 🇫🇷 Sélectionnez la langue (Français, clavier Belge)
-   - ▶️ Cliquez sur **Installer maintenant**
-
-3. 💻 Sélection de l'édition :
-   - 🖥️ **Windows Server 2022 Standard (Expérience Desktop)**
-   - ➡️ Cliquez sur "Suivant"
-
-4. 📄 Acceptez les termes de la licence
-
-5. ⚙️ Choisissez **"Personnalisé : Installer Windows uniquement (avancé)"**
-
-6. 💾 Sélectionnez l'espace non alloué et cliquez sur **Suivant**
-
-7. ⏳ Attendez que l'installation se termine
-
-8. 🔐 Configuration administrateur :
-   - 🔑 Mot de passe : **Password1!** (standard pour nos labos)
-   - ⚠️ Notez ce mot de passe quelque part
-
-9. 🔓 Attendez l'écran de login administrateur
-
-10. ⌨️ Utilisez l'option **Ctrl + Alt + Suppr** via la barre de menu de la fenêtre de la machine virtuelle dans VirtualBox (pas la barre de VirtualBox)
+!!! example "Installation de Windows Server 2022"
+    
+    1. **Démarrez la machine virtuelle**
+    
+    2. **Configuration initiale :**
+       - Sélectionnez la langue (Français, clavier Belge)
+       - Cliquez sur **Installer maintenant**
+    
+    3. **Sélection de l'édition :**
+       - **Windows Server 2022 Standard (Expérience Desktop)**
+       - Cliquez sur "Suivant"
+    
+    4. **Acceptez les termes de la licence**
+    
+    5. **Choisissez "Personnalisé : Installer Windows uniquement (avancé)"**
+    
+    6. **Sélectionnez l'espace non alloué et cliquez sur "Suivant"**
+    
+    7. **Attendez que l'installation se termine**
+    
+    8. **Configuration administrateur :**
+       - Mot de passe : **Password1!** (standard pour nos labos)
+       - ⚠️ Notez ce mot de passe quelque part
+    
+    9. **Attendez l'écran de login administrateur**
+    
+    10. **Utilisez l'option Ctrl + Alt + Suppr** via la barre de menu de la fenêtre de la machine virtuelle dans VirtualBox (pas la barre de VirtualBox)
 
 ### ⚙️ Post-Installation
 
@@ -148,17 +162,20 @@ Nous travaillerons sur un sous-ensemble de cette structure de réseau:
 
 ![Infrastructure](diagrams/images/structure_reseau_geographic_zones.png)
 
-1. ⚙️ Configuration du nom :
-   1. 🖥️ Ouvrez le **Gestionnaire de serveur** > **Serveur local**
-   2. 💻 Sélectionnez le nom actuel
-   3. ⚙️ Cliquez sur **Modifier**
-   4. 🌐 Nom : **dns1**
-   5. 🌐 Suffixe DNS : **maxtec.be**
-      !!! tip "Pourquoi maxtec.be ?"
+!!! info "Configuration du nom du serveur"
     
-    C'est notre entreprise fictive d'exemple
-   6. ✅ Cliquez sur **OK**
-   7. 🔄 Redémarrez le serveur
+    1. **Ouvrez le Gestionnaire de serveur** > **Serveur local**
+    2. **Sélectionnez le nom actuel**
+    3. **Cliquez sur "Modifier"**
+    4. **Nom :** `dns1`
+    5. **Suffixe DNS :** `maxtec.be`
+    
+    !!! tip "Pourquoi maxtec.be ?"
+        
+        C'est notre entreprise fictive d'exemple
+    
+    6. **Cliquez sur "OK"**
+    7. **Redémarrez le serveur**
 
 
 
@@ -199,43 +216,46 @@ Supossons qu'on a deux départements pour le moment:
 ### 💻 Installation de Windows 10
 
 !!! info "Paramètres de la machine virtuelle"
+    
+    | Paramètre | Valeur |
+    |-----------|--------|
+    | **Nom** | `Client1` (pour le premier client) |
+    | **Génération** | 2 (64 bits) |
+    | **Mémoire** | 4 GB |
+    | **Réseau** | Adaptateur 1 : réseau interne<br>Adaptateur 2 : accès pont (Internet) |
+    | **Disque** | 30 GB |
+    | **ISO** | Windows 10 |
 
-- 🎮 Nom : `Client1` (pour le prémier client)
-- 💻 Génération : 2 (64 bits)
-- 💽 Mémoire : 4 GB
-- 📶 Adaptateur 1 (par défaut): Changer **NAT** par **réseau interne**
-- Rajoutez un deuxième adaptateur de réseau et choisissez pont pour avoir accès à l'internet
-- 💾 Disque : 30 GB
-- 📚 ISO : Windows 10
+!!! example "Installation initiale"
+    
+    1. **Langue :** Français (Belge)
+    2. **Version :** Windows 10 Pro
+    3. **Mode :** Installation personnalisée
+    4. **Compte :** `clark.kent` / `Password1!`
 
-1. 💻 Installation initiale :
-   - 🇫🇷 Langue : Français (Belge)
-   - 🖥️ Version : Windows 10 Pro
-   - ⚙️ Mode : Installation personnalisée
-   - 👤 Compte : **clark.kent** / **Password1!**
-
-2. 🔄 Configuration :
-   - 🔄 Mises à jour Windows
-   - 🌐 Nom standardisé pour l'ordinateur
+!!! info "Configuration post-installation"
+    
+    - Mises à jour Windows
+    - Nom standardisé pour l'ordinateur
 
 ### 💻 Exercice 1 : Deuxième Machine Cliente
 
 !!! example "Exercice 1"
-    
+
     Créez une nouvelle VM Windows 10 avec :
 
-- 🎮 Nom VM : `Client2`
-- 👤 Compte : **peter.parker** / **Password1!**
-- 💽 Hardware identique à la première machine
+    - 🎮 Nom VM : `Client2`
+    - 👤 Compte : **peter.parker** / **Password1!**
+    - 💽 Hardware identique à la première machine
 
 ### 🖥️ Exercice 2 : Serveur Secondaire
 
 !!! example "Exercice 2"
-    
+
     Créez un nouveau serveur Windows Server 2022 :
 
-- 🌐 Nom du serveur (FQDN) : `dns2.maxtec.be`
-- 💻 Suivez la même procédure que pour le premier serveur
+    - 🌐 Nom du serveur (FQDN) : `dns2.maxtec.be`
+    - 💻 Suivez la même procédure que pour le premier serveur
 
 
 ### 🚀 Prochaine étape:

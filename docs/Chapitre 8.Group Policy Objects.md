@@ -5,6 +5,7 @@
 
 
 !!! info "📚 Dans ce chapitre:"
+
     1. 🌐 [Introduction aux GPO](#1-introduction-aux-gpo)
        - Concepts de base
        - Types de stratégies

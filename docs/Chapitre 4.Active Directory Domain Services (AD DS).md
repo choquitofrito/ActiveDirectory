@@ -131,33 +131,33 @@ Vous vous demandez peut-être comment c'est possible, puisque `maxtec.be` est un
   Une **UO** (que nous étudierons plus tard) **est un conteneur** AD qui **contient des objets AD** (utilisateurs, groupes, ordinateurs, etc.) et **est complètement indépendant des sites**.
 
 !!! tip "Les Sites dans Active Directory"
-    
+
     Un **site AD** représente une **localisation physique** dans le réseau. Chaque **site** est défini par :
-    
+
     - **Un ou plusieurs sous-réseaux IP** : Dans notre cas, nous n'avons qu'un seul sous-réseau (192.168.10.0/24 sur le diagramme, qui devient 192.168.0.0/24 dans le laboratoire), mais le `site EU` pourrait inclure :
         - 192.168.10.0/24 (bureaux principaux)
         - 192.168.11.0/24 (entrepôt)
         - 192.168.12.0/24 (production)
-    
+
     - **Au moins un contrôleur de domaine (DC) local** pour :
         - L'authentification rapide des utilisateurs locaux
         - La réplication avec les autres sites
         - La réduction du trafic réseau entre sites
 
 !!! info "Relations avec d'autres concepts"
-    
+
     - **Sites ≠ UOs** : Les sites représentent une division physique, les UOs une organisation **logique**
     - **Sites ≠ Zones DNS** : Les zones DNS (`eu.maxtec.be`) peuvent correspondre aux sites (`site EU`), mais ce n'est pas obligatoire
 
 !!! example "Notre infrastructure"
-    
+
     **Site EU** : Sous-réseau 192.168.10.0/24 (192.168.0.0/24 en laboratoire)
-    
+
     - DC principal : `dc1.maxtec.be`
     - DC secondaire : `dc2.maxtec.be` (réplication)
-    
+
     **Site US** : Sous-réseau 192.168.20.0/24 (non utilisé en laboratoire)
-    
+
     - DC local : `dc-us.maxtec.be`
 
 Nous allons créer une **UO** racine pour chaque site (UOs `EU` et `US`) par commodité, mais **ce n'est pas une obligation**. Voici deux façons possibles d'organiser la même entreprise :

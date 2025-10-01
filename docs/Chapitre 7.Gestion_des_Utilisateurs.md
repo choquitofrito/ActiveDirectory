@@ -5,6 +5,7 @@
 
 
 !!! info "📚 Dans ce chapitre:"
+
     1. 👤 [Identités Numériques](#1-introduction-aux-comptes-utilisateurs)
        - Concepts de base
        - Conventions de nommage

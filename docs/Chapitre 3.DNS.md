@@ -37,47 +37,6 @@ DNS traduit : 142.250.179.174
 
 ## 2. Vérification Pré-Installation 
 
-### 🔍 Test 1: Votre serveur peut-il résoudre des noms ? est-il connecté à l'internet?
-
-**Sur votre serveur Windows Server**, ouvrez PowerShell et testez :
-
-```powershell
-# Test 1: Résoudre google.com
-ping google.com
-
-# Résultat attendu:
-# Envoi d'une requête 'ping' sur google.com [142.250.xxx.xxx] avec 32 octets de données
-```
-
-**✅ Si vous voyez une adresse IP** → DNS externe fonctionne !
-**❌ Si erreur "Impossible de trouver l'hôte"** → Problème réseau/DNS, ou adaptateur de réseau
-
-```powershell
-# Test 2: Vérifier quel serveur DNS vous utilisez
-nslookup google.com
-
-# Résultat montre:
-# Serveur :   dns.google
-# Address:  8.8.8.8  (ou autre DNS de votre FAI)
-```
-
-
-
-### 🛠️ Test 2: Préparer le DNS pour AD
-
-**Actuellement**, votre serveur utilise probablement le DNS de votre FAI (exemple: 8.8.8.8). Si on cherche un nom de domaine, ce sera ce serveur qui nous donnera l'ip.
-
-**Pour installer AD**, il est indispensable de configurer le serveur pour qu’il utilise **son propre service DNS**. Cela signifie que, lors d’une requête de résolution de nom de domaine, c’est le serveur lui-même qui répondra (par exemple, lorsqu’on tape un nom de machine du domaine comme `dns1.maxtec.be` ou `ws-compta-01.maxtec.be` ce notre propre serveur qui nous donnera l'ip).
-
-> 🛠️ **À faire maintenant :**
-> - Modifiez la configuration réseau de votre serveur pour que l’adresse du serveur DNS soit `127.0.0.1` (localhost).
-> - Cela garantit que toutes les requêtes DNS passent par le service DNS local, ce qui est obligatoire pour le bon fonctionnement d’Active Directory.
-> - Après l’installation d’AD DS, le serveur DNS local sera automatiquement configuré pour gérer la zone du domaine AD.
-
-**Résumé :**  
-- Le serveur doit utiliser son propre DNS (127.0.0.1) avant d’installer AD DS.
-- Sans cette configuration, l’installation d’Active Directory échouera ou ne fonctionnera pas correctement.
-
 #### Configuration réseau pour AD
 
 1. **Ouvrir les Paramètres réseau**
@@ -96,7 +55,7 @@ nslookup google.com
 | Adresse IP | `192.168.0.2` | IP de votre serveur |
 | Masque | `255.255.255.0` | Réseau local |
 | Passerelle | *(vide pour l'instant)* | Pas nécessaire pour le réseau interne |
-| **DNS préféré** | `127.0.0.1` | 🔑 **Le serveur s'utilise lui-même !** |
+| **DNS préféré** | `192.168.0.2` ou `127.0.0.1` | 🔑 **Le serveur s'utilise lui-même !** |
 | DNS auxiliaire | *(vide)* | Sera configuré après installation AD |
 
 > 🔑 **Pourquoi 127.0.0.1 ?**
@@ -106,7 +65,7 @@ nslookup google.com
 
 4. **Valider et fermer**
 
-### ✅ Test 3: Vérification finale
+### Test
 
 ```powershell
 # Vérifier la configuration IP

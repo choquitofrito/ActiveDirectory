@@ -7,6 +7,7 @@
 ---
 
 !!! info "📚 Dans ce chapitre :"
+
     1. 🏢 [Structure organisationnelle](#1-introduction-aux-unités-dorganisation-uos)
        - Concepts fondamentaux
        - Hiérarchie des UOs
