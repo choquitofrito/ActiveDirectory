@@ -10,17 +10,15 @@ Vous **devez gérer chaque ordinateur individuellement**, en vous assurant que c
 
 Vous **allez vite vous trouver en difficulté**. Pourquoi?
 
-<details>
-<summary>👀 Reflechissez bien... puis cliquez pour voir la réponse</summary>
-
-💼 **Problèmes de gestion décentralisée:**
-- 👤 **Départs d'employés**: Difficile de s'assurer que son compte est supprimé sur tous les ordinateurs et serveurs
-- 🖨️ **Nouvelles imprimantes**: Configuration manuelle sur chaque ordinateur séparément (risque d'oubli)
-- 💾 **Serveurs de stockage**: Refaire le mapping sur chaque ordinateur individuellement
-- 🔐 **Mots de passe**: Chaque utilisateur doit se souvenir de multiples comptes
-- 🔄 **Mises à jour**: Installation manuelle sur chaque poste
-
-</details>
+!!! question "👀 Réfléchissez bien... puis cliquez pour voir la réponse"
+    
+    💼 **Problèmes de gestion décentralisée:**
+    
+    - 👤 **Départs d'employés** : Difficile de s'assurer que son compte est supprimé sur tous les ordinateurs et serveurs
+    - 🖨️ **Nouvelles imprimantes** : Configuration manuelle sur chaque ordinateur séparément (risque d'oubli)
+    - 💾 **Serveurs de stockage** : Refaire le mapping sur chaque ordinateur individuellement
+    - 🔐 **Mots de passe** : Chaque utilisateur doit se souvenir de multiples comptes
+    - 🔄 **Mises à jour** : Installation manuelle sur chaque poste
 
 ## 🎯 Checkpoint: Avez-vous compris le problème?
 Avant de continuer, assurez-vous de pouvoir:
@@ -63,8 +61,7 @@ Tous ces aspects **peuvent être gérés depuis un seul endroit, le serveur Acti
     - Quels seraient les **risques** ?
     - Comment **minimiser** les risques ?
 
-<details>
-<summary>📘 Les avantages de la centralisation</summary>
+!!! success "📘 Les avantages de la centralisation"
 
 ### ✅ Les bénéfices clés
 
@@ -73,10 +70,7 @@ Tous ces aspects **peuvent être gérés depuis un seul endroit, le serveur Acti
 | 💻 **Gestion Simplifiée** | • Administration centralisée<br>• Déploiement simultané (ex: installer un même logiciel sur plusieurs machines)<br>• Mises à jour automatisées sur plusieurs machines|
 | 🔐 **Sécurité Améliorée** | • Gestion centralisée des mots de passe (tous dans la même BD)<br>• Contrôle d'accès précis<br>• Traçabilité des actions |
 | 💰 **Optimisation des Coûts** | • Réduction du temps de maintenance<br>• Moins de déplacements<br>• Optimisation des licences |
-</details>
-
-<details>
-<summary>⚠️ Points d'attention et solutions</summary>
+!!! warning "⚠️ Points d'attention et solutions"
 
 ### 🔴 Risques Potentiels
 
@@ -194,31 +188,27 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 
 #### 🔧 Création des réseaux
 
-<details>
-<summary>📶 Configuration du réseau LAN-VM (interne)</summary>
+!!! info "📶 Configuration du réseau LAN-VM (interne)"
+    
+    1. Ouvrez **Hyper-V Manager**
+    2. Accédez à `Virtual Switch Manager`
+    3. Sélectionnez `Private`
+    4. Cliquez sur `Create Virtual Switch`
+    5. Configurez :
+       - Nom : **LAN-VM**
+       - Type : Private network
+    6. Validez avec `OK`
 
-1. Ouvrez **Hyper-V Manager**
-2. Accédez à `Virtual Switch Manager`
-3. Sélectionnez `Private`
-4. Cliquez sur `Create Virtual Switch`
-5. Configurez :
-   - Nom : **LAN-VM**
-   - Type : Private network
-6. Validez avec `OK`
-</details>
-
-<details>
-<summary>🌐 Configuration du réseau WAN-VM (externe)</summary>
-
-1. Dans `Virtual Switch Manager`
-2. Sélectionnez `External`
-3. Cliquez sur `Create Virtual Switch`
-4. Configurez :
-   - Nom : **WAN-VM**
-   - Type : External network
-   - Adaptateur : Votre connexion Internet (Ethernet/WiFi)
-5. Validez et acceptez l'avertissement
-</details>
+!!! info "🌐 Configuration du réseau WAN-VM (externe)"
+    
+    1. Dans `Virtual Switch Manager`
+    2. Sélectionnez `External`
+    3. Cliquez sur `Create Virtual Switch`
+    4. Configurez :
+       - Nom : **WAN-VM**
+       - Type : External network
+       - Adaptateur : Votre connexion Internet (Ethernet/WiFi)
+    5. Validez et acceptez l'avertissement
 
 
 ### 💾 Téléchargement de Windows Server
@@ -253,8 +243,7 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 
 #### 🖥 Création de la machine virtuelle
 
-<details>
-<summary>💻 Configuration matérielle</summary>
+!!! info "💻 Configuration matérielle"
 
 1. Dans Hyper-V Manager, sélectionnez `New` > `Virtual Machine`
 2. Configurez les paramètres suivants :
@@ -267,10 +256,7 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 | Réseau | **LAN-VM** |
 | Disque dur | 50 GB (dynamique) |
 | Image | Votre fichier ISO Windows Server |
-</details>
-
-<details>
-<summary>🔗 Configuration réseau</summary>
+!!! info "🔗 Configuration réseau"
 
 1. Ouvrez les paramètres de la VM
 2. Ajoutez une deuxième carte réseau
@@ -281,8 +267,7 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 
 #### 💾 Installation du système
 
-<details>
-<summary>🔰 Installation de Windows Server</summary>
+!!! info "🔰 Installation de Windows Server"
 
 1. Démarrez la machine virtuelle
 2. Sélectionnez :
@@ -299,7 +284,6 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
     
     Pas "Mise à niveau" car nous partons de zéro
 6. Configurez le disque dur
-</details>
 
 !!! note "Note"
     
@@ -313,22 +297,19 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 
 #### 🔑 Configuration initiale
 
-<details>
-<summary>💻 Paramètres de base</summary>
-
-1. Définissez le mot de passe administrateur: **Password1!**
-   !!! tip "Pour le labo"
+!!! info "💻 Paramètres de base"
     
-    Nous utilisons `Password1!` pour simplicité
-2. Connectez-vous avec le compte administrateur
-3. Configurez les paramètres régionaux :
-   - Région : **France**
-   - Langue : **Français** 
-   - Clavier : **Français** (Belgique)
-</details>
+    1. Définissez le mot de passe administrateur: **Password1!**
+       !!! tip "Pour le labo"
+        
+        Nous utilisons `Password1!` pour simplicité
+    2. Connectez-vous avec le compte administrateur
+    3. Configurez les paramètres régionaux :
+       - Région : **France**
+       - Langue : **Français** 
+       - Clavier : **Français** (Belgique)
 
-<details>
-<summary>🌐 Configuration réseau</summary>
+!!! info "🌐 Configuration réseau"
 
 1. Ouvrez les `Paramètres réseau`
 2. Configurez la carte **LAN-VM** :
@@ -337,12 +318,10 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
    - DNS : **127.0.0.1**
 3. Configurez la carte **WAN-VM** :
    - DHCP activé (automatique)
-</details>
 
 #### 📍 Vérifications essentielles
 
-<details>
-<summary>✅ Liste de contrôle</summary>
+!!! success "✅ Liste de contrôle"
 
 | Vérification | Commande | Résultat attendu |
 |--------------|----------|------------------|

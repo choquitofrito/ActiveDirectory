@@ -30,7 +30,9 @@
 
 ### 💾 Installation de VirtualBox
 
-> ⚠️ **Important :** Si VirtualBox est déjà installé, passez à la section suivante
+!!! warning "Important"
+    
+    Si VirtualBox est déjà installé, passez à la section suivante
 
 Telechargez VirtualBox sur le site officiel : https://www.virtualbox.org/wiki/Downloads et suivez les instructions d'installation.
 
@@ -38,20 +40,27 @@ Telechargez VirtualBox sur le site officiel : https://www.virtualbox.org/wiki/Do
 1. ✅ Acceptez les termes de la licence lors de l'installation.
 
 
-Note: dans certaines configurations on peut avoir de problèmes pendant l'installation des machines virtuelles Windows.
-Source : https://askubuntu.com/questions/705720/virtualbox-kernel-driver-not-installed-error-despite-running-sbin-vboxconfig 
+!!! warning "Problème potentiel sur Linux"
+    
+    Dans certaines configurations on peut avoir de problèmes pendant l'installation des machines virtuelles Windows.
+    
+    Source : https://askubuntu.com/questions/705720/virtualbox-kernel-driver-not-installed-error-despite-running-sbin-vboxconfig 
 
 ```bash  
 sudo /usr/lib/virtualbox/vboxdrv.sh setup
 ```
 
-Si la commande ne fonctionne pas, on doit installer gcc-12
+!!! tip "Solution alternative"
+    
+    Si la commande ne fonctionne pas, on doit installer gcc-12
 
 ### 💾 Téléchargement de Windows Server 2022
 
-> ⚠️ **Important :** Si les images sont déjà téléchargées, passez à la section suivante
->
-> 💡 **Pour débutants:** Même processus que dans le Chapitre 1, mais cette fois pour VirtualBox!
+!!! warning "Important"
+    
+    Si les images sont déjà téléchargées, passez à la section suivante
+    
+    💡 **Pour débutants:** Même processus que dans le Chapitre 1, mais cette fois pour VirtualBox !
 
 1. Visitez le [Centre d'évaluation Microsoft](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022)
 2. Téléchargez le fichier ISO de Windows Server 2022 (version d'évaluation 180 jours)
@@ -65,7 +74,9 @@ Si la commande ne fonctionne pas, on doit installer gcc-12
 2. ➕ Cliquez sur **Nouvelle**
 3. ⚙️ Configurez les paramètres de base :
    - 🎮 Nom : `Serveur1` (par exemple)
-      > 💡 **Tip:** M1 = Machine 1 (si vous créez plus tard M2, M3...)
+      !!! tip "Tip"
+    
+    M1 = Machine 1 (si vous créez plus tard M2, M3...)
    - 💾 Choisissez "VDI (Image disque VirtualBox)"
    - 📚 ISO Image (fichier Windows Server)
    - 💻 Type : Microsoft Windows
@@ -133,7 +144,7 @@ Configuration initiale requise :
 
 Nous travaillerons sur un sous-ensemble de cette structure de réseau:
 
-> 📘 Schéma de l'infrastructure :
+!!! info "Schéma de l'infrastructure"
 
 ![Infrastructure](diagrams/images/structure_reseau_geographic_zones.png)
 
@@ -143,7 +154,9 @@ Nous travaillerons sur un sous-ensemble de cette structure de réseau:
    3. ⚙️ Cliquez sur **Modifier**
    4. 🌐 Nom : **dns1**
    5. 🌐 Suffixe DNS : **maxtec.be**
-      > 💡 **Pourquoi maxtec.be?** C'est notre entreprise fictive d'exemple
+      !!! tip "Pourquoi maxtec.be ?"
+    
+    C'est notre entreprise fictive d'exemple
    6. ✅ Cliquez sur **OK**
    7. 🔄 Redémarrez le serveur
 
@@ -151,7 +164,9 @@ Nous travaillerons sur un sous-ensemble de cette structure de réseau:
 
 Le serveur aura maintenant le nom complet (FQDN) : `dns1.maxtec.be`
 
-> 💻 **Note :** Vous pouvez aussi accéder au nom via **sysdm.cpl**
+!!! note "Note"
+    
+    Vous pouvez aussi accéder au nom via **sysdm.cpl**
 
 
 
@@ -168,18 +183,22 @@ Chaque département a des besoins spécifiques :
 - Les RH doivent gérer les dossiers du personnel
 - Les Ventes utilisent des applications commerciales
 
-> 💻 **Objectif :** Nous allons créer deux machines virtuelles Windows 10 pour simuler :
+!!! info "Objectif"
+    
+    Nous allons créer deux machines virtuelles Windows 10 pour simuler :
 
 Supossons qu'on a deux départements pour le moment:
 
    - 💰 Comptabilité : accès aux dossiers financiers
    - 👥 RH : accès aux dossiers du personnel
 
-Le but est de simuler qu'on a une machine pour chaque département. On peut créer autant de machines qu'on veut (bien qu'on ne pourra pas lancer toutes au même temps! :D)
+!!! note "Note importante"
+    
+    Le but est de simuler qu'on a une machine pour chaque département. On peut créer autant de machines qu'on veut (bien qu'on ne pourra pas lancer toutes au même temps !)
 
 ### 💻 Installation de Windows 10
 
-> ⚙️ Paramètres de la machine virtuelle :
+!!! info "Paramètres de la machine virtuelle"
 
 - 🎮 Nom : `Client1` (pour le prémier client)
 - 💻 Génération : 2 (64 bits)
@@ -201,7 +220,9 @@ Le but est de simuler qu'on a une machine pour chaque département. On peut cré
 
 ### 💻 Exercice 1 : Deuxième Machine Cliente
 
-> ⚙️ Créez une nouvelle VM Windows 10 avec :
+!!! example "Exercice 1"
+    
+    Créez une nouvelle VM Windows 10 avec :
 
 - 🎮 Nom VM : `Client2`
 - 👤 Compte : **peter.parker** / **Password1!**
@@ -209,7 +230,9 @@ Le but est de simuler qu'on a une machine pour chaque département. On peut cré
 
 ### 🖥️ Exercice 2 : Serveur Secondaire
 
-> ⚙️ Créez un nouveau serveur Windows Server 2022 :
+!!! example "Exercice 2"
+    
+    Créez un nouveau serveur Windows Server 2022 :
 
 - 🌐 Nom du serveur (FQDN) : `dns2.maxtec.be`
 - 💻 Suivez la même procédure que pour le premier serveur
