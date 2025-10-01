@@ -5,16 +5,16 @@
 
 ---
 
-> 📚 **Dans ce chapitre:**
-> 1. 🔗 [Réseaux décentralisés VS centralisés](#1-les-réseaux-décentralisés-vs-centralisés)
->    - Avantages et inconvénients
->    - Cas d'utilisation
-> 2. 🖥️ [Active Directory](#2-quest-ce-que-cest-active-directory)
->    - Composants principaux
->    - Fonctionnalités clés
-> 3. 💻 [Windows Server](#3-windows-server)
->    - Configuration de base
->    - Préparation pour AD
+!!! info "📚 Dans ce chapitre:"
+    1. 🔗 [Réseaux décentralisés VS centralisés](#1-les-réseaux-décentralisés-vs-centralisés)
+       - Avantages et inconvénients
+       - Cas d'utilisation
+    2. 🖥️ [Active Directory](#2-quest-ce-que-cest-active-directory)
+       - Composants principaux
+       - Fonctionnalités clés
+    3. 💻 [Windows Server](#3-windows-server)
+       - Configuration de base
+       - Préparation pour AD
 
 ---
 
@@ -395,35 +395,3 @@ Vous êtes maintenant prêt(e) pour le **Chapitre 2: Installation avec VirtualBo
 [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 2: Installation VirtualBox](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md)
 
 
-## Annexe: configuration pour permettre une connexion locale au serveur
-
-Cette section concerne la configuration du droit "Se connecter localement" (uniquement pour tester les delegations dans le chapitre 4)
-
-#### Description
-
-Le paramètre "Permettre l'ouverture d'une session locale" contrôle quels utilisateurs ou groupes peuvent se connecter physiquement à un ordinateur du domaine.
-
-Pour modifier ce comportement on doit créer une stratégie de groupe (GPO) et l'appliquer à l'OU appropriée.
-
-1. Ouvrir `gpmc.msc`
-2. Créer une nouvelle GPO ou modifier une existante
-3. Naviguer vers : **Configuration ordinateur > Paramètres Windows > Paramètres de sécurité > Stratégies locales > Attribution des droits utilisateur**
-4. Double-cliquer sur **"Permettre l'ouverture d'une session locale"**
-5. Ajouter les utilisateurs ou groupes nécessaires
-6. Lier la GPO à l'OU appropriée
-
-#### Groupes par défaut ayant ce droit
-- Administrateurs
-- ENTERPRISE DOMAIN CONTROLLERS
-- Opérateurs de compte
-- Opérateurs d'impression
-- Opérateurs de sauvegarde
-- Opérateurs de serveur
-
-#### Vérification
-Pour vérifier l'application des paramètres :
-1. Exécuter : `gpupdate /force`
-2. Vérifier avec : `gpresult /r` ou `rsop.msc`
-
-#### Note importante
-La modification de ce paramètre peut affecter la compatibilité avec les clients, les services et les applications. Assurez-vous de tester les changements dans un environnement contrôlé avant de les appliquer en production.
