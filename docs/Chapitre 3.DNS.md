@@ -39,6 +39,8 @@ DNS traduit : 142.250.179.174
 
 #### Configuration réseau pour AD
 
+!!! info "Configuration réseau pour AD"
+
 1. **Ouvrir les Paramètres réseau**
    - État du Réseau → Ethernet → Modifier les options de l'adaptateur
    - Ou : `ncpa.cpl` dans Exécuter... plus simple!
@@ -85,6 +87,8 @@ ipconfig /all
 ## 3. Qu'est-ce qui va se passer au Chapitre 4 ? 🔮
 
 Quand vous lancerez l'installation d'Active Directory Domain Services :
+
+!!! info "Qu'est-ce qui va se passer au Chapitre 4 ?"
 
 1. **📦 Installation automatique DNS**
    - Windows Server installe le rôle DNS automatiquement

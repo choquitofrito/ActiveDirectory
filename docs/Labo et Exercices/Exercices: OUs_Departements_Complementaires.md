@@ -4,7 +4,8 @@
 
 Suite à l'expansion de l'entreprise maxtec.be, vous êtes chargé(e) de créer des unités d'organisation pour les nouveaux départements qui viennent d'être formés.
 
-Tâches:
+!!! example "Tâches à réaliser"
+
 1. Sous les OUs géographiques existantes (EU et US), créer les nouvelles OUs départementales:
    - OU=Informatique
    - OU=Marketing
@@ -18,7 +19,8 @@ Tâches:
 
 Vous devez créer plusieurs utilisateurs pour les nouveaux départements selon la convention de nommage établie.
 
-Tâches:
+!!! example "Tâches à réaliser"
+
 1. Créer les utilisateurs suivants dans l'OU Informatique de la zone EU:
    - ivan (Administrateur Système)
    - ines (Développeuse)

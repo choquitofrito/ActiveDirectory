@@ -82,6 +82,8 @@ La base de données AD doit être sur les **deux serveurs** (dns1 et dns2) car i
 6. Vous avez un Windows Server propre qui vient d'être installé. Vous voulez qu'il devienne un controlleur de domaine AD au lieu d'un simple serveur. Qu'est-ce que vous devez configurer sur le serveur avant d'installer AD-DS?
 <details>
 <summary>Réponse</summary>
+!!! info "Configuration préalable"
+
 Avant d'installer AD DS, il faut:
 - Configurer une adresse IP statique
 - Configurer le nom du serveur (hostname)
@@ -94,7 +96,8 @@ Avant d'installer AD DS, il faut:
 <summary>Réponse</summary>
 Le schéma AD définit la structure de chaque objet de l'annuaire. C'est un ensemble de règles qui déterminent les attributs (propriétés) que chaque type d'objet (utilisateur, ordinateur, etc.) peut avoir.
 
-Examples: 
+!!! example "Exemples d'attributs"
+
 - un utilisateur a des attributs comme nom, prénom, mot de passe, etc.
 - une OU a des attributs comme nom, description, etc.
 </details>
@@ -133,6 +136,8 @@ Une **OU est un conteneur** pour organiser les objets AD, tandis qu'un **groupe 
 2. Pourquoi utiliser des OUs?
 <details>
 <summary>Réponse</summary>
+!!! info "Fonctions des OUs"
+
 Les OUs permettent de :
 - **Organiser** les objets de manière logique
 - **Déléguer** l'administration

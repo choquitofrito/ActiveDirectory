@@ -4,6 +4,8 @@
 
 Avant de commencer, assurez-vous d'avoir la structure complète de l'AD avec les départements (Comptabilité, RH, Ventes, IT) et leurs OUs respectives.
 
+!!! warning "Prérequis pour les exercices GPO-3"
+
 - Assurez-vous d'avoir les groupes suivants :
   - `GG-EU-Compta-Users` : Charles, Cindy
   - `GG-EU-Compta-Admins` : Charlotte

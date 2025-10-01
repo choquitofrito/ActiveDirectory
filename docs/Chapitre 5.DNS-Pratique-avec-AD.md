@@ -4,6 +4,9 @@
 [⏮️ Chapitre Précédent: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Unités d'Organisation](Chapitre%206.Unites_Organisation.md)
 
 ## 📊 Votre Progrès
+
+!!! info "Progrès du cours"
+
 - [✅] Chapitre 1-3: Préparation
 - [✅] Chapitre 4: Active Directory DS installé
 - [🔄] **Chapitre 5**: DNS Pratique avec AD *(En cours)*
@@ -84,7 +87,8 @@ Hôte cible: dns1.maxtec.be
 
 ### ✅ Checkpoint Lab 2
 
-Assurez-vous de pouvoir répondre :
+!!! info "Vérification de compréhension"
+
 - [ ] Où se trouvent les zones DNS ? (Gestionnaire DNS → Zones de recherche directes)
 - [ ] Qu'est-ce qu'un enregistrement SOA ? (Start of Authority - autorité sur la zone)
 - [ ] Pourquoi les enregistrements SRV sont importants ? (Localisation des services AD)
@@ -177,7 +181,8 @@ nslookup www.maxtec.be
 
 ### ✅ Checkpoint Lab 2
 
-Vérifiez que vous avez créé:
+!!! info "Vérification de compréhension"
+
 - [ ] Enregistrement A: `fileserver.maxtec.be` → `192.168.10.10`
 - [ ] Alias CNAME: `files.maxtec.be` → `fileserver.maxtec.be`
 - [ ] Alias CNAME: `www.maxtec.be` → `fileserver.maxtec.be`
@@ -195,7 +200,8 @@ Permettre la résolution IP → Nom (l'inverse de la résolution normale)
 **Résolution normale:** `ws-compta-01.maxtec.be` → `192.168.10.128`
 **Résolution inverse:** `192.168.10.128` → `ws-compta-01.maxtec.be`
 
-**Utilisations:**
+!!! info "Utilisations de la résolution inverse"
+
 - 🔐 Authentification (vérifier qu'une IP correspond bien à un nom attendu)
 - 📧 Anti-spam (serveurs mail vérifient les noms des expéditeurs)
 - 🔍 Troubleshooting (logs plus lisibles)
@@ -214,12 +220,16 @@ Permettre la résolution IP → Nom (l'inverse de la résolution normale)
 
 ### 🔍 Étape 2: Vérifier la Zone Créée
 
+!!! info "Vérification de la zone créée"
+
 Dans **Zones de recherche inversée**, vous devriez voir:
 - `0.168.192.in-addr.arpa`
 
 > 📘 **Note:** L'ordre des octets est inversé dans les zones inverses (convention DNS)
 
 ### 📋 Étape 3: Observer les Enregistrements PTR
+
+!!! info "Enregistrements PTR existants"
 
 **Déroulez** la zone `0.168.192.in-addr.arpa`:
 - Vous devriez voir des enregistrements PTR pour votre serveur
@@ -254,6 +264,8 @@ nslookup 192.168.10.128  # (remplacez par l'IP de votre client)
 5. **OK**
 
 ### ✅ Checkpoint Lab 3
+
+!!! info "Vérification de compréhension"
 
 - [ ] Zone inverse créée: `0.168.192.in-addr.arpa`
 - [ ] Enregistrement PTR pour le serveur existe
@@ -330,6 +342,8 @@ ipconfig /registerdns
 
 ### ✅ Checkpoint Lab 4
 
+!!! info "Vérification de compréhension"
+
 - [ ] Vous savez vérifier la configuration DNS d'un poste (`ipconfig /all`)
 - [ ] Vous savez tester la résolution DNS (`nslookup`)
 - [ ] Vous connaissez les commandes de dépannage essentielles
@@ -405,7 +419,8 @@ Vous devez configurer un nouveau serveur web pour maxtec.be. Voici les exigences
 <details>
 <summary>💡 Cliquez pour voir la solution complète</summary>
 
-**Étape 1: Créer l'enregistrement A**
+!!! example "Étape 1: Créer l'enregistrement A"
+
 ```
 Gestionnaire DNS → maxtec.be → Clic droit → Nouveau hôte
 - Nom: webserver
@@ -413,7 +428,8 @@ Gestionnaire DNS → maxtec.be → Clic droit → Nouveau hôte
 - ☑️ Créer enregistrement PTR associé
 ```
 
-**Étape 2: Créer les alias CNAME**
+!!! example "Étape 2: Créer les alias CNAME"
+
 ```
 Alias 1:
 - Nom: www
@@ -437,6 +453,8 @@ nslookup 192.168.10.15         # → webserver.maxtec.be
 
 ### ✅ Validation Finale
 
+!!! info "Vérification finale"
+
 - [ ] Enregistrement A créé pour webserver
 - [ ] Alias www.maxtec.be fonctionne
 - [ ] Alias webadmin.maxtec.be fonctionne
@@ -450,6 +468,8 @@ nslookup 192.168.10.15         # → webserver.maxtec.be
 
 ### 🚀 Compétences Acquises
 
+!!! success "Compétences acquises"
+
 Vous savez maintenant:
 - 🔧 Gérer le DNS dans un environnement Active Directory
 - 🔍 Diagnostiquer les problèmes de résolution DNS
@@ -457,6 +477,8 @@ Vous savez maintenant:
 - 🔄 Comprendre l'intégration DNS-AD
 
 ### 📚 Pour Aller Plus Loin
+
+!!! info "Pour aller plus loin"
 
 Si vous voulez approfondir les concepts théoriques DNS:
 - 📖 [Annexe A - DNS Concepts Avancés (Référence)](Annexe%20A%20-%20DNS%20Concepts%20Avances%20(Reference).md)

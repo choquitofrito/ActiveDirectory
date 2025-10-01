@@ -4,6 +4,8 @@
 
 PowerShell est un outil d'administration puissant qui permet d'automatiser et de simplifier la gestion d'Active Directory. Contrairement à l'interface graphique, PowerShell offre:
 
+!!! info "Avantages de PowerShell pour AD"
+
 - **Automatisation** des tâches répétitives
 - **Traitement par lots** pour gérer plusieurs objets simultanément
 - **Scripting** pour créer des solutions personnalisées
