@@ -58,7 +58,8 @@ Puis: cliquer sur l'avertissement pour que notre serveur devienne un DC (Control
 
 ## 5. Créer VM Windows 10 
 
-Créer une machine Windows 10 sur virtualbox. N'oubliez pas de changer le réseau à **Réseau interne** dans la configuration de VirtualBox
+Créer une machine Windows 10 sur virtualbox. 
+N'oubliez pas de changer le réseau à **Réseau interne** dans la configuration de VirtualBox
 
 
 1. **Paramètres Système**:
