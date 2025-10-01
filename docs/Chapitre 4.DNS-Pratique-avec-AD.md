@@ -17,9 +17,6 @@
 
 
 
-
-
-
 ---
 
 ## 💻 Lab 1: Joindre un Poste au Domaine et Observer le DNS
@@ -30,25 +27,10 @@ Comprendre comment l'enregistrement DNS automatique fonctionne quand un poste re
 ### 🖥️ Prérequis
 Vous avez besoin d'une **deuxième VM** (machine cliente Windows 10/11 Pro):
 - Nom: `ws-compta-01` (ou autre)
-- Réseau: Même réseau que le serveur (LAN-VM)
+- IP: 192.168.0.10 (par exemple)
 - DNS configuré: `192.168.0.2` (votre serveur)
 
-### 📋 Étape 1: Avant de Joindre le Domaine
-
-**Sur le serveur**, vérifier que le poste n'est PAS encore dans le DNS :
-
-```powershell
-nslookup ws-compta-01.maxtec.be
-
-# Résultat attendu:
-# Serveur peut pas trouver ws-compta-01.maxtec.be : Non-existent domain
-```
-
-**Dans Gestionnaire DNS**, vérifier visuellement:
-- Zone **maxtec.be**
-- Chercher `ws-compta-01` → **N'existe pas encore**
-
-### 🔗 Étape 2: Joindre le Poste au Domaine
+### 🔗 Étape 1: Joindre le Poste au Domaine
 
 **Sur la machine cliente (ws-compta-01):**
 
@@ -350,12 +332,7 @@ Observez:
 > 💡 **Magie de l'intégration DNS-AD !**
 > Quand un poste rejoint le domaine, AD communique automatiquement avec DNS pour créer l'enregistrement. Aucune intervention manuelle nécessaire !
 
-### ✅ Checkpoint Lab 5
 
-- [ ] Le poste client est membre du domaine maxtec.be
-- [ ] L'enregistrement DNS `ws-compta-01.maxtec.be` existe
-- [ ] `nslookup ws-compta-01.maxtec.be` retourne l'IP correcte
-- [ ] Vous comprenez pourquoi c'est automatique (intégration AD-DNS)
 
 ---
 
