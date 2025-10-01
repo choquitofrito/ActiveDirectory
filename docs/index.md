@@ -82,19 +82,19 @@ Un cours complémentaire axé sur la **réalité du terrain** et l'utilisation m
 
 | Module | Titre | Philosophie |
 |--------|-------|-------------|
-| **[M1](../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M1-realite-2025.md)** | Réalité 2025 | Google/IA comme outils, pas comme tricherie |
-| **[M2](../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M2-survie-tickets.md)** | Survie Tickets | Résoudre des incidents réels rapidement |
-| **[M3](../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M3-ia-comme-copilote.md)** | IA comme Copilote | ChatGPT/Copilot pour PowerShell AD |
-| **[M4](../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M4-scripts-bomba-lab.md)** | Scripts Bomba Lab | Désactiver 800 users sans -WhatIf |
-| **[M5](../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M5-whatif-religieux.md)** | -WhatIf Religieux | La religion du -WhatIf |
-| **[M6](../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M6-kit-urgence.md)** | Kit Urgence | One-liners de survie pour tickets urgents |
+| **[M1](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M1-realite-2025.md)** | Réalité 2025 | Google/IA comme outils, pas comme tricherie |
+| **[M2](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M2-survie-tickets.md)** | Survie Tickets | Résoudre des incidents réels rapidement |
+| **[M3](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M3-ia-comme-copilote.md)** | IA comme Copilote | ChatGPT/Copilot pour PowerShell AD |
+| **[M4](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M4-scripts-bomba-lab.md)** | Scripts Bomba Lab | Désactiver 800 users sans -WhatIf |
+| **[M5](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M5-whatif-religieux.md)** | -WhatIf Religieux | La religion du -WhatIf |
+| **[M6](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M6-kit-urgence.md)** | Kit Urgence | One-liners de survie pour tickets urgents |
 
 ### 📚 Ressources complémentaires
 
-- **[Cas d'horreur réels](../PowershellCourse/cours-powershell-ad-moderne/cas-horreur-reels/vendredi-17h-sans-whatif.md)** : Vendredi 17h sans -WhatIf
-- **[Carte de survie maxtec.be](../PowershellCourse/cours-powershell-ad-moderne/materiels-poche/carte-survie-maxtec.md)** : One-liners essentiels
-- **[Checklist validation scripts](../PowershellCourse/cours-powershell-ad-moderne/materiels-poche/checklist-validation-scripts.md)** : Liste de contrôle avant exécution
-- **[Scripts "bomba"](../PowershellCourse/cours-powershell-ad-moderne/laboratoire-maxtec/scripts-bomba-maxtec/)** : Exemples de scripts dangereux (à des fins pédagogiques)
+- **[Cas d'horreur réels](PowershellCourse/cours-powershell-ad-moderne/cas-horreur-reels/vendredi-17h-sans-whatif.md)** : Vendredi 17h sans -WhatIf
+- **[Carte de survie maxtec.be](PowershellCourse/cours-powershell-ad-moderne/materiels-poche/carte-survie-maxtec.md)** : One-liners essentiels
+- **[Checklist validation scripts](PowershellCourse/cours-powershell-ad-moderne/materiels-poche/checklist-validation-scripts.md)** : Liste de contrôle avant exécution
+- **[Scripts "bomba"](PowershellCourse/cours-powershell-ad-moderne/laboratoire-maxtec/scripts-bomba-maxtec/)** : Exemples de scripts dangereux (à des fins pédagogiques)
 
 ---
 
