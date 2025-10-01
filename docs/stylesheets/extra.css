@@ -1,16 +1,34 @@
 /* Estilos personalizados para MkDocs Material */
 
-/* Solo títulos del primer nivel (secciones principales) en negrita */
+/* Títulos del primer nivel (secciones principales) en negrita */
 .md-nav__item--section > .md-nav__link {
     font-weight: bold !important;
 }
 
-/* Solo títulos del segundo nivel (capítulos) en negrita */
+/* Títulos del segundo nivel (capítulos) en negrita */
 .md-nav__item--nested > .md-nav__link {
     font-weight: bold !important;
 }
 
 /* Títulos principales de navegación */
 .md-nav__title {
+    font-weight: bold !important;
+}
+
+/* Selectores alternativos para MkDocs Material moderno */
+.md-nav--primary .md-nav__item--section > .md-nav__link {
+    font-weight: bold !important;
+}
+
+.md-nav--primary .md-nav__item--nested > .md-nav__link {
+    font-weight: bold !important;
+}
+
+/* Para la navegación lateral */
+.md-sidebar .md-nav__item--section > .md-nav__link {
+    font-weight: bold !important;
+}
+
+.md-sidebar .md-nav__item--nested > .md-nav__link {
     font-weight: bold !important;
 }

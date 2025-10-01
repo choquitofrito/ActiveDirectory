@@ -29,7 +29,6 @@ theme:
     collapse: true
     collapse_sections: true
     show_ancestors: true
-    index: false
 
 markdown_extensions:
   - pymdownx.tasklist:
