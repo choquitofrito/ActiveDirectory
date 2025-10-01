@@ -339,27 +339,27 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 
 !!! warning "💻 Problèmes de virtualisation"
 
-| Problème | Solution |
-|-----------|----------|
-| ❌ VM ne démarre pas | Vérifiez l'activation de la virtualisation dans le BIOS |
-| ❌ Génération 2 non disponible | Mettez à jour Hyper-V |
-| ❌ ISO non reconnu | Vérifiez le format UEFI boot |
+    | Problème | Solution |
+    |-----------|----------|
+    | ❌ VM ne démarre pas | Vérifiez l'activation de la virtualisation dans le BIOS |
+    | ❌ Génération 2 non disponible | Mettez à jour Hyper-V |
+    | ❌ ISO non reconnu | Vérifiez le format UEFI boot |
 
 !!! warning "🌐 Problèmes réseau"
 
-| Symptôme | Vérification | Solution |
-|-----------|--------------|----------|
-| Pas d'Internet | `ping 8.8.8.8` | Vérifiez la configuration **WAN-VM** |
-| Réseau local inactif | `ipconfig` | Contrôlez l'IP **192.168.0.1** |
-| DNS non fonctionnel | `nslookup` | Vérifiez le paramètre **127.0.0.1** |
+    | Symptôme | Vérification | Solution |
+    |-----------|--------------|----------|
+    | Pas d'Internet | `ping 8.8.8.8` | Vérifiez la configuration **WAN-VM** |
+    | Réseau local inactif | `ipconfig` | Contrôlez l'IP **192.168.0.1** |
+    | DNS non fonctionnel | `nslookup` | Vérifiez le paramètre **127.0.0.1** |
 
 !!! warning "🔑 Problèmes système"
 
-| Message d'erreur | Action |
-|-----------------|--------|
-| Activation Windows | Normal en version évaluation |
-| Mise à jour bloquée | Vérifiez **WAN-VM** et le pare-feu |
-| Performance lente | Augmentez la RAM à 4 GB |
+    | Message d'erreur | Action |
+    |-----------------|--------|
+    | Activation Windows | Normal en version évaluation |
+    | Mise à jour bloquée | Vérifiez **WAN-VM** et le pare-feu |
+    | Performance lente | Augmentez la RAM à 4 GB |
 
 !!! note "Note"
     
