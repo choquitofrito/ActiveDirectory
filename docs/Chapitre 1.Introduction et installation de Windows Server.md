@@ -87,7 +87,6 @@ Tous ces aspects **peuvent être gérés depuis un seul endroit, le serveur Acti
     - Serveur secondaire de backup
     - Sauvegardes régulières
     - Procédures d'urgence documentées
-</details>
 
 
 ---
@@ -263,7 +262,6 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 3. Configurez les adaptateurs :
    - Adaptateur 1 : **LAN-VM** (réseau interne)
    - Adaptateur 2 : **WAN-VM** (accès Internet)
-</details>
 
 #### 💾 Installation du système
 
@@ -328,7 +326,6 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 | Nom du serveur | `hostname` | **dns1** |
 | Connexion Internet | `ping 8.8.8.8` | Réponses reçues |
 | Résolution DNS | `nslookup google.fr` | Adresse IP retournée |
-</details>
 
 !!! warning "Important"
     
@@ -340,35 +337,29 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
     
     La plupart des problèmes peuvent être résolus en vérifiant la configuration de base.
 
-<details>
-<summary>💻 Problèmes de virtualisation</summary>
+!!! warning "💻 Problèmes de virtualisation"
 
 | Problème | Solution |
 |-----------|----------|
 | ❌ VM ne démarre pas | Vérifiez l'activation de la virtualisation dans le BIOS |
 | ❌ Génération 2 non disponible | Mettez à jour Hyper-V |
 | ❌ ISO non reconnu | Vérifiez le format UEFI boot |
-</details>
 
-<details>
-<summary>🌐 Problèmes réseau</summary>
+!!! warning "🌐 Problèmes réseau"
 
 | Symptôme | Vérification | Solution |
 |-----------|--------------|----------|
 | Pas d'Internet | `ping 8.8.8.8` | Vérifiez la configuration **WAN-VM** |
 | Réseau local inactif | `ipconfig` | Contrôlez l'IP **192.168.0.1** |
 | DNS non fonctionnel | `nslookup` | Vérifiez le paramètre **127.0.0.1** |
-</details>
 
-<details>
-<summary>🔑 Problèmes système</summary>
+!!! warning "🔑 Problèmes système"
 
 | Message d'erreur | Action |
 |-----------------|--------|
 | Activation Windows | Normal en version évaluation |
 | Mise à jour bloquée | Vérifiez **WAN-VM** et le pare-feu |
 | Performance lente | Augmentez la RAM à 4 GB |
-</details>
 
 !!! note "Note"
     
