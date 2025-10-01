@@ -1,34 +1,21 @@
 /* Estilos personalizados para MkDocs Material */
 
-/* Títulos del primer nivel (secciones principales) en negrita */
-.md-nav__item--section > .md-nav__link {
-    font-weight: bold !important;
-}
-
-/* Títulos del segundo nivel (capítulos) en negrita */
-.md-nav__item--nested > .md-nav__link {
-    font-weight: bold !important;
-}
-
 /* Títulos principales de navegación */
 .md-nav__title {
     font-weight: bold !important;
 }
 
-/* Selectores alternativos para MkDocs Material moderno */
-.md-nav--primary .md-nav__item--section > .md-nav__link {
+/* Solo primer nivel (Windows Server, DNS, Active Directory, etc.) en negrita */
+.md-sidebar--primary .md-nav--primary > .md-nav__list > .md-nav__item > .md-nav__link {
     font-weight: bold !important;
 }
 
-.md-nav--primary .md-nav__item--nested > .md-nav__link {
+/* Solo segundo nivel (Chapitre 1, Chapitre 2, etc.) en negrita */
+.md-sidebar--primary .md-nav--primary > .md-nav__list > .md-nav__item .md-nav > .md-nav__list > .md-nav__item > .md-nav__link {
     font-weight: bold !important;
 }
 
-/* Para la navegación lateral */
-.md-sidebar .md-nav__item--section > .md-nav__link {
-    font-weight: bold !important;
-}
-
-.md-sidebar .md-nav__item--nested > .md-nav__link {
-    font-weight: bold !important;
+/* Asegurar que los niveles 3+ NO estén en negrita */
+.md-sidebar--primary .md-nav--primary > .md-nav__list > .md-nav__item .md-nav > .md-nav__list > .md-nav__item .md-nav .md-nav__link {
+    font-weight: normal !important;
 }
