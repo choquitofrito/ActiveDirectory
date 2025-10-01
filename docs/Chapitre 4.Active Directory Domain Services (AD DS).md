@@ -5,31 +5,7 @@
 
 
 
-!!! info "📚 Dans ce chapitre :"
-    1. 🔍 [Introduction à AD DS](#1-introduction-à-ad-ds)
-       - Concepts fondamentaux
-       - Architecture AD DS
-    2. 💻 [Installation d'AD DS](#2-installation-dad-ds)
-       - Prérequis
-       - Étapes d'installation
-    3. 🌐 [Configuration du domaine AD](#3-configuration-du-domaine-ad)
-       - Structure du domaine
-       - Paramètres essentiels
-
----
-
-## 1. 📙 Objectifs pédagogiques
-
-À la fin de ce chapitre, vous serez capable de :
-
-1. Comprendre l'architecture d'Active Directory
-2. Installer et configurer AD DS sur Windows Server
-3. Créer et configurer le domaine AD `maxtec.be` (même nom que le domaine DNS !)
-4. Vérifier le bon fonctionnement d'AD DS
-
----
-
-## 2. 📙 Introduction à AD DS
+## 1. 📙 Introduction à AD DS
 
 Active Directory Domain Services (AD DS) est le service principal d'Active Directory. Il gére le **domaine AD**, composé de :
 
@@ -55,7 +31,7 @@ Bien qu'on le confonde souvent avec l'ensemble d'Active Directory, AD DS n'est q
 
 <br>
 
-## 3. 📁 Exemple de fonctionnement d'Active Directory
+## 2. 📁 Exemple de fonctionnement d'Active Directory
 
 Examinons **comment un utilisateur accède à un serveur de fichiers** sur un serveur qui utilise Active Directory.
 
@@ -100,11 +76,11 @@ Les flèches vertes représentent les requêtes DNS pour la résolution des noms
 
 <br>
 
-## 4. 📚 Active Directory Domain Services (AD DS)
+## 3. 📚 Active Directory Domain Services (AD DS)
 
 **AD DS** est le service fondamental de notre infrastructure `maxtec.be`. Il **crée et gère la base de données centrale d'Active Directory**.
 
-### 4.1. Fonctionnalités principales
+### 3.1. Fonctionnalités principales
 
 | Catégorie | Fonctionnalités |
 |------------|---------------|
@@ -113,7 +89,7 @@ Les flèches vertes représentent les requêtes DNS pour la résolution des noms
 | 🔒 Sécurité | Application des stratégies de sécurité |
 | 🎓 Organisation | Structure hiérarchique des ressources |
 
-### 4.2. Informations stockées
+### 3.2. Informations stockées
 
 | Type | Exemples |
 |------|----------|
@@ -130,7 +106,7 @@ Vous vous demandez peut-être comment c'est possible, puisque `maxtec.be` est un
 
 **ATTENTION !**
 
-## 5. 🔍 Distinction entre domaine DNS et domaine AD
+## 4. 🔍 Distinction entre domaine DNS et domaine AD
 
 > 💡 Il est crucial de bien comprendre la différence entre un domaine DNS et un domaine Active Directory.
 
@@ -154,30 +130,35 @@ Vous vous demandez peut-être comment c'est possible, puisque `maxtec.be` est un
    - Un **domaine AD est organisé via les UOs** (dossiers intelligents).
   Une **UO** (que nous étudierons plus tard) **est un conteneur** AD qui **contient des objets AD** (utilisateurs, groupes, ordinateurs, etc.) et **est complètement indépendant des sites**.
 
-> 💡 **Les Sites dans Active Directory**
->
-> Un **site AD** représente une **localisation physique** dans le réseau. Chaque **site** est défini par :
-> - Un ou plusieurs **sous-réseaux IP**. Dans notre cas, nous n'avons qu'un seul sous-réseau (192.168.10.0/24 sur le diagramme, qui devient 192.168.0.0/24 dans le laboratoire), mais le `site EU` pourrait inclure :
->   * 192.168.10.0/24 (bureaux principaux)
->   * 192.168.11.0/24 (entrepôt)
->   * 192.168.12.0/24 (production)
-> - Au moins un **contrôleur de domaine (DC) local** pour :
->   * L'authentification rapide des utilisateurs locaux
->   * La réplication avec les autres sites
->   * La réduction du trafic réseau entre sites
->
-> 🔗 **Relations avec d'autres concepts**
-> - **Sites ≠ UOs** : Les sites représentent une division physique, les UOs une organisation **logique**
-> - **Sites ≠ Zones DNS** : Les zones DNS (`eu.maxtec.be`) peuvent correspondre aux sites (`site EU`), mais ce n'est pas obligatoire
->
-> 🌐 **Notre infrastructure**
-> 
-> - `site EU` : Sous-réseau 192.168.10.0/24 (192.168.0.0/24 en laboratoire)
->   * DC principal : `dc1.maxtec.be`
->   * DC secondaire : `dc2.maxtec.be` (réplication)
-> 
-> - `site US` : Sous-réseau 192.168.20.0/24 (non utilisé en laboratoire)
->   * DC local : `dc-us.maxtec.be`
+!!! tip "Les Sites dans Active Directory"
+    
+    Un **site AD** représente une **localisation physique** dans le réseau. Chaque **site** est défini par :
+    
+    - **Un ou plusieurs sous-réseaux IP** : Dans notre cas, nous n'avons qu'un seul sous-réseau (192.168.10.0/24 sur le diagramme, qui devient 192.168.0.0/24 dans le laboratoire), mais le `site EU` pourrait inclure :
+        - 192.168.10.0/24 (bureaux principaux)
+        - 192.168.11.0/24 (entrepôt)
+        - 192.168.12.0/24 (production)
+    
+    - **Au moins un contrôleur de domaine (DC) local** pour :
+        - L'authentification rapide des utilisateurs locaux
+        - La réplication avec les autres sites
+        - La réduction du trafic réseau entre sites
+
+!!! info "Relations avec d'autres concepts"
+    
+    - **Sites ≠ UOs** : Les sites représentent une division physique, les UOs une organisation **logique**
+    - **Sites ≠ Zones DNS** : Les zones DNS (`eu.maxtec.be`) peuvent correspondre aux sites (`site EU`), mais ce n'est pas obligatoire
+
+!!! example "Notre infrastructure"
+    
+    **Site EU** : Sous-réseau 192.168.10.0/24 (192.168.0.0/24 en laboratoire)
+    
+    - DC principal : `dc1.maxtec.be`
+    - DC secondaire : `dc2.maxtec.be` (réplication)
+    
+    **Site US** : Sous-réseau 192.168.20.0/24 (non utilisé en laboratoire)
+    
+    - DC local : `dc-us.maxtec.be`
 
 Nous allons créer une **UO** racine pour chaque site (UOs `EU` et `US`) par commodité, mais **ce n'est pas une obligation**. Voici deux façons possibles d'organiser la même entreprise :
 
