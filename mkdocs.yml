@@ -27,7 +27,7 @@ theme:
     - toc.integrate
   navigation:
     collapse: true
-    collapse_sections: true
+    collapse_navigation: true
     show_ancestors: true
 
 markdown_extensions:
