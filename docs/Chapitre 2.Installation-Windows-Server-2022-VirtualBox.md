@@ -23,9 +23,9 @@
 ## 🏑 Objectifs
 
 À la fin de ce guide, vous aurez :
-1. 🖥️ Une machine virtuelle VirtualBox fonctionnelle
-2. 💻 Windows Server 2022 installé et configuré
-3. 🔗 Un environnement prêt pour l'installation d'Active Directory
+1. Une machine virtuelle VirtualBox fonctionnelle
+2. Windows Server 2022 installé et configuré
+3. Un environnement prêt pour l'installation d'Active Directory
 
 ---
 
@@ -56,9 +56,9 @@ Si la commande ne fonctionne pas, on doit installer gcc-12
 >
 > 💡 **Pour débutants:** Même processus que dans le Chapitre 1, mais cette fois pour VirtualBox!
 
-1. 🌐 Visitez le [Centre d'évaluation Microsoft](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022)
-2. 💾 Téléchargez le fichier ISO de Windows Server 2022 (version d'évaluation 180 jours)
-3. 📁 Enregistrez le fichier ISO dans un emplacement facilement accessible
+1. Visitez le [Centre d'évaluation Microsoft](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022)
+2. Téléchargez le fichier ISO de Windows Server 2022 (version d'évaluation 180 jours)
+3. Enregistrez le fichier ISO dans un emplacement facilement accessible
 
 ## 2. 🖥️ Création de la Machine Virtuelle
 
@@ -67,7 +67,7 @@ Si la commande ne fonctionne pas, on doit installer gcc-12
 1. 🖥️ Ouvrez VirtualBox
 2. ➕ Cliquez sur **Nouvelle**
 3. ⚙️ Configurez les paramètres de base :
-   - 🎮 Nom : `Serveur1`
+   - 🎮 Nom : `Serveur1` (par exemple)
       > 💡 **Tip:** M1 = Machine 1 (si vous créez plus tard M2, M3...)
    - 💾 Choisissez "VDI (Image disque VirtualBox)"
    - 📚 ISO Image (fichier Windows Server)
@@ -92,13 +92,8 @@ Si la commande ne fonctionne pas, on doit installer gcc-12
    - 🎮 Activer l'Accélération 3D
 
 4. 🔗 Réseau :
-   - 📶 Adaptateur 1 (par défaut): Changer **NAT** par **réseau interne**
-   - Rajoutez un deuxième adaptateur de réseau (il faut éteindre la machine) et choisissez pont pour avoir accès à l'internet
-
-5. 💾 Stockage :
-   - 📚 Sélectionnez le lecteur optique
-   - 💾 Choisissez l'ISO Windows Server
-   - ✅ Cliquez sur "OK"
+   - 📶 Adaptateur 1 (par défaut): Changer **NAT** par **réseau interne**, on en aura besoin après pour AD
+   - Rajoutez un deuxième adaptateur de réseau (il faut éteindre la machine) et choisissez **accès pont** pour avoir accès à l'internet
 
 ## 3. 💻 Installation de Windows Server 2022
 
@@ -126,7 +121,7 @@ Si la commande ne fonctionne pas, on doit installer gcc-12
 
 9. 🔓 Attendez l'écran de login administrateur
 
-10. ⌨️ Utilisez **Ctrl + Alt + Suppr** via la barre de menu de la fenêtre de la machine virtuelle dans VirtualBox (pas la barre de VirtualBox)
+10. ⌨️ Utilisez l'option **Ctrl + Alt + Suppr** via la barre de menu de la fenêtre de la machine virtuelle dans VirtualBox (pas la barre de VirtualBox)
 
 ### ⚙️ Post-Installation
 
@@ -189,7 +184,7 @@ Le but est de simuler qu'on a une machine pour chaque département. On peut cré
 
 > ⚙️ Paramètres de la machine virtuelle :
 
-- 🎮 Nom : `Client1`
+- 🎮 Nom : `Client1` (pour le prémier client)
 - 💻 Génération : 2 (64 bits)
 - 💽 Mémoire : 4 GB
 - 📶 Adaptateur 1 (par défaut): Changer **NAT** par **réseau interne**
@@ -222,21 +217,6 @@ Le but est de simuler qu'on a une machine pour chaque département. On peut cré
 - 🌐 Nom du serveur (FQDN) : `dns2.maxtec.be`
 - 💻 Suivez la même procédure que pour le premier serveur
 
-## 🎯 Checkpoint: Installation VirtualBox
-Avant de continuer vers le prochain chapitre, vérifiez que vous avez:
-- [ ] Installé Windows Server sur VirtualBox
-- [ ] Configuré le nom de serveur (dns1.maxtec.be)
-- [ ] Testé la connectivité réseau
-- [ ] Créé au moins une machine cliente
-
----
-
-
-### 🎯 Ce que vous avez appris:
-- ✅ **Alternative VirtualBox**: Installation sur différentes plateformes
-- ✅ **Configuration réseau**: Réseau interne vs externe
-- ✅ **Environnement complet**: Serveur + machines clientes
-- ✅ **Préparation**: Infrastructure prête pour Active Directory
 
 ### 🚀 Prochaine étape:
 Vous êtes maintenant prêt(e) pour le **Chapitre 3: Configuration DNS**
@@ -244,6 +224,3 @@ Vous êtes maintenant prêt(e) pour le **Chapitre 3: Configuration DNS**
 ## 🧭 Navigation
 [⏮️ Chapitre Précédent: Introduction](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 3: DNS](Chapitre%203.DNS.md)
 
----
-
-**📚 Cours Active Directory -  | 👨‍💻 Pour débutants**

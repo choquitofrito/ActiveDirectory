@@ -322,8 +322,8 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 2. Connectez-vous avec le compte administrateur
 3. Configurez les paramètres régionaux :
    - Région : **France**
-   - Langue : **Français**
-   - Clavier : **Français**
+   - Langue : **Français** 
+   - Clavier : **Français** (Belgique)
 </details>
 
 <details>
@@ -331,7 +331,7 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 
 1. Ouvrez les `Paramètres réseau`
 2. Configurez la carte **LAN-VM** :
-   - IP : **192.168.0.1**
+   - IP : **192.168.0.2**
    - Masque : **255.255.255.0**
    - DNS : **127.0.0.1**
 3. Configurez la carte **WAN-VM** :
