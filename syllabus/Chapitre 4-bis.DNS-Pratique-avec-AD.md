@@ -8,17 +8,6 @@
 >
 > Dans ce chapitre, nous allons **pratiquer DNS** avec votre infrastructure réelle. Fini la théorie abstraite, place à la manipulation concrète !
 
----
-
-## 📙 Objectifs Pédagogiques (90 minutes de pratique)
-
-À la fin de ce chapitre, vous serez capable de :
-1. ✅ **Explorer** les zones DNS créées automatiquement par AD
-2. ✅ **Comprendre** les enregistrements DNS critiques pour AD
-3. ✅ **Créer** des enregistrements DNS manuellement
-4. ✅ **Joindre** un poste au domaine et observer l'enregistrement DNS automatique
-5. ✅ **Configurer** une zone de recherche inverse
-6. ✅ **Dépanner** les problèmes DNS courants
 
 ---
 

@@ -11,16 +11,7 @@
 
 ---
 
-## 📙 Objectifs Pédagogiques (30 minutes)
 
-À la fin de ce chapitre, vous serez capable de :
-1. ✅ Expliquer en 30 secondes **pourquoi AD a besoin de DNS**
-2. ✅ Vérifier que votre serveur **peut résoudre des noms**
-3. ✅ Configurer le **DNS du serveur** pour préparer l'installation AD
-
-> 💡 **Note importante:** Nous verrons la théorie DNS complète et les manipulations pratiques **APRÈS avoir installé AD**. Pourquoi ? Parce qu'AD installe automatiquement DNS et vous aurez un domaine réel (maxtec.be) pour pratiquer !
-
----
 
 ## 1. DNS en 5 Minutes - L'Essentiel ⏱️
 

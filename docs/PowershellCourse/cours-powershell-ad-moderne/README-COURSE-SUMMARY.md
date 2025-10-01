@@ -5,24 +5,6 @@
 Ce cours transforme l'approche traditionnelle de PowerShell AD vers une méthode de **survie professionnelle moderne**
 ---
 
-## 🎯 Objectifs Pédagogiques Atteints
-
-### Compétences Techniques
-- ✅ **Maîtrise des 10 commandes essentielles** de survie PowerShell AD
-- ✅ **Utilisation professionnelle de l'IA** (ChatGPT, Copilot) comme copilote
-- ✅ **Détection d'erreurs critiques** dans scripts apparemment légitimes
-- ✅ **Application religieuse de -WhatIf** pour prévenir désastres
-- ✅ **Gestion de crise structurée** avec procédures break-glass
-
-### Compétences Professionnelles
-- ✅ **Honnêteté** sur utilisation outils modernes (Google, IA)
-- ✅ **Validation critique** plutôt que mémorisation syntaxe
-- ✅ **Communication efficace** en situation d'urgence
-- ✅ **Documentation systématique** des actions importantes
-- ✅ **Mindset de survie** pour environnements production
-
----
-
 ## 📚 Structure Complète du Cours
 
 ### **Module 1: Réalité 2025** (2h00)

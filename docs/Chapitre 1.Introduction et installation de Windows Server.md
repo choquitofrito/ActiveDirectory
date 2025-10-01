@@ -1,15 +1,5 @@
 # Chapitre 1: Introduction et installation de Windows Server
 
----
-
-## 📙 Objectifs Pédagogiques
-
-À la fin de ce chapitre, vous serez capable de :
-1. Comprendre les différences entre réseaux centralisés et décentralisés
-2. Identifier les composants clés d'Active Directory
-3. Installer et configurer Windows Server pour héberger AD DS
-
----
 
 ## 1. Les réseaux décentralisés VS centralisés
 
