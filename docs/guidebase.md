@@ -6,7 +6,7 @@ N'oubliez pas de changer le réseau à **Réseau interne** dans la configuration
 
 ## 2. Demarrez la VM du **serveur**, puis suivez ces pas:
    
-   1. ⚙️ Configuration du nom du serveur :
+    1. ⚙️ Configuration du nom du serveur :
         - Ouvrez le **Gestionnaire de serveur** > **Serveur local**
         - Sélectionnez le nom actuel
         - Cliquez sur **Modifier**
@@ -16,12 +16,14 @@ N'oubliez pas de changer le réseau à **Réseau interne** dans la configuration
         - Redémarrez le serveur
   
 
-    2. Fixer l'ip du serveur
-         - Tapez **Ethernet** dans la barre de recherche
+    2. Configuration de l'ip du serveur
+       - Ouvrez le **Gestionnaire de serveur** > **Serveur local**
+       - Apuyez sur **Ethernet** -> Propriétés -> Protocol IpV4 
          - Changez la config pour le protocole IPv4:
-           - Adresse IP: 192.168.0.10 (ou 11, 12...etc.) (pas automatique!)
+           - Adresse IP: 192.168.0.2
            - Masque: 255.255.255.0
            - Serveur DNS: lui-même 192.168.0.2 (l'ip de votre serveur, ou l'adresse loopback 127.0.0.1)
+        - Redémarrez le serveur
 
 ## 3. Installez le rol d'AD-DS
 
@@ -34,6 +36,14 @@ N'oubliez pas de changer le réseau à **Réseau interne** dans la configuration
 | 5 | Dans **Rôles**, cocher **Services AD DS** |
 | 6 | Accepter les fonctionnalités requises |
 | 7 | Terminer l'installation |
+
+Puis: cliquer sur l'avertissement pour que notre serveur devienne un DC (Controlêur de domaine)
+
+- Cliquez sur le lien "Promouvoir..." et attendre
+- "Ajouter une nouvelle forêt"
+- Tapez le password Password1! (ce sera le pass pour l'admin)
+- Tapez Suivant puis Suivant... puis Suivant... puis Suivant
+- Tapez Installer
 
 ## 4. Promouvoir le serveur:
 
@@ -53,15 +63,14 @@ Créer une machine Windows 10 sur virtualbox. N'oubliez pas de changer le résea
 
 1. **Paramètres Système**:
    - Clic droit sur Démarrer → Système
-   - Paramètres système avancés
-   - Onglet **Nom de l'ordinateur**
+   - Option **Changer Nom de l'ordinateur (AVANCÉ, pas la prémière option)**
    - **Modifier**
 
 2. **Configuration:**
-   - Nom de l'ordinateur: `ws-compta-01`
-   - Membre de: **Domaine** → `maxtec.be` dans 
+   - Nom de l'ordinateur: `client1`
    - Autres->Suffix principal -> `maxtec.be`
-   - **OK**
+   - NE CHANGEZ PAS LE DOMAINE
+   - **OK**, puis redemarrez
 
 3. Fixed l'ip de la machine client
    - Tapez **Ethernet** dans la barre de recherche
@@ -69,6 +78,8 @@ Créer une machine Windows 10 sur virtualbox. N'oubliez pas de changer le résea
      - Adresse IP: 192.168.0.10 (ou 11, 12...etc.) (pas automatique!)
      - Masque: 255.255.255.0
      - Serveur DNS: 192.168.0.2 (l'ip de votre serveur)
+   - **OK**, puis redemarrez
+
 
 4. **Authentification:**
 

@@ -45,9 +45,11 @@ Une **unité d'organisation** (UO) est un **conteneur Active Directory** offrant
    - 📂 Gestion des ressources
    - 🔒 Application des GPOs
 
-> 💡 **Analogie** : Une UO est un **conteneur intelligent** qui combine organisation et gestion.
->
-> 💡 **Pour débutants:** Pensez aux UOs comme aux dossiers sur votre ordinateur, mais qui peuvent aussi avoir des règles et des permissions!
+!!! tip "Analogie"
+    
+    Une UO est un **conteneur intelligent** qui combine organisation et gestion.
+    
+    💡 **Pour débutants:** Pensez aux UOs comme aux dossiers sur votre ordinateur, mais qui peuvent aussi avoir des règles et des permissions !
 
 ## 3. 📂 Structure des OUs
 
@@ -80,83 +82,95 @@ Avant de créer vos premières UOs, vérifiez votre compréhension:
 
 ## 4. 🔧 Création d'une OU
 
-1. **Ouvrir la Console**
-   ```
-   Utilisateurs et ordinateurs d'Active Directory
-   ```
+!!! example "Procédure de création"
+    
+    1. **Ouvrir la Console**
+       ```
+       Utilisateurs et ordinateurs d'Active Directory
+       ```
+    
+    2. **Créer l'OU**
+       ```
+       Domaine AD ou OU parent → Clic droit
+       ├── Nouveau
+       └── Unité d'organisation
+       ```
+    
+    3. **Nommage**
+       ```
+       Format: [Location]/[Département]
+       Exemple: EU/Comptabilite
+       ```
+    
+    4. **Protection**
+       ```
+       ☑ Protéger contre la suppression
+       ```
 
-2. **Créer l'OU**
-   ```
-   Domaine AD ou OU parent → Clic droit
-   ├── Nouveau
-   └── Unité d'organisation
-   ```
+!!! tip "Pour débutants"
+    
+    Utilisez des noms simples et clairs sans espaces ni caractères spéciaux
 
-3. **Nommage**
-   ```
-   Format: [Location]/[Département]
-   Exemple: EU/Comptabilite
-   ```
-   > 💡 **Pour débutants:** Utilisez des noms simples et clairs sans espaces ni caractères spéciaux
-
-4. **Protection**
-   ```
-   ☑ Protéger contre la suppression
-   ```
-   > 💡 **Conseil:** Toujours cocher cette option pour éviter les suppressions accidentelles!
+!!! warning "Conseil"
+    
+    Toujours cocher cette option pour éviter les suppressions accidentelles !
 
 ## 5. 🗑️ Suppression d'une OU Protégée
 
-### 5.1 Activation des Fonctionnalités Avancées
-
-1. **Ouvrir ADUC**
-   ```
-   Active Directory Users and Computers
-   ```
-
-2. **Activer les Options Avancées**
-   ```
-   Menu View → Advanced Features
-   ```
-
-### 5.2 Désactivation de la Protection
-
-1. **Accéder aux Propriétés**
-   ```
-   OU cible → Clic droit → Properties
-   ```
-
-2. **Modifier la Protection**
-   ```
-   Onglet Object
-   ☐ Protect object from accidental deletion
-   ```
-  - Clique sur OK pour appliquer les modifications.
-
-3. **Supprimer l'OU** 
+!!! warning "Procédure de suppression"
+    
+    ### 5.1 Activation des Fonctionnalités Avancées
+    
+    1. **Ouvrir ADUC**
+       ```
+       Active Directory Users and Computers
+       ```
+    
+    2. **Activer les Options Avancées**
+       ```
+       Menu View → Advanced Features
+       ```
+    
+    ### 5.2 Désactivation de la Protection
+    
+    1. **Accéder aux Propriétés**
+       ```
+       OU cible → Clic droit → Properties
+       ```
+    
+    2. **Modifier la Protection**
+       ```
+       Onglet Object
+       ☐ Protect object from accidental deletion
+       ```
+       - Clique sur OK pour appliquer les modifications.
+    
+    3. **Supprimer l'OU**
 
 
 ## 6. ⚙️ Gestion des OUs
 
-### 6.1 Flexibilité de la Structure
+!!! info "Flexibilité de la Structure"
+    
+    ### 6.1 Opérations de Base
+    
+    1. **Déplacement d'Objets**
+       ```
+       Source OU → Glisser-Déposer → Destination OU
+       ```
+    
+    2. **Application des GPOs**
+       ```
+       OU → Clic droit → Lier une GPO
+       ```
 
-1. **Déplacement d'Objets**
-   ```
-   Source OU → Glisser-Déposer → Destination OU
-   ```
+!!! example "Exemples de GPOs par Département"
 
-2. **Application des GPOs**
-   ```
-   OU → Clic droit → Lier une GPO
-   ```
-
-### 6.2 Exemples de GPOs par Département
-
-| Département | GPO | Objectif |
-|--------------|-----|----------|
-| Comptabilité | GPO-Compta-USB | Bloquer USB |
-| IT | GPO-IT-USB | Autoriser USB |
-| RH | GPO-RH-Screen | Verrouillage 5min |
+    | Département | GPO | Objectif |
+    |--------------|-----|----------|
+    | Comptabilité | GPO-Compta-USB | Bloquer USB |
+    | IT | GPO-IT-USB | Autoriser USB |
+    | RH | GPO-RH-Screen | Verrouillage 5min |
 
 ## 7. 🏢 Structure pour maxtec.be
 
@@ -190,7 +204,9 @@ EU
         └── GG-EU-Ventes-Users
 ```
 
-> USA a une structure identique à EU
+!!! note "Note"
+    
+    USA a une structure identique à EU
 
 ### 7.2 Conventions de Nommage
 
@@ -338,22 +354,24 @@ EU
 
 ## 9. Délégation de Contrôle
 
-Avant de continuer ce chapitre vous devez vous familiariser avec les concept de GPO (Group Policy Object). Passez alors au chapitre [8.Group Policy Objects](./Chapitre%208.Group%20Policy%20Objects.md)
+!!! info "Prérequis"
+    
+    Avant de continuer ce chapitre vous devez vous familiariser avec les concept de GPO (Group Policy Object). Passez alors au chapitre [8.Group Policy Objects](./Chapitre%208.Group%20Policy%20Objects.md)
 
-### 9.1 Concept et Stratégies
+!!! info "Concept et Stratégies"
+    
+    La **délégation de contrôle** permet de décentraliser l'administration d'Active Directory en attribuant des droits spécifiques à des groupes sur des OUs.
 
-La **délégation de contrôle** permet de décentraliser l'administration d'Active Directory en attribuant des droits spécifiques à des groupes sur des OUs.
+!!! success "Objectifs et Bénéfices"
+    
+    **Avantages** :
+    - **Décentralisation** : Répartition des tâches administratives
+    - **Sécurité** : Application du principe du moindre privilège
+    - **Efficacité** : Gestion locale plus rapide et adaptée
 
-#### 9.1.1 Objectifs et Bénéfices
+!!! example "Stratégies de Délégation"
 
-**Avantages** :
-- **Décentralisation** : Répartition des tâches administratives
-- **Sécurité** : Application du principe du moindre privilège
-- **Efficacité** : Gestion locale plus rapide et adaptée
-
-#### 9.1.2 Stratégies de Délégation
-
-1. **AGLP** (Petites Organisations)
+### 9.1.2 AGLP (Petites Organisations)
    
    **Example**: Le service RH a besoin de gérer ses propres utilisateurs. Sophie Lambert, administratrice RH, doit pouvoir créer des comptes, réinitialiser les mots de passe et modifier les propriétés des utilisateurs, mais uniquement dans l'OU RH.
 
@@ -388,7 +406,7 @@ La **délégation de contrôle** permet de décentraliser l'administration d'Act
    - **Simplicité** : Une structure claire avec les utilisateurs et leurs groupes dans des OUs séparées
    - **Maintenance** : La gestion des droits se fait via le groupe, pas individuellement par utilisateur
 
-2. **AGDLP** (Grandes Organisations)
+### 9.1.3 AGDLP (Grandes Organisations)
 
    **Example**: L'entreprise a plusieurs sites (EU, US) avec des équipes RH locales. Pierre Dupont, administrateur RH senior, doit pouvoir gérer les comptes, les groupes et les stratégies de sécurité pour toute l'équipe RH européenne.
 
@@ -452,12 +470,14 @@ Les OUs peuvent déléguer des droits de gestion de l'OU (ex: droits sur les com
 
 Maintenant **les admins RH peuvent gérer leurs utilisateurs sans avoir accès aux autres OUs** ni devoir demander à un autre admin.
 
-> ⚠️ **Sécurité** : La délégation est **strictement limitée à l'OU**. Par exemple :
-> - Un admin RH peut créer le groupe `GG-EU-RH-Projet` dans son OU
-> - Il peut y ajouter `marie.dupont` qui est dans `OU=RH,OU=EU`
-> - Mais il ne peut pas y ajouter `jean.martin` qui est dans `OU=Ventes,OU=EU`
-> 
-> Cette limitation empêche les admins d'une OU d'accéder aux ressources des autres OUs.
+!!! warning "Sécurité"
+    
+    La délégation est **strictement limitée à l'OU**. Par exemple :
+    - Un admin RH peut créer le groupe `GG-EU-RH-Projet` dans son OU
+    - Il peut y ajouter `marie.dupont` qui est dans `OU=RH,OU=EU`
+    - Mais il ne peut pas y ajouter `jean.martin` qui est dans `OU=Ventes,OU=EU`
+    
+    Cette limitation empêche les admins d'une OU d'accéder aux ressources des autres OUs.
 
 
 
@@ -479,10 +499,12 @@ Les OUs permettent aussi de déléguer la gestion des ressources informatiques.
 
 Maintenant **l'équipe IT peut gérer les ressources de l'OU Ventes sans avoir accès aux autres OUs**.
 
-> ⚠️ **Sécurité** : La délégation est **strictement limitée à l'OU**. Par exemple :
-> - Le support IT peut intégrer `ws-ventes-01` dans `OU=Ventes,OU=EU`
-> - Il peut gérer l'imprimante `print-ventes` dans cette OU
-> - Mais il ne peut pas toucher à `ws-compta-01` qui est dans `OU=Comptabilite,OU=EU`
+!!! warning "Sécurité"
+    
+    La délégation est **strictement limitée à l'OU**. Par exemple :
+    - Le support IT peut intégrer `ws-ventes-01` dans `OU=Ventes,OU=EU`
+    - Il peut gérer l'imprimante `print-ventes` dans cette OU
+    - Mais il ne peut pas toucher à `ws-compta-01` qui est dans `OU=Comptabilite,OU=EU`
 
 
 ### 9.3. Tests et Validation de la Délégation
@@ -855,7 +877,9 @@ Avant de passer à la gestion des utilisateurs:
 ### 🚀 Prochaine étape:
 Maintenant que votre structure organisationnelle est en place, il est temps de créer et gérer vos **utilisateurs** dans ces UOs!
 
-> 💡 **Progression excellente:** Vous maîtrisez maintenant l'organisation logique d'Active Directory!
+!!! success "Progression excellente"
+    
+    Vous maîtrisez maintenant l'organisation logique d'Active Directory !
 
 ## 🧭 Navigation
 [⏮️ Chapitre Précédent: DNS Pratique avec AD](Chapitre%205.DNS-Pratique-avec-AD.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 7: Gestion des Utilisateurs](Chapitre%207.Gestion_des_Utilisateurs.md)

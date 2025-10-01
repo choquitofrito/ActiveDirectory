@@ -38,9 +38,11 @@ Un compte utilisateur Active Directory représente une **identité numérique un
 - **Contrôle d'accès** aux ressources
 - **Gestion des informations** utilisateur
 
-> 💡 **Pour débutants:** Pensez à un compte utilisateur comme une carte d'identité numérique qui dit qui vous êtes et ce que vous pouvez faire dans l'entreprise!
+!!! tip "Pour débutants"
+    
+    Pensez à un compte utilisateur comme une carte d'identité numérique qui dit qui vous êtes et ce que vous pouvez faire dans l'entreprise !
 
-> **Exemple** : Connexion d'Ivan (Informatique)
+!!! example "Exemple : Connexion d'Ivan (Informatique)"
 
 1. Connexion au poste de travail
 2. Vérification des identifiants
@@ -65,7 +67,9 @@ victor              # Ventes
 ```
 - **UPN** (User Principal Name), dont le format de base est **prenom@domaine**
 
-> 💡 **Pour débutants:** SamAccountName = nom court (`ivan`), UPN = adresse email style (`ivan@maxtec.be`)
+!!! tip "Pour débutants"
+    
+    SamAccountName = nom court (`ivan`), UPN = adresse email style (`ivan@maxtec.be`)
 
 Pour tous les deux, suivez ces règles:
 
@@ -90,7 +94,9 @@ Avant de créer vos premiers utilisateurs:
 Vous pouvez l'ouvrir de plusieur formes: tapez `Utilisateurs et ordinateurs Active Directory` depuis le menu Démarrer ou via `dsa.msc`. C'est la méthode traditionnelle de gérer l'AD.
 Ou même `Gestionnaire de serveur`->`Outils`->`Utilisateurs et ordinateurs Active Directory`.
 
-> 💡 **Pour débutants:** ADUC = l'outil principal pour créer et gérer vos utilisateurs et groupes. C'est votre "tableau de bord" d'Active Directory!
+!!! tip "Pour débutants"
+    
+    ADUC = l'outil principal pour créer et gérer vos utilisateurs et groupes. C'est votre "tableau de bord" d'Active Directory !
 
  C'est la méthode traditionnelle pour gérer l'AD, mais il y a aussi la **méthode moderne via l'interface web de l'AD** (`Gestionnaire de serveur`->`Outils`->`Centre d'administration d'AD`).
 
@@ -125,39 +131,44 @@ Par défaut, il y a plusieurs **conteneurs** (**ce ne sont pas des OU**, mais de
 
 ### 3.1. Création de Compte
 
-> **Processus pour ajouter un nouveau collaborateur**
-
-#### **Accès à la Console**
-1. **Ouvrir ADUC via** :
-   - **Gestionnaire de serveur**
-   - **Outils**
-   - **Utilisateurs et ordinateurs AD**
-
-#### **Assistant de Création**
-1. **Clic droit sur `Users`**
-2. **Nouveau** > **Utilisateur**
-
-#### **Informations de Base**
-- **Prénom** : Charles
-- **Nom** : 
-- **Login** : charles
-- **UPN** : charles@maxtec.be
-
-
-4. **Configuration du mot de passe** :
-   - Choisir un mot de passe temporaire respectant la politique
-   - **Cocher** "L'utilisateur doit changer son mot de passe à la prochaine ouverture de session"
-   - **Décocher** "Le compte est désactivé" si l'utilisateur doit se connecter immédiatement
+!!! example "Processus pour ajouter un nouveau collaborateur"
+    
+    #### **Accès à la Console**
+    1. **Ouvrir ADUC via** :
+       - **Gestionnaire de serveur**
+       - **Outils**
+       - **Utilisateurs et ordinateurs AD**
+    
+    #### **Assistant de Création**
+    1. **Clic droit sur `Users`**
+    2. **Nouveau** > **Utilisateur**
+    
+    #### **Informations de Base**
+    - **Prénom** : Charles
+    - **Nom** : 
+    - **Login** : charles
+    - **UPN** : charles@maxtec.be
+    
+    #### **Configuration du mot de passe**
+    - Choisir un mot de passe temporaire respectant la politique
+    - **Cocher** "L'utilisateur doit changer son mot de passe à la prochaine ouverture de session"
+    - **Décocher** "Le compte est désactivé" si l'utilisateur doit se connecter immédiatement
 
 ### 3.2. Recherche d'un Compte Utilisateur
 
-La **recherche d'un compte** utilisateur est une opération **fréquente**, par exemple pour modifier des paramètres ou consulter des informations.
-
-Depuis la **nouvelle console** de gestion l'opération est très simple: dans **la barre de recherche** en haut de la fenêtre tapez le nom de l'utilisateur. 
-
-**Attention:** vous devez tapez le début du nom de l'utilisateur, par exemple `clark` pour `clark.kent`.
-
-Autrement, ouvrir `Utilisateurs et ordinateurs Active Directory` depuis le menu Démarrer ou via `dsa.msc`. Faites clique droit sur `Users` et sélectionnez `Rechercher un utilisateur`. 
+!!! info "Méthodes de recherche"
+    
+    La **recherche d'un compte** utilisateur est une opération **fréquente**, par exemple pour modifier des paramètres ou consulter des informations.
+    
+    #### **Méthode 1 : Barre de recherche**
+    Depuis la **nouvelle console** de gestion l'opération est très simple: dans **la barre de recherche** en haut de la fenêtre tapez le nom de l'utilisateur.
+    
+    !!! warning "Attention"
+        
+        Vous devez taper le début du nom de l'utilisateur, par exemple `clark` pour `clark.kent`.
+    
+    #### **Méthode 2 : Recherche traditionnelle**
+    Ouvrir `Utilisateurs et ordinateurs Active Directory` depuis le menu Démarrer ou via `dsa.msc`. Faites clique droit sur `Users` et sélectionnez `Rechercher un utilisateur`. 
 
 
 
@@ -167,205 +178,247 @@ Après la création du compte, il est important de configurer les **propriétés
 
 ### 3.4. Informations Essentielles
 
-#### **Onglet Général** :
-
-   - Description : Comptable Senior 
-   - Service Comptabilité
-   - Bureau : Bâtiment A - 2e étage
-   - Téléphone : +32 2 123 45 67
-
-> 💡 Ces informations sont essentielles pour la gestion des services (messagerie, ressources, etc.)
-
-#### 🔑 Paramètres du Compte
-
-##### Heures d'accès
-- Par défaut : 24/7
-- Restriction : 7h-19h (semaine)
-
-##### Postes de travail
-- Défaut : Tous les postes
-- Exemple : `ws-compta-01.maxtec.be`
+!!! info "Configuration des propriétés utilisateur"
+    
+    #### **Onglet Général**
+    
+    | Champ | Exemple |
+    |-------|---------|
+    | Description | Comptable Senior |
+    | Service | Comptabilité |
+    | Bureau | Bâtiment A - 2e étage |
+    | Téléphone | +32 2 123 45 67 |
+    
+    !!! tip "Information importante"
+        
+        Ces informations sont essentielles pour la gestion des services (messagerie, ressources, etc.)
+    
+    #### 🔑 Paramètres du Compte
+    
+    ##### **Heures d'accès**
+    - Par défaut : 24/7
+    - Restriction : 7h-19h (semaine)
+    
+    ##### **Postes de travail**
+    - Défaut : Tous les postes
+    - Exemple : `ws-compta-01.maxtec.be`
 
 ### Profils utilisateurs
 
-#### Types de profils
-```plaintext
-Local     : C:\Users\username
-Itinérant : \\srv-profiles\profiles\%username%
-Exemple   : \\srv-profiles\profiles\charles
-```
-   > **Note** : Par défaut, ce champ est vide car Windows crée automatiquement des profils locaux (C:\Users\username). 
-   > On ne le configure que si on veut implémenter des **profils itinérants** (roaming profiles) qui suivent l'utilisateur d'un poste à l'autre.
-      
-   **Attention** : Les profils itinérants peuvent :
-   - Ralentir les connexions (synchronisation du profil)
-   - Consommer beaucoup d'espace disque sur le serveur
-   - Augmenter le trafic réseau
-     
-   **Un profil utilisateur contient** :
-   - **Documents personnels** : Mes Documents, Bureau, Téléchargements
-   - **Paramètres Windows** : Fond d'écran, thème, barre des tâches
-   - **Paramètres d'applications** : Configurations Outlook, navigateur
-   - **Clés de registre** : HKEY_CURRENT_USER
-   - **AppData** : Données des applications
-     * `\AppData\Local` : Données spécifiques à la machine (cache, temp)
-     * `\AppData\Roaming` : Données qui suivent l'utilisateur entre les machines
-   - **Script de connexion** : Si on veut lancer une suite d'opérations lors de la connexion 
-     ```plaintext
-     \\srv-scripts\dept\compta\logon.bat
-     ```
+!!! info "Types de profils"
+    
+    | Type | Chemin | Description |
+    |------|--------|-------------|
+    | **Local** | `C:\Users\username` | Profil stocké localement |
+    | **Itinérant** | `\\srv-profiles\profiles\%username%` | Profil partagé sur le réseau |
+    | **Exemple** | `\\srv-profiles\profiles\charles` | Exemple concret |
 
-#### Recommandations
-- Attention aux profils itinérants
-- Préférer les profils locaux
-- Sécuriser les comptes sensibles
+!!! note "Note"
+    
+    Par défaut, ce champ est vide car Windows crée automatiquement des profils locaux (C:\Users\username).
+    
+    On ne le configure que si on veut implémenter des **profils itinérants** (roaming profiles) qui suivent l'utilisateur d'un poste à l'autre.
+
+!!! warning "Attention aux profils itinérants"
+    
+    Les profils itinérants peuvent :
+    - Ralentir les connexions (synchronisation du profil)
+    - Consommer beaucoup d'espace disque sur le serveur
+    - Augmenter le trafic réseau
+
+!!! info "Contenu d'un profil utilisateur"
+    
+    **Un profil utilisateur contient** :
+    - **Documents personnels** : Mes Documents, Bureau, Téléchargements
+    - **Paramètres Windows** : Fond d'écran, thème, barre des tâches
+    - **Paramètres d'applications** : Configurations Outlook, navigateur
+    - **Clés de registre** : HKEY_CURRENT_USER
+    - **AppData** : Données des applications
+      * `\AppData\Local` : Données spécifiques à la machine (cache, temp)
+      * `\AppData\Roaming` : Données qui suivent l'utilisateur entre les machines
+    - **Script de connexion** : Si on veut lancer une suite d'opérations lors de la connexion 
+      ```plaintext
+      \\srv-scripts\dept\compta\logon.bat
+      ```
+
+!!! tip "Recommandations"
+    
+    - Attention aux profils itinérants
+    - Préférer les profils locaux
+    - Sécuriser les comptes sensibles
 
 ## 4. Gestion des Groupes
 
 ### Concepts Fondamentaux
 
-> Un groupe du domaine AD est un conteneur pour gérer :
-- Utilisateurs
-- Ordinateurs (c'est possible aussi!)
-- Autres groupes
+!!! info "Concept des groupes"
+    
+    Un groupe du domaine AD est un conteneur pour gérer :
+    - Utilisateurs
+    - Ordinateurs (c'est possible aussi !)
+    - Autres groupes
 
 
-### Types de groupe: les groupes de sécurité
+!!! info "Types de groupe: les groupes de sécurité"
+    
+    Il y a deux types de groupes : **groupes de sécurité** (qui gèrent les privilèges) et **groupes de distribution** (qui sont liés uniquement à l'envoi d'emails).
+    
+    On utilisera uniquement des groupes de sécurité.
 
-Il y a deux types de groupes : **groupes de sécurité** (qui gèrent les privilèges) et **groupes de distribution** (qui sont liés uniquement à l'envoi d'emails).
-
-On utilisera uniquement des groupes de sécurité.
-
-##### 📄 Exemples
-```plaintext
-DL-Comptabilite-Lecture  # Lecture comptable
-GG-EU-RH-Admins         # Admin RH
-GG-EU-IT-Users          # Utilisateurs IT
-```
-
-
-### 🌐 Types des Groupes selon son étendue
-
-Les groupes se classifient en 3 étendues: **Domaine Local**, **Global** et Universel.
-Nous utiliserons que les deux premiers types.
-
-Format standard pour les groupes :
-```plaintext
-[Type etendue]-[Location]-[Service]-[Fonction]
-DL-Comptabilite-Lecture  # Lecture comptable
-GG-EU-RH-Admins         # Admin RH
-GG-EU-IT-Users          # Utilisateurs IT
-```
-
-#### 🌍 Domaine Local (DL-)
-
-##### 💡 Caractéristiques
-- Servent à attribuer des droits (ex: `Admin`, `Lecture`, `Modif`)
-- Limité **au domaine AD actuel** (`maxtec.be` dans notre cas)
-- Gestion des ressources
-
-##### 📄 Exemples
-```plaintext
-DL-Serveurs-Admin      # Admin
-DL-Comptabilite-Lecture # Lecture
-DL-RH-Modif            # Modif
-```
-
-#### 🌎 Global (GG-)
-
-##### 💡 Caractéristiques
-- Servent à structurer l'entreprise (ex: groupes pour les `Comptables`, `Managers`, `Support`)
-- Visible dans toute la forêt AD
-- Regroupe par rôle
-
-##### 📄 Exemples
-```plaintext
-GG-EU-Compta-Users  # Comptables
-GG-EU-RH-Admins     # Managers RH
-GG-EU-IT-Users     # Utilisateurs IT
-```
-
-**IMPORTANT**: Ces fonctions des groupes ont lieu dans le contexte d'une grande entreprise, mais dans notre labo ce seront les groupes globaux qui recevront les droits pour ne pas créer une couche en plus. On verra ça plus tard, dans la strategie AGDP.
+!!! example "Exemples de groupes de sécurité"
+    
+    ```plaintext
+    DL-Comptabilite-Lecture  # Lecture comptable
+    GG-EU-RH-Admins         # Admin RH
+    GG-EU-IT-Users          # Utilisateurs IT
+    ```
 
 
+!!! info "Types des Groupes selon son étendue"
+    
+    Les groupes se classifient en 3 étendues: **Domaine Local**, **Global** et Universel.
+    Nous utiliserons que les deux premiers types.
 
-#### 🌏 Universel (U-)
+!!! example "Format standard pour les groupes"
+    
+    ```plaintext
+    [Type etendue]-[Location]-[Service]-[Fonction]
+    DL-Comptabilite-Lecture  # Lecture comptable
+    GG-EU-RH-Admins         # Admin RH
+    GG-EU-IT-Users          # Utilisateurs IT
+    ```
 
-##### 💡 Caractéristiques
-- Accès **multi-forêts**
-- Impact réplication
-- Usage restreint
+### 🌍 Domaine Local (DL-)
 
-##### 📄 Exemples
-```plaintext
-U-Direction              # Direction générale
-U-Projet-Global          # Projets multi-sites
-U-Admin-Global           # Administration globale
-```
+!!! info "Caractéristiques"
+    
+    - Servent à attribuer des droits (ex: `Admin`, `Lecture`, `Modif`)
+    - Limité **au domaine AD actuel** (`maxtec.be` dans notre cas)
+    - Gestion des ressources
+
+!!! example "Exemples de groupes Domaine Local"
+    
+    ```plaintext
+    DL-Serveurs-Admin      # Admin
+    DL-Comptabilite-Lecture # Lecture
+    DL-RH-Modif            # Modif
+    ```
+
+### 🌎 Global (GG-)
+
+!!! info "Caractéristiques"
+    
+    - Servent à structurer l'entreprise (ex: groupes pour les `Comptables`, `Managers`, `Support`)
+    - Visible dans toute la forêt AD
+    - Regroupe par rôle
+
+!!! example "Exemples de groupes Global"
+    
+    ```plaintext
+    GG-EU-Compta-Users  # Comptables
+    GG-EU-RH-Admins     # Managers RH
+    GG-EU-IT-Users     # Utilisateurs IT
+    ```
+
+!!! note "Important"
+    
+    Ces fonctions des groupes ont lieu dans le contexte d'une grande entreprise, mais dans notre labo ce seront les groupes globaux qui recevront les droits pour ne pas créer une couche en plus. On verra ça plus tard, dans la strategie AGDP.
+
+
+
+### 🌏 Universel (U-)
+
+!!! info "Caractéristiques"
+    
+    - Accès **multi-forêts**
+    - Impact réplication
+    - Usage restreint
+
+!!! example "Exemples de groupes Universel"
+    
+    ```plaintext
+    U-Direction              # Direction générale
+    U-Projet-Global          # Projets multi-sites
+    U-Admin-Global           # Administration globale
+    ```
 
 ## 5. Comment est-qu'on donne des droits aux utilisateurs ?
 
-La **regle d'or** est de ne jamais attribuer de droits (ex: acceder à un dossier partagé, changer son mot de passe) directement aux utilisateurs. Alors on donnera les droits aux **groupes**.
+!!! warning "Règle d'or"
+    
+    La **règle d'or** est de ne jamais attribuer de droits (ex: accéder à un dossier partagé, changer son mot de passe) directement aux utilisateurs. Alors on donnera les droits aux **groupes**.
 
-#### Exemple pratique
-
-Ceci est un exemple de test pour comprendre le fonctionnement de base des permissions.
-
-Nous allons créer un dossier partagé `IT-docs` sur le serveur (`C:\IT-docs`. Son chemin de réseau sera `\\dns1\IT-docs`).
-
-
-### Préparation
-
-Avant de commencer, assurez-vous d'avoir la structure complète de l'AD (si ce n'est pas le cas, lancez le script de Powershell)
-Puis:
-- Créez la OU pour le département IT (si elle n'existe pas encore) 
-- Créez aussi un groupe pour les administrateurs de IT (ex: "GG-EU-IT-Admins") et un autre pour les utilisateurs (ex: "GG-EU-IT-Users"). 
-- Assurez-vous d'avoir un ordinateur (Virtual Machine client) qui porte le nom `ws-IT-01` et un autre `ws-RH-01`. Si ce n'est pas le cas, modifiez les noms des ordinateurs dans vos machines virtuelles et re-démarrez-les.
-- Dans le serveur, allez dans `Utilisateurs et ordinateurs AD` et rajoutez des utilisateurs aux groupes (s'ils n'existent pas, créez-les): 
-  - `GG-EU-IT-Users` : Ivan, Ines
-  - `GG-EU-IT-Admins` : Irene
-  - `GG-EU-Ventes-Users` : Victor, Vanessa, Valeria
-  - `GG-EU-Ventes-Admins` : Valentin
-  - `GG-EU-RH-Users` : Rene, Rebecca
-  - `GG-EU-RH-Admins` : Richard
-  - `GG-EU-Compta-Users` : Charles, Cindy
-  - `GG-EU-Compta-Admins` : Charlotte
+!!! example "Exemple pratique"
+    
+    Ceci est un exemple de test pour comprendre le fonctionnement de base des permissions.
+    
+    Nous allons créer un dossier partagé `IT-docs` sur le serveur (`C:\IT-docs`. Son chemin de réseau sera `\\dns1\IT-docs`).
 
 
-**Nous devons choisir maintenant qui aura accès à ce dossier (qui aura le **droit**  d'accès) et avec quels **permissions** (modifier, lire, créer de fichiers à l'intérieur, etc.)**
+!!! info "Préparation"
+    
+    Avant de commencer, assurez-vous d'avoir la structure complète de l'AD (si ce n'est pas le cas, lancez le script de Powershell)
+    
+    **Puis :**
+    - Créez la OU pour le département IT (si elle n'existe pas encore) 
+    - Créez aussi un groupe pour les administrateurs de IT (ex: "GG-EU-IT-Admins") et un autre pour les utilisateurs (ex: "GG-EU-IT-Users"). 
+    - Assurez-vous d'avoir un ordinateur (Virtual Machine client) qui porte le nom `ws-IT-01` et un autre `ws-RH-01`. Si ce n'est pas le cas, modifiez les noms des ordinateurs dans vos machines virtuelles et re-démarrez-les.
+    - Dans le serveur, allez dans `Utilisateurs et ordinateurs AD` et rajoutez des utilisateurs aux groupes (s'ils n'existent pas, créez-les): 
+      - `GG-EU-IT-Users` : Ivan, Ines
+      - `GG-EU-IT-Admins` : Irene
+      - `GG-EU-Ventes-Users` : Victor, Vanessa, Valeria
+      - `GG-EU-Ventes-Admins` : Valentin
+      - `GG-EU-RH-Users` : Rene, Rebecca
+      - `GG-EU-RH-Admins` : Richard
+      - `GG-EU-Compta-Users` : Charles, Cindy
+      - `GG-EU-Compta-Admins` : Charlotte
 
-Pour cela nous sommes obligés de **comprendre les deux niveaux de permissions**.
+!!! question "Objectif"
+    
+    **Nous devons choisir maintenant qui aura accès à ce dossier (qui aura le **droit** d'accès) et avec quels **permissions** (modifier, lire, créer de fichiers à l'intérieur, etc.)**
+    
+    Pour cela nous sommes obligés de **comprendre les deux niveaux de permissions**.
 
 ## 5.1. Les deux niveaux des sécurité
 
 ### Partage (réseau)
 
-**Objectif** : Contrôle **d'accès au dossier partagé** (qui à le droit d'accéder au dossier partagé et avec quels permissions-autorisations - lecture, écriture, controle total)
-- Faites clique-droit sur le dossier `C:\IT-docs` et `Propriétés`.
-- Cliquez sur `Partage` et `Partage avancé`
-- Cochez `Partager ce dossier`
-- Clique sur **Autorisations**
-  
-Dans ce menu on choisit **qui** aura le **droit  d'accéder** au dossier et avec quelles **permissions**. C'est un **premier niveau de sécurité**
+!!! info "Objectif"
+    
+    Contrôle **d'accès au dossier partagé** (qui à le droit d'accéder au dossier partagé et avec quels permissions-autorisations - lecture, écriture, controle total)
 
-- Effacez `Tout le monde`
-- Ajoutez `GG-EU-IT-Users` avec les permissions de `Lecture` et `Modification`
-- Cliquez sur `OK`, puis cliquez sur `OK`
+!!! example "Configuration du partage"
+    
+    1. Faites clique-droit sur le dossier `C:\IT-docs` et `Propriétés`.
+    2. Cliquez sur `Partage` et `Partage avancé`
+    3. Cochez `Partager ce dossier`
+    4. Clique sur **Autorisations**
+    
+    Dans ce menu on choisit **qui** aura le **droit d'accéder** au dossier et avec quelles **permissions**. C'est un **premier niveau de sécurité**
+    
+    5. Effacez `Tout le monde`
+    6. Ajoutez `GG-EU-IT-Users` avec les permissions de `Lecture` et `Modification`
+    7. Cliquez sur `OK`, puis cliquez sur `OK`
 
-Le dossier est partagé maintenant et visible par tout le monde, mais accésible uniquement par `GG-EU-IT-Users`.
+!!! success "Résultat"
+    
+    Le dossier est partagé maintenant et visible par tout le monde, mais accésible uniquement par `GG-EU-IT-Users`.
 
-- Ouvrez une session dans machine client avec un User de `GG-EU-IT-Users` (ex: `ivan`)
-> Note: peu importe la machine dans ce cas, on limite par User, mais pour garder la cohérence ouvrez `ws-IT-01.maxtec.be`)
-- Ouvrez `Explorateur de fichiers`
-- Allez dans `\\dns1\IT-docs`: il doit pouvoir ouvrir le dossier
+!!! example "Tests d'accès"
+    
+    **Test 1 - Utilisateur autorisé :**
+    - Ouvrez une session dans machine client avec un User de `GG-EU-IT-Users` (ex: `ivan`)
+    - Ouvrez `Explorateur de fichiers`
+    - Allez dans `\\dns1\IT-docs`: il doit pouvoir ouvrir le dossier
+    
+    **Test 2 - Utilisateur non autorisé :**
+    - Ouvrez une session dans machine client avec un User de `GG-EU-Ventes-Users` (ex: `victor`)
+    - Ouvrez `Explorateur de fichiers`
+    - Allez dans `\\dns1\IT-docs`: **il voit le dossier mais il ne peut pas l'ouvrir** !
 
-- Ouvrez une session dans machine client avec un User de `GG-EU-Ventes-Users` (ex: `victor`)
-- Ouvrez une autre machine client (peu importe la machine dans ce cas, on limite par User, mais pour garder la cohérence ouvrez `ws-ventes-01.maxtec.be`)
-- Ouvrez `Explorateur de fichiers`
-- Allez dans `\\dns1\IT-docs`: **il voit le dossier mais il ne peut pas l'ouvrir**!
-
-
-**Question**: connectez-vous avec `irene` de `GG-EU-IT-Admins` et essayez de l'ouvrir le dossier. Qu'est-ce que vous observez? comment l'arranger?
+!!! question "Question de réflexion"
+    
+    Connectez-vous avec `irene` de `GG-EU-IT-Admins` et essayez de l'ouvrir le dossier. Qu'est-ce que vous observez ? Comment l'arranger ?
 
 ### Permissions NTFS (système de fichiers)
 
@@ -376,7 +429,11 @@ Le dossier est partagé maintenant et visible par tout le monde, mais accésible
 - Constituent une **autre barrière de sécurité**
 
 
-> **Note importante** : La sécurité finale est **déterminée par l'intersection des deux types de permissions**. L'**utilisateur obtient toujours le niveau de permission le plus restrictif entre NTFS (ci-dessous) et partage**. Par exemple, si un utilisateur a un accès en **Modification** au niveau du partage mais en **Lecture seule** au niveau **NTFS**, il ne pourra que lire les fichiers.
+!!! warning "Note importante"
+    
+    La sécurité finale est **déterminée par l'intersection des deux types de permissions**. L'**utilisateur obtient toujours le niveau de permission le plus restrictif entre NTFS (ci-dessous) et partage**.
+    
+    Par exemple, si un utilisateur a un accès en **Modification** au niveau du partage mais en **Lecture seule** au niveau **NTFS**, il ne pourra que lire les fichiers.
 
 Pour qu'un utilisateur ait des permissions il dot se trouver dans la liste de **Sécurité** ou inclut dans un groupe qui se trouve dans la liste de **Sécurité**
 
