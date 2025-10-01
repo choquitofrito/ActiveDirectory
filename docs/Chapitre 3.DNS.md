@@ -3,24 +3,6 @@
 ## 🧭 Navigation du Cours
 [⏮️ Chapitre Précédent: Installation VirtualBox](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Active Directory](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md)
 
-
----
-
-!!! info "📚 Objectif de ce chapitre court:"
-    Comprendre **juste assez** de DNS pour installer Active Directory avec succès.
-    La pratique DNS approfondie viendra **APRÈS** installation AD (Chapitre 4).
-
----
-
-## 📙 Objectifs Pédagogiques
-
-À la fin de ce chapitre, vous serez capable de :
-1. ✅ Expliquer en 30 secondes **pourquoi AD a besoin de DNS**
-2. ✅ Vérifier que votre serveur **peut résoudre des noms**
-3. ✅ Configurer le **DNS du serveur** pour préparer l'installation AD
-
-> 💡 **Note importante:** Nous verrons la théorie DNS complète et les manipulations pratiques **APRÈS avoir installé AD**. Pourquoi ? Parce qu'AD installe automatiquement DNS et vous aurez un domaine réel (maxtec.be) pour pratiquer !
-
 ---
 
 ## 1. DNS - L'Essentiel
@@ -160,23 +142,8 @@ Quand vous lancerez l'installation d'Active Directory Domain Services :
    - Quand vous créez un utilisateur → DNS mis à jour
    - Tout est intégré !
 
-**Dans le Chapitre 4 on pratiquera DNS**
 
----
 
-## 4. Récapitulatif - Checklist Pré-AD ✅
-
-Avant de passer au Chapitre 4, assurez-vous que :
-
-- [ ] Vous comprenez que **DNS = annuaire de noms → IP**
-- [ ] Vous savez que **AD ne peut PAS fonctionner sans DNS**
-- [ ] Vous avez testé `ping google.com` avec succès
-- [ ] Vous avez configuré DNS = `127.0.0.1` sur l'adaptateur LAN-VM
-- [ ] Vous avez vérifié avec `ipconfig /all`
-
-> 💡 **Prochaine étape:** Installation d'Active Directory Domain Services qui installera automatiquement le DNS !
-
----
 
 ## 🎯 Questions Fréquentes
 
@@ -207,23 +174,3 @@ Avant de passer au Chapitre 4, assurez-vous que :
 </details>
 
 ---
-
-## 📚 Pour aller plus loin (optionnel maintenant)
-
-Si vous voulez approfondir la théorie DNS **avant** l'installation AD :
-- 📖 [Théorie DNS - DNS Concepts Avancés](Théorie%20DNS-%20DNS%20Concepts%20Avances%20(Reference).md)
-
-Mais nous recommandons d'**installer AD d'abord** (Chapitre 4) puis de faire les **labs pratiques DNS** (Chapitre 4). 
-
----
-
-## 🚀 Vous êtes prêt(e) !
-
-
-**Prochaine étape:** Installation d'Active Directory Domain Services qui transformera votre serveur en contrôleur de domaine avec DNS intégré !
-
-## 🧭 Navigation
-[⏮️ Chapitre 2: Installation VirtualBox](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 4: Installation AD DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md)
-
----
-
