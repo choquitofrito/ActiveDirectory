@@ -1,4 +1,4 @@
-# Chapitre 8.1: Les concepts de base PowerShell pour Active Directory
+# Chapitre 9.1: Les concepts de base PowerShell pour Active Directory
 
 Ce chapitre vous introduira aux concepts fondamentaux de PowerShell dans le contexte d'Active Directory. Vous n'avez pas besoin d'être développeur pour comprendre et utiliser ces concepts !
 

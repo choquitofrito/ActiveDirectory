@@ -77,6 +77,4 @@ Pour le moment on peut se connecter uniquement avec l'Administrateur. On créera
    - Utilisateur: `Administrateur@maxtec.be`
    - Mot de passe: `Password1!`
 
-5. **Redémarrer** la machine cliente
-
    

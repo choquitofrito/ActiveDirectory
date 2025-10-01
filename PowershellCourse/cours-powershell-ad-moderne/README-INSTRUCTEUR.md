@@ -1,8 +1,6 @@
 # 🚀 PowerShell AD Moderne 2025 - Guide de l'Instructeur
 
-## 📋 Résumé Exécutif
 
-**Cours révolutionnaire** qui transforme l'enseignement traditionnel de PowerShell AD vers une approche de **survie professionnelle réelle** à l'ère de l'IA.
 
 ### Philosophie Centrale
 - **PowerShell comme outil**, pas de programmation
@@ -14,9 +12,9 @@
 
 ### Prérequis OBLIGATOIRES
 Les étudiants DOIVENT avoir complété :
-- ✅ Chapitres 1-7 (théorie AD complète)
+- ✅ Chapitres 1-8 (théorie AD complète)
 - ✅ Laboratoire maxtec.be configuré et fonctionnel
-- ✅ Chapitres 8.0-8.3 (concepts de base PowerShell)
+- ✅ Chapitres 9.0-9.3 (concepts de base PowerShell)
 - ✅ Utilisateurs et groupes existants créés
 
 ### Continuité Pédagogique
@@ -24,8 +22,6 @@ Ce cours **complète** (ne remplace PAS) le contenu existant :
 - **Construit** sur la base théorique déjà acquise
 - **Modernise** les pratiques avec la philosophie 2025
 - **Applique** les connaissances à des scénarios professionnels réels
-
-## ⏱️ Timing Détaillé (10 heures exactes)
 
 ### Journée de Formation Intensive
 

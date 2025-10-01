@@ -1,14 +1,15 @@
-# Chapitre 5 : Unités d'organisation (UOs)
+# Chapitre 6 : Unités d'organisation (UOs)
 
 ## 🧭 Navigation du Cours
-[⏮️ Chapitre Précédent: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Gestion des Utilisateurs](Chapitre%206.Gestion_des_Utilisateurs.md)
+[⏮️ Chapitre Précédent: DNS Pratique avec AD](Chapitre%205.DNS-Pratique-avec-AD.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Gestion des Utilisateurs](Chapitre%207.Gestion_des_Utilisateurs.md)
 
 ## 📊 Votre Progrès
 - [✅] Chapitre 1: Introduction et installation
 - [✅] Chapitre 2: Installation VirtualBox
 - [✅] Chapitre 3: DNS
 - [✅] Chapitre 4: Active Directory Domain Services
-- [🔄] **Chapitre 5**: Unités d'Organisation *(En cours)*
+- [✅] Chapitre 5: DNS Pratique avec AD
+- [🔄] **Chapitre 6**: Unités d'Organisation *(En cours)*
 
 
 ---
@@ -344,7 +345,7 @@ EU
 
 ## 9. Délégation de Contrôle
 
-Avant de continuer ce chapitre vous devez vous familiariser avec les concept de GPO (Group Policy Object). Passez alors au chapitre [6.Group Policy Objects](./Chapitre%206.Group%20Policy%20Objects.md)
+Avant de continuer ce chapitre vous devez vous familiariser avec les concept de GPO (Group Policy Object). Passez alors au chapitre [8.Group Policy Objects](./Chapitre%208.Group%20Policy%20Objects.md)
 
 ### 9.1 Concept et Stratégies
 
@@ -864,7 +865,7 @@ Maintenant que votre structure organisationnelle est en place, il est temps de c
 > 💡 **Progression excellente:** Vous maîtrisez maintenant l'organisation logique d'Active Directory!
 
 ## 🧭 Navigation
-[⏮️ Chapitre Précédent: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 6: Gestion des Utilisateurs](Chapitre%206.Gestion_des_Utilisateurs.md)
+[⏮️ Chapitre Précédent: DNS Pratique avec AD](Chapitre%205.DNS-Pratique-avec-AD.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 7: Gestion des Utilisateurs](Chapitre%207.Gestion_des_Utilisateurs.md)
 
 ---
 

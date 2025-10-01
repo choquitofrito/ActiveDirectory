@@ -1,13 +1,13 @@
-# Chapitre 4: DNS en Pratique avec Active Directory
+# Chapitre 5: DNS en Pratique avec Active Directory
 
 ## 🧭 Navigation du Cours
-[⏮️ Chapitre Précédent: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Unités d'Organisation](Chapitre%205.Unites_Organisation.md)
+[⏮️ Chapitre Précédent: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Unités d'Organisation](Chapitre%206.Unites_Organisation.md)
 
 ## 📊 Votre Progrès
 - [✅] Chapitre 1-3: Préparation
 - [✅] Chapitre 4: Active Directory DS installé
-- [🔄] **Chapitre 4**: DNS Pratique avec AD *(En cours)*
-- [⏸️] Chapitre 5: Unités d'Organisation
+- [🔄] **Chapitre 5**: DNS Pratique avec AD *(En cours)*
+- [⏸️] Chapitre 6: Unités d'Organisation
 
 ---
 
@@ -476,8 +476,8 @@ Si vous voulez approfondir les concepts théoriques DNS:
 ---
 
 ## 🧭 Navigation
-[⏮️ Chapitre 4: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 5: Unités d'Organisation](Chapitre%205.Unites_Organisation.md)
+[⏮️ Chapitre 4: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 6: Unités d'Organisation](Chapitre%206.Unites_Organisation.md)
 
 ---
 
-**📚 Cours Active Directory - Chapitre 4/8 | 💻 Hands-on complet**
+**📚 Cours Active Directory - Chapitre 5/9 | 💻 Hands-on complet**

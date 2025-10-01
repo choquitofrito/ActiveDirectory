@@ -1,4 +1,4 @@
-# Chapitre 8.2: Atelier pratique : Requêtes et informations
+# Chapitre 9.2: Atelier pratique : Requêtes et informations
 
 ## 1. 🔹 Obtenir des informations sur les utilisateurs
 

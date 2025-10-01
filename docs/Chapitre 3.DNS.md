@@ -8,7 +8,7 @@
 - [✅] Chapitre 2: Installation VirtualBox
 - [🔄] **Chapitre 3**: DNS Préparation *(En cours)*
 - [⏸️] Chapitre 4: Active Directory Domain Services
-- [⏸️] Chapitre 4: DNS Pratique avec AD
+- [⏸️] Chapitre 5: DNS Pratique avec AD
 
 ---
 

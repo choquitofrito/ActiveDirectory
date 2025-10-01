@@ -1,15 +1,16 @@
-# Chapitre 6: Gestion des Utilisateurs
+# Chapitre 7: Gestion des Utilisateurs
 
 ## 🧭 Navigation du Cours
-[⏮️ Chapitre Précédent: Unités d'Organisation](Chapitre%205.Unites_Organisation.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Group Policy Objects](Chapitre%207.Group%20Policy%20Objects.md)
+[⏮️ Chapitre Précédent: Unités d'Organisation](Chapitre%206.Unites_Organisation.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Group Policy Objects](Chapitre%208.Group%20Policy%20Objects.md)
 
 ## 📊 Votre Progrès
 - [✅] Chapitre 1: Introduction et installation
 - [✅] Chapitre 2: Installation VirtualBox
 - [✅] Chapitre 3: DNS
 - [✅] Chapitre 4: Active Directory Domain Services
-- [✅] Chapitre 5: Unités d'Organisation
-- [🔄] **Chapitre 6**: Gestion des Utilisateurs *(En cours)*
+- [✅] Chapitre 5: DNS Pratique avec AD
+- [✅] Chapitre 6: Unités d'Organisation
+- [🔄] **Chapitre 7**: Gestion des Utilisateurs *(En cours)*
 
 ---
 
@@ -568,7 +569,7 @@ Vos utilisateurs sont créés et organisés! Il est maintenant temps d'apprendre
 > 💡 **Superbe travail:** Vous maîtrisez maintenant la gestion des identités dans Active Directory!
 
 ## 🧭 Navigation
-[⏮️ Chapitre Précédent: Unités d'Organisation](Chapitre%205.Unites_Organisation.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 7: Group Policy Objects](Chapitre%207.Group%20Policy%20Objects.md)
+[⏮️ Chapitre Précédent: Unités d'Organisation](Chapitre%206.Unites_Organisation.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 8: Group Policy Objects](Chapitre%208.Group%20Policy%20Objects.md)
 
 ---
 

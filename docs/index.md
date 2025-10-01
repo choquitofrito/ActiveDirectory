@@ -30,25 +30,25 @@ Ce cours vous guide à travers l'installation, la configuration et l'administrat
 |----------|-------|---------|-------|
 | **[Chapitre 3](Chapitre%203.DNS.md)** | DNS - Préparation pour AD | Concepts DNS essentiels pour Active Directory |
 | **[Chapitre 4](Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29.md)** | Active Directory Domain Services | Installation et configuration AD DS sur maxtec.be | 
-| **[Chapitre 4.DNS-Pratique-avec-AD](Chapitre%204.DNS-Pratique-avec-AD.md)** | DNS Pratique avec AD | Labs DNS avec domaine fonctionnel (5 labs progressifs) |
+| **[Chapitre 5](Chapitre%205.DNS-Pratique-avec-AD.md)** | DNS Pratique avec AD | Labs DNS avec domaine fonctionnel (4 labs progressifs) |
 
-### 🏢 Organisation et gestion (Chapitres 5-7)
+### 🏢 Organisation et gestion (Chapitres 6-8)
 
-
-| Chapitre | Titre | Contenu |
-|----------|-------|---------|
-| **[Chapitre 5](Chapitre%205.Unites_Organisation.md)** | Unités d'Organisation (OUs) | Structure hiérarchique, délégation AGLP/AGDLP | 
-| **[Chapitre 6](Chapitre%206.Gestion_des_Utilisateurs.md)** | Gestion des Utilisateurs | Création comptes, groupes, permissions NTFS/partage | 
-| **[Chapitre 7](Chapitre%207.Group%20Policy%20Objects.md)** | Group Policy Objects (GPO) | Stratégies de groupe, LSDO, filtrage et délégation |
-
-### 💻 Automatisation PowerShell (Chapitre 8)
 
 | Chapitre | Titre | Contenu |
 |----------|-------|---------|
-| **[Chapitre 8.0](Chapitre%208.0.Powershell%20AD%20-%20Introduction.md)** | PowerShell AD - Introduction | Premiers pas avec le module Active Directory | 
-| **[Chapitre 8.1](Chapitre%208.1.Powershell%20AD%20-%20Concepts%20base.md)** | PowerShell AD - Concepts de base | Cmdlets essentiels, syntaxe, pipelines |
-| **[Chapitre 8.2](Chapitre%208.2.Powershell%20AD%20-%20Requetes_et_Informations.md)** | PowerShell AD - Requêtes | Get-ADUser, Get-ADGroup, filtres et recherches |
-| **[Chapitre 8.3](Chapitre%208.3.Powershell%20AD%20-%20Creation_et_Modification.md)** | PowerShell AD - Création et Modification | New-ADUser, Set-ADUser, gestion en masse | 
+| **[Chapitre 6](Chapitre%206.Unites_Organisation.md)** | Unités d'Organisation (OUs) | Structure hiérarchique, délégation AGLP/AGDLP | 
+| **[Chapitre 7](Chapitre%207.Gestion_des_Utilisateurs.md)** | Gestion des Utilisateurs | Création comptes, groupes, permissions NTFS/partage | 
+| **[Chapitre 8](Chapitre%208.Group%20Policy%20Objects.md)** | Group Policy Objects (GPO) | Stratégies de groupe, LSDO, filtrage et délégation |
+
+### 💻 Automatisation PowerShell (Chapitre 9)
+
+| Chapitre | Titre | Contenu |
+|----------|-------|---------|
+| **[Chapitre 9.0](Chapitre%209.0.Powershell%20AD%20-%20Introduction.md)** | PowerShell AD - Introduction | Premiers pas avec le module Active Directory | 
+| **[Chapitre 9.1](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md)** | PowerShell AD - Concepts de base | Cmdlets essentiels, syntaxe, pipelines |
+| **[Chapitre 9.2](Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations.md)** | PowerShell AD - Requêtes | Get-ADUser, Get-ADGroup, filtres et recherches |
+| **[Chapitre 9.3](Chapitre%209.3.Powershell%20AD%20-%20Creation_et_Modification.md)** | PowerShell AD - Création et Modification | New-ADUser, Set-ADUser, gestion en masse | 
 
 ---
 
