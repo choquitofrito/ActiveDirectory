@@ -333,7 +333,7 @@ Après la création du compte, il est important de configurer les **propriétés
 
 !!! note "Important"
     
-    Ces fonctions des groupes ont lieu dans le contexte d'une grande entreprise, mais dans notre labo ce seront les groupes globaux qui recevront les droits pour ne pas créer une couche en plus. On verra ça plus tard, dans la strategie AGDP.
+    Ces fonctions des groupes ont lieu dans le contexte d'une grande entreprise, mais dans notre labo ce seront les groupes globaux qui recevront les droits pour ne pas créer une couche en plus. On verra ça plus en détail dans [la stratégie AGDLP](#52-strategie-agdlp).
 
 
 
@@ -494,10 +494,74 @@ Jonglez vous-mêmes avec les permissions (ex: donnez l'accès d'écriture mais p
 - Les droits sont **cumulatifs** dans l'héritage (sauf si on refuse à la main dans l'onglet Sécurité)
 - L'appartenance à des groupes privilégiés (comme `Domain Admins`) étend les droits
 
+## 5.2. Stratégie AGDLP
 
+!!! tip "Best Practice Microsoft"
+    
+    **AGDLP** est la stratégie recommandée par Microsoft pour gérer les permissions de manière efficace et maintenable dans Active Directory.
 
-<br>
+### Qu'est-ce que AGDLP ?
 
+**AGDLP** signifie :
+
+- **A**ccounts (Comptes utilisateurs)
+- **G**lobal groups (Groupes globaux)
+- **D**omain **L**ocal groups (Groupes locaux de domaine)
+- **P**ermissions (Permissions sur les ressources)
+
+### Scénario : Dossier partagé "Documents Communs"
+
+Vous avez un dossier partagé `\\SRV-FILES\Documents-Communs` qui doit être accessible par **Comptabilité ET RH**.
+
+### ❌ Sans AGDLP (compliqué)
+
+!!! warning 
+    
+    Tu devrais donner les permissions directement aux 2 groupes globaux :
+    
+    - Permissions → `GG-EU-Compta-Users`
+    - Permissions → `GG-EU-RH-Users`
+    
+    **Problème** : Si tu ajoutes Ventes plus tard, tu dois **modifier les permissions du dossier encore**.
+
+### ✅ Avec AGDLP (simple)
+
+!!! success "Approche recommandée"
+    
+    ```plaintext
+    ACCOUNTS (utilisateurs)
+        ↓ membres de
+    GLOBAL GROUPS (par département)
+        GG-EU-Compta-Users
+        GG-EU-RH-Users
+        ↓ membres de
+    DOMAIN LOCAL GROUP (par ressource)
+        DL-Documents-Communs-Lecture
+        ↓ reçoit
+    PERMISSIONS (sur le dossier)
+        Lecture sur \\SRV-FILES\Documents-Communs
+    ```
+
+!!! tip "Avantages"
+    
+    Pour ajouter Ventes plus tard, tu ajoutes simplement `GG-EU-Ventes-Users` au groupe `DL-Documents-Communs-Lecture`. 
+    
+    **Les permissions ne changent jamais !**
+
+### 📝 Résumé AGDLP
+
+!!! info "Comprendre les rôles"
+    
+    - **Groupe Local de Domaine (DL-)** = "qui peut accéder à CETTE ressource"
+    - **Groupes Globaux (GG-)** = "qui est dans CE département"
+    
+    **Principe** : Les groupes locaux reçoivent les permissions, les groupes globaux contiennent les utilisateurs.
+
+!!! note "Dans notre labo"
+    
+    Pour simplifier les exercices de base, nous utiliserons souvent directement les groupes globaux pour les permissions. Cependant, dans un environnement de production, **AGDLP est la meilleure pratique** à suivre.
+
+---
 
 ## 6. Groupes Intégrés AD
 
