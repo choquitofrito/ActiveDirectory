@@ -512,19 +512,6 @@ Ahmed commence à travailler au sein du département informatique. Pour accéder
     - Application des **stratégies de sécurité** (par exemple, configuration du pare-feu)
     - Journalisation de l'activité utilisateur sur le serveur
 
-## 🎯 Checkpoint Final: Installation AD DS
-
-!!! info "Vérification finale"
-    
-    Avant de continuer vers les Unités d'Organisation:
-    
-    - [ ] J'ai installé le rôle AD DS sur mon serveur
-    - [ ] J'ai promu le serveur en contrôleur de domaine
-    - [ ] J'ai vérifié que DNS fonctionne correctement
-    - [ ] Je comprends les différents types de partitions AD
-    - [ ] Je sais comment intégrer un poste au domaine
-
----
 
 
 

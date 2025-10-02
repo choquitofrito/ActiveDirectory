@@ -41,42 +41,18 @@ Ce cours vous guide à travers l'installation, la configuration et l'administrat
 | **[Chapitre 7](Chapitre%207.Gestion_des_Utilisateurs.md)** | Gestion des Utilisateurs | Création comptes, groupes, permissions NTFS/partage | 
 | **[Chapitre 8](Chapitre%208.Group%20Policy%20Objects.md)** | Group Policy Objects (GPO) | Stratégies de groupe, LSDO, filtrage et délégation |
 
-### 💻 Automatisation PowerShell (Chapitre 9)
+### 💻 Automatisation PowerShell
+
+#### 📘 Cours de Base (Chapitre 9)
 
 | Chapitre | Titre | Contenu |
 |----------|-------|---------|
 | **[Chapitre 9.0](Chapitre%209.0.Powershell%20AD%20-%20Introduction.md)** | PowerShell AD - Introduction | Premiers pas avec le module Active Directory | 
 | **[Chapitre 9.1](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md)** | PowerShell AD - Concepts de base | Cmdlets essentiels, syntaxe, pipelines |
 | **[Chapitre 9.2](Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations.md)** | PowerShell AD - Requêtes | Get-ADUser, Get-ADGroup, filtres et recherches |
-| **[Chapitre 9.3](Chapitre%209.3.Powershell%20AD%20-%20Creation_et_Modification.md)** | PowerShell AD - Création et Modification | New-ADUser, Set-ADUser, gestion en masse | 
+| **[Chapitre 9.3](Chapitre%209.3.Powershell%20AD%20-%20Creation_et_Modification.md)** | PowerShell AD - Création et Modification | New-ADUser, Set-ADUser, gestion en masse |
 
----
-
-## 🧪 Laboratoire et Exercices
-
-### 📋 Laboratoire de base
-
-| Ressource | Description |
-|-----------|-------------|
-| **[Installation du Lab](Labo%20et%20Exercices/Labo/Labo_structure.md)** | Configuration complète de l'infrastructure maxtec.be |
-| **[Scripts de création](Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/creation_structure.md)** | Scripts PowerShell pour créer la structure AD |
-| **[Scripts de suppression](Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/suppression_structure.md)** | Scripts pour nettoyer l'environnement |
-| **[Annexe: Permissions](Labo%20et%20Exercices/Labo/Annexe.Permissions.md)** | Guide détaillé des permissions NTFS et partage |
-
-### 📝 Séries d'exercices
-
-| Série | Focus | Difficulté |
-|-------|-------|------------|
-| **[Questions de Base](Labo%20et%20Exercices/Exercices:%20Questions%20Base.md)** | Validation des concepts fondamentaux | ⭐ Débutant |
-| **[Gestion des Utilisateurs](Labo%20et%20Exercices/Exercices:%20Gestion_des_Utilisateurs.md)** | Création et gestion de comptes | ⭐⭐ Intermédiaire |
-| **[OUs Départements](Labo%20et%20Exercices/Exercices:%20OUs_Departements_Complementaires.md)** | Structure organisationnelle avancée | ⭐⭐ Intermédiaire |
-| **[GPO Série 1](Labo%20et%20Exercices/Exercices:%20GPO-1.md)** | Stratégies de groupe basiques | ⭐⭐ Intermédiaire |
-| **[GPO Série 2](Labo%20et%20Exercices/Exercices:%20GPO-2.md)** | Filtrage et ciblage GPO | ⭐⭐⭐ Avancé |
-| **[GPO Série 3](Labo%20et%20Exercices/Exercices:%20GPO-3.md)** | Scénarios complexes et troubleshooting | ⭐⭐⭐ Avancé |
-
----
-
-## 🎓 Cours PowerShell AD Moderne (2025)
+#### 🚀 Cours Moderne (2025)
 
 Un cours complémentaire axé sur la **réalité du terrain** et l'utilisation moderne de PowerShell AD.
 
@@ -89,14 +65,43 @@ Un cours complémentaire axé sur la **réalité du terrain** et l'utilisation m
 | **[M5](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M5-whatif-religieux.md)** | -WhatIf Religieux | La religion du -WhatIf |
 | **[M6](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M6-kit-urgence.md)** | Kit Urgence | One-liners de survie pour tickets urgents |
 
-### 📚 Ressources complémentaires
+#### 📚 Ressources PowerShell
 
-!!! info "Matériel de poche PowerShell"
-    
-    - **[Cas d'horreur réels](PowershellCourse/cours-powershell-ad-moderne/cas-horreur-reels/vendredi-17h-sans-whatif.md)** : Vendredi 17h sans -WhatIf
-    - **[Carte de survie maxtec.be](PowershellCourse/cours-powershell-ad-moderne/materiels-poche/carte-survie-maxtec.md)** : One-liners essentiels
-    - **[Checklist validation scripts](PowershellCourse/cours-powershell-ad-moderne/materiels-poche/checklist-validation-scripts.md)** : Liste de contrôle avant exécution
-    - **[Scripts "bomba"](PowershellCourse/cours-powershell-ad-moderne/laboratoire-maxtec/scripts-bomba-maxtec/)** : Exemples de scripts dangereux (à des fins pédagogiques)
+| Ressource | Description |
+|-----------|-------------|
+| **[Cas d'horreur réels](PowershellCourse/cours-powershell-ad-moderne/cas-horreur-reels/vendredi-17h-sans-whatif.md)** | Vendredi 17h sans -WhatIf |
+| **[Carte de survie maxtec.be](PowershellCourse/cours-powershell-ad-moderne/materiels-poche/carte-survie-maxtec.md)** | One-liners essentiels |
+| **[Checklist validation scripts](PowershellCourse/cours-powershell-ad-moderne/materiels-poche/checklist-validation-scripts.md)** | Liste de contrôle avant exécution | 
+
+---
+
+## 🧪 Laboratoire et Exercices
+
+### 📋 Laboratoire
+
+| Ressource | Description |
+|-----------|-------------|
+| **[Installation du Lab](Labo%20et%20Exercices/Labo/Labo_structure.md)** | Configuration complète de l'infrastructure maxtec.be |
+| **[Guide Installation AD-DS](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md)** | Guide de base pour installer AD DS |
+| **[Annexe: Permissions](Labo%20et%20Exercices/Labo/Annexe.Permissions.md)** | Guide détaillé des permissions NTFS et partage |
+
+#### Scripts PowerShell
+
+| Script | Description |
+|--------|-------------|
+| **[Scripts de création](Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/creation_structure.md)** | Scripts PowerShell pour créer la structure AD |
+| **[Scripts de suppression](Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/suppression_structure.md)** | Scripts pour nettoyer l'environnement |
+
+### 📝 Exercices
+
+| Série | Focus | Difficulté |
+|-------|-------|------------|
+| **[Questions de Base](Labo%20et%20Exercices/Exercices:%20Questions%20Base.md)** | Validation des concepts fondamentaux | ⭐ Débutant |
+| **[Gestion des Utilisateurs](Labo%20et%20Exercices/Exercices:%20Gestion_des_Utilisateurs.md)** | Création et gestion de comptes | ⭐⭐ Intermédiaire |
+| **[OUs Départements](Labo%20et%20Exercices/Exercices:%20OUs_Departements_Complementaires.md)** | Structure organisationnelle avancée | ⭐⭐ Intermédiaire |
+| **[GPO Série 1](Labo%20et%20Exercices/Exercices:%20GPO-1.md)** | Stratégies de groupe basiques | ⭐⭐ Intermédiaire |
+| **[GPO Série 2](Labo%20et%20Exercices/Exercices:%20GPO-2.md)** | Filtrage et ciblage GPO | ⭐⭐⭐ Avancé |
+| **[GPO Série 3](Labo%20et%20Exercices/Exercices:%20GPO-3.md)** | Scénarios complexes et troubleshooting | ⭐⭐⭐ Avancé |
 
 ---
 

@@ -50,23 +50,36 @@ nav:
       - "Chapitre 6.Unites_Organisation": Chapitre 6.Unites_Organisation.md
       - "Chapitre 7.Gestion_des_Utilisateurs": Chapitre 7.Gestion_des_Utilisateurs.md
       - "Chapitre 8.Group Policy Objects": Chapitre 8.Group Policy Objects.md
-      - "Guide Installation AD-DS": Labo Annexe 1-Guide de base installation AD-DS
   - PowerShell:
-      - "Chapitre 9.0.Powershell AD - Introduction": Chapitre 9.0.Powershell AD - Introduction.md
-      - "Chapitre 9.1.Powershell AD - Concepts base": Chapitre 9.1.Powershell AD - Concepts base.md
-      - "Chapitre 9.2.Powershell AD - Requetes_et_Informations": Chapitre 9.2.Powershell AD - Requetes_et_Informations.md
-      - "Chapitre 9.3.Powershell AD - Creation_et_Modification": Chapitre 9.3.Powershell AD - Creation_et_Modification.md
+      - Cours de Base:
+          - "Chapitre 9.0.Powershell AD - Introduction": Chapitre 9.0.Powershell AD - Introduction.md
+          - "Chapitre 9.1.Powershell AD - Concepts base": Chapitre 9.1.Powershell AD - Concepts base.md
+          - "Chapitre 9.2.Powershell AD - Requetes_et_Informations": Chapitre 9.2.Powershell AD - Requetes_et_Informations.md
+          - "Chapitre 9.3.Powershell AD - Creation_et_Modification": Chapitre 9.3.Powershell AD - Creation_et_Modification.md
+      - Cours Moderne (2025):
+          - "M1: Réalité 2025": "PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M1-realite-2025.md"
+          - "M2: Survie Tickets": "PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M2-survie-tickets.md"
+          - "M3: IA comme Copilote": "PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M3-ia-comme-copilote.md"
+          - "M4: Scripts Bomba Lab": "PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M4-scripts-bomba-lab.md"
+          - "M5: -WhatIf Religieux": "PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M5-whatif-religieux.md"
+          - "M6: Kit Urgence": "PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M6-kit-urgence.md"
+      - Ressources:
+          - "Cas d'horreur réels": "PowershellCourse/cours-powershell-ad-moderne/cas-horreur-reels/vendredi-17h-sans-whatif.md"
+          - "Carte de survie maxtec.be": "PowershellCourse/cours-powershell-ad-moderne/materiels-poche/carte-survie-maxtec.md"
+          - "Checklist validation scripts": "PowershellCourse/cours-powershell-ad-moderne/materiels-poche/checklist-validation-scripts.md"
   - Labs et Exercices:
-      - "Exercices: Gestion_des_Utilisateurs": "Labo et Exercices/Exercices: Gestion_des_Utilisateurs.md"
-      - "Exercices: GPO-1": "Labo et Exercices/Exercices: GPO-1.md"
-      - "Exercices: GPO-2": "Labo et Exercices/Exercices: GPO-2.md"
-      - "Exercices: GPO-3": "Labo et Exercices/Exercices: GPO-3.md"
-      - "Exercices: OUs_Departements_Complementaires": "Labo et Exercices/Exercices: OUs_Departements_Complementaires.md"
-      - "Exercices: Questions Base": "Labo et Exercices/Exercices: Questions Base.md"
-      - Labo:
-          - "Labo_structure": "Labo et Exercices/Labo/Labo_structure.md"
-          - "Annexe.Permissions": "Labo et Exercices/Labo/Annexe.Permissions.md"
-          - PowerShell Scripts:
-              - "creation_structure": "Labo et Exercices/Labo/PowerShell-scriptsStructure/creation_structure.md"
-              - "suppression_structure": "Labo et Exercices/Labo/PowerShell-scriptsStructure/suppression_structure.md"
+      - Laboratoire:
+          - "Installation du Lab": "Labo et Exercices/Labo/Labo_structure.md"
+          - "Guide Installation AD-DS": "Labo Annexe 1-Guide de base installation AD-DS.md"
+          - "Annexe: Permissions": "Labo et Exercices/Labo/Annexe.Permissions.md"
+          - Scripts PowerShell:
+              - "Scripts de création": "Labo et Exercices/Labo/PowerShell-scriptsStructure/creation_structure.md"
+              - "Scripts de suppression": "Labo et Exercices/Labo/PowerShell-scriptsStructure/suppression_structure.md"
+      - Exercices:
+          - "Questions de Base": "Labo et Exercices/Exercices: Questions Base.md"
+          - "Gestion des Utilisateurs": "Labo et Exercices/Exercices: Gestion_des_Utilisateurs.md"
+          - "OUs Départements": "Labo et Exercices/Exercices: OUs_Departements_Complementaires.md"
+          - "GPO Série 1": "Labo et Exercices/Exercices: GPO-1.md"
+          - "GPO Série 2": "Labo et Exercices/Exercices: GPO-2.md"
+          - "GPO Série 3": "Labo et Exercices/Exercices: GPO-3.md"
   - Références: Théorie DNS- DNS Concepts Avances (Reference).md
