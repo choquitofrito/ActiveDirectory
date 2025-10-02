@@ -86,7 +86,7 @@ N'oubliez pas de changer le réseau à **Réseau interne** dans la configuration
 
 Pour le moment on peut se connecter uniquement avec l'Administrateur. On créera des Utilisateurs plus tard avec leurs propres crédentielles.
 
-   - Utilisateur: `Administrateur@maxtec.be`
+   - Utilisateur: `Administrateur`
    - Mot de passe: `Password1!`
 
    

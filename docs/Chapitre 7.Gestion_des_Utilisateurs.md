@@ -32,7 +32,7 @@
 
 ### Concepts Fondamentaux
 
-Un compte utilisateur Active Directory représente une **identité numérique unique** dans `maxtec.be` permettant :
+Un compte utilisateur Active Directory représente une **identité numérique unique** (un objet) dans `maxtec.be` permettant :
 
 !!! info "Fonctionnalités d'un compte utilisateur"
     
