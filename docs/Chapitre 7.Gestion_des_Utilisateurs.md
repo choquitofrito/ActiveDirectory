@@ -45,10 +45,10 @@ Un compte utilisateur Active Directory représente une **identité numérique un
     Pensez à un compte utilisateur comme une carte d'identité numérique qui dit qui vous êtes et ce que vous pouvez faire dans l'entreprise !
 
 !!! example "Exemple : Connexion d'Ivan (Informatique)"
-
-1. Connexion au poste de travail
-2. Vérification des identifiants
-3. Accès aux ressources autorisées
+    
+    1. Connexion au poste de travail
+    2. Vérification des identifiants
+    3. Accès aux ressources autorisées
 
 
 ### **Standards de Nommage**
@@ -119,11 +119,11 @@ Ou même `Gestionnaire de serveur`->`Outils`->`Utilisateurs et ordinateurs Activ
       - **Contrôleurs de domaine** : Liste des DC du domaine AD.
 
 Par défaut, il y a plusieurs **conteneurs** (**ce ne sont pas des OU**, mais des conteneurs d'objets) :
- :
-  - `Builtin` : Contient les groupes de sécurité par défaut (Administrateurs, Utilisateurs, etc.).
-  - `Computers` : Emplacement par défaut des nouveaux ordinateurs ajoutés au domaine.
-  - `Users` : Emplacement des nouveaux utilisateurs et groupes.
-  - `Domain Controllers` : Contient tous les contrôleurs de domaine (on en a qu'un!)
+
+- `Builtin` : Contient les groupes de sécurité par défaut (Administrateurs, Utilisateurs, etc.).
+- `Computers` : Emplacement par défaut des nouveaux ordinateurs ajoutés au domaine.
+- `Users` : Emplacement des nouveaux utilisateurs et groupes.
+- `Domain Controllers` : Contient tous les contrôleurs de domaine (on en a qu'un!)
 
 **Outils de recherche et de filtrage** : Permettent de trouver rapidement des utilisateurs, ordinateurs ou groupes.
 
@@ -142,12 +142,14 @@ Par défaut, il y a plusieurs **conteneurs** (**ce ne sont pas des OU**, mais de
 !!! example "Processus pour ajouter un nouveau collaborateur"
     
     #### **Accès à la Console**
-    1. **Ouvrir ADUC via** :
-       - **Gestionnaire de serveur**
-       - **Outils**
-       - **Utilisateurs et ordinateurs AD**
+    
+    1. Ouvrir **ADUC** via :
+        - **Gestionnaire de serveur**
+        - **Outils**
+        - **Utilisateurs et ordinateurs AD**
     
     #### **Assistant de Création**
+    
     1. **Clic droit sur `Users`**
     2. **Nouveau** > **Utilisateur**
     
@@ -237,17 +239,18 @@ Après la création du compte, il est important de configurer les **propriétés
 !!! info "Contenu d'un profil utilisateur"
     
     **Un profil utilisateur contient** :
+    
     - **Documents personnels** : Mes Documents, Bureau, Téléchargements
     - **Paramètres Windows** : Fond d'écran, thème, barre des tâches
     - **Paramètres d'applications** : Configurations Outlook, navigateur
     - **Clés de registre** : HKEY_CURRENT_USER
     - **AppData** : Données des applications
-      * `\AppData\Local` : Données spécifiques à la machine (cache, temp)
-      * `\AppData\Roaming` : Données qui suivent l'utilisateur entre les machines
-    - **Script de connexion** : Si on veut lancer une suite d'opérations lors de la connexion 
-      ```plaintext
-      \\srv-scripts\dept\compta\logon.bat
-      ```
+        - `\AppData\Local` : Données spécifiques à la machine (cache, temp)
+        - `\AppData\Roaming` : Données qui suivent l'utilisateur entre les machines
+    - **Script de connexion** : Si on veut lancer une suite d'opérations lors de la connexion
+        ```plaintext
+        \\srv-scripts\dept\compta\logon.bat
+        ```
 
 !!! tip "Recommandations"
     
@@ -365,21 +368,22 @@ Après la création du compte, il est important de configurer les **propriétés
 
 !!! info "Préparation"
     
-    Avant de commencer, assurez-vous d'avoir la structure complète de l'AD (si ce n'est pas le cas, lancez le script de Powershell)
+    Avant de commencer, assurez-vous d'avoir la structure complète de l'AD (si ce n'est pas le cas, lancez le script de Powershell).
     
     **Puis :**
-    - Créez la OU pour le département IT (si elle n'existe pas encore) 
-    - Créez aussi un groupe pour les administrateurs de IT (ex: "GG-EU-IT-Admins") et un autre pour les utilisateurs (ex: "GG-EU-IT-Users"). 
-    - Assurez-vous d'avoir un ordinateur (Virtual Machine client) qui porte le nom `ws-IT-01` et un autre `ws-RH-01`. Si ce n'est pas le cas, modifiez les noms des ordinateurs dans vos machines virtuelles et re-démarrez-les.
-    - Dans le serveur, allez dans `Utilisateurs et ordinateurs AD` et rajoutez des utilisateurs aux groupes (s'ils n'existent pas, créez-les): 
-      - `GG-EU-IT-Users` : Ivan, Ines
-      - `GG-EU-IT-Admins` : Irene
-      - `GG-EU-Ventes-Users` : Victor, Vanessa, Valeria
-      - `GG-EU-Ventes-Admins` : Valentin
-      - `GG-EU-RH-Users` : Rene, Rebecca
-      - `GG-EU-RH-Admins` : Richard
-      - `GG-EU-Compta-Users` : Charles, Cindy
-      - `GG-EU-Compta-Admins` : Charlotte
+    
+    - Créez la OU pour le département IT (si elle n'existe pas encore)
+    - Créez aussi un groupe pour les administrateurs de IT (ex: "GG-EU-IT-Admins") et un autre pour les utilisateurs (ex: "GG-EU-IT-Users")
+    - Assurez-vous d'avoir un ordinateur (Virtual Machine client) qui porte le nom `ws-IT-01` et un autre `ws-RH-01`. Si ce n'est pas le cas, modifiez les noms des ordinateurs dans vos machines virtuelles et re-démarrez-les
+    - Dans le serveur, allez dans `Utilisateurs et ordinateurs AD` et rajoutez des utilisateurs aux groupes (s'ils n'existent pas, créez-les):
+        - `GG-EU-IT-Users` : Ivan, Ines
+        - `GG-EU-IT-Admins` : Irene
+        - `GG-EU-Ventes-Users` : Victor, Vanessa, Valeria
+        - `GG-EU-Ventes-Admins` : Valentin
+        - `GG-EU-RH-Users` : Rene, Rebecca
+        - `GG-EU-RH-Admins` : Richard
+        - `GG-EU-Compta-Users` : Charles, Cindy
+        - `GG-EU-Compta-Admins` : Charlotte
 
 !!! question "Objectif"
     
@@ -397,12 +401,14 @@ Après la création du compte, il est important de configurer les **propriétés
 
 !!! example "Configuration du partage"
     
-    1. Faites clique-droit sur le dossier `C:\IT-docs` et `Propriétés`.
+    1. Faites clique-droit sur le dossier `C:\IT-docs` et `Propriétés`
     2. Cliquez sur `Partage` et `Partage avancé`
     3. Cochez `Partager ce dossier`
-    4. Clique sur **Autorisations**
+    4. Cliquez sur **Autorisations**
     
-    Dans ce menu on choisit **qui** aura le **droit d'accéder** au dossier et avec quelles **permissions**. C'est un **premier niveau de sécurité**
+    !!! note "Premier niveau de sécurité"
+        
+        Dans ce menu on choisit **qui** aura le **droit d'accéder** au dossier et avec quelles **permissions**. C'est un **premier niveau de sécurité**.
     
     5. Effacez `Tout le monde`
     6. Ajoutez `GG-EU-IT-Users` avec les permissions de `Lecture` et `Modification`
@@ -415,14 +421,16 @@ Après la création du compte, il est important de configurer les **propriétés
 !!! example "Tests d'accès"
     
     **Test 1 - Utilisateur autorisé :**
-    - Ouvrez une session dans machine client avec un User de `GG-EU-IT-Users` (ex: `ivan`)
-    - Ouvrez `Explorateur de fichiers`
-    - Allez dans `\\dns1\IT-docs`: il doit pouvoir ouvrir le dossier
+    
+    1. Ouvrez une session dans machine client avec un User de `GG-EU-IT-Users` (ex: `ivan`)
+    2. Ouvrez `Explorateur de fichiers`
+    3. Allez dans `\\dns1\IT-docs`: il doit pouvoir ouvrir le dossier
     
     **Test 2 - Utilisateur non autorisé :**
-    - Ouvrez une session dans machine client avec un User de `GG-EU-Ventes-Users` (ex: `victor`)
-    - Ouvrez `Explorateur de fichiers`
-    - Allez dans `\\dns1\IT-docs`: **il voit le dossier mais il ne peut pas l'ouvrir** !
+    
+    1. Ouvrez une session dans machine client avec un User de `GG-EU-Ventes-Users` (ex: `victor`)
+    2. Ouvrez `Explorateur de fichiers`
+    3. Allez dans `\\dns1\IT-docs`: **il voit le dossier mais il ne peut pas l'ouvrir** !
 
 !!! question "Question de réflexion"
     
