@@ -266,7 +266,7 @@ Génère le script avec toutes les sécurités et option de déverrouillage."
 
 ### Règle #3: **Valider Ligne par Ligne**
 ```powershell
-# ✅ BON: Je comprends chaque ligne
+# ✅ BON: Comprendre chaque ligne
 Get-ADUser -Filter {Department -eq "IT"} -Properties LockedOut
 
 # ❌ MAUVAIS: Je ne comprends pas mais ça marche

@@ -79,10 +79,10 @@ OU
     
     Avant de créer vos premières UOs, vérifiez votre compréhension:
     
-    - [ ] Je sais qu'une UO est un conteneur intelligent
-    - [ ] Je comprends qu'elle peut contenir utilisateurs, groupes, ordinateurs
-    - [ ] Je sais que les UOs permettent d'appliquer des GPOs
-    - [ ] Je comprends l'avantage sur les conteneurs par défaut
+    - [ ] Savoir qu'une UO est un conteneur intelligent
+    - [ ] Comprendre qu'elle peut contenir utilisateurs, groupes, ordinateurs
+    - [ ] Savoir que les UOs permettent d'appliquer des GPOs
+    - [ ] Comprendre l'avantage sur les conteneurs par défaut
 
 ## 4. 🔧 Création d'une OU
 
@@ -866,11 +866,11 @@ La structure en OUs permet de **déléguer des droits administratifs** à diffé
     
     Avant de passer à la gestion des utilisateurs:
     
-    - [ ] Je sais créer une UO et la protéger contre la suppression
-    - [ ] Je comprends la différence entre UO et conteneur par défaut
-    - [ ] Je connais les bonnes pratiques de nommage et structure
-    - [ ] Je comprends les concepts de délégation (AGLP vs AGDLP)
-    - [ ] Je sais comment les UOs et groupes travaillent ensemble
+    - [ ] Savoir créer une UO et la protéger contre la suppression
+    - [ ] Comprendre la différence entre UO et conteneur par défaut
+    - [ ] Connaitre les bonnes pratiques de nommage et structure
+    - [ ] Comprendre les concepts de délégation (AGLP vs AGDLP)
+    - [ ] Savoir comment les UOs et groupes travaillent ensemble
 
 ---
 

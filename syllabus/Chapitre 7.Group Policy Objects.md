@@ -102,10 +102,10 @@ Connaissant la notion de site, continuons maintenant avec la classification des 
 
 ## 🎯 Checkpoint: Concepts GPO et Sites
 Avant de créer vos premières GPOs:
-- [ ] Je sais qu'une GPO est un ensemble de règles pour configurer plusieurs machines
-- [ ] Je comprends que les GPOs s'appliquent à différents niveaux (site, domaine, UO)
-- [ ] Je sais que notre labo a un seul site (Site-EU)
-- [ ] Je comprends que les sites sont distincts des zones DNS
+- [ ] Savoir qu'une GPO est un ensemble de règles pour configurer plusieurs machines
+- [ ] Comprendre que les GPOs s'appliquent à différents niveaux (site, domaine, UO)
+- [ ] Savoir que notre labo a un seul site (Site-EU)
+- [ ] Comprendre que les sites sont distincts des zones DNS
 
 > 💡 **Pour débutants:** Ne vous inquiétez pas si les concepts de sites semblent complexes. L'important est de comprendre que les GPOs sont des règles que vous appliquez à vos utilisateurs et ordinateurs!
 

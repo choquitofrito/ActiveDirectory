@@ -76,10 +76,10 @@ Pour tous les deux, suivez ces règles:
 
 ## 🎯 Checkpoint: Concepts des Comptes
 Avant de créer vos premiers utilisateurs:
-- [ ] Je sais qu'un compte utilisateur est une identité numérique
-- [ ] Je comprends SamAccountName vs UPN
-- [ ] Je connais les règles de nommage (minuscules, pas de caractères spéciaux)
-- [ ] Je sais que le format standard est "prenom" et "prenom@maxtec.be"
+- [ ] Savoir qu'un compte utilisateur est une identité numérique
+- [ ] Comprendre SamAccountName vs UPN
+- [ ] Connaitre les règles de nommage (minuscules, pas de caractères spéciaux)
+- [ ] Savoir que le format standard est "prenom" et "prenom@maxtec.be"
 
 
 
@@ -538,11 +538,11 @@ Exemple : DL-RH-Lecture, DL-RH-Modification
 
 ## 🎯 Checkpoint Final: Gestion des Utilisateurs
 Avant de passer aux Group Policy Objects:
-- [ ] Je sais créer un utilisateur avec ADUC
-- [ ] Je comprends les standards de nommage (SamAccountName et UPN)
-- [ ] Je sais organiser les utilisateurs dans les UOs appropriées
-- [ ] Je comprends les concepts de groupes et leur utilisation
-- [ ] Je connais la différence entre groupes globaux et locaux
+- [ ] Savoir créer un utilisateur avec ADUC
+- [ ] Comprendre les standards de nommage (SamAccountName et UPN)
+- [ ] Savoir organiser les utilisateurs dans les UOs appropriées
+- [ ] Comprendre les concepts de groupes et leur utilisation
+- [ ] Connaitre la différence entre groupes globaux et locaux
 
 ---
 

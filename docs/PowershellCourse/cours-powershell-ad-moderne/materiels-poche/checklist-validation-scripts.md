@@ -40,7 +40,7 @@
 ## 🔍 LOGIQUE MÉTIER
 
 ### Validation Business
-- [ ] **Compréhension** : Je comprends chaque ligne du script ?
+- [ ] **Compréhension** : Comprendre chaque ligne du script ?
 - [ ] **Objectif clair** : Que fait le script exactement ?
 - [ ] **Edge cases** : Que si utilisateur n'existe pas / groupe vide ?
 - [ ] **Rollback plan** : Comment annuler si erreur ?
@@ -143,7 +143,7 @@
 3. **Mieux vaut 5 min de vérification** que 5h de récupération
 
 ### Mantra à Réciter
-*"Je lis, je comprends, je teste avec -WhatIf, je valide le scope, puis j'exécute par petits lots en documentant chaque étape."*
+*"Je lis, Comprendre, je teste avec -WhatIf, je valide le scope, puis j'exécute par petits lots en documentant chaque étape."*
 
 ---
 
