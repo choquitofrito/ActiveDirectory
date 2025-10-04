@@ -23,7 +23,8 @@ Cet environnement est une version simplifiée de l'infrastructure complète, qui
 Avant de commencer, assurez-vous d'avoir la structure complète de l'AD (si ce n'est pas le cas, lancez le script de Powershell - dossier PowerShell -> creation_structure).
 
 1. Ce script n'est pas destructif. Il vérifie l'existence des OUs, des groupes et des utilisateurs avant de les créer.
-2. Vous devez créer dans votre serveur (peu importe le dossier, bien que le dossier `c:\Scripts` soit recommandé pour mieux organiser) un fichier texte (clic droit) et nommez-le `creation_structure.ps1` 
+2. Vous devez créer sur votre serveur (dans n'importe quel dossier, mais le dossier `c:\Scripts` est recommandé pour une meilleure organisation) un fichier texte (clic droit) et le nommer `creation_structure.ps1`.  
+   > 💡 Le script à utiliser se trouve ici : [Scripts de création](../Labo/PowerShell-scriptsStructure/creation_structure.md)
 3. Confirmez le changement d'extension.
 4. Collez le script (de gitbook) dans le fichier `creation_structure.ps1`. Enregistrez le fichier.
 5. Ouvrez une console powershell dans ce dossier (barre d'adresse, tapez **powershell** et puis Enter)
@@ -111,7 +112,7 @@ Pour vérifier que la configuration fonctionne correctement :
 
 ## Script de Configuration de la Structure AD
 
-Pour créer automatiquement la structure des Unités d'Organisation (UO), vous utiliserez le script `creation_structure.ps1`. Ce script ne crée pas les ordinateurs, car ceux-ci doivent être ajoutés au domaine depuis les machines virtuelles clientes. Cette procédure ne peut pas être exécutée depuis le serveur.
+Pour créer automatiquement la structure des Unités d'Organisation (UO), vous utiliserez le script [`creation_structure.ps1`](./PowerShell-scriptsStructure/creation_structure.md). Ce script ne crée pas les ordinateurs, car ceux-ci doivent être ajoutés au domaine depuis les machines virtuelles clientes. Cette procédure ne peut pas être exécutée depuis le serveur.
 
 1. Consultez le contenu du script `creation_structure.ps1` sur GitBook
 2. Copiez le contenu (CTRL+A puis CTRL+C)

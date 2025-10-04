@@ -1,0 +1,12 @@
+{
+  "agents": [
+    {
+      "name": "ad-exercise-creator",
+      "path": ".claude/agents/ad-exercise-creator.md"
+    },
+    {
+      "name": "ad-lab-creator",
+      "path": ".claude/agents/ad-lab-creator.md"
+    }
+  ]
+}

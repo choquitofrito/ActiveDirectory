@@ -1,3 +1,37 @@
+# Script de Création de Structure Active Directory
+
+## 🧭 Navigation
+[⏮️ Retour au Labo](../Labo_structure.md) | [🏠 Retour au Syllabus](../../../README.md)
+
+---
+
+!!! info "📋 À propos de ce script"
+    
+    Ce script PowerShell automatise la création complète de la structure Active Directory pour le laboratoire, incluant :
+    
+    - ✅ Unités d'Organisation (OUs)
+    - ✅ Utilisateurs par département
+    - ✅ Groupes de sécurité
+    - ✅ Structure hiérarchique complète
+
+!!! warning "⚠️ Prérequis"
+    
+    - Exécuter sur un contrôleur de domaine
+    - Droits d'administrateur de domaine
+    - Module Active Directory installé
+    - Domaine `maxtec.be` configuré
+
+---
+
+## 📜 Code du Script
+
+!!! tip "💡 Comment utiliser"
+    
+    1. **Copier le code** ci-dessous (utilisez le bouton de copie)
+    2. **Sauvegarder** dans un fichier `creation_structure.ps1`
+    3. **Exécuter** avec PowerShell en tant qu'administrateur
+    4. **Suivre** les confirmations interactives
+
 ```powershell
 # Script pour créer la structure des OUs, utilisateurs et groupes
 # Stocker ce script dans un fichier creation.ps1
@@ -174,3 +208,56 @@ catch {
     Write-Host $_.ScriptStackTrace -ForegroundColor Red
 }
 ```
+
+---
+
+## 🔧 Fonctionnalités du Script
+
+!!! success "✨ Fonctionnalités avancées"
+    
+    **🔍 Vérifications intelligentes**
+    
+    - Vérifie l'existence avant création
+    - Évite les doublons
+    - Gestion d'erreurs complète
+    
+    **🎯 Confirmations interactives**
+    
+    - Confirmation par étape
+    - Possibilité de sauter des étapes
+    - Arrêt sécurisé à tout moment
+    
+    **📊 Feedback visuel**
+    
+    - Messages colorés par type d'action
+    - Progression claire et détaillée
+    - Rapport de succès/erreurs
+
+!!! info "📋 Structure créée"
+    
+    **Départements :**
+    
+    - 🏢 **Ventes** : Vanessa, Valeria, Victor, Valentin
+    - 👥 **RH** : Richard, Rebecca, René  
+    - 💰 **Comptabilité** : Charlotte, Cindy, Charles
+    
+    **Groupes de sécurité :**
+    
+    - `GG-EU-Ventes-Admin` / `GG-EU-Ventes-Users`
+    - `GG-EU-RH-Admin` / `GG-EU-RH-Users`
+    - `GG-EU-Compta-Admin` / `GG-EU-Compta-Users`
+
+!!! warning "🛡️ Sécurité"
+    
+    - **Mot de passe par défaut** : `Password1!`
+    - **⚠️ Important** : Changez les mots de passe après création
+    - **Protection** : OUs non protégées contre suppression accidentelle
+
+---
+
+## 🧭 Navigation
+[⏮️ Retour au Labo](../Labo_structure.md) | [🏠 Retour au Syllabus](../../../README.md)
+
+---
+
+**📚 Cours Active Directory - Scripts PowerShell | 👨‍💻 Pour laboratoire**

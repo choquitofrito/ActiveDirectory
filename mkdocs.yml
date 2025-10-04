@@ -24,6 +24,7 @@ theme:
     - navigation.sections
     - navigation.top
     - toc.integrate
+    - content.code.copy  # Habilita el botón de copia para bloques de código
   navigation:
     collapse: true
     collapse_sections: true
@@ -75,6 +76,10 @@ nav:
           - Scripts PowerShell:
               - "Scripts de création": "Labo et Exercices/Labo/PowerShell-scriptsStructure/creation_structure.md"
               - "Scripts de suppression": "Labo et Exercices/Labo/PowerShell-scriptsStructure/suppression_structure.md"
+      - Laboratoires Extra:
+          - "Laboratoire Extra 1": "Labo et Exercices/Labo Extra/Labo_Extra_1.md"
+          - "Laboratoire Extra 2": "Labo et Exercices/Labo Extra/Labo_Extra_2.md"
+          - "Laboratoire Extra 3": "Labo et Exercices/Labo Extra/Labo_Extra_3.md"
       - Exercices:
           - "Questions de Base": "Labo et Exercices/Exercices: Questions Base.md"
           - "Gestion des Utilisateurs": "Labo et Exercices/Exercices: Gestion_des_Utilisateurs.md"
