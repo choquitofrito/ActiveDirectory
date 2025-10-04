@@ -75,7 +75,7 @@ Un cours complémentaire axé sur la **réalité du terrain** et l'utilisation m
 
 ---
 
-## 🧪 Laboratoire et Exercices
+## 🧪 Laboratoires Pratiques
 
 ### 📋 Laboratoire Principal
 
@@ -85,7 +85,7 @@ Un cours complémentaire axé sur la **réalité du terrain** et l'utilisation m
 | **[Guide Installation AD-DS](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md)** | Guide de base pour installer AD DS |
 | **[Annexe: Permissions](Labo%20et%20Exercices/Labo/Annexe.Permissions.md)** | Guide détaillé des permissions NTFS et partage |
 
-#### Scripts PowerShell
+**Scripts PowerShell:**
 
 | Script | Description |
 |--------|-------------|
@@ -126,7 +126,11 @@ Des laboratoires complets avec structures AD réalistes, scripts automatisés et
 - [Guide Instructeur](Labos%20Extra/Labo1-CreativeHub/instructeur/Guide_Instructeur_Exercices.md): Solutions complètes, timing, points clés
 - [Index Exercices](Labos%20Extra/Labo1-CreativeHub/instructeur/INDEX_EXERCICES.md): Vue d'ensemble pédagogique
 
-### 📝 Exercices Généraux
+---
+
+## 📝 Exercices Généraux
+
+Exercices indépendants applicables à n'importe quelle structure AD.
 
 | Série | Focus | Difficulté |
 |-------|-------|------------|
