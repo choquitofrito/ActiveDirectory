@@ -250,19 +250,6 @@ Write-Host "`nMembres du groupe:" -ForegroundColor Cyan
 Get-ADGroupMember -Identity $groupName | Select-Object Name, SamAccountName | Format-Table
 ```
 
-### Vérifications Post-Exécution
-
-```powershell
-# Afficher les détails du groupe
-Get-ADGroup -Identity "GG-Projet-SecureBank" -Properties * | Format-List Name, GroupScope, GroupCategory, Description, Members
-
-# Compter les membres
-$memberCount = (Get-ADGroupMember -Identity "GG-Projet-SecureBank").Count
-Write-Host "Nombre de membres: $memberCount" -ForegroundColor Cyan
-
-# Lister les membres
-Get-ADGroupMember -Identity "GG-Projet-SecureBank" | Select-Object Name, SamAccountName, DistinguishedName
-```
 
 ## Points Clés à Retenir
 

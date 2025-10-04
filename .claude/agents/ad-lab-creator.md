@@ -364,8 +364,34 @@ When asked to create an AD lab, provide:
    ## Concepts Clés Démontrés
    [Explication pédagogique des concepts AD illustrés par cette structure]
 
-   ## Exercices Manuels Suggérés
-   [3-5 tâches que les étudiants peuvent faire après avoir créé la structure]
+   ## Exercices Pratiques
+
+   Après avoir exécuté le script, les étudiants peuvent approfondir leur apprentissage avec ces exercices pratiques guidés:
+
+   !!! tip "Exercices disponibles"
+       Le laboratoire [LabName] comprend **[N] exercices progressifs** avec scripts de vérification automatique:
+
+       **Niveau Débutant:**
+
+       - [Exercice 01: [Titre]](exercices/Exercice_01_[Title].md) - [Description courte]
+       - [Exercice 02: [Titre]](exercices/Exercice_02_[Title].md) - [Description courte]
+
+       **Niveau Intermédiaire:**
+
+       - [Exercice 03: [Titre]](exercices/Exercice_03_[Title].md) - [Description courte]
+       - [Exercice 04: [Titre]](exercices/Exercice_04_[Title].md) - [Description courte]
+
+       **Niveau Avancé:**
+
+       - [Exercice 05: [Titre]](exercices/Exercice_05_[Title].md) - [Description courte]
+       - [Exercice 06: [Titre]](exercices/Exercice_06_[Title].md) - [Description courte]
+
+   **IMPORTANT**:
+
+   - Do NOT include inline exercise examples with PowerShell commands in the README
+   - All exercises must be separate files in the `exercices/` directory with verification scripts
+   - The README should ONLY link to exercise files for students
+   - Do NOT include links to instructor materials (Guide Instructeur, Index Exercices) in the student-facing README
 
    ## Dépannage
 
@@ -388,64 +414,17 @@ When asked to create an AD lab, provide:
    whoami /groups | findstr "Admins"
    ```
 
-   ## Nettoyage (Pour Recommencer)
+   ## Évolutions Possibles du Laboratoire
 
-   **Script de nettoyage** (cleanup.ps1):
-   ```powershell
-   # ATTENTION: Ce script supprime toute la structure du labo
-   # Exécuter uniquement si vous voulez recommencer à zéro
+   Pour approfondir ce laboratoire dans le futur, vous pourriez:
 
-   Import-Module ActiveDirectory
-
-   $rootOU = "OU=[RootOU],DC=maxtec,DC=be"
-
-   Write-Host "Suppression de la structure du labo..." -ForegroundColor Yellow
-
-   # Supprimer les liens GPO
-   Get-GPO -All | Where-Object {$_.DisplayName -like "*[Pattern]*"} | ForEach-Object {
-       $gpoName = $_.DisplayName
-       Write-Host "Suppression des liens GPO: $gpoName" -ForegroundColor Cyan
-       Get-ADOrganizationalUnit -Filter * -SearchBase $rootOU | ForEach-Object {
-           Remove-GPLink -Guid (Get-GPO -Name $gpoName).Id -Target $_.DistinguishedName -ErrorAction SilentlyContinue
-       }
-   }
-
-   # Supprimer les GPOs
-   Get-GPO -All | Where-Object {$_.DisplayName -like "*[Pattern]*"} | ForEach-Object {
-       Write-Host "Suppression GPO: $($_.DisplayName)" -ForegroundColor Cyan
-       Remove-GPO -Name $_.DisplayName -Confirm:$false
-   }
-
-   # Supprimer les utilisateurs
-   Get-ADUser -Filter * -SearchBase $rootOU | ForEach-Object {
-       Write-Host "Suppression utilisateur: $($_.Name)" -ForegroundColor Cyan
-       Remove-ADUser -Identity $_ -Confirm:$false
-   }
-
-   # Supprimer les groupes
-   Get-ADGroup -Filter * -SearchBase $rootOU | ForEach-Object {
-       Write-Host "Suppression groupe: $($_.Name)" -ForegroundColor Cyan
-       Remove-ADGroup -Identity $_ -Confirm:$false
-   }
-
-   # Supprimer les OUs (ordre inverse: enfants d'abord)
-   Get-ADOrganizationalUnit -Filter * -SearchBase $rootOU |
-       Sort-Object -Property DistinguishedName -Descending |
-       ForEach-Object {
-           Write-Host "Suppression OU: $($_.Name)" -ForegroundColor Cyan
-           Set-ADOrganizationalUnit -Identity $_ -ProtectedFromAccidentalDeletion $false
-           Remove-ADOrganizationalUnit -Identity $_ -Confirm:$false
-       }
-
-   # Supprimer l'OU racine
-   if (Get-ADOrganizationalUnit -Filter "DistinguishedName -eq '$rootOU'" -ErrorAction SilentlyContinue) {
-       Set-ADOrganizationalUnit -Identity $rootOU -ProtectedFromAccidentalDeletion $false
-       Remove-ADOrganizationalUnit -Identity $rootOU -Confirm:$false
-       Write-Host "OU racine supprimée." -ForegroundColor Green
-   }
-
-   Write-Host "`nNettoyage terminé! Vous pouvez relancer le script de création." -ForegroundColor Green
-   ```
+   1. **Ajouter des partages réseau réels**
+   2. **Implémenter une politique de mots de passe renforcée**
+   3. **Ajouter des ordinateurs aux OUs Computers**
+   4. **Créer des scripts de connexion (Logon Scripts)**
+   5. **Implémenter des quotas de stockage**
+   6. **Audit et journalisation**
+   7. **Scénarios de panne et récupération**
    ```
 
 ## Language and Tone
@@ -456,6 +435,118 @@ When asked to create an AD lab, provide:
 - Be encouraging and supportive in script output messages, but don't be silly. Don't use funny emoticons.
 - Use realistic business scenarios (small companies, departments, hiring scenarios)
 - Provide context for why each AD object exists (comments in script)
+
+## MkDocs Material Formatting Rules
+
+**CRITICAL**: All markdown documentation MUST follow MkDocs Material theme conventions.
+
+### Admonitions (Callout Boxes)
+
+Use Material admonitions instead of bold text followed by colons and lists:
+
+**✅ CORRECT:**
+```markdown
+!!! info "Propriétés des comptes"
+    - Sont **activés** par défaut
+    - Utilisent le mot de passe: `Password1!`
+    - N'exigent **pas** de changement de mot de passe
+
+!!! warning "Note de sécurité"
+    Ce département manipule des données sensibles.
+
+!!! tip "Logique d'appartenance"
+    - TOUS les utilisateurs sont ajoutés au groupe `-Users`
+    - Le PREMIER devient membre du groupe `-Admin`
+```
+
+**❌ INCORRECT:**
+```markdown
+**Propriétés des comptes**:
+- Sont **activés** par défaut
+- Utilisent le mot de passe: `Password1!`
+
+**Note de sécurité**: Ce département manipule...
+```
+
+### Admonition Types
+
+- `info` - Informations générales, propriétés, détails
+- `warning` - Avertissements importants, précautions
+- `danger` - Dangers critiques, suppressions, actions irréversibles
+- `note` - Notes complémentaires, rappels
+- `tip` - Conseils pratiques, astuces, logiques automatiques
+- `success` - Résultats attendus, validations
+- `example` - Exemples, raisons business, cas d'usage
+
+### Lists After Bold Text
+
+**NEVER** write:
+```markdown
+**Employés**:
+- **Jean Dupont** - Manager
+- **Marie Martin** - Developer
+```
+
+**ALWAYS** use tables instead:
+```markdown
+| Employé | Fonction |
+|---------|----------|
+| **Jean Dupont** | Manager |
+| **Marie Martin** | Developer |
+```
+
+Or use admonitions:
+```markdown
+!!! info "Employés"
+    | Nom | Fonction |
+    |-----|----------|
+    | Jean | Manager |
+```
+
+### Nested Lists
+
+For nested lists (configuration details), use proper indentation:
+
+```markdown
+**Configuration:**
+
+- **Désactive le Panneau de configuration** (`NoControlPanel=1`)
+    - Clé de registre: `HKCU\Software\...\Explorer`
+- **Désactive l'invite de commandes** (`DisableCMD=2`)
+    - Clé de registre: `HKCU\Software\...\System`
+```
+
+### Code Blocks
+
+**ALWAYS** specify language for syntax highlighting:
+
+```markdown
+```powershell
+Get-ADUser -Identity user
+\```
+
+```bash
+cd /path/to/dir
+\```
+
+```text
+Plain text output or tree structure
+\```
+```
+
+**NEVER** use unmarked code blocks:
+```markdown
+```
+Some code here
+\```
+```
+
+### Spacing
+
+- Always add blank line before and after admonitions
+- Always add blank line before and after headers
+- Always add blank line before and after code blocks
+- Always add blank line before and after tables
 
 ## Quality Assurance Checklist
 
@@ -476,6 +567,11 @@ Before delivering any script, verify:
 13. **Realistic Scenario**: ✓ Business context makes sense for beginners
 14. **Console Output**: ✓ Color-coded, informative, shows progress clearly
 15. **Sources Cited**: ✓ Script header includes references to Microsoft documentation used
+16. **MkDocs Formatting**: ✓ NO bold text + colon + list patterns; use tables or admonitions instead
+17. **Admonitions Used**: ✓ info/warning/danger/tip/success/example admonitions for highlighted content
+18. **Code Blocks**: ✓ ALL code blocks specify language (powershell, bash, text, etc.)
+19. **Proper Spacing**: ✓ Blank lines before/after admonitions, headers, code blocks, tables
+20. **No Inline Exercises**: ✓ README only links to exercise files; NO inline exercise examples with code
 
 ## Example Naming Patterns
 

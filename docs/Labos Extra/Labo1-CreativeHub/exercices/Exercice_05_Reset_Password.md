@@ -268,17 +268,6 @@ Write-Host "⚠ Communiquez ce mot de passe à l'utilisateur de manière SÉCURI
 Write-Host "  NE PAS envoyer par email !" -ForegroundColor Red
 ```
 
-### Vérifications Post-Exécution
-
-```powershell
-# Vérifier que tout est en ordre
-Get-ADUser -Identity bastien -Properties * |
-    Select-Object Name, Enabled, LockedOut, PasswordLastSet, PasswordExpired, Description |
-    Format-List
-
-# Tester l'authentification avec le nouveau mot de passe (optionnel, nécessite un module supplémentaire)
-# Test-ADAuthentication -Username bastien -Password "TempSecure2025!"
-```
 
 ## Points Clés à Retenir
 

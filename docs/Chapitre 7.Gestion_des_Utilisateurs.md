@@ -492,7 +492,7 @@ Jonglez vous-mêmes avec les permissions (ex: donnez l'accès d'écriture mais p
 #### Accumulation des Droits :
 - Un utilisateur hérite des droits de tous ses groupes
 - Les droits sont **cumulatifs** dans l'héritage (sauf si on refuse à la main dans l'onglet Sécurité)
-- L'appartenance à des groupes privilégiés (comme `Domain Admins`) étend les droits
+- L'appartenance à des groupes privilégiés (comme `Admins du domaine`) étend les droits
 
 ## 5.2. Stratégie AGDLP
 
@@ -569,7 +569,7 @@ Vous avez un dossier partagé `\\SRV-FILES\Documents-Communs` qui doit être acc
 
 Active Directory inclut trois groupes intégrés essentiels :
 
-#### Domain Admins
+#### Admins du domaine
 Groupe **d'administration principal** du domaine :
 - Contrôle total sur le domaine
 - Accès complet aux ressources

@@ -14,7 +14,7 @@ Get-ADUser -Identity [nom] -Properties Enabled,LockedOut,LastLogonDate
 Get-ADPrincipalGroupMembership -Identity [nom]
 
 # Qui a les droits admin?
-Get-ADGroupMember -Identity "Domain Admins"
+Get-ADGroupMember -Identity "Admins du domaine"
 ```
 
 ### ⚡ ACTIONS SÉCURISÉES

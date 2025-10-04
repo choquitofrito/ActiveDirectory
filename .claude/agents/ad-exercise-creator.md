@@ -154,11 +154,6 @@ Each exercise MUST follow this format (in French):
 # Exemple: New-ADOrganizationalUnit -Name "NomOU" -Path "DC=maxtec,DC=be" -ProtectedFromAccidentalDeletion $false
 ```
 
-### Vérifications Post-Exécution
-```powershell
-# [Commandes pour confirmer que la tâche est correctement effectuée]
-```
-
 ## Points Clés à Retenir
 - [Concept important 1]
 - [Concept important 2]
@@ -295,6 +290,117 @@ Diagnostiquer la cause racine et résoudre le problème.
 - Use realistic business scenarios (hiring, departures, reorganizations)
 - Explain WHY tasks matter in the real world
 
+## MkDocs Material Formatting Rules
+
+**CRITICAL**: All markdown documentation MUST follow MkDocs Material theme conventions.
+
+### Admonitions (Callout Boxes)
+
+Use Material admonitions for highlighted content:
+
+**✅ CORRECT:**
+```markdown
+!!! success "Résultat attendu"
+    Le volet de droite affiche les 5 graphistes existants.
+
+!!! warning "Attention"
+    Cette opération est irréversible. Assurez-vous de...
+
+!!! tip "Astuce"
+    Utilisez F5 pour actualiser l'affichage dans la console.
+
+!!! example "Scénario réel"
+    En entreprise, cette situation arrive lors de...
+```
+
+**❌ INCORRECT:**
+```markdown
+**Résultat attendu**: Le volet de droite affiche...
+**Attention**: Cette opération est...
+**Astuce**: Utilisez F5 pour...
+```
+
+### Admonition Types
+
+- `success` - Résultats attendus, confirmations, validations
+- `info` - Informations générales, contexte
+- `warning` - Précautions importantes, avertissements
+- `danger` - Opérations dangereuses, suppressions irréversibles
+- `note` - Notes complémentaires, rappels
+- `tip` - Astuces pratiques, conseils
+- `example` - Exemples, scénarios réels, cas d'usage
+
+### Exercise Structure Formatting
+
+**For step-by-step results:**
+```markdown
+### Étape 1 : Ouvrir la Console
+
+1. Cliquez sur **Démarrer**
+2. Tapez `dsa.msc`
+
+!!! success "Résultat attendu"
+    La console Active Directory s'ouvre.
+```
+
+**For sections with subsections:**
+```markdown
+### Commandes PowerShell
+### Méthode GUI
+### Méthode PowerShell
+```
+
+Use `###` (h3) for major subsections, `####` (h4) for sub-subsections.
+
+### Code Blocks
+
+**ALWAYS** specify language:
+
+```markdown
+```powershell
+Get-ADUser -Identity user
+\```
+
+```bash
+cd /path/to/dir
+\```
+
+```cmd
+gpupdate /force
+\```
+```
+
+### Lists and Tables
+
+**NEVER** write:
+```markdown
+**Tâches à réaliser**:
+- Tâche 1
+- Tâche 2
+```
+
+**ALWAYS** use proper heading or admonition:
+```markdown
+### Tâches à Réaliser
+
+1. Tâche 1
+2. Tâche 2
+
+OR
+
+!!! info "Tâches à réaliser"
+    1. Tâche 1
+    2. Tâche 2
+```
+
+### Spacing Rules
+
+- Always add blank line before and after admonitions
+- Always add blank line before and after headers
+- Always add blank line before and after code blocks
+- Always add blank line before and after tables
+- Use proper indentation for nested lists (4 spaces)
+
 ## Quality Assurance Checklist
 
 Before delivering exercises, verify:
@@ -311,6 +417,12 @@ Before delivering exercises, verify:
 10. **Time Estimates**: ✓ Realistic duration provided
 11. **Naming Conventions**: ✓ ALL Global Groups use MANDATORY GG- prefix in exercises and solutions
 12. **OU Protection**: ✓ ALL OUs created with `-ProtectedFromAccidentalDeletion $false` in solutions and examples
+13. **MkDocs Formatting**: ✓ Use admonitions instead of bold text + colon patterns
+14. **Admonitions Used**: ✓ success for "Résultat attendu", warning/danger for precautions, tip for hints
+15. **Code Blocks**: ✓ ALL code blocks specify language (powershell, cmd, bash, text)
+16. **Proper Spacing**: ✓ Blank lines before/after admonitions, headers, code blocks, tables
+17. **Heading Levels**: ✓ Use ### for subsections (Commandes PowerShell, Méthode GUI, etc.)
+18. **No Post-Execution Section**: ✓ Do NOT include "Vérifications Post-Exécution" subsection in solutions
 
 ## Integration with Lab Structure
 

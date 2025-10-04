@@ -47,23 +47,23 @@ try {
     $containmentScore += 3
 }
 
-# Test 2: Le compte malveillant est-il retiré de Domain Admins ?
-Write-Host "`nTest 2: Retrait du groupe Domain Admins" -ForegroundColor Yellow
+# Test 2: Le compte malveillant est-il retiré de Admins du domaine ?
+Write-Host "`nTest 2: Retrait du groupe Admins du domaine" -ForegroundColor Yellow
 
 try {
-    $domainAdmins = Get-ADGroupMember -Identity "Domain Admins" -ErrorAction Stop
+    $domainAdmins = Get-ADGroupMember -Identity "Admins du domaine" -ErrorAction Stop
     $isMember = $domainAdmins | Where-Object {$_.SamAccountName -eq $maliciousAccount}
 
     if ($isMember) {
-        Write-Host "  ✗ CRITIQUE - support.temp est TOUJOURS dans Domain Admins !" -ForegroundColor Red
-        Write-Host "    ACTION IMMÉDIATE: Remove-ADGroupMember -Identity 'Domain Admins' -Members $maliciousAccount" -ForegroundColor Yellow
+        Write-Host "  ✗ CRITIQUE - support.temp est TOUJOURS dans Admins du domaine !" -ForegroundColor Red
+        Write-Host "    ACTION IMMÉDIATE: Remove-ADGroupMember -Identity 'Admins du domaine' -Members $maliciousAccount" -ForegroundColor Yellow
         $errors++
     } else {
-        Write-Host "  ✓ RÉUSSI - support.temp n'est plus dans Domain Admins" -ForegroundColor Green
+        Write-Host "  ✓ RÉUSSI - support.temp n'est plus dans Admins du domaine" -ForegroundColor Green
         $containmentScore += 3
     }
 } catch {
-    Write-Host "  ✗ ERREUR: Impossible de vérifier Domain Admins" -ForegroundColor Red
+    Write-Host "  ✗ ERREUR: Impossible de vérifier Admins du domaine" -ForegroundColor Red
     $errors++
 }
 
@@ -139,12 +139,12 @@ Write-Host "`n========================================" -ForegroundColor Cyan
 Write-Host "PHASE 2: INVESTIGATION" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 
-# Test 5: Audit du groupe Domain Admins
-Write-Host "`nTest 5: Audit complet du groupe Domain Admins" -ForegroundColor Yellow
+# Test 5: Audit du groupe Admins du domaine
+Write-Host "`nTest 5: Audit complet du groupe Admins du domaine" -ForegroundColor Yellow
 
 try {
-    $domainAdmins = Get-ADGroupMember -Identity "Domain Admins"
-    Write-Host "  Membres actuels de Domain Admins:" -ForegroundColor Gray
+    $domainAdmins = Get-ADGroupMember -Identity "Admins du domaine"
+    Write-Host "  Membres actuels de Admins du domaine:" -ForegroundColor Gray
 
     foreach ($admin in $domainAdmins) {
         Write-Host "    - $($admin.SamAccountName)" -ForegroundColor Gray
@@ -152,16 +152,16 @@ try {
 
     # Vérifier qu'il n'y a pas trop de membres (bonne pratique)
     if ($domainAdmins.Count -le 3) {
-        Write-Host "  ✓ BON - Nombre limité de Domain Admins ($($domainAdmins.Count))" -ForegroundColor Green
+        Write-Host "  ✓ BON - Nombre limité de Admins du domaine ($($domainAdmins.Count))" -ForegroundColor Green
         $investigationScore += 1
     } else {
-        Write-Host "  ⚠ RECOMMANDATION - Trop de membres dans Domain Admins ($($domainAdmins.Count))" -ForegroundColor Yellow
+        Write-Host "  ⚠ RECOMMANDATION - Trop de membres dans Admins du domaine ($($domainAdmins.Count))" -ForegroundColor Yellow
         Write-Host "    Bonne pratique: Maximum 2-3 comptes" -ForegroundColor Yellow
         $warnings++
     }
 
 } catch {
-    Write-Host "  ✗ ERREUR: Impossible d'auditer Domain Admins" -ForegroundColor Red
+    Write-Host "  ✗ ERREUR: Impossible d'auditer Admins du domaine" -ForegroundColor Red
     $errors++
 }
 
@@ -322,10 +322,10 @@ Write-Host "`n✅ Checklist de sécurité post-incident:" -ForegroundColor Cyan
 
 $checklist = @(
     @{Item="Compte malveillant désactivé ou supprimé"; Status=($containmentScore -ge 2)},
-    @{Item="Privilèges Domain Admins révoqués"; Status=($containmentScore -ge 5)},
+    @{Item="Privilèges Admins du domaine révoqués"; Status=($containmentScore -ge 5)},
     @{Item="Compte compromis (olivier) sécurisé"; Status=($containmentScore -ge 7)},
     @{Item="Audit des comptes récents effectué"; Status=($investigationScore -ge 2)},
-    @{Item="Audit de Domain Admins effectué"; Status=($investigationScore -ge 3)},
+    @{Item="Audit de Admins du domaine effectué"; Status=($investigationScore -ge 3)},
     @{Item="Vérification des GPO effectuée"; Status=($investigationScore -ge 4)},
     @{Item="Compte malveillant supprimé définitivement"; Status=($remediationScore -ge 2)},
     @{Item="Mots de passe admin réinitialisés"; Status=($remediationScore -ge 4)},
@@ -344,7 +344,7 @@ foreach ($check in $checklist) {
 Write-Host "`n🔒 Recommandations de sécurité à long terme:" -ForegroundColor Cyan
 Write-Host "  1. Formation anti-phishing pour TOUS les employés" -ForegroundColor Yellow
 Write-Host "  2. Activer l'authentification multi-facteurs (MFA)" -ForegroundColor Yellow
-Write-Host "  3. Limiter les membres de Domain Admins (max 2-3)" -ForegroundColor Yellow
+Write-Host "  3. Limiter les membres de Admins du domaine (max 2-3)" -ForegroundColor Yellow
 Write-Host "  4. Activer l'audit avancé AD (connexions, modifications)" -ForegroundColor Yellow
 Write-Host "  5. Implémenter un système de détection d'intrusion (IDS)" -ForegroundColor Yellow
 Write-Host "  6. Procédure de vérification pour demandes urgentes" -ForegroundColor Yellow
@@ -357,7 +357,7 @@ Write-Host "  10. Exercices de simulation réguliers (comme celui-ci !)" -Foregr
 Write-Host "`n📅 Timeline de référence de l'incident:" -ForegroundColor Cyan
 Write-Host "  10/10/2025 22:05 - Connexion olivier depuis IP externe" -ForegroundColor Gray
 Write-Host "  10/10/2025 22:15 - Création compte support.temp" -ForegroundColor Gray
-Write-Host "  10/10/2025 22:17 - support.temp ajouté à Domain Admins" -ForegroundColor Gray
+Write-Host "  10/10/2025 22:17 - support.temp ajouté à Admins du domaine" -ForegroundColor Gray
 Write-Host "  10/10/2025 23:47 - Accès fichiers SecureBank" -ForegroundColor Gray
 Write-Host "  11/10/2025 07:30 - Email de rançon" -ForegroundColor Gray
 Write-Host "  11/10/2025 14:37 - Détection incident" -ForegroundColor Gray

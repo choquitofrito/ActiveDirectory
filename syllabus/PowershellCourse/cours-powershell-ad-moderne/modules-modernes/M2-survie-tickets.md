@@ -145,7 +145,7 @@ $utilisateurs | ForEach-Object {
 ### 🔴 VERSION DANGEREUSE - JAMAIS
 ```powershell
 # ☠️ Sans validation ni -WhatIf
-Add-ADGroupMember -Identity "Domain Admins" -Members Charles
+Add-ADGroupMember -Identity "Admins du domaine" -Members Charles
 # Peut donner des droits admin à tort !
 ```
 
@@ -430,7 +430,7 @@ New-ADOrganizationalUnit -Name "Test-Replication" -Path "DC=maxtec,DC=be" -WhatI
 ```powershell
 # Vérifier membres des groupes privilégiés
 $groupesPrivileges = @(
-    "Domain Admins",
+    "Admins du domaine",
     "Enterprise Admins",
     "Schema Admins",
     "Account Operators",
@@ -463,7 +463,7 @@ foreach ($groupe in $groupesPrivileges) {
 7. **Comptes verrouillés**: `Get-ADUser -Filter {LockedOut -eq $true}`
 8. **Créer utilisateur**: `New-ADUser @parametres -WhatIf`
 9. **Vérifier domaine**: `Get-ADDomain`
-10. **Audit admins**: `Get-ADGroupMember -Identity "Domain Admins"`
+10. **Audit admins**: `Get-ADGroupMember -Identity "Admins du domaine"`
 
 ### 🎯 Mémorisation: La Règle des 3
 Pour chaque commande, retenez:
@@ -491,7 +491,7 @@ Pour chaque commande, retenez:
 2. Add-ADGroupMember -Identity "GG-EU-Ventes-Users" -Members Sophie -WhatIf
 3. Get-ADUser -Filter * -Properties PasswordLastSet | Where-Object {$_.PasswordLastSet -eq $null}
 4. Set-ADUser -Identity Marie -Enabled $false -WhatIf
-5. Get-ADGroupMember -Identity "Domain Admins"
+5. Get-ADGroupMember -Identity "Admins du domaine"
 ```
 
 ---

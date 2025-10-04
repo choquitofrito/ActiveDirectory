@@ -92,7 +92,6 @@ nav:
                   - "Vérif Ex08": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_08.ps1"
                   - "Vérif Ex09": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_09.ps1"
           - Exercices:
-              - "Index Exercices": "Labos Extra/Labo1-CreativeHub/instructeur/INDEX_EXERCICES.md"
               - "Ex01: Nouvel Employé": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_01_Nouvel_Employe.md"
               - "Ex02: Départ Employé": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_02_Depart_Employe.md"
               - "Ex03: GPO Lecteur Réseau": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_03_GPO_Lecteur_Reseau.md"

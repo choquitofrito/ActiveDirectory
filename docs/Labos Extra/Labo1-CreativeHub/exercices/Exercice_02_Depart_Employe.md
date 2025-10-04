@@ -43,7 +43,9 @@ Votre mission : désactiver le compte de Manon tout en préservant les données 
    - **maxtec.be** → **CreativeHub** → **ClientServices** → **Users**
 3. Localisez **Manon Girard** dans la liste
 
-   **Résultat attendu** : Vous voyez le compte de Manon parmi les 4 utilisateurs du département Client Services
+
+!!! success "Résultat attendu"
+    Vous voyez le compte de Manon parmi les 4 utilisateurs du département Client Services
 
 ### Étape 2 : Désactiver le Compte
 
@@ -52,7 +54,9 @@ Votre mission : désactiver le compte de Manon tout en préservant les données 
 3. Une fenêtre de confirmation apparaît, cliquez sur **Oui**
 4. Un message confirme : "L'objet Manon Girard a été désactivé"
 
-   **Résultat attendu** : L'icône du compte de Manon affiche maintenant une flèche vers le bas (↓), indiquant que le compte est désactivé
+
+!!! success "Résultat attendu"
+    L'icône du compte de Manon affiche maintenant une flèche vers le bas (↓), indiquant que le compte est désactivé
 
 ### Étape 3 : Vérifier la Désactivation
 
@@ -60,7 +64,9 @@ Votre mission : désactiver le compte de Manon tout en préservant les données 
 2. Allez dans l'onglet **Compte**
 3. Vérifiez que la case **"Le compte est désactivé"** est cochée
 
-   **Résultat attendu** : La case "Le compte est désactivé" est bien cochée
+
+!!! success "Résultat attendu"
+    La case "Le compte est désactivé" est bien cochée
 
 ### Étape 4 : Ajouter une Description pour Documentation
 
@@ -71,7 +77,9 @@ Votre mission : désactiver le compte de Manon tout en préservant les données 
    ```
 3. Cliquez sur **Appliquer**
 
-   **Résultat attendu** : La description est enregistrée et sera visible dans les rapports
+
+!!! success "Résultat attendu"
+    La description est enregistrée et sera visible dans les rapports
 
 ### Étape 5 : Retirer Manon du Groupe Users
 
@@ -82,7 +90,9 @@ Votre mission : désactiver le compte de Manon tout en préservant les données 
 5. Cliquez sur **Supprimer**, puis confirmez avec **Oui**
 6. Cliquez sur **OK**
 
-   **Résultat attendu** : Manon n'apparaît plus dans la liste des membres du groupe ClientServices-Users
+
+!!! success "Résultat attendu"
+    Manon n'apparaît plus dans la liste des membres du groupe ClientServices-Users
 
 ### Étape 6 : Vérifier qu'il n'y a pas d'Autres Appartenances
 
@@ -90,7 +100,9 @@ Votre mission : désactiver le compte de Manon tout en préservant les données 
 2. Allez dans l'onglet **Membre de**
 3. Vérifiez les groupes listés
 
-   **Résultat attendu** : Manon devrait uniquement être membre de **Domain Users** (groupe par défaut impossible à retirer)
+
+!!! success "Résultat attendu"
+    Manon devrait uniquement être membre de **Domain Users** (groupe par défaut impossible à retirer)
 
 ### Étape 7 : Déplacer le Compte vers une OU "Comptes Désactivés" (Optionnel mais Recommandé)
 
@@ -104,7 +116,9 @@ Votre mission : désactiver le compte de Manon tout en préservant les données 
 6. **Glissez-déposez** le compte de **Manon Girard** de l'OU **Users** vers l'OU **Comptes_Desactives**
 7. Confirmez le déplacement
 
-   **Résultat attendu** : Le compte de Manon se trouve maintenant dans l'OU Comptes_Desactives, facilitant la gestion des comptes inactifs
+
+!!! success "Résultat attendu"
+    Le compte de Manon se trouve maintenant dans l'OU Comptes_Desactives, facilitant la gestion des comptes inactifs
 
 ## Vérification de la Réussite
 
@@ -186,19 +200,6 @@ Write-Host "Compte déplacé vers l'OU Comptes_Desactives." -ForegroundColor Gre
 Write-Host "`nGestion du départ de Manon Girard terminée avec succès !" -ForegroundColor Green
 ```
 
-### Vérifications Post-Exécution
-
-```powershell
-# Vérifier l'état du compte
-Get-ADUser -Identity manon -Properties Enabled, Description, DistinguishedName |
-    Format-List Name, Enabled, Description, DistinguishedName
-
-# Vérifier les groupes
-Get-ADPrincipalGroupMembership -Identity manon | Select-Object Name
-
-# Tenter une connexion (devrait échouer)
-# Test-ADAuthentication -Username manon -Password "Password1!"
-```
 
 ## Points Clés à Retenir
 

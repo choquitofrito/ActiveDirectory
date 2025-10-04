@@ -61,7 +61,7 @@ Vous vous précipitez dans son bureau. Il vous montre son écran avec plusieurs 
 > - *Nom : "Support Technique"*
 > - *SAM Account : "support.temp"*
 > - *Créé le : 10/10/2025 à 22h15*
-> - *Membre du groupe : Domain Admins !!!*
+> - *Membre du groupe : Admins du domaine !!!*
 >
 > *Personne dans l'équipe n'a créé ce compte. C'est quoi cette histoire ?*
 >
@@ -74,7 +74,7 @@ Rachid vous montre les logs Windows Event Viewer :
 ```
 Event ID: 4728 - A member was added to a security-enabled global group
   Security ID:    MAXTEC\support.temp
-  Group:          Domain Admins
+  Group:          Admins du domaine
   Date/Time:      10/10/2025 22:17:43
 
 Event ID: 4624 - An account was successfully logged on
@@ -104,7 +104,7 @@ Rachid vous regarde, stressé :
 >
 > 2. *À 22h05, quelqu'un s'est connecté avec le compte d'Olivier depuis une adresse IP externe (192.168.100.250 - pas notre réseau).*
 >
-> 3. *À 22h15, un compte "support.temp" a été créé et immédiatement ajouté au groupe Domain Admins.*
+> 3. *À 22h15, un compte "support.temp" a été créé et immédiatement ajouté au groupe Admins du domaine.*
 >
 > 4. *Hier soir entre 22h et minuit, ce compte "support.temp" a accédé à de nombreux fichiers confidentiels.*
 >
@@ -139,7 +139,7 @@ Vous devez gérer cet incident de sécurité majeur en suivant une méthodologie
    - Le supprimer ou le désactiver ?
    - Justifier votre choix (forensics vs sécurité immédiate)
 
-2. **Retirer "support.temp" du groupe Domain Admins**
+2. **Retirer "support.temp" du groupe Admins du domaine**
    - Même si désactivé, retirer les permissions
 
 3. **Réinitialiser le mot de passe d'Olivier**
@@ -153,7 +153,7 @@ Vous devez gérer cet incident de sécurité majeur en suivant une méthodologie
    - Chercher les comptes créés récemment (dernières 72h)
    - Chercher les membres récemment ajoutés aux groupes privilégiés
 
-6. **Auditer les membres du groupe Domain Admins**
+6. **Auditer les membres du groupe Admins du domaine**
    - Qui devrait être dans ce groupe ?
    - Y a-t-il d'autres comptes suspects ?
 
@@ -165,8 +165,8 @@ Get-ADUser -Filter * -Properties WhenCreated |
     Where-Object {$_.WhenCreated -gt (Get-Date).AddDays(-3)} |
     Select-Object Name, SamAccountName, WhenCreated, Enabled
 
-# Auditer Domain Admins
-Get-ADGroupMember -Identity "Domain Admins" |
+# Auditer Admins du domaine
+Get-ADGroupMember -Identity "Admins du domaine" |
     Select-Object Name, SamAccountName
 
 # Chercher modifications récentes dans les groupes privilégiés
@@ -198,7 +198,7 @@ Get-ADGroup -Filter {Name -like "*Admin*"} |
 3. **Vecteur d'attaque** :
    - Email de phishing ciblant Olivier
    - Connexion depuis IP externe (comment ?)
-   - Escalade de privilèges (comment "support.temp" a-t-il été ajouté à Domain Admins ?)
+   - Escalade de privilèges (comment "support.temp" a-t-il été ajouté à Admins du domaine ?)
 
 **Commandes d'Audit** :
 
@@ -233,7 +233,7 @@ Get-GPO -All |
 2. **Réinitialiser les mots de passe** :
    - Olivier (déjà fait)
    - Rachid (son identité a été usurpée dans l'email)
-   - Tous les comptes Domain Admins (au cas où)
+   - Tous les comptes Admins du domaine (au cas où)
 
 3. **Révoquer toutes les sessions actives** :
    - Sessions d'Olivier
@@ -247,7 +247,7 @@ Get-GPO -All |
 
 5. **Renforcer la sécurité** :
    - Activer l'audit avancé si pas déjà fait
-   - Limiter strictement le groupe Domain Admins
+   - Limiter strictement le groupe Admins du domaine
    - Mettre en place une politique de mots de passe plus stricte
 
 ### Phase 4 : RECOVERY (Récupération) - 10 minutes
@@ -311,7 +311,7 @@ Cet exercice simule une vraie crise. Vous devez :
 
 **Containment** :
 - [ ] Le compte "support.temp" est désactivé ou supprimé
-- [ ] "support.temp" n'est plus membre de Domain Admins
+- [ ] "support.temp" n'est plus membre de Admins du domaine
 - [ ] Le mot de passe d'Olivier a été réinitialisé
 - [ ] Aucun autre compte suspect n'est actif
 
@@ -379,14 +379,14 @@ try {
     Write-Log "  ⚠ Compte support.temp introuvable (peut-être déjà supprimé)" "Yellow"
 }
 
-# Action 2: Retirer du groupe Domain Admins
-Write-Log "`n[ACTION 2] Retrait du groupe Domain Admins..." "Yellow"
+# Action 2: Retirer du groupe Admins du domaine
+Write-Log "`n[ACTION 2] Retrait du groupe Admins du domaine..." "Yellow"
 try {
-    Remove-ADGroupMember -Identity "Domain Admins" -Members "support.temp" -Confirm:$false -ErrorAction Stop
-    Write-Log "  ✓ support.temp retiré du groupe Domain Admins" "Green"
+    Remove-ADGroupMember -Identity "Admins du domaine" -Members "support.temp" -Confirm:$false -ErrorAction Stop
+    Write-Log "  ✓ support.temp retiré du groupe Admins du domaine" "Green"
 } catch {
     if ($_.Exception.Message -like "*not a member*") {
-        Write-Log "  support.temp n'était pas membre de Domain Admins" "Yellow"
+        Write-Log "  support.temp n'était pas membre de Admins du domaine" "Yellow"
     } else {
         Write-Log "  ✗ ERREUR: $($_.Exception.Message)" "Red"
     }
@@ -428,15 +428,15 @@ foreach ($account in $recentAccounts) {
     }
 }
 
-# Action 6: Auditer Domain Admins
-Write-Log "`n[ACTION 6] Audit du groupe Domain Admins..." "Yellow"
-$domainAdmins = Get-ADGroupMember -Identity "Domain Admins"
-Write-Log "  Membres actuels de Domain Admins:" "Gray"
+# Action 6: Auditer Admins du domaine
+Write-Log "`n[ACTION 6] Audit du groupe Admins du domaine..." "Yellow"
+$domainAdmins = Get-ADGroupMember -Identity "Admins du domaine"
+Write-Log "  Membres actuels de Admins du domaine:" "Gray"
 foreach ($admin in $domainAdmins) {
     Write-Log "    - $($admin.SamAccountName)" "Gray"
 }
 
-Write-Log "  ✓ Aucun autre compte suspect détecté dans Domain Admins" "Green"
+Write-Log "  ✓ Aucun autre compte suspect détecté dans Admins du domaine" "Green"
 
 Write-Log "`n========================================" "Cyan"
 Write-Log "PHASE 2: INVESTIGATION (Enquête)" "Cyan"
@@ -446,7 +446,7 @@ Write-Log "========================================" "Cyan"
 Write-Log "`n[INVESTIGATION 1] Reconstruction de la timeline..." "Yellow"
 Write-Log "  10/10/2025 22:05 - Connexion du compte olivier depuis IP externe 192.168.100.250" "Gray"
 Write-Log "  10/10/2025 22:15 - Création du compte support.temp" "Gray"
-Write-Log "  10/10/2025 22:17 - support.temp ajouté au groupe Domain Admins" "Gray"
+Write-Log "  10/10/2025 22:17 - support.temp ajouté au groupe Admins du domaine" "Gray"
 Write-Log "  10/10/2025 22:18 - Privilèges spéciaux attribués à support.temp" "Gray"
 Write-Log "  10/10/2025 23:47 - Accès aux fichiers confidentiels SecureBank" "Gray"
 Write-Log "  11/10/2025 07:30 - Email de rançon reçu par Olivier" "Gray"
@@ -573,7 +573,7 @@ Write-Log "  Statut: CONTENU ET RÉSOLU" "Green"
 
 Write-Log "`nActions effectuées:" "Cyan"
 Write-Log "  ✓ Compte malveillant désactivé puis supprimé" "White"
-Write-Log "  ✓ Privilèges révoqués (retiré de Domain Admins)" "White"
+Write-Log "  ✓ Privilèges révoqués (retiré de Admins du domaine)" "White"
 Write-Log "  ✓ Comptes compromis réinitialisés (Olivier, Rachid, Pauline)" "White"
 Write-Log "  ✓ Audit de sécurité complet effectué" "White"
 Write-Log "  ✓ Aucun backdoor détecté" "White"
@@ -583,7 +583,7 @@ Write-Log "`nRecommandations de sécurité:" "Cyan"
 Write-Log "  1. Formation anti-phishing pour TOUS les employés" "Yellow"
 Write-Log "  2. Activer l'authentification multi-facteurs (MFA) pour les comptes admin" "Yellow"
 Write-Log "  3. Implémenter une politique de mots de passe plus stricte" "Yellow"
-Write-Log "  4. Limiter les membres du groupe Domain Admins au strict minimum" "Yellow"
+Write-Log "  4. Limiter les membres du groupe Admins du domaine au strict minimum" "Yellow"
 Write-Log "  5. Activer l'audit avancé des connexions et modifications AD" "Yellow"
 Write-Log "  6. Implémenter un système de détection d'intrusion (IDS/IPS)" "Yellow"
 Write-Log "  7. Procédure de vérification pour demandes urgentes de mots de passe" "Yellow"
@@ -642,7 +642,7 @@ TIMELINE DÉTAILLÉE
   - Création du compte "support.temp" avec privilèges admin
 
 10/10/2025 22:17:43
-  - Compte "support.temp" ajouté au groupe Domain Admins
+  - Compte "support.temp" ajouté au groupe Admins du domaine
   - Escalade de privilèges réussie
 
 10/10/2025 22:18:01
@@ -666,7 +666,7 @@ TIMELINE DÉTAILLÉE
 11/10/2025 14:40:00
   - Début de la phase de Containment
   - Désactivation du compte support.temp
-  - Retrait des privilèges Domain Admins
+  - Retrait des privilèges Admins du domaine
   - Réinitialisation du mot de passe d'Olivier
 
 11/10/2025 15:30:00
@@ -700,11 +700,11 @@ ACTIONS CORRECTIVES EFFECTUÉES
 
 Phase de Containment:
   ✓ Désactivation immédiate du compte support.temp
-  ✓ Retrait du groupe Domain Admins
+  ✓ Retrait du groupe Admins du domaine
   ✓ Réinitialisation du mot de passe d'Olivier
   ✓ Désactivation temporaire du compte d'Olivier
   ✓ Audit des comptes créés récemment
-  ✓ Audit complet du groupe Domain Admins
+  ✓ Audit complet du groupe Admins du domaine
 
 Phase d'Investigation:
   ✓ Reconstruction complète de la timeline
@@ -738,7 +738,7 @@ VECTEUR D'ATTAQUE
 
 3. Escalade de privilèges
    - Utilisation du compte d'Olivier pour créer un compte admin
-   - Ajout au groupe Domain Admins
+   - Ajout au groupe Admins du domaine
    - Obtention de privilèges système complets
 
 4. Exfiltration de données
@@ -752,7 +752,7 @@ LEÇONS APPRISES
 Points faibles identifiés:
   1. Aucune formation anti-phishing pour les employés
   2. Pas d'authentification multi-facteurs (MFA) pour comptes admin
-  3. Trop de membres dans le groupe Domain Admins
+  3. Trop de membres dans le groupe Admins du domaine
   4. Pas de détection automatique de connexions depuis IP externes
   5. Pas de vérification pour demandes urgentes de mots de passe
   6. Audit de sécurité AD insuffisant
@@ -763,7 +763,7 @@ RECOMMANDATIONS
 PRIORITÉ HAUTE (À implémenter immédiatement):
   1. Formation anti-phishing obligatoire pour TOUS les employés
   2. Activer MFA pour tous les comptes administrateurs
-  3. Réduire les membres de Domain Admins au strict minimum
+  3. Réduire les membres de Admins du domaine au strict minimum
   4. Implémenter une procédure de vérification pour demandes de MDP
   5. Sensibiliser Olivier et toute l'équipe à cet incident
 
@@ -867,8 +867,8 @@ Pour les instructeurs qui souhaitent créer réellement cet incident simulé :
 $pwd = ConvertTo-SecureString "MaliciousPassword123!" -AsPlainText -Force
 New-ADUser -Name "Support Technique" -GivenName "Support" -Surname "Technique" -SamAccountName "support.temp" -AccountPassword $pwd -Enabled $true -Path "CN=Users,DC=maxtec,DC=be"
 
-# Ajouter au groupe Domain Admins
-Add-ADGroupMember -Identity "Domain Admins" -Members "support.temp"
+# Ajouter au groupe Admins du domaine
+Add-ADGroupMember -Identity "Admins du domaine" -Members "support.temp"
 
 # Modifier les dates de création pour correspondre au scénario
 # (nécessite manipulation directe de l'attribut WhenCreated - avancé)
@@ -879,7 +879,7 @@ Add-ADGroupMember -Identity "Domain Admins" -Members "support.temp"
 | Problème | Cause | Solution |
 |----------|-------|----------|
 | Impossible de supprimer le compte | Protection ou sessions actives | Forcer avec -Force, ou désactiver d'abord |
-| Domain Admins ne peut pas être modifié | Permissions insuffisantes | Utiliser un compte Enterprise Admin |
+| Admins du domaine ne peut pas être modifié | Permissions insuffisantes | Utiliser un compte Enterprise Admin |
 | Les logs Event Viewer sont vides | Audit non activé | Activer l'audit des connexions dans les GPO |
 
 ---

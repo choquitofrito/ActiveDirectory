@@ -40,7 +40,9 @@ Votre mission : créer le compte utilisateur de Sophie avant son arrivée pour q
 2. Tapez `dsa.msc` et appuyez sur **Entrée**
 3. La console "Utilisateurs et ordinateurs Active Directory" s'ouvre
 
-   **Résultat attendu** : Vous voyez l'arborescence du domaine maxtec.be avec l'OU CreativeHub
+!!! success "Résultat attendu"
+    
+    Vous voyez l'arborescence du domaine maxtec.be avec l'OU CreativeHub
 
 ### Étape 2 : Naviguer vers l'Emplacement Correct
 
@@ -50,7 +52,9 @@ Votre mission : créer le compte utilisateur de Sophie avant son arrivée pour q
    - **Creative**
 2. Cliquez sur **Users**
 
-   **Résultat attendu** : Le volet de droite affiche les 5 graphistes existants (Fabien, Gabrielle, Hugo, Inès, Julien)
+!!! success "Résultat attendu"
+    
+    Le volet de droite affiche les 5 graphistes existants (Fabien, Gabrielle, Hugo, Inès, Julien)
 
 ### Étape 3 : Créer le Nouvel Utilisateur
 
@@ -64,7 +68,9 @@ Votre mission : créer le compte utilisateur de Sophie avant son arrivée pour q
    - Vérifiez que le suffixe est bien `@maxtec.be`
 4. Cliquez sur **Suivant**
 
-   **Résultat attendu** : Vous arrivez à la page de configuration du mot de passe
+
+!!! success "Résultat attendu"
+    Vous arrivez à la page de configuration du mot de passe
 
 ### Étape 4 : Configurer le Mot de Passe
 
@@ -74,7 +80,9 @@ Votre mission : créer le compte utilisateur de Sophie avant son arrivée pour q
 4. **Cochez** "Le mot de passe n'expire jamais" (pour l'environnement de lab uniquement !)
 5. Cliquez sur **Suivant**, puis sur **Terminer**
 
-   **Résultat attendu** : Sophie Moreau apparaît dans la liste des utilisateurs de l'OU Creative\Users
+!!! success "Résultat attendu"
+    
+    Sophie Moreau apparaît dans la liste des utilisateurs de l'OU Creative\Users
 
 ### Étape 5 : Configurer les Propriétés de l'Utilisateur
 
@@ -86,7 +94,9 @@ Votre mission : créer le compte utilisateur de Sophie avant son arrivée pour q
    - **Service** : `Creative`
 4. Cliquez sur **Appliquer**, puis **OK**
 
-   **Résultat attendu** : Les propriétés de Sophie sont enregistrées
+
+!!! success "Résultat attendu"
+    Les propriétés de Sophie sont enregistrées
 
 ### Étape 6 : Ajouter Sophie au Groupe de Sécurité
 
@@ -98,7 +108,9 @@ Votre mission : créer le compte utilisateur de Sophie avant son arrivée pour q
 6. Cliquez sur **Vérifier les noms** (le nom doit être souligné)
 7. Cliquez sur **OK**, puis à nouveau sur **OK**
 
-   **Résultat attendu** : Sophie Moreau apparaît dans la liste des membres du groupe GG-CreativeHub-Creative-Users
+
+!!! success "Résultat attendu"
+    Sophie Moreau apparaît dans la liste des membres du groupe GG-CreativeHub-Creative-Users
 
 ## Vérification de la Réussite
 
@@ -176,15 +188,6 @@ Add-ADGroupMember -Identity $groupName -Members $samAccountName
 Write-Host "Utilisateur Sophie Moreau créé et ajouté au groupe Creative-Users avec succès !" -ForegroundColor Green
 ```
 
-### Vérifications Post-Exécution
-
-```powershell
-# Vérifier la création
-Get-ADUser -Identity sophie -Properties * | Format-List Name, EmailAddress, Title, Department, Enabled
-
-# Vérifier l'appartenance au groupe
-Get-ADPrincipalGroupMembership -Identity sophie | Select-Object Name
-```
 
 ## Points Clés à Retenir
 

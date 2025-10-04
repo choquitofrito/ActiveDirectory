@@ -163,7 +163,7 @@ if ($groupesVides.Count -gt 0) {
    ```powershell
    $tousLesGroupes = Get-ADGroup -Filter * -SearchBase "DC=maxtec,DC=be"  # ☠️
    ```
-   **Risque**: Inclut groupes système critiques (Domain Admins vide = supprimé)
+   **Risque**: Inclut groupes système critiques (Admins du domaine vide = supprimé)
 
 4. **PAS DE VÉRIFICATION TYPE GROUPE** (GRAVE)
    - Pas de distinction Distribution vs Sécurité
@@ -196,7 +196,7 @@ Write-Host "Mode: $($WhatIf ? 'SIMULATION' : 'RÉEL')" -ForegroundColor $(if($Wh
 
 # Groupes à JAMAIS supprimer (whitelist sécurité)
 $groupesCritiques = @(
-    "Domain Admins", "Enterprise Admins", "Schema Admins",
+    "Admins du domaine", "Enterprise Admins", "Schema Admins",
     "Account Operators", "Backup Operators", "Server Operators",
     "Print Operators", "Replicator", "Domain Users", "Domain Computers",
     "Domain Controllers", "Cert Publishers", "Domain Guests"
