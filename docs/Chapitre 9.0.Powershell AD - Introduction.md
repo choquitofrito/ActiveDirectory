@@ -1,19 +1,32 @@
 # Chapitre 9.0: Powershell AD - Introduction
 
+## 🧭 Navigation du Cours
+[🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Powershell AD - Concepts base](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md)
+
+---
+
+!!! info "📚 Dans ce chapitre"
+    
+    Découvrez PowerShell pour Active Directory : un outil puissant pour automatiser et simplifier la gestion de votre domaine.
+
+---
+
 ## 1. 🔹 Qu'est-ce que PowerShell pour AD ?
 
 PowerShell est un outil d'administration puissant qui permet d'automatiser et de simplifier la gestion d'Active Directory. Contrairement à l'interface graphique, PowerShell offre:
 
-!!! info "Avantages de PowerShell pour AD"
-
-- **Automatisation** des tâches répétitives
-- **Traitement par lots** pour gérer plusieurs objets simultanément
-- **Scripting** pour créer des solutions personnalisées
-- **Reporting** avancé et extraction de données
+!!! tip "Avantages de PowerShell pour AD"
+    
+    - **Automatisation** des tâches répétitives
+    - **Traitement par lots** pour gérer plusieurs objets simultanément
+    - **Scripting** pour créer des solutions personnalisées
+    - **Reporting** avancé et extraction de données
 
 ## 2. 🔹 Modules PowerShell pour Active Directory
 
-Pour gérer Active Directory avec PowerShell, vous utilisez le module ActiveDirectory. Sur un contrôleur de domaine avec le rôle AD DS installé, ce module est généralement **déjà disponible et chargé automatiquement** dans PowerShell ISE.
+!!! note "Module disponible"
+    
+    Sur un contrôleur de domaine avec le rôle AD DS installé, ce module est généralement **déjà disponible et chargé automatiquement** dans PowerShell ISE.
 
 ```powershell
 # Vérifier si le module AD est chargé
@@ -23,13 +36,19 @@ Get-Module -Name ActiveDirectory
 # Import-Module ActiveDirectory
 ```
 
-> **Note:** Sur un poste de travail (non-DC), l'installation des outils RSAT (Remote Server Administration Tools) est nécessaire pour obtenir ce module, et l'importation explicite peut être requise.
+!!! warning "Sur un poste de travail"
+    
+    Sur un poste de travail (non-DC), l'installation des outils RSAT (Remote Server Administration Tools) est nécessaire pour obtenir ce module, et l'importation explicite peut être requise.
 
-> **Exemple pratique**: Ouvrez PowerShell sur votre contrôleur de domaine et exécutez ces commandes pour vérifier que le module AD est bien installé et disponible.
+!!! example "Test pratique"
+    
+    Ouvrez PowerShell sur votre contrôleur de domaine et exécutez ces commandes pour vérifier que le module AD est bien installé et disponible.
 
 ## 3. 🔹 Commandes de base et structure
 
-Les commandes PowerShell pour AD suivent une structure cohérente avec des verbes d'action et des noms d'objets:
+!!! info "Structure cohérente"
+    
+    Les commandes PowerShell pour AD suivent une structure cohérente avec des verbes d'action et des noms d'objets :
 
 | Verbe | Action | Exemples |
 |-------|--------|----------|
@@ -42,7 +61,9 @@ Les commandes PowerShell pour AD suivent une structure cohérente avec des verbe
 
 ### Exemple pratique: Explorer votre domaine
 
-Exécutez ces commandes sur votre contrôleur de domaine `dns1.maxtec.be` et observez les résultats. 
+!!! example "Commandes de découverte"
+    
+    Exécutez ces commandes sur votre contrôleur de domaine `dns1.maxtec.be` et observez les résultats. 
 
 
 ```powershell
@@ -54,14 +75,10 @@ Get-ADDomainController -Filter *
 
 # Afficher tous les utilisateurs du domaine
 Get-ADUser -Filter *
-# Afficher les 15 premiers utilisateurs du domaine (ResultSetSize permet de limiter le nombre de résultats, peu importe la requête)
-Get-ADUser -Filter * -ResultSetSize 15 
 
-# Afficher les utilisateurs du domaine, mais sélectionner des attributs spécifiques
-Get-ADUser -Filter * -ResultSetSize 15 -Properties Name, Enabled, SamAccountName 
 
 # Afficher les utilisateurs du domaine, mais sélectionner des attributs spécifiques et les afficher de manière structurée
-Get-ADUser -Filter * -ResultSetSize 15 -Properties Name, Enabled, SamAccountName | 
+Get-ADUser -Filter * -Properties Name, Enabled, SamAccountName | 
     Format-Table Name, Enabled, SamAccountName
 
 # Obtenir d'autres types d'objets AD
@@ -73,13 +90,18 @@ Get-ADGroup -Filter *
 Get-ADComputer -Filter *
 
 # Afficher toutes les unités d'organisation (OUs)
-Get-ADOrganizationalUnit -Filter *
+Get-ADComputer -Filter *
+
 ```
 
-(On verra les filtres plus tard)
+!!! note "Filtres avancés"
+    
+    (On verra les filtres plus tard)
 
 
-## 4. 🔹 Comparaison avec l'interface graphique
+!!! info "Comparaison GUI vs PowerShell"
+    
+    Voici quelques exemples concrets des avantages de PowerShell :
 
 | Tâche | Interface graphique | PowerShell | Avantage PowerShell |
 |-------|---------------------|------------|---------------------|
@@ -90,7 +112,9 @@ Get-ADOrganizationalUnit -Filter *
 
 ### Exemple pratique: Tâche impossible en GUI
 
-Trouvez tous les utilisateurs qui n'ont pas changé leur mot de passe depuis plus de 4 jours:
+!!! example "Recherche complexe"
+    
+    Trouvez tous les utilisateurs qui n'ont pas changé leur mot de passe depuis plus de 4 jours :
 
 ```powershell
 $date = (Get-Date).AddDays(-4)
@@ -99,11 +123,15 @@ Get-ADUser -Filter {PasswordLastSet -lt $date -and Enabled -eq $true} -Propertie
     Sort-Object PasswordLastSet
 ```
 
-> **Exercice**: Exécutez cette commande et discutez de la façon dont vous pourriez accomplir la même tâche avec l'interface graphique (spoiler: c'est très difficile).
+!!! question "Réflexion"
+    
+    Exécutez cette commande et discutez de la façon dont vous pourriez accomplir la même tâche avec l'interface graphique (spoiler: c'est très difficile).
 
 ## 5. 🔹 Configuration de l'environnement PowerShell
 
-Pour travailler efficacement avec PowerShell, quelques configurations sont recommandées:
+!!! tip "Configuration recommandée"
+    
+    Pour travailler efficacement avec PowerShell, quelques configurations sont recommandées :
 
 ```powershell
 # Définir l'exécution des scripts (sur votre station de travail d'administration)
@@ -116,13 +144,26 @@ New-Item -Path "C:\Scripts" -ItemType Directory -Force
 
 ## 6. 🔹 Aide et documentation
 
-PowerShell dispose d'un système d'aide intégré complet mais très technique pour débuter:
+!!! info "Aide intégrée"
+    
+    PowerShell dispose d'un système d'aide intégré complet mais très technique pour débuter :
 
 ```powershell
 # Afficher l'aide dans une fenêtre séparée
 Get-Help Get-ADUser -ShowWindow
 ```
 
-> **Exercice**: Utilisez l'internet, IA ou le système d'aide pour explorer la commande `New-ADUser`. Identifiez les paramètres obligatoires et facultatifs pour créer un nouvel utilisateur.
+!!! example "Exercice d'exploration"
+    
+    Utilisez l'internet, IA ou le système d'aide pour explorer la commande `New-ADUser`. Identifiez les paramètres obligatoires et facultatifs pour créer un nouvel utilisateur.
+
+---
+
+## 🧭 Navigation
+[🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Powershell AD - Concepts base](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md)
+
+---
+
+**📚 Cours Active Directory - PowerShell | 👨‍💻 Pour débutants**
 
 

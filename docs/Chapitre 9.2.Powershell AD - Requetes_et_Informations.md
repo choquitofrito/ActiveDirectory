@@ -1,16 +1,55 @@
 # Chapitre 9.2: Atelier pratique : Requêtes et informations
 
+## 🧭 Navigation du Cours
+[⏮️ Chapitre Précédent: Powershell AD - Concepts base](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Powershell AD - Création et Modification](Chapitre%209.3.Powershell%20AD%20-%20Creation_et_Modification.md)
+
+---
+
+!!! info "📚 Dans ce chapitre"
+    
+    Apprenez à extraire et analyser les informations de votre Active Directory avec PowerShell.
+
+---
+
 ## 1. 🔹 Obtenir des informations sur les utilisateurs
 
 Les commandes PowerShell permettent d'extraire rapidement des informations sur les utilisateurs avec différents niveaux de détail.
 
 ### Découvrir les attributs disponibles
 
-Avant de pouvoir rechercher des informations spécifiques, il est important de connaître les propriétés disponibles. Ces propriétés sont disponibles dans l'interface graphique via le menu `Propriétés` > `Editeur d'attributs` dans `Utilisateurs et groupes d'AD` (il faut d'abord activer l'option `Fonctionnalités avancées` dans le menu principal de `Utilisateurs et groupes d'AD`).
+!!! info "Découvrir les propriétés"
+    
+    Avant de pouvoir rechercher des informations spécifiques, il est important de connaître les propriétés disponibles. Ces propriétés sont disponibles dans l'interface graphique via le menu `Propriétés` > `Editeur d'attributs` dans `Utilisateurs et groupes d'AD` (il faut d'abord activer l'option `Fonctionnalités avancées` dans le menu principal de `Utilisateurs et groupes d'AD`).
 
 
 
 ### Commandes de base
+
+### Les filtres les plus courants dans PowerShell AD
+
+Voici les opérateurs de filtre les plus utilisés avec les commandes PowerShell pour Active Directory (`-Filter`), notamment pour `Get-ADUser`, `Get-ADGroup`, etc. :
+
+| Opérateur | Signification | Exemple d'utilisation |
+|-----------|--------------|----------------------|
+| `-eq`     | Égal à       | `{Department -eq "Comptabilité"}` |
+| `-ne`     | Différent de | `{Enabled -ne $true}` |
+| `-like`   | Correspondance avec joker (`*` ou `?`) | `{Name -like "Mar*"} ` |
+| `-notlike`| Ne correspond pas au motif | `{Name -notlike "*test*"}` |
+| `-gt`     | Supérieur à  | `{WhenCreated -gt $date}` |
+| `-ge`     | Supérieur ou égal à | `{WhenCreated -ge $date}` |
+| `-lt`     | Inférieur à  | `{PasswordLastSet -lt $date}` |
+| `-le`     | Inférieur ou égal à | `{PasswordLastSet -le $date}` |
+| `-and`    | ET logique   | `{Enabled -eq $true -and Department -eq "RH"}` |
+| `-or`     | OU logique   | `{Department -eq "RH" -or Department -eq "Comptabilité"}` |
+| `-not`    | Négation     | `{ -not (Enabled -eq $true) }` |
+
+!!! tip "Astuce"
+    - L'opérateur `-like` est très utile pour les recherches partielles avec des jokers (`*` pour plusieurs caractères, `?` pour un seul).
+    - Les dates doivent être comparées avec des variables de type `[datetime]` (voir exemples plus bas).
+    - Les filtres sont sensibles à la casse des propriétés, mais pas des valeurs.
+
+**Exemples rapides :**
+
 
 ```powershell
 # Lister tous les utilisateurs (limité aux 10 premiers pour l'exemple)
@@ -38,7 +77,9 @@ Get-ADUser -Filter {Country -eq "BE"} -Properties Country |
     Format-Table Name, SamAccountName, Country
 ```
 
-**Note**: Format-Table permet de formatter les résultats de manière lisible, c'est juste une option
+!!! note "Formatage des résultats"
+    
+    Format-Table permet de formatter les résultats de manière lisible, c'est juste une option
 
 
 # Trouver les utilisateurs actifs
@@ -56,9 +97,11 @@ Get-ADUser -Filter {Country -eq "B" -and Department -eq "Ventes"} -Properties Co
     Format-Table Name, SamAccountName, Country, Department
 ```
 
-> **Exercice** : Trouvez tous les utilisateurs dont le nom contient "va" et affichez leur nom complet.
-
-> **Exercice** : Pensez à une recherche outile au niveau de votre Active Directory et exécutez-la.
+!!! example "Exercices pratiques"
+    
+    **Exercice 1** : Trouvez tous les utilisateurs dont le nom contient "va" et affichez leur nom complet.
+    
+    **Exercice 2** : Pensez à une recherche utile au niveau de votre Active Directory et exécutez-la.
 
 
 ## 2. 🔹 Obtenir des informations sur les groupes
@@ -77,7 +120,9 @@ Get-ADGroup -Filter {Name -eq "GG-EU-RH-Users"} | ForEach-Object {
 }
 ```
 
-**Rappel:** ForEach-Object permet de parcourir chaque objet retourné par Get-ADGroup. Le $_ représente l'objet actuel utilisé dans la boucle
+!!! info "ForEach-Object"
+    
+    ForEach-Object permet de parcourir chaque objet retourné par Get-ADGroup. Le `$_` représente l'objet actuel utilisé dans la boucle
 
 
 ```powershell
@@ -87,22 +132,25 @@ Get-ADUser -Filter {SamAccountName -eq "victor"} | ForEach-Object {
 }
 ```
 
-> **Exercice 1** : Trouvez tous les groupes dont le nom contient le mot "IT".
-
-
-> **Exercice 2** : Affichez les membres du groupe "GG-EU-IT-Users". Utilisez Identity car Get-ADGroupMember n'accepte pas le paramètre -Filter.
+!!! example "Exercices sur les groupes"
+    
+    **Exercice 1** : Trouvez tous les groupes dont le nom contient le mot "IT".
+    
+    **Exercice 2** : Affichez les membres du groupe "GG-EU-IT-Users". Utilisez Identity car Get-ADGroupMember n'accepte pas le paramètre -Filter.
 
 ```powershell
 # Solution: on utilise identity car Get-ADGroupMember n'accepte pas le paramètre -Filter. Certaines commandes ne l'acceptent pas.
 Get-ADGroupMember -Identity "GG-EU-IT-Users" | Format-Table Name, SamAccountName
 ```
 
-> **Le paramètre -Identity** : Ce paramètre permet de spécifier quel objet AD vous voulez manipuler. Il accepte plusieurs formats d'identification. Par exemple... si on a le groupe "GG-EU-IT-Users", on peut le trouver de plusieurs manières en utilisant le paramètre -Identity :
-> - **Nom** : Simplement le nom du groupe (ex: -Identity "GG-EU-IT-Users")
-> - **SamAccountName** : L'identifiant unique du groupe dans le domaine (ex: -Identity "GG-EU-IT-Users")
-> - **DistinguishedName** : Le chemin complet dans l'AD (ex: -Identity "CN=GG-EU-IT-Users,OU=Groups,OU=EU,DC=computerelectronics,DC=be")
-> - **GUID** : L'identifiant unique global (ex: -Identity "123e4567-e89b-12d3-a456-426614174000")
->
+!!! tip "Le paramètre -Identity"
+    
+    Ce paramètre permet de spécifier quel objet AD vous voulez manipuler. Il accepte plusieurs formats d'identification. Par exemple... si on a le groupe "GG-EU-IT-Users", on peut le trouver de plusieurs manières en utilisant le paramètre -Identity :
+    
+    - **Nom** : Simplement le nom du groupe (ex: -Identity "GG-EU-IT-Users")
+    - **SamAccountName** : L'identifiant unique du groupe dans le domaine (ex: -Identity "GG-EU-IT-Users")
+    - **DistinguishedName** : Le chemin complet dans l'AD (ex: -Identity "CN=GG-EU-IT-Users,OU=Groups,OU=EU,DC=computerelectronics,DC=be")
+    - **GUID** : L'identifiant unique global (ex: -Identity "123e4567-e89b-12d3-a456-426614174000")
 
 
 
@@ -125,11 +173,15 @@ Get-ADOrganizationalUnit -Filter { Name -eq "RH"}
 Get-ADUser -Filter {Country -eq "BE"}
 
 # Obtenir les objets dans une OU spécifique
-# Remarque: SearchBase est nécessaire car il définit le point de départ de la recherche
+!!! note "SearchBase obligatoire"
+    
+    SearchBase est nécessaire car il définit le point de départ de la recherche
 Get-ADObject -Filter * -SearchBase "OU=Users,OU=Comptabilite,OU=EU,DC=computerelectronics,DC=be"
 
 # Compter les utilisateurs dans une OU
-# Remarque: SearchBase est nécessaire pour limiter la recherche à une OU spécifique
+!!! note "Limitation de recherche"
+    
+    SearchBase est nécessaire pour limiter la recherche à une OU spécifique
 (Get-ADUser -Filter * -SearchBase "OU=Users,OU=Comptabilite,OU=EU,DC=computerelectronics,DC=be").Count
 ```
 
@@ -140,38 +192,46 @@ L'exportation des données est essentielle pour le reporting et l'analyse.
 
 ### Exportation vers CSV
 
-**Note:** Select-Object permet de sélectionner les attributs que l'on souhaite exporter.
+!!! note "Sélection d'attributs"
+    
+    Select-Object permet de sélectionner les attributs que l'on souhaite exporter.
 
-### Différence entre le pipeline (|) et ForEach-Object
+!!! tip "Différence Pipeline vs ForEach-Object"
+    
+    Dans PowerShell, il existe deux façons principales de traiter plusieurs objets :
+    
+    **1. Le pipeline (|)** : Utilisé pour passer les résultats d'une commande à une autre. Idéal quand la commande suivante accepte des objets en entrée via le pipeline.
+    
+    **2. ForEach-Object** : Utilisé quand vous devez exécuter **un bloc de code plus complexe** pour chaque objet ou quand la commande suivante n'accepte pas d'entrée via le pipeline.
 
-Dans PowerShell, il existe deux façons principales de traiter plusieurs objets :
+!!! example "Exemple avec pipeline"
+    
+    ```powershell
+    # Exemple avec pipeline
+    Get-ADUser -Filter {Country -eq "BE"} | Select-Object Name, SamAccountName
+    ```
 
-1. **Le pipeline (|)** : Utilisé pour passer les résultats d'une commande à une autre. Idéal quand la commande suivante accepte des objets en entrée via le pipeline.
-   ```powershell
-   # Exemple avec pipeline
-   Get-ADUser -Filter {Country -eq "BE"} | Select-Object Name, SamAccountName
-   ```
+!!! example "Exemple avec ForEach-Object"
+    
+    ```powershell
+    # Exemple avec ForEach-Object
+    Get-ADGroup -Filter {Name -like "GG-*"} | ForEach-Object {
+        # Bloc de code exécuté pour chaque groupe
+        Get-ADGroupMember -Identity $_.Name
+    }
+    ```
+    
+    **Explication de cet exemple** :
+    
+    1. `Get-ADGroup -Filter {Name -like "GG-*"}` : Cette commande recherche tous les groupes AD dont le nom commence par "GG-"
+    2. `| ForEach-Object { ... }` : Pour chaque groupe trouvé, on exécute le bloc de code entre accolades
+    3. `Get-ADGroupMember -Identity $_.Name` : Pour chaque groupe ($_ représente le groupe actuel), on récupère la liste de ses membres
+    
+    **Pourquoi utiliser ForEach-Object ici ?** Parce que `Get-ADGroupMember` n'accepte pas directement des objets du pipeline. Il faut donc traiter chaque groupe individuellement et extraire son nom pour le passer à la commande.
 
-2. **ForEach-Object** : Utilisé quand vous devez exécuter **un bloc de code plus complexe** pour chaque objet ou quand la commande suivante n'accepte pas d'entrée via le pipeline.
-
-Voici un exemple: 
-
-   ```powershell
-   # Exemple avec ForEach-Object
-   Get-ADGroup -Filter {Name -like "GG-*"} | ForEach-Object {
-       # Bloc de code exécuté pour chaque groupe
-       Get-ADGroupMember -Identity $_.Name
-   }
-   ```
-   
-   **Explication de cet exemple** :
-   1. `Get-ADGroup -Filter {Name -like "GG-*"}` : Cette commande recherche tous les groupes AD dont le nom commence par "GG-"
-   2. `| ForEach-Object { ... }` : Pour chaque groupe trouvé, on exécute le bloc de code entre accolades
-   3. `Get-ADGroupMember -Identity $_.Name` : Pour chaque groupe ($_ représente le groupe actuel), on récupère la liste de ses membres
-   
-   Pourquoi utiliser ForEach-Object ici ? Parce que `Get-ADGroupMember` n'accepte pas directement des objets du pipeline. Il faut donc traiter chaque groupe individuellement et extraire son nom pour le passer à la commande.
-
-> **Explication de `$_`** : Dans PowerShell, `$_` est une variable spéciale qui représente l'objet actuel dans le pipeline. Quand vous utilisez ForEach-Object, `$_` fait référence à chaque objet qui est traité un par un. Par exemple, dans `$_.Name`, le `$_` représente un groupe AD et `.Name` accède à la propriété "Name" de ce groupe.
+!!! info "Explication de `$_`"
+    
+    Dans PowerShell, `$_` est une variable spéciale qui représente l'objet actuel dans le pipeline. Quand vous utilisez ForEach-Object, `$_` fait référence à chaque objet qui est traité un par un. Par exemple, dans `$_.Name`, le `$_` représente un groupe AD et `.Name` accède à la propriété "Name" de ce groupe.
 
 ```powershell
 # Exemple d'exportation avec pipeline
@@ -196,4 +256,15 @@ Get-ADUser -Filter * -Properties Department, Title |
 Invoke-Item "C:\utilisateurs.html"
 ```
 
-> **Exercice** : Exportez la liste de tous les groupes et leurs membres dans un fichier CSV.
+!!! example "Exercice final"
+    
+    Exportez la liste de tous les groupes et leurs membres dans un fichier CSV.
+
+---
+
+## 🧭 Navigation
+[⏮️ Chapitre Précédent: Powershell AD - Concepts base](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Powershell AD - Création et Modification](Chapitre%209.3.Powershell%20AD%20-%20Creation_et_Modification.md)
+
+---
+
+**📚 Cours Active Directory - PowerShell | 👨‍💻 Pour débutants**

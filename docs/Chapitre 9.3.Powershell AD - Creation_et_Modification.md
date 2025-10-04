@@ -1,8 +1,21 @@
 # Chapitre 9.3: Atelier pratique : Création et modification
 
+## 🧭 Navigation du Cours
+[⏮️ Chapitre Précédent: Powershell AD - Requêtes et Informations](Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations.md) | [🏠 Retour au Syllabus](../README.md)
+
+---
+
+!!! info "📚 Dans ce chapitre"
+    
+    Apprenez à créer et modifier des objets Active Directory avec PowerShell pour automatiser vos tâches d'administration.
+
+---
+
 ## 1. 🔹 Modification d'attributs utilisateur
 
-La modification des attributs utilisateur est une tâche courante qui peut être facilement automatisée avec PowerShell.
+!!! tip "Automatisation"
+    
+    La modification des attributs utilisateur est une tâche courante qui peut être facilement automatisée avec PowerShell.
 
 ### Modification d'attributs simples
 
@@ -15,11 +28,15 @@ Get-ADUser -Filter "SamAccountName -eq 'Victor'" | Set-ADUser `
     -Description "Comptable senior pour les clients européens"
 ```
 
-> **Exercice** : Modifiez la description de tous les utilisateurs du département Comptabilité (mettez par exemple: "Utilisateur de comptabilité")
+!!! example "Exercice de modification"
+    
+    Modifiez la description de tous les utilisateurs du département Comptabilité (mettez par exemple: "Utilisateur de comptabilité")
 
 ## 4. 🔹 Gestion des mots de passe
 
-La gestion des mots de passe est une tâche critique pour la sécurité.
+!!! warning "Sécurité critique"
+    
+    La gestion des mots de passe est une tâche critique pour la sécurité.
 
 ### Réinitialisation de mot de passe
 
@@ -42,7 +59,9 @@ Get-ADUser -Filter "Department -eq 'Stagiaires'" | ForEach-Object {
 }
 ```
 
-> **Exercice**: Réinitialisez le mot de passe de tous les utilisateurs du département Comptabilité et forcez le changement de mot de passe à la prochaine connexion.
+!!! example "Exercice mots de passe"
+    
+    Réinitialisez le mot de passe de tous les utilisateurs du département Comptabilité et forcez le changement de mot de passe à la prochaine connexion.
 
 
 ### Déverrouillage de compte
@@ -64,7 +83,9 @@ Get-ADUser -Filter {LockedOut -eq $true} -Properties LockedOut | ForEach-Object 
 
 ## 5. 🔹 Gestion des appartenances aux groupes
 
-La gestion des appartenances aux groupes est essentielle pour contrôler les accès.
+!!! info "Gestion des accès"
+    
+    La gestion des appartenances aux groupes est essentielle pour contrôler les accès.
 
 ### Ajouter un utilisateur à un groupe
 
@@ -83,7 +104,9 @@ Get-ADUser -Filter "(SamAccountName -eq 'jean.martin') -or (SamAccountName -eq '
 Get-ADUser -Filter {SamAccountName -eq 'pierre.dupont'} | Remove-ADGroupMember -Identity "GG-EU-Comptabilité-Managers" -Confirm:$false
 
 # Exemple: retirer tous les utilisateurs d'un service d'un groupe
-# Note: 'Department' (propriété PowerShell) = 'Service' (interface française d'AD)
+!!! note "Propriété Department"
+    
+    'Department' (propriété PowerShell) = 'Service' (interface française d'AD)
 Get-ADUser -Filter {Department -eq 'Stagiaires'} | Remove-ADGroupMember -Identity "GG-EU-Comptabilité-Utilisateurs" -Confirm:$false
 ```
 
@@ -103,7 +126,9 @@ Get-ADUser -Filter * -SearchBase $cheminOU | ForEach-Object {
 }
 ```
 
-> **Exercice** : Ajoutez un utilisateur à trois groupes différents, puis vérifiez ses appartenances.
+!!! example "Exercice groupes"
+    
+    Ajoutez un utilisateur à trois groupes différents, puis vérifiez ses appartenances.
 
 ## 6. 🔹 Mini-projet : Script pour créer plusieurs utilisateurs à partir d'un CSV
 
@@ -179,10 +204,23 @@ foreach ($dept in $departements) {
 }
 ```
 
-> **Exercice final** : Modifiez le script pour ajouter des attributs supplémentaires comme le bureau, le téléphone, et l'adresse. Ajoutez également une gestion d'erreurs plus robuste.
+!!! example "Exercice final avancé"
+    
+    Modifiez le script pour ajouter des attributs supplémentaires comme le bureau, le téléphone, et l'adresse. Ajoutez également une gestion d'erreurs plus robuste.
 
 ## 🔹 Conclusion
 
-Cette section vous a présenté les techniques essentielles pour créer et modifier des objets Active Directory avec PowerShell. Ces compétences vous permettront d'automatiser des tâches répétitives et de gagner un temps précieux dans votre administration quotidienne.
+!!! success "Compétences acquises"
+    
+    Cette section vous a présenté les techniques essentielles pour créer et modifier des objets Active Directory avec PowerShell. Ces compétences vous permettront d'automatiser des tâches répétitives et de gagner un temps précieux dans votre administration quotidienne.
+    
+    Dans la prochaine section, nous verrons comment gérer les stratégies de groupe (GPO) avec PowerShell.
 
-Dans la prochaine section, nous verrons comment gérer les stratégies de groupe (GPO) avec PowerShell.
+---
+
+## 🧭 Navigation
+[⏮️ Chapitre Précédent: Powershell AD - Requêtes et Informations](Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations.md) | [🏠 Retour au Syllabus](../README.md)
+
+---
+
+**📚 Cours Active Directory - PowerShell | 👨‍💻 Pour débutants**

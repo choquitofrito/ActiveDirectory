@@ -1,10 +1,21 @@
 # Chapitre 9.1: Les concepts de base PowerShell pour Active Directory
 
-Ce chapitre vous introduira aux concepts fondamentaux de PowerShell dans le contexte d'Active Directory. Vous n'avez pas besoin d'être développeur pour comprendre et utiliser ces concepts !
+## 🧭 Navigation du Cours
+[⏮️ Chapitre Précédent: Powershell AD - Introduction](Chapitre%209.0.Powershell%20AD%20-%20Introduction.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Powershell AD - Requêtes et Informations](Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations.md)
+
+---
+
+!!! info "📚 Dans ce chapitre"
+    
+    Ce chapitre vous introduira aux concepts fondamentaux de PowerShell dans le contexte d'Active Directory. Vous n'avez pas besoin d'être développeur pour comprendre et utiliser ces concepts !
+
+---
 
 ## 1. 🔹 Les variables : des boîtes de rangement
 
-Une variable est simplement un conteneur qui stocke une information. Pensez-y comme à une boîte étiquetée où vous rangez temporairement des données.
+!!! tip "Concept simple"
+    
+    Une variable est simplement un conteneur qui stocke une information. Pensez-y comme à une boîte étiquetée où vous rangez temporairement des données.
 
 ### Création d'une variable
 
@@ -19,26 +30,34 @@ Write-Output $nomUtilisateur         # Méthode 3: Utiliser Write-Output (pour l
 echo $nomUtilisateur                 # Méthode 4: Utiliser l'alias 'echo' (comme Write-Output)
 ```
 
-> Remarquez le symbole `$` qui indique qu'il s'agit d'une variable.
+!!! note "Symbole important"
+    
+    Remarquez le symbole `$` qui indique qu'il s'agit d'une variable.
 
 ### Exercice 1.1 : Créez votre première variable
 
-1. Créez une variable `$monDomaine` contenant le nom de votre domaine AD
-2. Affichez son contenu
-3. Modifiez sa valeur et affichez-la à nouveau
+!!! example "À vous de jouer !"
+    
+    1. Créez une variable `$monDomaine` contenant le nom de votre domaine AD
+    2. Affichez son contenu
+    3. Modifiez sa valeur et affichez-la à nouveau
 
 ### Exercice 1.2 : Variables et concaténation
 
-1. Créez une variable `$prenom` contenant votre prénom
-2. Créez une variable `$nom` contenant votre nom de famille
-3. Créez une variable `$nomComplet` qui combine les deux avec un espace entre eux (indice : utilisez `$prenom + " " + $nom`)
-4. Créez une variable `$loginAD` qui serait votre identifiant AD au format `prenom.nom` (comme "jean.dupont")
-5. Affichez un message qui dit "Bonjour [nomComplet], votre login est [loginAD]"
+!!! example "Exercice pratique"
+    
+    1. Créez une variable `$prenom` contenant votre prénom
+    2. Créez une variable `$nom` contenant votre nom de famille
+    3. Créez une variable `$nomComplet` qui combine les deux avec un espace entre eux (indice : utilisez `$prenom + " " + $nom`)
+    4. Créez une variable `$loginAD` qui serait votre identifiant AD au format `prenom.nom` (comme "jean.dupont")
+    5. Affichez un message qui dit "Bonjour [nomComplet], votre login est [loginAD]"
 
 
 ### Variables et commandes AD
 
-Les variables sont particulièrement utiles pour stocker les résultats de vos commandes AD :
+!!! info "Utilisation pratique"
+    
+    Les variables sont particulièrement utiles pour stocker les résultats de vos commandes AD :
 
 ```powershell
 # Stocker un utilisateur dans une variable avec toutes ses propriétés
@@ -46,14 +65,18 @@ $utilisateur = Get-ADUser -Identity "jean.dupont" -Properties *
 $groupe = Get-ADGroup -Identity "CN=GG-EU-RH-Admin,OU=Groups,OU=RH,OU=EU,DC=computerelectronics,DC=be" -Properties *
 ```
 
-**Note**: ceci était une rechercher par **identifiant**. 
+!!! note "Recherche par identifiant"
+    
+    Ceci était une recherche par **identifiant**.
 
-> **Le paramètre -Identity** : Ce paramètre permet de spécifier quel objet AD vous voulez obtenir/modifier. Il accepte plusieurs formats d'identification. Par exemple... si on a le groupe "GG-EU-IT-Users", on peut le trouver de plusieurs manières en utilisant le paramètre -Identity :
-> - **Nom** : Simplement le nom du groupe (ex: -Identity "GG-EU-IT-Users")
-> - **SamAccountName** : L'identifiant unique du groupe dans le domaine (ex: -Identity "GG-EU-IT-Users")
-> - **DistinguishedName** : Le chemin complet dans l'AD (ex: -Identity "CN=GG-EU-IT-Users,OU=Groups,OU=EU,DC=maxtec,DC=be")
-> - **GUID** : L'identifiant unique global (ex: -Identity "123e4567-e89b-12d3-a456-426614174000")
->
+!!! tip "Le paramètre -Identity"
+    
+    Ce paramètre permet de spécifier quel objet AD vous voulez obtenir/modifier. Il accepte plusieurs formats d'identification. Par exemple... si on a le groupe "GG-EU-IT-Users", on peut le trouver de plusieurs manières en utilisant le paramètre -Identity :
+    
+    - **Nom** : Simplement le nom du groupe (ex: -Identity "GG-EU-IT-Users")
+    - **SamAccountName** : L'identifiant unique du groupe dans le domaine (ex: -Identity "GG-EU-IT-Users")
+    - **DistinguishedName** : Le chemin complet dans l'AD (ex: -Identity "CN=GG-EU-IT-Users,OU=Groups,OU=EU,DC=maxtec,DC=be")
+    - **GUID** : L'identifiant unique global (ex: -Identity "123e4567-e89b-12d3-a456-426614174000")
 
 ```powershell
 # Maintenant on peut accéder facilement à ses propriétés (créez de valeurs pour les champs manquants dans AD, car le script est simplifié et crée des utilisateurs qui n'ont pas toutes les propriétés)
@@ -61,12 +84,17 @@ Write-Host $utilisateur.Surname
 Write-Host $utilisateur.GivenName
 Write-Host $utilisateur.Email
 ```
-   > **Note sur la langue** : Même si votre interface AD est en français, les noms des propriétés dans PowerShell sont toujours en anglais. Utilisez donc `GivenName` (prénom), `Surname` (nom de famille), `Title` (titre), etc. Ces noms sont standardisés et ne changent pas avec la langue de l'interface.
+
+!!! warning "Note sur la langue"
+    
+    Même si votre interface AD est en français, les noms des propriétés dans PowerShell sont toujours en anglais. Utilisez donc `GivenName` (prénom), `Surname` (nom de famille), `Title` (titre), etc. Ces noms sont standardisés et ne changent pas avec la langue de l'interface.
 
 
-### Mais quelles sont les propriétés disponibles ?
+### Mais quelles sont les propriétés disponibles ???
 
-Avant de pouvoir rechercher des informations spécifiques, il est important de connaître les attributs/propriétés disponibles. Ces propriétés sont aussi accessibles dans le menu `Propriétés` > `Editeur d'attributs` dans `Utilisateurs et groupes d'AD` (il faut activer l'option `Fonctionnalités avancées` dans le menu principal de `Utilisateurs et groupes d'AD`)
+!!! info "Découvrir les propriétés"
+    
+    Avant de pouvoir rechercher des informations spécifiques, il est important de connaître les attributs/propriétés disponibles. Ces propriétés sont aussi accessibles dans le menu `Propriétés` > `Editeur d'attributs` dans `Utilisateurs et groupes d'AD` (il faut activer l'option `Fonctionnalités avancées` dans le menu principal de `Utilisateurs et groupes d'AD`)
 
 
 ```powershell
@@ -75,7 +103,9 @@ Get-ADUser -Filter * -Properties * | Get-Member -MemberType Property
 
 
 
-Avec **Filter** on peut rechercher des éléments à partir des valeurs de leurs propriétés. Par **exemple, on peut rechercher des utilisateurs par leur nom, leur titre, leur service** ('department' en anglais. La propriété est dans l'onglet `Organisation` dans les propriétés des utilisateurs), etc.
+!!! tip "Recherche avec Filter"
+    
+    Avec **Filter** on peut rechercher des éléments à partir des valeurs de leurs propriétés. Par **exemple, on peut rechercher des utilisateurs par leur nom, leur titre, leur service** ('department' en anglais. La propriété est dans l'onglet `Organisation` dans les propriétés des utilisateurs), etc.
 
 ```powershell
 # Exemple 1: Rechercher tous les utilisateurs dont le SamAccountName commence par 'Ri' (observez que le script n'a pas crée les prénoms ni les noms des utilisateurs)
@@ -89,7 +119,9 @@ Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated | Select-Obje
 
 ## 2. 🔹 Les tableaux : vos collections d'objets
 
-Un tableau est une collection d'éléments. Imaginez un classeur avec plusieurs tiroirs numérotés.
+!!! tip "Concept simple"
+    
+    Un tableau est une collection d'éléments. Imaginez un classeur avec plusieurs tiroirs numérotés.
 
 ### Création d'un tableau simple
 
@@ -104,40 +136,64 @@ $utilisateurs[0]
 $utilisateurs[-1]
 ```
 
+Vous pouvez rajouter, effacer, modifier et obtenir un élément d'un tableau:
+
+# Obtenir un élément (par exemple, le deuxième utilisateur)
+$deuxiemeUtilisateur = $utilisateurs[1]
+Write-Host "Deuxième utilisateur : $deuxiemeUtilisateur"
+
+# Ajouter un élément à un tableau existant
+$utilisateurs += "luc.lefevre"
+
+# Modifier un élément (changer "pierre.durand" en "pierre.dupuis")
+$index = $utilisateurs.IndexOf("pierre.durand")
+if ($index -ge 0) {
+    $utilisateurs[$index] = "pierre.dupuis"
+}
+
+Pour la suppresison on devra faire attention de si le tableau a ou pas une taille fixe. On n'a pas besoin de traiter cette opération ici, on l'expliquera si on a besoin... ou recherchez par vous-mêmes le fonctionnement avec un moteur d'IA.
+
+
 ### Exercice 2.1 : Créez et manipulez un tableau
 
-1. Créez un tableau contenant les noms de serveurs de votre réseau (par exemple: "dns1", "fileserver", "webserver")
-2. Affichez le deuxième serveur du tableau
-3. Ajoutez un quatrième serveur avec `$tableauServeurs += "mailserver"`
-4. Faites une boucle `foreach` pour afficher chaque serveur sans utiliser le pipeline
-5. Affichez chaque élément du tableau avec le pipeline
+!!! example "Exercice pratique"
+    
+    1. Créez un tableau contenant les noms de serveurs de votre réseau (par exemple: "dns1", "fileserver", "webserver")
+    2. Affichez le deuxième serveur du tableau
+    3. Ajoutez un quatrième serveur avec `$tableauServeurs += "mailserver"`
+    4. Faites une boucle `foreach` pour afficher chaque serveur sans utiliser le pipeline
+    5. Affichez chaque élément du tableau avec le pipeline
 
 
 
 ### Tableaux d'objets AD
 
-En PowerShell, les résultats de nombreuses commandes sont automatiquement des tableaux :
+En PowerShell, les résultats de nombreuses commandes sont automatiquement des tableaux, et la plupart de fois ils contiendront des objets :
 
 ```powershell
 # Récupérer tous les utilisateurs du service Comptabilité: tableau d'objets ADUser
-$comptabilite = Get-ADUser -Filter *
+$utilisateursComptabilite = Get-ADUser -Filter *
 
 # Combien d'utilisateurs avons-nous ? (nombre d'objets dans le tableau)
-Write-Host $comptabilite.Count
+Write-Host $utilisateursComptabilite.Count
 
 # Accéder au premier utilisateur (accès au premier objet du tableau)
-Write-Host $comptabilite[0].Name
+Write-Host $utilisateursComptabilite[0].Name
 ```
 
 ### Exercice 2.2 : Manipuler des collections d'objets AD
 
-1. Récupérez tous les groupes dont le nom contient "GG-EU" (utiliser `Filter` - expliqué plus haut - et `like`)
-2. Affichez le nombre de groupes trouvés
-3. Affichez uniquement le nom du premier et du dernier groupe
+!!! example "Exercice avec Active Directory"
+    
+    1. Récupérez tous les groupes dont le nom contient "GG-EU" (utiliser `Filter` - expliqué plus haut - et `like`)
+    2. Affichez le nombre de groupes trouvés
+    3. Affichez uniquement le nom du premier et du dernier groupe
 
 ## 3. 🔹 Les boucles : répéter des actions
 
-Les boucles permettent de répéter une action pour chaque élément d'une collection. C'est comme traiter un dossier de documents un par un.
+!!! tip "Concept simple"
+    
+    Les boucles permettent de répéter une action pour chaque élément d'une collection. C'est comme traiter un dossier de documents un par un.
 
 ### La boucle ForEach
 
@@ -151,10 +207,15 @@ foreach ($utilisateur in $utilisateurs) {
     Write-Host $utilisateur
 }
 
-> Le bloc `{ }` contient les actions à répéter pour chaque élément.
+!!! note "Structure des boucles"
+    
+    Le bloc `{ }` contient les actions à répéter pour chaque élément.
 
-# Voici une autre version qui utilise le pipeline. Le pipeline (`|`) permet de chaîner des commandes.
-# Le symbole $_ représente l'élément actuel dans la boucle. 
+!!! info "Pipeline et ForEach-Object"
+    
+    Voici une autre version qui utilise le pipeline. Le pipeline (`|`) permet de chaîner des commandes.
+    
+    Le symbole `$_` représente l'élément actuel dans la boucle. 
 $utilisateurs | ForEach-Object { Write-Host $_ }  
 # $_ est juste un alias pour l'élément actuel dans la boucle. On peut en plus accéder aux propriétés de l'élément, par exemple: $_.Name, $_.SamAccountName, $_.Title, etc.
 $utilisateurs | ForEach-Object { Write-Host $_.Name }  
@@ -162,15 +223,19 @@ $utilisateurs | ForEach-Object { Write-Host $_.Name }
 
 ### Exercice 3.1 : Votre première boucle
 
-1. Récupérez tous les groupes de sécurité dont le nom commence par "GG-" (groupes globaux)
-2. Créez une boucle qui affiche pour chacun : "Le groupe [Nom] a la description: [Description]"
-3. Modifiez votre boucle pour n'afficher que les groupes créés après le 1er janvier 2023
+!!! example "Exercice pratique"
+    
+    1. Récupérez tous les groupes de sécurité dont le nom commence par "GG-" (groupes globaux)
+    2. Créez une boucle qui affiche pour chacun : "Le groupe [Nom] a la description: [Description]"
+    3. Modifiez votre boucle pour n'afficher que les groupes créés après le 1er janvier 2023
 
 ### Exercice 3.2 : Utiliser le pipeline
 
-1. Utilisez le pipeline pour lister tous les groupes de sécurité
-2. Pour chaque groupe, affichez son nom et le nombre de membres
-3. Bonus : triez les résultats par nombre de membres (indice : `Sort-Object`)
+!!! example "Exercice avec pipeline"
+    
+    1. Utilisez le pipeline pour lister tous les groupes de sécurité
+    2. Pour chaque groupe, affichez son nom et le nombre de membres
+    3. Bonus : triez les résultats par nombre de membres (indice : `Sort-Object`)
 
 ## 4. 🔹 Les conditions : prendre des décisions
 
@@ -327,9 +392,20 @@ if ($users.Count -eq 0) {
 
 ### Exercice final : Personnalisez le rapport
 
-1. Adaptez le script pour qu'il affiche également :
-   - La date de dernière connexion (LastLogonDate)
-   - Si le mot de passe expire ou non
-2. Ajoutez une condition pour mettre en évidence les comptes inactifs depuis plus de 30 jours
-3. Bonus : Permettez de filtrer les utilisateurs par leur statut (actif/inactif)
+!!! example "Défi final"
+    
+    1. Adaptez le script pour qu'il affiche également :
+        - La date de dernière connexion (LastLogonDate)
+        - Si le mot de passe expire ou non
+    2. Ajoutez une condition pour mettre en évidence les comptes inactifs depuis plus de 30 jours
+    3. Bonus : Permettez de filtrer les utilisateurs par leur statut (actif/inactif)
+
+---
+
+## 🧭 Navigation
+[⏮️ Chapitre Précédent: Powershell AD - Introduction](Chapitre%209.0.Powershell%20AD%20-%20Introduction.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Powershell AD - Requêtes et Informations](Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations.md)
+
+---
+
+**📚 Cours Active Directory - PowerShell | 👨‍💻 Pour débutants**
 
