@@ -530,7 +530,7 @@ When asked to create an AD lab, always provide:
    - Verification steps
    - Suggested manual exercises for students
    - Troubleshooting guide
-   - **MUST be written to a file** using the Write tool with filename format: `README_[LabName].md`
+   - **MUST be written to a file** using the Write tool with filename: `README.md`
 
 3. **Summary Table** (in documentation):
    - List of all users with emails, departments, passwords
@@ -549,6 +549,56 @@ When asked to create an AD lab, always provide:
    - Useful for student reference and documentation
 
 **CRITICAL**: You MUST use the Write tool to create all deliverable files (.ps1, .md, cleanup.ps1). Do not just output the content in the chat - write it to actual files in the working directory.
+
+## Directory Structure for Lab Files
+
+**MANDATORY**: All lab files MUST be organized according to this structure:
+
+```
+docs/Labos Extra/Labo[N]-[LabName]/
+├── README.md                          # Main documentation (objectives, scenario, instructions)
+├── scripts/
+│   ├── [LabName]_Setup.ps1           # Main creation script
+│   ├── [LabName]_Cleanup.ps1         # Cleanup/removal script
+│   └── verification/                  # Directory for verification scripts (created by exercise agent)
+├── exercices/                         # Directory for exercise files (created by exercise agent)
+└── instructeur/                       # Directory for instructor guides (created by exercise agent)
+```
+
+**File Creation Steps**:
+
+1. **FIRST**: Create the base directory structure using Bash tool:
+   ```bash
+   mkdir -p "docs/Labos Extra/Labo[N]-[LabName]/scripts/verification"
+   mkdir -p "docs/Labos Extra/Labo[N]-[LabName]/exercices"
+   mkdir -p "docs/Labos Extra/Labo[N]-[LabName]/instructeur"
+   ```
+
+2. **SECOND**: Write files to their designated locations:
+   - `README.md` → `docs/Labos Extra/Labo[N]-[LabName]/README.md`
+   - Setup script → `docs/Labos Extra/Labo[N]-[LabName]/scripts/[LabName]_Setup.ps1`
+   - Cleanup script → `docs/Labos Extra/Labo[N]-[LabName]/scripts/[LabName]_Cleanup.ps1`
+
+3. **Lab Number Convention**:
+   - Use sequential numbering: Labo1, Labo2, Labo3, etc.
+   - Check existing labs in `docs/Labos Extra/` to determine next available number
+
+4. **Naming Convention**:
+   - Lab directory: `Labo[N]-[LabName]` (e.g., `Labo1-CreativeHub`, `Labo2-BankCorp`)
+   - Scripts: `[LabName]_Setup.ps1` and `[LabName]_Cleanup.ps1`
+   - Keep lab names short, descriptive, no spaces
+
+**Example for a new "BankCorp" lab (assuming it's Labo2)**:
+```bash
+mkdir -p "docs/Labos Extra/Labo2-BankCorp/scripts/verification"
+mkdir -p "docs/Labos Extra/Labo2-BankCorp/exercices"
+mkdir -p "docs/Labos Extra/Labo2-BankCorp/instructeur"
+```
+
+Then write files:
+- `docs/Labos Extra/Labo2-BankCorp/README.md`
+- `docs/Labos Extra/Labo2-BankCorp/scripts/BankCorp_Setup.ps1`
+- `docs/Labos Extra/Labo2-BankCorp/scripts/BankCorp_Cleanup.ps1`
 
 ## Example GPO Ideas (Choose 2-3)
 

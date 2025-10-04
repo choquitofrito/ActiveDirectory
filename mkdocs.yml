@@ -76,11 +76,35 @@ nav:
           - Scripts PowerShell:
               - "Scripts de création": "Labo et Exercices/Labo/PowerShell-scriptsStructure/creation_structure.md"
               - "Scripts de suppression": "Labo et Exercices/Labo/PowerShell-scriptsStructure/suppression_structure.md"
-      - Laboratoires Extra:
-          - "Laboratoire Extra 1": "Labo et Exercices/Labo Extra/Labo_Extra_1.md"
-          - "Laboratoire Extra 2": "Labo et Exercices/Labo Extra/Labo_Extra_2.md"
-          - "Laboratoire Extra 3": "Labo et Exercices/Labo Extra/Labo_Extra_3.md"
-      - Exercices:
+      - "Labo Extra 1 - CreativeHub":
+          - "Présentation": "Labos Extra/Labo1-CreativeHub/README.md"
+          - Scripts:
+              - "Script Setup": "Labos Extra/Labo1-CreativeHub/scripts/CreativeHub_Setup.ps1"
+              - "Script Cleanup": "Labos Extra/Labo1-CreativeHub/scripts/CreativeHub_Cleanup.ps1"
+              - Scripts de Vérification:
+                  - "Vérif Ex01": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_01.ps1"
+                  - "Vérif Ex02": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_02.ps1"
+                  - "Vérif Ex03": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_03.ps1"
+                  - "Vérif Ex04": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_04.ps1"
+                  - "Vérif Ex05": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_05.ps1"
+                  - "Vérif Ex06": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_06.ps1"
+                  - "Vérif Ex07": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_07.ps1"
+                  - "Vérif Ex08": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_08.ps1"
+                  - "Vérif Ex09": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_09.ps1"
+          - Exercices:
+              - "Index Exercices": "Labos Extra/Labo1-CreativeHub/instructeur/INDEX_EXERCICES.md"
+              - "Ex01: Nouvel Employé": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_01_Nouvel_Employe.md"
+              - "Ex02: Départ Employé": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_02_Depart_Employe.md"
+              - "Ex03: GPO Lecteur Réseau": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_03_GPO_Lecteur_Reseau.md"
+              - "Ex04: Groupe Projet Client": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_04_Groupe_Projet_Client.md"
+              - "Ex05: Reset Password": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_05_Reset_Password.md"
+              - "Ex06: Délégation Contrôle": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_06_Delegation_Controle.md"
+              - "Ex07: Onboarding Complet": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_07_Scenario_Onboarding_Complet.md"
+              - "Ex08: Troubleshooting GPO": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_08_Troubleshooting_GPO.md"
+              - "Ex09: Crise Sécurité": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_09_Scenario_Crise_Securite.md"
+          - Instructeur:
+              - "Guide Instructeur": "Labos Extra/Labo1-CreativeHub/instructeur/Guide_Instructeur_Exercices.md"
+      - Exercices Généraux:
           - "Questions de Base": "Labo et Exercices/Exercices: Questions Base.md"
           - "Gestion des Utilisateurs": "Labo et Exercices/Exercices: Gestion_des_Utilisateurs.md"
           - "OUs Départements": "Labo et Exercices/Exercices: OUs_Departements_Complementaires.md"

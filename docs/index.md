@@ -77,7 +77,7 @@ Un cours complémentaire axé sur la **réalité du terrain** et l'utilisation m
 
 ## 🧪 Laboratoire et Exercices
 
-### 📋 Laboratoire
+### 📋 Laboratoire Principal
 
 | Ressource | Description |
 |-----------|-------------|
@@ -92,7 +92,41 @@ Un cours complémentaire axé sur la **réalité du terrain** et l'utilisation m
 | **[Scripts de création](Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/creation_structure.md)** | Scripts PowerShell pour créer la structure AD |
 | **[Scripts de suppression](Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/suppression_structure.md)** | Scripts pour nettoyer l'environnement |
 
-### 📝 Exercices
+### 🏗️ Laboratoires Extra - Scénarios d'Entreprise
+
+Des laboratoires complets avec structures AD réalistes, scripts automatisés et exercices progressifs.
+
+#### Labo Extra 1 - CreativeHub
+
+**Scénario:** Agence de marketing digital belge (18 employés, 4 départements)
+
+| Ressource | Description |
+|-----------|-------------|
+| **[Présentation](Labos%20Extra/Labo1-CreativeHub/README.md)** | Objectifs pédagogiques, structure AD complète, scénario business |
+| **[Script Setup](Labos%20Extra/Labo1-CreativeHub/scripts/CreativeHub_Setup.ps1)** | Création automatique: 17 OUs, 18 utilisateurs, 8 groupes, 3 GPOs |
+| **[Script Cleanup](Labos%20Extra/Labo1-CreativeHub/scripts/CreativeHub_Cleanup.ps1)** | Suppression complète pour recommencer |
+
+**Exercices pratiques (9 exercices progressifs):**
+
+| # | Exercice | Niveau | Focus |
+|---|----------|--------|-------|
+| 01 | [Nouvel Employé](Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_01_Nouvel_Employe.md) | Débutant | Création utilisateur, groupes GG- |
+| 02 | [Départ Employé](Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_02_Depart_Employe.md) | Débutant | Désactivation compte, archivage |
+| 03 | [GPO Lecteur Réseau](Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_03_GPO_Lecteur_Reseau.md) | Intermédiaire | Drive mapping via GPO |
+| 04 | [Groupe Projet Client](Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_04_Groupe_Projet_Client.md) | Intermédiaire | Groupes inter-départementaux |
+| 05 | [Reset Password](Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_05_Reset_Password.md) | Débutant | Réinitialisation mot de passe |
+| 06 | [Délégation Contrôle](Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_06_Delegation_Controle.md) | Avancé | Délégation permissions OU |
+| 07 | [Onboarding Complet](Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_07_Scenario_Onboarding_Complet.md) | Avancé | Scénario complet nouvel employé |
+| 08 | [Troubleshooting GPO](Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_08_Troubleshooting_GPO.md) | Avancé | Diagnostic problèmes GPO |
+| 09 | [Crise Sécurité](Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_09_Scenario_Crise_Securite.md) | Expert | Gestion incident sécurité |
+
+**Scripts de vérification automatique:** Chaque exercice inclut un [script de vérification PowerShell](Labos%20Extra/Labo1-CreativeHub/scripts/verification/) avec feedback coloré.
+
+**Pour instructeurs:**
+- [Guide Instructeur](Labos%20Extra/Labo1-CreativeHub/instructeur/Guide_Instructeur_Exercices.md): Solutions complètes, timing, points clés
+- [Index Exercices](Labos%20Extra/Labo1-CreativeHub/instructeur/INDEX_EXERCICES.md): Vue d'ensemble pédagogique
+
+### 📝 Exercices Généraux
 
 | Série | Focus | Difficulté |
 |-------|-------|------------|

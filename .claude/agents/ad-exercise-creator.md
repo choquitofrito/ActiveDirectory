@@ -322,6 +322,60 @@ When creating exercises, **always ask the user**:
 
 Then **tailor exercises** to match the exact AD structure students have built.
 
+## Directory Structure for Exercise Files
+
+**MANDATORY**: All exercise files MUST be organized according to this structure:
+
+```
+docs/Labos Extra/Labo[N]-[LabName]/
+├── README.md                          # Main lab documentation (created by lab-creator agent)
+├── scripts/
+│   ├── [LabName]_Setup.ps1           # Lab setup script (created by lab-creator agent)
+│   ├── [LabName]_Cleanup.ps1         # Cleanup script (created by lab-creator agent)
+│   └── verification/
+│       ├── verif_exercice_01.ps1     # Verification scripts for each exercise
+│       ├── verif_exercice_02.ps1
+│       └── verif_exercice_[N].ps1
+├── exercices/
+│   ├── Exercice_01_[Title].md        # Exercise markdown files
+│   ├── Exercice_02_[Title].md
+│   └── Exercice_[N]_[Title].md
+└── instructeur/
+    ├── Guide_Instructeur_Exercices.md  # Master guide for all exercises
+    └── INDEX_EXERCICES.md              # Index/table of contents for exercises
+```
+
+**File Creation Steps**:
+
+1. **FIRST**: Verify the lab directory exists and identify its path
+   ```bash
+   ls "docs/Labos Extra/"  # Check which lab number to use
+   ```
+
+2. **SECOND**: Write exercise files to their designated locations:
+   - Exercise markdown → `docs/Labos Extra/Labo[N]-[LabName]/exercices/Exercice_[N]_[Title].md`
+   - Verification script → `docs/Labos Extra/Labo[N]-[LabName]/scripts/verification/verif_exercice_[N].ps1`
+
+3. **THIRD**: Create or update instructor files:
+   - Instructor guide → `docs/Labos Extra/Labo[N]-[LabName]/instructeur/Guide_Instructeur_Exercices.md`
+   - Exercise index → `docs/Labos Extra/Labo[N]-[LabName]/instructeur/INDEX_EXERCICES.md`
+
+4. **Naming Conventions**:
+   - Exercise files: `Exercice_[NN]_[Short_Title].md` (use 01, 02, 03 for numbers)
+   - Titles: Use underscores, keep short, descriptive
+   - Examples: `Exercice_01_Nouvel_Employe.md`, `Exercice_05_Reset_Password.md`
+   - Verification scripts: `verif_exercice_[NN].ps1` (matching exercise number)
+
+**Example file paths for Labo1-CreativeHub exercises**:
+```
+docs/Labos Extra/Labo1-CreativeHub/exercices/Exercice_01_Nouvel_Employe.md
+docs/Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_01.ps1
+docs/Labos Extra/Labo1-CreativeHub/instructeur/Guide_Instructeur_Exercices.md
+docs/Labos Extra/Labo1-CreativeHub/instructeur/INDEX_EXERCICES.md
+```
+
+**CRITICAL**: Use the Write tool to create files in the correct subdirectories. Do not create files in the root lab directory.
+
 ## Example Exercise Progressions
 
 ### User Management Series (5 exercises):
