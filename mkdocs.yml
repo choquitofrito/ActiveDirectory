@@ -103,6 +103,31 @@ nav:
               - "Ex09: Crise Sécurité": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_09_Scenario_Crise_Securite.md"
           - Instructeur:
               - "Guide Instructeur": "Labos Extra/Labo1-CreativeHub/instructeur/Guide_Instructeur_Exercices.md"
+      - "Labo Extra 2 - MediCare Clinic":
+          - "Présentation": "Labos Extra/Labo2-MediCare/README.md"
+          - Scripts:
+              - "Script Setup": "Labos Extra/Labo2-MediCare/scripts/MediCare_Setup.ps1"
+              - "Script Cleanup": "Labos Extra/Labo2-MediCare/scripts/MediCare_Cleanup.ps1"
+              - Scripts de Vérification:
+                  - "Vérif Ex01": "Labos Extra/Labo2-MediCare/scripts/verification/verif_exercice_01.ps1"
+                  - "Vérif Ex02": "Labos Extra/Labo2-MediCare/scripts/verification/verif_exercice_02.ps1"
+                  - "Vérif Ex03": "Labos Extra/Labo2-MediCare/scripts/verification/verif_exercice_03.ps1"
+                  - "Vérif Ex04": "Labos Extra/Labo2-MediCare/scripts/verification/verif_exercice_04.ps1"
+                  - "Vérif Ex05": "Labos Extra/Labo2-MediCare/scripts/verification/verif_exercice_05.ps1"
+                  - "Vérif Ex06": "Labos Extra/Labo2-MediCare/scripts/verification/verif_exercice_06.ps1"
+                  - "Vérif Ex07": "Labos Extra/Labo2-MediCare/scripts/verification/verif_exercice_07.ps1"
+                  - "Vérif Ex08": "Labos Extra/Labo2-MediCare/scripts/verification/verif_exercice_08.ps1"
+          - Exercices:
+              - "Ex01: Transfert de Patient": "Labos Extra/Labo2-MediCare/exercices/Exercice_01_Transfert_Patient.md"
+              - "Ex02: Horaire de Garde": "Labos Extra/Labo2-MediCare/exercices/Exercice_02_Horaire_Garde.md"
+              - "Ex03: Audit d'Accès Médical": "Labos Extra/Labo2-MediCare/exercices/Exercice_03_Audit_Acces_Medical.md"
+              - "Ex04: Nouveau Service Médical": "Labos Extra/Labo2-MediCare/exercices/Exercice_04_Nouveau_Service_Medical.md"
+              - "Ex05: Confidentialité Renforcée": "Labos Extra/Labo2-MediCare/exercices/Exercice_05_Confidentialite_Renforcee.md"
+              - "Ex06: Délégation Chef de Service": "Labos Extra/Labo2-MediCare/exercices/Exercice_06_Delegation_Chef_Service.md"
+              - "Ex07: Rotation de Spécialistes": "Labos Extra/Labo2-MediCare/exercices/Exercice_07_Rotation_Specialistes.md"
+              - "Ex08: Incident RGPD": "Labos Extra/Labo2-MediCare/exercices/Exercice_08_Incident_RGPD.md"
+          - Instructeur:
+              - "Guide Rapide": "Labos Extra/Labo2-MediCare/instructeur/GUIDE_RAPIDE_EXERCICES.md"
       - Exercices Généraux:
           - "Questions de Base": "Labo et Exercices/Exercices: Questions Base.md"
           - "Gestion des Utilisateurs": "Labo et Exercices/Exercices: Gestion_des_Utilisateurs.md"
