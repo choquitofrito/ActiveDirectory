@@ -24,7 +24,7 @@
 
 ## 💻 Lab 1: Explorer le DNS créé par Active Directory
 
-> 💡 **Prérequis** : Vous devez avoir complété la jonction d'un poste au domaine dans le [Chapitre 4: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md#10-laboratoire--accès-aux-ressources-du-domaine)
+> 💡 **Prérequis** : Vous devez avoir complété la jonction d'un poste au domaine dans le [Chapitre 4: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md#10-laboratoire-accès-aux-ressources-du-domaine)
 
 ### Objectif
 Découvrir et comprendre ce qu'Active Directory a créé automatiquement dans le DNS après la jonction d'un poste au domaine.

@@ -5,13 +5,13 @@
 
 
 !!! info "📚 Dans ce guide:"
-    1. 🛠️ [Prérequis](#1-prérequis)
+    1. 🛠️ [Prérequis](#1-️-prérequis)
        - Installation de VirtualBox
        - Téléchargement de Windows Server
-    2. 🖥️ [Configuration de VirtualBox](#2-configuration-de-virtualbox)
+    2. 🖥️ [Configuration de VirtualBox](#2-️-création-de-la-machine-virtuelle)
        - Création de la VM
        - Paramètres réseau
-    3. 🔩 [Installation de Windows Server](#3-installation-de-windows-server)
+    3. 🔩 [Installation de Windows Server](#3--installation-de-windows-server-2022)
        - Étapes d'installation
        - Configuration initiale
 

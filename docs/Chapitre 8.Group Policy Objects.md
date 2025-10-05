@@ -9,10 +9,10 @@
     1. 🌐 [Introduction aux GPO](#1-introduction-aux-gpo)
        - Concepts de base
        - Types de stratégies
-    2. 🔰 [Hiérarchie et Application](#2-hiérarchie-et-application)
+    2. 🔰 [Hiérarchie et Application](#2-création-des-gpos)
        - Niveaux d'application
        - Ordre de traitement
-    3. 💻 [Configuration des GPO](#3-configuration-des-gpo)
+    3. 💻 [Configuration des GPO](#3-classifications-des-gpo)
        - Outils de gestion
        - Exemples pratiques
 

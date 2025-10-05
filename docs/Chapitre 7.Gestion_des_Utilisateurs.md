@@ -6,13 +6,13 @@
 
 !!! info "📚 Dans ce chapitre:"
 
-    1. 👤 [Identités Numériques](#1-introduction-aux-comptes-utilisateurs)
+    1. 👤 [Identités Numériques](#1-identités-numériques)
        - Concepts de base
        - Conventions de nommage
-    2. ⚙️ [Administration ADUC](#2-utilisateurs-et-ordinateurs-active-directory)
+    2. ⚙️ [Administration ADUC](#2-utilisateurs-et-ordinateurs-active-directory-aduc)
        - Configuration des comptes
        - Gestion des accès
-    3. 🔐 [Sécurité et Groupes](#5-gestion-des-groupes)
+    3. 🔐 [Sécurité et Groupes](#4-gestion-des-groupes)
        - Stratégies de sécurité
        - Organisation des accès
 
