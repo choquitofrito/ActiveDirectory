@@ -126,6 +126,34 @@ Des laboratoires complets avec structures AD réalistes, scripts automatisés et
 - [Guide Instructeur](Labos%20Extra/Labo1-CreativeHub/instructeur/Guide_Instructeur_Exercices.md): Solutions complètes, timing, points clés
 - [Index Exercices](Labos%20Extra/Labo1-CreativeHub/instructeur/INDEX_EXERCICES.md): Vue d'ensemble pédagogique
 
+#### Labo Extra 2 - MediCare Clinic
+
+**Scénario:** Clinique médicale multidisciplinaire (28 employés, 4 départements) avec focus compliance RGPD/HIPAA
+
+| Ressource | Description |
+|-----------|-------------|
+| **[Présentation](Labos%20Extra/Labo2-MediCare/README.md)** | Objectifs pédagogiques, structure médicale, scénario healthcare |
+| **[Script Setup](Labos%20Extra/Labo2-MediCare/scripts/MediCare_Setup.ps1)** | Création automatique: 16 OUs, 28 utilisateurs, 12 groupes, 5 GPOs |
+| **[Script Cleanup](Labos%20Extra/Labo2-MediCare/scripts/MediCare_Cleanup.ps1)** | Suppression complète pour recommencer |
+
+**Exercices pratiques (8 exercices progressifs - 100% uniques):**
+
+| # | Exercice | Niveau | Focus Médical |
+|---|----------|--------|---------------|
+| 01 | [Transfert de Patient](Labos%20Extra/Labo2-MediCare/exercices/Exercice_01_Transfert_Patient.md) | Débutant | NTFS permissions, transfert responsabilité médicale |
+| 02 | [Horaire de Garde](Labos%20Extra/Labo2-MediCare/exercices/Exercice_02_Horaire_Garde.md) | Débutant | Comptes temporaires, restrictions horaires |
+| 03 | [Audit d'Accès Médical](Labos%20Extra/Labo2-MediCare/exercices/Exercice_03_Audit_Acces_Medical.md) | Débutant | Event Viewer, compliance RGPD |
+| 04 | [Nouveau Service Médical](Labos%20Extra/Labo2-MediCare/exercices/Exercice_04_Nouveau_Service_Medical.md) | Intermédiaire | Création département complet (Dermatologie) |
+| 05 | [Confidentialité Renforcée](Labos%20Extra/Labo2-MediCare/exercices/Exercice_05_Confidentialite_Renforcee.md) | Intermédiaire | GPOs sécurité RGPD/HIPAA |
+| 06 | [Délégation Chef de Service](Labos%20Extra/Labo2-MediCare/exercices/Exercice_06_Delegation_Chef_Service.md) | Intermédiaire | Délégation avec limites hiérarchiques |
+| 07 | [Rotation de Spécialistes](Labos%20Extra/Labo2-MediCare/exercices/Exercice_07_Rotation_Specialistes.md) | Avancé | Roaming profiles, folder redirection |
+| 08 | [Incident RGPD](Labos%20Extra/Labo2-MediCare/exercices/Exercice_08_Incident_RGPD.md) | Expert | Investigation forensique, breach response |
+
+**Scripts de vérification automatique:** Chaque exercice inclut un [script de vérification PowerShell](Labos%20Extra/Labo2-MediCare/scripts/verification/) avec feedback coloré.
+
+**Pour instructeurs:**
+- [Guide Rapide Exercices](Labos%20Extra/Labo2-MediCare/instructeur/GUIDE_RAPIDE_EXERCICES.md): Référence rapide, pièges courants, timing
+
 ---
 
 ## 📝 Exercices Généraux
