@@ -68,6 +68,7 @@ nav:
           - "Cas d'horreur réels": "PowershellCourse/cours-powershell-ad-moderne/cas-horreur-reels/vendredi-17h-sans-whatif.md"
           - "Carte de survie maxtec.be": "PowershellCourse/cours-powershell-ad-moderne/materiels-poche/carte-survie-maxtec.md"
           - "Checklist validation scripts": "PowershellCourse/cours-powershell-ad-moderne/materiels-poche/checklist-validation-scripts.md"
+      - Cheatsheet: CHEATSHEET.md
   - Labs et Exercices:
       - Laboratoire:
           - "Installation du Lab": "Labo et Exercices/Labo/Labo_structure.md"

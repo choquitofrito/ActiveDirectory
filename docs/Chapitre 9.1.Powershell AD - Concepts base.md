@@ -136,8 +136,9 @@ $utilisateurs[0]
 $utilisateurs[-1]
 ```
 
-Vous pouvez rajouter, effacer, modifier et obtenir un élément d'un tableau:
+Vous pouvez rajouter, effacer, modifier et obtenir un élément d'un tableau :
 
+```powershell
 # Obtenir un élément (par exemple, le deuxième utilisateur)
 $deuxiemeUtilisateur = $utilisateurs[1]
 Write-Host "Deuxième utilisateur : $deuxiemeUtilisateur"
@@ -146,12 +147,15 @@ Write-Host "Deuxième utilisateur : $deuxiemeUtilisateur"
 $utilisateurs += "luc.lefevre"
 
 # Modifier un élément (changer "pierre.durand" en "pierre.dupuis")
+
 $index = $utilisateurs.IndexOf("pierre.durand")
 if ($index -ge 0) {
     $utilisateurs[$index] = "pierre.dupuis"
 }
+```
 
-Pour la suppresison on devra faire attention de si le tableau a ou pas une taille fixe. On n'a pas besoin de traiter cette opération ici, on l'expliquera si on a besoin... ou recherchez par vous-mêmes le fonctionnement avec un moteur d'IA.
+!!! note "Note sur la suppression"
+    Pour la suppression, il faut faire attention à la taille fixe du tableau. Nous n'aborderons pas cette opération ici, mais vous pouvez la rechercher dans la documentation PowerShell si nécessaire.
 
 
 ### Exercice 2.1 : Créez et manipulez un tableau
@@ -206,6 +210,7 @@ $utilisateurs = Get-ADUser -Filter *
 foreach ($utilisateur in $utilisateurs) {
     Write-Host $utilisateur
 }
+```
 
 !!! note "Structure des boucles"
     
@@ -215,7 +220,9 @@ foreach ($utilisateur in $utilisateurs) {
     
     Voici une autre version qui utilise le pipeline. Le pipeline (`|`) permet de chaîner des commandes.
     
-    Le symbole `$_` représente l'élément actuel dans la boucle. 
+    Le symbole `$_` représente l'élément actuel dans la boucle.
+
+```powershell
 $utilisateurs | ForEach-Object { Write-Host $_ }  
 # $_ est juste un alias pour l'élément actuel dans la boucle. On peut en plus accéder aux propriétés de l'élément, par exemple: $_.Name, $_.SamAccountName, $_.Title, etc.
 $utilisateurs | ForEach-Object { Write-Host $_.Name }  
@@ -309,7 +316,7 @@ if ($user.Enabled -eq $false) {
 
 ### Exemple pratique : Rechercher un utilisateur
 
-Voici un exemple de script qui combine variables, conditions et propriétés AD pour rechercher un utilisateur et afficher ses informations.
+Voici un exemple de script qui combine variables, conditions et propriétés AD pour rechercher un utilisateur et afficher ses informations :
 
 ```powershell
 # Demander le nom d'utilisateur à rechercher (Read-Host attendra la saisie de l'utilisateur)
@@ -336,7 +343,8 @@ if ($utilisateurTrouve) {
 }
 ```
 
-> **Important** : Modifier les valeurs dans une variable n'a aucun effet sur l'objet réel dans Active Directory. Par exemple, si vous faites `$utilisateurTrouve.Title = "Nouveau Titre"`, cela change uniquement la valeur dans votre variable locale, pas dans AD. Pour modifier réellement un objet AD, vous devez utiliser des commandes spécifiques comme `Set-ADUser` que nous verrons plus tard.
+!!! warning "Important"
+    Modifier les valeurs dans une variable n'a aucun effet sur l'objet réel dans Active Directory. Par exemple, si vous faites `$utilisateurTrouve.Title = "Nouveau Titre"`, cela change uniquement la valeur dans votre variable locale, pas dans AD. Pour modifier réellement un objet AD, vous devez utiliser des commandes spécifiques comme `Set-ADUser` que nous verrons plus tard.
 
 ### Exercice 4.3 : Améliorer le script de recherche
 
