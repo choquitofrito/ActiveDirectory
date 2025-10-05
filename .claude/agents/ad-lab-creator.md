@@ -228,13 +228,15 @@ try {
    - Example: If Ventes has Vanessa, Valeria, Victor, Valentin → Valentin goes to GG-EU-Ventes-Admin
 
 5. **GPO Examples** (2-3 pedagogically useful policies):
-   - **MUST research official GPO settings** before implementing
-   - Search for registry paths, correct parameter names, and valid values from Microsoft docs
-   - Choose policies that demonstrate common business requirements
-   - Examples: Password policies, desktop restrictions, login scripts, mapped drives
-   - Include clear French comments explaining what each GPO does AND the Microsoft doc reference
-   - Link GPOs to appropriate OUs
-   - Verify GPO cmdlet syntax (New-GPO, Set-GPRegistryValue, New-GPLink, etc.) from official sources
+   - ⚠️ **CRITICAL: Read `.claude/gpo-reference.md` BEFORE creating any GPO**
+   - ❌ **NEVER use `Set-GPRegistryValue` for standard Windows policies** - causes "nom convivial introuvable" errors
+   - ✅ **ONLY create GPO shells** with `New-GPO` + `New-GPLink`
+   - ✅ **Provide manual configuration instructions** for GPMC with exact navigation paths from `gpo-reference.md`
+   - Choose policies from the validated catalog in `gpo-reference.md` Educational Lab GPO Recommendations section
+   - Examples: Control Panel restrictions, CMD blocking, password policies (domain-level via Set-ADDefaultDomainPasswordPolicy)
+   - Include clear French comments with step-by-step GPMC configuration paths
+   - **Format**: Create empty GPO → Link to OU → Output colored manual instructions with exact policy paths
+   - **Exception**: Password/Audit policies CAN use PowerShell cmdlets (see `gpo-reference.md` for list)
 
 6. **Idempotency**:
    - ALWAYS check if object exists before creating (`Test-OUExists`, `Test-UserExists`, `Test-GroupExists`, `Test-GPOExists`)
@@ -696,35 +698,76 @@ Then write files:
 - `docs/Labos Extra/Labo2-BankCorp/scripts/BankCorp_Setup.ps1`
 - `docs/Labos Extra/Labo2-BankCorp/scripts/BankCorp_Cleanup.ps1`
 
-## Example GPO Ideas (Choose 2-3)
+## ⚠️ CRITICAL GPO Creation Rules
 
-1. **Politique de Mot de Passe Renforcée**
+**BEFORE creating ANY GPO, you MUST:**
+
+1. **Read** `.claude/gpo-reference.md` to understand valid GPO settings
+2. **NEVER use** `Set-GPRegistryValue` for standard Windows policies (causes GPMC errors)
+3. **ONLY create GPO shell**: Use `New-GPO` + `New-GPLink` + manual instructions
+4. **Follow the template** in `gpo-reference.md` "Lab-Safe GPO Examples" section
+
+### ❌ WRONG Approach (DO NOT DO THIS)
+```powershell
+# This creates "nom convivial introuvable" errors in GPMC!
+New-GPO -Name "Restrictions"
+Set-GPRegistryValue -Name "Restrictions" -Key "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -ValueName "NoControlPanel" -Type DWord -Value 1
+```
+
+### ✅ CORRECT Approach (DO THIS)
+```powershell
+# Create GPO shell only
+$gpoName = "CompanyName - Restrictions Utilisateurs"
+if (-not (Test-GPOExists $gpoName)) {
+    New-GPO -Name $gpoName -Comment "Restreint accès Panneau config pour utilisateurs juniors"
+    New-GPLink -Name $gpoName -Target "OU=Users,OU=Marketing,$rootOU" -LinkEnabled Yes
+
+    Write-Host "`n[GPO CRÉÉE] $gpoName" -ForegroundColor Green
+    Write-Host "  ⚠️  Configuration manuelle requise dans GPMC:" -ForegroundColor Yellow
+    Write-Host "`n  📍 Bloquer Panneau de Configuration:" -ForegroundColor Cyan
+    Write-Host "     User Config > Policies > Administrative Templates > Control Panel" -ForegroundColor Gray
+    Write-Host "     > Prohibit access to Control Panel and PC settings = Enabled" -ForegroundColor White
+}
+```
+
+## Example GPO Ideas (Choose 2-3 from gpo-reference.md)
+
+1. **Politique de Mot de Passe Renforcée** (✅ PowerShell Supported)
+   - Use `Set-ADDefaultDomainPasswordPolicy` cmdlet (NOT Set-GPRegistryValue)
    - Minimum 10 caractères
    - Complexité requise
    - Durée de vie maximale: 90 jours
    - Link to domain or specific OU
 
-2. **Restriction Bureau - Utilisateurs Standards**
-   - Désactiver le Panneau de configuration
-   - Masquer certaines icônes du bureau
-   - Empêcher l'accès à l'invite de commandes
+2. **Restriction Bureau - Utilisateurs Standards** (⚠️ Manual Configuration Required)
+   - Create GPO shell with `New-GPO` + `New-GPLink`
+   - Provide manual instructions for:
+     - Désactiver le Panneau de configuration: `User Config > Policies > Administrative Templates > Control Panel > Prohibit access to Control Panel and PC settings`
+     - Empêcher l'accès à l'invite de commandes: `User Config > Policies > Administrative Templates > System > Prevent access to the command prompt`
    - Link to departmental Users OUs
+   - **DO NOT use Set-GPRegistryValue**
 
-3. **Mappage de Lecteurs Réseau**
-   - Lecteur H: → dossier personnel utilisateur
-   - Lecteur S: → partage département
-   - Link to departmental Users OUs
+3. **Mappage de Lecteurs Réseau** (⚠️ Manual GPP Configuration Required)
+   - Create GPO shell with `New-GPO` + `New-GPLink`
+   - Provide manual instructions for Group Policy Preferences:
+     - `User Config > Preferences > Windows Settings > Drive Maps`
+     - Example: P: → `\\SERVEUR\Projets`
+   - Note: Network share must exist first
+   - **DO NOT use Set-GPRegistryValue**
 
-4. **Politique d'Audit de Sécurité**
-   - Auditer les connexions réussies/échouées
-   - Auditer les modifications d'objets AD
+4. **Politique d'Audit de Sécurité** (✅ PowerShell Supported)
+   - Use `auditpol.exe /set` commands (NOT Set-GPRegistryValue)
+   - Example: `auditpol /set /subcategory:"Logon" /success:enable /failure:enable`
    - Link to domain level
 
-5. **Restrictions USB**
-   - Bloquer l'installation de périphériques de stockage USB
-   - Link to specific OUs (e.g., Comptabilite for security)
+5. **Restrictions USB** (⚠️ Manual Configuration Required)
+   - Create GPO shell with `New-GPO` + `New-GPLink`
+   - Provide manual instructions for:
+     - `User Config > Policies > Administrative Templates > System > Removable Storage Access`
+     - Setting: "All Removable Storage classes: Deny all access"
+   - **DO NOT use Set-GPRegistryValue with GUID registry paths**
 
-Choose policies that demonstrate different GPO capabilities and are easy for beginners to test and understand.
+**Reference**: Always consult `.claude/gpo-reference.md` for complete configuration paths and verification methods.
 
 ---
 

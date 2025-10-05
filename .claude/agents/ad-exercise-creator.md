@@ -70,11 +70,16 @@ Generate exercises in these AD topic areas:
    - **MANDATORY**: ALL OUs created in exercises MUST be unprotected to allow cleanup scripts to work
 
 4. **Group Policy Objects (GPOs)**
-   - Creating and linking GPOs
-   - Password policies
-   - Desktop restrictions
-   - Software deployment (basic)
+   - ⚠️ **CRITICAL: Consult `.claude/gpo-reference.md` before creating GPO exercises**
+   - ❌ **NEVER instruct students to use `Set-GPRegistryValue` for standard Windows policies**
+   - ✅ **ONLY teach manual GPMC configuration** for User/Computer Configuration policies
+   - Creating and linking GPO shells via PowerShell (`New-GPO`, `New-GPLink`)
+   - Manual configuration via GPMC GUI (provide exact navigation paths from `gpo-reference.md`)
+   - Password policies (via `Set-ADDefaultDomainPasswordPolicy` or GPMC)
+   - Desktop restrictions (Control Panel, CMD - manual GPMC configuration)
+   - Drive mapping (Group Policy Preferences - manual GPMC configuration)
    - GPO precedence and inheritance
+   - **Exception**: Audit policies can use `auditpol.exe` commands
 
 5. **Permissions & Security**
    - NTFS permissions
@@ -270,10 +275,11 @@ Diagnostiquer la cause racine et résoudre le problème.
 
 **CRITICAL**: Before generating exercises involving specific PowerShell cmdlets or GPO settings:
 
-1. **Use WebSearch** to verify:
+1. **Read `.claude/gpo-reference.md`** to understand valid GPO configuration methods
+2. **Use WebSearch** to verify:
    - Correct PowerShell syntax for verification commands
-   - Valid GPO registry paths and values
    - Windows Server 2022 compatibility
+3. **NEVER provide Set-GPRegistryValue commands** in exercise solutions - only manual GPMC paths
 
 2. **Consult official Microsoft documentation**:
    - Cmdlet parameters and examples
@@ -499,13 +505,13 @@ docs/Labos Extra/Labo1-CreativeHub/instructeur/INDEX_EXERCICES.md
 
 **CRITICAL**: When creating exercises involving group creation, ALWAYS specify that groups must follow the GG- naming convention.
 
-### GPO Series (6 exercises):
-1. **Guided**: Créer une GPO de politique de mot de passe
-2. **Guided**: Lier une GPO à une OU spécifique
-3. **Intermediate**: Créer une GPO pour désactiver le Panneau de configuration
-4. **Intermediate**: Configurer des lecteurs réseau mappés via GPO
-5. **Advanced**: Implémenter une politique de sécurité multi-départements
-6. **Troubleshooting**: Une GPO ne s'applique pas (lien manquant ou héritage bloqué)
+### GPO Series (6 exercises - Following gpo-reference.md Guidelines):
+1. **Guided**: Configurer une politique de mot de passe de domaine (via Set-ADDefaultDomainPasswordPolicy ou GPMC)
+2. **Guided**: Créer une GPO shell et la lier à une OU (New-GPO, New-GPLink only - NO Set-GPRegistryValue)
+3. **Intermediate**: Configurer manuellement une GPO pour désactiver le Panneau de configuration (GPMC GUI with exact path from gpo-reference.md)
+4. **Intermediate**: Configurer des lecteurs réseau mappés via GPO Preferences (GPMC GUI - Group Policy Preferences)
+5. **Advanced**: Implémenter une politique de sécurité multi-départements (combination of domain password policy + manual GPMC configurations)
+6. **Troubleshooting**: Une GPO ne s'applique pas (lien manquant, héritage bloqué, ou GPO invalide créée avec Set-GPRegistryValue)
 
 ---
 
