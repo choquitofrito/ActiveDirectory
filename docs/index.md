@@ -77,6 +77,8 @@ Un cours complémentaire axé sur la **réalité du terrain** et l'utilisation m
 
 ## 🧪 Laboratoires Pratiques
 
+---
+
 ### 📋 Laboratoire Principal
 
 | Ressource | Description |
@@ -92,11 +94,13 @@ Un cours complémentaire axé sur la **réalité du terrain** et l'utilisation m
 | **[Scripts de création](Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/creation_structure.md)** | Scripts PowerShell pour créer la structure AD |
 | **[Scripts de suppression](Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/suppression_structure.md)** | Scripts pour nettoyer l'environnement |
 
-### 🏗️ Laboratoires Extra - Scénarios d'Entreprise
+## 🏗️ Laboratoires Extra - Scénarios d'Entreprise
 
 Des laboratoires complets avec structures AD réalistes, scripts automatisés et exercices progressifs.
 
-#### Labo Extra 1 - CreativeHub
+---
+
+### 📦 Labo Extra 1 - CreativeHub
 
 **Scénario:** Agence de marketing digital belge (18 employés, 4 départements)
 
@@ -126,7 +130,9 @@ Des laboratoires complets avec structures AD réalistes, scripts automatisés et
 - [Guide Instructeur](Labos%20Extra/Labo1-CreativeHub/instructeur/Guide_Instructeur_Exercices.md): Solutions complètes, timing, points clés
 - [Index Exercices](Labos%20Extra/Labo1-CreativeHub/instructeur/INDEX_EXERCICES.md): Vue d'ensemble pédagogique
 
-#### Labo Extra 2 - MediCare Clinic
+---
+
+### 🏥 Labo Extra 2 - MediCare Clinic
 
 **Scénario:** Clinique médicale multidisciplinaire (28 employés, 4 départements) avec focus compliance RGPD/HIPAA
 
