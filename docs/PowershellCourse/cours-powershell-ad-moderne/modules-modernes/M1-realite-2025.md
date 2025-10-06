@@ -253,6 +253,7 @@ Vous recevez ces 3 tickets simultanément lundi matin:
 3. **Ticket #2853**: "Liste des utilisateurs qui n'ont jamais changé leur mot de passe"
 
 ### Mission
+
 1. **Trouvez** la syntaxe PowerShell pour chaque problème (Google/IA permis)
 2. **Testez** sur maxtec.be
 3. **Documentez** votre approche
