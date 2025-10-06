@@ -17,16 +17,33 @@
 - Compréhension des groupes de sécurité
 - Connaissance de base des permissions AD
 
-## Installer module AD (client)
+## Installer le module RSAT pour Active Directory (sur le poste client)
 
-Ce module permet de lancer de commandes PowerShell depuis le client.
+Ce module permet d'exécuter des commandes **PowerShell** pour la gestion **Active Directory** directement depuis un poste client Windows.
 
-- Se loguer en tant qu'Admin sur le Client
-- Paramètres
-- Applications
-- Chercher dans barre "facultative" -> Ajouter une fonctionnalité facultative
-- Chercher RSAT
-- Ajouter les deux fonctionnalités
+**Vous allez installer les outils nécessaires :**
+
+1. **Connectez-vous en tant qu'administrateur** sur le poste client (par exemple, **ws-client-01**).
+2. **Ouvrez les Paramètres Windows** :
+   - Cliquez sur l'icône **Paramètres** (roue dentée) dans la barre des tâches, ou utilisez la recherche Windows et tapez **Paramètres**.
+3. **Accédez à la section Applications** :
+   - Dans la fenêtre **Paramètres**, cliquez sur **Applications**.
+4. **Sélectionnez Fonctionnalités facultatives** :
+   - Dans le menu de gauche, cliquez sur **Applications et fonctionnalités**.
+   - Cliquez sur **Fonctionnalités facultatives** (ou utilisez la barre de recherche et tapez **fonctionnalités facultatives**).
+5. **Ajoutez une fonctionnalité** :
+   - Cliquez sur **Ajouter une fonctionnalité**.
+   - Dans la barre de recherche, tapez **RSAT**.
+   - **Sélectionnez** : **RSAT : Outils d'administration de serveur distant**.
+   - **Cochez spécifiquement** : **Outils Active Directory pour RSAT** (inclut les outils pour utilisateurs et ordinateurs **Active Directory**, ainsi que les services **LDS**).
+6. **Installez la fonctionnalité** :
+   - Cliquez sur **Suivant**, puis sur **Installer**.
+   - **Redémarrez** le poste client si nécessaire (Windows peut le demander).
+
+**Après l'installation :**
+- Vous pouvez maintenant utiliser des commandes **PowerShell** comme `Get-ADUser` ou `Set-ADAccountPassword` depuis le poste client.
+- Assurez-vous que le poste est connecté au domaine **maxtec.be** pour que les commandes fonctionnent correctement.
+
 
 ## Contexte / Scénario
 **Date**: Lundi matin, réunion de direction
