@@ -131,7 +131,7 @@ Get-ADUser -Filter * -SearchBase $searchBase -Properties LastLogonDate |
 
 ### Compétence #2: Utilisation Intelligente de l'IA
 
-**Démo ChatGPT en Direct**
+**Démo ChatGPT (ou Windsurf, Cursor ou autre) en Direct**
 
 **Prompt**:
 ```
@@ -182,7 +182,7 @@ catch {
 
 - ✅ **Bon**: Gestion d'erreurs, vérifications
 - ✅ **Bon**: SearchBase spécifique à maxtec.be
-- ⚠️ **Attention**: Filtrer par Department peut ne pas marcher si propriété vide
+- ⚠️ **Attention**: Filtrer par Department peut ne pas marcher si la propriété Department est vide! Observez sa valeur dans les utilisateurs et ordinateurs d'AD
 - ⚠️ **Amélioration**: Ajouter exclusions pour comptes service
 
 ### 🎯 Exercice Pratique 1.1 (15 min)
@@ -245,11 +245,12 @@ Get-ADUser -Filter {Department -eq "IT"} -Properties Department |
 ## 🔍 Exercice Réaliste: "Support Niveau 1" (25 min)
 
 ### Scénario: Ticket Multiple
+
 Vous recevez ces 3 tickets simultanément lundi matin:
 
-**Ticket #2851**: "Valeria ne peut pas accéder au dossier Ventes"
-**Ticket #2852**: "Nouveau stagiaire Charles2 doit avoir les mêmes droits que Charles"
-**Ticket #2853**: "Liste des utilisateurs qui n'ont jamais changé leur mot de passe"
+1. **Ticket #2851**: "Valeria ne peut pas accéder au dossier Ventes"
+2. **Ticket #2852**: "Nouveau stagiaire Charles2 doit avoir les mêmes droits que Charles"
+3. **Ticket #2853**: "Liste des utilisateurs qui n'ont jamais changé leur mot de passe"
 
 ### Mission
 1. **Trouvez** la syntaxe PowerShell pour chaque problème (Google/IA permis)
