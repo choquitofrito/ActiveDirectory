@@ -29,7 +29,7 @@ Karine Garnier, Chef de Projet Senior au département Client Services, vous envo
 >
 > *Pouvez-vous configurer un lecteur réseau automatique (lettre T: pour 'TechVision') qui apparaîtra sur tous nos postes dès qu'on se connecte ?*
 >
-> *Le chemin du partage réseau sera : \\\\DNS1\\TechVision*
+> *Le chemin du partage réseau sera : \\\\DNS1\TechVision*
 >
 > *Merci !*
 > *Karine*"
@@ -109,7 +109,7 @@ Votre mission : créer une GPO qui mappe automatiquement le lecteur T: pour tous
 Remplissez les champs suivants :
 
 1. **Action** : Sélectionnez **Créer** (dans le menu déroulant)
-2. **Emplacement réseau** : `\\DNS1\\TechVision`
+2. **Emplacement réseau** : `\\DNS1\TechVision`
    - **Note** : DNS1 est le nom de votre contrôleur de domaine (ajustez si différent)
 3. **Reconnecter** : **Cochez cette case** (pour que le lecteur soit reconnecté à chaque ouverture de session)
 4. **Lettre de lecteur** : Sélectionnez **T:** dans le menu déroulant
