@@ -361,7 +361,9 @@ Get-ADGroup -Filter {Name -like "GG-*"} | ForEach-Object {
 3. "Comment le rendre sécurisé ?"
 
 ### Réponse Attendue
+
 **Risques majeurs**:
+
 - Suppression de groupes sans -WhatIf
 - Pas de vérification si groupes critiques
 - Logic flaw: groupes vides ≠ groupes inutiles
