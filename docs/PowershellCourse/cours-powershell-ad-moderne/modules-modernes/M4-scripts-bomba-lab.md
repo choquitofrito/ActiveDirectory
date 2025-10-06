@@ -375,7 +375,9 @@ Write-Host "✅ Migration organisationnelle complète!" -ForegroundColor Green
 ```
 
 #### 🕵️ **MISSION DÉTECTIVE 4.2**
+
 **Temps limite**: 15 minutes
+
 **Question cruciale**: "Si j'exécute ce script sur maxtec.be vendredi 17h, que se passe-t-il lundi matin ?"
 
 #### 💀 **ANALYSE FORENSIQUE**
@@ -383,24 +385,29 @@ Write-Host "✅ Migration organisationnelle complète!" -ForegroundColor Green
 **🚨 ERREURS MORTELLES:**
 
 1. **ABSENCE TOTALE DE -WhatIf** (CRITIQUE)
+
    - Migrations immédiatement irréversibles
    - Suppressions d'OUs avec -Recursive
 
 2. **SUPPRESSION -RECURSIVE SANS VÉRIFICATION** (MORTEL)
+
    ```powershell
    Remove-ADOrganizationalUnit -Identity $oldOU -Recursive -Confirm:$false  # ☠️
    ```
    **Conséquence**: Supprime TOUT le contenu des OUs (groupes, politiques, sous-OUs)
 
 3. **LOGIQUE DE NETTOYAGE DÉFAILLANTE** (GRAVE)
+
    - Script assume que migration = réussite
    - Supprime OUs même si migration partielle échouée
 
 4. **PAS DE VÉRIFICATION GROUPES** (CRITIQUE)
+
    - Utilisateurs déplacés mais leurs groupes restent dans anciennes OUs
    - Rupture des permissions et accès
 
 5. **DÉPARTEMENT HARDCODÉ** (MOYEN)
+
    ```powershell
    Set-ADUser -Identity $user.SamAccountName -Department "Administration"  # ☠️
    ```
