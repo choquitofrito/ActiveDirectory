@@ -242,7 +242,7 @@ Get-ADUser -Filter {Department -eq "IT"} -Properties Department |
 
 ---
 
-## 🔍 Exercice Réaliste: "Support Niveau 1" (25 min)
+## 🔍 Exercice Réaliste: "Support Niveau 1" 
 
 ### Scénario: Ticket Multiple
 
@@ -311,7 +311,7 @@ Get-ADUser -Filter * -SearchBase "OU=EU,DC=maxtec,DC=be" -Properties PasswordLas
 
 ---
 
-## 🎓 Récapitulatif: Les 5 Réalités 2025 (10 min)
+## 🎓 Récapitulatif: Les 5 Réalités 2025 
 
 ### 1. **Google/IA sont des Outils Professionnels**
 - Utiliser = efficacité, pas paresse
