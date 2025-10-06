@@ -154,41 +154,41 @@ if ($groupesVides.Count -gt 0) {
 
 1. **ABSENCE DE -WhatIf** (MORTEL)
 
-   ```powershell
-   Remove-ADGroup -Identity $groupeVide.SamAccountName -Confirm:$false  # ☠️
-   ```
-   **Risque**: Suppression immédiate et irréversible
+    ```powershell
+    Remove-ADGroup -Identity $groupeVide.SamAccountName -Confirm:$false  # ☠️
+    ```
+    **Risque**: Suppression immédiate et irréversible
 
 2. **LOGIQUE BUSINESS ERRONÉE** (GRAVE)
 
-   - Groupe vide ≠ Groupe inutile
-   - Groupes système peuvent être vides temporairement
-   - Groupes de sécurité peuvent être vides par design
+    - Groupe vide ≠ Groupe inutile
+    - Groupes système peuvent être vides temporairement
+    - Groupes de sécurité peuvent être vides par design
 
 3. **AUCUNE EXCLUSION** (MORTEL)
 
-   ```powershell
-   $tousLesGroupes = Get-ADGroup -Filter * -SearchBase "DC=maxtec,DC=be"  # ☠️
-   ```
-   **Risque**: Inclut groupes système critiques (Admins du domaine vide = supprimé)
+    ```powershell
+    $tousLesGroupes = Get-ADGroup -Filter * -SearchBase "DC=maxtec,DC=be"  # ☠️
+    ```
+    **Risque**: Inclut groupes système critiques (Admins du domaine vide = supprimé)
 
 4. **PAS DE VÉRIFICATION TYPE GROUPE** (GRAVE)
 
-   - Pas de distinction Distribution vs Sécurité
-   - Pas de vérification des groupes built-in
+    - Pas de distinction Distribution vs Sécurité
+    - Pas de vérification des groupes built-in
 
 5. **GESTION D'ERREURS INSUFFISANTE** (MOYEN)
 
-   ```powershell
-   } catch {
-       continue  # ☠️ Masque les erreurs importantes
-   }
-   ```
+    ```powershell
+    } catch {
+        continue  # ☠️ Masque les erreurs importantes
+    }
+    ```
 
 6. **ABSENCE DE LOGGING** (MOYEN)
 
-   - Aucune trace de ce qui a été supprimé
-   - Impossible de rollback
+    - Aucune trace de ce qui a été supprimé
+    - Impossible de rollback
 
 #### 🛠️ **VERSION SÉCURISÉE**
 
@@ -386,42 +386,44 @@ Write-Host "✅ Migration organisationnelle complète!" -ForegroundColor Green
 
 1. **ABSENCE TOTALE DE -WhatIf** (CRITIQUE)
 
-   - Migrations immédiatement irréversibles
-   - Suppressions d'OUs avec -Recursive
+    - Migrations immédiatement irréversibles
+    - Suppressions d'OUs avec -Recursive
 
 2. **SUPPRESSION -RECURSIVE SANS VÉRIFICATION** (MORTEL)
 
-   ```powershell
-   Remove-ADOrganizationalUnit -Identity $oldOU -Recursive -Confirm:$false  # ☠️
-   ```
-   **Conséquence**: Supprime TOUT le contenu des OUs (groupes, politiques, sous-OUs)
+    ```powershell
+    Remove-ADOrganizationalUnit -Identity $oldOU -Recursive -Confirm:$false  # ☠️
+    ```
+    **Conséquence**: Supprime TOUT le contenu des OUs (groupes, politiques, sous-OUs)
 
 3. **LOGIQUE DE NETTOYAGE DÉFAILLANTE** (GRAVE)
 
-   - Script assume que migration = réussite
-   - Supprime OUs même si migration partielle échouée
+    - Script assume que migration = réussite
+    - Supprime OUs même si migration partielle échouée
 
 4. **PAS DE VÉRIFICATION GROUPES** (CRITIQUE)
 
-   - Utilisateurs déplacés mais leurs groupes restent dans anciennes OUs
-   - Rupture des permissions et accès
+    - Utilisateurs déplacés mais leurs groupes restent dans anciennes OUs
+    - Rupture des permissions et accès
 
 5. **DÉPARTEMENT HARDCODÉ** (MOYEN)
 
-   ```powershell
-   Set-ADUser -Identity $user.SamAccountName -Department "Administration"  # ☠️
-   ```
-   **Problème**: Force TOUS les users dans même département (perte granularité)
+    ```powershell
+    Set-ADUser -Identity $user.SamAccountName -Department "Administration"  # ☠️
+    ```
+    **Problème**: Force TOUS les users dans même département (perte granularité)
 
 #### 🎭 **Scénario du Désastre**
 
 **Vendredi 17h**: Script exécuté
+
 - ✅ Users RH/Compta déplacés vers Administration
 - ☠️ Groupes GG-EU-RH-*, GG-EU-Compta-* supprimés avec OUs
 - ☠️ GPOs liées aux OUs supprimées
 - ☠️ Toute structure organisationnelle perdue
 
 **Lundi 8h**: Chaos
+
 - Users existent mais n'ont plus aucun droit
 - Groupes de sécurité introuvables
 - Applications métier bloquées
@@ -495,24 +497,28 @@ Write-Host "✅ Audit de sécurité terminé" -ForegroundColor Green
 Ce script est une **ATTAQUE PAR BRUTE FORCE** déguisée !
 
 1. **TENTATIVES DE CONNEXION MASSIVES** (CRITIQUE)
-   - Teste systématiquement mots de passe courants
-   - Génère des millions de tentatives de connexion
-   - Peut déclencher verrouillages massifs de comptes
+
+    - Teste systématiquement mots de passe courants
+    - Génère des millions de tentatives de connexion
+    - Peut déclencher verrouillages massifs de comptes
 
 2. **LOGS DE SÉCURITÉ POLLUÉS** (GRAVE)
-   - Chaque tentative = événement sécurité logged
-   - Masque les vraies tentatives d'intrusion
-   - SIEM/SOC saturé d'alertes
+
+    - Chaque tentative = événement sécurité logged
+    - Masque les vraies tentatives d'intrusion
+    - SIEM/SOC saturé d'alertes
 
 3. **DÉNI DE SERVICE POTENTIEL** (CRITIQUE)
-   - Peut verrouiller TOUS les comptes utilisateurs
-   - Surcharge contrôleur de domaine
-   - Impact business catastrophique
+
+    - Peut verrouiller TOUS les comptes utilisateurs
+    - Surcharge contrôleur de domaine
+    - Impact business catastrophique
 
 4. **VIOLATION POLITIQUE SÉCURITÉ** (LÉGAL)
-   - Test non autorisé de mots de passe
-   - Peut violer réglementations (RGPD, etc.)
-   - Risque disciplinaire/légal
+
+    - Test non autorisé de mots de passe
+    - Peut violer réglementations (RGPD, etc.)
+    - Risque disciplinaire/légal
 
 #### 🛡️ **APPROCHE SÉCURISÉE ALTERNATIVE**
 
