@@ -15,6 +15,9 @@
     3. 🔐 [Sécurité et Groupes](#4-gestion-des-groupes)
        - Stratégies de sécurité
        - Organisation des accès
+    4. 🔑 [Délégation de Contrôle](#8-delegation-de-controle)
+       - Concept et cas d'usage
+       - Exemple pratique reset password
 
 ---
 
@@ -660,6 +663,77 @@ Groupe Local de Domaine :
 Groupe Universel :
 - Ne peut pas contenir : Groupes globaux d'autres domaines
 ```
+
+## 8. Délégation de Contrôle
+
+### Concept de Délégation
+
+!!! info "Qu'est-ce que la délégation ?"
+
+    La **délégation de contrôle** permet de donner des **permissions administratives limitées** à des utilisateurs spécifiques sur certaines OUs, sans leur donner un accès complet au domaine.
+
+!!! example "Cas d'usage typique"
+
+    Charlotte (chef comptable) doit pouvoir **réinitialiser les mots de passe** et **débloquer les comptes** des employés de la comptabilité, mais elle ne doit **pas** avoir accès aux autres départements.
+
+### Exemple Pratique : Délégation Reset Password
+
+!!! warning "Prérequis"
+
+    - Avoir une OU `EU-Comptabilite` créée
+    - Avoir un utilisateur `charlotte` membre de `GG-EU-Compta-Admins`
+
+#### Étapes de Configuration
+
+1. **Ouvrir ADUC** (`dsa.msc`)
+2. **Clic droit sur l'OU** `EU-Comptabilite`
+3. Sélectionner **"Déléguer le contrôle..."**
+4. Cliquer sur **Suivant** dans l'assistant
+
+5. **Ajouter l'utilisateur ou groupe** :
+   - Cliquer sur **Ajouter**
+   - Taper `charlotte` (ou `GG-EU-Compta-Admins` pour déléguer au groupe entier)
+   - Cliquer sur **OK** puis **Suivant**
+
+6. **Sélectionner les tâches à déléguer** :
+   - Cocher ✅ **"Réinitialiser les mots de passe utilisateur et forcer le changement de mot de passe à la prochaine ouverture de session"**
+   - Cocher ✅ **"Lecture de toutes les informations utilisateur"** (optionnel mais recommandé)
+   - Cliquer sur **Suivant**
+
+7. **Terminer** l'assistant
+
+#### Test de la Délégation
+
+!!! example "Vérification"
+
+    1. Connectez-vous à un poste avec `charlotte@maxtec.be`
+    2. Ouvrir **ADUC** (`dsa.msc`)
+    3. Naviguer vers `EU-Comptabilite`
+    4. Clic droit sur un utilisateur (ex: `charles`)
+    5. Sélectionner **"Réinitialiser le mot de passe"**
+
+    ✅ Charlotte devrait pouvoir réinitialiser le mot de passe
+
+    ❌ Si elle essaie de modifier un utilisateur dans `EU-RH`, elle recevra un **message d'erreur d'accès refusé**
+
+### Tâches Courantes à Déléguer
+
+!!! tip "Délégations fréquentes"
+
+    | Tâche | Description | Utilisé par |
+    |-------|-------------|-------------|
+    | **Reset Password** | Réinitialiser mots de passe | Chefs de département |
+    | **Créer/Supprimer Utilisateurs** | Gestion complète comptes | Responsables RH |
+    | **Modifier Groupes** | Ajouter/retirer membres | Managers IT |
+    | **Gérer Ordinateurs** | Joindre/retirer machines | Support technique |
+
+!!! warning "Bonnes Pratiques"
+
+    - ✅ Déléguer au **groupe** (`GG-EU-Compta-Admins`), pas à l'utilisateur individuel
+    - ✅ Appliquer le **principe du moindre privilège** (donner uniquement les permissions nécessaires)
+    - ✅ Documenter toutes les délégations effectuées
+    - ❌ Ne jamais déléguer sur la racine du domaine
+    - ❌ Éviter de donner "Contrôle total" sauf si absolument nécessaire
 
 ## Sécurité et Maintenance
 

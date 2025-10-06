@@ -13,7 +13,6 @@ Cet environnement est une version simplifiée de l'infrastructure complète, qui
 
 * Postes de travail : ws-[dept]-[##].maxtec.be
 * Groupes globaux : GG-[Nom]
-* Groupes locaux de domaine : DL-[Nom]
 * Utilisateurs : prenom.nom
 
 ## Prérequis Techniques

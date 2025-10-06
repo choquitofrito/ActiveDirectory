@@ -17,6 +17,17 @@
 - Compréhension des groupes de sécurité
 - Connaissance de base des permissions AD
 
+## Installer module AD (client)
+
+Ce module permet de lancer de commandes PowerShell depuis le client.
+
+- Se loguer en tant qu'Admin sur le Client
+- Paramètres
+- Applications
+- Chercher dans barre "facultative" -> Ajouter une fonctionnalité facultative
+- Chercher RSAT
+- Ajouter les deux fonctionnalités
+
 ## Contexte / Scénario
 **Date**: Lundi matin, réunion de direction
 
@@ -331,6 +342,9 @@ Set-ADAccountPassword -Identity fabien -NewPassword $newPwd -Reset -Credential $
 #### Test 2 : Gabrielle tente de créer un utilisateur (doit échouer)
 
 ```powershell
+
+
+
 $cred = Get-Credential -UserName "MAXTEC\gabrielle"
 
 # Tenter de créer un utilisateur
