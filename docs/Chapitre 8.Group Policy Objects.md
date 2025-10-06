@@ -406,20 +406,118 @@ On peut utiliser la délégation pour empecher une GPO de s'appliquer sur un utl
 La GPO s'appliquera normalement, sauf pour le groupe dont l'application de la GPO est refusée.
 
 
-## 7. Filtrage des GPOs 
+## 7. Filtrage des GPOs
 
 Une fois qu'une GPO est liée à un niveau (Site, Domaine ou OU), on peut affiner son application avec deux méthodes de filtrage.
 
-1. **Filtrage de Sécurité**
-   - Permet de cibler des groupes de sécurité spécifiques
-   - Exemple : Appliquer une GPO uniquement aux membres du groupe "Vendeurs Senior"
+### 7.1. Filtrage de Sécurité
 
+!!! info "Concept"
 
-2. **Filtrage WMI (Windows Management Instrumentation)**
-   - Permet de filtrer selon des critères techniques
-   - Exemples : 
-     * Appliquer une GPO uniquement aux ordinateurs Windows 11
-     * Appliquer des paramètres d'économie d'énergie uniquement aux ordinateurs portables
+    Le **filtrage de sécurité** permet de **restreindre l'application d'une GPO** à des groupes de sécurité spécifiques, même si la GPO est liée à une OU contenant d'autres utilisateurs/ordinateurs.
+
+!!! example "Scénario pratique"
+
+    Vous avez une GPO liée à `OU=EU-Ventes` qui installe un logiciel de CRM coûteux. Vous voulez que **seuls les vendeurs seniors** (`GG-EU-Ventes-Seniors`) reçoivent ce logiciel, pas tous les employés de ventes.
+
+#### Comment fonctionne le filtrage de sécurité ?
+
+Pour qu'une GPO s'applique à un utilisateur ou ordinateur, il doit avoir **deux permissions** :
+
+| Permission | Description |
+|------------|-------------|
+| **Read** (Lecture) | Pouvoir lire le contenu de la GPO |
+| **Apply Group Policy** | Permission d'appliquer la stratégie |
+
+!!! warning "Comportement par défaut"
+
+    Par défaut, toute GPO nouvellement créée a le groupe **"Authenticated Users"** (Utilisateurs authentifiés) dans le filtrage de sécurité, ce qui signifie qu'elle s'applique à **tout le monde** dans l'OU liée.
+
+#### Exemple Pratique : Restreindre une GPO
+
+!!! example "Configuration étape par étape"
+
+    **Situation** : Une GPO `GPO-CRM-Installation` est liée à `OU=EU-Ventes`, mais on veut qu'elle s'applique uniquement à `GG-EU-Ventes-Seniors`.
+
+    **Étapes** :
+
+    1. Ouvrir **GPMC** (Group Policy Management Console)
+       ```
+       Menu Démarrer > Gestion de stratégie de groupe
+       ```
+
+    2. Naviguer vers la GPO :
+       ```
+       Group Policy Objects > GPO-CRM-Installation
+       ```
+
+    3. Sélectionner la GPO et regarder le panneau de droite, section **"Security Filtering"**
+
+    4. **Supprimer "Authenticated Users"** :
+       - Sélectionner `Authenticated Users`
+       - Cliquer sur **Remove** (Supprimer)
+       - Confirmer la suppression
+
+    5. **Ajouter le groupe cible** :
+       - Cliquer sur **Add** (Ajouter)
+       - Taper `GG-EU-Ventes-Seniors`
+       - Cliquer sur **Check Names** pour vérifier
+       - Cliquer sur **OK**
+
+    ✅ **Résultat** : La GPO ne s'appliquera maintenant qu'aux membres de `GG-EU-Ventes-Seniors`
+
+#### Vérification du Filtrage
+
+!!! example "Test de la configuration"
+
+    **Test 1 - Utilisateur dans le groupe ciblé :**
+
+    1. Connectez-vous avec un utilisateur membre de `GG-EU-Ventes-Seniors` (ex: `valentin`)
+    2. Exécutez `gpupdate /force` et `gpresult /r`
+    3. ✅ Vous devriez voir `GPO-CRM-Installation` dans les GPOs appliquées
+
+    **Test 2 - Utilisateur hors du groupe :**
+
+    1. Connectez-vous avec un utilisateur de `OU=EU-Ventes` mais PAS membre de `GG-EU-Ventes-Seniors` (ex: `victor`)
+    2. Exécutez `gpupdate /force` et `gpresult /r`
+    3. ❌ `GPO-CRM-Installation` ne doit **pas** apparaître dans les GPOs appliquées
+
+#### Cas d'Usage Fréquents
+
+!!! tip "Exemples d'utilisation"
+
+    | Scénario | GPO | Groupe ciblé |
+    |----------|-----|--------------|
+    | Logiciel spécialisé | `GPO-Photoshop-Install` | `GG-EU-Design-Users` |
+    | Restrictions managers | `GPO-USB-Block` | `GG-EU-Compta-Users` (exclure admins) |
+    | Fond d'écran département | `GPO-Wallpaper-RH` | `GG-EU-RH-Users` |
+    | Imprimante spécifique | `GPO-Printer-Legal` | `GG-EU-Legal-Users` |
+
+!!! warning "Bonnes pratiques"
+
+    - ✅ **Toujours utiliser des groupes**, jamais des utilisateurs individuels
+    - ✅ Utiliser des **groupes globaux** (GG-) pour le filtrage
+    - ✅ Documenter quel groupe reçoit quelle GPO
+    - ❌ Ne pas oublier de retirer "Authenticated Users" quand vous ciblez un groupe spécifique
+    - ❌ Éviter de multiplier les filtrages complexes (privilégier la simplicité)
+
+### 7.2. Filtrage WMI (Windows Management Instrumentation)
+
+!!! info "Concept"
+
+    Le **filtrage WMI** permet de filtrer l'application d'une GPO selon des **critères techniques** de la machine (système d'exploitation, type d'ordinateur, etc.).
+
+!!! example "Exemples d'utilisation"
+
+    - Appliquer une GPO uniquement aux ordinateurs **Windows 11**
+    - Appliquer des paramètres d'économie d'énergie uniquement aux **ordinateurs portables**
+    - Installer un pilote uniquement sur les machines avec une **carte graphique NVIDIA**
+
+!!! note "Note"
+
+    Le filtrage WMI est plus avancé et sera abordé dans des exercices pratiques. Pour l'instant, concentrez-vous sur le **filtrage de sécurité** qui couvre 90% des besoins courants.
+
+---
 
 > **Note importante** : En cas de conflit entre GPO, la règle est simple : la dernière GPO appliquée (la plus spécifique) l'emporte sur les précédentes.
 

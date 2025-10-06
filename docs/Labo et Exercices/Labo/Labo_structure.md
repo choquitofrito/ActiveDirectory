@@ -21,21 +21,10 @@ Cet environnement est une version simplifiée de l'infrastructure complète, qui
 
 Avant de commencer, assurez-vous d'avoir la structure complète de l'AD (si ce n'est pas le cas, lancez le script de Powershell - dossier PowerShell -> creation_structure).
 
-1. Ce script n'est pas destructif. Il vérifie l'existence des OUs, des groupes et des utilisateurs avant de les créer.
-2. Vous devez créer sur votre serveur (dans n'importe quel dossier, mais le dossier `c:\Scripts` est recommandé pour une meilleure organisation) un fichier texte (clic droit) et le nommer `creation_structure.ps1`.  
-   > 💡 Le script à utiliser se trouve ici : [Scripts de création](../Labo/PowerShell-scriptsStructure/creation_structure.md)
-3. Confirmez le changement d'extension.
-4. Collez le script (de gitbook) dans le fichier `creation_structure.ps1`. Enregistrez le fichier.
-5. Ouvrez une console powershell dans ce dossier (barre d'adresse, tapez **powershell** et puis Enter)
-6. Dans certains cas on a de problèmes pour lancer de scripts (signatures). Nous allons enlever les restrictions pour pouvoir lancer notre script
-```powershell
-Set-ExecutionPolicy Bypass -Scope CurrentUser   # No restrictions (not recommended long-term)
-Set-ExecutionPolicy Unrestricted -Scope CurrentUser
-```
-7. Lancez le script
-```powershell
-.\creation_structure.ps1
-```
+1. Créez un fichier de script dans le serveur avec PowerShell ISE (lancez le en mode Admin)
+2. Ouvrez le fichier `creation_structure.ps1` et copiez-y le contenu du script
+3. Enregistrez le fichier
+4. Lancez le script
 
 Puis, pour pratiquer:
 - Créez la OU pour le département IT (si elle n'existe pas encore) 

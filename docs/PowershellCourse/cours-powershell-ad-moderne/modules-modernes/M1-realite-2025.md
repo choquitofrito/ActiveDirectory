@@ -1,21 +1,12 @@
 # Module 1: Réalité 2025 - Comment les Admins Travaillent Vraiment
-*Durée: 2h00 | Prérequis: Chapitres 8.0-8.3 complétés*
+*Durée: 2h00 | Prérequis: Chapitres 9.0-9.3 complétés*
 
 ## 🎯 Objectif de ce Module
 **À la fin**: Vous comprendrez comment les admins PowerShell travaillent VRAIMENT en 2025, pas comment les livres disent qu'on devrait travailler.
 
 ---
 
-## 🔥 Ouverture: Cercle d'Honnêteté (15 min)
-
-### Question à Tout le Monde:
-**Levez la main si vous...**
-- [ ] Googlisez la syntaxe PowerShell régulièrement
-- [ ] Avez utilisé ChatGPT/IA pour générer des scripts
-- [ ] Avez copié-collé du code de Stack Overflow
-- [ ] Avez cassé quelque chose avec PowerShell
-
-> **Instructeur**: Si tout le monde ne lève pas la main, commencez vous-même : *"Moi je fais tout ça, et c'est NORMAL en 2025"*
+## 🔥 Ouverture
 
 ### La Vérité 2025
 ```
@@ -61,7 +52,7 @@ Surname               :
 UserPrincipalName     : Richard@maxtec.be
 ```
 
-**Étape 3: J'analyse et je documente**
+**Étape 3: J'analyse et documentation**
 ```powershell
 # Compte pas verrouillé, donc autre problème
 # Je check les groupes:
@@ -83,12 +74,12 @@ RÉSOLUTION TICKET #2847:
 - Escalade niveau 2 réseau
 ```
 
-### 🎤 Confession d'Instructeur
-*"Voilà comment je travaille vraiment. Je google, j'adapte, je teste, je documente. Aucun admin ne mémorise 500 cmdlets. Notre valeur ajoutée c'est de COMPRENDRE ce qu'on fait, pas de tout retenir."*
+### Idée de base
+*"Voilà comment on peut travailler vraiment. On google, on adapte, on teste, on documente. Aucun admin ne mémorise 500 cmdlets. Notre valeur ajoutée c'est de COMPRENDRE ce qu'on fait, pas de tout retenir."*
 
 ---
 
-## 🧠 Les Compétences Qui Comptent Vraiment (45 min)
+## 🧠 Les Compétences Qui Comptent Vraiment
 
 ### Compétence #1: Lecture Critique de Scripts
 
@@ -106,6 +97,7 @@ Write-Host "Comptes désactivés avec succès!"
 ```
 
 **Questions à se poser:**
+
 1. ⚠️ **Portée**: Ça affecte TOUS les utilisateurs du domaine ?
 2. ⚠️ **Sécurité**: Y a-t-il des comptes critiques à exclure ?
 3. ⚠️ **Validation**: Comment je vérifie avant d'exécuter ?
@@ -187,6 +179,7 @@ catch {
 ```
 
 **Validation Critique:**
+
 - ✅ **Bon**: Gestion d'erreurs, vérifications
 - ✅ **Bon**: SearchBase spécifique à maxtec.be
 - ⚠️ **Attention**: Filtrer par Department peut ne pas marcher si propriété vide
