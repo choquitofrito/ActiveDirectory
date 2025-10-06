@@ -91,7 +91,7 @@ RÉSOLUTION TICKET #2847:
 Get-ADUser -Filter * | Where-Object {
     $_.LastLogonDate -lt (Get-Date).AddDays(-90) -and
     $_.Enabled -eq $true
-} | Disable-ADAccount
+} | Disable-ADAccount-error-expres-ici
 
 Write-Host "Comptes désactivés avec succès!"
 ```

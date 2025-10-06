@@ -10,9 +10,7 @@
 
 ### Règle d'Or du Support
 ```
-🔥 TICKET OUVERT = HORLOGE QUI TOURNE
-⏰ TEMPS = ARGENT = RÉPUTATION
-🎯 RÉSOLUTION RAPIDE > SOLUTION PARFAITE
+Le temps passe... on ne peut pas s'endormir!
 ```
 
 ### Les 3 Types de Commandes
@@ -76,7 +74,7 @@ Get-ADUser -Identity Valeria -Properties Enabled, LockedOut, PasswordExpired, La
 ---
 
 ## 🥈 Commande #2: "Trouver utilisateur par nom partiel"
-*"Je cherche l'utilisateur qui s'appelle quelque chose comme Marie ou Maria"*
+*"Je cherche l'utilisateur qui s'appelle quelque chose comme Valerie ou Valeria"*
 
 ### ✅ VERSION SÉCURISÉE
 ```powershell
@@ -99,7 +97,7 @@ Get-ADUser -Filter {Name -like "*Val*"} -Properties Department
 
 ### 🔴 VERSION DANGEREUSE - JAMAIS
 ```powershell
-# ☠️ JAMAIS - regex sur tous les utilisateurs
+# ☠️ JAMAIS - regex sur tous les utilisateurs: ça implique chercher par un pattern sur tous les utilisateurs
 Get-ADUser -Filter * | Where-Object {$_.Name -match ".*Val.*"}
 ```
 
