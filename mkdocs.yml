@@ -21,14 +21,10 @@ theme:
     scheme: default
   features:
     - navigation.tabs
-    - navigation.sections
     - navigation.top
-    - toc.integrate
+    - navigation.indexes
+    - navigation.prune
     - content.code.copy  # Habilita el botón de copia para bloques de código
-  navigation:
-    collapse: true
-    collapse_sections: true
-    show_ancestors: true
 
 markdown_extensions:
   - pymdownx.tasklist:
@@ -39,101 +35,87 @@ markdown_extensions:
 
 
 nav:
-  - Home: index.md
-  - Windows Server:
-      - "Chapitre 1.Introduction et installation de Windows Server": Chapitre 1.Introduction et installation de Windows Server.md
-      - "Chapitre 2.Installation-Windows-Server-2022-VirtualBox": Chapitre 2.Installation-Windows-Server-2022-VirtualBox.md
-  - DNS:
-      - "Chapitre 3.DNS": Chapitre 3.DNS.md
-  - Active Directory:
-      - "Chapitre 4.Active Directory Domain Services (AD DS)": Chapitre 4.Active Directory Domain Services (AD DS).md
-      - "Chapitre 5.DNS-Pratique-avec-AD": Chapitre 5.DNS-Pratique-avec-AD.md
-      - "Chapitre 6.Unites_Organisation": Chapitre 6.Unites_Organisation.md
-      - "Chapitre 7.Gestion_des_Utilisateurs": Chapitre 7.Gestion_des_Utilisateurs.md
-      - "Chapitre 8.Group Policy Objects": Chapitre 8.Group Policy Objects.md
-  - PowerShell:
-      - Cours de Base:
-          - "Chapitre 9.0.Powershell AD - Introduction": Chapitre 9.0.Powershell AD - Introduction.md
-          - "Chapitre 9.1.Powershell AD - Concepts base": Chapitre 9.1.Powershell AD - Concepts base.md
-          - "Chapitre 9.2.Powershell AD - Requetes_et_Informations": Chapitre 9.2.Powershell AD - Requetes_et_Informations.md
-          - "Chapitre 9.3.Powershell AD - Creation_et_Modification": Chapitre 9.3.Powershell AD - Creation_et_Modification.md
-      - Cours Moderne (2025):
-          - "M1: Réalité 2025": "PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M1-realite-2025.md"
-          - "M2: Survie Tickets": "PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M2-survie-tickets.md"
-          - "M3: IA comme Copilote": "PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M3-ia-comme-copilote.md"
-          - "M4: Scripts Bomba Lab": "PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M4-scripts-bomba-lab.md"
-          - "M5: -WhatIf Religieux": "PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M5-whatif-religieux.md"
-          - "M6: Kit Urgence": "PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M6-kit-urgence.md"
-      - Ressources:
-          - "Cas d'horreur réels": "PowershellCourse/cours-powershell-ad-moderne/cas-horreur-reels/vendredi-17h-sans-whatif.md"
-          - "Carte de survie maxtec.be": "PowershellCourse/cours-powershell-ad-moderne/materiels-poche/carte-survie-maxtec.md"
-          - "Checklist validation scripts": "PowershellCourse/cours-powershell-ad-moderne/materiels-poche/checklist-validation-scripts.md"
+  - 🏠 Accueil: index.md
+
+  - 🖥️ Windows Server:
+      - Ch1 - Introduction & Installation: Chapitre 1.Introduction et installation de Windows Server.md
+      - Ch2 - VirtualBox Setup: Chapitre 2.Installation-Windows-Server-2022-VirtualBox.md
+
+  - 🌐 DNS:
+      - Ch3 - DNS Fundamentals: Chapitre 3.DNS.md
+      - Référence - Concepts Avancés: Théorie DNS- DNS Concepts Avances (Reference).md
+
+  - 📁 Active Directory:
+      - Ch4 - AD DS Introduction: Chapitre 4.Active Directory Domain Services (AD DS).md
+      - Ch5 - DNS avec AD: Chapitre 5.DNS-Pratique-avec-AD.md
+      - Ch6 - Unités d'Organisation: Chapitre 6.Unites_Organisation.md
+      - Ch7 - Gestion Utilisateurs: Chapitre 7.Gestion_des_Utilisateurs.md
+      - Ch8 - Group Policy Objects: Chapitre 8.Group Policy Objects.md
+
+  - ⚡ PowerShell AD:
+      - Ch9.0 - Introduction: Chapitre 9.0.Powershell AD - Introduction.md
+      - Ch9.1 - Concepts de Base: Chapitre 9.1.Powershell AD - Concepts base.md
+      - Ch9.2 - Requêtes & Informations: Chapitre 9.2.Powershell AD - Requetes_et_Informations.md
+      - Ch9.3 - Création & Modification: Chapitre 9.3.Powershell AD - Creation_et_Modification.md
       - Cheatsheet: CHEATSHEET.md
-  - Labs et Exercices:
-      - Laboratoire:
-          - "Installation du Lab": "Labo et Exercices/Labo/Labo_structure.md"
-          - "Guide Installation AD-DS": "Labo Annexe 1-Guide de base installation AD-DS.md"
-          - "Annexe: Permissions": "Labo et Exercices/Labo/Annexe.Permissions.md"
-          - Scripts PowerShell:
-              - "Scripts de création": "Labo et Exercices/Labo/PowerShell-scriptsStructure/creation_structure.md"
-              - "Scripts de suppression": "Labo et Exercices/Labo/PowerShell-scriptsStructure/suppression_structure.md"
-      - "Labo Extra 1 - CreativeHub":
-          - "Présentation": "Labos Extra/Labo1-CreativeHub/README.md"
+      - Cours Moderne 2025:
+          - M1 - Réalité 2025: PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M1-realite-2025.md
+          - M2 - Survie Tickets: PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M2-survie-tickets.md
+          - M3 - IA Copilote: PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M3-ia-comme-copilote.md
+          - M4 - Scripts Bomba Lab: PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M4-scripts-bomba-lab.md
+          - M5 - WhatIf Religieux: PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M5-whatif-religieux.md
+          - M6 - Kit Urgence: PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M6-kit-urgence.md
+      - Ressources:
+          - Cas d'Horreur Réels: PowershellCourse/cours-powershell-ad-moderne/cas-horreur-reels/vendredi-17h-sans-whatif.md
+          - Carte Survie Maxtec: PowershellCourse/cours-powershell-ad-moderne/materiels-poche/carte-survie-maxtec.md
+          - Checklist Validation: PowershellCourse/cours-powershell-ad-moderne/materiels-poche/checklist-validation-scripts.md
+
+  - 🧪 Labs & Exercices:
+      - Lab Principal:
+          - Installation: Labo et Exercices/Labo/Labo_structure.md
+          - Guide AD-DS: Labo Annexe 1-Guide de base installation AD-DS.md
+          - Annexe Permissions: Labo et Exercices/Labo/Annexe.Permissions.md
           - Scripts:
-              - "Script Setup": "Labos Extra/Labo1-CreativeHub/scripts/CreativeHub_Setup.ps1"
-              - "Script Cleanup": "Labos Extra/Labo1-CreativeHub/scripts/CreativeHub_Cleanup.ps1"
-              - Scripts de Vérification:
-                  - "Vérif Ex01": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_01.ps1"
-                  - "Vérif Ex02": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_02.ps1"
-                  - "Vérif Ex03": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_03.ps1"
-                  - "Vérif Ex04": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_04.ps1"
-                  - "Vérif Ex05": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_05.ps1"
-                  - "Vérif Ex06": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_06.ps1"
-                  - "Vérif Ex07": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_07.ps1"
-                  - "Vérif Ex08": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_08.ps1"
-                  - "Vérif Ex09": "Labos Extra/Labo1-CreativeHub/scripts/verification/verif_exercice_09.ps1"
-          - Exercices:
-              - "Ex01: Nouvel Employé": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_01_Nouvel_Employe.md"
-              - "Ex02: Départ Employé": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_02_Depart_Employe.md"
-              - "Ex03: GPO Lecteur Réseau": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_03_GPO_Lecteur_Reseau.md"
-              - "Ex04: Groupe Projet Client": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_04_Groupe_Projet_Client.md"
-              - "Ex05: Reset Password": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_05_Reset_Password.md"
-              - "Ex06: Délégation Contrôle": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_06_Delegation_Controle.md"
-              - "Ex07: Onboarding Complet": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_07_Scenario_Onboarding_Complet.md"
-              - "Ex08: Troubleshooting GPO": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_08_Troubleshooting_GPO.md"
-              - "Ex09: Crise Sécurité": "Labos Extra/Labo1-CreativeHub/exercices/Exercice_09_Scenario_Crise_Securite.md"
-          - Instructeur:
-              - "Guide Instructeur": "Labos Extra/Labo1-CreativeHub/instructeur/Guide_Instructeur_Exercices.md"
-      - "Labo Extra 2 - MediCare Clinic":
-          - "Présentation": "Labos Extra/Labo2-MediCare/README.md"
-          - Scripts:
-              - "Script Setup": "Labos Extra/Labo2-MediCare/scripts/MediCare_Setup.ps1"
-              - "Script Cleanup": "Labos Extra/Labo2-MediCare/scripts/MediCare_Cleanup.ps1"
-              - Scripts de Vérification:
-                  - "Vérif Ex01": "Labos Extra/Labo2-MediCare/scripts/verification/verif_exercice_01.ps1"
-                  - "Vérif Ex02": "Labos Extra/Labo2-MediCare/scripts/verification/verif_exercice_02.ps1"
-                  - "Vérif Ex03": "Labos Extra/Labo2-MediCare/scripts/verification/verif_exercice_03.ps1"
-                  - "Vérif Ex04": "Labos Extra/Labo2-MediCare/scripts/verification/verif_exercice_04.ps1"
-                  - "Vérif Ex05": "Labos Extra/Labo2-MediCare/scripts/verification/verif_exercice_05.ps1"
-                  - "Vérif Ex06": "Labos Extra/Labo2-MediCare/scripts/verification/verif_exercice_06.ps1"
-                  - "Vérif Ex07": "Labos Extra/Labo2-MediCare/scripts/verification/verif_exercice_07.ps1"
-                  - "Vérif Ex08": "Labos Extra/Labo2-MediCare/scripts/verification/verif_exercice_08.ps1"
-          - Exercices:
-              - "Ex01: Transfert de Patient": "Labos Extra/Labo2-MediCare/exercices/Exercice_01_Transfert_Patient.md"
-              - "Ex02: Horaire de Garde": "Labos Extra/Labo2-MediCare/exercices/Exercice_02_Horaire_Garde.md"
-              - "Ex03: Audit d'Accès Médical": "Labos Extra/Labo2-MediCare/exercices/Exercice_03_Audit_Acces_Medical.md"
-              - "Ex04: Nouveau Service Médical": "Labos Extra/Labo2-MediCare/exercices/Exercice_04_Nouveau_Service_Medical.md"
-              - "Ex05: Confidentialité Renforcée": "Labos Extra/Labo2-MediCare/exercices/Exercice_05_Confidentialite_Renforcee.md"
-              - "Ex06: Délégation Chef de Service": "Labos Extra/Labo2-MediCare/exercices/Exercice_06_Delegation_Chef_Service.md"
-              - "Ex07: Rotation de Spécialistes": "Labos Extra/Labo2-MediCare/exercices/Exercice_07_Rotation_Specialistes.md"
-              - "Ex08: Incident RGPD": "Labos Extra/Labo2-MediCare/exercices/Exercice_08_Incident_RGPD.md"
-          - Instructeur:
-              - "Guide Rapide": "Labos Extra/Labo2-MediCare/instructeur/GUIDE_RAPIDE_EXERCICES.md"
+              - Création Structure: Labo et Exercices/Labo/PowerShell-scriptsStructure/creation_structure.md
+              - Suppression Structure: Labo et Exercices/Labo/PowerShell-scriptsStructure/suppression_structure.md
+
+      - Lab 1 - CreativeHub:
+          - 📋 Vue d'Ensemble: Labos Extra/Labo1-CreativeHub/README.md
+          - 🔧 Setup & Cleanup:
+              - Setup: Labos Extra/Labo1-CreativeHub/scripts/CreativeHub_Setup.ps1
+              - Cleanup: Labos Extra/Labo1-CreativeHub/scripts/CreativeHub_Cleanup.ps1
+          - 📝 Exercices (9):
+              - Ex01 - Nouvel Employé: Labos Extra/Labo1-CreativeHub/exercices/Exercice_01_Nouvel_Employe.md
+              - Ex02 - Départ Employé: Labos Extra/Labo1-CreativeHub/exercices/Exercice_02_Depart_Employe.md
+              - Ex03 - GPO Lecteur Réseau: Labos Extra/Labo1-CreativeHub/exercices/Exercice_03_GPO_Lecteur_Reseau.md
+              - Ex04 - Groupe Projet Client: Labos Extra/Labo1-CreativeHub/exercices/Exercice_04_Groupe_Projet_Client.md
+              - Ex05 - Reset Password: Labos Extra/Labo1-CreativeHub/exercices/Exercice_05_Reset_Password.md
+              - Ex06 - Délégation Contrôle: Labos Extra/Labo1-CreativeHub/exercices/Exercice_06_Delegation_Controle.md
+              - Ex07 - Onboarding Complet: Labos Extra/Labo1-CreativeHub/exercices/Exercice_07_Scenario_Onboarding_Complet.md
+              - Ex08 - Troubleshooting GPO: Labos Extra/Labo1-CreativeHub/exercices/Exercice_08_Troubleshooting_GPO.md
+              - Ex09 - Crise Sécurité: Labos Extra/Labo1-CreativeHub/exercices/Exercice_09_Scenario_Crise_Securite.md
+          - 👨‍🏫 Guide Instructeur: Labos Extra/Labo1-CreativeHub/instructeur/Guide_Instructeur_Exercices.md
+
+      - Lab 2 - MediCare:
+          - 📋 Vue d'Ensemble: Labos Extra/Labo2-MediCare/README.md
+          - 🔧 Setup & Cleanup:
+              - Setup: Labos Extra/Labo2-MediCare/scripts/MediCare_Setup.ps1
+              - Cleanup: Labos Extra/Labo2-MediCare/scripts/MediCare_Cleanup.ps1
+          - 📝 Exercices (8):
+              - Ex01 - Transfert Patient: Labos Extra/Labo2-MediCare/exercices/Exercice_01_Transfert_Patient.md
+              - Ex02 - Horaire Garde: Labos Extra/Labo2-MediCare/exercices/Exercice_02_Horaire_Garde.md
+              - Ex03 - Audit Accès: Labos Extra/Labo2-MediCare/exercices/Exercice_03_Audit_Acces_Medical.md
+              - Ex04 - Nouveau Service: Labos Extra/Labo2-MediCare/exercices/Exercice_04_Nouveau_Service_Medical.md
+              - Ex05 - Confidentialité: Labos Extra/Labo2-MediCare/exercices/Exercice_05_Confidentialite_Renforcee.md
+              - Ex06 - Délégation Chef: Labos Extra/Labo2-MediCare/exercices/Exercice_06_Delegation_Chef_Service.md
+              - Ex07 - Rotation Spécialistes: Labos Extra/Labo2-MediCare/exercices/Exercice_07_Rotation_Specialistes.md
+              - Ex08 - Incident RGPD: Labos Extra/Labo2-MediCare/exercices/Exercice_08_Incident_RGPD.md
+          - 👨‍🏫 Guide Instructeur: Labos Extra/Labo2-MediCare/instructeur/GUIDE_RAPIDE_EXERCICES.md
+
       - Exercices Généraux:
-          - "Questions de Base": "Labo et Exercices/Exercices: Questions Base.md"
-          - "Gestion des Utilisateurs": "Labo et Exercices/Exercices: Gestion_des_Utilisateurs.md"
-          - "OUs Départements": "Labo et Exercices/Exercices: OUs_Departements_Complementaires.md"
-          - "GPO Série 1": "Labo et Exercices/Exercices: GPO-1.md"
-          - "GPO Série 2": "Labo et Exercices/Exercices: GPO-2.md"
-          - "GPO Série 3": "Labo et Exercices/Exercices: GPO-3.md"
-  - Références: Théorie DNS- DNS Concepts Avances (Reference).md
+          - Questions de Base: "Labo et Exercices/Exercices: Questions Base.md"
+          - Gestion Utilisateurs: "Labo et Exercices/Exercices: Gestion_des_Utilisateurs.md"
+          - OUs Départements: "Labo et Exercices/Exercices: OUs_Departements_Complementaires.md"
+          - GPO Série 1: "Labo et Exercices/Exercices: GPO-1.md"
+          - GPO Série 2: "Labo et Exercices/Exercices: GPO-2.md"
+          - GPO Série 3: "Labo et Exercices/Exercices: GPO-3.md"
