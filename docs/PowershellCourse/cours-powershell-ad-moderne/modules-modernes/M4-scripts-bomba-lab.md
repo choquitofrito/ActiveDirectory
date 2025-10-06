@@ -1,5 +1,4 @@
 # Module 4: Scripts Bomba Lab - Détecter les Erreurs Mortelles Cachées
-*Durée: 2h00 | Prérequis: Modules 1-3 complétés*
 
 ## 🎯 Objectif de ce Module
 **À la fin**: Vous serez un détecteur humain de scripts dangereux, capable d'identifier les erreurs mortelles avant qu'elles explosent en production.
@@ -18,7 +17,9 @@
 ```
 
 ### L'Art de la Détection
+
 **Un script bomba parfait** :
+
 - ✅ Semble légitime à première vue
 - ✅ Commentaires rassurants
 - ✅ Vient de source "fiable"
@@ -32,6 +33,7 @@
 ### Les 5 Techniques de Camouflage
 
 #### 1. **Commentaires Trompeurs**
+
 ```powershell
 # Script validé par l'équipe sécurité ✅
 # Testé sur environnement de dev ✅
@@ -52,7 +54,7 @@ $users | Set-ADUser -Enabled $fase  # ☠️ $false écrit $fase
 ```powershell
 # TODO: Tester sur environnement de dev d'abord
 # TODO: Valider avec l'équipe avant prod
-Remove-ADUser -Identity * -Confirm:$false  # ☠️ Mais exécuté quand même
+Remove-ADUser -Identity * -Confirm:$false  # ☠️ Mais exécuté quand même 😱
 ```
 
 #### 4. **Apparence Professionnelle**
@@ -137,7 +139,9 @@ if ($groupesVides.Count -gt 0) {
 ```
 
 #### 🕵️ **MISSION DÉTECTIVE 4.1**
+
 **Temps limite**: 10 minutes
+
 **Consignes**:
 1. Lisez ce script ligne par ligne
 2. Identifiez TOUS les problèmes (minimum 5)
@@ -149,27 +153,32 @@ if ($groupesVides.Count -gt 0) {
 **🚨 ERREURS CRITIQUES IDENTIFIÉES:**
 
 1. **ABSENCE DE -WhatIf** (MORTEL)
+
    ```powershell
    Remove-ADGroup -Identity $groupeVide.SamAccountName -Confirm:$false  # ☠️
    ```
    **Risque**: Suppression immédiate et irréversible
 
 2. **LOGIQUE BUSINESS ERRONÉE** (GRAVE)
+
    - Groupe vide ≠ Groupe inutile
    - Groupes système peuvent être vides temporairement
    - Groupes de sécurité peuvent être vides par design
 
 3. **AUCUNE EXCLUSION** (MORTEL)
+
    ```powershell
    $tousLesGroupes = Get-ADGroup -Filter * -SearchBase "DC=maxtec,DC=be"  # ☠️
    ```
    **Risque**: Inclut groupes système critiques (Admins du domaine vide = supprimé)
 
 4. **PAS DE VÉRIFICATION TYPE GROUPE** (GRAVE)
+
    - Pas de distinction Distribution vs Sécurité
    - Pas de vérification des groupes built-in
 
 5. **GESTION D'ERREURS INSUFFISANTE** (MOYEN)
+
    ```powershell
    } catch {
        continue  # ☠️ Masque les erreurs importantes
@@ -177,6 +186,7 @@ if ($groupesVides.Count -gt 0) {
    ```
 
 6. **ABSENCE DE LOGGING** (MOYEN)
+
    - Aucune trace de ce qui a été supprimé
    - Impossible de rollback
 
