@@ -37,9 +37,10 @@ Ce cours vous guide à travers l'installation, la configuration et l'administrat
 
 | Chapitre | Titre | Contenu |
 |----------|-------|---------|
-| **[Chapitre 6](Chapitre%206.Unites_Organisation.md)** | Unités d'Organisation (OUs) | Structure hiérarchique, délégation AGLP/AGDLP | 
-| **[Chapitre 7](Chapitre%207.Gestion_des_Utilisateurs.md)** | Gestion des Utilisateurs | Création comptes, groupes, permissions NTFS/partage | 
+| **[Chapitre 6](Chapitre%206.Unites_Organisation.md)** | Unités d'Organisation (OUs) | Structure hiérarchique, délégation AGLP/AGDLP |
+| **[Chapitre 7](Chapitre%207.Gestion_des_Utilisateurs.md)** | Gestion des Utilisateurs | Création comptes, groupes, permissions NTFS/partage |
 | **[Chapitre 8](Chapitre%208.Group%20Policy%20Objects.md)** | Group Policy Objects (GPO) | Stratégies de groupe, LSDO, filtrage et délégation |
+| **[Chapitre 10](Chapitre%2010.Monitoring.md)** | Monitoring Active Directory | Event Viewer, Event IDs critiques, auditing et surveillance |
 
 ### 💻 Automatisation PowerShell
 
