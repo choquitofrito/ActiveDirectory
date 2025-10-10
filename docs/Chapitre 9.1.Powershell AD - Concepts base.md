@@ -111,21 +111,21 @@ Get-ADUser -Filter * -Properties * | Get-Member -MemberType Property
 # Exemple 1:  Rechercher les utilisateurs créés après le 1er janvier 2023
 # La commande Select-Object permet de filtrer les propriétés d'un objet que l'on souhaite afficher. Dans ce cas, on ne veut afficher que le nom, le nom d'utilisateur et la date de création.
 $date = Get-Date "01/01/2023"
-# Sans Select-Object, PowerShell retourne TOUTES les propriétés disponibles (plus d'une quinzaine), ce qui rend la sortie verbeuse et moins ciblée. Comparez avec l'exemple 2 pour voir la différence.
+# Sans Select-Object, PowerShell retourne TOUTES les pr opriétés disponibles (plus d'une quinzaine), ce qui rend la sortie verbeuse et moins ciblée. Comparez avec l'exemple 2 pour voir la différence.
 Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated
 
 
-# Exemple 2: Rechercher tous les utilisateurs dont le SamAccountName commence par 'Ri' (observez que le script n'a pas crée les prénoms ni les noms des utilisateurs)
-Get-ADUser -Filter {SamAccountName -like 'Ri*'} -Properties GivenName | Select-Object Name, SamAccountName, GivenName
-
-
-
-# Exemple 3: L'utilisation de Select-Object permet de ne pas charger inutilement les propriétés de l'objet.
+# Exemple 2: Même requête que l'exemple 1, mais avec Select-Object pour filtrer les propriétés
+# Ici, on utilise le même filtre de date, mais Select-Object limite l'affichage à Name, SamAccountAccount et WhenCreated pour une sortie ciblée et efficace.
+$date = Get-Date "01/01/2023"
 Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated | Select-Object Name, SamAccountName, WhenCreated
 
-# Exemple 4: Même requête avec Format-Table pour un affichage en tableau (combine Select-Object pour la sélection et Format-Table pour la présentation)
-# Format-Table améliore la lisibilité en organisant les propriétés en colonnes. Utilisez -AutoSize pour ajuster automatiquement la largeur.
-Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated | Select-Object Name, SamAccountName, WhenCreated | Format-Table -AutoSize
+# Exemple 3: Même requête avec Format-Table . Select-Object afficher comme liste s'il y a plus de 4 propriétés. Si on veut un tableau, utilisez Format-Table
+$date = Get-Date "01/01/2023"
+Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated | Select-Object Name, SamAccountName, WhenCreated | Format-Table 
+
+
+
 
 
 ```
