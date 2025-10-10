@@ -108,21 +108,26 @@ Get-ADUser -Filter * -Properties * | Get-Member -MemberType Property
     Avec **Filter** on peut rechercher des éléments à partir des valeurs de leurs propriétés. Par **exemple, on peut rechercher des utilisateurs par leur nom, leur titre, leur service** ('department' en anglais. La propriété est dans l'onglet `Organisation` dans les propriétés des utilisateurs), etc.
 
 ```powershell
-# Exemple 1: Rechercher tous les utilisateurs dont le SamAccountName commence par 'Ri' (observez que le script n'a pas crée les prénoms ni les noms des utilisateurs)
+# Exemple 1:  Rechercher les utilisateurs créés après le 1er janvier 2023
+# La commande Select-Object permet de filtrer les propriétés d'un objet que l'on souhaite afficher. Dans ce cas, on ne veut afficher que le nom, le nom d'utilisateur et la date de création.
+$date = Get-Date "01/01/2023"
+# Sans Select-Object, PowerShell retourne TOUTES les propriétés disponibles (plus d'une quinzaine), ce qui rend la sortie verbeuse et moins ciblée. Comparez avec l'exemple 2 pour voir la différence.
+Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated
+
+
+# Exemple 2: Rechercher tous les utilisateurs dont le SamAccountName commence par 'Ri' (observez que le script n'a pas crée les prénoms ni les noms des utilisateurs)
 Get-ADUser -Filter {SamAccountName -like 'Ri*'} -Properties GivenName | Select-Object Name, SamAccountName, GivenName
 
-# Exemple 2: Rechercher les utilisateurs créés après le 1er janvier 2023
-$date = Get-Date "01/01/2023"
-# La commande Select-Object permet de filtrer les propriétés d'un objet que l'on souhaite afficher. Dans ce cas, on ne veut afficher que le nom, le nom d'utilisateur et la date de création. L'utilisation de Select-Object permet de ne pas charger inutilement les propriétés de l'objet.
+
+
+# Exemple 3: L'utilisation de Select-Object permet de ne pas charger inutilement les propriétés de l'objet.
 Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated | Select-Object Name, SamAccountName, WhenCreated
 
-# Exemple 3: Même requête avec Format-Table pour un affichage en tableau (combine Select-Object pour la sélection et Format-Table pour la présentation)
+# Exemple 4: Même requête avec Format-Table pour un affichage en tableau (combine Select-Object pour la sélection et Format-Table pour la présentation)
 # Format-Table améliore la lisibilité en organisant les propriétés en colonnes. Utilisez -AutoSize pour ajuster automatiquement la largeur.
 Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated | Select-Object Name, SamAccountName, WhenCreated | Format-Table -AutoSize
 
-# Exemple 4: Même requête SANS Select-Object (pour comparaison - montre toutes les propriétés par défaut)
-# Sans Select-Object, PowerShell retourne TOUTES les propriétés disponibles (plus d'une quinzaine), ce qui rend la sortie verbeuse et moins ciblée. Comparez avec l'exemple 2 pour voir la différence.
-Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated
+
 ```
 
 
