@@ -77,7 +77,10 @@ Get-ADDomainController -Filter *
 Get-ADUser -Filter *
 
 
+
 # Afficher les utilisateurs du domaine, mais sélectionner des attributs spécifiques et les afficher de manière structurée
+# Le Format-Table permet d'afficher les résultats dans un format tabulaire
+# Les propriétés Name, Enabled et SamAccountName sont sélectionnées pour être affichées
 Get-ADUser -Filter * -Properties Name, Enabled, SamAccountName | 
     Format-Table Name, Enabled, SamAccountName
 
