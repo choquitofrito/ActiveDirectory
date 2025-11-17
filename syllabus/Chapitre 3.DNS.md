@@ -174,11 +174,6 @@ Avant de passer au Chapitre 4, assurez-vous que :
 **Réponse:** Parce que la meilleure façon d'apprendre DNS c'est de le manipuler avec un domaine réel. Une fois AD installé (Chapitre 4), vous aurez `maxtec.be` fonctionnel et nous ferons de la pratique (Chapitre 4) !
 </details>
 
-<details>
-<summary>❓ Je ne peux plus accéder à internet sur le serveur, c'est normal ?</summary>
-
-**Réponse:** Oui ! Temporairement. Vous avez configuré le DNS vers `127.0.0.1` (vous-même), mais le serveur DNS n'est pas encore installé. Dès que AD sera installé avec DNS, on configurera les "redirecteurs" pour restaurer l'accès internet.
-</details>
 
 <details>
 <summary>❓ Où est toute la théorie DNS (zones, délégation, etc.) ?</summary>

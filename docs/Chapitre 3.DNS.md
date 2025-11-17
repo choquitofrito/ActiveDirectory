@@ -80,9 +80,6 @@ ipconfig /all
 **✅ Si vous voyez `127.0.0.1`** → Parfait ! Prêt pour installer AD
 **❌ Si vous voyez autre chose** → Revérifier la configuration
 
-> ⚠️ **Attention:** Après cette configuration, vous ne pourrez **temporairement plus** accéder à internet depuis le serveur (normal). L'accès internet sera restauré après l'installation d'AD avec les redirecteurs DNS.
-
----
 
 ## 3. Qu'est-ce qui va se passer au Chapitre 4 ? 🔮
 
