@@ -16,6 +16,7 @@
 
 Active Directory est le **cœur de l'infrastructure IT** dans la plupart des entreprises. Une défaillance ou une compromission peut paralyser toute l'organisation.
 
+
 ### Scénarios critiques à détecter
 
 | Scénario | Impact | Détection |
