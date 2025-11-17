@@ -108,13 +108,5 @@ Quand vous lancerez l'installation d'Active Directory Domain Services :
 
 
 
-## 🎯 Questions Fréquentes
-
-
-<details>
-<summary>❓ Je ne peux plus accéder à internet sur le serveur, c'est normal ?</summary>
-
-**Réponse:** Oui ! Temporairement. Vous avez configuré le DNS vers `127.0.0.1` (vous-même), mais le serveur DNS n'est pas encore installé. Dès que AD sera installé avec DNS, on configurera les "redirecteurs" pour restaurer l'accès internet. 
-</details>
 
 ---
