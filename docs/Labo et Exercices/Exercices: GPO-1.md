@@ -195,7 +195,7 @@
 
     Allez dans Configuration Utilisateur > Préférences > Paramètres Windows > Mappages lecteurs > Faites clique droit > Nouveau.
 
-    Le chemin pour le dossier **doit être un chemin réseau**. Pas `C:\Shares\IT-Admin` mais `\\dns1\Shares\IT-Admin`
+    Le chemin pour le dossier **doit être le nom du partage** qu'on voit dans les propriétés du dossier partagé. Pas `C:\Shares\IT-Admin` mais `\\dns1\IT-Admin` (regardez dans les propriétés)
 
 !!! question "Question de réflexion"
     
