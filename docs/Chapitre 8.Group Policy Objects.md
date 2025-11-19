@@ -397,7 +397,16 @@ Une distinction importante existe entre le **ciblage** (*targeting* en anglais) 
 ## 6. Utilisation de la délégation pour créer des exceptions
 
 
-On peut utiliser la délégation pour empecher une GPO de s'appliquer sur un utlisateur ou sur un groupe.
+On peut utiliser la délégation pour empecher une GPO de s'appliquer sur un utilisateur ou sur un groupe.
+Quand vous cliquez sur Delegation, vous voyez un liste de groupes et de permissions.
+C'est un menu confus car l'ensemble **de permissions qu'on y trouve montrent à la fois qui administre la GPO, qui l'applique et qui est exclude l'application de la GPO**.
+
+**Exemple:** 
+
+Les Utilisateurs authentifiés peuvent uniquement lire le contenu de la GPO, pas les modifier
+Les Administrateurs de domaine peuvent modifier, supprimer etc...
+
+Ces permissions peuvent être changées.
 
 - Faites double click sur la GPO et allez dans l'onglet `Delegation` > Avancé
 - Rajoutez le groupe sur lequel la GPO ne doit pas s'appliquer 
@@ -544,4 +553,3 @@ Vous maîtrisez maintenant un des outils les plus puissants d'Active Directory !
 ### 🚀 Prochaine Étape
 Dans le prochain chapitre, nous explorerons des concepts avancés qui vous permettront de gérer des environnements encore plus complexes.
 
-**Progression du cours : 7/X chapitres complétés** 🎯

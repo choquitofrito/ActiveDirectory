@@ -77,6 +77,8 @@ ipconfig /all
 # Serveurs DNS. . . : 127.0.0.1
 ```
 
+
+
 **✅ Si vous voyez `127.0.0.1`** → Parfait ! Prêt pour installer AD
 **❌ Si vous voyez autre chose** → Revérifier la configuration
 
