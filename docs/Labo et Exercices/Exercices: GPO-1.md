@@ -48,7 +48,7 @@
 
 !!! info "Configuration"
     
-    **Setting**: Config Utilisateur > Modèles d'administration > Système > Empêcher l'accès à l'invite de commandes
+    **Setting**: Config Utilisateur > Strategies > Modèles d'administration > Système > Empêcher l'accès à l'invite de commandes
 
 ## 2. Stratégies
 
