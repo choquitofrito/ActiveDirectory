@@ -330,28 +330,35 @@ if ($user.Enabled -eq $false) {
 
 ### Exemple pratique : Rechercher un utilisateur
 
-Voici un exemple de script qui combine variables, conditions et propriétés AD pour rechercher un utilisateur et afficher ses informations :
+Voici un exemple de script qui combine variables, conditions et propriétés AD pour rechercher un utilisateur et afficher ses informations. Le script demande à l'utilisateur un SamAccountName et le cherche dans le domaine AD. Si l'utilisateur est trouvé, le script affiche ses informations. Si l'utilisateur appartient au groupe "GG-EU-Ventes-Users", le script affiche un message approprié.
 
 ```powershell
-# Demander le nom d'utilisateur à rechercher (Read-Host attendra la saisie de l'utilisateur)
-$nomUtilisateurRecherche = Read-Host "Entrez le nom d'utilisateur à rechercher"
+# Demander le nom d'utilisateur à rechercher
+$nomUtilisateurRecherche = Read-Host "Entrez le SamAccountName de l'utilisateur à rechercher"
 
-# Récupérer l'utilisateur dans une variable (filtrer par SamAccountName) et obtenir les propriétés GivenName, Surname et Title
-$utilisateurTrouve = Get-ADUser -Filter {SamAccountName -eq $nomUtilisateurRecherche} -Properties GivenName, Surname, Title, Department, WhenCreated
+# Récupérer l'utilisateur Active Directory
+$utilisateurTrouve = Get-ADUser -Filter "SamAccountName -eq '$nomUtilisateurRecherche'" -Properties GivenName, Surname, Title, Department, WhenCreated
 
 # Vérifier si l'utilisateur existe
 if ($utilisateurTrouve) {
-    Write-Host "Utilisateur trouvé !"
-    Write-Host "Prénom : $($utilisateurTrouve.GivenName)"
-    Write-Host "Nom : $($utilisateurTrouve.Surname)"
-    Write-Host "Titre : $($utilisateurTrouve.Title)"
-    Write-Host "Service : $($utilisateurTrouve.Department)"
+   
+    Write-Host "Utilisateur trouvé !" -ForegroundColor Green
+    Write-Host "Prénom           : $($utilisateurTrouve.GivenName)"
+    Write-Host "Nom              : $($utilisateurTrouve.Surname)"
+    Write-Host "Titre            : $($utilisateurTrouve.Title)"
+    Write-Host "Service          : $($utilisateurTrouve.Department)"
     Write-Host "Date de création : $($utilisateurTrouve.WhenCreated)"
-    
-    # Vérifier si l'utilisateur fait partie du service IT
-    if ($utilisateurTrouve.Department -eq "IT") {
-        Write-Host "Cet utilisateur fait partie du service informatique" -ForegroundColor Green
+
+    # Vérifier si l'utilisateur est membre d'un groupe
+    $groupe = "GG-EU-Ventes-Users"
+    $membre = Get-ADPrincipalGroupMembership -Identity $utilisateurTrouve | Where-Object { $_.Name -eq $groupe }
+
+    if ($membre) {
+        Write-Host "L'utilisateur appartient au groupe : $groupe" -ForegroundColor Cyan
+    } else {
+        Write-Host "L'utilisateur n'appartient PAS au groupe : $groupe" -ForegroundColor Yellow
     }
+
 } else {
     Write-Host "Aucun utilisateur trouvé avec ce nom." -ForegroundColor Red
 }
