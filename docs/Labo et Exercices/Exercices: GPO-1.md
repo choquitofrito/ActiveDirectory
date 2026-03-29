@@ -82,6 +82,7 @@
 !!! info "Solution"
     
     Pour limiter l'impact de la GPO, vous pouvez débloquer l'application de la GPO sur l'ordinateur de Richard:
+
     - Double Clic sur GPO > Délegation > Avancé > Ajouter 
     - Pour que les ordinateurs soient visibles, il faut cliquer sur `Type d'objet` et cocher `Computers`
     - Chercher l'ordinateur de Richard (ex: `ws-rh-01`)
@@ -120,6 +121,7 @@
     Dans `Partage avancé` > `Utilisateurs`, supprimez l'accès de `Everyone` sur le dossier (la lecture suffira)
 
     Ajoutez les groupes suivants :
+
     - `GG-EU-RH-Computers-Chrome`
     - `Administrateur` (car il devra accéder au dossier pendant la configuration de la GPO)
 
@@ -132,6 +134,7 @@
 !!! example "Téléchargement de Chrome"
     
     On doit télécharger Chrome et le stocker dans le dossier partagé. Si vous n'avez pas d'accès Internet :
+
     1. Éteignez la machine dans Virtualbox
     2. Ajoutez un adaptateur (adapter 2) réseau NAT
     3. Redémarrez la machine

@@ -61,6 +61,7 @@ Tous ces aspects **peuvent être gérés depuis un seul endroit, le serveur Acti
     **"Est-ce une bonne idée de centraliser toute la gestion sur (eventuellement) un seul serveur?"**
     
     🔍 **Réfléchissez 2 minutes** avant de regarder la réponse:
+
     - Quels seraient les **avantages** ?
     - Quels seraient les **risques** ?
     - Comment **minimiser** les risques ?
@@ -200,6 +201,7 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
     5. Configurez :
        - Nom : **LAN-VM**
        - Type : Private network
+
     6. Validez avec `OK`
 
 !!! info "🌐 Configuration du réseau WAN-VM (externe)"
@@ -211,6 +213,7 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
        - Nom : **WAN-VM**
        - Type : External network
        - Adaptateur : Votre connexion Internet (Ethernet/WiFi)
+
     5. Validez et acceptez l'avertissement
 
 
@@ -306,6 +309,7 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
        !!! tip "Pour le labo"
         
         Nous utilisons `Password1!` pour simplicité
+
     2. Connectez-vous avec le compte administrateur
     3. Configurez les paramètres régionaux :
        - Région : **France**

@@ -26,6 +26,7 @@ Avancé
     Le Directeur Financier de MonitoringTech SPRL vient de vous envoyer un email urgent. Il a constaté que des fichiers de reporting financier trimestriel ont été consultés par des personnes non habilitées, mais il n'a aucune preuve pour identifier le responsable car aucun audit d'accès aux fichiers n'est en place.
 
     Il vous demande de :
+
     1. Créer un dossier partagé simulant les données financières sensibles
     2. Mettre en place un audit complet des accès à ce dossier
     3. Configurer les politiques AD pour auditer les modifications de comptes dans le département Finance

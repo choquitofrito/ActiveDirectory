@@ -426,6 +426,7 @@ if ($users.Count -eq 0) {
     1. Adaptez le script pour qu'il affiche également :
         - La date de dernière connexion (LastLogonDate)
         - Si le mot de passe expire ou non
+
     2. Ajoutez une condition pour mettre en évidence les comptes inactifs depuis plus de 30 jours
     3. Bonus : Permettez de filtrer les utilisateurs par leur statut (actif/inactif)
 

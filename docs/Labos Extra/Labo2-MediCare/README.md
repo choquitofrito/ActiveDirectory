@@ -314,8 +314,10 @@ auditpol /get /category:"Logon/Logoff","Account Management"
 
     1. **\\\\SRV-MEDICARE\\Dossiers_Patients**
        - Permissions NTFS: `GG-MediCare-Medical-Users` (Lecture/Écriture)
+
     2. **\\\\SRV-MEDICARE\\Notes_Infirmieres**
        - Permissions NTFS: `GG-MediCare-Medical-Users`, `GG-MediCare-Nursing-Users` (Lecture/Écriture)
+
     3. **\\\\SRV-MEDICARE\\Administration**
        - Permissions NTFS: `GG-MediCare-Administration-Users` (Lecture/Écriture)
 

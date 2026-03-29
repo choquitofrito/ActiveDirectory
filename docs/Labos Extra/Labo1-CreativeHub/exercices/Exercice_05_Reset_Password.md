@@ -84,6 +84,7 @@ Votre mission est de sécuriser immédiatement le compte de Bastien et lui perme
        - Cocher "Déverrouiller le compte" (si l'option est disponible)
        - Entrer le nouveau mot de passe
        - Cocher "L'utilisateur doit changer le mot de passe à la prochaine ouverture de session"
+
     5. Ajouter une note documentant l'incident dans l'onglet Général (Description)
     
 

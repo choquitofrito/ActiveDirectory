@@ -9,12 +9,15 @@
     1. 👤 [Identités Numériques](#1-identités-numériques)
        - Concepts de base
        - Conventions de nommage
+
     2. ⚙️ [Administration ADUC](#2-utilisateurs-et-ordinateurs-active-directory-aduc)
        - Configuration des comptes
        - Gestion des accès
+
     3. 🔐 [Sécurité et Groupes](#4-gestion-des-groupes)
        - Stratégies de sécurité
        - Organisation des accès
+
     4. 🔑 [Délégation de Contrôle](#8-delegation-de-controle)
        - Concept et cas d'usage
        - Exemple pratique reset password
@@ -158,12 +161,14 @@ Par défaut, il y a plusieurs **conteneurs** (**ce ne sont pas des OU**, mais de
     2. **Nouveau** > **Utilisateur**
     
     #### **Informations de Base**
+
     - **Prénom** : Charles
     - **Nom** : 
     - **Login** : charles
     - **UPN** : charles@maxtec.be
     
     #### **Configuration du mot de passe**
+
     - Choisir un mot de passe temporaire respectant la politique
     - **Cocher** "L'utilisateur doit changer son mot de passe à la prochaine ouverture de session"
     - **Décocher** "Le compte est désactivé" si l'utilisateur doit se connecter immédiatement
@@ -210,10 +215,12 @@ Après la création du compte, il est important de configurer les **propriétés
     #### 🔑 Paramètres du Compte
     
     ##### **Heures d'accès**
+
     - Par défaut : 24/7
     - Restriction : 7h-19h (semaine)
     
     ##### **Postes de travail**
+
     - Défaut : Tous les postes
     - Exemple : `ws-compta-01.maxtec.be`
 
@@ -236,6 +243,7 @@ Après la création du compte, il est important de configurer les **propriétés
 !!! warning "Attention aux profils itinérants"
     
     Les profils itinérants peuvent :
+
     - Ralentir les connexions (synchronisation du profil)
     - Consommer beaucoup d'espace disque sur le serveur
     - Augmenter le trafic réseau
@@ -251,6 +259,7 @@ Après la création du compte, il est important de configurer les **propriétés
     - **AppData** : Données des applications
         - `\AppData\Local` : Données spécifiques à la machine (cache, temp)
         - `\AppData\Roaming` : Données qui suivent l'utilisateur entre les machines
+
     - **Script de connexion** : Si on veut lancer une suite d'opérations lors de la connexion
         ```plaintext
         \\srv-scripts\dept\compta\logon.bat
@@ -269,6 +278,7 @@ Après la création du compte, il est important de configurer les **propriétés
 !!! info "Concept des groupes"
     
     Un groupe du domaine AD est un conteneur pour gérer :
+
     - Utilisateurs
     - Ordinateurs (c'est possible aussi !)
     - Autres groupes

@@ -93,6 +93,7 @@ Créer un groupe de sécurité nommé **GG-Projet-SecureBank** contenant exactem
 
 ??? info "💡 Indice 1 : Étendue du groupe"
     Dans un environnement à domaine unique, la meilleure pratique Microsoft est :
+
     - **Groupes Globaux** : Pour regrouper des utilisateurs (ex: tous les utilisateurs d'un département)
     - **Groupes Domain Local** : Pour attribuer des permissions sur des ressources
     - **Stratégie AGDLP** : Ajouter les utilisateurs à un groupe Global, puis ce groupe Global à un groupe Domain Local qui a les permissions
@@ -102,6 +103,7 @@ Créer un groupe de sécurité nommé **GG-Projet-SecureBank** contenant exactem
 
 ??? info "💡 Indice 2 : Emplacement du groupe"
     Comme le groupe concerne plusieurs départements, créez une nouvelle OU "Projets" ou "Groupes_Projets" sous l'OU racine CreativeHub :
+
     - `OU=Groupes_Projets,OU=CreativeHub,DC=maxtec,DC=be`
     
     Ou utilisez l'OU Groups d'un département (par exemple ClientServices puisque c'est le département qui pilote le projet).

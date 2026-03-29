@@ -89,6 +89,7 @@ Set-ADAccountPassword -Identity "svc_monitoring" -NewPassword $newPwd -Reset
 
 !!! info "Méthodologie d'investigation"
     Une investigation forensique suit toujours cet ordre :
+
     1. Collecter les preuves sans les altérer
     2. Établir une chronologie des événements
     3. Identifier le vecteur d'attaque

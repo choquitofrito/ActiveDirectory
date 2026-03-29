@@ -447,6 +447,7 @@ OU=MONITORING,DC=maxtec,DC=be
         - **O** (Oui) pour exécuter l'étape
         - **N** (Non) pour sauter l'étape
         - **Q** (Quitter) pour arrêter complètement le script
+
     4. Observer la sortie console avec codes couleur:
         - 🟢 **Vert**: Objet créé avec succès
         - 🟡 **Jaune**: Objet existe déjà (idempotence)
@@ -464,6 +465,7 @@ OU=MONITORING,DC=maxtec,DC=be
         - Suivre les chemins de navigation indiqués dans la section GPOs
         - Configurer les paramètres exacts spécifiés
         - Fermer GPMC Editor
+
     4. Appliquer les GPOs: `gpupdate /force`
 
 ### Étape 6: Vérifier la création
@@ -607,6 +609,7 @@ OU=MONITORING,DC=maxtec,DC=be
         - Vérifier les utilisateurs dans `OU=Users`
         - Vérifier les groupes dans `OU=Groups`
         - Double-cliquer sur un groupe → Onglet **Members** → Vérifier les appartenances
+
     5. Vérifier les comptes de service dans `OU=ServiceAccounts`
     6. Vérifier les ordinateurs dans `OU=Computers` (DCs, Servers, Workstations)
 

@@ -9,9 +9,11 @@
     1. 🌐 [Introduction aux GPO](#1-introduction-aux-gpo)
        - Concepts de base
        - Types de stratégies
+
     2. 🔰 [Hiérarchie et Application](#2-création-des-gpos)
        - Niveaux d'application
        - Ordre de traitement
+
     3. 💻 [Configuration des GPO](#3-classifications-des-gpo)
        - Outils de gestion
        - Exemples pratiques
@@ -132,6 +134,7 @@ Avant de commencer, assurez-vous d'avoir installé le laboratoire en suivant les
     - **Modifier** la GPO (vide au départ): elle doit empêcher l'accès des utilisateurs de Ventes aux éléments suivants du panneau de configuration:
       - Programmes et fonctionnalités
       - Système
+
     - **Appliquer** la GPU (dans ce cas à l'OU `Ventes`)
     - **Se connecter** au serveur avec un user de `Ventes` et vérifier que le panneau de configuration est restreint (on voit que les options `Programmes et fonctionnalités` et `Système` sont cachées)
 
