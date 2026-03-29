@@ -24,14 +24,14 @@ Avancé
 
 !!! example "Scénario réel"
     Le Directeur Financier de MonitoringTech SPRL vient de vous envoyer un email urgent. Il a constaté que des fichiers de reporting financier trimestriel ont été consultés par des personnes non habilitées, mais il n'a aucune preuve pour identifier le responsable car aucun audit d'accès aux fichiers n'est en place.
-
+    
     Il vous demande de :
-
+    
     1. Créer un dossier partagé simulant les données financières sensibles
     2. Mettre en place un audit complet des accès à ce dossier
     3. Configurer les politiques AD pour auditer les modifications de comptes dans le département Finance
     4. Produire un rapport de test démontrant que l'audit fonctionne
-
+    
     **Vous devez concevoir et implémenter cette solution de façon autonome.**
 
 ---
@@ -277,7 +277,7 @@ $rapportAcces = foreach ($event in $events | Select-Object -First 20) {
     $user = ($data | Where-Object { $_.Name -eq "SubjectUserName" }).'#text'
     $file = ($data | Where-Object { $_.Name -eq "ObjectName" }).'#text'
     $access = ($data | Where-Object { $_.Name -eq "AccessMask" }).'#text'
-
+    
     if ($file -like "*FinanceData*") {
         [PSCustomObject]@{
             Heure   = $event.TimeCreated.ToString("dd/MM/yyyy HH:mm:ss")

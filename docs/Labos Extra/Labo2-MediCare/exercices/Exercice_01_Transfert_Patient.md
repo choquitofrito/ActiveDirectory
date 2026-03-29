@@ -27,7 +27,7 @@
 
 !!! example "Scénario réel - Cabinet MediCare Clinic"
     **Email du Dr. Catherine Leblanc** :
-
+    
     > Bonjour équipe IT,
     >
     > J'ai 3 patients que je transfère vers le Dr. Philippe Moreau suite à mon départ en formation continue pendant 2 mois. Pouvez-vous:
@@ -43,7 +43,7 @@
     >
     > Merci!
     > Dr. Catherine Leblanc
-
+    
     **Votre mission** : Gérer ce transfert médical de manière conforme et tracée.
 
 ## Tâches à Réaliser
@@ -65,7 +65,7 @@
 
 !!! warning "Prérequis"
     Cette étape nécessite d'avoir préalablement créé le partage réseau `\\SRV-MEDICARE\Dossiers_Patients`.
-
+    
     Si le partage n'existe pas encore, créez-le avec les permissions par défaut pour `GG-MediCare-Medical-Users`.
 
 1. Ouvrir **PowerShell ISE** en tant qu'**Administrateur**
@@ -106,21 +106,21 @@ $patients = @("Patient_001_Dupont", "Patient_012_Martin", "Patient_027_Bernard")
 
 foreach ($patient in $patients) {
     $folderPath = "$basePath\$patient"
-
+    
     # Obtenir l'ACL actuelle
     $acl = Get-Acl $folderPath
-
+    
     # Ajouter permission Modify pour catherine
     $identity = "MAXTEC\catherine"
     $fileSystemRights = "Modify"
     $type = "Allow"
-
+    
     $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($identity, $fileSystemRights, "ContainerInherit,ObjectInherit", "None", $type)
     $acl.SetAccessRule($accessRule)
-
+    
     # Appliquer l'ACL
     Set-Acl $folderPath $acl
-
+    
     Write-Host "✅ Permissions Modify ajoutées pour catherine sur : $patient" -ForegroundColor Green
 }
 
@@ -142,7 +142,7 @@ $patients = @("Patient_001_Dupont", "Patient_012_Martin", "Patient_027_Bernard")
 foreach ($patient in $patients) {
     $folderPath = "$basePath\$patient"
     Write-Host "`n📁 Dossier : $patient" -ForegroundColor Cyan
-
+    
     $acl = Get-Acl $folderPath
     $acl.Access | Where-Object {$_.IdentityReference -like "*catherine*" -or $_.IdentityReference -like "*philippe*"} |
         Format-Table IdentityReference, FileSystemRights, AccessControlType -AutoSize
@@ -163,21 +163,21 @@ $patients = @("Patient_001_Dupont", "Patient_012_Martin", "Patient_027_Bernard")
 
 foreach ($patient in $patients) {
     $folderPath = "$basePath\$patient"
-
+    
     # Obtenir l'ACL actuelle
     $acl = Get-Acl $folderPath
-
+    
     # Ajouter permission Modify pour philippe
     $identity = "MAXTEC\philippe"
     $fileSystemRights = "Modify"
     $type = "Allow"
-
+    
     $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($identity, $fileSystemRights, "ContainerInherit,ObjectInherit", "None", $type)
     $acl.SetAccessRule($accessRule)
-
+    
     # Appliquer l'ACL
     Set-Acl $folderPath $acl
-
+    
     Write-Host "✅ Permissions Modify ajoutées pour philippe sur : $patient" -ForegroundColor Green
 }
 
@@ -198,18 +198,18 @@ $patients = @("Patient_001_Dupont", "Patient_012_Martin", "Patient_027_Bernard")
 
 foreach ($patient in $patients) {
     $folderPath = "$basePath\$patient"
-
+    
     # Obtenir l'ACL actuelle
     $acl = Get-Acl $folderPath
-
+    
     # Retirer toutes les règles pour catherine
     $acl.Access | Where-Object {$_.IdentityReference -eq "MAXTEC\catherine"} | ForEach-Object {
         $acl.RemoveAccessRule($_) | Out-Null
     }
-
+    
     # Appliquer l'ACL
     Set-Acl $folderPath $acl
-
+    
     Write-Host "✅ Permissions retirées pour catherine sur : $patient" -ForegroundColor Yellow
 }
 
@@ -253,17 +253,17 @@ Write-Host "========================================" -ForegroundColor Cyan
 foreach ($patient in $patients) {
     $folderPath = "$basePath\$patient"
     Write-Host "`n📁 Dossier : $patient" -ForegroundColor Cyan
-
+    
     $acl = Get-Acl $folderPath
     $cathAccess = $acl.Access | Where-Object {$_.IdentityReference -eq "MAXTEC\catherine"}
     $philAccess = $acl.Access | Where-Object {$_.IdentityReference -eq "MAXTEC\philippe"}
-
+    
     if ($cathAccess) {
         Write-Host "  ✗ ERREUR: catherine a encore accès!" -ForegroundColor Red
     } else {
         Write-Host "  ✓ catherine n'a plus accès (CORRECT)" -ForegroundColor Green
     }
-
+    
     if ($philAccess) {
         Write-Host "  ✓ philippe a accès Modify (CORRECT)" -ForegroundColor Green
     } else {
@@ -354,7 +354,7 @@ Write-Host "`n[ÉTAPE 2] Configuration permissions initiales Dr. Leblanc..." -Fo
 foreach ($patient in $patients) {
     $folderPath = "$basePath\$patient"
     $acl = Get-Acl $folderPath
-
+    
     $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule(
         "MAXTEC\catherine",
         "Modify",
@@ -364,7 +364,7 @@ foreach ($patient in $patients) {
     )
     $acl.SetAccessRule($accessRule)
     Set-Acl $folderPath $acl
-
+    
     Write-Host "  ✓ Permissions Modify ajoutées pour catherine : $patient" -ForegroundColor Green
 }
 
@@ -373,7 +373,7 @@ Write-Host "`n[ÉTAPE 3] Transfert accès vers Dr. Moreau..." -ForegroundColor C
 foreach ($patient in $patients) {
     $folderPath = "$basePath\$patient"
     $acl = Get-Acl $folderPath
-
+    
     $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule(
         "MAXTEC\philippe",
         "Modify",
@@ -383,7 +383,7 @@ foreach ($patient in $patients) {
     )
     $acl.SetAccessRule($accessRule)
     Set-Acl $folderPath $acl
-
+    
     Write-Host "  ✓ Permissions Modify ajoutées pour philippe : $patient" -ForegroundColor Green
 }
 
@@ -392,11 +392,11 @@ Write-Host "`n[ÉTAPE 4] Retrait accès Dr. Leblanc..." -ForegroundColor Cyan
 foreach ($patient in $patients) {
     $folderPath = "$basePath\$patient"
     $acl = Get-Acl $folderPath
-
+    
     $acl.Access | Where-Object {$_.IdentityReference -eq "MAXTEC\catherine"} | ForEach-Object {
         $acl.RemoveAccessRule($_) | Out-Null
     }
-
+    
     Set-Acl $folderPath $acl
     Write-Host "  ✓ Permissions retirées pour catherine : $patient" -ForegroundColor Yellow
 }
@@ -417,11 +417,11 @@ Write-Host "`n✅ Transfert de patients terminé avec succès!" -ForegroundColor
 
 !!! tip "Concepts importants"
     1. **Permissions NTFS** : Les fichiers médicaux nécessitent des permissions strictes au niveau fichier
-
+    
     2. **Traçabilité RGPD** : Tous les transferts de données patients doivent être documentés (qui, quand, pourquoi)
-
+    
     3. **Principe du moindre privilège** : Retirer les accès dès qu'ils ne sont plus nécessaires
-
+    
     4. **Responsabilité médicale** : Le transfert de patients implique un transfert de responsabilité et d'accès aux dossiers
 
 ## Dépannage (Erreurs Courantes)
@@ -438,5 +438,5 @@ Write-Host "`n✅ Transfert de patients terminé avec succès!" -ForegroundColor
 
 !!! tip "Progression pédagogique"
     Une fois cet exercice maîtrisé, passez à :
-
+    
     **[Exercice 02 : Horaire de Garde](Exercice_02_Horaire_Garde.md)** - Créer un compte temporaire avec restrictions horaires pour les urgences médicales.

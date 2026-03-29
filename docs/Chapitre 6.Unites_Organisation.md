@@ -11,11 +11,11 @@
     1. 🏢 [Structure organisationnelle](#2--structure-organisationnelle)
        - Concepts fondamentaux
        - Hiérarchie des UOs
-
+    
     2. ⚙️ [Administration](#6-️-gestion-des-ous)
        - Création et configuration
        - Bonnes pratiques
-
+    
     3. 🔐 [Sécurité et délégation](#9-délégation-de-contrôle)
        - Stratégies de gestion
        - Contrôle d'accès
@@ -372,7 +372,7 @@ EU
 !!! success "Objectifs et Bénéfices"
     
     **Avantages** :
-
+    
     - **Décentralisation** : Répartition des tâches administratives
     - **Sécurité** : Application du principe du moindre privilège
     - **Efficacité** : Gestion locale plus rapide et adaptée
@@ -481,7 +481,7 @@ Maintenant **les admins RH peuvent gérer leurs utilisateurs sans avoir accès a
 !!! warning "Sécurité"
     
     La délégation est **strictement limitée à l'OU**. Par exemple :
-
+    
     - Un admin RH peut créer le groupe `GG-EU-RH-Projet` dans son OU
     - Il peut y ajouter `marie.dupont` qui est dans `OU=RH,OU=EU`
     - Mais il ne peut pas y ajouter `jean.martin` qui est dans `OU=Ventes,OU=EU`
@@ -511,7 +511,7 @@ Maintenant **l'équipe IT peut gérer les ressources de l'OU Ventes sans avoir a
 !!! warning "Sécurité"
     
     La délégation est **strictement limitée à l'OU**. Par exemple :
-
+    
     - Le support IT peut intégrer `ws-ventes-01` dans `OU=Ventes,OU=EU`
     - Il peut gérer l'imprimante `print-ventes` dans cette OU
     - Mais il ne peut pas toucher à `ws-compta-01` qui est dans `OU=Comptabilite,OU=EU`

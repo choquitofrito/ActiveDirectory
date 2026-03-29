@@ -8,11 +8,11 @@
     1. 🛠️ [Prérequis](#1-️-prérequis)
        - Installation de VirtualBox
        - Téléchargement de Windows Server
-
+    
     2. 🖥️ [Configuration de VirtualBox](#2-️-création-de-la-machine-virtuelle)
        - Création de la VM
        - Paramètres réseau
-
+    
     3. 🔩 [Installation de Windows Server](#3--installation-de-windows-server-2022)
        - Étapes d'installation
        - Configuration initiale
@@ -247,7 +247,7 @@ Supossons qu'on a deux départements pour le moment:
 !!! example "Exercice 1"
 
     Créez une nouvelle VM Windows 10 avec :
-
+    
     - 🎮 Nom VM : `Client2`
     - 👤 Compte : **peter.parker** / **Password1!**
     - 💽 Hardware identique à la première machine
@@ -257,7 +257,7 @@ Supossons qu'on a deux départements pour le moment:
 !!! example "Exercice 2"
 
     Créez un nouveau serveur Windows Server 2022 :
-
+    
     - 🌐 Nom du serveur (FQDN) : `dns2.maxtec.be`
     - 💻 Suivez la même procédure que pour le premier serveur
 

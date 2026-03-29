@@ -14,14 +14,14 @@
 
 !!! example "Contexte professionnel"
     **MonitoringTech SPRL** est une PME bruxelloise spécialisée dans les services informatiques gérés (Managed Services Provider). L'entreprise compte 24 employés répartis en 4 départements:
-
+    
     - **IT Operations** (5 personnes): Gère l'infrastructure serveurs, réseau et virtualisation
     - **Security** (5 personnes): Responsable de la sécurité informatique, audits et conformité
     - **Ressources Humaines** (5 personnes): Gestion du personnel et formation
     - **Finance** (5 personnes): Comptabilité, contrôle de gestion, reporting financier
-
+    
     Suite à un incident de sécurité récent (tentative d'accès non autorisé détectée tardivement), la direction a mandaté l'équipe IT Operations et Security pour **mettre en place une infrastructure de monitoring robuste** avec traçabilité complète des événements critiques.
-
+    
     Le laboratoire simule cette infrastructure après déploiement des solutions de monitoring (PRTG, collecteur de logs SIEM, outils d'audit).
 
 ## Durée Estimée
@@ -85,20 +85,20 @@ OU=MONITORING,DC=maxtec,DC=be
 
 !!! info "Structure des OUs"
     **OU Racine:**
-
+    
     - `OU=MONITORING,DC=maxtec,DC=be` - Conteneur principal du laboratoire
-
+    
     **Départements (4 OUs):**
-
+    
     | Département | Chemin DN | Sous-OUs |
     |-------------|-----------|----------|
     | **ITOperations** | `OU=ITOperations,OU=MONITORING,...` | Users, Computers, Groups |
     | **Security** | `OU=Security,OU=MONITORING,...` | Users, Computers, Groups |
     | **RH** | `OU=RH,OU=MONITORING,...` | Users, Computers, Groups |
     | **Finance** | `OU=Finance,OU=MONITORING,...` | Users, Computers, Groups |
-
+    
     **OUs Spéciales:**
-
+    
     - `OU=ServiceAccounts` - Comptes de service pour outils monitoring
     - `OU=Computers` - Tous les ordinateurs (DCs, serveurs, stations)
         - `OU=DomainControllers` - Contrôleurs de domaine
@@ -120,9 +120,9 @@ OU=MONITORING,DC=maxtec,DC=be
     | **Charles Lefebvre** | charles | charles@maxtec.be | Ingénieur Réseau | Monitor2024! |
     | **Diane Bernard** | diane | diane@maxtec.be | Technicien Support | Monitor2024! |
     | **Émile Rousseau** | emile | emile@maxtec.be | Spécialiste Virtualisation | Monitor2024! |
-
+    
     **Logique d'appartenance:**
-
+    
     - TOUS les utilisateurs → `GG-MONITORING-ITOperations-Users`
     - Alexandre (premier alphabétiquement) → `GG-MONITORING-ITOperations-Admin`
 
@@ -136,9 +136,9 @@ OU=MONITORING,DC=maxtec,DC=be
     | **Henri Laurent** | henri | henri@maxtec.be | Auditeur Systèmes | Monitor2024! |
     | **Isabelle Michel** | isabelle | isabelle@maxtec.be | Spécialiste Conformité | Monitor2024! |
     | **Julien Leroy** | julien | julien@maxtec.be | Analyste SOC | Monitor2024! |
-
+    
     **Logique d'appartenance:**
-
+    
     - TOUS les utilisateurs → `GG-MONITORING-Security-Users`
     - Fabien (premier alphabétiquement) → `GG-MONITORING-Security-Admin`
     - Henri, Isabelle, Julien → `GG-MONITORING-SecurityAuditors` (auditeurs en lecture seule)
@@ -153,9 +153,9 @@ OU=MONITORING,DC=maxtec,DC=be
     | **Marie Girard** | marie | marie@maxtec.be | Responsable Recrutement | Monitor2024! |
     | **Nicolas Bonnet** | nicolas | nicolas@maxtec.be | Assistant RH | Monitor2024! |
     | **Olivia Dupont** | olivia | olivia@maxtec.be | Formatrice Interne | Monitor2024! |
-
+    
     **Logique d'appartenance:**
-
+    
     - TOUS les utilisateurs → `GG-MONITORING-RH-Users`
     - Karine (premier alphabétiquement) → `GG-MONITORING-RH-Admin`
 
@@ -169,9 +169,9 @@ OU=MONITORING,DC=maxtec,DC=be
     | **Rachel Fabre** | rachel | rachel@maxtec.be | Comptable Senior | Monitor2024! |
     | **Sylvain Perrin** | sylvain | sylvain@maxtec.be | Analyste Financier | Monitor2024! |
     | **Théa Morel** | thea | thea@maxtec.be | Assistante Comptable | Monitor2024! |
-
+    
     **Logique d'appartenance:**
-
+    
     - TOUS les utilisateurs → `GG-MONITORING-Finance-Users`
     - Pascal (premier alphabétiquement) → `GG-MONITORING-Finance-Admin`
 
@@ -184,7 +184,7 @@ OU=MONITORING,DC=maxtec,DC=be
     | **svc_backup** | Compte service sauvegarde AD | ServiceP@ss2024! | PasswordNeverExpires |
     | **svc_audit** | Compte service collecte logs audit | ServiceP@ss2024! | PasswordNeverExpires |
     | **svc_replication** | Compte service vérification réplication AD | ServiceP@ss2024! | PasswordNeverExpires |
-
+    
     **Tous les comptes de service** appartiennent au groupe `GG-MONITORING-ServiceAccounts`.
 
 !!! info "Propriétés des comptes utilisateurs"
@@ -262,39 +262,39 @@ OU=MONITORING,DC=maxtec,DC=be
 
 !!! info "MONITORING - Configuration Journaux Événements"
     **Objectif:** Augmenter la taille des journaux Windows pour conserver plus d'événements de monitoring
-
+    
     **Liée à:** `OU=MONITORING,DC=maxtec,DC=be`
-
+    
     **Configuration manuelle dans GPMC:**
-
+    
     **Étape 1 - Journal Sécurité (Security Log):**
-
+    
     1. Computer Configuration → Policies → Administrative Templates → Windows Components
     2. Event Log Service → Security
     3. **Specify the maximum log file size (KB)** = **Enabled** → Valeur: `2097151` KB (2 GB)
     4. **Control Event Log behavior when the log file reaches its maximum size** = **Enabled** → Sélectionner: "Overwrite events as needed"
-
+    
     **Étape 2 - Journal Application:**
-
+    
     1. Computer Configuration → Policies → Administrative Templates → Windows Components
     2. Event Log Service → Application
     3. **Specify the maximum log file size (KB)** = **Enabled** → Valeur: `524288` KB (512 MB)
-
+    
     **Étape 3 - Journal Système:**
-
+    
     1. Computer Configuration → Policies → Administrative Templates → Windows Components
     2. Event Log Service → System
     3. **Specify the maximum log file size (KB)** = **Enabled** → Valeur: `524288` KB (512 MB)
-
+    
     **Vérification:**
-
+    
     ```powershell
     # Appliquer la GPO
     gpupdate /force
-
+    
     # Vérifier la taille du journal Sécurité
     Get-WinEvent -ListLog Security | Select-Object LogName, MaximumSizeInBytes
-
+    
     # Ouvrir Event Viewer et vérifier les propriétés
     eventvwr.msc
     # Clic droit sur Security → Properties → Maximum log size = 2 GB
@@ -304,22 +304,22 @@ OU=MONITORING,DC=maxtec,DC=be
 
 !!! info "MONITORING - Restrictions Stations Sensibles"
     **Objectif:** Bloquer l'accès aux périphériques USB amovibles sur les stations IT et Security pour éviter l'exfiltration de données
-
+    
     **Liée à:**
-
+    
     - `OU=Computers,OU=Security,OU=MONITORING,...`
     - `OU=Computers,OU=ITOperations,OU=MONITORING,...`
-
+    
     **Configuration manuelle dans GPMC:**
-
+    
     **Bloquer périphériques USB amovibles:**
-
+    
     1. Computer Configuration → Policies → Administrative Templates → System
     2. Removable Storage Access
     3. **All Removable Storage classes: Deny all access** = **Enabled**
-
+    
     **Vérification:**
-
+    
     1. Connecter une clé USB à un ordinateur du département Security ou IT Operations
     2. Exécuter: `gpupdate /force`
     3. La clé USB doit être **bloquée** avec message d'erreur Windows
@@ -329,19 +329,19 @@ OU=MONITORING,DC=maxtec,DC=be
 
 !!! info "MONITORING - Verrouillage Session Automatique"
     **Objectif:** Verrouiller automatiquement les sessions inactives après 10 minutes pour éviter les accès non autorisés
-
+    
     **Liée à:** `OU=MONITORING,DC=maxtec,DC=be`
-
+    
     **Configuration manuelle dans GPMC:**
-
+    
     **Délai verrouillage automatique:**
-
+    
     1. Computer Configuration → Policies → Windows Settings → Security Settings
     2. Local Policies → Security Options
     3. **Interactive logon: Machine inactivity limit** = **600 secondes** (10 minutes)
-
+    
     **Vérification:**
-
+    
     1. Appliquer la GPO: `gpupdate /force`
     2. Ouvrir une session utilisateur
     3. Laisser l'ordinateur inactif pendant 10 minutes
@@ -353,7 +353,7 @@ OU=MONITORING,DC=maxtec,DC=be
 
 !!! success "Configurée automatiquement par PowerShell"
     Cette politique est **directement configurée par le script** via `Set-ADDefaultDomainPasswordPolicy`:
-
+    
     | Paramètre | Valeur | Description |
     |-----------|--------|-------------|
     | **Longueur minimale** | 12 caractères | Force des mots de passe robustes |
@@ -364,13 +364,13 @@ OU=MONITORING,DC=maxtec,DC=be
     | **Seuil verrouillage** | 5 tentatives | Compte bloqué après 5 échecs |
     | **Durée verrouillage** | 30 minutes | Déverrouillage automatique après 30 min |
     | **Fenêtre observation** | 30 minutes | Compteur réinitialisé après 30 min sans échec |
-
+    
     **Vérification:**
-
+    
     ```powershell
     # Consulter la politique actuelle
     Get-ADDefaultDomainPasswordPolicy -Identity "maxtec.be"
-
+    
     # Tester en modifiant le mot de passe d'un utilisateur
     Set-ADAccountPassword -Identity "diane" -NewPassword (ConvertTo-SecureString "faible" -AsPlainText -Force)
     # Doit échouer car ne respecte pas les critères
@@ -380,7 +380,7 @@ OU=MONITORING,DC=maxtec,DC=be
 
 !!! success "Configurées automatiquement par auditpol.exe"
     Le script active **12 politiques d'audit** via la commande `auditpol /set`. Les événements sont enregistrés dans le journal **Sécurité** de Windows.
-
+    
     | Catégorie | Sous-catégorie | Success | Failure | Événements tracés |
     |-----------|----------------|---------|---------|-------------------|
     | **Logon/Logoff** | Logon | ✅ | ✅ | Connexions utilisateurs (Event ID 4624, 4625) |
@@ -395,19 +395,19 @@ OU=MONITORING,DC=maxtec,DC=be
     | **DS Access** | Directory Service Access | ✅ | ✅ | Accès objets AD DS (Event ID 4662) |
     | **DS Access** | Directory Service Changes | ✅ | ❌ | Modifications objets AD DS (Event ID 5136, 5137, 5138, 5139, 5141) |
     | **Object Access** | File Share | ✅ | ✅ | Accès partages réseau (Event ID 5140, 5142, 5143, 5144, 5145) |
-
+    
     **Vérification:**
-
+    
     ```powershell
     # Afficher toutes les politiques d'audit configurées
     auditpol /get /category:*
-
+    
     # Vérifier une sous-catégorie spécifique
     auditpol /get /subcategory:"Logon"
-
+    
     # Consulter les événements d'audit dans Event Viewer
     Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4624} -MaxEvents 20 | Format-Table TimeCreated, Message -AutoSize
-
+    
     # Filtrer événements échecs de connexion
     Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4625} -MaxEvents 10
     ```
@@ -432,7 +432,7 @@ OU=MONITORING,DC=maxtec,DC=be
 
 !!! note "Comprendre avant d'exécuter"
     Avant d'exécuter, parcourez le script pour comprendre:
-
+    
     - Les 9 étapes principales (OUs, utilisateurs, groupes, ordinateurs, GPOs, etc.)
     - Les conventions de nommage (préfixe GG- pour les groupes)
     - Les mots de passe par défaut utilisés
@@ -447,7 +447,7 @@ OU=MONITORING,DC=maxtec,DC=be
         - **O** (Oui) pour exécuter l'étape
         - **N** (Non) pour sauter l'étape
         - **Q** (Quitter) pour arrêter complètement le script
-
+    
     4. Observer la sortie console avec codes couleur:
         - 🟢 **Vert**: Objet créé avec succès
         - 🟡 **Jaune**: Objet existe déjà (idempotence)
@@ -457,7 +457,7 @@ OU=MONITORING,DC=maxtec,DC=be
 
 !!! warning "Configuration GPMC requise"
     Après exécution du script, **3 GPOs sont créées mais vides**. Vous devez les configurer manuellement:
-
+    
     1. Ouvrir **Group Policy Management Console** (gpmc.msc)
     2. Naviguer vers **Forest: maxtec.be → Domains → maxtec.be → Group Policy Objects**
     3. Pour chaque GPO créée (voir section GPOs ci-dessus):
@@ -465,7 +465,7 @@ OU=MONITORING,DC=maxtec,DC=be
         - Suivre les chemins de navigation indiqués dans la section GPOs
         - Configurer les paramètres exacts spécifiés
         - Fermer GPMC Editor
-
+    
     4. Appliquer les GPOs: `gpupdate /force`
 
 ### Étape 6: Vérifier la création
@@ -483,7 +483,7 @@ OU=MONITORING,DC=maxtec,DC=be
     Get-ADOrganizationalUnit -Filter * -SearchBase "OU=MONITORING,DC=maxtec,DC=be" |
         Select-Object Name, DistinguishedName |
         Sort-Object DistinguishedName
-
+    
     # Compter le nombre total d'OUs
     (Get-ADOrganizationalUnit -Filter * -SearchBase "OU=MONITORING,DC=maxtec,DC=be").Count
     # Attendu: ~21 OUs
@@ -495,11 +495,11 @@ OU=MONITORING,DC=maxtec,DC=be
     Get-ADUser -Filter * -SearchBase "OU=MONITORING,DC=maxtec,DC=be" -Properties EmailAddress, Title, Department |
         Select-Object Name, SamAccountName, EmailAddress, Title, Department, Enabled |
         Format-Table -AutoSize
-
+    
     # Compter les utilisateurs
     (Get-ADUser -Filter * -SearchBase "OU=MONITORING,DC=maxtec,DC=be").Count
     # Attendu: 24 utilisateurs (20 normaux + 4 comptes service)
-
+    
     # Vérifier un utilisateur spécifique
     Get-ADUser -Identity "alexandre" -Properties *
     ```
@@ -510,11 +510,11 @@ OU=MONITORING,DC=maxtec,DC=be
     Get-ADGroup -Filter 'Name -like "GG-MONITORING*"' |
         Select-Object Name, GroupScope, GroupCategory, Description |
         Format-Table -AutoSize
-
+    
     # Afficher les membres d'un groupe spécifique
     Get-ADGroupMember -Identity "GG-MONITORING-ITOperations-Users" |
         Select-Object Name, SamAccountName, objectClass
-
+    
     # Afficher tous les groupes avec leurs membres (détaillé)
     Get-ADGroup -Filter * -SearchBase "OU=MONITORING,DC=maxtec,DC=be" | ForEach-Object {
         Write-Host "`n[GROUPE] $($_.Name)" -ForegroundColor Cyan
@@ -528,11 +528,11 @@ OU=MONITORING,DC=maxtec,DC=be
     Get-ADComputer -Filter * -SearchBase "OU=MONITORING,DC=maxtec,DC=be" -Properties Description, Location |
         Select-Object Name, Description, Location, Enabled |
         Format-Table -AutoSize
-
+    
     # Compter les ordinateurs
     (Get-ADComputer -Filter * -SearchBase "OU=MONITORING,DC=maxtec,DC=be").Count
     # Attendu: 12 ordinateurs (2 DCs + 4 serveurs + 6 stations)
-
+    
     # Lister uniquement les DCs
     Get-ADComputer -Filter * -SearchBase "OU=DomainControllers,OU=Computers,OU=MONITORING,DC=maxtec,DC=be"
     ```
@@ -543,7 +543,7 @@ OU=MONITORING,DC=maxtec,DC=be
     Get-GPO -All | Where-Object {$_.DisplayName -like "MONITORING*"} |
         Select-Object DisplayName, GpoStatus, CreationTime, Description |
         Format-Table -AutoSize
-
+    
     # Vérifier les liens GPO
     Get-GPO -Name "MONITORING - Configuration Journaux Événements" | Get-GPOReport -ReportType Xml
     ```
@@ -552,7 +552,7 @@ OU=MONITORING,DC=maxtec,DC=be
     ```powershell
     # Afficher la politique de mots de passe du domaine
     Get-ADDefaultDomainPasswordPolicy -Identity "maxtec.be"
-
+    
     # Résultat attendu:
     # MinPasswordLength: 12
     # ComplexityEnabled: True
@@ -564,10 +564,10 @@ OU=MONITORING,DC=maxtec,DC=be
     ```powershell
     # Afficher toutes les politiques d'audit
     auditpol /get /category:*
-
+    
     # Vérifier une catégorie spécifique
     auditpol /get /category:"Account Logon"
-
+    
     # Vérifier les événements d'audit récents
     Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4624} -MaxEvents 5 | Format-List
     ```
@@ -578,7 +578,7 @@ OU=MONITORING,DC=maxtec,DC=be
     Get-ADUser -Filter * -SearchBase "OU=MONITORING,DC=maxtec,DC=be" -Properties EmailAddress, Title, Department |
         Select-Object Name, SamAccountName, EmailAddress, Title, Department, Enabled |
         Export-Csv -Path "C:\Labos\MonitoringLab_Utilisateurs.csv" -NoTypeInformation -Encoding UTF8
-
+    
     # Exporter les groupes avec membres
     $groups = Get-ADGroup -Filter * -SearchBase "OU=MONITORING,DC=maxtec,DC=be"
     $groupData = @()
@@ -591,7 +591,7 @@ OU=MONITORING,DC=maxtec,DC=be
         }
     }
     $groupData | Export-Csv -Path "C:\Labos\MonitoringLab_Groupes.csv" -NoTypeInformation -Encoding UTF8
-
+    
     # Exporter les ordinateurs
     Get-ADComputer -Filter * -SearchBase "OU=MONITORING,DC=maxtec,DC=be" -Properties Description, Location |
         Export-Csv -Path "C:\Labos\MonitoringLab_Ordinateurs.csv" -NoTypeInformation -Encoding UTF8
@@ -601,7 +601,7 @@ OU=MONITORING,DC=maxtec,DC=be
 
 !!! tip "Vérification via outils graphiques"
     **Active Directory Users and Computers (dsa.msc):**
-
+    
     1. Ouvrir **Active Directory Users and Computers**
     2. Naviguer vers **maxtec.be → MONITORING**
     3. Vérifier la présence de toutes les OUs départementales
@@ -609,20 +609,20 @@ OU=MONITORING,DC=maxtec,DC=be
         - Vérifier les utilisateurs dans `OU=Users`
         - Vérifier les groupes dans `OU=Groups`
         - Double-cliquer sur un groupe → Onglet **Members** → Vérifier les appartenances
-
+    
     5. Vérifier les comptes de service dans `OU=ServiceAccounts`
     6. Vérifier les ordinateurs dans `OU=Computers` (DCs, Servers, Workstations)
-
+    
     **Group Policy Management Console (gpmc.msc):**
-
+    
     1. Ouvrir **Group Policy Management**
     2. Naviguer vers **Forest: maxtec.be → Domains → maxtec.be → Group Policy Objects**
     3. Vérifier la présence des 3 GPOs MONITORING-*
     4. Clic droit sur chaque GPO → **Edit** → Vérifier les paramètres configurés
     5. Vérifier les liens: naviguer vers **OU=MONITORING** → Onglet **Linked Group Policy Objects**
-
+    
     **Event Viewer (eventvwr.msc):**
-
+    
     1. Ouvrir **Event Viewer**
     2. Naviguer vers **Windows Logs → Security**
     3. Clic droit → **Properties** → Vérifier **Maximum log size = 2 GB** (après configuration GPO)
@@ -636,41 +636,41 @@ OU=MONITORING,DC=maxtec,DC=be
 
 !!! abstract "Compétences Active Directory mises en pratique"
     **1. Architecture AD pour le Monitoring**
-
+    
     - Séparation des responsabilités via OUs départementales
     - OU dédiée aux comptes de service (meilleure pratique de sécurité)
     - OU centralisée pour les ordinateurs avec sous-catégorisation (DCs/Servers/Workstations)
-
+    
     **2. Gestion des Identités et Accès (IAM)**
-
+    
     - Comptes utilisateurs avec attributs complets (titre, département, email)
     - Comptes de service avec propriétés spécifiques (PasswordNeverExpires, CannotChangePassword)
     - Groupes de sécurité Global Groups (GG-) pour gérer les permissions
     - Séparation rôles admin vs. utilisateurs standards
-
+    
     **3. Audit et Traçabilité**
-
+    
     - Politiques d'audit avancées via `auditpol.exe`
     - Traçage des connexions, modifications de comptes, changements de politiques
     - Accès aux objets AD DS et partages fichiers
     - Journaux d'événements étendus pour conserver l'historique
-
+    
     **4. Politiques de Sécurité**
-
+    
     - Politique de mots de passe renforcée (12 caractères, complexité, rotation)
     - Verrouillage automatique des comptes après tentatives échouées
     - Verrouillage automatique des sessions inactives
     - Restriction des périphériques USB pour limiter l'exfiltration de données
-
+    
     **5. Group Policy Objects (GPOs)**
-
+    
     - Création de GPOs via PowerShell
     - Configuration manuelle dans GPMC pour paramètres Windows natifs
     - Liaison de GPOs à des OUs spécifiques (héritage)
     - Application sélective selon les départements
-
+    
     **6. Monitoring Infrastructure**
-
+    
     - Comptes de service dédiés pour outils de monitoring (PRTG, Nagios, SIEM)
     - Groupe spécial MonitoringAdmins pour accès administratif complet
     - Groupe SecurityAuditors pour auditeurs en lecture seule
@@ -680,19 +680,19 @@ OU=MONITORING,DC=maxtec,DC=be
 
 !!! tip "Exercices disponibles"
     Le laboratoire Monitoring comprend **6 exercices progressifs** avec scripts de vérification automatique:
-
+    
     **Niveau Débutant:**
-
+    
     - [Exercice 01: Exploration de la Structure Monitoring](exercices/Exercice_01_Exploration_Structure.md) - Découverte guidée de l'arborescence AD et des objets créés
     - [Exercice 02: Analyse des Événements d'Audit](exercices/Exercice_02_Analyse_Evenements.md) - Consultation des logs Security et identification des événements critiques
-
+    
     **Niveau Intermédiaire:**
-
+    
     - [Exercice 03: Configuration Complète des GPOs](exercices/Exercice_03_Configuration_GPOs.md) - Configuration manuelle des 3 GPOs dans GPMC et tests de fonctionnement
     - [Exercice 04: Gestion des Comptes de Service](exercices/Exercice_04_Comptes_Service.md) - Modification des comptes service et attribution de permissions monitoring
-
+    
     **Niveau Avancé:**
-
+    
     - [Exercice 05: Création d'une Politique d'Audit Personnalisée](exercices/Exercice_05_Audit_Personnalise.md) - Définir et implémenter une nouvelle politique d'audit pour un besoin métier spécifique
     - [Exercice 06: Simulation Incident de Sécurité et Investigation](exercices/Exercice_06_Incident_Investigation.md) - Scénario réaliste d'incident avec analyse forensique des logs AD
 
@@ -715,77 +715,77 @@ OU=MONITORING,DC=maxtec,DC=be
 
 !!! info "Commandes utiles pour diagnostiquer les problèmes"
     **Vérifier le rôle AD DS:**
-
+    
     ```powershell
     # Vérifier que AD DS est installé et démarré
     Get-WindowsFeature -Name AD-Domain-Services
-
+    
     # Résultat attendu: Install State = Installed
     ```
-
+    
     **Vérifier le domaine actuel:**
-
+    
     ```powershell
     # Afficher les informations du domaine
     Get-ADDomain
-
+    
     # Vérifier le nom DNS du domaine
     (Get-ADDomain).DNSRoot
     # Attendu: maxtec.be
     ```
-
+    
     **Vérifier les privilèges de l'utilisateur connecté:**
-
+    
     ```powershell
     # Vérifier l'appartenance aux groupes Admins
     whoami /groups | findstr "Admins"
-
+    
     # Ou avec PowerShell
     ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
     # Doit retourner: True
     ```
-
+    
     **Vérifier la connectivité avec le DC:**
-
+    
     ```powershell
     # Tester la connexion LDAP au DC
     Test-Connection -ComputerName (Get-ADDomainController).HostName -Count 2
-
+    
     # Afficher le DC actuellement utilisé
     (Get-ADDomainController).HostName
     ```
-
+    
     **Vérifier les modules PowerShell chargés:**
-
+    
     ```powershell
     # Lister les modules importés
     Get-Module
-
+    
     # Vérifier spécifiquement ActiveDirectory et GroupPolicy
     Get-Module -Name ActiveDirectory, GroupPolicy
-
+    
     # Si absents, les importer manuellement
     Import-Module ActiveDirectory
     Import-Module GroupPolicy
     ```
-
+    
     **Diagnostic complet de l'environnement AD:**
-
+    
     ```powershell
     # Script de diagnostic complet
     Write-Host "=== Diagnostic Environnement AD ===" -ForegroundColor Cyan
     Write-Host "`nDomaine:" -ForegroundColor Yellow
     Get-ADDomain | Select-Object Name, DNSRoot, DomainMode
-
+    
     Write-Host "`nContrôleur de domaine:" -ForegroundColor Yellow
     Get-ADDomainController | Select-Object HostName, IPv4Address, OperatingSystem
-
+    
     Write-Host "`nUtilisateur actuel:" -ForegroundColor Yellow
     whoami
-
+    
     Write-Host "`nPrivilèges administratifs:" -ForegroundColor Yellow
     ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
-
+    
     Write-Host "`nModules PowerShell chargés:" -ForegroundColor Yellow
     Get-Module | Select-Object Name, Version
     ```
@@ -794,52 +794,52 @@ OU=MONITORING,DC=maxtec,DC=be
 
 !!! tip "Extensions futures pour approfondir l'apprentissage"
     Pour approfondir ce laboratoire dans des sessions avancées, vous pourriez:
-
+    
     1. **Intégration SIEM Réel**
         - Installer un collecteur de logs (ELK Stack, Splunk Free, Wazuh)
         - Configurer la collecte automatique des événements Windows Security
         - Créer des tableaux de bord de monitoring en temps réel
-
+    
     2. **Fine-Grained Password Policies (FGPP)**
         - Créer des politiques de mots de passe différenciées par département
         - Politique plus stricte pour Security (15 caractères minimum)
         - Politique moins stricte pour RH (10 caractères)
-
+    
     3. **Monitoring de Réplication AD**
         - Scripts PowerShell pour surveiller l'état de réplication entre MON-DC01 et MON-DC02
         - Alertes automatiques en cas de problème de réplication
         - Dashboard de santé AD avec `Get-ADReplicationFailure`
-
+    
     4. **Sauvegarde et Restauration AD**
         - Configuration de sauvegardes système Windows Server Backup
         - Sauvegarde de l'état système AD (System State)
         - Exercices de restauration autoritaire et non-autoritaire
-
+    
     5. **Audit Avancé avec PowerShell**
         - Scripts de génération de rapports d'audit automatiques
         - Détection d'anomalies (connexions en dehors des heures ouvrables)
         - Alerting par email lors d'événements critiques
-
+    
     6. **Intégration Azure AD Connect (Hybride)**
         - Synchronisation avec Azure AD pour simulation cloud hybride
         - Monitoring de la synchronisation
         - Audit des identités cloud et on-premises
-
+    
     7. **Scénarios de Réponse aux Incidents**
         - Exercices de compromission simulée (compte piraté)
         - Procédures de réponse (désactivation compte, analyse logs)
         - Post-mortem et documentation d'incident
-
+    
     8. **Performance Monitoring AD**
         - Compteurs de performance Windows (LDAP queries, authentications)
         - Monitoring des ressources serveurs (CPU, RAM, disque DCs)
         - Baseline de performance et alertes de dépassement
-
+    
     9. **Gestion des Certificats et PKI**
         - Installation d'une autorité de certification (CA)
         - Déploiement de certificats pour utilisateurs/ordinateurs
         - Monitoring de l'expiration des certificats
-
+    
     10. **Advanced Threat Analytics (ATA) / Microsoft Defender for Identity**
         - Installation de Microsoft Defender for Identity
         - Détection de comportements anormaux (Pass-the-Hash, Golden Ticket)

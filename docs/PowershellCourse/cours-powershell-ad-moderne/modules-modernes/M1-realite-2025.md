@@ -156,16 +156,16 @@ try {
     if (-not (Get-Module ActiveDirectory)) {
         throw "Module ActiveDirectory non disponible"
     }
-
+    
     # Obtenir les utilisateurs RH avec date changement mot de passe
     $utilisateursRH = Get-ADUser -Filter {Department -eq "RH"} -SearchBase $searchBase `
                       -Properties PasswordLastSet, Department -ErrorAction Stop
-
+    
     # Filtrer ceux avec mot de passe ancien
     $utilisateursMotDePasseAncien = $utilisateursRH | Where-Object {
         $_.PasswordLastSet -lt $dateLimit -and $_.Enabled -eq $true
     }
-
+    
     if ($utilisateursMotDePasseAncien.Count -eq 0) {
         Write-Host "Aucun utilisateur RH avec mot de passe ancien trouvé." -ForegroundColor Green
     } else {

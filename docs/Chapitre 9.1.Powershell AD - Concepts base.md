@@ -348,11 +348,11 @@ if ($utilisateurTrouve) {
     Write-Host "Titre            : $($utilisateurTrouve.Title)"
     Write-Host "Service          : $($utilisateurTrouve.Department)"
     Write-Host "Date de création : $($utilisateurTrouve.WhenCreated)"
-
+    
     # Vérifier si l'utilisateur est membre d'un groupe
     $groupe = "GG-EU-Ventes-Users"
     $membre = Get-ADPrincipalGroupMembership -Identity $utilisateurTrouve | Where-Object { $_.Name -eq $groupe }
-
+    
     if ($membre) {
         Write-Host "L'utilisateur appartient au groupe : $groupe" -ForegroundColor Cyan
     } else {
@@ -426,7 +426,7 @@ if ($users.Count -eq 0) {
     1. Adaptez le script pour qu'il affiche également :
         - La date de dernière connexion (LastLogonDate)
         - Si le mot de passe expire ou non
-
+    
     2. Ajoutez une condition pour mettre en évidence les comptes inactifs depuis plus de 30 jours
     3. Bonus : Permettez de filtrer les utilisateurs par leur statut (actif/inactif)
 

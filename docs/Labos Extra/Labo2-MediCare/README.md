@@ -19,7 +19,7 @@
 
 !!! warning "Contexte de sécurité médicale"
     La clinique manipule des **données patients sensibles** et doit respecter des normes de conformité simplifiées inspirées de HIPAA:
-
+    
     - Prévention de l'exfiltration de données (blocage USB zones médicales)
     - Traçabilité des accès (audit des connexions)
     - Contrôle d'accès strict (groupes spécialisés, partages réseau cloisonnés)
@@ -179,7 +179,7 @@ maxtec.be
 
 !!! danger "IMPORTANT - Configuration GPO"
     Ce laboratoire suit strictement les bonnes pratiques du fichier `.claude/gpo-reference.md`:
-
+    
     - **JAMAIS** d'utilisation de `Set-GPRegistryValue` pour les politiques Windows standard
     - Seules les **GPO shells** sont créées via PowerShell
     - La **configuration manuelle** dans GPMC est requise pour les paramètres avancés
@@ -311,13 +311,13 @@ auditpol /get /category:"Logon/Logoff","Account Management"
 
 !!! danger "Créer d'abord les partages réseau"
     Avant de configurer cette GPO, vous **DEVEZ** créer les partages réseau suivants sur un serveur de fichiers (par exemple `SRV-MEDICARE`):
-
+    
     1. **\\\\SRV-MEDICARE\\Dossiers_Patients**
        - Permissions NTFS: `GG-MediCare-Medical-Users` (Lecture/Écriture)
-
+    
     2. **\\\\SRV-MEDICARE\\Notes_Infirmieres**
        - Permissions NTFS: `GG-MediCare-Medical-Users`, `GG-MediCare-Nursing-Users` (Lecture/Écriture)
-
+    
     3. **\\\\SRV-MEDICARE\\Administration**
        - Permissions NTFS: `GG-MediCare-Administration-Users` (Lecture/Écriture)
 
@@ -395,7 +395,7 @@ auditpol /get /category:"Logon/Logoff","Account Management"
 
 !!! example "Justification médicale"
     Accès cloisonné aux données médicales selon le rôle:
-
+    
     - **Medical uniquement**: Dossiers patients complets (diagnostic, traitement)
     - **Medical + Nursing**: Notes infirmières (observations, soins)
     - **Administration uniquement**: Documents administratifs (facturation, RH)
@@ -431,7 +431,7 @@ Import-Module GroupPolicy
 
 !!! tip "Exécution interactive"
     Le script utilise des confirmations interactives (`Confirm-Step`) pour vous permettre de:
-
+    
     - Comprendre ce qui va être créé avant exécution
     - Sauter des sections si nécessaire
     - Apprendre le processus étape par étape
@@ -592,7 +592,7 @@ Write-Host "`n✅ Fichiers CSV exportés dans C:\Labos\" -ForegroundColor Green
 
 !!! info "Concept RBAC (Role-Based Access Control)"
     La structure MediCare démontre une **hiérarchie médicale réaliste**:
-
+    
     - **Médecins Seniors**: Droits administratifs, signature, garde
     - **Médecins Généralistes/Spécialistes**: Accès standard dossiers patients
     - **Médecins Juniors**: Accès supervisé (possibilité de restreindre via GPO ultérieurement)
@@ -605,31 +605,31 @@ Write-Host "`n✅ Fichiers CSV exportés dans C:\Labos\" -ForegroundColor Green
 
 !!! tip "Au-delà des groupes standards Users/Admin"
     MediCare utilise des **groupes métier spécialisés**:
-
+    
     - **GG-MediCare-Medical-Seniors**: Droits signature électronique prescriptions
     - **GG-MediCare-Medical-Oncall**: Accès distant 24/7 système de garde
     - **GG-MediCare-Administration-Billing**: Accès systèmes facturation médicale
     - **GG-MediCare-Administration-HR**: Accès dossiers RH personnel
-
+    
     **Avantage pédagogique:** Comprendre que les groupes doivent refléter les **rôles métier**, pas seulement la structure organisationnelle.
 
 ### 3. Sécurité Médicale et Conformité HIPAA (Simplifiée)
 
 !!! example "Principes de conformité médicale"
     La configuration GPO démontre des **exigences de sécurité médicale**:
-
+    
     1. **Prévention exfiltration de données** (GPO 2 - Blocage USB):
        - Empêche copie dossiers patients vers clés USB non chiffrées
        - Violation HIPAA majeure si données sensibles volées/perdues
-
+    
     2. **Traçabilité des accès** (GPO 4 - Audit):
        - Chaque consultation dossier patient doit être tracée
        - Obligatoire pour enquêtes en cas de violation
-
+    
     3. **Mots de passe renforcés** (GPO 1):
        - 12 caractères minimum, rotation 60 jours
        - Protection contre compromission comptes médicaux
-
+    
     4. **Cloisonnement des données** (GPO 5 - Lecteurs mappés):
        - Personnel administratif ne doit **JAMAIS** accéder aux dossiers patients
        - Séparation stricte via permissions NTFS et item-level targeting
@@ -638,19 +638,19 @@ Write-Host "`n✅ Fichiers CSV exportés dans C:\Labos\" -ForegroundColor Green
 
 !!! warning "Apprentissage des limites de l'automatisation"
     Ce laboratoire enseigne que **toutes les GPOs ne peuvent pas être configurées via PowerShell**:
-
+    
     - ❌ **Politiques ADMX standard**: Nécessitent configuration manuelle GPMC (Blocage USB, Restrictions Bureau)
     - ❌ **Group Policy Preferences**: Nécessitent configuration manuelle (Drive Maps, Scheduled Tasks)
     - ✅ **Politiques de mot de passe domaine**: Supportées via `Set-ADDefaultDomainPasswordPolicy`
     - ✅ **Audits**: Supportés via `auditpol.exe`
-
+    
     **Pourquoi?** Utilisation de `Set-GPRegistryValue` pour politiques standard crée des entrées invalides ("nom convivial introuvable").
 
 ### 5. Item-Level Targeting (GPO 5)
 
 !!! tip "Ciblage avancé dans Group Policy Preferences"
     Le mappage de lecteurs réseau démontre **Item-Level Targeting**:
-
+    
     - **Concept**: Appliquer différentes configurations selon l'appartenance à un groupe
     - **Exemple**: Lecteur M: seulement pour `GG-MediCare-Medical-Users`, Lecteur N: pour `Medical` **ET** `Nursing`
     - **Avantage**: Une seule GPO gère plusieurs mappages avec ciblage intelligent
@@ -662,20 +662,20 @@ Après avoir exécuté le script et configuré les GPOs manuellement, les étudi
 
 !!! tip "Exercices disponibles"
     Le laboratoire MediCare comprend **8 exercices progressifs** couvrant différents aspects de l'administration AD médicale, avec scripts de vérification automatique:
-
+    
     **Niveau Débutant:**
-
+    
     - [Exercice 01: Gestion des Comptes Utilisateurs Médicaux](exercices/Exercice_01_Transfert_Patient.md) - Modifier, désactiver et déplacer des comptes
     - [Exercice 02: Manipulation des Groupes de Sécurité](exercices/Exercice_02_Horaire_Garde.md) - Ajouter/retirer membres, créer groupes
-
+    
     **Niveau Intermédiaire:**
-
+    
     - [Exercice 03: Configuration Avancée des GPOs](exercices/Exercice_03_Audit_Acces_Medical.md) - Configurer, tester et dépanner les GPOs
     - [Exercice 04: Permissions NTFS et Partages Réseau](exercices/Exercice_04_Nouveau_Service_Medical.md) - Créer partages médicaux sécurisés
     - [Exercice 05: Audit et Conformité Médicale](exercices/Exercice_05_Confidentialite_Renforcee.md) - Analyser logs d'audit, traçabilité
-
+    
     **Niveau Avancé:**
-
+    
     - [Exercice 06: Scénarios de Panne et Récupération](exercices/Exercice_06_Delegation_Chef_Service.md) - Restaurer comptes, réinitialiser mots de passe
     - [Exercice 07: Délégation de Contrôle Départementale](exercices/Exercice_07_Rotation_Specialistes.md) - Déléguer gestion RH et Medical
     - [Exercice 08: Simulation Violation de Sécurité](exercices/Exercice_08_Incident_RGPD.md) - Enquêter et remédier

@@ -19,7 +19,7 @@
 !!! warning "Contraintes de sécurité"
     
     Pour des raisons de sécurité, Sophie ne doit pouvoir se connecter que:
-
+    
     - Sur le poste `ws-compta-01.maxtec.be`
     - Du lundi au vendredi, de 8h à 18h (choisissez une heure qui vous permet de tester la connexion)
 
@@ -77,7 +77,7 @@
 !!! example "Situation"
     
     Deux nouveaux employés arrivent dans le service RH:
-
+    
     - Karim Benali (Recruteur Senior)
     - Karim Benali (Assistant RH)
 
@@ -99,7 +99,7 @@
        - Date d'expiration automatique dans 90 jours
        - Accès limité à `ws-compta-01` uniquement
        - Heures de connexion: 9h-17h, jours ouvrés
-
+    
     2. Ajouter un préfixe "EXT-" dans la description
 
 ### Exercice 8: Vérification des Comptes Inactifs
@@ -127,7 +127,7 @@
     1. Mettre à jour les informations de bureau **pour tous les utilisateurs** du service Comptabilité:
        - Nouveau bureau: "Bâtiment B - 3e étage"
        - Nouveau téléphone: format "+32 2 123 XX YY"
-
+    
     2. Vérifier que les chemins réseau sont toujours valides
     3. Documenter les changements effectués
 
@@ -144,7 +144,7 @@
        - Postes de travail autorisés
        - Plages horaires
        - Stratégie de mot de passe
-
+    
     3. Résoudre le problème en documentant chaque étape
 
 ### Exercice 11: Gestion des Profils Itinérants
@@ -160,7 +160,7 @@
        - Pierre Dubois
        - Marie Lambert
        - Ahmed Benali
-
+    
     3. Vérifier que leurs paramètres personnels sont conservés entre les postes
     4. Configurer une limite de taille pour les profils (500 MB)
 
@@ -178,7 +178,7 @@
        - Création/modification de comptes dans l'OU RH
        - Réinitialisation des mots de passe
        - Modification des informations de profil
-
+    
     4. Tester les permissions avec le compte de Claire
 
 ### Exercice 13: Migration d'Utilisateurs
@@ -193,7 +193,7 @@
     2. Planifier la migration:
        - Nouveaux groupes nécessaires
        - Modifications des droits d'accès
-
+    
     3. Exécuter le déplacement des comptes vers la nouvelle OU
     4. Mettre à jour toutes les appartenances aux groupes
     5. Vérifier que les accès fonctionnent correctement
@@ -210,12 +210,12 @@
        - svc-backup (pour les sauvegardes)
        - svc-monitoring (pour la surveillance)
        - svc-print (pour le serveur d'impression)
-
+    
     2. Configurer les paramètres de sécurité:
        - Mots de passe complexes
        - Pas d'expiration de mot de passe
        - Connexion limitée aux serveurs spécifiques
-
+    
     3. Documenter les comptes dans un registre
 
 

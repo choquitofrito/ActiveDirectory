@@ -109,7 +109,7 @@ $groupesVides = @()
 foreach ($groupe in $tousLesGroupes) {
     try {
         $membres = Get-ADGroupMember -Identity $groupe.SamAccountName -ErrorAction SilentlyContinue
-
+    
         if ($membres.Count -eq 0) {
             $groupesVides += $groupe
             Write-Host "Groupe vide trouvé: $($groupe.Name)" -ForegroundColor Yellow
@@ -124,14 +124,14 @@ Write-Host "`nGroupes vides trouvés: $($groupesVides.Count)" -ForegroundColor Y
 
 if ($groupesVides.Count -gt 0) {
     Write-Host "Suppression des groupes vides..." -ForegroundColor Red
-
+    
     foreach ($groupeVide in $groupesVides) {
         Write-Host "Suppression: $($groupeVide.Name)" -ForegroundColor Red
-
+    
         # TODO: Ajouter validation supplémentaire avant production
         Remove-ADGroup -Identity $groupeVide.SamAccountName -Confirm:$false
     }
-
+    
     Write-Host "✅ Nettoyage terminé avec succès!" -ForegroundColor Green
 } else {
     Write-Host "Aucun groupe vide trouvé." -ForegroundColor Green
@@ -219,22 +219,22 @@ $searchBase = if ($IncludeBuiltIn) { "DC=maxtec,DC=be" } else { "OU=EU,DC=maxtec
 try {
     # Récupérer groupes avec propriétés nécessaires
     $tousLesGroupes = Get-ADGroup -Filter * -SearchBase $searchBase -Properties GroupCategory, GroupScope
-
+    
     Write-Host "Groupes analysés dans: $searchBase" -ForegroundColor Cyan
     Write-Host "Total groupes trouvés: $($tousLesGroupes.Count)" -ForegroundColor Cyan
-
+    
     $groupesCandidats = @()
-
+    
     foreach ($groupe in $tousLesGroupes) {
         # Vérifier si groupe critique
         if ($groupe.Name -in $groupesCritiques) {
             Write-Host "SKIP: Groupe critique protégé - $($groupe.Name)" -ForegroundColor Green
             continue
         }
-
+    
         try {
             $membres = Get-ADGroupMember -Identity $groupe.SamAccountName -ErrorAction Stop
-
+    
             if ($membres.Count -eq 0) {
                 $groupesCandidats += [PSCustomObject]@{
                     Name = $groupe.Name
@@ -243,25 +243,25 @@ try {
                     GroupScope = $groupe.GroupScope
                     DistinguishedName = $groupe.DistinguishedName
                 }
-
+    
                 Write-Host "Candidat suppression: $($groupe.Name) ($($groupe.GroupCategory))" -ForegroundColor Yellow
             }
-
+    
         } catch {
             Write-Warning "Erreur lecture groupe $($groupe.Name): $($_.Exception.Message)"
         }
     }
-
+    
     if ($groupesCandidats.Count -eq 0) {
         Write-Host "✅ Aucun groupe vide trouvé (hors groupes critiques)" -ForegroundColor Green
         return
     }
-
+    
     # Afficher résumé AVANT action
     Write-Host "`n=== RÉSUMÉ SUPPRESSION ===" -ForegroundColor Yellow
     $groupesCandidats | Format-Table Name, GroupCategory, GroupScope -AutoSize
     Write-Host "Total à supprimer: $($groupesCandidats.Count)" -ForegroundColor Yellow
-
+    
     if (-not $WhatIf) {
         $confirmation = Read-Host "Confirmer suppression ? (tapez 'SUPPRIMER' pour confirmer)"
         if ($confirmation -ne "SUPPRIMER") {
@@ -269,24 +269,24 @@ try {
             return
         }
     }
-
+    
     # Suppression avec logging
     foreach ($groupe in $groupesCandidats) {
         $message = "Suppression groupe: $($groupe.Name) ($($groupe.GroupCategory))"
-
+    
         if ($WhatIf) {
             Write-Host "SIMULATION: $message" -ForegroundColor Yellow
         } else {
             Write-Host "RÉEL: $message" -ForegroundColor Red
-
+    
             # Log avant suppression
             Add-Content -Path "C:\Scripts\Logs\groupes-supprimes-$(Get-Date -Format 'yyyyMMdd').log" `
                         -Value "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss'): $($groupe.DistinguishedName)"
         }
-
+    
         Remove-ADGroup -Identity $groupe.SamAccountName -Confirm:$false -WhatIf:$WhatIf
     }
-
+    
     if ($WhatIf) {
         Write-Host "`n🎯 SIMULATION TERMINÉE" -ForegroundColor Yellow
         Write-Host "Pour exécuter: .\script.ps1 -WhatIf:`$false" -ForegroundColor Cyan
@@ -338,25 +338,25 @@ try {
 # Migration des utilisateurs
 foreach ($sourceOU in $sourceOUs) {
     Write-Host "`nTraitement de: $sourceOU" -ForegroundColor Yellow
-
+    
     try {
         # Récupérer tous les utilisateurs de l'OU source
         $utilisateurs = Get-ADUser -Filter * -SearchBase $sourceOU
-
+    
         Write-Host "Utilisateurs trouvés: $($utilisateurs.Count)" -ForegroundColor Cyan
-
+    
         foreach ($user in $utilisateurs) {
             Write-Host "Migration: $($user.Name)" -ForegroundColor Yellow
-
+    
             # Déplacer l'utilisateur vers la nouvelle OU
             Move-ADObject -Identity $user.DistinguishedName -TargetPath $destinationOU
-
+    
             # Mettre à jour le département
             Set-ADUser -Identity $user.SamAccountName -Department "Administration"
-
+    
             Write-Host "✅ $($user.Name) migré" -ForegroundColor Green
         }
-
+    
     } catch {
         Write-Error "Erreur migration $sourceOU : $($_.Exception.Message)"
     }
@@ -451,10 +451,10 @@ Write-Host "Recherche des mots de passe faibles..." -ForegroundColor Yellow
 
 foreach ($mdp in $motsDePasse) {
     Write-Host "Test mot de passe: $mdp" -ForegroundColor Cyan
-
+    
     # Tester chaque utilisateur avec ce mot de passe
     $users = Get-ADUser -Filter * -SearchBase "OU=EU,DC=maxtec,DC=be"
-
+    
     foreach ($user in $users) {
         try {
             # Tenter connexion avec mot de passe faible
@@ -462,21 +462,21 @@ foreach ($mdp in $motsDePasse) {
                 "$($user.SamAccountName)@maxtec.be",
                 (ConvertTo-SecureString $mdp -AsPlainText -Force)
             )
-
+    
             # Test de connexion LDAP
             $connection = New-Object System.DirectoryServices.DirectoryEntry(
                 "LDAP://dns1.maxtec.be",
                 $credential.UserName,
                 $credential.GetNetworkCredential().Password
             )
-
+    
             if ($connection.Name -ne $null) {
                 Write-Host "TROUVÉ: $($user.Name) utilise '$mdp'" -ForegroundColor Red
-
+    
                 # Forcer changement immédiat
                 Set-ADUser -Identity $user.SamAccountName -ChangePasswordAtLogon $true
                 Set-ADAccountPassword -Identity $user.SamAccountName -Reset -NewPassword (ConvertTo-SecureString "TempSecure123!" -AsPlainText -Force)
-
+    
                 Write-Host "✅ Mot de passe réinitialisé pour $($user.Name)" -ForegroundColor Green
             }
         } catch {

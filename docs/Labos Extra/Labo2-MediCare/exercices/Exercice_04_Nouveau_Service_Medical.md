@@ -145,7 +145,7 @@ foreach ($u in $users) {
         -Department "Dermatologie" `
         -Description "Service Dermatologie - MediCare Clinic" `
         -EmailAddress "$($u.Sam)@maxtec.be"
-
+    
     Write-Host "  ✓ $($u.FirstName) $($u.LastName) créé" -ForegroundColor Green
 }
 

@@ -178,7 +178,7 @@ foreach ($event in $failedLogons) {
     $targetUser = ($data | Where-Object { $_.Name -eq "TargetUserName" }).'#text'
     $workstation = ($data | Where-Object { $_.Name -eq "WorkstationName" }).'#text'
     $failureReason = ($data | Where-Object { $_.Name -eq "FailureReason" }).'#text'
-
+    
     Write-Host "Heure: $($event.TimeCreated) | Compte: $targetUser | Poste: $workstation | Raison: $failureReason"
 }
 ```

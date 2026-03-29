@@ -9,7 +9,7 @@
     Ceci est une **ressource de référence avancée** pour approfondir vos connaissances DNS au-delà des labs pratiques.
     
     **📋 Parcours recommandé:**
-
+    
     1. ✅ Complétez d'abord le [Chapitre 3: DNS Préparation](Chapitre%203.DNS.md)
     2. ✅ Installez Active Directory (Chapitre 4)
     3. ✅ Complétez les [Labs DNS Pratiques (Chapitre 5)](Chapitre%205.DNS-Pratique-avec-AD.md)
@@ -192,11 +192,11 @@ Voici l'arbre DNS de Maxtec, on voit aussi l'ensemble des sous-domaines et les r
     - 🌐 **Séparation Géographique**
       * Meilleure gestion du trafic réseau
       * Répartition logique des ressources
-
+    
     - 🛠️ **Séparation des Environnements**
     
       * Sécurité renforcée
-
+    
     - 💻 **Gestion des Ressources**
       * Organisation claire
       * Maintenance simplifiée

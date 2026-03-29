@@ -133,12 +133,12 @@ Vous vous demandez peut-être comment c'est possible, puisque `maxtec.be` est un
 !!! tip "Les Sites dans Active Directory"
 
     Un **site AD** représente une **localisation physique** dans le réseau. Chaque **site** est défini par :
-
+    
     - **Un ou plusieurs sous-réseaux IP** : Dans notre cas, nous n'avons qu'un seul sous-réseau (192.168.10.0/24 sur le diagramme, qui devient 192.168.0.0/24 dans le laboratoire), mais le `site EU` pourrait inclure :
         - 192.168.10.0/24 (bureaux principaux)
         - 192.168.11.0/24 (entrepôt)
         - 192.168.12.0/24 (production)
-
+    
     - **Au moins un contrôleur de domaine (DC) local** pour :
         - L'authentification rapide des utilisateurs locaux
         - La réplication avec les autres sites
@@ -152,12 +152,12 @@ Vous vous demandez peut-être comment c'est possible, puisque `maxtec.be` est un
 !!! example "Notre infrastructure"
 
     **Site EU** : Sous-réseau 192.168.10.0/24 (192.168.0.0/24 en laboratoire)
-
+    
     - DC principal : `dc1.maxtec.be`
     - DC secondaire : `dc2.maxtec.be` (réplication)
-
+    
     **Site US** : Sous-réseau 192.168.20.0/24 (non utilisé en laboratoire)
-
+    
     - DC local : `dc-us.maxtec.be`
 
 Nous allons créer une **UO** racine pour chaque site (UOs `EU` et `US`) par commodité, mais **ce n'est pas une obligation**. Voici deux façons possibles d'organiser la même entreprise :
@@ -408,11 +408,11 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
      * Les **domaines et leurs relations**
        - **Cas réel** : Dans une grande entreprise, nous aurions `eu.entreprise.com` et `us.entreprise.com` comme domaines AD distincts
        - **Notre laboratoire** : Un seul domaine AD `maxtec.be` avec deux zones DNS (`eu`, `us`)
-
+    
      * Les **liens entre contrôleurs de domaine**
        - **Cas réel** : Quatre contrôleurs de domaine (deux en Europe, deux aux États-Unis), chacun gérant son propre domaine avec réplication intra-domaine
        - **Notre laboratoire** : Deux contrôleurs de domaine (`dns1` et `dns2`) qui gèrent ensemble toutes les zones DNS, avec réplication entre eux
-
+    
      * Les **sites** et leur configuration
        - **Cas réel** : Plusieurs sites physiques (UE : 192.168.10.0/24, États-Unis : 192.168.20.0/24) connectés par WAN
        - **Notre laboratoire** : Un seul site physique (192.168.10.0/24) contenant nos deux contrôleurs de domaine

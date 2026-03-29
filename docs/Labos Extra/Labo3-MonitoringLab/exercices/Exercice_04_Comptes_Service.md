@@ -23,12 +23,12 @@ Intermédiaire
 
 !!! example "Scénario réel"
     Lors d'un audit de sécurité, le consultant externe a identifié plusieurs problèmes avec les comptes de service de MonitoringTech SPRL :
-
+    
     1. Les comptes de service n'ont pas de description suffisamment détaillée
     2. Le compte `svc_monitoring` a besoin du droit de lire les journaux d'événements à distance
     3. Le compte `svc_audit` doit être membre du groupe "Lecteurs du journal des événements" pour fonctionner
     4. Aucun groupe de sécurité ne regroupe les comptes de service pour faciliter leur gestion
-
+    
     Votre mission est de corriger ces problèmes selon le principe du moindre privilège.
 
 ---

@@ -295,13 +295,13 @@ try {
     } catch {
         New-ADOrganizationalUnit -Name "Groupes_Projets" -Path $rootOU -ProtectedFromAccidentalDeletion $false
     }
-
+    
     New-ADGroup -Name $groupName `
         -GroupScope Global `
         -GroupCategory Security `
         -Path $groupsOU `
         -Description "Employés juniors (moins d'un an d'ancienneté) - Restrictions de sécurité renforcées"
-
+    
     Write-Host "  ✓ Groupe $groupName créé" -ForegroundColor Green
     $group = Get-ADGroup -Identity $groupName
 }
@@ -335,19 +335,19 @@ try {
     Write-Host "  La GPO '$gpoName' existe." -ForegroundColor Yellow
 } catch {
     Write-Host "  La GPO n'existe pas, création..." -ForegroundColor Yellow
-
+    
     # Créer la GPO
     $gpo = New-GPO -Name $gpoName -Comment "Restrictions pour utilisateurs juniors uniquement"
-
+    
     # Configurer les restrictions
     Set-GPRegistryValue -Name $gpoName `
         -Key "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" `
         -ValueName "NoControlPanel" -Type DWord -Value 1 | Out-Null
-
+    
     Set-GPRegistryValue -Name $gpoName `
         -Key "HKCU\Software\Policies\Microsoft\Windows\System" `
         -ValueName "DisableCMD" -Type DWord -Value 2 | Out-Null
-
+    
     Write-Host "  ✓ GPO créée avec restrictions" -ForegroundColor Green
 }
 
@@ -396,7 +396,7 @@ foreach ($ou in $ous) {
         # Vérifier si le lien existe
         $inheritance = Get-GPInheritance -Target $ou -ErrorAction Stop
         $existingLink = $inheritance.GpoLinks | Where-Object {$_.DisplayName -eq $gpoName}
-
+    
         if ($existingLink) {
             if ($existingLink.Enabled -eq $false) {
                 # Lien existe mais est désactivé - l'activer

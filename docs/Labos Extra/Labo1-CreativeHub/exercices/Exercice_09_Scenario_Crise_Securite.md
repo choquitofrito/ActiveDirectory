@@ -376,7 +376,7 @@ try {
     Write-Log "  Compte trouvé: $($suspectAccount.SamAccountName)" "Gray"
     Write-Log "  Créé le: $($suspectAccount.WhenCreated)" "Gray"
     Write-Log "  Dernière connexion: $($suspectAccount.LastLogonDate)" "Gray"
-
+    
     # DÉSACTIVER (ne pas supprimer tout de suite pour forensics)
     Disable-ADAccount -Identity "support.temp" -ErrorAction Stop
     Write-Log "  ✓ Compte désactivé (préservé pour analyse forensique)" "Green"
@@ -428,7 +428,7 @@ $recentAccounts = Get-ADUser -Filter * -Properties WhenCreated |
 Write-Log "  Comptes créés dans les 3 derniers jours:" "Gray"
 foreach ($account in $recentAccounts) {
     Write-Log "    - $($account.SamAccountName) (Créé: $($account.WhenCreated), Activé: $($account.Enabled))" "Gray"
-
+    
     if ($account.SamAccountName -like "*temp*" -or $account.SamAccountName -like "*support*" -or $account.SamAccountName -like "*admin*") {
         Write-Log "    ⚠ SUSPECT: $($account.SamAccountName)" "Red"
     }
@@ -502,7 +502,7 @@ try {
     # Export pour forensics avant suppression
     $suspectAccount | Export-Clixml -Path "C:\Labos\Forensics_support.temp_$(Get-Date -Format 'yyyyMMdd_HHmmss').xml"
     Write-Log "  ✓ Compte exporté pour analyse forensique" "Green"
-
+    
     # Suppression
     Remove-ADUser -Identity "support.temp" -Confirm:$false -ErrorAction Stop
     Write-Log "  ✓ Compte support.temp supprimé définitivement" "Green"

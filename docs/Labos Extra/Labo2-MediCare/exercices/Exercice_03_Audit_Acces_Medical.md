@@ -28,7 +28,7 @@
 
 !!! example "Scénario réel - Audit de conformité RGPD"
     **Email du Responsable Conformité (Benoît Chevalier - Officier Sécurité)** :
-
+    
     > Bonjour IT,
     >
     > Suite à un **audit de conformité RGPD**, nous devons produire un rapport des accès au dossier médical du patient VIP **M. Dupont** durant les **7 derniers jours**.
@@ -44,7 +44,7 @@
     >
     > Merci,
     > Benoît Chevalier - Officier de Sécurité IT
-
+    
     **Votre mission** : Configurer l'audit et générer le rapport de conformité.
 
 ## Tâches à Réaliser
@@ -172,12 +172,12 @@ $relevantEvents = $events | Where-Object {
 
 if ($relevantEvents) {
     Write-Host "✓ $($relevantEvents.Count) événement(s) trouvé(s)" -ForegroundColor Green
-
+    
     $relevantEvents | Select-Object -First 10 | ForEach-Object {
         $xml = [xml]$_.ToXml()
         $user = $xml.Event.EventData.Data | Where-Object {$_.Name -eq 'SubjectUserName'} | Select-Object -ExpandProperty '#text'
         $objectName = $xml.Event.EventData.Data | Where-Object {$_.Name -eq 'ObjectName'} | Select-Object -ExpandProperty '#text'
-
+    
         Write-Host "`n  Date/Heure : $($_.TimeCreated)" -ForegroundColor Gray
         Write-Host "  Utilisateur: $user" -ForegroundColor Gray
         Write-Host "  Fichier    : $objectName" -ForegroundColor Gray
@@ -220,11 +220,11 @@ $relevantEvents = $events | Where-Object {
 $auditReport = @()
 foreach ($event in $relevantEvents) {
     $xml = [xml]$event.ToXml()
-
+    
     $user = $xml.Event.EventData.Data | Where-Object {$_.Name -eq 'SubjectUserName'} | Select-Object -ExpandProperty '#text'
     $objectName = $xml.Event.EventData.Data | Where-Object {$_.Name -eq 'ObjectName'} | Select-Object -ExpandProperty '#text'
     $accessMask = $xml.Event.EventData.Data | Where-Object {$_.Name -eq 'AccessMask'} | Select-Object -ExpandProperty '#text'
-
+    
     # Déterminer le type d'action
     $action = switch ($accessMask) {
         "0x1" { "ReadData" }
@@ -233,7 +233,7 @@ foreach ($event in $relevantEvents) {
         "0x10" { "Delete" }
         default { "Other ($accessMask)" }
     }
-
+    
     $auditReport += [PSCustomObject]@{
         DateHeure = $event.TimeCreated.ToString("yyyy-MM-dd HH:mm:ss")
         Utilisateur = $user
@@ -247,15 +247,15 @@ foreach ($event in $relevantEvents) {
 # Exporter en CSV
 if ($auditReport.Count -gt 0) {
     $auditReport | Export-Csv -Path $reportPath -NoTypeInformation -Encoding UTF8
-
+    
     Write-Host "`n✅ Rapport CSV généré avec succès!" -ForegroundColor Green
     Write-Host "   Chemin: $reportPath" -ForegroundColor Cyan
     Write-Host "   Événements: $($auditReport.Count)" -ForegroundColor Gray
-
+    
     # Afficher un aperçu
     Write-Host "`n📊 Aperçu du rapport:" -ForegroundColor Cyan
     $auditReport | Select-Object DateHeure, Utilisateur, Fichier, Action | Format-Table -AutoSize
-
+    
     # Ouvrir le rapport dans Excel/Notepad
     Write-Host "`n📄 Ouverture du rapport..." -ForegroundColor Cyan
     Invoke-Item $reportPath
@@ -359,7 +359,7 @@ foreach ($event in $events) {
     $xml = [xml]$event.ToXml()
     $user = $xml.Event.EventData.Data | Where-Object {$_.Name -eq 'SubjectUserName'} | Select-Object -ExpandProperty '#text'
     $objectName = $xml.Event.EventData.Data | Where-Object {$_.Name -eq 'ObjectName'} | Select-Object -ExpandProperty '#text'
-
+    
     $auditReport += [PSCustomObject]@{
         DateHeure = $event.TimeCreated.ToString("yyyy-MM-dd HH:mm:ss")
         Utilisateur = $user
@@ -378,13 +378,13 @@ Write-Host "✅ Audit d'accès médical terminé!" -ForegroundColor Green
 
 !!! tip "Concepts importants"
     1. **Audit NTFS** : Permet de tracer tous les accès aux fichiers sensibles (lecture, écriture, suppression)
-
+    
     2. **Event ID 4663** : Événement Windows standard pour les accès fichiers auditées
-
+    
     3. **Conformité RGPD** : Obligation légale de tracer qui accède aux données patients
-
+    
     4. **Rapports CSV** : Format exploitable pour analyses et audits de sécurité
-
+    
     5. **Rétention des logs** : Les journaux Security doivent être conservés suffisamment longtemps (RGPD : 1 an minimum)
 
 ## Dépannage (Erreurs Courantes)

@@ -66,7 +66,7 @@ function Remove-OUStructure {
     
     # Récupérer toutes les sous-OUs
     $childOUs = Get-ADOrganizationalUnit -Filter * -SearchBase $OUPath -SearchScope OneLevel
-
+    
     foreach ($childOU in $childOUs) {
         # Supprimer récursivement les sous-OUs
         Remove-OUStructure -OUPath $childOU.DistinguishedName
@@ -97,7 +97,7 @@ try {
         Get-ADUser -Filter {SamAccountName -eq $user} | Remove-ADUser -Confirm:$false
         Write-Host "Utilisateur supprimé: $user"
     }
-
+    
     # 2. Supprimer les ordinateurs
     Write-Host "Suppression des ordinateurs..."
     $computers = @(
@@ -110,7 +110,7 @@ try {
         Get-ADComputer -Filter {Name -eq $computer} | Remove-ADComputer -Confirm:$false
         Write-Host "Ordinateur supprimé: $computer"
     }
-
+    
     # 3. Supprimer les groupes
     Write-Host "Suppression des groupes..."
     $groups = @(
@@ -123,7 +123,7 @@ try {
         Get-ADGroup -Filter {Name -eq $group} | Remove-ADGroup -Confirm:$false
         Write-Host "Groupe supprimé: $group"
     }
-
+    
     # 4. Supprimer la structure d'OUs
     Write-Host "Suppression de la structure d'OUs..."
     
@@ -136,7 +136,7 @@ try {
     # Supprimer l'OU racine EU
     Remove-ADOrganizationalUnit -Identity $baseOU -Confirm:$false
     Write-Host "OU racine EU supprimée"
-
+    
     Write-Host "Structure supprimée avec succès!"
 }
 catch {

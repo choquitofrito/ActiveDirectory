@@ -82,7 +82,7 @@
 !!! info "Solution"
     
     Pour limiter l'impact de la GPO, vous pouvez débloquer l'application de la GPO sur l'ordinateur de Richard:
-
+    
     - Double Clic sur GPO > Délegation > Avancé > Ajouter 
     - Pour que les ordinateurs soient visibles, il faut cliquer sur `Type d'objet` et cocher `Computers`
     - Chercher l'ordinateur de Richard (ex: `ws-rh-01`)
@@ -104,7 +104,7 @@
     
     Cette GPO va être appliquée à un ensemble d'**ordinateurs**, car nous voulons installer Chrome uniquement sur les ordinateurs de RH.
     La façon la plus propre de faire c'est de créer un groupe de sécurité contenant les ordinateurs de RH.
-
+    
     - Allez dans `Utilisateurs et ordinateurs d'AD` dans le serveur
     - Créez un groupe de sécurité qui contiendra les ordinateurs de RH (on en a qu'un: `ws-rh-01`). Ex: `GG-EU-RH-Computers-Chrome`. 
     - Pour pouvoir rechercher et ajouter ces ordinateurs dans le groupe, vous devez cliquer sur `Types d'objets` dans la fenêtre de recherche et cocher la case `Ordinateurs`
@@ -117,32 +117,32 @@
 !!! info "Étape 2.3.2 - Création du dossier partagé"
     
     Créer un dossier partagé (ex: `c:\Software`) **sur le serveur**. 
-
+    
     Dans `Partage avancé` > `Utilisateurs`, supprimez l'accès de `Everyone` sur le dossier (la lecture suffira)
-
+    
     Ajoutez les groupes suivants :
-
+    
     - `GG-EU-RH-Computers-Chrome`
     - `Administrateur` (car il devra accéder au dossier pendant la configuration de la GPO)
 
 !!! note "Note importante"
     
     Vous pouvez (pour pouvoir afficher son contenu depuis la machine cliente pendant les tests) ajouter `GG-EU-RH-Admins` et `GG-EU-RH-Users` si vous le souhaitez, mais ce n'est pas nécessaire. **Seuls les ordinateurs doivent accéder au dossier pour lire et exécuter le fichier .msi d'installation**. En principe, les utilisateurs ne doivent pas accéder à ce dossier.
-
+    
     Dans l'onglet `Sécurité` > `Modifier` > `Ajouter` le groupe des ordinateurs de RH.
 
 !!! example "Téléchargement de Chrome"
     
     On doit télécharger Chrome et le stocker dans le dossier partagé. Si vous n'avez pas d'accès Internet :
-
+    
     1. Éteignez la machine dans Virtualbox
     2. Ajoutez un adaptateur (adapter 2) réseau NAT
     3. Redémarrez la machine
-
+    
     Allez sur ce lien https://chromeenterprise.google/download/
-
+    
     Cliquez sur `Bundle` et choisissez **.msi**
-
+    
     Copiez ce fichier dans le dossier partagé `c:\Software`
 
 !!! info "Application de la GPO"
@@ -152,13 +152,13 @@
 !!! example "Création de la GPO sur l'OU des ordinateurs de RH"
     
     Allez sur `Configuration Ordinateur > Stratégies > Paramètres du logiciel > Installation logiciel`
-
+    
     Faites un clic droit et sélectionnez `Nouveau`, puis **saisissez le chemin RÉSEAU manuellement** dans la barre de recherche.
 
 !!! warning "Important"
     
     Le chemin doit être au format réseau, c'est-à-dire `\\dns1\Software\chrome_installer.msi`. Un chemin local du type `C:\Software\chrome_installer.msi` ne fonctionnera pas.
-
+    
     (remplacez `chrome_installer.msi` par le nom du fichier que vous avez téléchargé. Si le nom du fichier est complexe, vous pouvez simplement le renommer)
 
 !!! info "Étape 2.3.3 - Test de la GPO"
@@ -195,9 +195,9 @@
 !!! info "Configuration de la GPO"
     
     Créez maintenant un GPO sur l'OU `IT`.
-
+    
     Allez dans Configuration Utilisateur > Préférences > Paramètres Windows > Mappages lecteurs > Faites clique droit > Nouveau.
-
+    
     Le chemin pour le dossier **doit être le nom du partage** qu'on voit dans les propriétés du dossier partagé. Pas `C:\Shares\IT-Admin` mais `\\dns1\IT-Admin` (regardez dans les propriétés du dossier partagé)
 
 !!! question "Question de réflexion"

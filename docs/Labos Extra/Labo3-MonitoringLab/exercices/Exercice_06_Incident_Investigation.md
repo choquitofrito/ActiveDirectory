@@ -24,9 +24,9 @@ Avancé
 
 !!! example "Scénario d'incident"
     **ALERTE SÉCURITÉ - Lundi matin, 08h47**
-
+    
     Vous recevez un email du système de supervision automatique :
-
+    
     > **ALERTE CRITIQUE** : Activité anormale détectée sur le compte `svc_monitoring`
     >
     > - Multiples connexions réussies entre 02h00 et 04h30 du matin
@@ -35,7 +35,7 @@ Avancé
     > - Origine de connexion inhabituelle : adresse IP `192.168.100.250` (non répertoriée)
     >
     > **Action requise** : Investigation immédiate
-
+    
     Votre mission est d'investiguer cet incident, de déterminer ce qui s'est passé, de sécuriser l'environnement et de rédiger un rapport d'incident.
 
 ---
@@ -89,7 +89,7 @@ Set-ADAccountPassword -Identity "svc_monitoring" -NewPassword $newPwd -Reset
 
 !!! info "Méthodologie d'investigation"
     Une investigation forensique suit toujours cet ordre :
-
+    
     1. Collecter les preuves sans les altérer
     2. Établir une chronologie des événements
     3. Identifier le vecteur d'attaque
@@ -119,13 +119,13 @@ Vous devez extraire TOUS les événements liés au compte `svc_monitoring` des d
     $debut = (Get-Date).AddHours(-48)
     $events = Get-WinEvent -LogName Security |
         Where-Object { $_.TimeCreated -gt $debut -and $_.Id -in @(4624, 4625, 4648) }
-
+    
     foreach ($event in $events) {
         $xml = [xml]$event.ToXml()
         $data = $xml.Event.EventData.Data
         $compte = ($data | Where-Object { $_.Name -eq "TargetUserName" }).'#text'
         $ip = ($data | Where-Object { $_.Name -eq "IpAddress" }).'#text'
-
+    
         if ($compte -like "*svc_monitoring*") {
             # Afficher les informations...
         }
@@ -174,7 +174,7 @@ foreach ($event in $groupModifs) {
     $membre = ($data | Where-Object { $_.Name -eq "MemberName" }).'#text'
     $groupe = ($data | Where-Object { $_.Name -eq "TargetUserName" }).'#text'
     $parCompte = ($data | Where-Object { $_.Name -eq "SubjectUserName" }).'#text'
-
+    
     Write-Host "[$($event.Id)] $($event.TimeCreated) | Groupe: $groupe | Membre: $membre | Par: $parCompte"
 }
 ```
@@ -419,12 +419,12 @@ Write-Host "Total événements récupérés : $($tousEvenements.Count)" -Foregro
 $chronologie = foreach ($event in $tousEvenements) {
     $xml = [xml]$event.ToXml()
     $data = $xml.Event.EventData.Data
-
+    
     $compte = ($data | Where-Object { $_.Name -eq "TargetUserName" }).'#text'
     if (-not $compte) { $compte = ($data | Where-Object { $_.Name -eq "SubjectUserName" }).'#text' }
     $ip = ($data | Where-Object { $_.Name -eq "IpAddress" }).'#text'
     $objet = ($data | Where-Object { $_.Name -eq "ObjectName" }).'#text'
-
+    
     if ($compte -like "*svc_monitoring*" -or $objet -like "*Finance*") {
         [PSCustomObject]@{
             Heure    = $event.TimeCreated.ToString("dd/MM/yyyy HH:mm:ss")
@@ -474,12 +474,12 @@ Write-Host "  Set-ADUser -Identity 'svc_monitoring' -Description 'Compte réacti
 
 !!! info "Félicitations !"
     Vous avez complété les 6 exercices du Labo MonitoringLab. Vous maîtrisez maintenant :
-
+    
     - L'exploration de la structure Active Directory
     - L'analyse des journaux d'événements de sécurité
     - La configuration de GPOs de sécurité et d'audit via GPMC
     - La gestion et sécurisation des comptes de service
     - La mise en place d'une politique d'audit personnalisée
     - La conduite d'une investigation d'incident de sécurité
-
+    
     Ces compétences sont directement applicables dans un environnement professionnel réel.

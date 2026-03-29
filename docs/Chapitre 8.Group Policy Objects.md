@@ -9,11 +9,11 @@
     1. 🌐 [Introduction aux GPO](#1-introduction-aux-gpo)
        - Concepts de base
        - Types de stratégies
-
+    
     2. 🔰 [Hiérarchie et Application](#2-création-des-gpos)
        - Niveaux d'application
        - Ordre de traitement
-
+    
     3. 💻 [Configuration des GPO](#3-classifications-des-gpo)
        - Outils de gestion
        - Exemples pratiques
@@ -134,7 +134,7 @@ Avant de commencer, assurez-vous d'avoir installé le laboratoire en suivant les
     - **Modifier** la GPO (vide au départ): elle doit empêcher l'accès des utilisateurs de Ventes aux éléments suivants du panneau de configuration:
       - Programmes et fonctionnalités
       - Système
-
+    
     - **Appliquer** la GPU (dans ce cas à l'OU `Ventes`)
     - **Se connecter** au serveur avec un user de `Ventes` et vérifier que le panneau de configuration est restreint (on voit que les options `Programmes et fonctionnalités` et `Système` sont cachées)
 
@@ -457,32 +457,32 @@ Pour qu'une GPO s'applique à un utilisateur ou ordinateur, il doit avoir **deux
 !!! example "Configuration étape par étape"
 
     **Situation** : Une GPO `GPO-CRM-Installation` est liée à `OU=EU-Ventes`, mais on veut qu'elle s'applique uniquement à `GG-EU-Ventes-Seniors`.
-
+    
     **Étapes** :
-
+    
     1. Ouvrir **GPMC** (Group Policy Management Console)
        ```
        Menu Démarrer > Gestion de stratégie de groupe
        ```
-
+    
     2. Naviguer vers la GPO :
        ```
        Group Policy Objects > GPO-CRM-Installation
        ```
-
+    
     3. Sélectionner la GPO et regarder le panneau de droite, section **"Security Filtering"**
-
+    
     4. **Supprimer "Authenticated Users"** :
        - Sélectionner `Authenticated Users`
        - Cliquer sur **Remove** (Supprimer)
        - Confirmer la suppression
-
+    
     5. **Ajouter le groupe cible** :
        - Cliquer sur **Add** (Ajouter)
        - Taper `GG-EU-Ventes-Seniors`
        - Cliquer sur **Check Names** pour vérifier
        - Cliquer sur **OK**
-
+    
     ✅ **Résultat** : La GPO ne s'appliquera maintenant qu'aux membres de `GG-EU-Ventes-Seniors`
 
 #### Vérification du Filtrage
@@ -490,13 +490,13 @@ Pour qu'une GPO s'applique à un utilisateur ou ordinateur, il doit avoir **deux
 !!! example "Test de la configuration"
 
     **Test 1 - Utilisateur dans le groupe ciblé :**
-
+    
     1. Connectez-vous avec un utilisateur membre de `GG-EU-Ventes-Seniors` (ex: `valentin`)
     2. Exécutez `gpupdate /force` et `gpresult /r`
     3. ✅ Vous devriez voir `GPO-CRM-Installation` dans les GPOs appliquées
-
+    
     **Test 2 - Utilisateur hors du groupe :**
-
+    
     1. Connectez-vous avec un utilisateur de `OU=EU-Ventes` mais PAS membre de `GG-EU-Ventes-Seniors` (ex: `victor`)
     2. Exécutez `gpupdate /force` et `gpresult /r`
     3. ❌ `GPO-CRM-Installation` ne doit **pas** apparaître dans les GPOs appliquées

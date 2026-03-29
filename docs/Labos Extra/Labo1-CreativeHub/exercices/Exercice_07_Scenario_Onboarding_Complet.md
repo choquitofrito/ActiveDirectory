@@ -263,7 +263,7 @@ try {
         -Enabled $true `
         -ChangePasswordAtLogon $true `
         -AccountExpirationDate $expirationDate
-
+    
     Write-Host "  ✓ Compte créé pour $firstName $lastName" -ForegroundColor Green
     Write-Host "    SAM Account  : $samAccount" -ForegroundColor Gray
     Write-Host "    Email        : $email" -ForegroundColor Gray
@@ -301,13 +301,13 @@ try {
         New-ADOrganizationalUnit -Name "Groupes_Projets" -Path $rootOU -ProtectedFromAccidentalDeletion $false
         Write-Host "  ✓ OU Groupes_Projets créée" -ForegroundColor Green
     }
-
+    
     New-ADGroup -Name $groupLecture `
         -GroupScope Global `
         -GroupCategory Security `
         -Path $projectGroupsOU `
         -Description "Accès lecture seule au projet SecureBank (stagiaires et consultants)"
-
+    
     Write-Host "  ✓ Groupe $groupLecture créé" -ForegroundColor Green
 }
 
@@ -332,26 +332,26 @@ try {
     # Créer la GPO
     Import-Module GroupPolicy
     New-GPO -Name $gpoName -Comment "Restrictions de sécurité pour les stagiaires" | Out-Null
-
+    
     # Désactiver le Panneau de configuration
     Set-GPRegistryValue -Name $gpoName `
         -Key "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" `
         -ValueName "NoControlPanel" -Type DWord -Value 1 | Out-Null
-
+    
     # Désactiver l'invite de commandes
     Set-GPRegistryValue -Name $gpoName `
         -Key "HKCU\Software\Policies\Microsoft\Windows\System" `
         -ValueName "DisableCMD" -Type DWord -Value 2 | Out-Null
-
+    
     # Bloquer les périphériques USB (lecture et écriture)
     Set-GPRegistryValue -Name $gpoName `
         -Key "HKLM\Software\Policies\Microsoft\Windows\RemovableStorageDevices\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}" `
         -ValueName "Deny_Write" -Type DWord -Value 1 | Out-Null
-
+    
     Set-GPRegistryValue -Name $gpoName `
         -Key "HKLM\Software\Policies\Microsoft\Windows\RemovableStorageDevices\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}" `
         -ValueName "Deny_Read" -Type DWord -Value 1 | Out-Null
-
+    
     Write-Host "  ✓ GPO créée avec restrictions" -ForegroundColor Green
     Write-Host "    - Panneau de configuration désactivé" -ForegroundColor Gray
     Write-Host "    - Invite de commandes désactivée" -ForegroundColor Gray
@@ -364,7 +364,7 @@ try {
     $existingLink = Get-GPInheritance -Target $stagiaireOU -ErrorAction Stop |
         Select-Object -ExpandProperty GpoLinks |
         Where-Object {$_.DisplayName -eq $gpoName}
-
+    
     if ($existingLink) {
         Write-Host "  La GPO est déjà liée à l'OU Stagiaires." -ForegroundColor Yellow
     } else {
@@ -630,20 +630,20 @@ function New-StagiaireAccount {
     param(
         [Parameter(Mandatory=$true)]
         [string]$FirstName,
-
+    
         [Parameter(Mandatory=$true)]
         [string]$LastName,
-
+    
         [Parameter(Mandatory=$true)]
         [string]$Department,
-
+    
         [Parameter(Mandatory=$true)]
         [datetime]$StageEndDate,
-
+    
         [Parameter(Mandatory=$true)]
         [string]$Manager
     )
-
+    
     # Logique de création automatique du compte stagiaire
     # avec toutes les configurations standards
 }

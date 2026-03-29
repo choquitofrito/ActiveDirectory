@@ -74,7 +74,7 @@ Essaye de repondre à ces questions en utilisant tes propres mots. Tout l'inform
     !!! info "Configuration préalable"
     
     Avant d'installer AD DS, il faut:
-
+    
     - Configurer une adresse IP statique
     - Configurer le nom du serveur (hostname)
     - Installer et configurer AD-DS
@@ -124,7 +124,7 @@ Essaye de repondre à ces questions en utilisant tes propres mots. Tout l'inform
     !!! info "Fonctions des OUs"
     
     Les OUs permettent de :
-
+    
     - **Organiser** les objets de manière logique
     - **Déléguer** l'administration
     - **Appliquer** des stratégies de groupe (GPO)
@@ -146,7 +146,7 @@ Essaye de repondre à ces questions en utilisant tes propres mots. Tout l'inform
 5. Quels sont les avantages d'une OU sur un conteneur?
 ??? success "Réponse"
     Les avantages des OUs incluent:
-
+    
     - Possibilité d'appliquer des GPOs
     - Délégation d'administration
     - Organisation hiérarchique

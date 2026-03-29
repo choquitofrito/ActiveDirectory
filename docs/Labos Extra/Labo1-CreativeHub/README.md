@@ -168,7 +168,7 @@ Le script crée **8 groupes de sécurité globaux** (Global Groups):
 
 !!! note "Convention de nommage"
     Format: `GG-[Entreprise]-[Département]-[Rôle]`
-
+    
     - **GG** = Global Group (groupe global)
     - **Entreprise** = CreativeHub
     - **Département** = Marketing, Creative, ClientServices, ITSupport
@@ -239,7 +239,7 @@ Le script crée et configure **3 GPOs** démontrant des cas d'usage courants en 
 
 !!! warning "Configuration manuelle requise"
     Le mappage de lecteurs réseau via GPO nécessite:
-
+    
     1. Création des partages réseau sur le serveur de fichiers (à faire manuellement)
     2. Configuration via **Group Policy Management Console (GPMC)** → User Configuration → Preferences → Windows Settings → Drive Maps
 
@@ -303,20 +303,20 @@ Après avoir exécuté le script, les étudiants peuvent approfondir leur appren
 
 !!! tip "Exercices disponibles"
     Le laboratoire CreativeHub comprend **9 exercices progressifs** avec scripts de vérification automatique:
-
+    
     **Niveau Débutant:**
-
+    
     - [Exercice 01: Nouvel Employé](exercices/Exercice_01_Nouvel_Employe.md) - Création utilisateur et groupes
     - [Exercice 02: Départ Employé](exercices/Exercice_02_Depart_Employe.md) - Désactivation et archivage
     - [Exercice 05: Reset Password](exercices/Exercice_05_Reset_Password.md) - Réinitialisation mot de passe
-
+    
     **Niveau Intermédiaire:**
-
+    
     - [Exercice 03: GPO Lecteur Réseau](exercices/Exercice_03_GPO_Lecteur_Reseau.md) - Drive mapping
     - [Exercice 04: Groupe Projet Client](exercices/Exercice_04_Groupe_Projet_Client.md) - Groupes inter-départementaux
-
+    
     **Niveau Avancé:**
-
+    
     - [Exercice 06: Délégation Contrôle](exercices/Exercice_06_Delegation_Controle.md) - Permissions OU
     - [Exercice 07: Onboarding Complet](exercices/Exercice_07_Scenario_Onboarding_Complet.md) - Scénario complet
     - [Exercice 08: Troubleshooting GPO](exercices/Exercice_08_Troubleshooting_GPO.md) - Diagnostic GPO

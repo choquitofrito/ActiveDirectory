@@ -168,7 +168,7 @@ Set-ADUser -Identity $testUser.SamAccountName -Enabled $true -WhatIf
 foreach ($user in ($affectedUsers | Select-Object -First 5)) {
     Write-Host "Réactivation: $($user.Name)"
     Set-ADUser -Identity $user.SamAccountName -Enabled $true
-
+    
     # Vérifier immédiatement
     $check = Get-ADUser -Identity $user.SamAccountName -Properties Enabled
     if ($check.Enabled) {
@@ -320,7 +320,7 @@ Get-WinEvent -LogName Security -MaxEvents 5 |
 param(
     [Parameter(Mandatory)]
     [string]$GroupName,
-
+    
     [switch]$WhatIf = $true
 )
 
@@ -332,7 +332,7 @@ Write-Host "Mode: $($WhatIf ? 'SIMULATION' : 'RÉEL')" -ForegroundColor $(if($Wh
 try {
     $groupe = Get-ADGroup -Identity $GroupName -ErrorAction Stop
     $membres = Get-ADGroupMember -Identity $GroupName -ErrorAction Stop
-
+    
     if ($membres.Count -gt 0) {
         Write-Host "⚠️  ATTENTION: Groupe n'est pas vide ($($membres.Count) membres)" -ForegroundColor Yellow
         Write-Host "Membres actuels:"

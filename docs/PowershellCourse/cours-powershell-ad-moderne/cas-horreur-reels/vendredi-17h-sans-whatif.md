@@ -107,10 +107,10 @@ $stagiaires = @(
 
 foreach ($stagiaire in $stagiaires) {
     Write-Host "Recherche et désactivation: $stagiaire" -ForegroundColor Yellow
-
+    
     # ☠️ LA LIGNE MORTELLE:
     Get-ADUser -Filter {Name -like $stagiaire} | Set-ADUser -Enabled $false
-
+    
     Write-Host "Fait pour $stagiaire ✅" -ForegroundColor Green
 }
 ```
@@ -324,12 +324,12 @@ foreach ($stagiaire in $stagiaires) {
     try {
         # Vérifier l'utilisateur existe
         $user = Get-ADUser -Identity $stagiaire -Properties Title, Department, Manager -ErrorAction Stop
-
+    
         Write-Host "`n--- $($user.Name) ---" -ForegroundColor White
         Write-Host "SamAccountName: $($user.SamAccountName)"
         Write-Host "Titre: $($user.Title)"
         Write-Host "Département: $($user.Department)"
-
+    
         # SÉCURITÉ: Vérifier que c'est bien un stagiaire
         if ($user.Title -notmatch "stagiaire|stage|intern" -and
             $user.Department -ne "Stagiaires") {
@@ -341,16 +341,16 @@ foreach ($stagiaire in $stagiaires) {
                 continue
             }
         }
-
+    
         # Désactiver avec -WhatIf selon le paramètre
         Set-ADUser -Identity $stagiaire -Enabled $false -WhatIf:$WhatIf
-
+    
         if ($WhatIf) {
             Write-Host "✅ SIMULATION: $($user.Name) serait désactivé" -ForegroundColor Yellow
         } else {
             Write-Host "✅ RÉEL: $($user.Name) désactivé" -ForegroundColor Green
         }
-
+    
     } catch {
         Write-Error "❌ Erreur avec $stagiaire : $($_.Exception.Message)"
     }

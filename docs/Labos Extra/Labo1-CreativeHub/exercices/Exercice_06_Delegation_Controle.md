@@ -142,14 +142,14 @@ Déléguer à **camille** (Camille Bernard) les permissions suivantes sur l'OU *
 
 ??? info "💡 Indice 2 : Tâches Courantes pour Gabrielle"
     Pour Gabrielle (réinitialiser MDP et déverrouiller comptes) :
-
+    
     - Sélectionner "Réinitialiser les mots de passe utilisateur et forcer la modification du mot de passe lors de la prochaine ouverture de session"
     - Cette tâche inclut automatiquement le déverrouillage de compte
     
 
 ??? info "💡 Indice 3 : Tâches Courantes pour Camille"
     Pour Camille (créer, modifier, gérer utilisateurs) :
-
+    
     - Sélectionner "Créer, supprimer et gérer les comptes utilisateurs"
     - Sélectionner "Réinitialiser les mots de passe utilisateur..."
     - Sélectionner "Modifier l'appartenance à un groupe"
@@ -169,7 +169,7 @@ Déléguer à **camille** (Camille Bernard) les permissions suivantes sur l'OU *
 
 ??? info "💡 Indice 5 : Tester la Délégation"
     Option 1 : Se connecter avec le compte délégué
-
+    
     - Ouvrir `dsa.msc` en tant que gabrielle
     - Essayer de réinitialiser un mot de passe dans Creative
     - Essayer de créer un utilisateur (devrait échouer)

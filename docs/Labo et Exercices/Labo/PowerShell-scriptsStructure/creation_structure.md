@@ -94,7 +94,7 @@ $defaultPassword = "Password1!"
 try {
     Write-Host "Script de création de structure Active Directory" -ForegroundColor Green
     Write-Host "===========================================" -ForegroundColor Green
-
+    
     # 1. Créer l'OU racine EU
     if (Confirm-Step "Création de l'OU racine EU") {
         Write-Host "\nCréation de l'OU racine EU..." -ForegroundColor Cyan
@@ -106,7 +106,7 @@ try {
             Write-Host "OU racine EU existe déjà." -ForegroundColor Yellow
         }
     }
-
+    
     # 2. Créer les départements et leurs sous-OUs
     if (Confirm-Step "Création des départements et leurs sous-OUs") {
         $departments = @("Ventes", "RH", "Comptabilite")
@@ -137,7 +137,7 @@ try {
             }
         }
     }
-
+    
     # 3. Créer les utilisateurs
     if (Confirm-Step "Création des utilisateurs") {
         Write-Host "\nCréation des utilisateurs..." -ForegroundColor Cyan
@@ -153,7 +153,7 @@ try {
             @{Name="Cindy";Email="cindy@maxtec.be";OU="Comptabilite"},
             @{Name="Charles";Email="charles@maxtec.be";OU="Comptabilite"}
         )
-
+    
         foreach ($user in $users) {
             Write-Host "Création de l'utilisateur $($user.Name)..." -NoNewline
             $ouPath = "OU=Users,OU=$($user.OU),$rootOU"
@@ -186,7 +186,7 @@ try {
             @{Name="GG-EU-Compta-Admin";OU="Comptabilite"},
             @{Name="GG-EU-Compta-Users";OU="Comptabilite"}
         )
-
+    
         foreach ($group in $groups) {
             Write-Host "Traitement du groupe $($group.Name)..." -NoNewline
             $ouPath = "OU=Groups,OU=$($group.OU),$rootOU"
@@ -198,7 +198,7 @@ try {
             }
         }
     }
-
+    
     Write-Host "\nStructure créée avec succès!" -ForegroundColor Green
 }
 catch {

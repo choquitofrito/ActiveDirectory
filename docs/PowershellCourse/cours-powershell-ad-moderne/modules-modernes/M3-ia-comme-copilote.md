@@ -108,7 +108,7 @@ try {
     if (-not (Get-Module ActiveDirectory)) {
         throw "Module ActiveDirectory non disponible"
     }
-
+    
     # Vérifier que l'OU existe
     try {
         Get-ADOrganizationalUnit -Identity $searchBase -ErrorAction Stop
@@ -116,35 +116,35 @@ try {
     } catch {
         throw "OU non trouvée: $searchBase"
     }
-
+    
     # Rechercher utilisateurs RH avec propriétés nécessaires
     $utilisateursRH = Get-ADUser -Filter * -SearchBase $searchBase `
                       -Properties PasswordLastSet, Department, LastLogonDate, Enabled `
                       -ErrorAction Stop
-
+    
     Write-Host "Utilisateurs RH trouvés: $($utilisateursRH.Count)" -ForegroundColor Cyan
-
+    
     # Filtrer ceux avec mot de passe ancien
     $utilisateursMotDePasseAncien = $utilisateursRH | Where-Object {
         $_.PasswordLastSet -lt $dateLimit -and
         $_.Enabled -eq $true -and
         $_.PasswordLastSet -ne $null
     }
-
+    
     # Afficher résultats
     if ($utilisateursMotDePasseAncien.Count -eq 0) {
         Write-Host "✅ Aucun utilisateur RH avec mot de passe > 6 mois" -ForegroundColor Green
     } else {
         Write-Host "⚠️  Utilisateurs RH avec mot de passe > 6 mois:" -ForegroundColor Yellow
         Write-Host "================================================" -ForegroundColor Yellow
-
+    
         $utilisateursMotDePasseAncien | Select-Object `
             @{Name="Nom"; Expression={$_.Name}},
             @{Name="Login"; Expression={$_.SamAccountName}},
             @{Name="Dernier changement MDP"; Expression={$_.PasswordLastSet}},
             @{Name="Jours depuis changement"; Expression={((Get-Date) - $_.PasswordLastSet).Days}} |
             Format-Table -AutoSize
-
+    
         Write-Host "Total concernés: $($utilisateursMotDePasseAncien.Count)" -ForegroundColor Red
     }
 

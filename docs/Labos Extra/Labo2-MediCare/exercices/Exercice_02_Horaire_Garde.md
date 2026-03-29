@@ -27,7 +27,7 @@
 
 !!! example "Scénario réel - Système de garde MediCare"
     **Email du Coordinateur de Garde (Thomas Renard)** :
-
+    
     > Bonjour IT,
     >
     > Nous avons besoin d'un **compte de garde rotatif** pour les urgences nocturnes et les week-ends.
@@ -44,7 +44,7 @@
     >
     > Merci!
     > Thomas Renard - Coordinateur de Garde
-
+    
     **Votre mission** : Créer ce compte avec les restrictions horaires appropriées.
 
 ## Tâches à Réaliser
@@ -95,7 +95,7 @@
 
 !!! warning "Restriction horaire complexe"
     Nous devons autoriser l'accès uniquement :
-
+    
     - **Lundi à Vendredi** : 18h00 - 23h59 + 00h00 - 08h00
     - **Samedi et Dimanche** : 24h/24 (00h00 - 23h59)
 
@@ -117,7 +117,7 @@
 
 !!! success "Résultat attendu"
     La grille des horaires montre :
-
+    
     - Lundi-Vendredi : Bleu de 18h à 8h (+ plage nocturne), Blanc de 8h à 18h
     - Samedi-Dimanche : Entièrement bleu (24/24)
 
@@ -215,7 +215,7 @@ if ($garde.LogonHours) {
 
 !!! warning "Test en conditions réelles"
     Pour tester pleinement cette configuration, vous devriez :
-
+    
     1. **Tester dans les horaires autorisés** (18h-8h ou week-end)
     2. **Tester hors horaires** (8h-18h en semaine)
 
@@ -234,7 +234,7 @@ runas /user:maxtec\garde "powershell -NoExit -Command 'Write-Host Connexion auto
 
 !!! tip "Simulation de test"
     Si vous ne pouvez pas attendre les horaires de garde, vous pouvez :
-
+    
     - **Temporairement autoriser toutes les heures** pour tester que le compte fonctionne
     - **Vérifier via PowerShell** que les LogonHours sont bien définies
     - **Consulter l'interface graphique** pour voir la grille horaire
@@ -323,7 +323,7 @@ $expirationDate = (Get-Date).AddDays(7)
 Write-Host "`n[ÉTAPE 1] Création du compte Médecin de Garde..." -ForegroundColor Cyan
 try {
     $password = ConvertTo-SecureString "MediCare2025!" -AsPlainText -Force
-
+    
     New-ADUser `
         -Name "Médecin de Garde" `
         -GivenName "Médecin" `
@@ -341,7 +341,7 @@ try {
         -Department "Medical" `
         -Office "Salle des Urgences" `
         -OfficePhone "+32-2-555-URGE"
-
+    
     Write-Host "  ✓ Compte 'garde' créé avec succès" -ForegroundColor Green
     Write-Host "    Expiration: $expirationDate" -ForegroundColor Gray
 } catch {
@@ -422,13 +422,13 @@ Write-Host "  Configurez les Logon Hours via Active Directory Users and Computer
 
 !!! tip "Concepts importants"
     1. **Comptes temporaires** : Utiliser `AccountExpirationDate` pour les comptes à durée limitée (stagiaires, gardes, consultants)
-
+    
     2. **Logon Hours** : Permet de restreindre les heures de connexion selon les besoins métier (gardes médicales, shifts)
-
+    
     3. **Comptes partagés** : Configurer `CannotChangePassword` pour les comptes utilisés par plusieurs personnes
-
+    
     4. **Groupes spécialisés** : Le groupe Oncall permet un accès distant/urgence sans donner tous les droits admin
-
+    
     5. **Documentation** : Toujours fournir des instructions claires pour les utilisateurs finaux
 
 ## Dépannage (Erreurs Courantes)
@@ -445,5 +445,5 @@ Write-Host "  Configurez les Logon Hours via Active Directory Users and Computer
 
 !!! tip "Progression pédagogique"
     Une fois cet exercice maîtrisé, passez à :
-
+    
     **[Exercice 03 : Audit d'Accès Médical](Exercice_03_Audit_Acces_Medical.md)** - Activer l'audit des fichiers et générer un rapport de conformité RGPD.
