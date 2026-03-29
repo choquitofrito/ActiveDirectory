@@ -1,0 +1,2491 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://choquitofrito.github.io/ActiveDirectory/PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M5-whatif-religieux/">
+      
+      
+        <link rel="prev" href="../M4-scripts-bomba-lab/">
+      
+      
+        <link rel="next" href="../M6-kit-urgence/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>M5 - WhatIf Religieux - Active Directory Course</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#module-5-whatif-religieux-pourquoi-whatif-est-sacre" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Active Directory Course" class="md-header__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Active Directory Course
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              M5 - WhatIf Religieux
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  🏠 Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🖥️ Windows Server
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%203.DNS/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🌐 DNS
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📁 Active Directory
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ⚡ PowerShell AD
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🧪 Labs & Exercices
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Active Directory Course" class="md-nav__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Active Directory Course
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏠 Accueil
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🖥️ Windows Server
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%203.DNS/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🌐 DNS
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    📁 Active Directory
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    ⚡ PowerShell AD
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            ⚡ PowerShell AD
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch9.0 - Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch9.1 - Concepts de Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch9.2 - Requêtes & Informations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%209.3.Powershell%20AD%20-%20Creation_et_Modification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch9.3 - Création & Modification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../CHEATSHEET/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cheatsheet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Cours Moderne 2025
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            Cours Moderne 2025
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M1-realite-2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    M1 - Réalité 2025
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M2-survie-tickets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    M2 - Survie Tickets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M3-ia-comme-copilote/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    M3 - IA Copilote
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M4-scripts-bomba-lab/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    M4 - Scripts Bomba Lab
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    M5 - WhatIf Religieux
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    M5 - WhatIf Religieux
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectif-de-ce-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objectif de ce Module
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#la-religion-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛐 La Religion -WhatIf
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛐 La Religion -WhatIf">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#les-10-commandements-de-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      Les 10 Commandements de -WhatIf
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hall-of-fame-des-desastres-sans-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      💀 Hall of Fame des Désastres Sans -WhatIf
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💀 Hall of Fame des Désastres Sans -WhatIf">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#podium-des-catastrophes-legendaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏆 Podium des Catastrophes Légendaires
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏆 Podium des Catastrophes Légendaires">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1ere-place-leffaceur-dexchange-2019" class="md-nav__link">
+    <span class="md-ellipsis">
+      🥇 1ère Place: L'Effaceur d'Exchange (2019)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2eme-place-le-videur-dou-2021" class="md-nav__link">
+    <span class="md-ellipsis">
+      🥈 2ème Place: Le Videur d'OU (2021)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3eme-place-le-demenageur-fou-2022" class="md-nav__link">
+    <span class="md-ellipsis">
+      🥉 3ème Place: Le Déménageur Fou (2022)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simulacre-en-direct-vendredi-16h58-le-piege" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎪 Simulacre en Direct: "Vendredi 16h58 - Le Piège"
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎪 Simulacre en Direct: &#34;Vendredi 16h58 - Le Piège&#34;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#le-script-rapide" class="md-nav__link">
+    <span class="md-ellipsis">
+      Le Script "Rapide"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lexecution-sans-probleme" class="md-nav__link">
+    <span class="md-ellipsis">
+      L'Exécution "Sans Problème"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#le-reveil-brutal-lundi-8h15" class="md-nav__link">
+    <span class="md-ellipsis">
+      Le Réveil Brutal - Lundi 8h15
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lenquete-forensique" class="md-nav__link">
+    <span class="md-ellipsis">
+      L'Enquête Forensique
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-verite-cachee" class="md-nav__link">
+    <span class="md-ellipsis">
+      La Vérité Cachée
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ce-que-whatif-aurait-revele" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ce Que -WhatIf Aurait Révélé
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-pratique-apprivoiser-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧪 Lab Pratique: Apprivoiser -WhatIf
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 Lab Pratique: Apprivoiser -WhatIf">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-51-maitriser-les-nuances-de-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 5.1: Maîtriser les Nuances de -WhatIf
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercice 5.1: Maîtriser les Nuances de -WhatIf">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commandes-qui-supportent-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commandes qui Supportent -WhatIf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commandes-qui-ne-supportent-pas-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commandes qui ne Supportent PAS -WhatIf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#le-piege-des-commandes-hybrides" class="md-nav__link">
+    <span class="md-ellipsis">
+      Le Piège des Commandes Hybrides
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-52-interpreter-les-outputs-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 5.2: Interpréter les Outputs -WhatIf
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercice 5.2: Interpréter les Outputs -WhatIf">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#output-normal-vs-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      Output Normal vs WhatIf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decryptage-des-messages-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      Décryptage des Messages WhatIf
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#situations-durgence-quand-la-pression-monte" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔥 Situations d'Urgence: Quand la Pression Monte
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔥 Situations d&#39;Urgence: Quand la Pression Monte">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-1-le-boss-impatient" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 1: Le Boss Impatient
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-2-lequipe-qui-attend" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 2: L'Équipe qui Attend
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-3-le-script-teste-mille-fois" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 3: Le Script "Testé Mille Fois"
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jeu-serieux-whatif-ou-catastrophe" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎮 Jeu Sérieux: "WhatIf ou Catastrophe"
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎮 Jeu Sérieux: &#34;WhatIf ou Catastrophe&#34;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#regles-du-jeu" class="md-nav__link">
+    <span class="md-ellipsis">
+      Règles du Jeu
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Règles du Jeu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario A
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-b" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario B
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario C ⚡
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-d" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario D 🎭
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#certification-whatif-test-final" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏆 Certification -WhatIf: Test Final
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏆 Certification -WhatIf: Test Final">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-de-reflexes-30-secondes-par-question" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test de Réflexes (30 secondes par question)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test de Réflexes (30 secondes par question)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#question-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Question 1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#question-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Question 2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#question-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Question 3
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#votre-nouveau-workflow-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Votre Nouveau Workflow -WhatIf
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛠️ Votre Nouveau Workflow -WhatIf">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etapes-obligatoires-a-memoriser" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étapes Obligatoires (à Mémoriser)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exceptions-a-la-regle-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exceptions à la Règle -WhatIf
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recapitulatif-votre-nouvelle-religion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Récapitulatif: Votre Nouvelle Religion
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Récapitulatif: Votre Nouvelle Religion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#les-articles-de-foi-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛐 Les Articles de Foi -WhatIf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#votre-badge-dhonneur" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎖️ Votre Badge d'Honneur
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M6-kit-urgence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    M6 - Kit Urgence
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../cas-horreur-reels/vendredi-17h-sans-whatif/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Ressources
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🧪 Labs & Exercices
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectif-de-ce-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objectif de ce Module
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#la-religion-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛐 La Religion -WhatIf
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛐 La Religion -WhatIf">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#les-10-commandements-de-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      Les 10 Commandements de -WhatIf
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hall-of-fame-des-desastres-sans-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      💀 Hall of Fame des Désastres Sans -WhatIf
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💀 Hall of Fame des Désastres Sans -WhatIf">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#podium-des-catastrophes-legendaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏆 Podium des Catastrophes Légendaires
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏆 Podium des Catastrophes Légendaires">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1ere-place-leffaceur-dexchange-2019" class="md-nav__link">
+    <span class="md-ellipsis">
+      🥇 1ère Place: L'Effaceur d'Exchange (2019)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2eme-place-le-videur-dou-2021" class="md-nav__link">
+    <span class="md-ellipsis">
+      🥈 2ème Place: Le Videur d'OU (2021)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3eme-place-le-demenageur-fou-2022" class="md-nav__link">
+    <span class="md-ellipsis">
+      🥉 3ème Place: Le Déménageur Fou (2022)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simulacre-en-direct-vendredi-16h58-le-piege" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎪 Simulacre en Direct: "Vendredi 16h58 - Le Piège"
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎪 Simulacre en Direct: &#34;Vendredi 16h58 - Le Piège&#34;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#le-script-rapide" class="md-nav__link">
+    <span class="md-ellipsis">
+      Le Script "Rapide"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lexecution-sans-probleme" class="md-nav__link">
+    <span class="md-ellipsis">
+      L'Exécution "Sans Problème"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#le-reveil-brutal-lundi-8h15" class="md-nav__link">
+    <span class="md-ellipsis">
+      Le Réveil Brutal - Lundi 8h15
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lenquete-forensique" class="md-nav__link">
+    <span class="md-ellipsis">
+      L'Enquête Forensique
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-verite-cachee" class="md-nav__link">
+    <span class="md-ellipsis">
+      La Vérité Cachée
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ce-que-whatif-aurait-revele" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ce Que -WhatIf Aurait Révélé
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-pratique-apprivoiser-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧪 Lab Pratique: Apprivoiser -WhatIf
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧪 Lab Pratique: Apprivoiser -WhatIf">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-51-maitriser-les-nuances-de-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 5.1: Maîtriser les Nuances de -WhatIf
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercice 5.1: Maîtriser les Nuances de -WhatIf">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commandes-qui-supportent-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commandes qui Supportent -WhatIf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commandes-qui-ne-supportent-pas-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commandes qui ne Supportent PAS -WhatIf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#le-piege-des-commandes-hybrides" class="md-nav__link">
+    <span class="md-ellipsis">
+      Le Piège des Commandes Hybrides
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-52-interpreter-les-outputs-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 5.2: Interpréter les Outputs -WhatIf
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercice 5.2: Interpréter les Outputs -WhatIf">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#output-normal-vs-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      Output Normal vs WhatIf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decryptage-des-messages-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      Décryptage des Messages WhatIf
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#situations-durgence-quand-la-pression-monte" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔥 Situations d'Urgence: Quand la Pression Monte
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔥 Situations d&#39;Urgence: Quand la Pression Monte">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-1-le-boss-impatient" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 1: Le Boss Impatient
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-2-lequipe-qui-attend" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 2: L'Équipe qui Attend
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-3-le-script-teste-mille-fois" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 3: Le Script "Testé Mille Fois"
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jeu-serieux-whatif-ou-catastrophe" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎮 Jeu Sérieux: "WhatIf ou Catastrophe"
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎮 Jeu Sérieux: &#34;WhatIf ou Catastrophe&#34;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#regles-du-jeu" class="md-nav__link">
+    <span class="md-ellipsis">
+      Règles du Jeu
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Règles du Jeu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario A
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-b" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario B
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario C ⚡
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-d" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario D 🎭
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#certification-whatif-test-final" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏆 Certification -WhatIf: Test Final
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏆 Certification -WhatIf: Test Final">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-de-reflexes-30-secondes-par-question" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test de Réflexes (30 secondes par question)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test de Réflexes (30 secondes par question)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#question-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Question 1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#question-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Question 2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#question-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Question 3
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#votre-nouveau-workflow-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Votre Nouveau Workflow -WhatIf
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛠️ Votre Nouveau Workflow -WhatIf">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etapes-obligatoires-a-memoriser" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étapes Obligatoires (à Mémoriser)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exceptions-a-la-regle-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exceptions à la Règle -WhatIf
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recapitulatif-votre-nouvelle-religion" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Récapitulatif: Votre Nouvelle Religion
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Récapitulatif: Votre Nouvelle Religion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#les-articles-de-foi-whatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛐 Les Articles de Foi -WhatIf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#votre-badge-dhonneur" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎖️ Votre Badge d'Honneur
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="module-5-whatif-religieux-pourquoi-whatif-est-sacre">Module 5: -WhatIf Religieux - Pourquoi -WhatIf est Sacré</h1>
+<p><em>Durée: 1h30 | Prérequis: Modules 1-4 complétés</em></p>
+<h2 id="objectif-de-ce-module">🎯 Objectif de ce Module</h2>
+<p><strong>À la fin</strong>: -WhatIf sera gravé dans votre ADN d'administrateur. Vous ne pourrez plus physiquement exécuter une commande destructive sans -WhatIf d'abord.</p>
+<hr />
+<h2 id="la-religion-whatif">🛐 La Religion -WhatIf</h2>
+<h3 id="les-10-commandements-de-whatif">Les 10 Commandements de -WhatIf</h3>
+<ol>
+<li><strong>Tu utiliseras -WhatIf</strong> avant toute commande destructive</li>
+<li><strong>Tu ne feras pas confiance</strong> même à tes propres scripts</li>
+<li><strong>Tu vérifieras la portée</strong> de tes actions avant exécution</li>
+<li><strong>Tu documenteras</strong> ce que -WhatIf te montre</li>
+<li><strong>Tu n'exécuteras jamais</strong> un Remove-* sans -WhatIf d'abord</li>
+<li><strong>Tu garderas ton sang-froid</strong> même sous pression</li>
+<li><strong>Tu évangéliseras -WhatIf</strong> à tes collègues</li>
+<li><strong>Tu n'auras pas honte</strong> de double-vérifier</li>
+<li><strong>Tu considéreras -WhatIf</strong> comme sauveur de carrière</li>
+<li><strong>Tu te souviendras</strong> que vendredi 17h = moment le plus dangereux</li>
+</ol>
+<hr />
+<h2 id="hall-of-fame-des-desastres-sans-whatif">💀 Hall of Fame des Désastres Sans -WhatIf</h2>
+<h3 id="podium-des-catastrophes-legendaires">🏆 <strong>Podium des Catastrophes Légendaires</strong></h3>
+<h4 id="1ere-place-leffaceur-dexchange-2019">🥇 <strong>1ère Place: L'Effaceur d'Exchange (2019)</strong></h4>
+<p><div class="highlight"><pre><span></span><code><span class="c"># Ce qui était prévu:</span>
+<span class="nb">Get-Mailbox</span> <span class="n">-ResultSize</span> <span class="n">10</span> <span class="p">|</span> <span class="nb">Remove-Mailbox</span>
+
+<span class="c"># Ce qui fut exécuté:</span>
+<span class="nb">Get-Mailbox</span> <span class="n">-ResultSize</span> <span class="n">Unlimited</span> <span class="p">|</span> <span class="nb">Remove-Mailbox</span>
+</code></pre></div>
+<strong>Résultat</strong>: 15,000 boîtes mail supprimées
+<strong>Coût</strong>: €2.3M + 3 jours de restauration
+<strong>Carrière</strong>: Terminée</p>
+<h4 id="2eme-place-le-videur-dou-2021">🥈 <strong>2ème Place: Le Videur d'OU (2021)</strong></h4>
+<p><div class="highlight"><pre><span></span><code><span class="c"># Intention: nettoyer OU test</span>
+<span class="nb">Remove-ADOrganizationalUnit</span> <span class="n">-Identity</span> <span class="s2">&quot;OU=Test,DC=company,DC=com&quot;</span> <span class="n">-Recursive</span>
+
+<span class="c"># Réalité: Variable mal définie pointait vers OU=Users</span>
+<span class="nb">Remove-ADOrganizationalUnit</span> <span class="n">-Identity</span> <span class="nv">$ouToDelete</span> <span class="n">-Recursive</span>
+<span class="c"># $ouToDelete contenait &quot;OU=Users,DC=company,DC=com&quot; ☠️</span>
+</code></pre></div>
+<strong>Résultat</strong>: 8,000 comptes utilisateurs supprimés
+<strong>Coût</strong>: Weekend entier + consultants urgence
+<strong>Leçon</strong>: -WhatIf aurait montré le contenu de $ouToDelete</p>
+<h4 id="3eme-place-le-demenageur-fou-2022">🥉 <strong>3ème Place: Le Déménageur Fou (2022)</strong></h4>
+<p><div class="highlight"><pre><span></span><code><span class="c"># Script de migration développeurs → nouvelle OU</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Department</span> <span class="o">-eq</span> <span class="s2">&quot;Dev&quot;</span><span class="p">}</span> <span class="p">|</span> <span class="nb">Move-ADObject</span> <span class="n">-TargetPath</span> <span class="nv">$newOU</span>
+
+<span class="c"># Problème: $newOU était vide (string null)</span>
+<span class="c"># Résultat: Tous les devs déplacés vers racine du domaine</span>
+</code></pre></div>
+<strong>Résultat</strong>: Permissions cassées, applications down
+<strong>Récupération</strong>: 12h de travail manuel
+<strong>Ironie</strong>: -WhatIf aurait montré "TargetPath: DC=company,DC=com"</p>
+<hr />
+<h2 id="simulacre-en-direct-vendredi-16h58-le-piege">🎪 Simulacre en Direct: "Vendredi 16h58 - Le Piège"</h2>
+<h3 id="scenario">Scenario</h3>
+<p><em>L'instructeur joue le rôle de l'admin sous pression</em></p>
+<p><strong>📧 Email urgent reçu à 16h55:</strong>
+<div class="highlight"><pre><span></span><code>De: directeur.general@maxtec.be
+À: admin@maxtec.be
+Sujet: URGENT - Réunion lundi 8h avec clients japonais
+
+Salut,
+
+Peux-tu créer rapidement le groupe &quot;GG-EU-Clients-Japon&quot; et y ajouter
+toute l&#39;équipe commerciale ? Réunion critique lundi matin.
+
+Merci !
+DG
+</code></pre></div></p>
+<p><strong>🧠 Monologue interne de l'admin:</strong>
+<em>"16h58... le boss attend... script simple... pas besoin de -WhatIf pour une création de groupe..."</em></p>
+<h3 id="le-script-rapide">Le Script "Rapide"</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Script ultra-rapide - juste avant le weekend</span>
+<span class="nb">New-ADGroup</span> <span class="n">-Name</span> <span class="s2">&quot;GG-EU-Clients-Japon&quot;</span> <span class="n">-GroupScope</span> <span class="n">Global</span> <span class="n">-GroupCategory</span> <span class="n">Security</span> <span class="n">-Path</span> <span class="s2">&quot;OU=Groups,OU=Ventes,OU=EU,DC=maxtec,DC=be&quot;</span>
+
+<span class="c"># Ajouter toute l&#39;équipe Ventes</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Department</span> <span class="o">-eq</span> <span class="s2">&quot;Ventes&quot;</span><span class="p">}</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nb">Add-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-EU-Clients-Japon&quot;</span> <span class="n">-Members</span> <span class="nv">$_</span><span class="p">.</span><span class="n">SamAccountName</span>
+<span class="p">}</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;✅ Groupe créé et membres ajoutés!&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+</code></pre></div>
+<h3 id="lexecution-sans-probleme">L'Exécution "Sans Problème"</h3>
+<div class="highlight"><pre><span></span><code><span class="nb">PS </span><span class="n">C</span><span class="p">:\&gt;</span> <span class="p">.\</span><span class="n">create-japan-group</span><span class="p">.</span><span class="n">ps1</span>
+<span class="nb">New-ADGroup</span> <span class="p">:</span> <span class="n">The</span> <span class="n">specified</span> <span class="nb">group </span><span class="n">already</span> <span class="n">exists</span>
+<span class="nb">Add-ADGroupMember</span> <span class="p">:</span> <span class="n">Cannot</span> <span class="n">find</span> <span class="n">an</span> <span class="n">object</span> <span class="n">with</span> <span class="n">identity</span><span class="p">:</span> <span class="s1">&#39;GG-EU-Clients-Japon&#39;</span>
+<span class="nb">Add-ADGroupMember</span> <span class="p">:</span> <span class="n">Cannot</span> <span class="n">find</span> <span class="n">an</span> <span class="n">object</span> <span class="n">with</span> <span class="n">identity</span><span class="p">:</span> <span class="s1">&#39;GG-EU-Clients-Japon&#39;</span>
+<span class="nb">Add-ADGroupMember</span> <span class="p">:</span> <span class="n">Cannot</span> <span class="n">find</span> <span class="n">an</span> <span class="n">object</span> <span class="n">with</span> <span class="n">identity</span><span class="p">:</span> <span class="s1">&#39;GG-EU-Clients-Japon&#39;</span>
+<span class="err">✅</span> <span class="n">Groupe</span> <span class="n">créé</span> <span class="n">et</span> <span class="n">membres</span> <span class="n">ajoutés</span><span class="p">!</span>
+</code></pre></div>
+<p><strong>🤔 Réaction de l'admin:</strong>
+<em>"Quelques erreurs mais le message final est vert... ça a marché !"</em></p>
+<h3 id="le-reveil-brutal-lundi-8h15">Le Réveil Brutal - Lundi 8h15</h3>
+<div class="highlight"><pre><span></span><code>☎️ Appel DG: &quot;PERSONNE de l&#39;équipe Ventes ne peut accéder au dossier clients !&quot;
+☎️ Appel Responsable IT: &quot;Les groupes Ventes ont disparu !&quot;
+☎️ Appel Sécurité: &quot;Tentatives de connexion échouées en masse !&quot;
+</code></pre></div>
+<h3 id="lenquete-forensique">L'Enquête Forensique</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Que s&#39;est-il VRAIMENT passé ?</span>
+<span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Name</span> <span class="o">-like</span> <span class="s2">&quot;*Japon*&quot;</span><span class="p">}</span>
+<span class="c"># Résultat: Aucun groupe trouvé</span>
+
+<span class="c"># Chercher dans les logs d&#39;événements</span>
+<span class="nb">Get-WinEvent</span> <span class="n">-LogName</span> <span class="n">Security</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Id</span> <span class="o">-eq</span> <span class="n">4728</span><span class="p">}</span>
+<span class="c"># Découverte: Le groupe existait déjà... et a été SUPPRIMÉ par erreur</span>
+</code></pre></div>
+<h3 id="la-verite-cachee">La Vérité Cachée</h3>
+<p>Le script avait un bug caché:
+1. <strong>Groupe existait déjà</strong> → New-ADGroup a échoué
+2. <strong>Variable $groupe mal initialisée</strong> dans une version antérieure
+3. <strong>Add-ADGroupMember a tenté d'ajouter à un groupe inexistant</strong>
+4. <strong>MAIS</strong>: Une autre partie du script contenait <code>Remove-ADGroup</code> (ligne cachée)
+5. <strong>Résultat</strong>: Suppression accidentelle du groupe existant + données</p>
+<h3 id="ce-que-whatif-aurait-revele">Ce Que -WhatIf Aurait Révélé</h3>
+<div class="highlight"><pre><span></span><code><span class="nb">New-ADGroup</span> <span class="n">-Name</span> <span class="s2">&quot;GG-EU-Clients-Japon&quot;</span> <span class="n">-WhatIf</span>
+<span class="c"># WhatIf: Le groupe &#39;GG-EU-Clients-Japon&#39; existe déjà et sera IGNORÉ</span>
+
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Department</span> <span class="o">-eq</span> <span class="s2">&quot;Ventes&quot;</span><span class="p">}</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nb">Add-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-EU-Clients-Japon&quot;</span> <span class="n">-Members</span> <span class="nv">$_</span><span class="p">.</span><span class="n">SamAccountName</span> <span class="n">-WhatIf</span>
+<span class="p">}</span>
+<span class="c"># WhatIf: Ajout de &#39;Victor&#39; au groupe &#39;GG-EU-Clients-Japon&#39;</span>
+<span class="c"># WhatIf: Ajout de &#39;Vanessa&#39; au groupe &#39;GG-EU-Clients-Japon&#39;</span>
+<span class="c"># WhatIf: ERREUR - Groupe &#39;GG-EU-Clients-Japon&#39; non trouvé</span>
+</code></pre></div>
+<p><strong>💡 Révélation</strong>: -WhatIf aurait immédiatement montré que le groupe n'existait plus !</p>
+<hr />
+<h2 id="lab-pratique-apprivoiser-whatif">🧪 Lab Pratique: Apprivoiser -WhatIf</h2>
+<h3 id="exercice-51-maitriser-les-nuances-de-whatif">Exercice 5.1: <strong>Maîtriser les Nuances de -WhatIf</strong></h3>
+<h4 id="commandes-qui-supportent-whatif">Commandes qui Supportent -WhatIf</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># Test sur maxtec.be - TOUS avec -WhatIf</span>
+<span class="nb">Set-ADUser</span> <span class="n">-Identity</span> <span class="n">Richard</span> <span class="n">-Title</span> <span class="s2">&quot;Chef RH&quot;</span> <span class="n">-WhatIf</span>
+<span class="nb">Add-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-EU-RH-Users&quot;</span> <span class="n">-Members</span> <span class="n">Ines</span> <span class="n">-WhatIf</span>
+<span class="nb">Remove-ADUser</span> <span class="n">-Identity</span> <span class="n">TestUser</span> <span class="n">-WhatIf</span>
+<span class="nb">Move-ADObject</span> <span class="n">-Identity</span> <span class="s2">&quot;CN=Charles,OU=Users,OU=Compta,OU=EU,DC=maxtec,DC=be&quot;</span> <span class="n">-TargetPath</span> <span class="s2">&quot;OU=Users,OU=IT,OU=EU,DC=maxtec,DC=be&quot;</span> <span class="n">-WhatIf</span>
+</code></pre></div>
+<h4 id="commandes-qui-ne-supportent-pas-whatif">Commandes qui ne Supportent PAS -WhatIf</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># Ces commandes sont &quot;read-only&quot; par nature</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Identity</span> <span class="n">Richard</span>  <span class="c"># Pas de -WhatIf possible</span>
+<span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Name</span> <span class="o">-like</span> <span class="s2">&quot;GG-*&quot;</span><span class="p">}</span>  <span class="c"># Lecture seule</span>
+</code></pre></div>
+<h4 id="le-piege-des-commandes-hybrides">Le Piège des Commandes Hybrides</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># ⚠️ ATTENTION: Get avec actions cachées</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="p">|</span> <span class="nb">Set-ADUser</span> <span class="n">-Department</span> <span class="s2">&quot;Test&quot;</span> <span class="n">-WhatIf</span>
+<span class="c">#     ↑                    ↑</span>
+<span class="c">#   Pas de -WhatIf        Avec -WhatIf</span>
+
+<span class="c"># ☠️ DANGER: Si on oublie -WhatIf sur Set-ADUser</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="p">|</span> <span class="nb">Set-ADUser</span> <span class="n">-Department</span> <span class="s2">&quot;Test&quot;</span>
+<span class="c"># Tous les utilisateurs changent de département !</span>
+</code></pre></div>
+<h3 id="exercice-52-interpreter-les-outputs-whatif">Exercice 5.2: <strong>Interpréter les Outputs -WhatIf</strong></h3>
+<h4 id="output-normal-vs-whatif">Output Normal vs WhatIf</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># Sans -WhatIf (DANGEREUX - ne pas exécuter)</span>
+<span class="nb">Remove-ADUser</span> <span class="n">-Identity</span> <span class="s2">&quot;CN=TestUser,OU=Users,OU=IT,OU=EU,DC=maxtec,DC=be&quot;</span>
+<span class="c"># Output: (rien, utilisateur supprimé silencieusement)</span>
+
+<span class="c"># Avec -WhatIf (SÉCURISÉ)</span>
+<span class="nb">Remove-ADUser</span> <span class="n">-Identity</span> <span class="s2">&quot;CN=TestUser,OU=Users,OU=IT,OU=EU,DC=maxtec,DC=be&quot;</span> <span class="n">-WhatIf</span>
+<span class="c"># Output: &quot;What if: Performing the operation &quot;Remove&quot; on target &quot;CN=TestUser,OU=Users,OU=IT,OU=EU,DC=maxtec,DC=be&quot;&quot;</span>
+</code></pre></div>
+<h4 id="decryptage-des-messages-whatif">Décryptage des Messages WhatIf</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># Message type 1: Action simple</span>
+<span class="nb">Set-ADUser</span> <span class="n">-Identity</span> <span class="n">Richard</span> <span class="n">-Title</span> <span class="s2">&quot;Manager&quot;</span> <span class="n">-WhatIf</span>
+<span class="c"># &quot;What if: Performing operation &quot;Set&quot; on target &quot;CN=Richard,OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be&quot;&quot;</span>
+
+<span class="c"># Message type 2: Action avec détails</span>
+<span class="nb">Add-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-EU-IT-Users&quot;</span> <span class="n">-Members</span> <span class="p">@(</span><span class="s2">&quot;Ivan&quot;</span><span class="p">,</span> <span class="s2">&quot;Ines&quot;</span><span class="p">)</span> <span class="n">-WhatIf</span>
+<span class="c"># &quot;What if: Performing operation &quot;Add&quot; on target &quot;CN=GG-EU-IT-Users,OU=Groups,OU=IT,OU=EU,DC=maxtec,DC=be&quot; to add member &quot;CN=Ivan,OU=Users,OU=IT,OU=EU,DC=maxtec,DC=be&quot;&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="situations-durgence-quand-la-pression-monte">🔥 Situations d'Urgence: Quand la Pression Monte</h2>
+<h3 id="scenario-1-le-boss-impatient">Scenario 1: <strong>Le Boss Impatient</strong></h3>
+<div class="highlight"><pre><span></span><code>👔 Boss: &quot;C&#39;est urgent ! Pas le temps pour tes vérifications !&quot;
+🧑‍💻 Vous: &quot;Monsieur, -WhatIf prend 3 secondes et peut sauver 3 jours de récupération&quot;
+👔 Boss: &quot;Bon... mais vite !&quot;
+</code></pre></div>
+<p><strong>🎯 Technique de Survie</strong>: Exécuter -WhatIf pendant que vous expliquez
+<div class="highlight"><pre><span></span><code><span class="c"># Pendant que vous parlez: &quot;Je vais juste vérifier que...&quot;</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Department</span> <span class="o">-eq</span> <span class="s2">&quot;Stagiaires&quot;</span><span class="p">}</span> <span class="p">|</span> <span class="nb">Remove-ADUser</span> <span class="n">-WhatIf</span>
+
+<span class="c"># Résultat immédiat visible:</span>
+<span class="c"># &quot;What if: Remove CN=Alexandre.Martin,OU=Users,OU=Direction...&quot; ← ☠️ STOP !</span>
+</code></pre></div></p>
+<h3 id="scenario-2-lequipe-qui-attend">Scenario 2: <strong>L'Équipe qui Attend</strong></h3>
+<div class="highlight"><pre><span></span><code>💬 Équipe: &quot;On attend tous pour partir, dépêche-toi !&quot;
+🎯 Pression: Maximum
+⚡ Tentation: Skip -WhatIf &quot;juste cette fois&quot;
+</code></pre></div>
+<p><strong>🛡️ Mantra de Survie</strong>:
+<em>"Un -WhatIf de 5 secondes &gt; Un weekend de 48h à récupérer"</em></p>
+<h3 id="scenario-3-le-script-teste-mille-fois">Scenario 3: <strong>Le Script "Testé Mille Fois"</strong></h3>
+<div class="highlight"><pre><span></span><code>🧑‍💻 Vous: &quot;J&#39;ai exécuté ce script 100 fois en dev&quot;
+🧠 Cerveau: &quot;Pas besoin de -WhatIf&quot;
+🚨 Réalité: Environnement prod ≠ dev
+</code></pre></div>
+<p><strong>⚖️ Règle Absolue</strong>: Peu importe combien de fois testé, -WhatIf obligatoire en prod</p>
+<hr />
+<h2 id="jeu-serieux-whatif-ou-catastrophe">🎮 Jeu Sérieux: "WhatIf ou Catastrophe"</h2>
+<h3 id="regles-du-jeu">Règles du Jeu</h3>
+<p><em>L'instructeur présente des scenarios. Classe vote: -WhatIf nécessaire ou pas ?</em></p>
+<h4 id="scenario-a">Scenario A</h4>
+<p><div class="highlight"><pre><span></span><code><span class="nb">Get-ADUser</span> <span class="n">-Identity</span> <span class="n">Richard</span> <span class="n">-Properties</span> <span class="n">Department</span>
+</code></pre></div>
+<strong>Vote</strong>: -WhatIf nécessaire ? OUI / NON
+<strong>Réponse</strong>: NON (lecture seule)</p>
+<h4 id="scenario-b">Scenario B</h4>
+<p><div class="highlight"><pre><span></span><code><span class="nb">Set-ADUser</span> <span class="n">-Identity</span> <span class="n">Richard</span> <span class="n">-Department</span> <span class="s2">&quot;Direction&quot;</span>
+</code></pre></div>
+<strong>Vote</strong>: -WhatIf nécessaire ? OUI / NON
+<strong>Réponse</strong>: OUI (modification)</p>
+<h4 id="scenario-c">Scenario C ⚡</h4>
+<p><div class="highlight"><pre><span></span><code><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Name</span> <span class="o">-like</span> <span class="s2">&quot;Test*&quot;</span><span class="p">}</span> <span class="p">|</span> <span class="nb">Remove-ADUser</span>
+</code></pre></div>
+<strong>Vote</strong>: -WhatIf nécessaire ? OUI / NON
+<strong>Réponse</strong>: OUI CRITIQUE ! (suppression avec filtre = danger maximum)</p>
+<h4 id="scenario-d">Scenario D 🎭</h4>
+<p><div class="highlight"><pre><span></span><code><span class="c"># Script &quot;sûr&quot; du collègue de confiance</span>
+<span class="p">.\</span><span class="n">clean-old-accounts</span><span class="p">.</span><span class="n">ps1</span>
+</code></pre></div>
+<strong>Vote</strong>: -WhatIf nécessaire ? OUI / NON
+<strong>Réponse</strong>: OUI ! (Jamais faire confiance aveuglément, même aux collègues)</p>
+<hr />
+<h2 id="certification-whatif-test-final">🏆 Certification -WhatIf: Test Final</h2>
+<h3 id="test-de-reflexes-30-secondes-par-question">Test de Réflexes (30 secondes par question)</h3>
+<h4 id="question-1">Question 1</h4>
+<p>Vous devez désactiver le compte de Marie qui part demain. Première action ?
+- A) <code>Set-ADUser -Identity Marie -Enabled $false</code>
+- B) <code>Set-ADUser -Identity Marie -Enabled $false -WhatIf</code>
+- C) Demander confirmation au manager d'abord</p>
+<p><strong>Réponse</strong>: B (vérifier d'abord, confirmer ensuite)</p>
+<h4 id="question-2">Question 2</h4>
+<p>Script trouvé sur Stack Overflow avec 200 upvotes. Première exécution ?
+- A) Exécuter directement (200 upvotes = fiable)
+- B) Modifier pour votre environnement puis exécuter
+- C) Ajouter -WhatIf partout et analyser output</p>
+<p><strong>Réponse</strong>: C (popularité ≠ sécurité pour votre environnement)</p>
+<h4 id="question-3">Question 3</h4>
+<p>Vendredi 17h45, script "urgent" du DG. Que faites-vous ?
+- A) Exécuter rapidement avant de partir
+- B) -WhatIf d'abord, même sous pression
+- C) Remettre à lundi pour être sûr</p>
+<p><strong>Réponse</strong>: B (pression ≠ excuse pour ignorer sécurité)</p>
+<hr />
+<h2 id="votre-nouveau-workflow-whatif">🛠️ Votre Nouveau Workflow -WhatIf</h2>
+<h3 id="etapes-obligatoires-a-memoriser">Étapes Obligatoires (à Mémoriser)</h3>
+<div class="highlight"><pre><span></span><code>1. 🤔 Lire et comprendre commande
+2. 🔍 Identifier impact potentiel
+3. ⚡ Ajouter -WhatIf à TOUTE commande destructive
+4. 👁️ Analyser output -WhatIf ligne par ligne
+5. 🎯 Vérifier que scope correspond à intention
+6. ✅ Si OK, relancer sans -WhatIf
+7. 📋 Documenter ce qui a été fait
+</code></pre></div>
+<h3 id="exceptions-a-la-regle-whatif">Exceptions à la Règle -WhatIf</h3>
+<div class="highlight"><pre><span></span><code>⚠️  AUCUNE EXCEPTION
+⚠️  &quot;Testé en dev&quot; ≠ exception
+⚠️  &quot;Script simple&quot; ≠ exception
+⚠️  &quot;Urgence&quot; ≠ exception
+⚠️  &quot;Confiance collègue&quot; ≠ exception
+⚠️  &quot;Pression hiérarchique&quot; ≠ exception
+</code></pre></div>
+<hr />
+<h2 id="recapitulatif-votre-nouvelle-religion">🎯 Récapitulatif: Votre Nouvelle Religion</h2>
+<h3 id="les-articles-de-foi-whatif">🛐 Les Articles de Foi -WhatIf</h3>
+<ol>
+<li><strong>Je crois</strong> que -WhatIf sauve des carrières</li>
+<li><strong>Je jure</strong> de ne jamais skip -WhatIf sous pression</li>
+<li><strong>Je promets</strong> d'évangéliser -WhatIf à mes collègues</li>
+<li><strong>Je m'engage</strong> à préférer 5 secondes de -WhatIf à 5 jours de récupération</li>
+<li><strong>Je reconnaîs</strong> que même mes propres scripts nécessitent -WhatIf</li>
+</ol>
+<h3 id="votre-badge-dhonneur">🎖️ Votre Badge d'Honneur</h3>
+<p><em>À partir d'aujourd'hui, vous êtes un "WhatIf Warrior" certifié</em></p>
+<p><strong>Motto</strong>: <em>"Mieux vaut un -WhatIf de trop qu'un désastre de trop peu"</em></p>
+<hr />
+<p><em>☕ </em><em>PAUSE OBLIGATOIRE 10 minutes</em><em> - Intégrer la religion -WhatIf</em></p>
+<hr />
+<p><strong>🎯 Prochaine étape</strong>: Module 6 - Kit d'Urgence (Procédures de Panique "Break Glass")</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/choquitofrito/ActiveDirectory" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "navigation.prune", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

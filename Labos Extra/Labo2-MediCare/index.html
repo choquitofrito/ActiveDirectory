@@ -1,0 +1,3093 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo2-MediCare/">
+      
+      
+        <link rel="prev" href="../Labo1-CreativeHub/instructeur/Guide_Instructeur_Exercices/">
+      
+      
+        <link rel="next" href="scripts/MediCare_Setup.ps1">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>📋 Vue d'Ensemble - Active Directory Course</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#laboratoire-active-directory-medicare-clinic" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Active Directory Course" class="md-header__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Active Directory Course
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              📋 Vue d'Ensemble
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  🏠 Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🖥️ Windows Server
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Chapitre%203.DNS/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🌐 DNS
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📁 Active Directory
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ⚡ PowerShell AD
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🧪 Labs & Exercices
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Active Directory Course" class="md-nav__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Active Directory Course
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏠 Accueil
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🖥️ Windows Server
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Chapitre%203.DNS/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🌐 DNS
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    📁 Active Directory
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    ⚡ PowerShell AD
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    🧪 Labs & Exercices
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            🧪 Labs & Exercices
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Lab Principal
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../Labo1-CreativeHub/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Lab 1 - CreativeHub
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="./" class="md-nav__link md-nav__link--active">
+              
+  
+  
+  <span class="md-ellipsis">
+    Lab 2 - MediCare
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link md-nav__link--active" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            Lab 2 - MediCare
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="scripts/MediCare_Setup.ps1" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🔧 Setup & Cleanup
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="exercices/Exercice_01_Transfert_Patient/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    📝 Exercices (8)
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="instructeur/GUIDE_RAPIDE_EXERCICES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    👨‍🏫 Guide Instructeur
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Labo%20et%20Exercices/Exercices%3A%20Questions%20Base/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Exercices Généraux
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectifs-pedagogiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectifs Pédagogiques
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scenario-entreprise" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scénario Entreprise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duree-estimee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Durée Estimée
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prérequis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structure-creee-par-le-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structure Créée par le Script
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Structure Créée par le Script">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arborescence-des-unites-organisationnelles-ous" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arborescence des Unités Organisationnelles (OUs)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisateurs-par-departement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Utilisateurs par Département
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Utilisateurs par Département">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#departement-medical-10-utilisateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Département Medical (10 utilisateurs)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#departement-nursing-8-utilisateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Département Nursing (8 utilisateurs)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#departement-administration-7-utilisateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Département Administration (7 utilisateurs)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#departement-it-3-utilisateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Département IT (3 utilisateurs)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groupes-de-securite-globaux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Groupes de Sécurité Globaux
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Groupes de Sécurité Globaux">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#departement-medical-4-groupes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Département Medical (4 groupes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#departement-nursing-2-groupes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Département Nursing (2 groupes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#departement-administration-4-groupes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Département Administration (4 groupes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#departement-it-2-groupes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Département IT (2 groupes)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategies-de-groupe-gpos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stratégies de Groupe (GPOs)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Stratégies de Groupe (GPOs)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gpo-1-politique-de-mot-de-passe-du-domaine-automatique" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPO 1: Politique de Mot de Passe du Domaine (Automatique)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpo-2-blocage-usb-zones-medicales-configuration-manuelle" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPO 2: Blocage USB - Zones Médicales (Configuration Manuelle)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpo-3-restrictions-bureau-administration-configuration-manuelle" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPO 3: Restrictions Bureau - Administration (Configuration Manuelle)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpo-4-audit-des-connexions-automatique" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPO 4: Audit des Connexions (Automatique)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpo-5-mappage-lecteurs-reseau-partages-medicaux-configuration-manuelle" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPO 5: Mappage Lecteurs Réseau - Partages Médicaux (Configuration Manuelle)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instructions-dexecution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Instructions d'Exécution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Instructions d&#39;Exécution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-preparation-de-lenvironnement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 1: Préparation de l'environnement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-execution-du-script-de-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 2: Exécution du script de configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-3-configuration-manuelle-des-gpos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 3: Configuration manuelle des GPOs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-4-verification-post-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 4: Vérification post-exécution
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification-post-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérification Post-Exécution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vérification Post-Exécution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verification-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérification PowerShell
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vérification PowerShell">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verifier-les-ous-creees" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérifier les OUs créées
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifier-tous-les-utilisateurs-crees" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérifier tous les utilisateurs créés
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifier-les-groupes-et-leurs-membres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérifier les groupes et leurs membres
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifier-la-politique-de-mot-de-passe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérifier la politique de mot de passe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifier-les-gpos-creees" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérifier les GPOs créées
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifier-les-liens-gpo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérifier les liens GPO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exporter-la-structure-en-csv-pour-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exporter la structure en CSV pour référence
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-manuelle-interface-graphique" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérification Manuelle (Interface Graphique)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vérification Manuelle (Interface Graphique)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verifier-dans-active-directory-users-and-computers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérifier dans Active Directory Users and Computers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifier-dans-group-policy-management-console" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérifier dans Group Policy Management Console
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifier-les-audits-dans-event-viewer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérifier les audits dans Event Viewer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#concepts-cles-demontres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Concepts Clés Démontrés
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Concepts Clés Démontrés">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-hierarchie-medicale-et-separation-des-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Hiérarchie Médicale et Séparation des Rôles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-groupes-de-securite-specialises" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Groupes de Sécurité Spécialisés
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-securite-medicale-et-conformite-hipaa-simplifiee" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Sécurité Médicale et Conformité HIPAA (Simplifiée)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-configuration-manuelle-gpo-vs-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Configuration Manuelle GPO vs. PowerShell
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-item-level-targeting-gpo-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Item-Level Targeting (GPO 5)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercices-pratiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercices Pratiques
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#depannage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dépannage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dépannage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problemes-courants" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problèmes Courants
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commandes-de-diagnostic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commandes de Diagnostic
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Commandes de Diagnostic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verifier-le-role-ad-ds" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérifier le rôle AD DS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifier-le-domaine-actuel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérifier le domaine actuel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifier-les-privileges-administrateur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérifier les privilèges administrateur
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifier-la-replication-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérifier la réplication AD
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifier-lapplication-des-gpos-sur-un-utilisateur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérifier l'application des GPOs sur un utilisateur
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifier-les-evenements-derreur-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérifier les événements d'erreur AD
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problemes-specifiques-aux-gpos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problèmes Spécifiques aux GPOs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Problèmes Spécifiques aux GPOs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gpo-nom-convivial-introuvable" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPO "nom convivial introuvable"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpo-ne-sapplique-pas" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPO ne s'applique pas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evolutions-possibles-du-laboratoire" class="md-nav__link">
+    <span class="md-ellipsis">
+      Évolutions Possibles du Laboratoire
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Évolutions Possibles du Laboratoire">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-partages-reseau-reels" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Partages Réseau Réels
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-fine-grained-password-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Fine-Grained Password Policy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-scripts-de-connexion-logon-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Scripts de Connexion (Logon Scripts)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-systeme-de-garde-medical-automatise" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Système de Garde Médical Automatisé
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-audit-renforce-et-alertes" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Audit Renforcé et Alertes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-delegation-de-controle-avancee" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Délégation de Contrôle Avancée
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-integration-avec-certificate-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Intégration avec Certificate Services
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-protection-bitlocker-via-gpo" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Protection BitLocker via GPO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-scenarios-de-conformite-hipaa" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Scénarios de Conformité HIPAA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-multi-sites-avec-replication-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Multi-Sites avec Réplication AD
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="laboratoire-active-directory-medicare-clinic">Laboratoire Active Directory: MediCare Clinic</h1>
+<h2 id="objectifs-pedagogiques">Objectifs Pédagogiques</h2>
+<ul>
+<li>Comprendre la <strong>séparation des rôles</strong> dans un environnement médical (médecins, infirmières, administration, IT)</li>
+<li>Implémenter des <strong>groupes de sécurité spécialisés</strong> avec hiérarchie médicale (seniors, garde, facturation, RH)</li>
+<li>Appliquer des <strong>stratégies de sécurité médicale</strong> (blocage USB, audit, restrictions, conformité HIPAA simplifiée)</li>
+<li>Maîtriser la <strong>configuration manuelle des GPOs</strong> via GPMC pour les politiques avancées</li>
+<li>Gérer des <strong>partages réseau médicaux</strong> avec permissions différenciées par département</li>
+</ul>
+<h2 id="scenario-entreprise">Scénario Entreprise</h2>
+<p><strong>MediCare Clinic</strong> est une petite clinique médicale multidisciplinaire de <strong>28 employés</strong> comprenant:</p>
+<ul>
+<li><strong>Département Medical (10)</strong>: Médecins seniors, généralistes, spécialistes (pédiatre, cardiologue), médecins juniors, coordinateur de garde</li>
+<li><strong>Département Nursing (8)</strong>: Infirmières-chefs, infirmières diplômées, assistantes médicales</li>
+<li><strong>Département Administration (7)</strong>: Gestionnaires (facturation, RH), réceptionnistes, archivistes médicales, comptable</li>
+<li><strong>Département IT (3)</strong>: Administrateur système, officier de sécurité, technicien support</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Contexte de sécurité médicale</p>
+<p>La clinique manipule des <strong>données patients sensibles</strong> et doit respecter des normes de conformité simplifiées inspirées de HIPAA:</p>
+<ul>
+<li>Prévention de l'exfiltration de données (blocage USB zones médicales)</li>
+<li>Traçabilité des accès (audit des connexions)</li>
+<li>Contrôle d'accès strict (groupes spécialisés, partages réseau cloisonnés)</li>
+<li>Protection contre les modifications système non autorisées</li>
+</ul>
+</div>
+<h2 id="duree-estimee">Durée Estimée</h2>
+<ul>
+<li><strong>Exécution du script</strong>: 5-10 minutes</li>
+<li><strong>Configuration manuelle GPOs</strong>: 15-20 minutes</li>
+<li><strong>Exploration et vérification</strong>: 15-20 minutes</li>
+<li><strong>Total</strong>: ~45 minutes</li>
+</ul>
+<h2 id="prerequis">Prérequis</h2>
+<div class="admonition info">
+<p class="admonition-title">Environnement requis</p>
+<ul>
+<li>Windows Server 2022 avec rôle <strong>AD DS installé et configuré</strong></li>
+<li>Domaine <strong>maxtec.be</strong> fonctionnel</li>
+<li>PowerShell ISE ouvert en tant qu'<strong>Administrateur</strong></li>
+<li>Module <strong>ActiveDirectory</strong> chargé</li>
+<li>Module <strong>GroupPolicy</strong> chargé</li>
+</ul>
+</div>
+<h2 id="structure-creee-par-le-script">Structure Créée par le Script</h2>
+<h3 id="arborescence-des-unites-organisationnelles-ous">Arborescence des Unités Organisationnelles (OUs)</h3>
+<div class="highlight"><pre><span></span><code>maxtec.be
+└── MediCare [OU racine]
+    ├── Medical
+    │   ├── Users (10 utilisateurs)
+    │   ├── Computers
+    │   └── Groups (4 groupes)
+    ├── Nursing
+    │   ├── Users (8 utilisateurs)
+    │   ├── Computers
+    │   └── Groups (2 groupes)
+    ├── Administration
+    │   ├── Users (7 utilisateurs)
+    │   ├── Computers
+    │   └── Groups (4 groupes)
+    └── IT
+        ├── Users (3 utilisateurs)
+        ├── Computers
+        └── Groups (2 groupes)
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Protection contre suppression accidentelle</p>
+<p>TOUTES les OUs sont créées avec <code>-ProtectedFromAccidentalDeletion $false</code> pour faciliter les exercices de manipulation.</p>
+</div>
+<h3 id="utilisateurs-par-departement">Utilisateurs par Département</h3>
+<h4 id="departement-medical-10-utilisateurs">Département Medical (10 utilisateurs)</h4>
+<table>
+<thead>
+<tr>
+<th>Nom Complet</th>
+<th>SamAccountName</th>
+<th>Email</th>
+<th>Fonction</th>
+<th>Groupe Admin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dr. Catherine Leblanc</td>
+<td>catherine</td>
+<td>catherine@maxtec.be</td>
+<td>Médecin Senior</td>
+<td>✅ Admin + Seniors + Oncall</td>
+</tr>
+<tr>
+<td>Dr. Philippe Moreau</td>
+<td>philippe</td>
+<td>philippe@maxtec.be</td>
+<td>Médecin Senior</td>
+<td>✅ Admin + Seniors + Oncall</td>
+</tr>
+<tr>
+<td>Dr. Amélie Rousseau</td>
+<td>amélie</td>
+<td>amélie@maxtec.be</td>
+<td>Médecin Généraliste</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Dr. Marc Girard</td>
+<td>marc</td>
+<td>marc@maxtec.be</td>
+<td>Médecin Généraliste</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Dr. Sophie Bernard</td>
+<td>sophie</td>
+<td>sophie@maxtec.be</td>
+<td>Médecin Généraliste</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Dr. Laurent Dubois</td>
+<td>laurent</td>
+<td>laurent@maxtec.be</td>
+<td>Pédiatre</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Dr. Isabelle Mercier</td>
+<td>isabelle</td>
+<td>isabelle@maxtec.be</td>
+<td>Cardiologue</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Dr. Nicolas Fontaine</td>
+<td>nicolas</td>
+<td>nicolas@maxtec.be</td>
+<td>Médecin Junior</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Dr. Julie Gauthier</td>
+<td>julie</td>
+<td>julie@maxtec.be</td>
+<td>Médecin Junior</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Thomas Renard</td>
+<td>thomas</td>
+<td>thomas@maxtec.be</td>
+<td>Coordinateur Garde</td>
+<td>✅ Oncall</td>
+</tr>
+</tbody>
+</table>
+<h4 id="departement-nursing-8-utilisateurs">Département Nursing (8 utilisateurs)</h4>
+<table>
+<thead>
+<tr>
+<th>Nom Complet</th>
+<th>SamAccountName</th>
+<th>Email</th>
+<th>Fonction</th>
+<th>Groupe Admin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inf. Anne Durand</td>
+<td>anne</td>
+<td>anne@maxtec.be</td>
+<td>Infirmière-Chef</td>
+<td>✅ Admin</td>
+</tr>
+<tr>
+<td>Inf. Claire Martin</td>
+<td>claire</td>
+<td>claire@maxtec.be</td>
+<td>Infirmière-Chef</td>
+<td>✅ Admin</td>
+</tr>
+<tr>
+<td>Inf. Brigitte Lefebvre</td>
+<td>brigitte</td>
+<td>brigitte@maxtec.be</td>
+<td>Infirmière Diplômée</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Inf. Sylvie Robert</td>
+<td>sylvie</td>
+<td>sylvie@maxtec.be</td>
+<td>Infirmière Diplômée</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Inf. Nathalie Petit</td>
+<td>nathalie</td>
+<td>nathalie@maxtec.be</td>
+<td>Infirmière Diplômée</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Inf. Valérie Roux</td>
+<td>valérie</td>
+<td>valérie@maxtec.be</td>
+<td>Infirmière Diplômée</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Asst. Céline Simon</td>
+<td>céline</td>
+<td>céline@maxtec.be</td>
+<td>Assistante Médicale</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Asst. Émilie Laurent</td>
+<td>émilie</td>
+<td>émilie@maxtec.be</td>
+<td>Assistante Médicale</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h4 id="departement-administration-7-utilisateurs">Département Administration (7 utilisateurs)</h4>
+<table>
+<thead>
+<tr>
+<th>Nom Complet</th>
+<th>SamAccountName</th>
+<th>Email</th>
+<th>Fonction</th>
+<th>Groupe Admin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>François Blanc</td>
+<td>françois</td>
+<td>françois@maxtec.be</td>
+<td>Gestionnaire Facturation</td>
+<td>✅ Admin + Billing</td>
+</tr>
+<tr>
+<td>Danielle Morel</td>
+<td>danielle</td>
+<td>danielle@maxtec.be</td>
+<td>Gestionnaire RH</td>
+<td>✅ Admin + HR</td>
+</tr>
+<tr>
+<td>Patricia Fournier</td>
+<td>patricia</td>
+<td>patricia@maxtec.be</td>
+<td>Réceptionniste</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Véronique Giraud</td>
+<td>véronique</td>
+<td>véronique@maxtec.be</td>
+<td>Réceptionniste</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Stéphanie Bonnet</td>
+<td>stéphanie</td>
+<td>stéphanie@maxtec.be</td>
+<td>Archiviste Médicale</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Martine Dupont</td>
+<td>martine</td>
+<td>martine@maxtec.be</td>
+<td>Archiviste Médicale</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Olivier Lambert</td>
+<td>olivier</td>
+<td>olivier@maxtec.be</td>
+<td>Comptable</td>
+<td>✅ Billing</td>
+</tr>
+</tbody>
+</table>
+<h4 id="departement-it-3-utilisateurs">Département IT (3 utilisateurs)</h4>
+<table>
+<thead>
+<tr>
+<th>Nom Complet</th>
+<th>SamAccountName</th>
+<th>Email</th>
+<th>Fonction</th>
+<th>Groupe Admin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alain Perrin</td>
+<td>alain</td>
+<td>alain@maxtec.be</td>
+<td>Administrateur Système</td>
+<td>✅ Admin</td>
+</tr>
+<tr>
+<td>Benoît Chevalier</td>
+<td>benoît</td>
+<td>benoît@maxtec.be</td>
+<td>Officier Sécurité</td>
+<td>✅ Admin</td>
+</tr>
+<tr>
+<td>David Garnier</td>
+<td>david</td>
+<td>david@maxtec.be</td>
+<td>Technicien Support</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">Propriétés des comptes</p>
+<ul>
+<li>Tous les comptes sont <strong>activés</strong> par défaut</li>
+<li>Mot de passe par défaut: <code>Password1!</code></li>
+<li><strong>Aucun</strong> changement de mot de passe requis à la première connexion</li>
+<li>PasswordNeverExpires = <code>$false</code> (expiration selon politique domaine)</li>
+</ul>
+</div>
+<h3 id="groupes-de-securite-globaux">Groupes de Sécurité Globaux</h3>
+<div class="admonition warning">
+<p class="admonition-title">Convention de nommage OBLIGATOIRE</p>
+<p>Tous les groupes globaux utilisent le préfixe <strong>GG-</strong> (Global Group). Cette convention est <strong>STRICTE</strong> et doit être respectée.</p>
+</div>
+<h4 id="departement-medical-4-groupes">Département Medical (4 groupes)</h4>
+<table>
+<thead>
+<tr>
+<th>Nom du Groupe</th>
+<th>Description</th>
+<th>Membres Automatiques</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GG-MediCare-Medical-Users</strong></td>
+<td>Tous les utilisateurs Medical</td>
+<td>catherine, philippe, amélie, marc, sophie, laurent, isabelle, nicolas, julie, thomas</td>
+</tr>
+<tr>
+<td><strong>GG-MediCare-Medical-Admin</strong></td>
+<td>Administrateurs Medical (Seniors)</td>
+<td>catherine, philippe</td>
+</tr>
+<tr>
+<td><strong>GG-MediCare-Medical-Seniors</strong></td>
+<td>Médecins Seniors (droits signature)</td>
+<td>catherine, philippe</td>
+</tr>
+<tr>
+<td><strong>GG-MediCare-Medical-Oncall</strong></td>
+<td>Accès système de garde rotatif</td>
+<td>thomas, philippe</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition example">
+<p class="admonition-title">Justification métier - Groupes Medical</p>
+<ul>
+<li><strong>Seniors</strong>: Nécessitent des droits de signature électronique pour valider des prescriptions complexes</li>
+<li><strong>Oncall</strong>: Système de garde nécessite accès distant 24/7 aux dossiers patients urgents</li>
+</ul>
+</div>
+<h4 id="departement-nursing-2-groupes">Département Nursing (2 groupes)</h4>
+<table>
+<thead>
+<tr>
+<th>Nom du Groupe</th>
+<th>Description</th>
+<th>Membres Automatiques</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GG-MediCare-Nursing-Users</strong></td>
+<td>Tous les utilisateurs Nursing</td>
+<td>anne, claire, brigitte, sylvie, nathalie, valérie, céline, émilie</td>
+</tr>
+<tr>
+<td><strong>GG-MediCare-Nursing-Admin</strong></td>
+<td>Administrateurs Nursing (Chefs)</td>
+<td>anne, claire</td>
+</tr>
+</tbody>
+</table>
+<h4 id="departement-administration-4-groupes">Département Administration (4 groupes)</h4>
+<table>
+<thead>
+<tr>
+<th>Nom du Groupe</th>
+<th>Description</th>
+<th>Membres Automatiques</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GG-MediCare-Administration-Users</strong></td>
+<td>Tous les utilisateurs Administration</td>
+<td>françois, danielle, patricia, véronique, stéphanie, martine, olivier</td>
+</tr>
+<tr>
+<td><strong>GG-MediCare-Administration-Admin</strong></td>
+<td>Administrateurs Administration (Gestionnaires)</td>
+<td>françois, danielle</td>
+</tr>
+<tr>
+<td><strong>GG-MediCare-Administration-Billing</strong></td>
+<td>Équipe Facturation</td>
+<td>françois, olivier</td>
+</tr>
+<tr>
+<td><strong>GG-MediCare-Administration-HR</strong></td>
+<td>Équipe Ressources Humaines</td>
+<td>danielle</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition example">
+<p class="admonition-title">Justification métier - Groupes Administration</p>
+<ul>
+<li><strong>Billing</strong>: Accès aux systèmes de facturation médicale et données assurance patients</li>
+<li><strong>HR</strong>: Accès aux dossiers RH, contrats, évaluations de performance du personnel</li>
+</ul>
+</div>
+<h4 id="departement-it-2-groupes">Département IT (2 groupes)</h4>
+<table>
+<thead>
+<tr>
+<th>Nom du Groupe</th>
+<th>Description</th>
+<th>Membres Automatiques</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GG-MediCare-IT-Users</strong></td>
+<td>Tous les utilisateurs IT</td>
+<td>alain, benoît, david</td>
+</tr>
+<tr>
+<td><strong>GG-MediCare-IT-Admin</strong></td>
+<td>Administrateurs IT (SysAdmin + Sécurité)</td>
+<td>alain, benoît</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Logique d'affectation automatique</p>
+<ul>
+<li><strong>TOUS</strong> les utilisateurs d'un département sont automatiquement ajoutés au groupe <code>-Users</code></li>
+<li>Les <strong>administrateurs désignés</strong> (seniors, chefs, gestionnaires) sont ajoutés au groupe <code>-Admin</code></li>
+<li>Les <strong>groupes spécialisés</strong> (Seniors, Oncall, Billing, HR) reçoivent des membres spécifiques selon leur rôle métier</li>
+</ul>
+</div>
+<h3 id="strategies-de-groupe-gpos">Stratégies de Groupe (GPOs)</h3>
+<div class="admonition danger">
+<p class="admonition-title">IMPORTANT - Configuration GPO</p>
+<p>Ce laboratoire suit strictement les bonnes pratiques du fichier <code>.claude/gpo-reference.md</code>:</p>
+<ul>
+<li><strong>JAMAIS</strong> d'utilisation de <code>Set-GPRegistryValue</code> pour les politiques Windows standard</li>
+<li>Seules les <strong>GPO shells</strong> sont créées via PowerShell</li>
+<li>La <strong>configuration manuelle</strong> dans GPMC est requise pour les paramètres avancés</li>
+<li>Évite les erreurs "nom convivial introuvable" dans GPMC</li>
+</ul>
+</div>
+<h4 id="gpo-1-politique-de-mot-de-passe-du-domaine-automatique">GPO 1: Politique de Mot de Passe du Domaine (Automatique)</h4>
+<div class="admonition success">
+<p class="admonition-title">Configuration PowerShell - Appliquée automatiquement</p>
+<p>Cette politique est configurée <strong>automatiquement</strong> par le script via <code>Set-ADDefaultDomainPasswordPolicy</code>.</p>
+</div>
+<p><strong>Paramètres appliqués:</strong></p>
+<ul>
+<li><strong>Longueur minimale</strong>: 12 caractères</li>
+<li><strong>Complexité</strong>: Activée (majuscules, minuscules, chiffres, symboles)</li>
+<li><strong>Âge maximum</strong>: 60 jours (rotation régulière, conformité médicale)</li>
+<li><strong>Âge minimum</strong>: 1 jour (empêche changements répétés)</li>
+<li><strong>Historique</strong>: 24 mots de passe mémorisés</li>
+<li><strong>Verrouillage</strong>: 5 tentatives invalides</li>
+<li><strong>Durée verrouillage</strong>: 30 minutes</li>
+<li><strong>Fenêtre observation</strong>: 30 minutes</li>
+</ul>
+<p><strong>Vérification:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-ADDefaultDomainPasswordPolicy</span> <span class="n">-Identity</span> <span class="s2">&quot;maxtec.be&quot;</span>
+</code></pre></div>
+<div class="admonition example">
+<p class="admonition-title">Justification médicale</p>
+<p>Mots de passe renforcés requis pour protéger l'accès aux dossiers patients sensibles (conformité HIPAA simplifiée).</p>
+</div>
+<h4 id="gpo-2-blocage-usb-zones-medicales-configuration-manuelle">GPO 2: Blocage USB - Zones Médicales (Configuration Manuelle)</h4>
+<div class="admonition warning">
+<p class="admonition-title">Configuration manuelle requise dans GPMC</p>
+<p>Cette GPO est créée automatiquement par le script, mais <strong>DOIT être configurée manuellement</strong> dans GPMC.</p>
+</div>
+<p><strong>Nom de la GPO:</strong> <code>MediCare - Blocage USB Zones Médicales</code></p>
+<p><strong>OUs liées:</strong></p>
+<ul>
+<li><code>OU=Users,OU=Medical,OU=MediCare,DC=maxtec,DC=be</code></li>
+<li><code>OU=Users,OU=Nursing,OU=MediCare,DC=maxtec,DC=be</code></li>
+</ul>
+<p><strong>Configuration requise:</strong></p>
+<ol>
+<li>Ouvrir <strong>GPMC</strong> (gpmc.msc)</li>
+<li>Naviguer vers la GPO <code>MediCare - Blocage USB Zones Médicales</code></li>
+<li>Éditer la GPO</li>
+<li>Aller à: <strong>User Configuration &gt; Policies &gt; Administrative Templates &gt; System &gt; Removable Storage Access</strong></li>
+<li>Configurer: <strong>"All Removable Storage classes: Deny all access"</strong> = <code>Enabled</code></li>
+<li>Appliquer et fermer</li>
+</ol>
+<p><strong>Vérification:</strong></p>
+<ol>
+<li>Connectez-vous avec un compte Medical ou Nursing (ex: <code>catherine</code>)</li>
+<li>Exécutez: <code>gpupdate /force</code></li>
+<li>Insérez une clé USB</li>
+<li><strong>Résultat attendu</strong>: Accès refusé avec message d'erreur système</li>
+</ol>
+<div class="admonition example">
+<p class="admonition-title">Justification médicale</p>
+<p>Prévient l'exfiltration de données patients vers périphériques USB non autorisés (violation HIPAA majeure).</p>
+</div>
+<h4 id="gpo-3-restrictions-bureau-administration-configuration-manuelle">GPO 3: Restrictions Bureau - Administration (Configuration Manuelle)</h4>
+<div class="admonition warning">
+<p class="admonition-title">Configuration manuelle requise dans GPMC</p>
+<p>Cette GPO est créée automatiquement par le script, mais <strong>DOIT être configurée manuellement</strong> dans GPMC.</p>
+</div>
+<p><strong>Nom de la GPO:</strong> <code>MediCare - Restrictions Bureau Administration</code></p>
+<p><strong>OU liée:</strong> <code>OU=Users,OU=Administration,OU=MediCare,DC=maxtec,DC=be</code></p>
+<p><strong>Configuration requise:</strong></p>
+<ol>
+<li>Ouvrir <strong>GPMC</strong> (gpmc.msc)</li>
+<li>Naviguer vers la GPO <code>MediCare - Restrictions Bureau Administration</code></li>
+<li>Éditer la GPO</li>
+<li>Aller à: <strong>User Configuration &gt; Policies &gt; Administrative Templates &gt; Control Panel</strong></li>
+<li>Configurer: <strong>"Prohibit access to Control Panel and PC settings"</strong> = <code>Enabled</code></li>
+<li>Appliquer et fermer</li>
+</ol>
+<p><strong>Vérification:</strong></p>
+<ol>
+<li>Connectez-vous avec un compte Administration (ex: <code>patricia</code>)</li>
+<li>Exécutez: <code>gpupdate /force</code></li>
+<li>Tentez d'ouvrir le <strong>Panneau de configuration</strong></li>
+<li><strong>Résultat attendu</strong>: Message "Cette opération a été annulée en raison de restrictions..."</li>
+</ol>
+<div class="admonition example">
+<p class="admonition-title">Justification médicale</p>
+<p>Empêche les réceptionnistes et le personnel administratif de modifier les paramètres système qui pourraient compromettre la sécurité de la clinique.</p>
+</div>
+<h4 id="gpo-4-audit-des-connexions-automatique">GPO 4: Audit des Connexions (Automatique)</h4>
+<div class="admonition success">
+<p class="admonition-title">Configuration auditpol.exe - Appliquée automatiquement</p>
+<p>Cette politique est configurée <strong>automatiquement</strong> par le script via <code>auditpol.exe</code>.</p>
+</div>
+<p><strong>Audits activés:</strong></p>
+<ul>
+<li><strong>Audit Logon</strong>: Success + Failure</li>
+<li><strong>Audit User Account Management</strong>: Success + Failure</li>
+</ul>
+<p><strong>Vérification:</strong></p>
+<ol>
+<li>Ouvrir <strong>Observateur d'événements</strong> (eventvwr.msc)</li>
+<li>Naviguer vers: <strong>Windows Logs &gt; Security</strong></li>
+<li>Connectez-vous/déconnectez-vous avec un utilisateur</li>
+<li>Rechercher les événements:</li>
+<li><strong>4624</strong>: Connexion réussie</li>
+<li><strong>4625</strong>: Échec de connexion</li>
+<li><strong>4720-4726</strong>: Gestion des comptes utilisateurs</li>
+</ol>
+<p><strong>Commande de vérification:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">auditpol</span> <span class="p">/</span><span class="n">get</span> <span class="p">/</span><span class="n">category</span><span class="p">:</span><span class="s2">&quot;Logon/Logoff&quot;</span><span class="p">,</span><span class="s2">&quot;Account Management&quot;</span>
+</code></pre></div>
+<div class="admonition example">
+<p class="admonition-title">Justification médicale</p>
+<p>Traçabilité obligatoire des accès aux systèmes médicaux pour conformité HIPAA (audit trail des consultations dossiers patients).</p>
+</div>
+<h4 id="gpo-5-mappage-lecteurs-reseau-partages-medicaux-configuration-manuelle">GPO 5: Mappage Lecteurs Réseau - Partages Médicaux (Configuration Manuelle)</h4>
+<div class="admonition warning">
+<p class="admonition-title">Configuration manuelle complexe requise - Group Policy Preferences</p>
+<p>Cette GPO nécessite <strong>Group Policy Preferences</strong> avec <strong>Item-Level Targeting</strong> pour mapper différents lecteurs selon les départements.</p>
+</div>
+<p><strong>Nom de la GPO:</strong> <code>MediCare - Lecteurs Médicaux Partagés</code></p>
+<p><strong>OU liée:</strong> <code>OU=MediCare,DC=maxtec,DC=be</code> (racine - s'applique à tous)</p>
+<p><strong>PRÉREQUIS CRITIQUES:</strong></p>
+<div class="admonition danger">
+<p class="admonition-title">Créer d'abord les partages réseau</p>
+<p>Avant de configurer cette GPO, vous <strong>DEVEZ</strong> créer les partages réseau suivants sur un serveur de fichiers (par exemple <code>SRV-MEDICARE</code>):</p>
+<ol>
+<li><strong>\\SRV-MEDICARE\Dossiers_Patients</strong></li>
+<li>Permissions NTFS: <code>GG-MediCare-Medical-Users</code> (Lecture/Écriture)</li>
+<li><strong>\\SRV-MEDICARE\Notes_Infirmieres</strong></li>
+<li>Permissions NTFS: <code>GG-MediCare-Medical-Users</code>, <code>GG-MediCare-Nursing-Users</code> (Lecture/Écriture)</li>
+<li><strong>\\SRV-MEDICARE\Administration</strong></li>
+<li>Permissions NTFS: <code>GG-MediCare-Administration-Users</code> (Lecture/Écriture)</li>
+</ol>
+</div>
+<p><strong>Configuration GPO - Lecteur M: (Dossiers Patients):</strong></p>
+<ol>
+<li>Ouvrir <strong>GPMC</strong> (gpmc.msc)</li>
+<li>Éditer la GPO <code>MediCare - Lecteurs Médicaux Partagés</code></li>
+<li>Aller à: <strong>User Configuration &gt; Preferences &gt; Windows Settings &gt; Drive Maps</strong></li>
+<li>Clic droit &gt; <strong>New &gt; Mapped Drive</strong></li>
+<li>Configurer:</li>
+<li><strong>Action</strong>: <code>Create</code></li>
+<li><strong>Location</strong>: <code>\\SRV-MEDICARE\Dossiers_Patients</code></li>
+<li><strong>Drive Letter</strong>: <code>M:</code></li>
+<li><strong>Label as</strong>: <code>Dossiers Patients</code></li>
+<li><strong>Reconnect</strong>: ✅ Coché</li>
+<li>Onglet <strong>Common</strong>:</li>
+<li>Cocher <strong>Item-level targeting</strong></li>
+<li>Cliquer <strong>Targeting...</strong></li>
+<li>Ajouter: <strong>Security Group</strong> = <code>GG-MediCare-Medical-Users</code></li>
+<li>Appliquer</li>
+</ol>
+<p><strong>Configuration GPO - Lecteur N: (Notes Infirmières):</strong></p>
+<ol>
+<li>Dans la même GPO, créer un nouveau <strong>Mapped Drive</strong></li>
+<li>Configurer:</li>
+<li><strong>Action</strong>: <code>Create</code></li>
+<li><strong>Location</strong>: <code>\\SRV-MEDICARE\Notes_Infirmieres</code></li>
+<li><strong>Drive Letter</strong>: <code>N:</code></li>
+<li><strong>Label as</strong>: <code>Notes Infirmières</code></li>
+<li><strong>Reconnect</strong>: ✅ Coché</li>
+<li>Onglet <strong>Common</strong>:</li>
+<li>Cocher <strong>Item-level targeting</strong></li>
+<li>Cliquer <strong>Targeting...</strong></li>
+<li>Ajouter <strong>deux</strong> groupes avec opérateur <strong>OR</strong>:<ul>
+<li><strong>Security Group</strong> = <code>GG-MediCare-Medical-Users</code></li>
+<li><strong>Security Group</strong> = <code>GG-MediCare-Nursing-Users</code></li>
+</ul>
+</li>
+<li>Appliquer</li>
+</ol>
+<p><strong>Configuration GPO - Lecteur A: (Administration):</strong></p>
+<ol>
+<li>Dans la même GPO, créer un nouveau <strong>Mapped Drive</strong></li>
+<li>Configurer:</li>
+<li><strong>Action</strong>: <code>Create</code></li>
+<li><strong>Location</strong>: <code>\\SRV-MEDICARE\Administration</code></li>
+<li><strong>Drive Letter</strong>: <code>A:</code></li>
+<li><strong>Label as</strong>: <code>Administration</code></li>
+<li><strong>Reconnect</strong>: ✅ Coché</li>
+<li>Onglet <strong>Common</strong>:</li>
+<li>Cocher <strong>Item-level targeting</strong></li>
+<li>Cliquer <strong>Targeting...</strong></li>
+<li>Ajouter: <strong>Security Group</strong> = <code>GG-MediCare-Administration-Users</code></li>
+<li>Appliquer</li>
+</ol>
+<p><strong>Vérification:</strong></p>
+<ol>
+<li>Créez les 3 partages réseau sur le serveur de fichiers</li>
+<li>Configurez les permissions NTFS comme indiqué ci-dessus</li>
+<li>Configurez les 3 lecteurs mappés dans la GPO</li>
+<li>Connectez-vous avec un utilisateur <strong>Medical</strong> (ex: <code>catherine</code>)</li>
+<li>Exécutez: <code>gpupdate /force</code></li>
+<li>Ouvrez <strong>Ce PC</strong>: Lecteurs M: et N: doivent apparaître</li>
+<li>Connectez-vous avec un utilisateur <strong>Nursing</strong> (ex: <code>anne</code>)</li>
+<li>Exécutez: <code>gpupdate /force</code></li>
+<li>Ouvrez <strong>Ce PC</strong>: Seul le lecteur N: doit apparaître</li>
+<li>Connectez-vous avec un utilisateur <strong>Administration</strong> (ex: <code>patricia</code>)</li>
+<li>Exécutez: <code>gpupdate /force</code></li>
+<li>Ouvrez <strong>Ce PC</strong>: Seul le lecteur A: doit apparaître</li>
+</ol>
+<div class="admonition example">
+<p class="admonition-title">Justification médicale</p>
+<p>Accès cloisonné aux données médicales selon le rôle:</p>
+<ul>
+<li><strong>Medical uniquement</strong>: Dossiers patients complets (diagnostic, traitement)</li>
+<li><strong>Medical + Nursing</strong>: Notes infirmières (observations, soins)</li>
+<li><strong>Administration uniquement</strong>: Documents administratifs (facturation, RH)</li>
+</ul>
+</div>
+<h2 id="instructions-dexecution">Instructions d'Exécution</h2>
+<h3 id="etape-1-preparation-de-lenvironnement">Étape 1: Préparation de l'environnement</h3>
+<ol>
+<li>Ouvrir <strong>PowerShell ISE</strong> en tant qu'<strong>Administrateur</strong> sur le contrôleur de domaine</li>
+<li>Vérifier que le domaine est fonctionnel:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-ADDomain</span>
+</code></pre></div>
+<ol>
+<li>Vérifier que les modules sont chargés:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nb">Import-Module</span> <span class="n">ActiveDirectory</span>
+<span class="nb">Import-Module</span> <span class="n">GroupPolicy</span>
+</code></pre></div>
+<h3 id="etape-2-execution-du-script-de-configuration">Étape 2: Exécution du script de configuration</h3>
+<ol>
+<li>Copier le fichier <code>MediCare_Setup.ps1</code> sur le contrôleur de domaine</li>
+<li>Dans PowerShell ISE, ouvrir le fichier ou copier-coller son contenu</li>
+<li><strong>Lire attentivement</strong> les commentaires pour comprendre chaque section</li>
+<li>Exécuter le script (F5)</li>
+<li><strong>Confirmer chaque étape</strong> lorsque demandé (O/N/Q):</li>
+<li><strong>O</strong>: Exécuter l'étape</li>
+<li><strong>N</strong>: Sauter l'étape</li>
+<li><strong>Q</strong>: Quitter le script</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Exécution interactive</p>
+<p>Le script utilise des confirmations interactives (<code>Confirm-Step</code>) pour vous permettre de:</p>
+<ul>
+<li>Comprendre ce qui va être créé avant exécution</li>
+<li>Sauter des sections si nécessaire</li>
+<li>Apprendre le processus étape par étape</li>
+</ul>
+</div>
+<h3 id="etape-3-configuration-manuelle-des-gpos">Étape 3: Configuration manuelle des GPOs</h3>
+<p>Après exécution du script, suivre les instructions détaillées dans la section <strong>"Stratégies de Groupe (GPOs)"</strong> ci-dessus pour:</p>
+<ol>
+<li><strong>GPO 2</strong>: Configurer le blocage USB</li>
+<li><strong>GPO 3</strong>: Configurer les restrictions bureau</li>
+<li><strong>GPO 5</strong>: Créer les partages réseau et configurer les lecteurs mappés</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Configuration GPO obligatoire</p>
+<p>Les GPOs 2, 3 et 5 ne sont que des <strong>shells</strong> créés par le script. Elles <strong>NE FONCTIONNERONT PAS</strong> tant que vous ne les aurez pas configurées manuellement dans GPMC comme indiqué.</p>
+</div>
+<h3 id="etape-4-verification-post-execution">Étape 4: Vérification post-exécution</h3>
+<p>Exécuter les commandes suivantes pour vérifier la création correcte de la structure.</p>
+<h2 id="verification-post-execution">Vérification Post-Exécution</h2>
+<h3 id="verification-powershell">Vérification PowerShell</h3>
+<h4 id="verifier-les-ous-creees">Vérifier les OUs créées</h4>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-ADOrganizationalUnit</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="p">|</span>
+    <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">DistinguishedName</span> <span class="o">-like</span> <span class="s2">&quot;*OU=MediCare*&quot;</span><span class="p">}</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">DistinguishedName</span> <span class="p">|</span>
+    <span class="nb">Sort-Object</span> <span class="n">DistinguishedName</span>
+</code></pre></div>
+<p><strong>Résultat attendu:</strong> 16 OUs (1 racine + 4 départements + 12 sous-OUs)</p>
+<h4 id="verifier-tous-les-utilisateurs-crees">Vérifier tous les utilisateurs créés</h4>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=MediCare,DC=maxtec,DC=be&quot;</span> <span class="n">-Properties</span> <span class="n">EmailAddress</span><span class="p">,</span> <span class="n">Title</span><span class="p">,</span> <span class="n">Department</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">SamAccountName</span><span class="p">,</span> <span class="n">EmailAddress</span><span class="p">,</span> <span class="n">Title</span><span class="p">,</span> <span class="n">Department</span><span class="p">,</span> <span class="n">Enabled</span> <span class="p">|</span>
+    <span class="nb">Sort-Object</span> <span class="n">Department</span><span class="p">,</span> <span class="n">Name</span>
+</code></pre></div>
+<p><strong>Résultat attendu:</strong> 28 utilisateurs avec titres médicaux, tous activés</p>
+<h4 id="verifier-les-groupes-et-leurs-membres">Vérifier les groupes et leurs membres</h4>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=MediCare,DC=maxtec,DC=be&quot;</span> <span class="p">|</span>
+    <span class="nb">Sort-Object</span> <span class="n">Name</span> <span class="p">|</span>
+    <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Groupe: </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;Description: </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Description</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+        <span class="nv">$members</span> <span class="p">=</span> <span class="nb">Get-ADGroupMember</span> <span class="n">-Identity</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">SamAccountName</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">Name</span>
+        <span class="nv">$members</span> <span class="p">|</span> <span class="nb">Format-Table</span> <span class="n">-AutoSize</span>
+    <span class="p">}</span>
+</code></pre></div>
+<p><strong>Résultat attendu:</strong> 12 groupes avec le préfixe <code>GG-</code> et leurs membres appropriés</p>
+<h4 id="verifier-la-politique-de-mot-de-passe">Vérifier la politique de mot de passe</h4>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-ADDefaultDomainPasswordPolicy</span> <span class="n">-Identity</span> <span class="s2">&quot;maxtec.be&quot;</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">MinPasswordLength</span><span class="p">,</span> <span class="n">ComplexityEnabled</span><span class="p">,</span> <span class="n">MaxPasswordAge</span><span class="p">,</span> <span class="n">LockoutThreshold</span><span class="p">,</span> <span class="n">LockoutDuration</span>
+</code></pre></div>
+<p><strong>Résultat attendu:</strong></p>
+<ul>
+<li>MinPasswordLength: 12</li>
+<li>ComplexityEnabled: True</li>
+<li>MaxPasswordAge: 60.00:00:00 (60 jours)</li>
+<li>LockoutThreshold: 5</li>
+<li>LockoutDuration: 00:30:00 (30 minutes)</li>
+</ul>
+<h4 id="verifier-les-gpos-creees">Vérifier les GPOs créées</h4>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-GPO</span> <span class="n">-All</span> <span class="p">|</span>
+    <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">DisplayName</span> <span class="o">-like</span> <span class="s2">&quot;*MediCare*&quot;</span><span class="p">}</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">DisplayName</span><span class="p">,</span> <span class="n">GpoStatus</span><span class="p">,</span> <span class="n">CreationTime</span><span class="p">,</span> <span class="n">ModificationTime</span>
+</code></pre></div>
+<p><strong>Résultat attendu:</strong> 3 GPOs MediCare (Blocage USB, Restrictions Bureau, Lecteurs Médicaux)</p>
+<h4 id="verifier-les-liens-gpo">Vérifier les liens GPO</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># Vérifier les liens GPO pour Medical</span>
+<span class="nb">Get-GPInheritance</span> <span class="n">-Target</span> <span class="s2">&quot;OU=Users,OU=Medical,OU=MediCare,DC=maxtec,DC=be&quot;</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">-ExpandProperty</span> <span class="n">GpoLinks</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">DisplayName</span><span class="p">,</span> <span class="n">Enabled</span><span class="p">,</span> <span class="n">Enforced</span>
+
+<span class="c"># Vérifier les liens GPO pour Administration</span>
+<span class="nb">Get-GPInheritance</span> <span class="n">-Target</span> <span class="s2">&quot;OU=Users,OU=Administration,OU=MediCare,DC=maxtec,DC=be&quot;</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">-ExpandProperty</span> <span class="n">GpoLinks</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">DisplayName</span><span class="p">,</span> <span class="n">Enabled</span><span class="p">,</span> <span class="n">Enforced</span>
+</code></pre></div>
+<h4 id="exporter-la-structure-en-csv-pour-reference">Exporter la structure en CSV pour référence</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># Export utilisateurs</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=MediCare,DC=maxtec,DC=be&quot;</span> <span class="n">-Properties</span> <span class="n">EmailAddress</span><span class="p">,</span> <span class="n">Title</span><span class="p">,</span> <span class="n">Department</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">SamAccountName</span><span class="p">,</span> <span class="n">EmailAddress</span><span class="p">,</span> <span class="n">Title</span><span class="p">,</span> <span class="n">Department</span><span class="p">,</span> <span class="n">Enabled</span> <span class="p">|</span>
+    <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;C:\Labos\verification_utilisateurs.csv&quot;</span> <span class="n">-NoTypeInformation</span> <span class="n">-Encoding</span> <span class="n">UTF8</span>
+
+<span class="c"># Export groupes avec membres</span>
+<span class="nv">$groupsData</span> <span class="p">=</span> <span class="p">@()</span>
+<span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=MediCare,DC=maxtec,DC=be&quot;</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nv">$members</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-ADGroupMember</span> <span class="n">-Identity</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-ExpandProperty</span> <span class="n">SamAccountName</span><span class="p">)</span> <span class="n">-join</span> <span class="s2">&quot;; &quot;</span>
+    <span class="nv">$groupsData</span> <span class="p">+=</span> <span class="no">[PSCustomObject]</span><span class="p">@{</span>
+        <span class="n">Nom</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span>
+        <span class="n">Description</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Description</span>
+        <span class="n">Membres</span> <span class="p">=</span> <span class="nv">$members</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="nv">$groupsData</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;C:\Labos\verification_groupes.csv&quot;</span> <span class="n">-NoTypeInformation</span> <span class="n">-Encoding</span> <span class="n">UTF8</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">✅ Fichiers CSV exportés dans C:\Labos\&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+</code></pre></div>
+<h3 id="verification-manuelle-interface-graphique">Vérification Manuelle (Interface Graphique)</h3>
+<h4 id="verifier-dans-active-directory-users-and-computers">Vérifier dans Active Directory Users and Computers</h4>
+<ol>
+<li>Ouvrir <strong>dsa.msc</strong> (Active Directory Users and Computers)</li>
+<li>Développer le domaine <strong>maxtec.be</strong></li>
+<li>Vérifier la présence de l'OU <strong>MediCare</strong> avec ses 4 départements</li>
+<li>Pour chaque département:</li>
+<li>Vérifier les 3 sous-OUs (Users, Computers, Groups)</li>
+<li>Ouvrir <strong>Users</strong>: vérifier les utilisateurs avec titres médicaux</li>
+<li>Ouvrir <strong>Groups</strong>: vérifier les groupes avec préfixe <code>GG-</code></li>
+<li>Double-cliquer sur un groupe (ex: <code>GG-MediCare-Medical-Users</code>)</li>
+<li>Onglet <strong>Members</strong>: vérifier la liste des membres</li>
+</ol>
+<h4 id="verifier-dans-group-policy-management-console">Vérifier dans Group Policy Management Console</h4>
+<ol>
+<li>Ouvrir <strong>gpmc.msc</strong> (Group Policy Management)</li>
+<li>Développer <strong>Forest &gt; Domains &gt; maxtec.be</strong></li>
+<li>Développer <strong>Group Policy Objects</strong></li>
+<li>Vérifier la présence des 3 GPOs MediCare</li>
+<li>Pour chaque GPO:</li>
+<li>Clic droit &gt; <strong>Edit</strong> pour vérifier la configuration</li>
+<li>Onglet <strong>Scope</strong> &gt; <strong>Links</strong>: vérifier les OUs liées</li>
+<li>Onglet <strong>Settings</strong>: vérifier les paramètres configurés (après config manuelle)</li>
+</ol>
+<h4 id="verifier-les-audits-dans-event-viewer">Vérifier les audits dans Event Viewer</h4>
+<ol>
+<li>Ouvrir <strong>eventvwr.msc</strong> (Observateur d'événements)</li>
+<li>Naviguer vers <strong>Windows Logs &gt; Security</strong></li>
+<li>Connectez-vous avec un utilisateur (ex: <code>catherine</code>)</li>
+<li>Rechercher l'événement <strong>4624</strong> (connexion réussie) avec le nom d'utilisateur</li>
+</ol>
+<h2 id="concepts-cles-demontres">Concepts Clés Démontrés</h2>
+<h3 id="1-hierarchie-medicale-et-separation-des-roles">1. Hiérarchie Médicale et Séparation des Rôles</h3>
+<div class="admonition info">
+<p class="admonition-title">Concept RBAC (Role-Based Access Control)</p>
+<p>La structure MediCare démontre une <strong>hiérarchie médicale réaliste</strong>:</p>
+<ul>
+<li><strong>Médecins Seniors</strong>: Droits administratifs, signature, garde</li>
+<li><strong>Médecins Généralistes/Spécialistes</strong>: Accès standard dossiers patients</li>
+<li><strong>Médecins Juniors</strong>: Accès supervisé (possibilité de restreindre via GPO ultérieurement)</li>
+<li><strong>Infirmières-Chefs</strong>: Administration nursing, validation soins</li>
+<li><strong>Infirmières/Assistantes</strong>: Saisie notes, observations</li>
+<li><strong>Administration</strong>: Facturation, RH, réception (aucun accès médical)</li>
+<li><strong>IT</strong>: Support technique, sécurité, mais pas d'accès direct aux données patients</li>
+</ul>
+</div>
+<h3 id="2-groupes-de-securite-specialises">2. Groupes de Sécurité Spécialisés</h3>
+<div class="admonition tip">
+<p class="admonition-title">Au-delà des groupes standards Users/Admin</p>
+<p>MediCare utilise des <strong>groupes métier spécialisés</strong>:</p>
+<ul>
+<li><strong>GG-MediCare-Medical-Seniors</strong>: Droits signature électronique prescriptions</li>
+<li><strong>GG-MediCare-Medical-Oncall</strong>: Accès distant 24/7 système de garde</li>
+<li><strong>GG-MediCare-Administration-Billing</strong>: Accès systèmes facturation médicale</li>
+<li><strong>GG-MediCare-Administration-HR</strong>: Accès dossiers RH personnel</li>
+</ul>
+<p><strong>Avantage pédagogique:</strong> Comprendre que les groupes doivent refléter les <strong>rôles métier</strong>, pas seulement la structure organisationnelle.</p>
+</div>
+<h3 id="3-securite-medicale-et-conformite-hipaa-simplifiee">3. Sécurité Médicale et Conformité HIPAA (Simplifiée)</h3>
+<div class="admonition example">
+<p class="admonition-title">Principes de conformité médicale</p>
+<p>La configuration GPO démontre des <strong>exigences de sécurité médicale</strong>:</p>
+<ol>
+<li><strong>Prévention exfiltration de données</strong> (GPO 2 - Blocage USB):</li>
+<li>Empêche copie dossiers patients vers clés USB non chiffrées</li>
+<li>
+<p>Violation HIPAA majeure si données sensibles volées/perdues</p>
+</li>
+<li>
+<p><strong>Traçabilité des accès</strong> (GPO 4 - Audit):</p>
+</li>
+<li>Chaque consultation dossier patient doit être tracée</li>
+<li>
+<p>Obligatoire pour enquêtes en cas de violation</p>
+</li>
+<li>
+<p><strong>Mots de passe renforcés</strong> (GPO 1):</p>
+</li>
+<li>12 caractères minimum, rotation 60 jours</li>
+<li>
+<p>Protection contre compromission comptes médicaux</p>
+</li>
+<li>
+<p><strong>Cloisonnement des données</strong> (GPO 5 - Lecteurs mappés):</p>
+</li>
+<li>Personnel administratif ne doit <strong>JAMAIS</strong> accéder aux dossiers patients</li>
+<li>Séparation stricte via permissions NTFS et item-level targeting</li>
+</ol>
+</div>
+<h3 id="4-configuration-manuelle-gpo-vs-powershell">4. Configuration Manuelle GPO vs. PowerShell</h3>
+<div class="admonition warning">
+<p class="admonition-title">Apprentissage des limites de l'automatisation</p>
+<p>Ce laboratoire enseigne que <strong>toutes les GPOs ne peuvent pas être configurées via PowerShell</strong>:</p>
+<ul>
+<li>❌ <strong>Politiques ADMX standard</strong>: Nécessitent configuration manuelle GPMC (Blocage USB, Restrictions Bureau)</li>
+<li>❌ <strong>Group Policy Preferences</strong>: Nécessitent configuration manuelle (Drive Maps, Scheduled Tasks)</li>
+<li>✅ <strong>Politiques de mot de passe domaine</strong>: Supportées via <code>Set-ADDefaultDomainPasswordPolicy</code></li>
+<li>✅ <strong>Audits</strong>: Supportés via <code>auditpol.exe</code></li>
+</ul>
+<p><strong>Pourquoi?</strong> Utilisation de <code>Set-GPRegistryValue</code> pour politiques standard crée des entrées invalides ("nom convivial introuvable").</p>
+</div>
+<h3 id="5-item-level-targeting-gpo-5">5. Item-Level Targeting (GPO 5)</h3>
+<div class="admonition tip">
+<p class="admonition-title">Ciblage avancé dans Group Policy Preferences</p>
+<p>Le mappage de lecteurs réseau démontre <strong>Item-Level Targeting</strong>:</p>
+<ul>
+<li><strong>Concept</strong>: Appliquer différentes configurations selon l'appartenance à un groupe</li>
+<li><strong>Exemple</strong>: Lecteur M: seulement pour <code>GG-MediCare-Medical-Users</code>, Lecteur N: pour <code>Medical</code> <strong>ET</strong> <code>Nursing</code></li>
+<li><strong>Avantage</strong>: Une seule GPO gère plusieurs mappages avec ciblage intelligent</li>
+<li><strong>Application réelle</strong>: Dossiers personnels, partages départementaux, imprimantes réseau</li>
+</ul>
+</div>
+<h2 id="exercices-pratiques">Exercices Pratiques</h2>
+<p>Après avoir exécuté le script et configuré les GPOs manuellement, les étudiants peuvent approfondir leur apprentissage avec ces exercices pratiques guidés.</p>
+<div class="admonition tip">
+<p class="admonition-title">Exercices disponibles</p>
+<p>Le laboratoire MediCare comprend <strong>8 exercices progressifs</strong> couvrant différents aspects de l'administration AD médicale, avec scripts de vérification automatique:</p>
+<p><strong>Niveau Débutant:</strong></p>
+<ul>
+<li><a href="exercices/Exercice_01_Gestion_Comptes.md">Exercice 01: Gestion des Comptes Utilisateurs Médicaux</a> - Modifier, désactiver et déplacer des comptes</li>
+<li><a href="exercices/Exercice_02_Groupes_Securite.md">Exercice 02: Manipulation des Groupes de Sécurité</a> - Ajouter/retirer membres, créer groupes</li>
+</ul>
+<p><strong>Niveau Intermédiaire:</strong></p>
+<ul>
+<li><a href="exercices/Exercice_03_GPOs_Avancees.md">Exercice 03: Configuration Avancée des GPOs</a> - Configurer, tester et dépanner les GPOs</li>
+<li><a href="exercices/Exercice_04_Partages_Reseau.md">Exercice 04: Permissions NTFS et Partages Réseau</a> - Créer partages médicaux sécurisés</li>
+<li><a href="exercices/Exercice_05_Audit_Conformite.md">Exercice 05: Audit et Conformité Médicale</a> - Analyser logs d'audit, traçabilité</li>
+</ul>
+<p><strong>Niveau Avancé:</strong></p>
+<ul>
+<li><a href="exercices/Exercice_06_Pannes_Recuperation.md">Exercice 06: Scénarios de Panne et Récupération</a> - Restaurer comptes, réinitialiser mots de passe</li>
+<li><a href="exercices/Exercice_07_Delegation_Controle.md">Exercice 07: Délégation de Contrôle Départementale</a> - Déléguer gestion RH et Medical</li>
+<li><a href="exercices/Exercice_08_Violation_Securite.md">Exercice 08: Simulation Violation de Sécurité</a> - Enquêter et remédier</li>
+</ul>
+</div>
+<h2 id="depannage">Dépannage</h2>
+<h3 id="problemes-courants">Problèmes Courants</h3>
+<table>
+<thead>
+<tr>
+<th>Erreur</th>
+<th>Cause Possible</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"OU already exists"</td>
+<td>Structure MediCare déjà créée</td>
+<td>Utiliser <code>MediCare_Cleanup.ps1</code> pour nettoyer, puis réexécuter</td>
+</tr>
+<tr>
+<td>"Access denied"</td>
+<td>Pas de privilèges administrateur</td>
+<td>Relancer PowerShell ISE en tant qu'<strong>Administrateur</strong></td>
+</tr>
+<tr>
+<td>"Module ActiveDirectory not found"</td>
+<td>Module AD non chargé</td>
+<td>Exécuter: <code>Import-Module ActiveDirectory</code></td>
+</tr>
+<tr>
+<td>"Cannot find GPO"</td>
+<td>GPO non créée ou supprimée</td>
+<td>Vérifier dans GPMC (gpmc.msc), réexécuter le script</td>
+</tr>
+<tr>
+<td>"User account already exists"</td>
+<td>Utilisateur créé lors d'exécution précédente</td>
+<td>Passer l'étape (message jaune "existe déjà") ou nettoyer</td>
+</tr>
+<tr>
+<td>"GPO settings not applying"</td>
+<td>Configuration manuelle non effectuée</td>
+<td>Suivre instructions GPO 2, 3, 5 dans GPMC</td>
+</tr>
+<tr>
+<td>"Drive mapping not working"</td>
+<td>Partages réseau inexistants</td>
+<td>Créer d'abord les partages sur SRV-MEDICARE avec permissions</td>
+</tr>
+<tr>
+<td>"nom convivial introuvable" dans GPMC</td>
+<td>Utilisation incorrecte de Set-GPRegistryValue</td>
+<td>Supprimer la GPO, recréer, configurer manuellement</td>
+</tr>
+</tbody>
+</table>
+<h3 id="commandes-de-diagnostic">Commandes de Diagnostic</h3>
+<h4 id="verifier-le-role-ad-ds">Vérifier le rôle AD DS</h4>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-WindowsFeature</span> <span class="n">-Name</span> <span class="n">AD-Domain-Services</span>
+</code></pre></div>
+<p><strong>Résultat attendu:</strong> InstallState = <code>Installed</code></p>
+<h4 id="verifier-le-domaine-actuel">Vérifier le domaine actuel</h4>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-ADDomain</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">DNSRoot</span><span class="p">,</span> <span class="n">DomainMode</span>
+</code></pre></div>
+<p><strong>Résultat attendu:</strong></p>
+<ul>
+<li>Name: <code>maxtec</code></li>
+<li>DNSRoot: <code>maxtec.be</code></li>
+<li>DomainMode: <code>Windows2016Domain</code> ou supérieur</li>
+</ul>
+<h4 id="verifier-les-privileges-administrateur">Vérifier les privilèges administrateur</h4>
+<div class="highlight"><pre><span></span><code><span class="n">whoami</span> <span class="p">/</span><span class="n">groups</span> <span class="p">|</span> <span class="n">findstr</span> <span class="s2">&quot;Admins&quot;</span>
+</code></pre></div>
+<p><strong>Résultat attendu:</strong> Doit contenir <code>BUILTIN\Administrators</code> ou <code>Domain Admins</code></p>
+<h4 id="verifier-la-replication-ad">Vérifier la réplication AD</h4>
+<div class="highlight"><pre><span></span><code><span class="n">repadmin</span> <span class="p">/</span><span class="n">replsummary</span>
+</code></pre></div>
+<p><strong>Résultat attendu:</strong> Aucune erreur de réplication</p>
+<h4 id="verifier-lapplication-des-gpos-sur-un-utilisateur">Vérifier l'application des GPOs sur un utilisateur</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># Connectez-vous avec un utilisateur (ex: catherine)</span>
+<span class="n">gpresult</span> <span class="p">/</span><span class="nb">r </span><span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="n">maxtec</span><span class="p">\</span><span class="n">catherine</span>
+</code></pre></div>
+<p><strong>Résultat attendu:</strong> Affiche les GPOs appliquées, dont les GPOs MediCare</p>
+<h4 id="verifier-les-evenements-derreur-ad">Vérifier les événements d'erreur AD</h4>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-EventLog</span> <span class="n">-LogName</span> <span class="s2">&quot;Directory Service&quot;</span> <span class="n">-Newest</span> <span class="n">50</span> <span class="n">-EntryType</span> <span class="n">Error</span><span class="p">,</span> <span class="n">Warning</span>
+</code></pre></div>
+<p><strong>Résultat attendu:</strong> Aucune erreur récente liée à AD</p>
+<h3 id="problemes-specifiques-aux-gpos">Problèmes Spécifiques aux GPOs</h3>
+<h4 id="gpo-nom-convivial-introuvable">GPO "nom convivial introuvable"</h4>
+<div class="admonition danger">
+<p class="admonition-title">Problème causé par Set-GPRegistryValue</p>
+<p>Si vous voyez "nom convivial introuvable" dans GPMC sous <strong>"Définitions de stratégies (fichiers ADMX)"</strong>, cela signifie qu'une GPO a été configurée incorrectement via <code>Set-GPRegistryValue</code> avec des clés de registre brutes.</p>
+</div>
+<p><strong>Solution:</strong></p>
+<ol>
+<li>
+<p>Supprimer la GPO problématique:
+   <div class="highlight"><pre><span></span><code><span class="nb">Remove-GPO</span> <span class="n">-Name</span> <span class="s2">&quot;Nom de la GPO&quot;</span> <span class="n">-Confirm</span><span class="p">:</span><span class="nv">$false</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>Recréer la GPO via le script ou manuellement</p>
+</li>
+<li>
+<p><strong>NE PAS</strong> utiliser <code>Set-GPRegistryValue</code> pour les politiques Windows standard</p>
+</li>
+<li>
+<p>Configurer manuellement dans GPMC comme indiqué dans ce README</p>
+</li>
+</ol>
+<h4 id="gpo-ne-sapplique-pas">GPO ne s'applique pas</h4>
+<div class="admonition warning">
+<p class="admonition-title">Vérifications à effectuer</p>
+</div>
+<ol>
+<li>
+<p><strong>Vérifier le lien GPO</strong>:
+   <div class="highlight"><pre><span></span><code><span class="nb">Get-GPInheritance</span> <span class="n">-Target</span> <span class="s2">&quot;OU=Users,OU=Medical,OU=MediCare,DC=maxtec,DC=be&quot;</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Vérifier que la GPO est activée</strong>:
+   <div class="highlight"><pre><span></span><code><span class="nb">Get-GPO</span> <span class="n">-Name</span> <span class="s2">&quot;MediCare - Blocage USB Zones Médicales&quot;</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">DisplayName</span><span class="p">,</span> <span class="n">GpoStatus</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>GpoStatus doit être <code>AllSettingsEnabled</code></p>
+</li>
+<li>
+<p><strong>Forcer l'application</strong>:
+   <div class="highlight"><pre><span></span><code><span class="n">gpupdate</span> <span class="p">/</span><span class="n">force</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Vérifier l'héritage</strong>:</p>
+</li>
+<li>Ouvrir GPMC</li>
+<li>Vérifier qu'aucune OU parent n'a "Block Inheritance"</li>
+<li>
+<p>Vérifier qu'aucune GPO de priorité supérieure ne contredit</p>
+</li>
+<li>
+<p><strong>Vérifier la portée de sécurité</strong>:</p>
+</li>
+<li>Dans GPMC, onglet <strong>Scope</strong> de la GPO</li>
+<li>Vérifier que <strong>Authenticated Users</strong> ou le groupe cible a les permissions <strong>Read</strong> + <strong>Apply Group Policy</strong></li>
+</ol>
+<h2 id="evolutions-possibles-du-laboratoire">Évolutions Possibles du Laboratoire</h2>
+<p>Pour approfondir ce laboratoire dans le futur, vous pourriez:</p>
+<h3 id="1-partages-reseau-reels">1. Partages Réseau Réels</h3>
+<div class="admonition example">
+<p class="admonition-title">Implémentation complète</p>
+<ul>
+<li>Créer un serveur de fichiers dédié <code>SRV-MEDICARE</code></li>
+<li>Implémenter les 3 partages réseau avec quotas</li>
+<li>Configurer les permissions NTFS avancées (héritage, refus explicite)</li>
+<li>Ajouter un partage <code>\\SRV-MEDICARE\Archives_Patients</code> avec compression</li>
+</ul>
+</div>
+<h3 id="2-fine-grained-password-policy">2. Fine-Grained Password Policy</h3>
+<div class="admonition example">
+<p class="admonition-title">Politiques de mot de passe différenciées</p>
+<ul>
+<li><strong>IT Admins</strong>: 16 caractères, rotation 45 jours</li>
+<li><strong>Medical Staff</strong>: 12 caractères, rotation 60 jours (actuel)</li>
+<li><strong>Administration</strong>: 10 caractères, rotation 90 jours</li>
+</ul>
+</div>
+<h3 id="3-scripts-de-connexion-logon-scripts">3. Scripts de Connexion (Logon Scripts)</h3>
+<div class="admonition example">
+<p class="admonition-title">Automatisation par département</p>
+<ul>
+<li>Medical: Mappage lecteur M:, vérification accès VPN garde</li>
+<li>Nursing: Mappage lecteur N:, affichage planning garde</li>
+<li>Administration: Lecteur A:, ouverture application facturation</li>
+</ul>
+</div>
+<h3 id="4-systeme-de-garde-medical-automatise">4. Système de Garde Médical Automatisé</h3>
+<div class="admonition example">
+<p class="admonition-title">Rotation automatique groupe Oncall</p>
+<ul>
+<li>Script PowerShell hebdomadaire qui modifie <code>GG-MediCare-Medical-Oncall</code></li>
+<li>Fichier CSV avec planning de garde</li>
+<li>Email automatique au médecin de garde</li>
+</ul>
+</div>
+<h3 id="5-audit-renforce-et-alertes">5. Audit Renforcé et Alertes</h3>
+<div class="admonition example">
+<p class="admonition-title">Surveillance proactive</p>
+<ul>
+<li>Audit des accès fichiers dossiers patients</li>
+<li>Script PowerShell qui alerte si connexion hors horaires (22h-6h)</li>
+<li>Export quotidien des événements d'audit vers SIEM (simulé)</li>
+</ul>
+</div>
+<h3 id="6-delegation-de-controle-avancee">6. Délégation de Contrôle Avancée</h3>
+<div class="admonition example">
+<p class="admonition-title">Autonomie départementale</p>
+<ul>
+<li>Déléguer réinitialisation mots de passe aux Infirmières-Chefs</li>
+<li>Déléguer création comptes RH au Gestionnaire RH</li>
+<li>Déléguer gestion Medical aux Médecins Seniors</li>
+</ul>
+</div>
+<h3 id="7-integration-avec-certificate-services">7. Intégration avec Certificate Services</h3>
+<div class="admonition example">
+<p class="admonition-title">Signatures électroniques médicales</p>
+<ul>
+<li>Déployer PKI interne</li>
+<li>Certificats utilisateurs pour <code>GG-MediCare-Medical-Seniors</code></li>
+<li>Signature électronique prescriptions et rapports médicaux</li>
+</ul>
+</div>
+<h3 id="8-protection-bitlocker-via-gpo">8. Protection BitLocker via GPO</h3>
+<div class="admonition example">
+<p class="admonition-title">Chiffrement postes médicaux</p>
+<ul>
+<li>GPO de chiffrement BitLocker pour <code>OU=Computers,OU=Medical</code></li>
+<li>Sauvegarde clés de récupération dans AD</li>
+<li>Politique TPM + PIN pour ordinateurs portables médecins</li>
+</ul>
+</div>
+<h3 id="9-scenarios-de-conformite-hipaa">9. Scénarios de Conformité HIPAA</h3>
+<div class="admonition example">
+<p class="admonition-title">Exercices de conformité avancés</p>
+<ul>
+<li>Simulation d'audit HIPAA: produire rapport d'accès patient</li>
+<li>Scénario "droit à l'oubli": supprimer toutes traces d'un patient</li>
+<li>Exercice "violation de données": identifier qui a accédé à un dossier</li>
+</ul>
+</div>
+<h3 id="10-multi-sites-avec-replication-ad">10. Multi-Sites avec Réplication AD</h3>
+<div class="admonition example">
+<p class="admonition-title">Extension géographique</p>
+<ul>
+<li>Ajouter site <code>MediCare-Annexe</code> (clinique satellite)</li>
+<li>Configurer réplication AD inter-sites</li>
+<li>GPOs spécifiques par site (imprimantes, serveurs locaux)</li>
+</ul>
+</div>
+<hr />
+<p><strong>Dernière mise à jour:</strong> 2025-10-05
+<strong>Version:</strong> 1.0
+<strong>Mainteneur:</strong> H2EB Active Directory Lab Project</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/choquitofrito/ActiveDirectory" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "navigation.prune", "content.code.copy"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

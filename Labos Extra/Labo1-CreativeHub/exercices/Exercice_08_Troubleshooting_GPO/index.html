@@ -1,0 +1,2836 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_08_Troubleshooting_GPO/">
+      
+      
+        <link rel="prev" href="../Exercice_07_Scenario_Onboarding_Complet/">
+      
+      
+        <link rel="next" href="../Exercice_09_Scenario_Crise_Securite/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Ex08 - Troubleshooting GPO - Active Directory Course</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#exercice-8-troubleshooting-la-gpo-ne-sapplique-pas" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Active Directory Course" class="md-header__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Active Directory Course
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ex08 - Troubleshooting GPO
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  🏠 Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🖥️ Windows Server
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%203.DNS/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🌐 DNS
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📁 Active Directory
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ⚡ PowerShell AD
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🧪 Labs & Exercices
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Active Directory Course" class="md-nav__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Active Directory Course
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏠 Accueil
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🖥️ Windows Server
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%203.DNS/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🌐 DNS
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    📁 Active Directory
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    ⚡ PowerShell AD
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    🧪 Labs & Exercices
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            🧪 Labs & Exercices
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Lab Principal
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Lab 1 - CreativeHub
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            Lab 1 - CreativeHub
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../scripts/CreativeHub_Setup.ps1" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🔧 Setup & Cleanup
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_3" id="__nav_6_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    📝 Exercices (9)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            📝 Exercices (9)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_01_Nouvel_Employe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex01 - Nouvel Employé
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_02_Depart_Employe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex02 - Départ Employé
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_03_GPO_Lecteur_Reseau/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex03 - GPO Lecteur Réseau
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_04_Groupe_Projet_Client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex04 - Groupe Projet Client
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_05_Reset_Password/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex05 - Reset Password
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_06_Delegation_Controle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex06 - Délégation Contrôle
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_07_Scenario_Onboarding_Complet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex07 - Onboarding Complet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Ex08 - Troubleshooting GPO
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex08 - Troubleshooting GPO
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#niveau-de-difficulte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Niveau de Difficulté
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objectifs-pedagogiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectifs Pédagogiques
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duree-estimee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Durée Estimée
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prérequis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contexte-scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contexte / Scénario
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Contexte / Scénario">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ticket-1-hugo-laurent-motion-designer-creative" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ticket #1 - Hugo Laurent (Motion Designer - Creative)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ticket-2-amelie-dubois-community-manager-marketing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ticket #2 - Amélie Dubois (Community Manager - Marketing)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#email-de-rachid-dupont-responsable-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      Email de Rachid Dupont (Responsable IT)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#situation-initiale-problemes-simules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Situation Initiale (Problèmes Simulés)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Situation Initiale (Problèmes Simulés)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#probleme-1-gpo-appliquee-a-tout-le-departement-creative" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problème 1 : GPO appliquée à tout le département Creative
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probleme-2-gpo-non-appliquee-dans-marketing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problème 2 : GPO non appliquée dans Marketing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probleme-3-conflit-dheritage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problème 3 : Conflit d'héritage
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tache-a-realiser" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tâche à Réaliser
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tâche à Réaliser">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mission-principale" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mission Principale
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etapes-de-diagnostic-recommandees" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étapes de Diagnostic Recommandées
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Étapes de Diagnostic Recommandées">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-comprendre-la-configuration-actuelle" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Comprendre la Configuration Actuelle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-identifier-les-groupes" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Identifier les Groupes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-verifier-le-filtrage-de-securite-security-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Vérifier le Filtrage de Sécurité (Security Filtering)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-verifier-les-liens-gpo" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Vérifier les Liens GPO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-tester-lapplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Tester l'Application
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#votre-demarche" class="md-nav__link">
+    <span class="md-ellipsis">
+      Votre Démarche
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisateurs-juniors-identifies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Utilisateurs Juniors Identifiés
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pas-dinstructions-detaillees" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pas d'Instructions Détaillées !
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification-de-la-reussite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérification de la Réussite
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vérification de la Réussite">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#script-de-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Script de Vérification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criteres-de-reussite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Critères de Réussite
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-manuel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Manuel
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-complete-pour-instructeur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution Complète (Pour Instructeur)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solution Complète (Pour Instructeur)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#script-de-configuration-et-correction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Script de Configuration et Correction
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explication-de-la-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Explication de la Solution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Explication de la Solution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#probleme-principal-filtrage-de-securite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problème Principal : Filtrage de Sécurité
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problemes-secondaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problèmes Secondaires
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#points-cles-a-retenir" class="md-nav__link">
+    <span class="md-ellipsis">
+      Points Clés à Retenir
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Points Clés à Retenir">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#methodologie-de-troubleshooting-gpo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Méthodologie de Troubleshooting GPO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outils-de-diagnostic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Outils de Diagnostic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filtrage-de-securite-vs-wmi-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filtrage de Sécurité vs WMI Filtering
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#depannage-erreurs-courantes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dépannage (Erreurs Courantes)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pour-aller-plus-loin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pour Aller Plus Loin
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pour Aller Plus Loin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rsop-resultant-set-of-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      RSoP (Resultant Set of Policy)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#audit-de-lapplication-des-gpo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Audit de l'Application des GPO
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-suivant-suggere" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice Suivant Suggéré
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_09_Scenario_Crise_Securite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex09 - Crise Sécurité
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../instructeur/Guide_Instructeur_Exercices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    👨‍🏫 Guide Instructeur
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Labo2-MediCare/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Lab 2 - MediCare
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Labo%20et%20Exercices/Exercices%3A%20Questions%20Base/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Exercices Généraux
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#niveau-de-difficulte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Niveau de Difficulté
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objectifs-pedagogiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectifs Pédagogiques
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duree-estimee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Durée Estimée
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prérequis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contexte-scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contexte / Scénario
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Contexte / Scénario">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ticket-1-hugo-laurent-motion-designer-creative" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ticket #1 - Hugo Laurent (Motion Designer - Creative)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ticket-2-amelie-dubois-community-manager-marketing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ticket #2 - Amélie Dubois (Community Manager - Marketing)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#email-de-rachid-dupont-responsable-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      Email de Rachid Dupont (Responsable IT)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#situation-initiale-problemes-simules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Situation Initiale (Problèmes Simulés)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Situation Initiale (Problèmes Simulés)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#probleme-1-gpo-appliquee-a-tout-le-departement-creative" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problème 1 : GPO appliquée à tout le département Creative
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probleme-2-gpo-non-appliquee-dans-marketing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problème 2 : GPO non appliquée dans Marketing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probleme-3-conflit-dheritage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problème 3 : Conflit d'héritage
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tache-a-realiser" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tâche à Réaliser
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tâche à Réaliser">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mission-principale" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mission Principale
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etapes-de-diagnostic-recommandees" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étapes de Diagnostic Recommandées
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Étapes de Diagnostic Recommandées">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-comprendre-la-configuration-actuelle" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Comprendre la Configuration Actuelle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-identifier-les-groupes" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Identifier les Groupes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-verifier-le-filtrage-de-securite-security-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Vérifier le Filtrage de Sécurité (Security Filtering)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-verifier-les-liens-gpo" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Vérifier les Liens GPO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-tester-lapplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Tester l'Application
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#votre-demarche" class="md-nav__link">
+    <span class="md-ellipsis">
+      Votre Démarche
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisateurs-juniors-identifies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Utilisateurs Juniors Identifiés
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pas-dinstructions-detaillees" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pas d'Instructions Détaillées !
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification-de-la-reussite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérification de la Réussite
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vérification de la Réussite">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#script-de-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Script de Vérification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criteres-de-reussite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Critères de Réussite
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-manuel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Manuel
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-complete-pour-instructeur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution Complète (Pour Instructeur)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solution Complète (Pour Instructeur)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#script-de-configuration-et-correction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Script de Configuration et Correction
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explication-de-la-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Explication de la Solution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Explication de la Solution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#probleme-principal-filtrage-de-securite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problème Principal : Filtrage de Sécurité
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problemes-secondaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problèmes Secondaires
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#points-cles-a-retenir" class="md-nav__link">
+    <span class="md-ellipsis">
+      Points Clés à Retenir
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Points Clés à Retenir">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#methodologie-de-troubleshooting-gpo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Méthodologie de Troubleshooting GPO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outils-de-diagnostic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Outils de Diagnostic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filtrage-de-securite-vs-wmi-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filtrage de Sécurité vs WMI Filtering
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#depannage-erreurs-courantes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dépannage (Erreurs Courantes)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pour-aller-plus-loin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pour Aller Plus Loin
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pour Aller Plus Loin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rsop-resultant-set-of-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      RSoP (Resultant Set of Policy)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#audit-de-lapplication-des-gpo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Audit de l'Application des GPO
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-suivant-suggere" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice Suivant Suggéré
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="exercice-8-troubleshooting-la-gpo-ne-sapplique-pas">Exercice 8 : Troubleshooting - "La GPO Ne S'Applique Pas !"</h1>
+<h2 id="niveau-de-difficulte">Niveau de Difficulté</h2>
+<p>🔴 <strong>Avancé</strong> - Diagnostic et résolution de problèmes</p>
+<h2 id="objectifs-pedagogiques">Objectifs Pédagogiques</h2>
+<ul>
+<li>Diagnostiquer méthodiquement les problèmes d'application de GPO</li>
+<li>Utiliser les outils de diagnostic Windows (gpupdate, gpresult, Event Viewer)</li>
+<li>Comprendre l'ordre de priorité et l'héritage des GPO</li>
+<li>Résoudre des conflits de stratégies de groupe</li>
+</ul>
+<h2 id="duree-estimee">Durée Estimée</h2>
+<p>30-40 minutes</p>
+<h2 id="prerequis">Prérequis</h2>
+<ul>
+<li>Connaissance approfondie des GPO</li>
+<li>Capacité à utiliser PowerShell pour le diagnostic</li>
+<li>Compréhension de l'héritage AD</li>
+<li>Compétences en résolution de problèmes</li>
+</ul>
+<h2 id="contexte-scenario">Contexte / Scénario</h2>
+<p><strong>Date</strong>: Mercredi matin, 10h15</p>
+<p>Vous recevez plusieurs tickets urgents du support utilisateur :</p>
+<h3 id="ticket-1-hugo-laurent-motion-designer-creative">Ticket #1 - Hugo Laurent (Motion Designer - Creative)</h3>
+<blockquote>
+<p><em>"Bonjour IT,</em></p>
+<p><em>Je n'arrive plus à accéder au Panneau de configuration sur mon poste. Il y a deux jours, ça fonctionnait encore. Maintenant, quand je clique dessus, rien ne se passe.</em></p>
+<p><em>J'ai besoin d'accéder aux paramètres de mon écran pour calibrer mes couleurs pour un projet client urgent. Pouvez-vous débloquer ça rapidement ?</em></p>
+<p><em>Hugo</em>"</p>
+</blockquote>
+<h3 id="ticket-2-amelie-dubois-community-manager-marketing">Ticket #2 - Amélie Dubois (Community Manager - Marketing)</h3>
+<blockquote>
+<p><em>"Bonjour,</em></p>
+<p><em>Mon collègue Damien et moi travaillons dans le même département Marketing, mais lui ne peut pas utiliser l'invite de commandes alors que moi je peux. C'est bizarre, on devrait avoir les mêmes permissions, non ?</em></p>
+<p><em>Il a besoin du CMD pour lancer un script d'export de données analytics.</em></p>
+<p><em>Amélie</em>"</p>
+</blockquote>
+<h3 id="email-de-rachid-dupont-responsable-it">Email de Rachid Dupont (Responsable IT)</h3>
+<blockquote>
+<p><em>"J'ai vu les tickets. Voici le contexte :</em></p>
+<p><em>Lundi dernier, j'ai créé une nouvelle GPO "CreativeHub - Restrictions Utilisateurs Juniors" pour bloquer l'accès au Panneau de configuration et au CMD pour les juniors du département Marketing et Creative. Je l'ai liée aux OUs correspondantes.</em></p>
+<p><em>Le problème : Cette GPO ne devrait s'appliquer QU'AUX UTILISATEURS JUNIORS (nouveaux employés avec moins d'un an d'expérience), mais elle semble s'appliquer à tout le monde dans Creative, et pas du tout dans Marketing.</em></p>
+<p><em>J'ai vérifié :</em>
+- <em>La GPO existe bien</em>
+- <em>Elle est liée aux bonnes OUs</em>
+- <em>Les paramètres de registre sont corrects</em></p>
+<p><em>Mais quelque chose ne fonctionne pas. Je dois gérer une autre urgence. Peux-tu diagnostiquer et corriger le problème ?</em></p>
+<p><em>NOTE : Les juniors sont identifiés dans AD par leur appartenance au groupe "GG-CreativeHub-Juniors" (que j'ai créé).</em></p>
+<p><em>Rachid</em>"</p>
+</blockquote>
+<h2 id="situation-initiale-problemes-simules">Situation Initiale (Problèmes Simulés)</h2>
+<h3 id="probleme-1-gpo-appliquee-a-tout-le-departement-creative">Problème 1 : GPO appliquée à tout le département Creative</h3>
+<p>La GPO "CreativeHub - Restrictions Utilisateurs Juniors" s'applique à TOUS les utilisateurs de Creative (OU=Users,OU=Creative), alors qu'elle devrait s'appliquer uniquement aux membres du groupe "GG-CreativeHub-Juniors".</p>
+<p><strong>Utilisateurs affectés</strong> :
+- Hugo (Senior, ne devrait PAS avoir de restrictions)
+- Fabien (Senior, ne devrait PAS avoir de restrictions)
+- Julien (Junior, DEVRAIT avoir des restrictions) ← Ce serait le seul concerné</p>
+<h3 id="probleme-2-gpo-non-appliquee-dans-marketing">Problème 2 : GPO non appliquée dans Marketing</h3>
+<p>La GPO est liée à l'OU Marketing, mais le lien est <strong>désactivé</strong> par erreur.</p>
+<p><strong>Utilisateurs affectés</strong> :
+- Damien devrait avoir des restrictions (il est junior) mais ne les a pas</p>
+<h3 id="probleme-3-conflit-dheritage">Problème 3 : Conflit d'héritage</h3>
+<p>Une GPO plus ancienne au niveau de l'OU CreativeHub (racine) bloque l'héritage pour certaines sous-OUs.</p>
+<h2 id="tache-a-realiser">Tâche à Réaliser</h2>
+<h3 id="mission-principale">Mission Principale</h3>
+<p>Diagnostiquer pourquoi la GPO ne s'applique pas correctement et corriger les problèmes pour que :</p>
+<ol>
+<li><strong>Seuls les utilisateurs juniors</strong> aient les restrictions (Panneau de config et CMD désactivés)</li>
+<li>Les restrictions s'appliquent dans <strong>tous les départements</strong> (Creative ET Marketing)</li>
+<li>Les utilisateurs <strong>seniors</strong> (Hugo, Fabien, Camille, etc.) ne soient <strong>pas affectés</strong></li>
+</ol>
+<h3 id="etapes-de-diagnostic-recommandees">Étapes de Diagnostic Recommandées</h3>
+<h4 id="1-comprendre-la-configuration-actuelle">1. Comprendre la Configuration Actuelle</h4>
+<p><strong>Questions à investiguer</strong> :
+- Quelles GPOs existent actuellement ?
+- Où sont-elles liées ?
+- Quels sont leurs paramètres ?
+- Y a-t-il des problèmes d'héritage ?</p>
+<p><strong>Commandes utiles</strong> :
+<div class="highlight"><pre><span></span><code><span class="c"># Lister toutes les GPO</span>
+<span class="nb">Get-GPO</span> <span class="n">-All</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">DisplayName</span><span class="p">,</span> <span class="n">GpoStatus</span><span class="p">,</span> <span class="n">CreationTime</span>
+
+<span class="c"># Voir les GPOs liées à une OU</span>
+<span class="nb">Get-GPInheritance</span> <span class="n">-Target</span> <span class="s2">&quot;OU=Users,OU=Creative,OU=CreativeHub,DC=maxtec,DC=be&quot;</span>
+
+<span class="c"># Voir les détails d&#39;une GPO</span>
+<span class="nb">Get-GPOReport</span> <span class="n">-Name</span> <span class="s2">&quot;CreativeHub - Restrictions Utilisateurs Juniors&quot;</span> <span class="n">-ReportType</span> <span class="n">Html</span> <span class="n">-Path</span> <span class="s2">&quot;C:\Temp\GPO_Report.html&quot;</span>
+</code></pre></div></p>
+<h4 id="2-identifier-les-groupes">2. Identifier les Groupes</h4>
+<p><strong>Questions</strong> :
+- Le groupe "GG-CreativeHub-Juniors" existe-t-il ?
+- Qui en est membre ?
+- Est-il utilisé pour le filtrage de sécurité de la GPO ?</p>
+<p><strong>Commandes utiles</strong> :
+<div class="highlight"><pre><span></span><code><span class="c"># Vérifier si le groupe existe</span>
+<span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Name</span> <span class="o">-like</span> <span class="s2">&quot;*Junior*&quot;</span><span class="p">}</span>
+
+<span class="c"># Voir les membres</span>
+<span class="nb">Get-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-CreativeHub-Juniors&quot;</span>
+</code></pre></div></p>
+<h4 id="3-verifier-le-filtrage-de-securite-security-filtering">3. Vérifier le Filtrage de Sécurité (Security Filtering)</h4>
+<p><strong>Le problème probable</strong> : La GPO n'utilise pas le filtrage de sécurité pour cibler uniquement le groupe Juniors.</p>
+<p><strong>Concepts clés</strong> :
+- Par défaut, une GPO s'applique à "Authenticated Users" (tous les utilisateurs authentifiés)
+- Le <strong>filtrage de sécurité</strong> permet de limiter l'application à des groupes spécifiques
+- Le groupe doit avoir les permissions "Lecture" ET "Appliquer la stratégie de groupe"</p>
+<p><strong>Comment corriger</strong> :
+1. Ouvrir <code>gpmc.msc</code>
+2. Sélectionner la GPO
+3. Onglet "Étendue" (Scope)
+4. Section "Filtrage de sécurité" :
+   - <strong>Retirer</strong> "Authenticated Users"
+   - <strong>Ajouter</strong> "GG-CreativeHub-Juniors"</p>
+<h4 id="4-verifier-les-liens-gpo">4. Vérifier les Liens GPO</h4>
+<p><strong>Questions</strong> :
+- Les liens sont-ils activés ?
+- Y a-t-il des problèmes d'ordre de priorité ?</p>
+<p><strong>Commandes utiles</strong> :
+<div class="highlight"><pre><span></span><code><span class="c"># Voir les liens d&#39;une GPO</span>
+<span class="nv">$gpo</span> <span class="p">=</span> <span class="nb">Get-GPO</span> <span class="n">-Name</span> <span class="s2">&quot;CreativeHub - Restrictions Utilisateurs Juniors&quot;</span>
+<span class="nb">Get-GPO</span> <span class="n">-Guid</span> <span class="nv">$gpo</span><span class="p">.</span><span class="n">Id</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">DisplayName</span><span class="p">,</span> <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Links&quot;</span><span class="p">;</span><span class="n">Expression</span><span class="p">={(</span><span class="nb">Get-ADObject</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">gpLink</span> <span class="o">-like</span> <span class="s2">&quot;*</span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Id</span><span class="p">)</span><span class="s2">*&quot;</span><span class="p">}</span> <span class="n">-Properties</span> <span class="n">gpLink</span><span class="p">).</span><span class="n">DistinguishedName</span><span class="p">}}</span>
+</code></pre></div></p>
+<h4 id="5-tester-lapplication">5. Tester l'Application</h4>
+<p><strong>Commandes</strong> :
+<div class="highlight"><pre><span></span><code><span class="c"># Forcer la mise à jour des GPO</span>
+<span class="n">gpupdate</span> <span class="p">/</span><span class="n">force</span>
+
+<span class="c"># Voir les GPO appliquées à un utilisateur spécifique</span>
+<span class="n">gpresult</span> <span class="p">/</span><span class="nb">r </span><span class="p">/</span><span class="n">scope</span><span class="p">:</span><span class="n">user</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="n">hugo</span>
+
+<span class="c"># Générer un rapport HTML détaillé</span>
+<span class="n">gpresult</span> <span class="p">/</span><span class="nb">h </span><span class="n">C</span><span class="p">:\</span><span class="n">Temp</span><span class="p">\</span><span class="n">gpresult_hugo</span><span class="p">.</span><span class="n">html</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="n">hugo</span>
+</code></pre></div></p>
+<h3 id="votre-demarche">Votre Démarche</h3>
+<ol>
+<li><strong>Créer le groupe GG-CreativeHub-Juniors</strong> (s'il n'existe pas)</li>
+<li><strong>Identifier les utilisateurs juniors</strong> et les ajouter au groupe</li>
+<li><strong>Configurer le filtrage de sécurité</strong> de la GPO pour cibler uniquement ce groupe</li>
+<li><strong>Vérifier et activer les liens</strong> GPO sur toutes les OUs concernées</li>
+<li><strong>Tester</strong> que la GPO s'applique correctement aux juniors uniquement</li>
+<li><strong>Documenter</strong> la solution</li>
+</ol>
+<h3 id="utilisateurs-juniors-identifies">Utilisateurs Juniors Identifiés</h3>
+<p>Basé sur les profils de postes, voici les juniors (moins d'un an d'expérience) :</p>
+<p><strong>Marketing</strong> :
+- Élise Robert (Social Media Analyst) - Junior
+- Damien Petit (Content Strategist) - Junior</p>
+<p><strong>Creative</strong> :
+- Julien Roux (Designer UX/UI) - Junior</p>
+<p><strong>Client Services</strong> :
+- Manon Girard (Chef de Projet Junior) - <strong>DÉSACTIVÉE</strong> (ne pas inclure)</p>
+<p><strong>IT Support</strong> :
+- (Aucun junior identifié)</p>
+<h2 id="pas-dinstructions-detaillees">Pas d'Instructions Détaillées !</h2>
+<p>Cet exercice de troubleshooting nécessite que vous :
+- Analysiez la situation
+- Formuliez des hypothèses
+- Testez vos hypothèses
+- Trouviez et appliquez la solution
+- Validez que le problème est résolu</p>
+<p>Utilisez votre esprit d'analyse et les outils de diagnostic Windows/PowerShell.</p>
+<h2 id="verification-de-la-reussite">Vérification de la Réussite</h2>
+<h3 id="script-de-verification">Script de Vérification</h3>
+<div class="highlight"><pre><span></span><code><span class="p">.\</span><span class="n">verif_exercice_08</span><span class="p">.</span><span class="n">ps1</span>
+</code></pre></div>
+<h3 id="criteres-de-reussite">Critères de Réussite</h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Le groupe "GG-CreativeHub-Juniors" existe</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Les utilisateurs juniors (Élise, Damien, Julien) sont membres du groupe</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> La GPO utilise le filtrage de sécurité (groupe Juniors, pas "Authenticated Users")</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> La GPO est liée ET activée sur les OUs Creative\Users et Marketing\Users</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Les utilisateurs seniors (Hugo, Fabien, Camille) NE sont PAS affectés par la GPO</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Les utilisateurs juniors ONT les restrictions (CMD et Panneau de config désactivés)</li>
+</ul>
+<h3 id="test-manuel">Test Manuel</h3>
+<p><strong>Test 1 : Vérifier le filtrage</strong> :
+<div class="highlight"><pre><span></span><code><span class="nv">$gpo</span> <span class="p">=</span> <span class="nb">Get-GPO</span> <span class="n">-Name</span> <span class="s2">&quot;CreativeHub - Restrictions Utilisateurs Juniors&quot;</span>
+<span class="nb">Get-GPPermissions</span> <span class="n">-Name</span> <span class="nv">$gpo</span><span class="p">.</span><span class="n">DisplayName</span> <span class="n">-All</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Permission</span> <span class="o">-eq</span> <span class="s2">&quot;GpoApply&quot;</span><span class="p">}</span>
+<span class="c"># Doit montrer &quot;GG-CreativeHub-Juniors&quot;, PAS &quot;Authenticated Users&quot;</span>
+</code></pre></div></p>
+<p><strong>Test 2 : Simuler l'application pour Hugo (senior)</strong> :
+<div class="highlight"><pre><span></span><code><span class="c"># Hugo NE DOIT PAS recevoir la GPO</span>
+<span class="n">gpresult</span> <span class="p">/</span><span class="nb">r </span><span class="p">/</span><span class="n">scope</span><span class="p">:</span><span class="n">user</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="n">hugo</span>
+<span class="c"># La GPO &quot;Restrictions Utilisateurs Juniors&quot; NE DOIT PAS apparaître</span>
+</code></pre></div></p>
+<p><strong>Test 3 : Simuler l'application pour Julien (junior)</strong> :
+<div class="highlight"><pre><span></span><code><span class="c"># Julien DOIT recevoir la GPO</span>
+<span class="n">gpresult</span> <span class="p">/</span><span class="nb">r </span><span class="p">/</span><span class="n">scope</span><span class="p">:</span><span class="n">user</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="n">julien</span>
+<span class="c"># La GPO &quot;Restrictions Utilisateurs Juniors&quot; DOIT apparaître</span>
+</code></pre></div></p>
+<h2 id="solution-complete-pour-instructeur">Solution Complète (Pour Instructeur)</h2>
+<h3 id="script-de-configuration-et-correction">Script de Configuration et Correction</h3>
+<div class="highlight"><pre><span></span><code><span class="nb">Import-Module</span> <span class="n">ActiveDirectory</span>
+<span class="nb">Import-Module</span> <span class="n">GroupPolicy</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;========================================&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot; TROUBLESHOOTING GPO - SOLUTION&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;========================================&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+
+<span class="nv">$gpoName</span> <span class="p">=</span> <span class="s2">&quot;CreativeHub - Restrictions Utilisateurs Juniors&quot;</span>
+<span class="nv">$groupName</span> <span class="p">=</span> <span class="s2">&quot;GG-CreativeHub-Juniors&quot;</span>
+<span class="nv">$rootOU</span> <span class="p">=</span> <span class="s2">&quot;OU=CreativeHub,DC=maxtec,DC=be&quot;</span>
+
+<span class="c"># ÉTAPE 1: Créer le groupe Juniors (si inexistant)</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">[1/5] Création/Vérification du groupe Juniors...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nv">$group</span> <span class="p">=</span> <span class="nb">Get-ADGroup</span> <span class="n">-Identity</span> <span class="nv">$groupName</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  Le groupe $groupName existe déjà.&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="c"># Créer une OU pour les groupes globaux si nécessaire</span>
+    <span class="nv">$groupsOU</span> <span class="p">=</span> <span class="s2">&quot;OU=Groupes_Projets,$rootOU&quot;</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="nb">Get-ADOrganizationalUnit</span> <span class="n">-Identity</span> <span class="nv">$groupsOU</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+        <span class="nb">New-ADOrganizationalUnit</span> <span class="n">-Name</span> <span class="s2">&quot;Groupes_Projets&quot;</span> <span class="n">-Path</span> <span class="nv">$rootOU</span> <span class="n">-ProtectedFromAccidentalDeletion</span> <span class="nv">$false</span>
+    <span class="p">}</span>
+
+    <span class="nb">New-ADGroup</span> <span class="n">-Name</span> <span class="nv">$groupName</span> <span class="p">`</span>
+        <span class="n">-GroupScope</span> <span class="n">Global</span> <span class="p">`</span>
+        <span class="n">-GroupCategory</span> <span class="n">Security</span> <span class="p">`</span>
+        <span class="n">-Path</span> <span class="nv">$groupsOU</span> <span class="p">`</span>
+        <span class="n">-Description</span> <span class="s2">&quot;Employés juniors (moins d&#39;un an d&#39;ancienneté) - Restrictions de sécurité renforcées&quot;</span>
+
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ Groupe $groupName créé&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="nv">$group</span> <span class="p">=</span> <span class="nb">Get-ADGroup</span> <span class="n">-Identity</span> <span class="nv">$groupName</span>
+<span class="p">}</span>
+
+<span class="c"># ÉTAPE 2: Ajouter les utilisateurs juniors au groupe</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">[2/5] Ajout des utilisateurs juniors au groupe...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+
+<span class="nv">$juniors</span> <span class="p">=</span> <span class="p">@(</span><span class="s2">&quot;elise&quot;</span><span class="p">,</span> <span class="s2">&quot;damien&quot;</span><span class="p">,</span> <span class="s2">&quot;julien&quot;</span><span class="p">)</span>  <span class="c"># SAM Accounts des juniors</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$junior</span> <span class="k">in</span> <span class="nv">$juniors</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="nv">$user</span> <span class="p">=</span> <span class="nb">Get-ADUser</span> <span class="n">-Identity</span> <span class="nv">$junior</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span>
+        <span class="nb">Add-ADGroupMember</span> <span class="n">-Identity</span> <span class="nv">$groupName</span> <span class="n">-Members</span> <span class="nv">$junior</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ $junior ajouté au groupe Juniors&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span> <span class="o">-like</span> <span class="s2">&quot;*already a member*&quot;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nb">Write-Host</span> <span class="s2">&quot;  $junior est déjà membre du groupe&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+        <span class="p">}</span> <span class="k">elseif</span> <span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span> <span class="o">-like</span> <span class="s2">&quot;*Cannot find*&quot;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nb">Write-Host</span> <span class="s2">&quot;  ⚠ Utilisateur $junior introuvable&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nb">Write-Host</span> <span class="s2">&quot;  ✗ ERREUR pour $junior : </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c"># ÉTAPE 3: Vérifier/Créer la GPO</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">[3/5] Vérification de la GPO...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nv">$gpo</span> <span class="p">=</span> <span class="nb">Get-GPO</span> <span class="n">-Name</span> <span class="nv">$gpoName</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  La GPO &#39;$gpoName&#39; existe.&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  La GPO n&#39;existe pas, création...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+
+    <span class="c"># Créer la GPO</span>
+    <span class="nv">$gpo</span> <span class="p">=</span> <span class="nb">New-GPO</span> <span class="n">-Name</span> <span class="nv">$gpoName</span> <span class="n">-Comment</span> <span class="s2">&quot;Restrictions pour utilisateurs juniors uniquement&quot;</span>
+
+    <span class="c"># Configurer les restrictions</span>
+    <span class="nb">Set-GPRegistryValue</span> <span class="n">-Name</span> <span class="nv">$gpoName</span> <span class="p">`</span>
+        <span class="n">-Key</span> <span class="s2">&quot;HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer&quot;</span> <span class="p">`</span>
+        <span class="n">-ValueName</span> <span class="s2">&quot;NoControlPanel&quot;</span> <span class="n">-Type</span> <span class="n">DWord</span> <span class="n">-Value</span> <span class="n">1</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+
+    <span class="nb">Set-GPRegistryValue</span> <span class="n">-Name</span> <span class="nv">$gpoName</span> <span class="p">`</span>
+        <span class="n">-Key</span> <span class="s2">&quot;HKCU\Software\Policies\Microsoft\Windows\System&quot;</span> <span class="p">`</span>
+        <span class="n">-ValueName</span> <span class="s2">&quot;DisableCMD&quot;</span> <span class="n">-Type</span> <span class="n">DWord</span> <span class="n">-Value</span> <span class="n">2</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ GPO créée avec restrictions&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="p">}</span>
+
+<span class="c"># ÉTAPE 4: Configurer le FILTRAGE DE SÉCURITÉ (Security Filtering)</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">[4/5] Configuration du filtrage de sécurité...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+
+<span class="c"># Retirer &quot;Authenticated Users&quot; (appliqué par défaut)</span>
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nv">$authUsers</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Security</span><span class="p">.</span><span class="n">Principal</span><span class="p">.</span><span class="n">SecurityIdentifier</span><span class="p">(</span><span class="s2">&quot;S-1-5-11&quot;</span><span class="p">)</span> <span class="c"># Authenticated Users SID</span>
+    <span class="nb">Set-GPPermissions</span> <span class="n">-Name</span> <span class="nv">$gpoName</span> <span class="n">-PermissionLevel</span> <span class="n">None</span> <span class="n">-TargetName</span> <span class="s2">&quot;Authenticated Users&quot;</span> <span class="n">-TargetType</span> <span class="nb">Group </span><span class="n">-ErrorAction</span> <span class="n">Stop</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ &#39;Authenticated Users&#39; retiré du filtrage&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span> <span class="o">-like</span> <span class="s2">&quot;*does not have*&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;  &#39;Authenticated Users&#39; n&#39;était pas dans le filtrage&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;  ⚠ Erreur lors du retrait: </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c"># Ajouter le groupe Juniors avec permission GpoApply</span>
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nb">Set-GPPermissions</span> <span class="n">-Name</span> <span class="nv">$gpoName</span> <span class="n">-PermissionLevel</span> <span class="n">GpoApply</span> <span class="n">-TargetName</span> <span class="nv">$groupName</span> <span class="n">-TargetType</span> <span class="nb">Group </span><span class="n">-ErrorAction</span> <span class="n">Stop</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ Groupe &#39;$groupName&#39; ajouté avec permission GpoApply&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  ⚠ Erreur lors de l&#39;ajout: </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="p">}</span>
+
+<span class="c"># Le groupe doit aussi avoir la permission &quot;Lecture&quot; (Read)</span>
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nb">Set-GPPermissions</span> <span class="n">-Name</span> <span class="nv">$gpoName</span> <span class="n">-PermissionLevel</span> <span class="n">GpoRead</span> <span class="n">-TargetName</span> <span class="nv">$groupName</span> <span class="n">-TargetType</span> <span class="nb">Group </span><span class="n">-ErrorAction</span> <span class="n">Stop</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ Permission &#39;Lecture&#39; accordée au groupe Juniors&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  La permission existe peut-être déjà&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="p">}</span>
+
+<span class="c"># ÉTAPE 5: Lier la GPO aux OUs (et activer les liens)</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">[5/5] Liaison de la GPO aux OUs...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+
+<span class="nv">$ous</span> <span class="p">=</span> <span class="p">@(</span>
+    <span class="s2">&quot;OU=Users,OU=Creative,$rootOU&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;OU=Users,OU=Marketing,$rootOU&quot;</span>
+<span class="p">)</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$ou</span> <span class="k">in</span> <span class="nv">$ous</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="c"># Vérifier si le lien existe</span>
+        <span class="nv">$inheritance</span> <span class="p">=</span> <span class="nb">Get-GPInheritance</span> <span class="n">-Target</span> <span class="nv">$ou</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span>
+        <span class="nv">$existingLink</span> <span class="p">=</span> <span class="nv">$inheritance</span><span class="p">.</span><span class="n">GpoLinks</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">DisplayName</span> <span class="o">-eq</span> <span class="nv">$gpoName</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$existingLink</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nv">$existingLink</span><span class="p">.</span><span class="n">Enabled</span> <span class="o">-eq</span> <span class="nv">$false</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c"># Lien existe mais est désactivé - l&#39;activer</span>
+                <span class="nb">Set-GPLink</span> <span class="n">-Name</span> <span class="nv">$gpoName</span> <span class="n">-Target</span> <span class="nv">$ou</span> <span class="n">-LinkEnabled</span> <span class="n">Yes</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span>
+                <span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ Lien activé pour $ou&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nb">Write-Host</span> <span class="s2">&quot;  Le lien existe déjà et est activé pour $ou&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+            <span class="p">}</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c"># Créer le lien</span>
+            <span class="nb">New-GPLink</span> <span class="n">-Name</span> <span class="nv">$gpoName</span> <span class="n">-Target</span> <span class="nv">$ou</span> <span class="n">-LinkEnabled</span> <span class="n">Yes</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span>
+            <span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ GPO liée à $ou&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;  ✗ ERREUR pour $ou : </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c"># VÉRIFICATION FINALE</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">========================================&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot; TROUBLESHOOTING TERMINÉ&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;========================================&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Récapitulatif de la solution:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  1. Groupe &#39;GG-CreativeHub-Juniors&#39; créé&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  2. Utilisateurs juniors ajoutés au groupe (Élise, Damien, Julien)&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  3. Filtrage de sécurité configuré (uniquement groupe Juniors)&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  4. GPO liée et activée sur Creative\Users et Marketing\Users&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Membres du groupe Juniors:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nv">$members</span> <span class="p">=</span> <span class="nb">Get-ADGroupMember</span> <span class="n">-Identity</span> <span class="nv">$groupName</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$member</span> <span class="k">in</span> <span class="nv">$members</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$userDetails</span> <span class="p">=</span> <span class="nb">Get-ADUser</span> <span class="n">-Identity</span> <span class="nv">$member</span><span class="p">.</span><span class="n">SamAccountName</span> <span class="n">-Properties</span> <span class="n">Title</span><span class="p">,</span> <span class="n">Department</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  - </span><span class="p">$(</span><span class="nv">$member</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2"> (</span><span class="p">$(</span><span class="nv">$userDetails</span><span class="p">.</span><span class="n">Department</span><span class="p">)</span><span class="s2"> - </span><span class="p">$(</span><span class="nv">$userDetails</span><span class="p">.</span><span class="n">Title</span><span class="p">)</span><span class="s2">)&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="p">}</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Filtrage de sécurité de la GPO:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nv">$permissions</span> <span class="p">=</span> <span class="nb">Get-GPPermissions</span> <span class="n">-Name</span> <span class="nv">$gpoName</span> <span class="n">-All</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Permission</span> <span class="o">-eq</span> <span class="s2">&quot;GpoApply&quot;</span><span class="p">}</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$perm</span> <span class="k">in</span> <span class="nv">$permissions</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  - </span><span class="p">$(</span><span class="nv">$perm</span><span class="p">.</span><span class="n">Trustee</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2"> (Permission: </span><span class="p">$(</span><span class="nv">$perm</span><span class="p">.</span><span class="n">Permission</span><span class="p">)</span><span class="s2">)&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="p">}</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Liens GPO:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$ou</span> <span class="k">in</span> <span class="nv">$ous</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$inheritance</span> <span class="p">=</span> <span class="nb">Get-GPInheritance</span> <span class="n">-Target</span> <span class="nv">$ou</span>
+    <span class="nv">$link</span> <span class="p">=</span> <span class="nv">$inheritance</span><span class="p">.</span><span class="n">GpoLinks</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">DisplayName</span> <span class="o">-eq</span> <span class="nv">$gpoName</span><span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$link</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;  - $ou (Activé: </span><span class="p">$(</span><span class="nv">$link</span><span class="p">.</span><span class="n">Enabled</span><span class="p">)</span><span class="s2">)&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">✅ La GPO devrait maintenant s&#39;appliquer UNIQUEMENT aux utilisateurs juniors !&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Pour tester:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  Sur un poste client, exécuter:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  gpupdate /force&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  gpresult /r /scope:user /user:julien&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+</code></pre></div>
+<h3 id="explication-de-la-solution">Explication de la Solution</h3>
+<h4 id="probleme-principal-filtrage-de-securite">Problème Principal : Filtrage de Sécurité</h4>
+<p>Par défaut, une GPO s'applique à "Authenticated Users" (tous les utilisateurs authentifiés du domaine). Pour limiter l'application à un groupe spécifique :</p>
+<ol>
+<li><strong>Retirer "Authenticated Users"</strong> de la section "Filtrage de sécurité"</li>
+<li><strong>Ajouter le groupe cible</strong> ("GG-CreativeHub-Juniors")</li>
+<li>Le groupe doit avoir deux permissions :</li>
+<li><strong>Lecture</strong> (Read) - pour lire la GPO</li>
+<li><strong>Appliquer la stratégie de groupe</strong> (GpoApply) - pour que la GPO s'applique</li>
+</ol>
+<h4 id="problemes-secondaires">Problèmes Secondaires</h4>
+<ul>
+<li><strong>Lien désactivé</strong> : Vérifier que <code>Set-GPLink -LinkEnabled Yes</code></li>
+<li><strong>Ordre de priorité</strong> : Si plusieurs GPOs, vérifier l'ordre (last applied wins)</li>
+<li><strong>Héritage bloqué</strong> : Vérifier qu'il n'y a pas de "Block Inheritance" sur les OUs</li>
+</ul>
+<h2 id="points-cles-a-retenir">Points Clés à Retenir</h2>
+<h3 id="methodologie-de-troubleshooting-gpo">Méthodologie de Troubleshooting GPO</h3>
+<ol>
+<li><strong>Vérifier l'existence</strong> : La GPO existe-t-elle ?</li>
+<li><strong>Vérifier les paramètres</strong> : Les configurations sont-elles correctes ?</li>
+<li><strong>Vérifier les liens</strong> : La GPO est-elle liée aux bonnes OUs ?</li>
+<li><strong>Vérifier l'état des liens</strong> : Les liens sont-ils activés ?</li>
+<li><strong>Vérifier le filtrage de sécurité</strong> : Qui peut recevoir la GPO ?</li>
+<li><strong>Vérifier l'héritage</strong> : Y a-t-il des blocages d'héritage ?</li>
+<li><strong>Vérifier l'ordre de priorité</strong> : En cas de conflit, quelle GPO gagne ?</li>
+<li><strong>Forcer l'application</strong> : <code>gpupdate /force</code></li>
+<li><strong>Tester</strong> : <code>gpresult /r</code></li>
+</ol>
+<h3 id="outils-de-diagnostic">Outils de Diagnostic</h3>
+<table>
+<thead>
+<tr>
+<th>Outil</th>
+<th>Commande</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GPMC</strong></td>
+<td><code>gpmc.msc</code></td>
+<td>Interface graphique pour gérer les GPO</td>
+</tr>
+<tr>
+<td><strong>gpupdate</strong></td>
+<td><code>gpupdate /force</code></td>
+<td>Forcer l'application immédiate des GPO</td>
+</tr>
+<tr>
+<td><strong>gpresult</strong></td>
+<td><code>gpresult /r /scope:user</code></td>
+<td>Voir les GPO appliquées à un utilisateur</td>
+</tr>
+<tr>
+<td><strong>Get-GPO</strong></td>
+<td><code>Get-GPO -All</code></td>
+<td>Lister toutes les GPO via PowerShell</td>
+</tr>
+<tr>
+<td><strong>Get-GPInheritance</strong></td>
+<td><code>Get-GPInheritance -Target "OU=..."</code></td>
+<td>Voir les GPO héritées par une OU</td>
+</tr>
+<tr>
+<td><strong>Get-GPPermissions</strong></td>
+<td><code>Get-GPPermissions -Name "GPO" -All</code></td>
+<td>Voir les permissions d'une GPO</td>
+</tr>
+</tbody>
+</table>
+<h3 id="filtrage-de-securite-vs-wmi-filtering">Filtrage de Sécurité vs WMI Filtering</h3>
+<table>
+<thead>
+<tr>
+<th>Critère</th>
+<th>Security Filtering</th>
+<th>WMI Filtering</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Basé sur</strong></td>
+<td>Groupes AD</td>
+<td>Requêtes WMI (matériel, OS, etc.)</td>
+</tr>
+<tr>
+<td><strong>Performance</strong></td>
+<td>Rapide</td>
+<td>Plus lent (évalue une requête)</td>
+</tr>
+<tr>
+<td><strong>Usage</strong></td>
+<td>Cibler des utilisateurs/ordinateurs spécifiques</td>
+<td>Cibler selon des caractéristiques techniques</td>
+</tr>
+<tr>
+<td><strong>Exemple</strong></td>
+<td>"Appliquer uniquement aux juniors"</td>
+<td>"Appliquer uniquement aux PC avec Windows 11"</td>
+</tr>
+</tbody>
+</table>
+<h2 id="depannage-erreurs-courantes">Dépannage (Erreurs Courantes)</h2>
+<table>
+<thead>
+<tr>
+<th>Problème</th>
+<th>Cause</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPO ne s'applique toujours pas après gpupdate</td>
+<td>Cache GPO corrompu</td>
+<td><code>gpupdate /force /sync</code> ou redémarrer le poste</td>
+</tr>
+<tr>
+<td>"Authenticated Users" ne peut pas être retiré</td>
+<td>Nécessaire pour certaines opérations</td>
+<td>Utiliser <code>Set-GPPermissions -PermissionLevel None</code></td>
+</tr>
+<tr>
+<td>Le groupe n'apparaît pas dans le filtrage</td>
+<td>Délai de réplication AD</td>
+<td>Attendre quelques minutes ou forcer la réplication</td>
+</tr>
+<tr>
+<td>Conflit entre plusieurs GPO</td>
+<td>Ordre de priorité incorrect</td>
+<td>Ajuster l'ordre dans GPMC ou utiliser "Enforced"</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pour-aller-plus-loin">Pour Aller Plus Loin</h2>
+<h3 id="rsop-resultant-set-of-policy">RSoP (Resultant Set of Policy)</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Voir toutes les GPO appliquées à un utilisateur spécifique sur un ordinateur spécifique</span>
+<span class="nb">Get-GPResultantSetOfPolicy</span> <span class="n">-Computer</span> <span class="s2">&quot;DESKTOP-01&quot;</span> <span class="n">-User</span> <span class="s2">&quot;MAXTEC\julien&quot;</span> <span class="n">-ReportType</span> <span class="n">Html</span> <span class="n">-Path</span> <span class="s2">&quot;C:\Temp\RSoP.html&quot;</span>
+</code></pre></div>
+<h3 id="audit-de-lapplication-des-gpo">Audit de l'Application des GPO</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Générer un rapport de toutes les GPO et leurs liens</span>
+<span class="nb">Get-GPO</span> <span class="n">-All</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nv">$gpoName</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">DisplayName</span>
+    <span class="nv">$links</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-ADObject</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">gpLink</span> <span class="o">-like</span> <span class="s2">&quot;*</span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Id</span><span class="p">)</span><span class="s2">*&quot;</span><span class="p">}</span> <span class="n">-Properties</span> <span class="n">gpLink</span><span class="p">).</span><span class="n">DistinguishedName</span>
+    <span class="no">[PSCustomObject]</span><span class="p">@{</span>
+        <span class="n">GPOName</span> <span class="p">=</span> <span class="nv">$gpoName</span>
+        <span class="n">Links</span> <span class="p">=</span> <span class="nv">$links</span> <span class="n">-join</span> <span class="s2">&quot;; &quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;C:\Temp\GPO_Audit.csv&quot;</span> <span class="n">-NoTypeInformation</span>
+</code></pre></div>
+<h2 id="exercice-suivant-suggere">Exercice Suivant Suggéré</h2>
+<p><strong>Exercice 9</strong> : Scénario de crise - Incident de sécurité multi-facettes avec audit complet</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/choquitofrito/ActiveDirectory" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "navigation.prune", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

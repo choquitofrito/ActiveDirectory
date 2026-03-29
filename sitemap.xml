@@ -2,98 +2,274 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://choquitofrito.github.io/ActiveDirectory/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/CHEATSHEET/</loc>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
          <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%2010.Monitoring/</loc>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
          <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%202.Installation-Windows-Server-2022-VirtualBox/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
          <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%203.DNS/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
          <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
-         <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%204.DNS-Pratique-avec-AD/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%205.DNS-Pratique-avec-AD/</loc>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
-         <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%205.Unites_Organisation/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%206.Unites_Organisation/</loc>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
-         <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%206.Gestion_des_Utilisateurs/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%207.Gestion_des_Utilisateurs/</loc>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
-         <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%207.Group%20Policy%20Objects/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%208.Group%20Policy%20Objects/</loc>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
-         <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%208.0.Powershell%20AD%20-%20Introduction/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%209.0.Powershell%20AD%20-%20Introduction/</loc>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
-         <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%208.1.Powershell%20AD%20-%20Concepts%20base/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base/</loc>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
-         <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%208.2.Powershell%20AD%20-%20Requetes_et_Informations/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations/</loc>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
-         <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%208.3.Powershell%20AD%20-%20Creation_et_Modification/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Chapitre%209.3.Powershell%20AD%20-%20Creation_et_Modification/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labo%20Annexe%202%28opt%29-%20Acc%C3%A8s%20local%20%C3%A0%20Windows%20Server/</loc>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
          <loc>https://choquitofrito.github.io/ActiveDirectory/Th%C3%A9orie%20DNS-%20DNS%20Concepts%20Avances%20%28Reference%29/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
          <loc>https://choquitofrito.github.io/ActiveDirectory/Labo%20et%20Exercices/Exercices%3A%20GPO-1/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
          <loc>https://choquitofrito.github.io/ActiveDirectory/Labo%20et%20Exercices/Exercices%3A%20GPO-2/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
          <loc>https://choquitofrito.github.io/ActiveDirectory/Labo%20et%20Exercices/Exercices%3A%20GPO-3/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
          <loc>https://choquitofrito.github.io/ActiveDirectory/Labo%20et%20Exercices/Exercices%3A%20Gestion_des_Utilisateurs/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
          <loc>https://choquitofrito.github.io/ActiveDirectory/Labo%20et%20Exercices/Exercices%3A%20OUs_Departements_Complementaires/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
          <loc>https://choquitofrito.github.io/ActiveDirectory/Labo%20et%20Exercices/Exercices%3A%20Questions%20Base/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
          <loc>https://choquitofrito.github.io/ActiveDirectory/Labo%20et%20Exercices/Labo/Annexe.Permissions/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
          <loc>https://choquitofrito.github.io/ActiveDirectory/Labo%20et%20Exercices/Labo/Labo_structure/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
          <loc>https://choquitofrito.github.io/ActiveDirectory/Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/creation_structure/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <lastmod>2026-03-29</lastmod>
     </url>
     <url>
          <loc>https://choquitofrito.github.io/ActiveDirectory/Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/suppression_structure/</loc>
-         <lastmod>2025-09-30</lastmod>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo1-CreativeHub/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo1-CreativeHub/exercices/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_01_Nouvel_Employe/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_02_Depart_Employe/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_03_GPO_Lecteur_Reseau/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_04_Groupe_Projet_Client/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_05_Reset_Password/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_06_Delegation_Controle/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_07_Scenario_Onboarding_Complet/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_08_Troubleshooting_GPO/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_09_Scenario_Crise_Securite/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo1-CreativeHub/instructeur/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo1-CreativeHub/instructeur/Guide_Instructeur_Exercices/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo1-CreativeHub/instructeur/INDEX_EXERCICES/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo1-CreativeHub/scripts/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo2-MediCare/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo2-MediCare/exercices/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo2-MediCare/exercices/Exercice_01_Transfert_Patient/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo2-MediCare/exercices/Exercice_02_Horaire_Garde/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo2-MediCare/exercices/Exercice_03_Audit_Acces_Medical/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo2-MediCare/exercices/Exercice_04_Nouveau_Service_Medical/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo2-MediCare/exercices/Exercice_05_Confidentialite_Renforcee/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo2-MediCare/exercices/Exercice_06_Delegation_Chef_Service/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo2-MediCare/exercices/Exercice_07_Rotation_Specialistes/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo2-MediCare/exercices/Exercice_08_Incident_RGPD/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo2-MediCare/instructeur/GUIDE_RAPIDE_EXERCICES/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo3-MonitoringLab/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/PowershellCourse/prompt-curso-powershell/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/PowershellCourse/super-prompt-hybrid-powershell-ad/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/PowershellCourse/cours-powershell-ad-moderne/README-COURSE-SUMMARY/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/PowershellCourse/cours-powershell-ad-moderne/README-INSTRUCTEUR/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/PowershellCourse/cours-powershell-ad-moderne/cas-horreur-reels/vendredi-17h-sans-whatif/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/PowershellCourse/cours-powershell-ad-moderne/materiels-poche/carte-survie-maxtec/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/PowershellCourse/cours-powershell-ad-moderne/materiels-poche/checklist-validation-scripts/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M1-realite-2025/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M2-survie-tickets/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M3-ia-comme-copilote/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M4-scripts-bomba-lab/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M5-whatif-religieux/</loc>
+         <lastmod>2026-03-29</lastmod>
+    </url>
+    <url>
+         <loc>https://choquitofrito.github.io/ActiveDirectory/PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M6-kit-urgence/</loc>
+         <lastmod>2026-03-29</lastmod>
     </url>
 </urlset>

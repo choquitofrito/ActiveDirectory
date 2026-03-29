@@ -1,0 +1,1367 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://choquitofrito.github.io/ActiveDirectory/PowershellCourse/super-prompt-hybrid-powershell-ad/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Super Prompt Híbrido - Curso PowerShell AD Moderno para maxtec.be - Active Directory Course</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#super-prompt-hibrido-curso-powershell-ad-moderno-para-maxtecbe" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Active Directory Course" class="md-header__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Active Directory Course
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Super Prompt Híbrido - Curso PowerShell AD Moderno para maxtec.be
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  🏠 Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🖥️ Windows Server
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Chapitre%203.DNS/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🌐 DNS
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📁 Active Directory
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ⚡ PowerShell AD
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🧪 Labs & Exercices
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Active Directory Course" class="md-nav__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Active Directory Course
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏠 Accueil
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🖥️ Windows Server
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Chapitre%203.DNS/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🌐 DNS
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    📁 Active Directory
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    ⚡ PowerShell AD
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🧪 Labs & Exercices
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#contexto-e-integracion-existente" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contexto e Integración Existente
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filosofia-revolucionaria-2025" class="md-nav__link">
+    <span class="md-ellipsis">
+      FILOSOFÍA REVOLUCIONARIA 2025
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FILOSOFÍA REVOLUCIONARIA 2025">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cambio-de-paradigma" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cambio de Paradigma
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principios-fundamentales" class="md-nav__link">
+    <span class="md-ellipsis">
+      Principios Fundamentales
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estructura-de-archivos-complementarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      ESTRUCTURA DE ARCHIVOS COMPLEMENTARIOS
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integracion-con-infraestructura-existente" class="md-nav__link">
+    <span class="md-ellipsis">
+      INTEGRACIÓN CON INFRAESTRUCTURA EXISTENTE
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INTEGRACIÓN CON INFRAESTRUCTURA EXISTENTE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dominio-y-usuarios-base-ya-existentes-en-maxtecbe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dominio y Usuarios Base (YA EXISTENTES en maxtec.be)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grupos-existentes-usar-en-ejemplos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Grupos Existentes (USAR EN EJEMPLOS)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contenido-especifico-por-modulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      CONTENIDO ESPECÍFICO POR MÓDULO
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CONTENIDO ESPECÍFICO POR MÓDULO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#m1-realidad-2025-2h-post-capitulos-8x" class="md-nav__link">
+    <span class="md-ellipsis">
+      M1: Realidad 2025 (2h - Post capítulos 8.x)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#m2-supervivencia-tickets-2h" class="md-nav__link">
+    <span class="md-ellipsis">
+      M2: Supervivencia Tickets (2h)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#m5-whatif-religioso-15h" class="md-nav__link">
+    <span class="md-ellipsis">
+      M5: -WhatIf Religioso (1.5h)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#m6-kit-emergencia-1h" class="md-nav__link">
+    <span class="md-ellipsis">
+      M6: Kit Emergencia (1h)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-error-catastrofico" class="md-nav__link">
+    <span class="md-ellipsis">
+      El error catastrófico:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-desastre" class="md-nav__link">
+    <span class="md-ellipsis">
+      El desastre:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#costo-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      Costo real:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#como-evitarlo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cómo evitarlo:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#timing-total-y-certificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      TIMING TOTAL Y CERTIFICACIÓN
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instrucciones-de-generacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      INSTRUCCIONES DE GENERACIÓN
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="super-prompt-hibrido-curso-powershell-ad-moderno-para-maxtecbe">Super Prompt Híbrido - Curso PowerShell AD Moderno para maxtec.be</h1>
+<h2 id="contexto-e-integracion-existente">Contexto e Integración Existente</h2>
+<p><strong>IMPORTANTE</strong>: Este prompt complementa y moderniza los capítulos 8.x existentes del syllabus. Los estudiantes ya han completado:
+- 3 días de teoría AD (Capítulos 1-7)
+- Configuración del laboratorio maxtec.be (dns1.maxtec.be, estructura OU completa)
+- Capítulos 8.0-8.3: Conceptos base PowerShell AD (tradicionales)
+- Usuarios ya creados: Richard, Irene, Ivan, Ines, Victor, Vanessa, etc.</p>
+<h2 id="filosofia-revolucionaria-2025">FILOSOFÍA REVOLUCIONARIA 2025</h2>
+<h3 id="cambio-de-paradigma">Cambio de Paradigma</h3>
+<p><strong>DE</strong>: "PowerShell como programación compleja para expertos"
+<strong>A</strong>: "PowerShell como herramienta de supervivencia para admins reales en era IA"</p>
+<h3 id="principios-fundamentales">Principios Fundamentales</h3>
+<ol>
+<li><strong>Honestidad Total</strong>: "Sí, yo también uso ChatGPT para recordar sintaxis"</li>
+<li><strong>Lectura &gt; Escritura</strong>: Validar scripts de IA es más importante que escribir desde cero</li>
+<li><strong>Supervivencia Real</strong>: Solo comandos que usarán en tickets reales del lunes</li>
+<li><strong>Aprender del Desastre</strong>: Mostrar qué pasa cuando falta -WhatIf un viernes a las 17h</li>
+<li><strong>Progresión Microscópica</strong>: Desde <code>Get-Date</code> hasta scripts complejos en pasos de bebé</li>
+</ol>
+<h2 id="estructura-de-archivos-complementarios">ESTRUCTURA DE ARCHIVOS COMPLEMENTARIOS</h2>
+<div class="highlight"><pre><span></span><code>/curso-powershell-ad-moderno/
+├── README-INSTRUCTOR.md (timing detallado + integración con capítulos 8.x)
+├── setup-post-teoria.md (configuración después de los capítulos existentes)
+│
+├── modulos-modernos/
+│   ├── M1-realidad-2025.md (2h - &quot;Cómo realmente trabajo con PS en 2025&quot;)
+│   ├── M2-supervivencia-tickets.md (2h - Los 10 comandos que salvan carreras)
+│   ├── M3-ia-como-copiloto.md (1.5h - Prompts seguros + validación crítica)
+│   ├── M4-scripts-bomba-lab.md (2h - Encontrar errores mortales ocultos)
+│   ├── M5-whatif-religioso.md (1.5h - Por qué -WhatIf es sagrado)
+│   └── M6-kit-emergencia.md (1h - &quot;Cuando todo explota un viernes&quot;)
+│
+├── laboratorio-maxtec/
+│   ├── usuarios-realistas-maxtec.csv (datos hispanos con acentos)
+│   ├── escenarios-tickets-reales.ps1 (casos del mundo real anonimizados)
+│   ├── validacion-scripts-maxtec.ps1 (verificar estructura AD existente)
+│   └── scripts-bomba-maxtec/
+│       ├── bomba1-remove-all-users.ps1 (ERROR línea 18: sin filtro específico)
+│       ├── bomba2-move-ou-incorrect.ps1 (ERROR línea 11: path hardcodeado)
+│       ├── bomba3-password-in-clear.ps1 (ERROR línea 7: credenciales en claro)
+│       ├── bomba4-infinite-loop-groups.ps1 (ERROR línea 15: sin break condition)
+│       └── bomba5-production-friday.ps1 (ERROR línea 23: sin -WhatIf)
+│
+├── casos-horror-reales/
+│   ├── viernes-17h-sin-whatif.md (El becario que borró Ventas)
+│   ├── script-de-reddit-maxtec.md (Por qué no copiar código de foros)
+│   ├── loop-infinito-ou.md (El servidor que se quedó sin memoria)
+│   ├── credenciales-en-slack.md (El screenshot que costó un trabajo)
+│   └── backup-que-no-era.md (Restauración de 72 horas un domingo)
+│
+├── materiales-bolsillo/
+│   ├── tarjeta-supervivencia-maxtec.md (10x6cm - comandos vitales)
+│   ├── checklist-validacion-scripts.md (A4 - 20 puntos críticos)
+│   ├── prompts-ia-seguros.md (15 prompts probados + palabras mágicas)
+│   ├── interpretacion-errores.md (50 errores comunes traducidos)
+│   └── comandos-panico.md (break glass procedures)
+│
+├── evaluacion-practica/
+│   ├── examen-ticket-real.md (Onboarding 25 usuarios nuevos)
+│   ├── simulacro-desastre.md (Recuperar de script bomba ejecutado)
+│   ├── rubrica-mundo-real.md (competencias laborales reales)
+│   └── certificacion-supervivencia.md (template con firma digital)
+│
+└── recursos-expansion/
+    ├── siguiente-nivel-ps.md (Exchange, Azure, advanced scripting)
+    ├── comunidades-utiles.md (Discord, Reddit, Stack Overflow)
+    ├── canales-youtube-espanol.md (creadores hispanos recomendados)
+    └── troubleshooting-por-empresa.md (errores específicos por sector)
+</code></pre></div>
+<h2 id="integracion-con-infraestructura-existente">INTEGRACIÓN CON INFRAESTRUCTURA EXISTENTE</h2>
+<h3 id="dominio-y-usuarios-base-ya-existentes-en-maxtecbe">Dominio y Usuarios Base (YA EXISTENTES en maxtec.be)</h3>
+<div class="highlight"><pre><span></span><code>- Dominio: maxtec.be
+- DC: dns1.maxtec.be (192.168.0.2)
+- Estructura OU: OU=EU,DC=maxtec,DC=be
+  ├── OU=IT (Ivan, Ines, Irene)
+  ├── OU=Ventes (Victor, Vanessa, Valeria, Valentin)
+  ├── OU=RH (Rene, Rebecca, Richard)
+  └── OU=Compta (Charles, Cindy, Charlotte)
+</code></pre></div>
+<h3 id="grupos-existentes-usar-en-ejemplos">Grupos Existentes (USAR EN EJEMPLOS)</h3>
+<ul>
+<li>GG-EU-IT-Users, GG-EU-IT-Admins</li>
+<li>GG-EU-Ventes-Users, GG-EU-Ventes-Admins</li>
+<li>GG-EU-RH-Users, GG-EU-RH-Admins</li>
+<li>GG-EU-Compta-Users, GG-EU-Compta-Admins</li>
+</ul>
+<h2 id="contenido-especifico-por-modulo">CONTENIDO ESPECÍFICO POR MÓDULO</h2>
+<h3 id="m1-realidad-2025-2h-post-capitulos-8x">M1: Realidad 2025 (2h - Post capítulos 8.x)</h3>
+<p><strong>Timing</strong>: ⏱️ 2 horas exactas
+<strong>Prerrequisito</strong>: Haber completado capítulos 8.0-8.3
+<strong>Objetivo SMART</strong>: "Al terminar, entenderás cómo trabajan los admins PS reales en 2025"</p>
+<p><strong>Contenido revolucionario</strong>:
+1. <strong>Sección "Confesiones de un Admin Real"</strong>:
+   - "Sí, uso ChatGPT para recordar sintaxis"
+   - "90% del tiempo leo scripts, 10% escribo desde cero"
+   - "Get-Help es mi mejor amigo, no mi vergüenza"</p>
+<ol>
+<li>
+<p><strong>Demo en vivo con maxtec.be</strong>:
+   <div class="highlight"><pre><span></span><code><span class="c"># Lo que realmente hago lunes por la mañana:</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=IT,OU=EU,DC=maxtec,DC=be&quot;</span> <span class="n">-Properties</span> <span class="n">LastLogonDate</span> <span class="p">|</span>
+<span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">LastLogonDate</span> <span class="o">-lt</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddDays</span><span class="p">(-</span><span class="n">7</span><span class="p">)}</span> <span class="p">|</span>
+<span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">LastLogonDate</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>🔴 HISTORIA REAL</strong>: "El admin que fingía saber PowerShell"</p>
+</li>
+<li>Costo del error: 3 días de trabajo manual</li>
+<li>Moraleja: La honestidad acelera el aprendizaje</li>
+</ol>
+<h3 id="m2-supervivencia-tickets-2h">M2: Supervivencia Tickets (2h)</h3>
+<p><strong>Los 10 comandos que salvan carreras profesionales</strong></p>
+<p>Para cada comando, estructura fija:
+- ✅ Comando seguro para producción
+- ⚠️ Versión con precaución
+- 🔴 Versión peligrosa (NUNCA hacer)
+- 💡 Tip de supervivencia
+- 🎯 Ejercicio con usuarios maxtec.be</p>
+<p><strong>Ejemplo de estructura</strong>:
+<div class="highlight"><pre><span></span><code><span class="gu">#### Comando 2: Buscar usuario por nombre parcial</span>
+
+✅ <span class="gs">**SEGURO**</span>:
+```powershell
+Get-ADUser -Filter {GivenName -like &quot;Ire*&quot;} -SearchBase &quot;OU=EU,DC=maxtec,DC=be&quot;
+</code></pre></div></p>
+<p>⚠️ <strong>PRECAUCIÓN</strong>:
+<div class="highlight"><pre><span></span><code><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Name</span> <span class="o">-like</span> <span class="s2">&quot;*Ire*&quot;</span><span class="p">}</span> <span class="n">-Properties</span> <span class="p">*</span>
+<span class="c"># Puede ser lento con muchos usuarios</span>
+</code></pre></div></p>
+<p>🔴 <strong>PELIGROSO - NUNCA</strong>:
+<div class="highlight"><pre><span></span><code><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-Properties</span> <span class="p">*</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="o">-match</span> <span class="s2">&quot;.*&quot;</span><span class="p">}</span>
+<span class="c"># Carga TODOS los usuarios con TODAS las propiedades</span>
+</code></pre></div></p>
+<p>💡 <strong>TIP SUPERVIVENCIA</strong>: Siempre usa -SearchBase para limitar el scope</p>
+<p>🎯 <strong>EJERCICIO MAXTEC</strong>: Encuentra todos los usuarios del departamento IT cuyo nombre empiece por "I"
+<div class="highlight"><pre><span></span><code>### M3: IA como Copiloto (1.5h)
+**&quot;ChatGPT es tu amigo, pero TÚ eres el piloto&quot;**
+
+**Prompts seguros probados**:
+</code></pre></div>
+1. "Crea un script PowerShell para buscar usuarios AD inactivos,
+   INCLUYE -WhatIf, validación de errores y comentarios explicativos"</p>
+<ol>
+<li>
+<p>"Modifica este script para que sea seguro en producción:
+   [PEGAR SCRIPT]. Agrega validaciones y -WhatIf donde corresponda"</p>
+</li>
+<li>
+<p>"Explica línea por línea qué hace este script de AD y
+   identifica posibles riesgos: [PEGAR SCRIPT]"
+<div class="highlight"><pre><span></span><code>**Palabras mágicas para IA**:
+- &quot;seguro en producción&quot;
+- &quot;incluye -WhatIf&quot;
+- &quot;valida errores&quot;
+- &quot;incremental no masivo&quot;
+- &quot;explica riesgos&quot;
+
+### M4: Scripts Bomba Lab (2h)
+**&quot;Aprende a detectar minas terrestres antes de que exploten&quot;**
+
+Cada script bomba tiene:
+- Aspecto legítimo a primera vista
+- Comentarios que despistan
+- 1-2 errores educativos ocultos
+- Línea: `# TODO: Revisar antes de producción`
+
+**Bomba1-remove-all-users.ps1** (snippet):
+```powershell
+# Script para limpiar cuentas de usuarios inactivos
+# Autor: Admin Senior (confiable)
+# Fecha: 2024-12-15
+
+Import-Module ActiveDirectory
+
+# Obtener usuarios inactivos (última conexión &gt; 90 días)
+$dateLimite = (Get-Date).AddDays(-90)
+$usuariosInactivos = Get-ADUser -Filter * -Properties LastLogonDate |
+    Where-Object {$_.LastLogonDate -lt $dateLimite}
+
+Write-Host &quot;Encontrados $($usuariosInactivos.Count) usuarios inactivos&quot;
+
+# TODO: Revisar antes de producción
+foreach ($usuario in $usuariosInactivos) {
+    Write-Host &quot;Eliminando usuario: $($usuario.Name)&quot;
+    Remove-ADUser -Identity $usuario.SamAccountName -Confirm:$false
+    # ☢️ ERROR OCULTO: Sin -WhatIf, sin validación de grupos críticos
+}
+</code></pre></div></p>
+</li>
+</ol>
+<h3 id="m5-whatif-religioso-15h">M5: -WhatIf Religioso (1.5h)</h3>
+<p><strong>"Tratamos -WhatIf como artículo de fe"</strong></p>
+<p><strong>Estructura de contenido</strong>:
+1. <strong>🚨 Historia de Horror</strong>: "El viernes sin -WhatIf"
+2. <strong>Demostraciones dramáticas</strong>:
+   <div class="highlight"><pre><span></span><code><span class="c"># ☠️ NUNCA ejecutar (solo mostrar)</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="p">|</span> <span class="nb">Remove-ADUser</span> <span class="n">-Confirm</span><span class="p">:</span><span class="nv">$false</span>
+
+<span class="c"># ✅ SIEMPRE empezar así</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="p">|</span> <span class="nb">Remove-ADUser</span> <span class="n">-WhatIf</span>
+</code></pre></div>
+3. <strong>Comandos que SIEMPRE necesitan -WhatIf</strong>:
+   - Remove-<em>
+   - Set-</em> (cambios masivos)
+   - Move-<em>
+   - Disable-</em></p>
+<h3 id="m6-kit-emergencia-1h">M6: Kit Emergencia (1h)</h3>
+<p><strong>"Cuando todo explota un viernes a las 17h"</strong></p>
+<p><strong>Procedures "break glass"</strong>:
+<div class="highlight"><pre><span></span><code>🚨 EMERGENCY CHECKLIST 🚨
+
+□ 1. RESPIRAR (literalmente, cuenta hasta 10)
+□ 2. NO ejecutar nada más hasta entender el problema
+□ 3. Documentar QUÉ se ejecutó exactamente
+□ 4. Verificar backups disponibles
+□ 5. Contactar supervisor ANTES de intentar &quot;arreglar&quot;
+
+COMANDOS DE DIAGNÓSTICO RÁPIDO:
+```powershell
+<span class="gh"># Estado del dominio</span>
+Get-ADDomain | Select-Object DNSRoot, DomainMode
+
+<span class="gh"># Últimas modificaciones (buscar el desastre)</span>
+Get-WinEvent -LogName &quot;Security&quot; -MaxEvents 50 |
+Where-Object {$_.Id -eq 4728 -or $_.Id -eq 4729}
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>## CASOS HORROR ESPECIFICACIÓN DETALLADA
+
+### Historia 1: &quot;Viernes 17h sin -WhatIf&quot;
+```markdown
+# 🚨 HISTORIA REAL: El Viernes Que Casi Acaba Una Carrera
+
+**Contexto**: Viernes 16:45h, oficina vaciándose, deadline urgente
+**Protagonist**: Admin junior con 6 meses experiencia
+**Tarea**: &quot;Desactivar las cuentas de los becarios que terminaron&quot;
+
+## Lo que debía pasar:
+- Desactivar 5 cuentas específicas de becarios
+- Verificar que no afecte a usuarios críticos
+- Documentar cambios
+
+## Lo que realmente pasó:
+```powershell
+# El script &quot;inofensivo&quot; copiado de un foro
+Get-ADUser -Filter {Department -eq &quot;Becarios&quot;} | Disable-ADAccount
+</code></pre></div></p>
+<h2 id="el-error-catastrofico">El error catastrófico:</h2>
+<ul>
+<li>El filtro no encontró exactamente "Becarios"</li>
+<li>Alguien había escrito "Becario" (singular) en algunos perfiles</li>
+<li>El script no desactivó a NADIE</li>
+<li>Luego intentó "arreglar" con:
+<div class="highlight"><pre><span></span><code><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Title</span> <span class="o">-like</span> <span class="s2">&quot;*Becario*&quot;</span><span class="p">}</span> <span class="p">|</span> <span class="nb">Disable-ADAccount</span>
+</code></pre></div></li>
+</ul>
+<h2 id="el-desastre">El desastre:</h2>
+<ul>
+<li>Capturó también "Becario Senior" y "Ex-Becario"</li>
+<li>Desactivó al Director Financiero (título: "Ex-Becario, ahora Director")</li>
+<li>Desactivó a 3 desarrolladores seniors</li>
+<li>Sistema ERP perdió acceso</li>
+<li>Bloqueo de nóminas</li>
+</ul>
+<h2 id="costo-real">Costo real:</h2>
+<ul>
+<li><strong>Tiempo</strong>: 12 horas de restauración (fin de semana)</li>
+<li><strong>Dinero</strong>: €15,000 en consultores externos urgentes</li>
+<li><strong>Reputación</strong>: Reunión con RRHH, plan de mejora</li>
+<li><strong>Estrés</strong>: Ataque de ansiedad, 2 semanas de baja</li>
+</ul>
+<h2 id="como-evitarlo">Cómo evitarlo:</h2>
+<ol>
+<li><strong>SIEMPRE empezar con -WhatIf</strong>:
+   <div class="highlight"><pre><span></span><code><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Department</span> <span class="o">-eq</span> <span class="s2">&quot;Becarios&quot;</span><span class="p">}</span> <span class="p">|</span> <span class="nb">Disable-ADAccount</span> <span class="n">-WhatIf</span>
+</code></pre></div></li>
+<li><strong>Verificar ANTES</strong>:
+   <div class="highlight"><pre><span></span><code><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Department</span> <span class="o">-eq</span> <span class="s2">&quot;Becarios&quot;</span><span class="p">}</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Title</span><span class="p">,</span> <span class="n">Department</span>
+</code></pre></div></li>
+<li><strong>Filtros específicos</strong>:
+   <div class="highlight"><pre><span></span><code><span class="nv">$becariosADesactivar</span> <span class="p">=</span> <span class="p">@(</span><span class="s2">&quot;user1&quot;</span><span class="p">,</span> <span class="s2">&quot;user2&quot;</span><span class="p">,</span> <span class="s2">&quot;user3&quot;</span><span class="p">,</span> <span class="s2">&quot;user4&quot;</span><span class="p">,</span> <span class="s2">&quot;user5&quot;</span><span class="p">)</span>
+<span class="nv">$becariosADesactivar</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nb">Disable-ADAccount</span> <span class="n">-Identity</span> <span class="nv">$_</span> <span class="n">-WhatIf</span>
+<span class="p">}</span>
+</code></pre></div></li>
+</ol>
+<p><strong>Moraleja</strong>: -WhatIf no es opcional. Es supervivencia profesional.
+<div class="highlight"><pre><span></span><code>## MATERIALES IMPRESOS ESPECÍFICOS
+
+### Tarjeta de Bolsillo maxtec.be (10x6 cm)
+**ANVERSO**:
+</code></pre></div>
+🆘 SUPERVIVENCIA PS - maxtec.be 🆘</p>
+<ol>
+<li>Get-ADUser -Identity [name] -Properties *</li>
+<li>Get-ADUser -Filter * -SearchBase "OU=XX,OU=EU,DC=maxtec,DC=be"</li>
+<li>Get-ADGroup -Filter {Name -like "GG-EU-*"}</li>
+<li>Add-ADGroupMember -Identity [group] -Members [user] -WhatIf</li>
+<li>Set-ADUser -Identity [user] -Enabled $false -WhatIf</li>
+</ol>
+<p>🔴 NUNCA sin -WhatIf: Remove-<em>, Set-</em> masivo, Move-<em>
+<div class="highlight"><pre><span></span><code>**REVERSO**:
+</code></pre></div>
+SINTAXIS FILTROS:
+-Filter {Propiedad -eq "Valor"}
+-Filter {Propiedad -like "Val</em>"}
+-Filter {Propiedad -ne "Valor"}</p>
+<p>EMERGENCIA maxtec.be:
+DC: dns1.maxtec.be
+Base: OU=EU,DC=maxtec,DC=be
+Backup Admin: richard@maxtec.be
+```</p>
+<h2 id="timing-total-y-certificacion">TIMING TOTAL Y CERTIFICACIÓN</h2>
+<p><strong>Duración total</strong>: 10 horas exactas (complementa capítulos 8.x existentes)
+- M1: Realidad 2025 (2h)
+- M2: Supervivencia Tickets (2h)
+- M3: IA como Copiloto (1.5h)
+- ☕ Break 15 min
+- M4: Scripts Bomba Lab (2h)
+- M5: -WhatIf Religioso (1.5h)
+- M6: Kit Emergencia (1h)</p>
+<p><strong>Evaluación final</strong>: Resolver ticket real simulado en maxtec.be con script bomba oculto</p>
+<h2 id="instrucciones-de-generacion">INSTRUCCIONES DE GENERACIÓN</h2>
+<p><strong>CRÍTICO - Características de cada archivo</strong>:</p>
+<ol>
+<li>
+<p><strong>Integración total</strong>: Todos los ejemplos usan maxtec.be, usuarios existentes (Richard, Irene, etc.)</p>
+</li>
+<li>
+<p><strong>Outputs reales</strong>: Cada comando debe mostrar output completo simulado:
+   ```powershell
+   PS C:&gt; Get-ADUser -Identity Richard -Properties Department</p>
+</li>
+</ol>
+<p>Department        : RH
+   DistinguishedName : CN=Richard,OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be
+   Enabled           : True
+   GivenName         : Richard
+   Name              : Richard
+   SamAccountName    : Richard
+   Surname           :
+   UserPrincipalName : Richard@maxtec.be
+   ```</p>
+<ol>
+<li>
+<p><strong>Casos horror reales pero anónimos</strong>: Inspirados en desastres reales, adaptados a maxtec.be</p>
+</li>
+<li>
+<p><strong>Scripts bomba educativos</strong>: Funcionales pero con errores pedagógicos específicos</p>
+</li>
+<li>
+<p><strong>Tono revolucionario</strong>: Directo, honesto, "cómplice". Ejemplos:</p>
+</li>
+<li>"Sí, Google es parte del toolkit profesional"</li>
+<li>"No finjas que memorizas sintaxis, todos consultamos documentación"</li>
+<li>
+<p>"Tu trabajo es validar, no escribir desde cero"</p>
+</li>
+<li>
+<p><strong>Progresión microscópica</strong>: Cada concepto en pasos de bebé, con verificación</p>
+</li>
+<li>
+<p><strong>Enlaces con capítulos existentes</strong>: Referencias explícitas como "Como vimos en el capítulo 8.1..."</p>
+</li>
+<li>
+<p><strong>Breaks explícitos</strong>: "☕ Pausa de 10 minutos aquí - es obligatoria"</p>
+</li>
+<li>
+<p><strong>Validación constante</strong>: Cada ejercicio debe verificar que el comando funcionó</p>
+</li>
+<li>
+<p><strong>Checklist de seguridad</strong>: Antes de cada comando potencialmente peligroso</p>
+</li>
+</ol>
+<p><strong>RESULTADO ESPERADO</strong>: 25-30 archivos markdown autocontenidos, listos para usar inmediatamente en aula real con estudiantes que vienen de completar los capítulos 8.x existentes.</p>
+<p>Genera todos los archivos con contenido completo, realista y pedagógicamente revolucionario. Cada archivo debe respirar la filosofía 2025 de "supervivencia profesional con honestidad total".</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/choquitofrito/ActiveDirectory" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "navigation.prune", "content.code.copy"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

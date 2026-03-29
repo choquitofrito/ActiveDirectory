@@ -1,0 +1,2407 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo2-MediCare/exercices/Exercice_02_Horaire_Garde/">
+      
+      
+        <link rel="prev" href="../Exercice_01_Transfert_Patient/">
+      
+      
+        <link rel="next" href="../Exercice_03_Audit_Acces_Medical/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Ex02 - Horaire Garde - Active Directory Course</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#exercice-02-horaire-de-garde" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Active Directory Course" class="md-header__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Active Directory Course
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ex02 - Horaire Garde
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  🏠 Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🖥️ Windows Server
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%203.DNS/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🌐 DNS
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📁 Active Directory
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ⚡ PowerShell AD
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🧪 Labs & Exercices
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Active Directory Course" class="md-nav__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Active Directory Course
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏠 Accueil
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🖥️ Windows Server
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%203.DNS/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🌐 DNS
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    📁 Active Directory
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    ⚡ PowerShell AD
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    🧪 Labs & Exercices
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            🧪 Labs & Exercices
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Lab Principal
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Labo1-CreativeHub/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Lab 1 - CreativeHub
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Lab 2 - MediCare
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            Lab 2 - MediCare
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../scripts/MediCare_Setup.ps1" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🔧 Setup & Cleanup
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_3_3" id="__nav_6_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    📝 Exercices (8)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_3_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            📝 Exercices (8)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_01_Transfert_Patient/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex01 - Transfert Patient
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Ex02 - Horaire Garde
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex02 - Horaire Garde
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#niveau-de-difficulte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Niveau de Difficulté
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objectifs-pedagogiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectifs Pédagogiques
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duree-estimee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Durée Estimée
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prérequis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contexte-scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contexte / Scénario
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#taches-a-realiser" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tâches à Réaliser
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tâches à Réaliser">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-creer-le-compte-utilisateur-medecin-de-garde" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 1 : Créer le compte utilisateur "Médecin de Garde"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-configurer-la-date-dexpiration-du-compte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 2 : Configurer la date d'expiration du compte
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-3-configurer-les-horaires-dacces-logon-hours" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 3 : Configurer les horaires d'accès (Logon Hours)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-4-ajouter-le-compte-au-groupe-gg-medicare-medical-oncall" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 4 : Ajouter le compte au groupe GG-MediCare-Medical-Oncall
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-5-configurer-les-proprietes-additionnelles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 5 : Configurer les propriétés additionnelles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-6-verification-powershell-du-compte-cree" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 6 : Vérification PowerShell du compte créé
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-7-tester-les-restrictions-horaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 7 : Tester les restrictions horaires
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-8-documentation-pour-le-coordinateur-de-garde" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 8 : Documentation pour le coordinateur de garde
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification-de-la-reussite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérification de la Réussite
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vérification de la Réussite">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commandes-powershell-de-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commandes PowerShell de Vérification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criteres-de-reussite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Critères de Réussite
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-complete-pour-instructeur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution Complète (Pour Instructeur)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solution Complète (Pour Instructeur)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#methode-gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      Méthode GUI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methode-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Méthode PowerShell
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#points-cles-a-retenir" class="md-nav__link">
+    <span class="md-ellipsis">
+      Points Clés à Retenir
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#depannage-erreurs-courantes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dépannage (Erreurs Courantes)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-suivant-suggere" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice Suivant Suggéré
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_03_Audit_Acces_Medical/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex03 - Audit Accès
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_04_Nouveau_Service_Medical/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex04 - Nouveau Service
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_05_Confidentialite_Renforcee/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex05 - Confidentialité
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_06_Delegation_Chef_Service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex06 - Délégation Chef
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_07_Rotation_Specialistes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex07 - Rotation Spécialistes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_08_Incident_RGPD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex08 - Incident RGPD
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../instructeur/GUIDE_RAPIDE_EXERCICES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    👨‍🏫 Guide Instructeur
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Labo%20et%20Exercices/Exercices%3A%20Questions%20Base/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Exercices Généraux
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#niveau-de-difficulte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Niveau de Difficulté
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objectifs-pedagogiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectifs Pédagogiques
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duree-estimee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Durée Estimée
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prérequis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contexte-scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contexte / Scénario
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#taches-a-realiser" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tâches à Réaliser
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tâches à Réaliser">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-creer-le-compte-utilisateur-medecin-de-garde" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 1 : Créer le compte utilisateur "Médecin de Garde"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-configurer-la-date-dexpiration-du-compte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 2 : Configurer la date d'expiration du compte
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-3-configurer-les-horaires-dacces-logon-hours" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 3 : Configurer les horaires d'accès (Logon Hours)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-4-ajouter-le-compte-au-groupe-gg-medicare-medical-oncall" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 4 : Ajouter le compte au groupe GG-MediCare-Medical-Oncall
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-5-configurer-les-proprietes-additionnelles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 5 : Configurer les propriétés additionnelles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-6-verification-powershell-du-compte-cree" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 6 : Vérification PowerShell du compte créé
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-7-tester-les-restrictions-horaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 7 : Tester les restrictions horaires
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-8-documentation-pour-le-coordinateur-de-garde" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 8 : Documentation pour le coordinateur de garde
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification-de-la-reussite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérification de la Réussite
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vérification de la Réussite">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commandes-powershell-de-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commandes PowerShell de Vérification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criteres-de-reussite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Critères de Réussite
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-complete-pour-instructeur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution Complète (Pour Instructeur)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solution Complète (Pour Instructeur)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#methode-gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      Méthode GUI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methode-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Méthode PowerShell
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#points-cles-a-retenir" class="md-nav__link">
+    <span class="md-ellipsis">
+      Points Clés à Retenir
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#depannage-erreurs-courantes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dépannage (Erreurs Courantes)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-suivant-suggere" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice Suivant Suggéré
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="exercice-02-horaire-de-garde">Exercice 02 : Horaire de Garde</h1>
+<h2 id="niveau-de-difficulte">Niveau de Difficulté</h2>
+<p>🟢 <strong>Débutant</strong> (Guidé étape par étape)</p>
+<h2 id="objectifs-pedagogiques">Objectifs Pédagogiques</h2>
+<ul>
+<li>Créer un <strong>compte utilisateur temporaire</strong> avec date d'expiration</li>
+<li>Configurer des <strong>horaires d'accès restreints</strong> (logon hours) pour les gardes médicales</li>
+<li>Ajouter un utilisateur à un <strong>groupe spécialisé</strong> (Oncall)</li>
+<li>Tester les <strong>restrictions temporelles</strong> d'Active Directory</li>
+</ul>
+<h2 id="duree-estimee">Durée Estimée</h2>
+<p><strong>25-30 minutes</strong></p>
+<h2 id="prerequis">Prérequis</h2>
+<div class="admonition info">
+<p class="admonition-title">Environnement requis</p>
+<ul>
+<li>Laboratoire MediCare <strong>complètement configuré</strong></li>
+<li>Groupe <strong>GG-MediCare-Medical-Oncall</strong> existant</li>
+<li>Accès <strong>Administrateur de domaine</strong></li>
+<li>Connaissance de base d'Active Directory Users and Computers</li>
+</ul>
+</div>
+<h2 id="contexte-scenario">Contexte / Scénario</h2>
+<div class="admonition example">
+<p class="admonition-title">Scénario réel - Système de garde MediCare</p>
+<p><strong>Email du Coordinateur de Garde (Thomas Renard)</strong> :</p>
+<blockquote>
+<p>Bonjour IT,</p>
+<p>Nous avons besoin d'un <strong>compte de garde rotatif</strong> pour les urgences nocturnes et les week-ends.</p>
+<p><strong>Cahier des charges :</strong></p>
+<ul>
+<li>Nom du compte : <strong>"Médecin de Garde"</strong> (SamAccountName : <code>garde</code>)</li>
+<li>Mot de passe temporaire : <code>MediCare2025!</code></li>
+<li><strong>Horaires d'accès strictes</strong> : Uniquement de <strong>18h à 8h du matin</strong> + <strong>week-ends 24/7</strong></li>
+<li>Expiration du compte : <strong>7 jours</strong> (renouvellement hebdomadaire)</li>
+<li>Groupe d'accès : <strong>GG-MediCare-Medical-Oncall</strong> (accès système patients urgents)</li>
+</ul>
+<p>Le compte sera utilisé sur la station <strong>URGENCES-WS01</strong> pour les consultations de nuit.</p>
+<p>Merci!
+Thomas Renard - Coordinateur de Garde</p>
+</blockquote>
+<p><strong>Votre mission</strong> : Créer ce compte avec les restrictions horaires appropriées.</p>
+</div>
+<h2 id="taches-a-realiser">Tâches à Réaliser</h2>
+<h3 id="etape-1-creer-le-compte-utilisateur-medecin-de-garde">Étape 1 : Créer le compte utilisateur "Médecin de Garde"</h3>
+<ol>
+<li>
+<p>Ouvrir <strong>Active Directory Users and Computers</strong> (<code>dsa.msc</code>)</p>
+</li>
+<li>
+<p>Naviguer vers : <code>maxtec.be &gt; MediCare &gt; Medical &gt; Users</code></p>
+</li>
+<li>
+<p>Clic droit sur <strong>Users</strong> &gt; <strong>New</strong> &gt; <strong>User</strong></p>
+</li>
+<li>
+<p>Configurer le nouveau compte :</p>
+</li>
+<li><strong>First name</strong> : <code>Médecin</code></li>
+<li><strong>Last name</strong> : <code>de Garde</code></li>
+<li><strong>Full name</strong> : <code>Médecin de Garde</code></li>
+<li><strong>User logon name</strong> : <code>garde@maxtec.be</code></li>
+<li>
+<p>Cliquer <strong>Next</strong></p>
+</li>
+<li>
+<p>Configurer le mot de passe :</p>
+</li>
+<li><strong>Password</strong> : <code>MediCare2025!</code></li>
+<li><strong>Confirm password</strong> : <code>MediCare2025!</code></li>
+<li>Décocher <strong>"User must change password at next logon"</strong></li>
+<li>Cocher <strong>"User cannot change password"</strong> (compte partagé)</li>
+<li>Cocher <strong>"Password never expires"</strong> (compte de service)</li>
+<li>Cliquer <strong>Next</strong> &gt; <strong>Finish</strong></li>
+</ol>
+<div class="admonition success">
+<p class="admonition-title">Résultat attendu</p>
+<p>Le compte <strong>garde</strong> apparaît dans la liste des utilisateurs de l'OU Medical &gt; Users.</p>
+</div>
+<h3 id="etape-2-configurer-la-date-dexpiration-du-compte">Étape 2 : Configurer la date d'expiration du compte</h3>
+<ol>
+<li>
+<p>Dans <strong>Active Directory Users and Computers</strong>, double-cliquer sur <strong>Médecin de Garde</strong></p>
+</li>
+<li>
+<p>Onglet <strong>Account</strong></p>
+</li>
+<li>
+<p>Section <strong>Account expires</strong> :</p>
+</li>
+<li>Sélectionner <strong>End of:</strong> (radio button)</li>
+<li>Cliquer sur le calendrier et sélectionner <strong>la date dans 7 jours</strong></li>
+<li>
+<p>Exemple : Si aujourd'hui est le 5 octobre, sélectionner le 12 octobre</p>
+</li>
+<li>
+<p>Cliquer <strong>Apply</strong></p>
+</li>
+</ol>
+<div class="admonition success">
+<p class="admonition-title">Résultat attendu</p>
+<p>Le compte expirera automatiquement dans 7 jours.</p>
+</div>
+<h3 id="etape-3-configurer-les-horaires-dacces-logon-hours">Étape 3 : Configurer les horaires d'accès (Logon Hours)</h3>
+<div class="admonition warning">
+<p class="admonition-title">Restriction horaire complexe</p>
+<p>Nous devons autoriser l'accès uniquement :</p>
+<ul>
+<li><strong>Lundi à Vendredi</strong> : 18h00 - 23h59 + 00h00 - 08h00</li>
+<li><strong>Samedi et Dimanche</strong> : 24h/24 (00h00 - 23h59)</li>
+</ul>
+</div>
+<ol>
+<li>
+<p>Toujours dans les propriétés de <strong>Médecin de Garde</strong>, onglet <strong>Account</strong></p>
+</li>
+<li>
+<p>Cliquer sur le bouton <strong>Logon Hours...</strong></p>
+</li>
+<li>
+<p><strong>Par défaut, tous les créneaux sont autorisés (bleu)</strong></p>
+</li>
+<li>
+<p><strong>Bloquer d'abord toutes les heures de travail normales</strong> (8h-18h, lundi-vendredi) :</p>
+</li>
+<li><strong>Lundi</strong> : Cliquer et glisser de <strong>8 AM</strong> à <strong>6 PM</strong> (devient blanc/bloqué)</li>
+<li>
+<p>Répéter pour <strong>Mardi, Mercredi, Jeudi, Vendredi</strong></p>
+</li>
+<li>
+<p>Vérifier que les créneaux suivants sont <strong>autorisés (bleu)</strong> :</p>
+</li>
+<li>Lundi-Vendredi : 18h (6 PM) → 8h (8 AM le lendemain)</li>
+<li>
+<p>Samedi-Dimanche : 0h → 23h (toute la journée)</p>
+</li>
+<li>
+<p>Cliquer <strong>OK</strong> &gt; <strong>Apply</strong> &gt; <strong>OK</strong></p>
+</li>
+</ol>
+<div class="admonition success">
+<p class="admonition-title">Résultat attendu</p>
+<p>La grille des horaires montre :</p>
+<ul>
+<li>Lundi-Vendredi : Bleu de 18h à 8h (+ plage nocturne), Blanc de 8h à 18h</li>
+<li>Samedi-Dimanche : Entièrement bleu (24/24)</li>
+</ul>
+</div>
+<h3 id="etape-4-ajouter-le-compte-au-groupe-gg-medicare-medical-oncall">Étape 4 : Ajouter le compte au groupe GG-MediCare-Medical-Oncall</h3>
+<ol>
+<li>
+<p>Dans <strong>Active Directory Users and Computers</strong>, naviguer vers : <code>MediCare &gt; Medical &gt; Groups</code></p>
+</li>
+<li>
+<p>Double-cliquer sur <strong>GG-MediCare-Medical-Oncall</strong></p>
+</li>
+<li>
+<p>Onglet <strong>Members</strong></p>
+</li>
+<li>
+<p>Cliquer <strong>Add...</strong></p>
+</li>
+<li>
+<p>Dans le champ <strong>Enter the object names to select</strong>, taper : <code>garde</code></p>
+</li>
+<li>
+<p>Cliquer <strong>Check Names</strong> (le nom doit devenir souligné : <strong>Médecin de Garde</strong>)</p>
+</li>
+<li>
+<p>Cliquer <strong>OK</strong> &gt; <strong>Apply</strong> &gt; <strong>OK</strong></p>
+</li>
+</ol>
+<div class="admonition success">
+<p class="admonition-title">Résultat attendu</p>
+<p>Le compte <strong>Médecin de Garde</strong> apparaît dans la liste des membres du groupe Oncall.</p>
+</div>
+<h3 id="etape-5-configurer-les-proprietes-additionnelles">Étape 5 : Configurer les propriétés additionnelles</h3>
+<ol>
+<li>
+<p>Retourner aux propriétés de <strong>Médecin de Garde</strong></p>
+</li>
+<li>
+<p>Onglet <strong>General</strong> :</p>
+</li>
+<li><strong>Description</strong> : <code>Compte de garde rotatif - Urgences nocturnes et week-ends</code></li>
+<li><strong>Office</strong> : <code>Salle des Urgences</code></li>
+<li>
+<p><strong>Telephone number</strong> : <code>+32-2-555-URGE</code></p>
+</li>
+<li>
+<p>Onglet <strong>Organization</strong> :</p>
+</li>
+<li><strong>Title</strong> : <code>Médecin de Garde</code></li>
+<li>
+<p><strong>Department</strong> : <code>Medical</code></p>
+</li>
+<li>
+<p>Cliquer <strong>Apply</strong> &gt; <strong>OK</strong></p>
+</li>
+</ol>
+<div class="admonition success">
+<p class="admonition-title">Résultat attendu</p>
+<p>Les propriétés du compte sont complètes et documentées.</p>
+</div>
+<h3 id="etape-6-verification-powershell-du-compte-cree">Étape 6 : Vérification PowerShell du compte créé</h3>
+<ol>
+<li>
+<p>Ouvrir <strong>PowerShell ISE</strong> en tant qu'<strong>Administrateur</strong></p>
+</li>
+<li>
+<p>Exécuter le script de vérification suivant :</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c"># Vérification du compte de garde</span>
+<span class="nb">Import-Module</span> <span class="n">ActiveDirectory</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">========================================&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;VÉRIFICATION COMPTE MÉDECIN DE GARDE&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;========================================&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+
+<span class="c"># Obtenir le compte</span>
+<span class="nv">$garde</span> <span class="p">=</span> <span class="nb">Get-ADUser</span> <span class="n">-Identity</span> <span class="n">garde</span> <span class="n">-Properties</span> <span class="n">AccountExpirationDate</span><span class="p">,</span> <span class="n">Description</span><span class="p">,</span> <span class="n">Title</span><span class="p">,</span> <span class="n">Department</span><span class="p">,</span> <span class="n">LogonHours</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">✓ Compte trouvé: </span><span class="p">$(</span><span class="nv">$garde</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  SamAccountName: </span><span class="p">$(</span><span class="nv">$garde</span><span class="p">.</span><span class="n">SamAccountName</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  Description: </span><span class="p">$(</span><span class="nv">$garde</span><span class="p">.</span><span class="n">Description</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  Titre: </span><span class="p">$(</span><span class="nv">$garde</span><span class="p">.</span><span class="n">Title</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  Département: </span><span class="p">$(</span><span class="nv">$garde</span><span class="p">.</span><span class="n">Department</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+
+<span class="c"># Vérifier expiration</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$garde</span><span class="p">.</span><span class="n">AccountExpirationDate</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$daysUntilExpiry</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$garde</span><span class="p">.</span><span class="n">AccountExpirationDate</span> <span class="p">-</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">)).</span><span class="n">Days</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">✓ Expiration configurée:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  Date: </span><span class="p">$(</span><span class="nv">$garde</span><span class="p">.</span><span class="n">AccountExpirationDate</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  Expire dans: $daysUntilExpiry jours&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">✗ ERREUR: Aucune date d&#39;expiration configurée!&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+<span class="p">}</span>
+
+<span class="c"># Vérifier groupe Oncall</span>
+<span class="nv">$oncallGroup</span> <span class="p">=</span> <span class="nb">Get-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-MediCare-Medical-Oncall&quot;</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">SamAccountName</span> <span class="o">-eq</span> <span class="s2">&quot;garde&quot;</span><span class="p">}</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$oncallGroup</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">✓ Membre du groupe GG-MediCare-Medical-Oncall&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">✗ ERREUR: Pas membre du groupe Oncall!&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+<span class="p">}</span>
+
+<span class="c"># Vérifier horaires d&#39;accès</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$garde</span><span class="p">.</span><span class="n">LogonHours</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">✓ Horaires d&#39;accès configurés (Logon Hours)&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  (Détails visibles dans l&#39;interface graphique)&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">⚠️  AVERTISSEMENT: Horaires d&#39;accès non configurés (accès 24/7)&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition success">
+<p class="admonition-title">Résultat attendu</p>
+<p>Le script affiche toutes les propriétés du compte avec des messages de succès en vert.</p>
+</div>
+<h3 id="etape-7-tester-les-restrictions-horaires">Étape 7 : Tester les restrictions horaires</h3>
+<div class="admonition warning">
+<p class="admonition-title">Test en conditions réelles</p>
+<p>Pour tester pleinement cette configuration, vous devriez :</p>
+<ol>
+<li><strong>Tester dans les horaires autorisés</strong> (18h-8h ou week-end)</li>
+<li><strong>Tester hors horaires</strong> (8h-18h en semaine)</li>
+</ol>
+</div>
+<p><strong>Méthode de test :</strong></p>
+<ol>
+<li>Si vous êtes <strong>dans les horaires autorisés</strong> (soir/nuit/week-end) :</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c"># Test de connexion (simulation)</span>
+<span class="n">runas</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="n">maxtec</span><span class="p">\</span><span class="n">garde</span> <span class="s2">&quot;powershell -NoExit -Command &#39;Write-Host Connexion autorisée! -ForegroundColor Green&#39;&quot;</span>
+</code></pre></div>
+<ol>
+<li>Si vous êtes <strong>hors horaires autorisés</strong> (journée de semaine) :</li>
+<li>La tentative de connexion devrait échouer avec le message :</li>
+<li><strong>"Your account has time restrictions that prevent you from signing in at this time."</strong></li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Simulation de test</p>
+<p>Si vous ne pouvez pas attendre les horaires de garde, vous pouvez :</p>
+<ul>
+<li><strong>Temporairement autoriser toutes les heures</strong> pour tester que le compte fonctionne</li>
+<li><strong>Vérifier via PowerShell</strong> que les LogonHours sont bien définies</li>
+<li><strong>Consulter l'interface graphique</strong> pour voir la grille horaire</li>
+</ul>
+</div>
+<h3 id="etape-8-documentation-pour-le-coordinateur-de-garde">Étape 8 : Documentation pour le coordinateur de garde</h3>
+<ol>
+<li>Créer un fichier de documentation dans <strong>C:\Labos\MediCare\Garde_Instructions.txt</strong> :</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c"># Créer fichier d&#39;instructions</span>
+<span class="nv">$instructions</span> <span class="p">=</span> <span class="sh">@&quot;</span>
+<span class="sh">========================================</span>
+<span class="sh">COMPTE DE GARDE - INSTRUCTIONS</span>
+<span class="sh">========================================</span>
+
+<span class="sh">Compte utilisateur : garde@maxtec.be</span>
+<span class="sh">Mot de passe : MediCare2025!</span>
+
+<span class="sh">HORAIRES D&#39;ACCÈS AUTORISÉS:</span>
+<span class="sh">- Lundi à Vendredi : 18h00 - 08h00 (soirée + nuit)</span>
+<span class="sh">- Samedi et Dimanche : 24h/24</span>
+
+<span class="sh">EXPIRATION DU COMPTE:</span>
+<span class="sh">Le compte expire dans 7 jours et doit être renouvelé chaque semaine.</span>
+
+<span class="sh">STATION DE TRAVAIL:</span>
+<span class="sh">Utilisez le poste URGENCES-WS01 pour les consultations nocturnes.</span>
+
+<span class="sh">ACCÈS SYSTÈME:</span>
+<span class="sh">Le compte donne accès aux dossiers patients urgents via le groupe Oncall.</span>
+
+<span class="sh">Pour renouveler le compte, contactez l&#39;équipe IT.</span>
+
+<span class="sh">========================================</span>
+<span class="sh">Généré le: </span><span class="p">$(</span><span class="nb">Get-Date</span> <span class="n">-Format</span> <span class="s2">&quot;yyyy-MM-dd HH:mm&quot;</span><span class="p">)</span>
+<span class="sh">========================================</span>
+<span class="sh">&quot;@</span>
+
+<span class="nb">New-Item</span> <span class="n">-Path</span> <span class="s2">&quot;C:\Labos\MediCare&quot;</span> <span class="n">-ItemType</span> <span class="n">Directory</span> <span class="n">-Force</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+<span class="nv">$instructions</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="n">-FilePath</span> <span class="s2">&quot;C:\Labos\MediCare\Garde_Instructions.txt&quot;</span> <span class="n">-Encoding</span> <span class="n">UTF8</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">✅ Instructions créées dans C:\Labos\MediCare\Garde_Instructions.txt&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="n">notepad</span> <span class="s2">&quot;C:\Labos\MediCare\Garde_Instructions.txt&quot;</span>
+</code></pre></div>
+<div class="admonition success">
+<p class="admonition-title">Résultat attendu</p>
+<p>Le fichier d'instructions s'ouvre automatiquement dans Notepad pour révision.</p>
+</div>
+<h2 id="verification-de-la-reussite">Vérification de la Réussite</h2>
+<h3 id="commandes-powershell-de-verification">Commandes PowerShell de Vérification</h3>
+<p>Exécutez le script de vérification automatique :</p>
+<div class="highlight"><pre><span></span><code><span class="n">C</span><span class="p">:\</span><span class="n">Labos</span><span class="p">\</span><span class="n">MediCare</span><span class="p">\</span><span class="n">scripts</span><span class="p">\</span><span class="n">verification</span><span class="p">\</span><span class="n">verif_exercice_02</span><span class="p">.</span><span class="n">ps1</span>
+</code></pre></div>
+<h3 id="criteres-de-reussite">Critères de Réussite</h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Le compte <strong>garde</strong> existe dans <code>OU=Users,OU=Medical,OU=MediCare</code></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Le compte a une <strong>date d'expiration</strong> dans 7 jours</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Les <strong>horaires d'accès</strong> (Logon Hours) sont configurés (18h-8h + week-ends)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Le compte est <strong>membre</strong> du groupe <strong>GG-MediCare-Medical-Oncall</strong></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Les propriétés <strong>Description</strong>, <strong>Title</strong>, <strong>Department</strong> sont renseignées</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Le fichier d'instructions existe dans *<em>C:\Labos\MediCare*</em></li>
+</ul>
+<h2 id="solution-complete-pour-instructeur">Solution Complète (Pour Instructeur)</h2>
+<h3 id="methode-gui">Méthode GUI</h3>
+<p>Suivre les étapes 1 à 7 décrites dans la section "Tâches à Réaliser" ci-dessus.</p>
+<h3 id="methode-powershell">Méthode PowerShell</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># === SCRIPT COMPLET - Création Compte de Garde ===</span>
+
+<span class="nb">Import-Module</span> <span class="n">ActiveDirectory</span>
+
+<span class="c"># Variables</span>
+<span class="nv">$ouPath</span> <span class="p">=</span> <span class="s2">&quot;OU=Users,OU=Medical,OU=MediCare,DC=maxtec,DC=be&quot;</span>
+<span class="nv">$expirationDate</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddDays</span><span class="p">(</span><span class="n">7</span><span class="p">)</span>
+
+<span class="c"># 1. Créer le compte utilisateur</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">[ÉTAPE 1] Création du compte Médecin de Garde...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nv">$password</span> <span class="p">=</span> <span class="nb">ConvertTo-SecureString</span> <span class="s2">&quot;MediCare2025!&quot;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span>
+
+    <span class="nb">New-ADUser</span> <span class="p">`</span>
+        <span class="n">-Name</span> <span class="s2">&quot;Médecin de Garde&quot;</span> <span class="p">`</span>
+        <span class="n">-GivenName</span> <span class="s2">&quot;Médecin&quot;</span> <span class="p">`</span>
+        <span class="n">-Surname</span> <span class="s2">&quot;de Garde&quot;</span> <span class="p">`</span>
+        <span class="n">-SamAccountName</span> <span class="s2">&quot;garde&quot;</span> <span class="p">`</span>
+        <span class="n">-UserPrincipalName</span> <span class="s2">&quot;garde@maxtec.be&quot;</span> <span class="p">`</span>
+        <span class="n">-Path</span> <span class="nv">$ouPath</span> <span class="p">`</span>
+        <span class="n">-AccountPassword</span> <span class="nv">$password</span> <span class="p">`</span>
+        <span class="n">-Enabled</span> <span class="nv">$true</span> <span class="p">`</span>
+        <span class="n">-PasswordNeverExpires</span> <span class="nv">$true</span> <span class="p">`</span>
+        <span class="n">-CannotChangePassword</span> <span class="nv">$true</span> <span class="p">`</span>
+        <span class="n">-AccountExpirationDate</span> <span class="nv">$expirationDate</span> <span class="p">`</span>
+        <span class="n">-Description</span> <span class="s2">&quot;Compte de garde rotatif - Urgences nocturnes et week-ends&quot;</span> <span class="p">`</span>
+        <span class="n">-Title</span> <span class="s2">&quot;Médecin de Garde&quot;</span> <span class="p">`</span>
+        <span class="n">-Department</span> <span class="s2">&quot;Medical&quot;</span> <span class="p">`</span>
+        <span class="n">-Office</span> <span class="s2">&quot;Salle des Urgences&quot;</span> <span class="p">`</span>
+        <span class="n">-OfficePhone</span> <span class="s2">&quot;+32-2-555-URGE&quot;</span>
+
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ Compte &#39;garde&#39; créé avec succès&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;    Expiration: $expirationDate&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  ✗ ERREUR: </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+<span class="p">}</span>
+
+<span class="c"># 2. Configurer les horaires d&#39;accès (Logon Hours)</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">[ÉTAPE 2] Configuration des horaires d&#39;accès...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+
+<span class="c"># Créer le tableau d&#39;heures (21 bytes, 168 bits pour 7 jours x 24 heures)</span>
+<span class="c"># Chaque octet représente 8 heures, chaque bit = 1 heure</span>
+<span class="c"># 1 = autorisé, 0 = bloqué</span>
+<span class="c"># Ordre: Dimanche, Lundi, Mardi, Mercredi, Jeudi, Vendredi, Samedi</span>
+
+<span class="c"># Configuration simplifiée: Autoriser 18h-8h en semaine + 24/7 week-end</span>
+<span class="c"># Cette configuration est complexe en PowerShell, utilisation de la GUI recommandée</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;  ⚠️  Les horaires d&#39;accès doivent être configurés manuellement via GUI&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;     Active Directory Users &gt; garde &gt; Account &gt; Logon Hours&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;     Bloquer: Lundi-Vendredi 8h-18h&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;     Autoriser: Tout le reste (18h-8h + week-ends)&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+
+<span class="c"># NOTE TECHNIQUE: La configuration via PowerShell nécessite manipulation de bits</span>
+<span class="c"># Pour référence instructeur:</span>
+<span class="c"># $logonHours = [byte[]]::new(21)</span>
+<span class="c"># [Manipulation complexe des bits pour chaque tranche horaire]</span>
+<span class="c"># Set-ADUser -Identity garde -Replace @{logonHours = $logonHours}</span>
+
+<span class="c"># 3. Ajouter au groupe Oncall</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">[ÉTAPE 3] Ajout au groupe Oncall...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nb">Add-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-MediCare-Medical-Oncall&quot;</span> <span class="n">-Members</span> <span class="n">garde</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ Ajouté au groupe GG-MediCare-Medical-Oncall&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  ✗ ERREUR: </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+<span class="p">}</span>
+
+<span class="c"># 4. Créer fichier d&#39;instructions</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">[ÉTAPE 4] Création du fichier d&#39;instructions...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nv">$instructions</span> <span class="p">=</span> <span class="sh">@&quot;</span>
+<span class="sh">========================================</span>
+<span class="sh">COMPTE DE GARDE - INSTRUCTIONS</span>
+<span class="sh">========================================</span>
+
+<span class="sh">Compte utilisateur : garde@maxtec.be</span>
+<span class="sh">Mot de passe : MediCare2025!</span>
+
+<span class="sh">HORAIRES D&#39;ACCÈS AUTORISÉS:</span>
+<span class="sh">- Lundi à Vendredi : 18h00 - 08h00 (soirée + nuit)</span>
+<span class="sh">- Samedi et Dimanche : 24h/24</span>
+
+<span class="sh">EXPIRATION DU COMPTE:</span>
+<span class="sh">Le compte expire le </span><span class="p">$(</span><span class="nv">$expirationDate</span><span class="p">.</span><span class="n">ToString</span><span class="p">(</span><span class="s2">&quot;yyyy-MM-dd&quot;</span><span class="p">))</span><span class="sh"> et doit être renouvelé.</span>
+
+<span class="sh">STATION DE TRAVAIL:</span>
+<span class="sh">Utilisez le poste URGENCES-WS01 pour les consultations nocturnes.</span>
+
+<span class="sh">ACCÈS SYSTÈME:</span>
+<span class="sh">Le compte donne accès aux dossiers patients urgents via le groupe Oncall.</span>
+
+<span class="sh">Pour renouveler le compte, contactez l&#39;équipe IT.</span>
+
+<span class="sh">========================================</span>
+<span class="sh">Généré le: </span><span class="p">$(</span><span class="nb">Get-Date</span> <span class="n">-Format</span> <span class="s2">&quot;yyyy-MM-dd HH:mm&quot;</span><span class="p">)</span>
+<span class="sh">========================================</span>
+<span class="sh">&quot;@</span>
+
+<span class="nb">New-Item</span> <span class="n">-Path</span> <span class="s2">&quot;C:\Labos\MediCare&quot;</span> <span class="n">-ItemType</span> <span class="n">Directory</span> <span class="n">-Force</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+<span class="nv">$instructions</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="n">-FilePath</span> <span class="s2">&quot;C:\Labos\MediCare\Garde_Instructions.txt&quot;</span> <span class="n">-Encoding</span> <span class="n">UTF8</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ Instructions créées: C:\Labos\MediCare\Garde_Instructions.txt&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">✅ Configuration du compte de garde terminée!&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">⚠️  ACTION MANUELLE REQUISE:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  Configurez les Logon Hours via Active Directory Users and Computers&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+</code></pre></div>
+<h2 id="points-cles-a-retenir">Points Clés à Retenir</h2>
+<div class="admonition tip">
+<p class="admonition-title">Concepts importants</p>
+<ol>
+<li>
+<p><strong>Comptes temporaires</strong> : Utiliser <code>AccountExpirationDate</code> pour les comptes à durée limitée (stagiaires, gardes, consultants)</p>
+</li>
+<li>
+<p><strong>Logon Hours</strong> : Permet de restreindre les heures de connexion selon les besoins métier (gardes médicales, shifts)</p>
+</li>
+<li>
+<p><strong>Comptes partagés</strong> : Configurer <code>CannotChangePassword</code> pour les comptes utilisés par plusieurs personnes</p>
+</li>
+<li>
+<p><strong>Groupes spécialisés</strong> : Le groupe Oncall permet un accès distant/urgence sans donner tous les droits admin</p>
+</li>
+<li>
+<p><strong>Documentation</strong> : Toujours fournir des instructions claires pour les utilisateurs finaux</p>
+</li>
+</ol>
+</div>
+<h2 id="depannage-erreurs-courantes">Dépannage (Erreurs Courantes)</h2>
+<table>
+<thead>
+<tr>
+<th>Erreur Possible</th>
+<th>Cause</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"User already exists"</td>
+<td>Compte garde existe déjà</td>
+<td>Supprimer l'ancien compte ou utiliser Remove-ADUser</td>
+</tr>
+<tr>
+<td>"Password does not meet requirements"</td>
+<td>Politique de mot de passe stricte</td>
+<td>Vérifier complexité minimale (12 caractères dans MediCare)</td>
+</tr>
+<tr>
+<td>"Cannot find group Oncall"</td>
+<td>Nom de groupe incorrect</td>
+<td>Vérifier avec <code>Get-ADGroup -Filter {Name -like "*Oncall*"}</code></td>
+</tr>
+<tr>
+<td>Logon Hours non sauvegardées</td>
+<td>Erreur de manipulation GUI</td>
+<td>Cliquer bien sur <strong>OK</strong> (pas Cancel) dans chaque dialogue</td>
+</tr>
+<tr>
+<td>Expiration non visible</td>
+<td>Mauvaise date sélectionnée</td>
+<td>Vérifier avec <code>Get-ADUser garde -Properties AccountExpirationDate</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="exercice-suivant-suggere">Exercice Suivant Suggéré</h2>
+<div class="admonition tip">
+<p class="admonition-title">Progression pédagogique</p>
+<p>Une fois cet exercice maîtrisé, passez à :</p>
+<p><strong><a href="../Exercice_03_Audit_Acces_Medical/">Exercice 03 : Audit d'Accès Médical</a></strong> - Activer l'audit des fichiers et générer un rapport de conformité RGPD.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/choquitofrito/ActiveDirectory" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "navigation.prune", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

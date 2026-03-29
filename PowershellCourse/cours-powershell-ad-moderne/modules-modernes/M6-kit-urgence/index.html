@@ -1,0 +1,2368 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://choquitofrito.github.io/ActiveDirectory/PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M6-kit-urgence/">
+      
+      
+        <link rel="prev" href="../M5-whatif-religieux/">
+      
+      
+        <link rel="next" href="../../cas-horreur-reels/vendredi-17h-sans-whatif/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>M6 - Kit Urgence - Active Directory Course</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#module-6-kit-durgence-procedures-break-glass-quand-tout-explose" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Active Directory Course" class="md-header__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Active Directory Course
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              M6 - Kit Urgence
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  🏠 Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🖥️ Windows Server
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%203.DNS/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🌐 DNS
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📁 Active Directory
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ⚡ PowerShell AD
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🧪 Labs & Exercices
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Active Directory Course" class="md-nav__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Active Directory Course
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏠 Accueil
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🖥️ Windows Server
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%203.DNS/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🌐 DNS
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    📁 Active Directory
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    ⚡ PowerShell AD
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            ⚡ PowerShell AD
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch9.0 - Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch9.1 - Concepts de Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch9.2 - Requêtes & Informations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%209.3.Powershell%20AD%20-%20Creation_et_Modification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch9.3 - Création & Modification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../CHEATSHEET/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cheatsheet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Cours Moderne 2025
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            Cours Moderne 2025
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M1-realite-2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    M1 - Réalité 2025
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M2-survie-tickets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    M2 - Survie Tickets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M3-ia-comme-copilote/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    M3 - IA Copilote
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M4-scripts-bomba-lab/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    M4 - Scripts Bomba Lab
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M5-whatif-religieux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    M5 - WhatIf Religieux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    M6 - Kit Urgence
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    M6 - Kit Urgence
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectif-de-ce-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objectif de ce Module
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#realite-du-terrain-quand-murphy-frappe" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚨 Réalité du Terrain: Quand Murphy Frappe
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚨 Réalité du Terrain: Quand Murphy Frappe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#la-loi-de-murphy-it-version-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      La Loi de Murphy IT Version PowerShell
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#statistiques-durgence-reelles" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Statistiques d'Urgence Réelles
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#procedure-break-glass-les-10-etapes-de-survie" class="md-nav__link">
+    <span class="md-ellipsis">
+      🆘 Procédure "Break Glass": Les 10 Étapes de Survie
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🆘 Procédure &#34;Break Glass&#34;: Les 10 Étapes de Survie">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-stop-respirer-30-secondes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 1: STOP - RESPIRER (30 secondes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-evaluer-limpact-2-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 2: ÉVALUER L'IMPACT (2 minutes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-3-documenter-ce-qui-sest-passe-1-minute" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 3: DOCUMENTER CE QUI S'EST PASSÉ (1 minute)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-4-ne-pas-essayer-de-reparer-tout-seul-30-secondes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 4: NE PAS ESSAYER DE "RÉPARER" TOUT SEUL (30 secondes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-5-verifier-backups-disponibles-2-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 5: VÉRIFIER BACKUPS DISPONIBLES (2 minutes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-6-isoler-le-probleme-3-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 6: ISOLER LE PROBLÈME (3 minutes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-7-communiquer-lincident-2-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 7: COMMUNIQUER L'INCIDENT (2 minutes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-8-preparer-plan-de-recuperation-5-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 8: PRÉPARER PLAN DE RÉCUPÉRATION (5 minutes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-9-valider-avant-dexecuter-toujours" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 9: VALIDER AVANT D'EXÉCUTER (Toujours)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-10-post-mortem-obligatoire-15-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 10: POST-MORTEM OBLIGATOIRE (15 minutes)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simulation-durgence-en-live" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎭 Simulation d'Urgence en Live
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎭 Simulation d&#39;Urgence en Live">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-vendredi-17h12-la-catastrophe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario: "Vendredi 17h12 - La Catastrophe"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jeu-de-role-classe-equipe-durgence" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎪 Jeu de Rôle: Classe = Équipe d'Urgence
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎪 Jeu de Rôle: Classe = Équipe d&#39;Urgence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sequence-1-panique-2-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚨 Séquence 1: Panique (2 min)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sequence-2-investigation-5-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Séquence 2: Investigation (5 min)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sequence-3-plan-de-bataille-3-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚡ Séquence 3: Plan de Bataille (3 min)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kit-durgence-powershell-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Kit d'Urgence PowerShell AD
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛠️ Kit d&#39;Urgence PowerShell AD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scripts-de-diagnostic-rapide" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚑 Scripts de Diagnostic Rapide
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scripts-de-recuperation-durgence" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Scripts de Récupération d'Urgence
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contacts-durgence-maxtecbe" class="md-nav__link">
+    <span class="md-ellipsis">
+      📞 Contacts d'Urgence maxtec.be
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#votre-checklist-durgence-a-plastifier" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Votre Checklist d'Urgence (À Plastifier)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Votre Checklist d&#39;Urgence (À Plastifier)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-critique-5-premieres-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚡ PHASE CRITIQUE (5 premières minutes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-recuperation-apres-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 PHASE RÉCUPÉRATION (après validation)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recapitulatif-votre-nouveau-mindset-de-crise" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏆 Récapitulatif: Votre Nouveau Mindset de Crise
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏆 Récapitulatif: Votre Nouveau Mindset de Crise">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changements-mentaux-critiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧠 Changements Mentaux Critiques
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#votre-mantra-durgence" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Votre Mantra d'Urgence
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vous-etes-maintenant" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏅 Vous Êtes Maintenant...
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fin-du-cours-vous-etes-prete-pour-le-monde-reel" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎓 FIN DU COURS: Vous Êtes Prêt(e) pour le Monde Réel
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 FIN DU COURS: Vous Êtes Prêt(e) pour le Monde Réel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ce-que-vous-maitrisez-maintenant" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ce Que Vous Maîtrisez Maintenant
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#votre-mission-lundi-matin" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Votre Mission Lundi Matin
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../cas-horreur-reels/vendredi-17h-sans-whatif/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Ressources
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🧪 Labs & Exercices
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectif-de-ce-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objectif de ce Module
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#realite-du-terrain-quand-murphy-frappe" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚨 Réalité du Terrain: Quand Murphy Frappe
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚨 Réalité du Terrain: Quand Murphy Frappe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#la-loi-de-murphy-it-version-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      La Loi de Murphy IT Version PowerShell
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#statistiques-durgence-reelles" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Statistiques d'Urgence Réelles
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#procedure-break-glass-les-10-etapes-de-survie" class="md-nav__link">
+    <span class="md-ellipsis">
+      🆘 Procédure "Break Glass": Les 10 Étapes de Survie
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🆘 Procédure &#34;Break Glass&#34;: Les 10 Étapes de Survie">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-stop-respirer-30-secondes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 1: STOP - RESPIRER (30 secondes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-evaluer-limpact-2-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 2: ÉVALUER L'IMPACT (2 minutes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-3-documenter-ce-qui-sest-passe-1-minute" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 3: DOCUMENTER CE QUI S'EST PASSÉ (1 minute)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-4-ne-pas-essayer-de-reparer-tout-seul-30-secondes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 4: NE PAS ESSAYER DE "RÉPARER" TOUT SEUL (30 secondes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-5-verifier-backups-disponibles-2-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 5: VÉRIFIER BACKUPS DISPONIBLES (2 minutes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-6-isoler-le-probleme-3-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 6: ISOLER LE PROBLÈME (3 minutes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-7-communiquer-lincident-2-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 7: COMMUNIQUER L'INCIDENT (2 minutes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-8-preparer-plan-de-recuperation-5-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 8: PRÉPARER PLAN DE RÉCUPÉRATION (5 minutes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-9-valider-avant-dexecuter-toujours" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 9: VALIDER AVANT D'EXÉCUTER (Toujours)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-10-post-mortem-obligatoire-15-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 ÉTAPE 10: POST-MORTEM OBLIGATOIRE (15 minutes)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simulation-durgence-en-live" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎭 Simulation d'Urgence en Live
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎭 Simulation d&#39;Urgence en Live">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-vendredi-17h12-la-catastrophe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario: "Vendredi 17h12 - La Catastrophe"
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jeu-de-role-classe-equipe-durgence" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎪 Jeu de Rôle: Classe = Équipe d'Urgence
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎪 Jeu de Rôle: Classe = Équipe d&#39;Urgence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sequence-1-panique-2-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚨 Séquence 1: Panique (2 min)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sequence-2-investigation-5-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Séquence 2: Investigation (5 min)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sequence-3-plan-de-bataille-3-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚡ Séquence 3: Plan de Bataille (3 min)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kit-durgence-powershell-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Kit d'Urgence PowerShell AD
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛠️ Kit d&#39;Urgence PowerShell AD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scripts-de-diagnostic-rapide" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚑 Scripts de Diagnostic Rapide
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scripts-de-recuperation-durgence" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Scripts de Récupération d'Urgence
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contacts-durgence-maxtecbe" class="md-nav__link">
+    <span class="md-ellipsis">
+      📞 Contacts d'Urgence maxtec.be
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#votre-checklist-durgence-a-plastifier" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Votre Checklist d'Urgence (À Plastifier)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Votre Checklist d&#39;Urgence (À Plastifier)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-critique-5-premieres-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚡ PHASE CRITIQUE (5 premières minutes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-recuperation-apres-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 PHASE RÉCUPÉRATION (après validation)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recapitulatif-votre-nouveau-mindset-de-crise" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏆 Récapitulatif: Votre Nouveau Mindset de Crise
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏆 Récapitulatif: Votre Nouveau Mindset de Crise">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changements-mentaux-critiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧠 Changements Mentaux Critiques
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#votre-mantra-durgence" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Votre Mantra d'Urgence
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vous-etes-maintenant" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏅 Vous Êtes Maintenant...
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fin-du-cours-vous-etes-prete-pour-le-monde-reel" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎓 FIN DU COURS: Vous Êtes Prêt(e) pour le Monde Réel
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 FIN DU COURS: Vous Êtes Prêt(e) pour le Monde Réel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ce-que-vous-maitrisez-maintenant" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ce Que Vous Maîtrisez Maintenant
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#votre-mission-lundi-matin" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Votre Mission Lundi Matin
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="module-6-kit-durgence-procedures-break-glass-quand-tout-explose">Module 6: Kit d'Urgence - Procédures "Break Glass" Quand Tout Explose</h1>
+<p><em>Durée: 1h00 | Prérequis: Modules 1-5 complétés</em></p>
+<h2 id="objectif-de-ce-module">🎯 Objectif de ce Module</h2>
+<p><strong>À la fin</strong>: Vous saurez garder votre sang-froid et appliquer des procédures structurées quand tout part en vrille un vendredi à 17h.</p>
+<hr />
+<h2 id="realite-du-terrain-quand-murphy-frappe">🚨 Réalité du Terrain: Quand Murphy Frappe</h2>
+<h3 id="la-loi-de-murphy-it-version-powershell">La Loi de Murphy IT Version PowerShell</h3>
+<div class="highlight"><pre><span></span><code>- Les erreurs arrivent TOUJOURS vendredi après 16h
+- Plus c&#39;est urgent, plus la probabilité d&#39;erreur augmente
+- Si quelque chose peut mal se passer avec un script, ça arrivera
+- La sauvegarde que vous n&#39;avez pas testée ne marchera pas
+- Le script qui marche en dev explosera en prod
+</code></pre></div>
+<h3 id="statistiques-durgence-reelles">📊 Statistiques d'Urgence Réelles</h3>
+<div class="highlight"><pre><span></span><code>🕐 Heure des incidents critiques AD:
+   - 42% entre 16h-18h (fin de journée)
+   - 23% le vendredi (effet weekend)
+   - 67% pendant absence du responsable
+   - 89% impliquent PowerShell mal utilisé
+</code></pre></div>
+<hr />
+<h2 id="procedure-break-glass-les-10-etapes-de-survie">🆘 Procédure "Break Glass": Les 10 Étapes de Survie</h2>
+<h3 id="etape-1-stop-respirer-30-secondes">🔴 <strong>ÉTAPE 1: STOP - RESPIRER (30 secondes)</strong></h3>
+<div class="highlight"><pre><span></span><code>⛔ ARRÊT TOTAL
+🫁 Respirer profondément 3 fois
+📱 Éteindre notifications Slack/Teams
+🎯 &quot;Je ne vais PAS paniquer&quot;
+</code></pre></div>
+<p><strong>Pourquoi crucial</strong>: Panique = mauvaises décisions = amplification du désastre</p>
+<h3 id="etape-2-evaluer-limpact-2-minutes">🔴 <strong>ÉTAPE 2: ÉVALUER L'IMPACT (2 minutes)</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Questions vitales à se poser:</span>
+<span class="c"># - Combien d&#39;utilisateurs affectés ?</span>
+<span class="c"># - Services critiques down ?</span>
+<span class="c"># - Données perdues ou juste inaccessibles ?</span>
+<span class="c"># - Fenêtre de récupération disponible ?</span>
+
+<span class="c"># Commands de diagnostic rapide maxtec.be</span>
+<span class="nb">Get-ADDomain</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">DNSRoot</span><span class="p">,</span> <span class="n">DomainMode</span>  <span class="c"># Domaine fonctionne ?</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-ResultSetSize</span> <span class="n">10</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Enabled</span>  <span class="c"># Users OK ?</span>
+<span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Name</span> <span class="o">-like</span> <span class="s2">&quot;GG-*&quot;</span><span class="p">}</span> <span class="n">-ResultSetSize</span> <span class="n">5</span>  <span class="c"># Groupes OK ?</span>
+</code></pre></div>
+<h3 id="etape-3-documenter-ce-qui-sest-passe-1-minute">🔴 <strong>ÉTAPE 3: DOCUMENTER CE QUI S'EST PASSÉ (1 minute)</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Créer fichier incident IMMÉDIATEMENT</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;INCIDENT </span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: </span><span class="k">$(</span>whoami<span class="k">)</span><span class="s2"> sur </span><span class="k">$(</span>hostname<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>incident.log
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Commande exécutée: [COPIER EXACTEMENT]&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>incident.log
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Erreur obtenue: [COPIER EXACTEMENT]&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>incident.log
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Impact observé: [DÉCRIRE]&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>incident.log
+</code></pre></div>
+<p><strong>Crucial</strong>: Mémoire défaille sous stress. Document = truth source.</p>
+<h3 id="etape-4-ne-pas-essayer-de-reparer-tout-seul-30-secondes">🔴 <strong>ÉTAPE 4: NE PAS ESSAYER DE "RÉPARER" TOUT SEUL (30 secondes)</strong></h3>
+<div class="highlight"><pre><span></span><code>❌ &quot;Je vais vite corriger ça&quot;
+❌ &quot;Personne n&#39;a besoin de savoir&quot;
+❌ &quot;Un autre script va arranger ça&quot;
+❌ &quot;Je peux rollback rapidement&quot;
+
+✅ Alerter superviseur IMMÉDIATEMENT
+✅ Documenter avant de toucher quoi que ce soit
+✅ Demander aide AVANT d&#39;aggraver
+</code></pre></div>
+<h3 id="etape-5-verifier-backups-disponibles-2-minutes">🔴 <strong>ÉTAPE 5: VÉRIFIER BACKUPS DISPONIBLES (2 minutes)</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Vérifications critiques:</span>
+<span class="c"># - Sauvegarde AD récente ?</span>
+<span class="c"># - System State backup ?</span>
+<span class="c"># - VMware snapshots ?</span>
+<span class="c"># - Réplication fonctionnelle ?</span>
+
+<span class="c"># Commands de vérification</span>
+<span class="nb">Get-WinEvent</span> <span class="n">-LogName</span> <span class="s2">&quot;Directory Service&quot;</span> <span class="n">-MaxEvents</span> <span class="n">10</span>
+<span class="c"># Chercher événements de réplication</span>
+</code></pre></div>
+<h3 id="etape-6-isoler-le-probleme-3-minutes">🔴 <strong>ÉTAPE 6: ISOLER LE PROBLÈME (3 minutes)</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Identifier périmètre exact de l&#39;impact</span>
+<span class="c"># Exemple: Script a affecté quelle OU ?</span>
+
+<span class="nv">$impactedOU</span> <span class="p">=</span> <span class="s2">&quot;OU=RH,OU=EU,DC=maxtec,DC=be&quot;</span>  <span class="c"># Exemple</span>
+
+<span class="c"># Vérifier état actuel</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="nv">$impactedOU</span> <span class="n">-Properties</span> <span class="n">Enabled</span> <span class="p">|</span>
+    <span class="nb">Group-Object</span> <span class="n">Enabled</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Count</span>
+
+<span class="c"># Comparer avec OU non affectée</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=IT,OU=EU,DC=maxtec,DC=be&quot;</span> <span class="n">-Properties</span> <span class="n">Enabled</span> <span class="p">|</span>
+    <span class="nb">Group-Object</span> <span class="n">Enabled</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Count</span>
+</code></pre></div>
+<h3 id="etape-7-communiquer-lincident-2-minutes">🔴 <strong>ÉTAPE 7: COMMUNIQUER L'INCIDENT (2 minutes)</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="gh"># Template message d&#39;incident</span>
+📧 À: superviseur@maxtec.be, equipe-it@maxtec.be
+📋 Sujet: INCIDENT AD CRITIQUE - $(date)
+
+RÉSUMÉ:
+<span class="k">-</span><span class="w"> </span>Heure: $(Get-Date)
+<span class="k">-</span><span class="w"> </span>Admin: $(whoami)
+<span class="k">-</span><span class="w"> </span>Impact: [X utilisateurs affectés / Y services down]
+<span class="k">-</span><span class="w"> </span>Cause: Script PowerShell [nom du script]
+
+ACTIONS EN COURS:
+<span class="k">-</span><span class="w"> </span>Évaluation impact en cours
+<span class="k">-</span><span class="w"> </span>Backups vérifiés
+<span class="k">-</span><span class="w"> </span>Équipe alertée
+<span class="k">-</span><span class="w"> </span>Réparation en attente validation
+
+BESOIN:
+<span class="k">-</span><span class="w"> </span>Validation approche de récupération
+<span class="k">-</span><span class="w"> </span>Autorisation procédure break-glass
+<span class="k">-</span><span class="w"> </span>[Autres besoins spécifiques]
+
+Mise à jour suivante: dans 15 minutes
+</code></pre></div>
+<h3 id="etape-8-preparer-plan-de-recuperation-5-minutes">🔴 <strong>ÉTAPE 8: PRÉPARER PLAN DE RÉCUPÉRATION (5 minutes)</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Exemple: Utilisateurs désactivés par erreur</span>
+
+<span class="c"># PLAN A: Réactivation sélective</span>
+<span class="nv">$affectedUsers</span> <span class="p">=</span> <span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Enabled</span> <span class="o">-eq</span> <span class="nv">$false</span><span class="p">}</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=RH,OU=EU,DC=maxtec,DC=be&quot;</span> <span class="n">-Properties</span> <span class="n">WhenChanged</span> <span class="p">|</span>
+    <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">WhenChanged</span> <span class="o">-gt</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddHours</span><span class="p">(-</span><span class="n">1</span><span class="p">)}</span>
+
+<span class="c"># PLAN B: Restauration depuis backup</span>
+<span class="c"># - Temps estimé: 2-4h</span>
+<span class="c"># - Impact: Perte données dernières 24h</span>
+<span class="c"># - Validation: Nécessaire</span>
+
+<span class="c"># PLAN C: Reconstruction manuelle</span>
+<span class="c"># - Temps estimé: 6-8h</span>
+<span class="c"># - Ressources: Équipe complète</span>
+<span class="c"># - Risque: Erreurs humaines</span>
+</code></pre></div>
+<h3 id="etape-9-valider-avant-dexecuter-toujours">🔴 <strong>ÉTAPE 9: VALIDER AVANT D'EXÉCUTER (Toujours)</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># JAMAIS exécuter réparation sans validation</span>
+
+<span class="c"># 1. Tester sur échantillon réduit</span>
+<span class="nv">$testUser</span> <span class="p">=</span> <span class="nv">$affectedUsers</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">1</span>
+<span class="nb">Set-ADUser</span> <span class="n">-Identity</span> <span class="nv">$testUser</span><span class="p">.</span><span class="n">SamAccountName</span> <span class="n">-Enabled</span> <span class="nv">$true</span> <span class="n">-WhatIf</span>
+
+<span class="c"># 2. Demander validation équipe</span>
+<span class="c"># 3. Documenter chaque action</span>
+<span class="c"># 4. Procéder par petits lots</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$user</span> <span class="k">in</span> <span class="p">(</span><span class="nv">$affectedUsers</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">5</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Réactivation: </span><span class="p">$(</span><span class="nv">$user</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">&quot;</span>
+    <span class="nb">Set-ADUser</span> <span class="n">-Identity</span> <span class="nv">$user</span><span class="p">.</span><span class="n">SamAccountName</span> <span class="n">-Enabled</span> <span class="nv">$true</span>
+
+    <span class="c"># Vérifier immédiatement</span>
+    <span class="nv">$check</span> <span class="p">=</span> <span class="nb">Get-ADUser</span> <span class="n">-Identity</span> <span class="nv">$user</span><span class="p">.</span><span class="n">SamAccountName</span> <span class="n">-Properties</span> <span class="n">Enabled</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$check</span><span class="p">.</span><span class="n">Enabled</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;✅ </span><span class="p">$(</span><span class="nv">$user</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2"> réactivé&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;❌ ÉCHEC </span><span class="p">$(</span><span class="nv">$user</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+        <span class="k">break</span>  <span class="c"># Arrêter si problème</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="etape-10-post-mortem-obligatoire-15-minutes">🔴 <strong>ÉTAPE 10: POST-MORTEM OBLIGATOIRE (15 minutes)</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="gh"># Template Post-Mortem</span>
+
+<span class="gu">## INCIDENT REPORT - $(date)</span>
+
+<span class="gu">### TIMELINE</span>
+<span class="k">-</span><span class="w"> </span>17:02: Script exécuté
+<span class="k">-</span><span class="w"> </span>17:05: Erreur détectée
+<span class="k">-</span><span class="w"> </span>17:06: Incident déclaré
+<span class="k">-</span><span class="w"> </span>17:15: Impact évalué
+<span class="k">-</span><span class="w"> </span>17:45: Récupération commencée
+<span class="k">-</span><span class="w"> </span>18:30: Service restauré
+
+<span class="gu">### ROOT CAUSE</span>
+<span class="k">-</span><span class="w"> </span>Script source: [URL/fichier]
+<span class="k">-</span><span class="w"> </span>Erreur: Absence -WhatIf sur commande critique
+<span class="k">-</span><span class="w"> </span>Validation manquée: Filtre trop large
+
+<span class="gu">### IMPACT</span>
+<span class="k">-</span><span class="w"> </span>Utilisateurs affectés: X
+<span class="k">-</span><span class="w"> </span>Services down: Y
+<span class="k">-</span><span class="w"> </span>Durée: Z minutes
+<span class="k">-</span><span class="w"> </span>Coût estimé: €W
+
+<span class="gu">### CORRECTIVE ACTIONS</span>
+<span class="k">1.</span> [ ] Mise à jour procédure validation scripts
+<span class="k">2.</span> [ ] Formation équipe sur -WhatIf obligatoire
+<span class="k">3.</span> [ ] Amélioration système backup
+<span class="k">4.</span> [ ] Script review process
+
+<span class="gu">### LESSONS LEARNED</span>
+<span class="k">-</span><span class="w"> </span>-WhatIf n&#39;est jamais optionnel
+<span class="k">-</span><span class="w"> </span>Pression temps ≠ excuse pour skip validation
+<span class="k">-</span><span class="w"> </span>Documentation incident = crucial
+</code></pre></div>
+<hr />
+<h2 id="simulation-durgence-en-live">🎭 Simulation d'Urgence en Live</h2>
+<h3 id="scenario-vendredi-17h12-la-catastrophe">Scenario: "Vendredi 17h12 - La Catastrophe"</h3>
+<p><strong>📧 Email paniqué reçu:</strong>
+<div class="highlight"><pre><span></span><code>De: marie.dubois@maxtec.be
+À: admin@maxtec.be
+Sujet: URGENT!!! Plus personne ne peut se connecter Ventes!!!
+
+Aidez-nous ! Toute l&#39;équipe Ventes est bloquée !
+Réunion client dans 30 minutes !
+</code></pre></div></p>
+<h3 id="jeu-de-role-classe-equipe-durgence">🎪 <strong>Jeu de Rôle: Classe = Équipe d'Urgence</strong></h3>
+<p><strong>Instructeur</strong>: Admin en panique
+<strong>Étudiants</strong>: Consultants urgence appelés</p>
+<h4 id="sequence-1-panique-2-min">🚨 <strong>Séquence 1: Panique (2 min)</strong></h4>
+<div class="highlight"><pre><span></span><code>Admin: &quot;Oh non ! J&#39;ai exécuté un script et maintenant...&quot;
+Équipe: [Applique ÉTAPE 1] &quot;STOP. Respirer. Que s&#39;est-il passé EXACTEMENT ?&quot;
+</code></pre></div>
+<h4 id="sequence-2-investigation-5-min">🔍 <strong>Séquence 2: Investigation (5 min)</strong></h4>
+<div class="highlight"><pre><span></span><code>Équipe: [Applique ÉTAPE 2-3] &quot;Montrez-nous le script et l&#39;erreur&quot;
+Admin: &quot;J&#39;ai voulu ajouter un utilisateur à un groupe mais...&quot;
+</code></pre></div>
+<p><strong>Script du Désastre Révélé:</strong>
+<div class="highlight"><pre><span></span><code><span class="c"># Ce qui était prévu</span>
+<span class="nb">Add-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-EU-Ventes-Users&quot;</span> <span class="n">-Members</span> <span class="s2">&quot;nouvel.employe&quot;</span>
+
+<span class="c"># Ce qui fut exécuté (typo fatale)</span>
+<span class="nb">Remove-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-EU-Ventes-Users&quot;</span> <span class="n">-Members</span> <span class="p">(</span><span class="nb">Get-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-EU-Ventes-Users&quot;</span><span class="p">)</span>
+<span class="c">#     ↑ REMOVE au lieu de ADD !              ↑ TOUS les membres !</span>
+</code></pre></div></p>
+<h4 id="sequence-3-plan-de-bataille-3-min">⚡ <strong>Séquence 3: Plan de Bataille (3 min)</strong></h4>
+<div class="highlight"><pre><span></span><code>Équipe: [Applique ÉTAPES 4-8]
+1. &quot;Pas de panique, groupe vidé mais utilisateurs existent&quot;
+2. &quot;Backup des groupes AD de ce matin ?&quot;
+3. &quot;Liste des membres stockée ailleurs ?&quot;
+4. &quot;Commençons par identifier qui était dans le groupe&quot;
+</code></pre></div>
+<hr />
+<h2 id="kit-durgence-powershell-ad">🛠️ Kit d'Urgence PowerShell AD</h2>
+<h3 id="scripts-de-diagnostic-rapide">🚑 <strong>Scripts de Diagnostic Rapide</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># diagnostic-urgence-ad.ps1</span>
+<span class="k">param</span><span class="p">(</span><span class="nv">$SearchBase</span> <span class="p">=</span> <span class="s2">&quot;OU=EU,DC=maxtec,DC=be&quot;</span><span class="p">)</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;=== DIAGNOSTIC URGENCE AD ===&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+
+<span class="c"># 1. État du domaine</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">1. ÉTAT DOMAINE:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nb">Get-ADDomain</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">DNSRoot</span><span class="p">,</span> <span class="n">DomainMode</span><span class="p">,</span> <span class="n">InfrastructureMaster</span>
+
+<span class="c"># 2. Contrôleurs disponibles</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">2. CONTRÔLEURS:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nb">Get-ADDomainController</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">IPv4Address</span><span class="p">,</span> <span class="n">OperatingSystem</span>
+
+<span class="c"># 3. Échantillon utilisateurs</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">3. ÉCHANTILLON UTILISATEURS:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="nv">$SearchBase</span> <span class="n">-ResultSetSize</span> <span class="n">10</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Enabled</span><span class="p">,</span> <span class="n">LastLogonDate</span> <span class="p">|</span>
+    <span class="nb">Format-Table</span> <span class="n">-AutoSize</span>
+
+<span class="c"># 4. Groupes critiques</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">4. GROUPES CRITIQUES:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nv">$groupesCritiques</span> <span class="p">=</span> <span class="p">@(</span><span class="s2">&quot;Admins du domaine&quot;</span><span class="p">,</span> <span class="s2">&quot;GG-EU-IT-Admins&quot;</span><span class="p">,</span> <span class="s2">&quot;GG-EU-Ventes-Users&quot;</span><span class="p">)</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$groupe</span> <span class="k">in</span> <span class="nv">$groupesCritiques</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="nv">$membres</span> <span class="p">=</span> <span class="nb">Get-ADGroupMember</span> <span class="n">-Identity</span> <span class="nv">$groupe</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;✅ $groupe : </span><span class="p">$(</span><span class="nv">$membres</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> membres&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;❌ $groupe : PROBLÈME!&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c"># 5. Événements récents</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">5. ÉVÉNEMENTS RÉCENTS:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nb">Get-WinEvent</span> <span class="n">-LogName</span> <span class="n">Security</span> <span class="n">-MaxEvents</span> <span class="n">5</span> <span class="p">|</span>
+    <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Id</span> <span class="n">-in</span> <span class="p">@(</span><span class="n">4728</span><span class="p">,</span> <span class="n">4729</span><span class="p">,</span> <span class="n">4756</span><span class="p">,</span> <span class="n">4757</span><span class="p">)}</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">TimeCreated</span><span class="p">,</span> <span class="n">Id</span><span class="p">,</span> <span class="n">LevelDisplayName</span><span class="p">,</span> <span class="n">Message</span> <span class="p">|</span>
+    <span class="nb">Format-Table</span> <span class="n">-Wrap</span>
+</code></pre></div>
+<h3 id="scripts-de-recuperation-durgence">🔧 <strong>Scripts de Récupération d'Urgence</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># recuperation-groupe-vide.ps1</span>
+<span class="k">param</span><span class="p">(</span>
+    <span class="p">[</span><span class="k">Parameter</span><span class="p">(</span><span class="k">Mandatory</span><span class="p">)]</span>
+    <span class="no">[string]</span><span class="nv">$GroupName</span><span class="p">,</span>
+
+    <span class="no">[switch]</span><span class="nv">$WhatIf</span> <span class="p">=</span> <span class="nv">$true</span>
+<span class="p">)</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;=== RÉCUPÉRATION GROUPE VIDÉ ===&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;Groupe: $GroupName&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;Mode: </span><span class="p">$(</span><span class="nv">$WhatIf</span> <span class="p">?</span> <span class="s1">&#39;SIMULATION&#39;</span> <span class="p">:</span> <span class="s1">&#39;RÉEL&#39;</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="p">$(</span><span class="k">if</span><span class="p">(</span><span class="nv">$WhatIf</span><span class="p">){</span><span class="s1">&#39;Yellow&#39;</span><span class="p">}</span><span class="k">else</span><span class="p">{</span><span class="s1">&#39;Red&#39;</span><span class="p">})</span>
+
+<span class="c"># 1. Vérifier que groupe existe et est vide</span>
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nv">$groupe</span> <span class="p">=</span> <span class="nb">Get-ADGroup</span> <span class="n">-Identity</span> <span class="nv">$GroupName</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span>
+    <span class="nv">$membres</span> <span class="p">=</span> <span class="nb">Get-ADGroupMember</span> <span class="n">-Identity</span> <span class="nv">$GroupName</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$membres</span><span class="p">.</span><span class="n">Count</span> <span class="o">-gt</span> <span class="n">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;⚠️  ATTENTION: Groupe n&#39;est pas vide (</span><span class="p">$(</span><span class="nv">$membres</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> membres)&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;Membres actuels:&quot;</span>
+        <span class="nv">$membres</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span> <span class="p">|</span> <span class="nb">Format-Table</span>
+        <span class="nv">$continuer</span> <span class="p">=</span> <span class="nb">Read-Host</span> <span class="s2">&quot;Continuer quand même ? (oui/non)&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$continuer</span> <span class="o">-ne</span> <span class="s2">&quot;oui&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">exit</span> <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="nb">Write-Error</span> <span class="s2">&quot;Groupe $GroupName non trouvé: </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span><span class="p">)</span><span class="s2">&quot;</span>
+    <span class="n">exit</span>
+<span class="p">}</span>
+
+<span class="c"># 2. Chercher dans logs récents qui était membre</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Recherche membres récents dans logs...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+
+<span class="c"># Rechercher événements de suppression groupe récents</span>
+<span class="nv">$evenements</span> <span class="p">=</span> <span class="nb">Get-WinEvent</span> <span class="n">-LogName</span> <span class="n">Security</span> <span class="n">-MaxEvents</span> <span class="n">100</span> <span class="p">|</span>
+    <span class="nb">Where-Object</span> <span class="p">{</span>
+        <span class="nv">$_</span><span class="p">.</span><span class="n">Id</span> <span class="o">-eq</span> <span class="n">4729</span> <span class="o">-and</span>  <span class="c"># Membre retiré d&#39;un groupe</span>
+        <span class="nv">$_</span><span class="p">.</span><span class="n">Message</span> <span class="o">-match</span> <span class="nv">$GroupName</span> <span class="o">-and</span>
+        <span class="nv">$_</span><span class="p">.</span><span class="n">TimeCreated</span> <span class="o">-gt</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddHours</span><span class="p">(-</span><span class="n">2</span><span class="p">)</span>
+    <span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nv">$evenements</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Événements de suppression trouvés:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="nv">$evenements</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;- </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">TimeCreated</span><span class="p">)</span><span class="s2">: </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Message</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+    <span class="p">}</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;❌ Aucun événement récent trouvé dans logs&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Solutions alternatives:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;1. Restaurer depuis backup AD&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;2. Reconstruction manuelle&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;3. Consulter documentation métier&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="contacts-durgence-maxtecbe">📞 <strong>Contacts d'Urgence maxtec.be</strong></h2>
+<div class="highlight"><pre><span></span><code><span class="gu">### ESCALATION CHAIN</span>
+
+🔴 NIVEAU 1 - Support Local
+<span class="k">-</span><span class="w"> </span>Admin Principal: richard@maxtec.be
+<span class="k">-</span><span class="w"> </span>Tel: +33 1 XX XX XX XX
+<span class="k">-</span><span class="w"> </span>Backup: irene@maxtec.be
+
+🔴 NIVEAU 2 - Management IT
+<span class="k">-</span><span class="w"> </span>Responsable IT: responsable.it@maxtec.be
+<span class="k">-</span><span class="w"> </span>Tel: +33 1 YY YY YY YY
+<span class="k">-</span><span class="w"> </span>Astreinte: +33 6 ZZ ZZ ZZ ZZ
+
+🔴 NIVEAU 3 - Direction
+<span class="k">-</span><span class="w"> </span>DG: directeur.general@maxtec.be
+<span class="k">-</span><span class="w"> </span>DRH: marie.dubois@maxtec.be
+<span class="k">-</span><span class="w"> </span>Uniquement si impact business critique
+
+<span class="gu">### SERVICES EXTERNES</span>
+
+🔧 Consultant AD Urgence
+<span class="k">-</span><span class="w"> </span>SociétéX: +33 1 AA AA AA AA
+<span class="k">-</span><span class="w"> </span>Tarif urgence: 200€/h
+<span class="k">-</span><span class="w"> </span>Délai intervention: 2h
+
+🔙 Service Backup
+<span class="k">-</span><span class="w"> </span>Fournisseur: BackupCorp
+<span class="k">-</span><span class="w"> </span>Hotline: +33 8 BB BB BB BB
+<span class="k">-</span><span class="w"> </span>SLA restauration: 4h
+</code></pre></div>
+<hr />
+<h2 id="votre-checklist-durgence-a-plastifier">🎯 Votre Checklist d'Urgence (À Plastifier)</h2>
+<h3 id="phase-critique-5-premieres-minutes">⚡ <strong>PHASE CRITIQUE (5 premières minutes)</strong></h3>
+<div class="highlight"><pre><span></span><code>□ 1. STOP - Respirer 30 secondes
+□ 2. Noter heure exacte incident
+□ 3. Copier commande qui a causé problème
+□ 4. Copier message d&#39;erreur exact
+□ 5. Évaluer nombre utilisateurs impactés
+□ 6. Alerter superviseur SI impact &gt; 10 users
+□ 7. NE PAS essayer de réparer tout seul
+</code></pre></div>
+<h3 id="phase-recuperation-apres-validation">🔧 <strong>PHASE RÉCUPÉRATION (après validation)</strong></h3>
+<div class="highlight"><pre><span></span><code>□ 8. Tester solution sur 1 utilisateur d&#39;abord
+□ 9. Procéder par lots de 5 maximum
+□ 10. Vérifier chaque action avant suivante
+□ 11. Documenter chaque étape
+□ 12. Tenir équipe informée toutes les 15 min
+□ 13. Préparer post-mortem dès résolution
+</code></pre></div>
+<hr />
+<h2 id="recapitulatif-votre-nouveau-mindset-de-crise">🏆 Récapitulatif: Votre Nouveau Mindset de Crise</h2>
+<h3 id="changements-mentaux-critiques">🧠 <strong>Changements Mentaux Critiques</strong></h3>
+<ol>
+<li><strong>Panique = Ennemi #1</strong> (plus dangereux que l'incident)</li>
+<li><strong>Documentation = Survie</strong> (mémoire défaille sous stress)</li>
+<li><strong>Équipe = Force</strong> (ego individuel = faiblesse)</li>
+<li><strong>Validation = Toujours</strong> (même en urgence)</li>
+<li><strong>Post-mortem = Apprentissage</strong> (pas blâme)</li>
+</ol>
+<h3 id="votre-mantra-durgence">🎯 <strong>Votre Mantra d'Urgence</strong></h3>
+<p><em>"STOP - RESPIRER - DOCUMENTER - DEMANDER AIDE - VALIDER - AGIR"</em></p>
+<h3 id="vous-etes-maintenant">🏅 <strong>Vous Êtes Maintenant...</strong></h3>
+<p>Un <strong>Crisis PowerShell Warrior</strong> certifié, capable de:
+- ✅ Garder sang-froid sous pression maximale
+- ✅ Suivre procédures structurées en chaos
+- ✅ Communiquer efficacement en crise
+- ✅ Récupérer sans aggraver la situation
+- ✅ Transformer échec en apprentissage</p>
+<hr />
+<h2 id="fin-du-cours-vous-etes-prete-pour-le-monde-reel">🎓 <strong>FIN DU COURS: Vous Êtes Prêt(e) pour le Monde Réel</strong></h2>
+<h3 id="ce-que-vous-maitrisez-maintenant">Ce Que Vous Maîtrisez Maintenant</h3>
+<ol>
+<li><strong>Philosophie 2025</strong>: IA + Validation critique</li>
+<li><strong>Commands de Survie</strong>: 10 commandes qui sauvent carrières</li>
+<li><strong>Prompts Sécurisés</strong>: Utilisation professionnelle IA</li>
+<li><strong>Détection Bombes</strong>: Identifier erreurs mortelles cachées</li>
+<li><strong>Religion -WhatIf</strong>: Sécurité avant vitesse</li>
+<li><strong>Gestion Crise</strong>: Procédures break-glass structurées</li>
+</ol>
+<h3 id="votre-mission-lundi-matin">🎯 <strong>Votre Mission Lundi Matin</strong></h3>
+<ul>
+<li>Appliquer <strong>-WhatIf</strong> religieusement</li>
+<li>Valider <strong>chaque script</strong> trouvé online</li>
+<li>Documenter <strong>vos actions</strong> importantes</li>
+<li>Aider <strong>collègues</strong> avec cette philosophie</li>
+<li>Partager <strong>cas d'usage</strong> avec la communauté</li>
+</ul>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/choquitofrito/ActiveDirectory" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "navigation.prune", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

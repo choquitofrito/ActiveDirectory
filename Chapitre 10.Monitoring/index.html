@@ -1,0 +1,2139 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://choquitofrito.github.io/ActiveDirectory/Chapitre%2010.Monitoring/">
+      
+      
+        <link rel="prev" href="../Chapitre%208.Group%20Policy%20Objects/">
+      
+      
+        <link rel="next" href="../Chapitre%209.0.Powershell%20AD%20-%20Introduction/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Ch10 - Monitoring - Active Directory Course</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapitre-10-surveillance-et-monitoring-active-directory" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Active Directory Course" class="md-header__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Active Directory Course
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ch10 - Monitoring
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  🏠 Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🖥️ Windows Server
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Chapitre%203.DNS/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🌐 DNS
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📁 Active Directory
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ⚡ PowerShell AD
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🧪 Labs & Exercices
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Active Directory Course" class="md-nav__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Active Directory Course
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏠 Accueil
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🖥️ Windows Server
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../Chapitre%203.DNS/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🌐 DNS
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    📁 Active Directory
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            📁 Active Directory
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch4 - AD DS Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%205.DNS-Pratique-avec-AD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch5 - DNS avec AD
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%206.Unites_Organisation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch6 - Unités d'Organisation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%207.Gestion_des_Utilisateurs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch7 - Gestion Utilisateurs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%208.Group%20Policy%20Objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch8 - Group Policy Objects
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Ch10 - Monitoring
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch10 - Monitoring
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectifs-dapprentissage" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Objectifs d'apprentissage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pourquoi-surveiller-active-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Pourquoi surveiller Active Directory ?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Pourquoi surveiller Active Directory ?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenarios-critiques-a-detecter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scénarios critiques à détecter
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#les-3-piliers-du-monitoring-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Les 3 Piliers du Monitoring AD
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Les 3 Piliers du Monitoring AD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-disponibilite-availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      1️⃣ Disponibilité (Availability)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-performance-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      2️⃣ Performance (Performance)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-securite-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      3️⃣ Sécurité (Security)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#event-ids-essentiels-a-connaitre" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Event IDs Essentiels à Connaître
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 Event IDs Essentiels à Connaître">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#securite-security-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔐 Sécurité (Security Log)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔐 Sécurité (Security Log)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authentification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-des-comptes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gestion des Comptes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-des-groupes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gestion des Groupes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpos" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPOs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#active-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Active Directory
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#systeme-system-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚙️ Système (System Log)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ Système (System Log)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#services-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Services AD
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outils-natifs-de-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Outils Natifs de Monitoring
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛠️ Outils Natifs de Monitoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-event-viewer-observateur-devenements" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Event Viewer (Observateur d'événements)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-powershell-get-eventlog-get-winevent" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. PowerShell - Get-EventLog / Get-WinEvent
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-performance-monitor-perfmon" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Performance Monitor (PerfMon)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-active-directory-health-check-dcdiag" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Active Directory Health Check (dcdiag)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-replication-status-repadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Replication Status (repadmin)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-dalertes-basiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚨 Configuration d'Alertes Basiques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚨 Configuration d&#39;Alertes Basiques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#methode-1-planificateur-de-taches-event-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      Méthode 1 : Planificateur de tâches + Event Trigger
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methode-2-powershell-scheduled-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      Méthode 2 : PowerShell Scheduled Job
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reporting-basique" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Reporting Basique
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Reporting Basique">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#script-rapport-quotidien-de-securite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Script : Rapport Quotidien de Sécurité
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bonnes-pratiques-pour-debutants" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎓 Bonnes Pratiques pour Débutants
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Bonnes Pratiques pour Débutants">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-faire" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ À FAIRE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-eviter" class="md-nav__link">
+    <span class="md-ellipsis">
+      ❌ À ÉVITER
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ressources-complementaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Ressources Complémentaires
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 Ressources Complémentaires">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#documentation-microsoft" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentation Microsoft
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outils-tiers-apercu" class="md-nav__link">
+    <span class="md-ellipsis">
+      Outils Tiers (Aperçu)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scripts-communautaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scripts Communautaires
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#points-cles-a-retenir" class="md-nav__link">
+    <span class="md-ellipsis">
+      📝 Points Clés à Retenir
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    ⚡ PowerShell AD
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🧪 Labs & Exercices
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectifs-dapprentissage" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Objectifs d'apprentissage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pourquoi-surveiller-active-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Pourquoi surveiller Active Directory ?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Pourquoi surveiller Active Directory ?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenarios-critiques-a-detecter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scénarios critiques à détecter
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#les-3-piliers-du-monitoring-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Les 3 Piliers du Monitoring AD
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Les 3 Piliers du Monitoring AD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-disponibilite-availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      1️⃣ Disponibilité (Availability)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-performance-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      2️⃣ Performance (Performance)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-securite-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      3️⃣ Sécurité (Security)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#event-ids-essentiels-a-connaitre" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Event IDs Essentiels à Connaître
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 Event IDs Essentiels à Connaître">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#securite-security-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔐 Sécurité (Security Log)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔐 Sécurité (Security Log)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authentification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-des-comptes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gestion des Comptes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-des-groupes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gestion des Groupes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpos" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPOs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#active-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Active Directory
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#systeme-system-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚙️ Système (System Log)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ Système (System Log)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#services-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Services AD
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outils-natifs-de-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Outils Natifs de Monitoring
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛠️ Outils Natifs de Monitoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-event-viewer-observateur-devenements" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Event Viewer (Observateur d'événements)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-powershell-get-eventlog-get-winevent" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. PowerShell - Get-EventLog / Get-WinEvent
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-performance-monitor-perfmon" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Performance Monitor (PerfMon)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-active-directory-health-check-dcdiag" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Active Directory Health Check (dcdiag)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-replication-status-repadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Replication Status (repadmin)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-dalertes-basiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚨 Configuration d'Alertes Basiques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚨 Configuration d&#39;Alertes Basiques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#methode-1-planificateur-de-taches-event-trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      Méthode 1 : Planificateur de tâches + Event Trigger
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methode-2-powershell-scheduled-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      Méthode 2 : PowerShell Scheduled Job
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reporting-basique" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Reporting Basique
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Reporting Basique">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#script-rapport-quotidien-de-securite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Script : Rapport Quotidien de Sécurité
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bonnes-pratiques-pour-debutants" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎓 Bonnes Pratiques pour Débutants
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Bonnes Pratiques pour Débutants">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-faire" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ À FAIRE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-eviter" class="md-nav__link">
+    <span class="md-ellipsis">
+      ❌ À ÉVITER
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ressources-complementaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Ressources Complémentaires
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔗 Ressources Complémentaires">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#documentation-microsoft" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentation Microsoft
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outils-tiers-apercu" class="md-nav__link">
+    <span class="md-ellipsis">
+      Outils Tiers (Aperçu)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scripts-communautaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scripts Communautaires
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#points-cles-a-retenir" class="md-nav__link">
+    <span class="md-ellipsis">
+      📝 Points Clés à Retenir
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="chapitre-10-surveillance-et-monitoring-active-directory">Chapitre 10 - Surveillance et Monitoring Active Directory</h1>
+<h2 id="objectifs-dapprentissage">📊 Objectifs d'apprentissage</h2>
+<p>À la fin de ce chapitre, vous serez capable de :
+- Comprendre l'importance du monitoring dans Active Directory
+- Identifier les événements critiques à surveiller
+- Utiliser les outils natifs Windows pour le monitoring
+- Configurer des alertes basiques
+- Analyser les logs d'événements AD
+- Détecter des anomalies de sécurité courantes</p>
+<hr />
+<h2 id="pourquoi-surveiller-active-directory">🎯 Pourquoi surveiller Active Directory ?</h2>
+<p>Active Directory est le <strong>cœur de l'infrastructure IT</strong> dans la plupart des entreprises. Une défaillance ou une compromission peut paralyser toute l'organisation.</p>
+<h3 id="scenarios-critiques-a-detecter">Scénarios critiques à détecter</h3>
+<table>
+<thead>
+<tr>
+<th>Scénario</th>
+<th>Impact</th>
+<th>Détection</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Comptes verrouillés en masse</strong></td>
+<td>Perte de productivité, possible attaque brute force</td>
+<td>Event ID 4740</td>
+</tr>
+<tr>
+<td><strong>Modification non autorisée de groupes</strong></td>
+<td>Élévation de privilèges</td>
+<td>Event ID 4728, 4732, 4756</td>
+</tr>
+<tr>
+<td><strong>Échecs d'authentification répétés</strong></td>
+<td>Tentative d'intrusion</td>
+<td>Event ID 4625</td>
+</tr>
+<tr>
+<td><strong>Réplication AD échouée</strong></td>
+<td>Incohérence des données</td>
+<td>Event ID 2042, 1925</td>
+</tr>
+<tr>
+<td><strong>Modification de GPO</strong></td>
+<td>Changement de configuration critique</td>
+<td>Event ID 5136, 5137</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="les-3-piliers-du-monitoring-ad">🔍 Les 3 Piliers du Monitoring AD</h2>
+<h3 id="1-disponibilite-availability">1️⃣ <strong>Disponibilité</strong> (Availability)</h3>
+<ul>
+<li>Les contrôleurs de domaine sont-ils opérationnels ?</li>
+<li>Les services AD essentiels fonctionnent-ils ?</li>
+<li>La réplication fonctionne-t-elle correctement ?</li>
+</ul>
+<h3 id="2-performance-performance">2️⃣ <strong>Performance</strong> (Performance)</h3>
+<ul>
+<li>Temps de réponse LDAP acceptable ?</li>
+<li>Charge CPU/Mémoire normale ?</li>
+<li>File d'attente de réplication sous contrôle ?</li>
+</ul>
+<h3 id="3-securite-security">3️⃣ <strong>Sécurité</strong> (Security)</h3>
+<ul>
+<li>Activités suspectes (connexions anormales) ?</li>
+<li>Modifications non autorisées ?</li>
+<li>Tentatives d'élévation de privilèges ?</li>
+</ul>
+<hr />
+<h2 id="event-ids-essentiels-a-connaitre">📋 Event IDs Essentiels à Connaître</h2>
+<h3 id="securite-security-log">🔐 Sécurité (Security Log)</h3>
+<h4 id="authentification">Authentification</h4>
+<ul>
+<li><strong>4624</strong> : Connexion réussie (logon successful)</li>
+<li><strong>4625</strong> : Échec de connexion (logon failed)</li>
+<li><strong>4634</strong> : Déconnexion (logoff)</li>
+<li><strong>4648</strong> : Connexion avec identifiants explicites (runas)</li>
+</ul>
+<h4 id="gestion-des-comptes">Gestion des Comptes</h4>
+<ul>
+<li><strong>4720</strong> : Création de compte utilisateur</li>
+<li><strong>4722</strong> : Activation de compte</li>
+<li><strong>4723</strong> : Tentative de changement de mot de passe</li>
+<li><strong>4724</strong> : Réinitialisation de mot de passe</li>
+<li><strong>4725</strong> : Désactivation de compte</li>
+<li><strong>4726</strong> : Suppression de compte</li>
+<li><strong>4740</strong> : Verrouillage de compte</li>
+</ul>
+<h4 id="gestion-des-groupes">Gestion des Groupes</h4>
+<ul>
+<li><strong>4728</strong> : Membre ajouté à un groupe de sécurité global</li>
+<li><strong>4729</strong> : Membre retiré d'un groupe de sécurité global</li>
+<li><strong>4732</strong> : Membre ajouté à un groupe de sécurité local</li>
+<li><strong>4733</strong> : Membre retiré d'un groupe de sécurité local</li>
+<li><strong>4756</strong> : Membre ajouté à un groupe de sécurité universel</li>
+</ul>
+<h4 id="gpos">GPOs</h4>
+<ul>
+<li><strong>5312</strong> : Erreur d'application de GPO</li>
+<li><strong>5126</strong> : La stratégie de groupe a reçu correctement les objets de stratégie de groupe applicables du contrôleur du domaine</li>
+<li><strong>5017</strong> : Temps de traitement GPO dépassé</li>
+<li><strong>5018</strong> : Temps de traitement GPO précédent dépassé</li>
+<li><strong>5136</strong> : Création d'un GPO</li>
+<li><strong>5137</strong> : Modification d'un GPO</li>
+<li><strong>5138</strong> : Suppression d'un GPO</li>
+</ul>
+<h4 id="active-directory">Active Directory</h4>
+<ul>
+<li><strong>4662</strong> : Opération effectuée sur un objet AD</li>
+<li><strong>5136</strong> : Modification d'objet AD (attribut changé)</li>
+<li><strong>5137</strong> : Création d'objet AD</li>
+<li><strong>5138</strong> : Récupération d'objet AD depuis la corbeille</li>
+<li><strong>5139</strong> : Déplacement d'objet AD</li>
+<li><strong>5141</strong> : Suppression d'objet AD</li>
+<li><strong>5016</strong> : Avertissement traitement GPO</li>
+</ul>
+<h3 id="systeme-system-log">⚙️ Système (System Log)</h3>
+<h4 id="services-ad">Services AD</h4>
+<ul>
+<li><strong>1000</strong> : Active Directory Web Services démarré</li>
+<li><strong>1202</strong> : Promotion/rétrogradation DC</li>
+<li><strong>1963</strong> : Échec résolution DNS pour réplication</li>
+<li><strong>1925</strong> : Échec de réplication</li>
+<li><strong>2042</strong> : Réplication non effectuée depuis trop longtemps</li>
+</ul>
+<hr />
+<h2 id="outils-natifs-de-monitoring">🛠️ Outils Natifs de Monitoring</h2>
+<h3 id="1-event-viewer-observateur-devenements">1. Event Viewer (Observateur d'événements)</h3>
+<p>Lancer l'observateur d'événements despuis le gestionnaire du serveur.
+Cet outil vous permet de chercher dans les logs du système, tant les logs de Windows comme les logs des applications installées.</p>
+<p>Vous pouvez observer directement les logs dans <strong>Journaux Windows</strong> et <strong>Journaux des applications et des services</strong>, ou bien créer un affichage personnalisé (ex: chercher tous les événements de verrouillage de compte, ou tous les événements de GPO echouée).</p>
+<p><strong>Filtrage rapide :</strong>
+- Clic droit sur un log → <strong>Filter Current Log</strong>
+- Sélectionner les Event IDs pertinents
+- Sauvegarder comme <strong>Custom View</strong> pour réutilisation</p>
+<h3 id="2-powershell-get-eventlog-get-winevent">2. PowerShell - Get-EventLog / Get-WinEvent</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Récupérer les 10 derniers échecs de connexion</span>
+<span class="nb">Get-WinEvent</span> <span class="n">-FilterHashtable</span> <span class="p">@{</span><span class="n">LogName</span><span class="p">=</span><span class="s1">&#39;Security&#39;</span><span class="p">;</span> <span class="n">ID</span><span class="p">=</span><span class="n">4625</span><span class="p">}</span> <span class="n">-MaxEvents</span> <span class="n">10</span>
+
+<span class="c"># Comptes verrouillés dans les dernières 24h</span>
+<span class="nv">$date</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddDays</span><span class="p">(-</span><span class="n">1</span><span class="p">)</span>
+<span class="nb">Get-WinEvent</span> <span class="n">-FilterHashtable</span> <span class="p">@{</span><span class="n">LogName</span><span class="p">=</span><span class="s1">&#39;Security&#39;</span><span class="p">;</span> <span class="n">ID</span><span class="p">=</span><span class="n">4740</span><span class="p">;</span> <span class="n">StartTime</span><span class="p">=</span><span class="nv">$date</span><span class="p">}</span>
+
+<span class="c"># Modifications de groupes privilégiés</span>
+<span class="nb">Get-WinEvent</span> <span class="n">-FilterHashtable</span> <span class="p">@{</span><span class="n">LogName</span><span class="p">=</span><span class="s1">&#39;Security&#39;</span><span class="p">;</span> <span class="n">ID</span><span class="p">=</span><span class="n">4728</span><span class="p">,</span><span class="n">4732</span><span class="p">,</span><span class="n">4756</span><span class="p">}</span> <span class="n">-MaxEvents</span> <span class="n">50</span>
+</code></pre></div>
+<h3 id="3-performance-monitor-perfmon">3. Performance Monitor (PerfMon)</h3>
+<p><strong>Compteurs AD critiques :</strong></p>
+<table>
+<thead>
+<tr>
+<th>Catégorie</th>
+<th>Compteur</th>
+<th>Seuil d'alerte</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NTDS</strong></td>
+<td>DRA Pending Replication Synchronizations</td>
+<td>&gt; 50</td>
+</tr>
+<tr>
+<td><strong>NTDS</strong></td>
+<td>LDAP Client Sessions</td>
+<td>Baseline à établir</td>
+</tr>
+<tr>
+<td><strong>NTDS</strong></td>
+<td>LDAP Searches/sec</td>
+<td>&gt; 200 peut indiquer une charge élevée</td>
+</tr>
+<tr>
+<td><strong>Database</strong></td>
+<td>Database Cache % Hit</td>
+<td>&lt; 90% (besoin de RAM)</td>
+</tr>
+<tr>
+<td><strong>Processor</strong></td>
+<td>% Processor Time</td>
+<td>&gt; 80% soutenu</td>
+</tr>
+<tr>
+<td><strong>Memory</strong></td>
+<td>Available MBytes</td>
+<td>&lt; 1 GB critique</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-active-directory-health-check-dcdiag">4. Active Directory Health Check (dcdiag)</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Diagnostic complet du DC</span>
+<span class="n">dcdiag</span> <span class="p">/</span><span class="n">v</span>
+
+<span class="c"># Tester la réplication (ne nous concerne pas, on n&#39;a pas de replications)</span>
+<span class="c"># dcdiag /test:replications</span>
+
+<span class="c"># Vérifier la connectivité DNS</span>
+<span class="n">dcdiag</span> <span class="p">/</span><span class="n">test</span><span class="p">:</span><span class="n">dns</span>
+
+<span class="c"># Tester les services AD</span>
+<span class="n">dcdiag</span> <span class="p">/</span><span class="n">test</span><span class="p">:</span><span class="n">services</span>
+</code></pre></div>
+<h3 id="5-replication-status-repadmin">5. Replication Status (repadmin)</h3>
+<p>(Nous n'avons pas fait de replications pendant la formation)</p>
+<div class="highlight"><pre><span></span><code><span class="c"># Voir l&#39;état de réplication</span>
+<span class="n">repadmin</span> <span class="p">/</span><span class="n">replsummary</span>
+
+<span class="c"># Forcer la réplication</span>
+<span class="n">repadmin</span> <span class="p">/</span><span class="n">syncall</span> <span class="p">/</span><span class="n">AdeP</span>
+
+<span class="c"># Afficher les partenaires de réplication</span>
+<span class="n">repadmin</span> <span class="p">/</span><span class="n">showrepl</span>
+</code></pre></div>
+<hr />
+<h2 id="configuration-dalertes-basiques">🚨 Configuration d'Alertes Basiques</h2>
+<h3 id="methode-1-planificateur-de-taches-event-trigger">Méthode 1 : Planificateur de tâches + Event Trigger</h3>
+<p><strong>Scénario : Alerte email sur verrouillage de compte</strong></p>
+<ol>
+<li><strong>Ouvrir Planificateur de tâches</strong> (<code>taskschd.msc</code>)</li>
+<li><strong>Create Basic Task</strong> → "Alert Account Lockout"</li>
+<li><strong>Trigger</strong> : "When a specific event is logged"</li>
+<li>Log : Security</li>
+<li>Source : Microsoft Windows Security Auditing</li>
+<li>Event ID : 4740</li>
+<li><strong>Action</strong> : Send an email (nécessite configuration SMTP)</li>
+<li>OU exécuter un script PowerShell :</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c"># C:\Scripts\Alert-AccountLockout.ps1</span>
+<span class="nv">$event</span> <span class="p">=</span> <span class="nb">Get-WinEvent</span> <span class="n">-FilterHashtable</span> <span class="p">@{</span><span class="n">LogName</span><span class="p">=</span><span class="s1">&#39;Security&#39;</span><span class="p">;</span> <span class="n">ID</span><span class="p">=</span><span class="n">4740</span><span class="p">}</span> <span class="n">-MaxEvents</span> <span class="n">1</span>
+<span class="nv">$user</span> <span class="p">=</span> <span class="nv">$event</span><span class="p">.</span><span class="n">Properties</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">Value</span>
+<span class="nv">$computer</span> <span class="p">=</span> <span class="nv">$event</span><span class="p">.</span><span class="n">Properties</span><span class="p">[</span><span class="n">1</span><span class="p">].</span><span class="n">Value</span>
+
+<span class="nb">Send-MailMessage</span> <span class="n">-To</span> <span class="s2">&quot;admin@entreprise.com&quot;</span> <span class="p">`</span>
+                 <span class="n">-From</span> <span class="s2">&quot;dc01@entreprise.com&quot;</span> <span class="p">`</span>
+                 <span class="n">-Subject</span> <span class="s2">&quot;⚠️ ALERTE: Compte verrouillé - $user&quot;</span> <span class="p">`</span>
+                 <span class="n">-Body</span> <span class="s2">&quot;Compte: $user</span><span class="se">`n</span><span class="s2">Ordinateur: $computer</span><span class="se">`n</span><span class="s2">Heure: </span><span class="p">$(</span><span class="nv">$event</span><span class="p">.</span><span class="n">TimeCreated</span><span class="p">)</span><span class="s2">&quot;</span> <span class="p">`</span>
+                 <span class="n">-SmtpServer</span> <span class="s2">&quot;smtp.entreprise.com&quot;</span>
+</code></pre></div>
+<h3 id="methode-2-powershell-scheduled-job">Méthode 2 : PowerShell Scheduled Job</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Script de surveillance actif (à exécuter toutes les 15 min via tâche planifiée)</span>
+<span class="nv">$depuis</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddMinutes</span><span class="p">(-</span><span class="n">15</span><span class="p">)</span>
+
+<span class="c"># Vérifier les échecs de connexion massifs</span>
+<span class="nv">$echecs</span> <span class="p">=</span> <span class="nb">Get-WinEvent</span> <span class="n">-FilterHashtable</span> <span class="p">@{</span>
+    <span class="n">LogName</span><span class="p">=</span><span class="s1">&#39;Security&#39;</span><span class="p">;</span>
+    <span class="n">ID</span><span class="p">=</span><span class="n">4625</span><span class="p">;</span>
+    <span class="n">StartTime</span><span class="p">=</span><span class="nv">$depuis</span>
+<span class="p">}</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nv">$echecs</span><span class="p">.</span><span class="n">Count</span> <span class="o">-gt</span> <span class="n">20</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Warning</span> <span class="s2">&quot;⚠️ </span><span class="p">$(</span><span class="nv">$echecs</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> échecs de connexion détectés en 15 minutes!&quot;</span>
+    <span class="c"># Envoyer alerte</span>
+<span class="p">}</span>
+
+<span class="c"># Vérifier les modifications de groupes Admin</span>
+<span class="nv">$modifGroupes</span> <span class="p">=</span> <span class="nb">Get-WinEvent</span> <span class="n">-FilterHashtable</span> <span class="p">@{</span>
+    <span class="n">LogName</span><span class="p">=</span><span class="s1">&#39;Security&#39;</span><span class="p">;</span>
+    <span class="n">ID</span><span class="p">=</span><span class="n">4728</span><span class="p">,</span><span class="n">4732</span><span class="p">,</span><span class="n">4756</span><span class="p">;</span>
+    <span class="n">StartTime</span><span class="p">=</span><span class="nv">$depuis</span>
+<span class="p">}</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span>
+    <span class="nv">$_</span><span class="p">.</span><span class="n">Message</span> <span class="o">-match</span> <span class="s2">&quot;Domain Admins|Enterprise Admins|Schema Admins&quot;</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nv">$modifGroupes</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Warning</span> <span class="s2">&quot;⚠️ CRITIQUE: Modification de groupe privilégié détecté!&quot;</span>
+    <span class="c"># Envoyer alerte immédiate</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="reporting-basique">📊 Reporting Basique</h2>
+<h3 id="script-rapport-quotidien-de-securite">Script : Rapport Quotidien de Sécurité</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Rapport-Quotidien-AD.ps1</span>
+<span class="k">param</span><span class="p">(</span>
+    <span class="no">[int]</span><span class="nv">$Heures</span> <span class="p">=</span> <span class="n">24</span><span class="p">,</span>
+    <span class="no">[string]</span><span class="nv">$EmailDest</span> <span class="p">=</span> <span class="s2">&quot;admin@entreprise.com&quot;</span>
+<span class="p">)</span>
+
+<span class="nv">$debut</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddHours</span><span class="p">(-</span><span class="nv">$Heures</span><span class="p">)</span>
+<span class="nv">$rapport</span> <span class="p">=</span> <span class="sh">@&quot;</span>
+<span class="sh">═══════════════════════════════════════════════</span>
+<span class="sh">  RAPPORT QUOTIDIEN ACTIVE DIRECTORY</span>
+<span class="sh">  Période: $debut à </span><span class="p">$(</span><span class="nb">Get-Date</span><span class="p">)</span>
+<span class="sh">═══════════════════════════════════════════════</span>
+
+<span class="sh">&quot;@</span>
+
+<span class="c"># 1. Comptes créés</span>
+<span class="nv">$comptesCreated</span> <span class="p">=</span> <span class="nb">Get-WinEvent</span> <span class="n">-FilterHashtable</span> <span class="p">@{</span><span class="n">LogName</span><span class="p">=</span><span class="s1">&#39;Security&#39;</span><span class="p">;</span> <span class="n">ID</span><span class="p">=</span><span class="n">4720</span><span class="p">;</span> <span class="n">StartTime</span><span class="p">=</span><span class="nv">$debut</span><span class="p">}</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span>
+<span class="nv">$rapport</span> <span class="p">+=</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">👤 COMPTES CRÉÉS: </span><span class="p">$(</span><span class="nv">$comptesCreated</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="se">`n</span><span class="s2">&quot;</span>
+<span class="nv">$comptesCreated</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nv">$rapport</span> <span class="p">+=</span> <span class="s2">&quot;  - </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Properties</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">Value</span><span class="p">)</span><span class="s2"> à </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">TimeCreated</span><span class="p">)</span><span class="se">`n</span><span class="s2">&quot;</span>
+<span class="p">}</span>
+
+<span class="c"># 2. Comptes verrouillés</span>
+<span class="nv">$verrouilles</span> <span class="p">=</span> <span class="nb">Get-WinEvent</span> <span class="n">-FilterHashtable</span> <span class="p">@{</span><span class="n">LogName</span><span class="p">=</span><span class="s1">&#39;Security&#39;</span><span class="p">;</span> <span class="n">ID</span><span class="p">=</span><span class="n">4740</span><span class="p">;</span> <span class="n">StartTime</span><span class="p">=</span><span class="nv">$debut</span><span class="p">}</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span>
+<span class="nv">$rapport</span> <span class="p">+=</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">🔒 COMPTES VERROUILLÉS: </span><span class="p">$(</span><span class="nv">$verrouilles</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="se">`n</span><span class="s2">&quot;</span>
+<span class="nv">$verrouilles</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nv">$rapport</span> <span class="p">+=</span> <span class="s2">&quot;  - </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Properties</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">Value</span><span class="p">)</span><span class="s2"> verrouillé par </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Properties</span><span class="p">[</span><span class="n">1</span><span class="p">].</span><span class="n">Value</span><span class="p">)</span><span class="se">`n</span><span class="s2">&quot;</span>
+<span class="p">}</span>
+
+<span class="c"># 3. Modifications de groupes</span>
+<span class="nv">$groupesModif</span> <span class="p">=</span> <span class="nb">Get-WinEvent</span> <span class="n">-FilterHashtable</span> <span class="p">@{</span><span class="n">LogName</span><span class="p">=</span><span class="s1">&#39;Security&#39;</span><span class="p">;</span> <span class="n">ID</span><span class="p">=</span><span class="n">4728</span><span class="p">,</span><span class="n">4732</span><span class="p">,</span><span class="n">4756</span><span class="p">;</span> <span class="n">StartTime</span><span class="p">=</span><span class="nv">$debut</span><span class="p">}</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span>
+<span class="nv">$rapport</span> <span class="p">+=</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">👥 MODIFICATIONS DE GROUPES: </span><span class="p">$(</span><span class="nv">$groupesModif</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="se">`n</span><span class="s2">&quot;</span>
+
+<span class="c"># 4. Échecs de connexion (top 5 utilisateurs)</span>
+<span class="nv">$echecs</span> <span class="p">=</span> <span class="nb">Get-WinEvent</span> <span class="n">-FilterHashtable</span> <span class="p">@{</span><span class="n">LogName</span><span class="p">=</span><span class="s1">&#39;Security&#39;</span><span class="p">;</span> <span class="n">ID</span><span class="p">=</span><span class="n">4625</span><span class="p">;</span> <span class="n">StartTime</span><span class="p">=</span><span class="nv">$debut</span><span class="p">}</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span>
+<span class="nv">$topEchecs</span> <span class="p">=</span> <span class="nv">$echecs</span> <span class="p">|</span> <span class="nb">Group-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Properties</span><span class="p">[</span><span class="n">5</span><span class="p">].</span><span class="n">Value</span><span class="p">}</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">Count</span> <span class="n">-Descending</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">5</span>
+<span class="nv">$rapport</span> <span class="p">+=</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">❌ ÉCHECS DE CONNEXION: </span><span class="p">$(</span><span class="nv">$echecs</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> total</span><span class="se">`n</span><span class="s2">&quot;</span>
+<span class="nv">$topEchecs</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nv">$rapport</span> <span class="p">+=</span> <span class="s2">&quot;  - </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">: </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2"> échecs</span><span class="se">`n</span><span class="s2">&quot;</span>
+<span class="p">}</span>
+
+<span class="nb">Write-Output</span> <span class="nv">$rapport</span>
+
+<span class="c"># Optionnel: Envoyer par email</span>
+<span class="c"># Send-MailMessage -To $EmailDest -From &quot;dc01@entreprise.com&quot; -Subject &quot;Rapport AD Quotidien&quot; -Body $rapport -SmtpServer &quot;smtp.entreprise.com&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="bonnes-pratiques-pour-debutants">🎓 Bonnes Pratiques pour Débutants</h2>
+<h3 id="a-faire">✅ À FAIRE</h3>
+<ol>
+<li>
+<p><strong>Établir une baseline</strong> : Savoir ce qui est « normal » avant de détecter les anomalies (ex. : attaque par déni de service par quelqu'un qui simule beaucoup de connexions simultanées)
+   <div class="highlight"><pre><span></span><code><span class="c"># Exemple: Combien de connexions/jour normalement ?</span>
+<span class="nv">$baseline</span> <span class="p">=</span> <span class="nb">Get-WinEvent</span> <span class="n">-FilterHashtable</span> <span class="p">@{</span><span class="n">LogName</span><span class="p">=</span><span class="s1">&#39;Security&#39;</span><span class="p">;</span> <span class="n">ID</span><span class="p">=</span><span class="n">4624</span><span class="p">}</span> <span class="n">-MaxEvents</span> <span class="n">1000</span>
+<span class="nv">$baseline</span><span class="p">.</span><span class="n">Count</span> <span class="p">/</span> <span class="n">7</span>  <span class="c"># Moyenne sur 7 jours</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Créer des Custom Views dans Event Viewer</strong> pour les événements fréquents</p>
+</li>
+<li>Security → Filter → Event IDs: 4625, 4740, 4728</li>
+<li>
+<p>Sauvegarder comme "Surveillance Sécurité Quotidienne"</p>
+</li>
+<li>
+<p><strong>Documenter les alertes</strong> : Tenir un journal des incidents
+   <div class="highlight"><pre><span></span><code>Date | Event ID | Description | Action Prise | Résolu ?
+-----|----------|-------------|--------------|----------
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Tester les alertes</strong> : Simuler des événements pour vérifier la détection
+   <div class="highlight"><pre><span></span><code><span class="c"># Simuler un verrouillage (3 mauvais mots de passe)</span>
+<span class="c"># Avec un compte de test bien sûr !</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Archiver les logs</strong> : Politique de rétention claire</p>
+</li>
+<li>Security log : Minimum 90 jours</li>
+<li>System log : 30 jours</li>
+<li>Exporter régulièrement vers stockage sécurisé</li>
+</ol>
+<h3 id="a-eviter">❌ À ÉVITER</h3>
+<ol>
+<li>❌ Ignorer les avertissements de réplication (ne nous concerne pas dans cette formation)</li>
+<li>❌ Ne surveiller qu'un seul DC (seulement si on en a plusieurs)</li>
+<li>❌ Alertes trop sensibles (alert fatigue)</li>
+<li>❌ Ne pas sécuriser les logs (cible d'attaquants)</li>
+<li>❌ Oublier de monitorer les admins eux-mêmes</li>
+</ol>
+<h2 id="ressources-complementaires">🔗 Ressources Complémentaires</h2>
+<h3 id="documentation-microsoft">Documentation Microsoft</h3>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/monitoring-active-directory-for-signs-of-compromise">Monitoring Active Directory</a></li>
+<li><a href="https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/advanced-security-auditing">Advanced Security Audit Policies</a></li>
+<li><a href="https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/">Event Log Reference</a></li>
+</ul>
+<h3 id="outils-tiers-apercu">Outils Tiers (Aperçu)</h3>
+<ul>
+<li><strong>Netwrix Auditor</strong> : Auditing AD complet (commercial)</li>
+<li><strong>ManageEngine ADAudit Plus</strong> : Monitoring temps réel</li>
+<li><strong>Splunk</strong> : SIEM pour agrégation logs</li>
+<li><strong>Graylog</strong> : Alternative open-source à Splunk</li>
+</ul>
+<h3 id="scripts-communautaires">Scripts Communautaires</h3>
+<ul>
+<li><a href="https://github.com/canix1/ADACLScanner">AD Security Checks (GitHub)</a></li>
+<li><a href="https://github.com/SigmaHQ/sigma">PowerShell Empire Detection</a></li>
+</ul>
+<hr />
+<h2 id="points-cles-a-retenir">📝 Points Clés à Retenir</h2>
+<ol>
+<li><strong>Le monitoring AD n'est pas optionnel</strong> : C'est une nécessité de sécurité</li>
+<li><strong>Commencer simple</strong> : Event IDs critiques + PowerShell de base</li>
+<li><strong>Automatiser progressivement</strong> : Scripts → Tâches planifiées → SIEM (outils de centralisations d'alertes en temps réel)</li>
+<li><strong>Documenter les baselines</strong> : Savoir ce qui est normal</li>
+<li><strong>Tester régulièrement</strong> : Vérifier que les alertes fonctionnent</li>
+<li><strong>Corrélation</strong> : Un événement seul ne fait pas un incident</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/choquitofrito/ActiveDirectory" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "navigation.prune", "content.code.copy"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

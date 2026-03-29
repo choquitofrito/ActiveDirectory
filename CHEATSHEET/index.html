@@ -1,0 +1,1955 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://choquitofrito.github.io/ActiveDirectory/CHEATSHEET/">
+      
+      
+        <link rel="prev" href="../Chapitre%209.3.Powershell%20AD%20-%20Creation_et_Modification/">
+      
+      
+        <link rel="next" href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M1-realite-2025/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Cheatsheet - Active Directory Course</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#powershell-cheat-sheet-commandes-essentielles" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Active Directory Course" class="md-header__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Active Directory Course
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Cheatsheet
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  🏠 Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🖥️ Windows Server
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Chapitre%203.DNS/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🌐 DNS
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📁 Active Directory
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ⚡ PowerShell AD
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🧪 Labs & Exercices
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Active Directory Course" class="md-nav__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Active Directory Course
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏠 Accueil
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🖥️ Windows Server
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../Chapitre%203.DNS/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🌐 DNS
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    📁 Active Directory
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    ⚡ PowerShell AD
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            ⚡ PowerShell AD
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch9.0 - Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch9.1 - Concepts de Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch9.2 - Requêtes & Informations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapitre%209.3.Powershell%20AD%20-%20Creation_et_Modification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch9.3 - Création & Modification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Cheatsheet
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cheatsheet
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#navigation-du-cours" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧭 Navigation du Cours
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-commandes-de-base-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. 🔹 Commandes de Base PowerShell
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 🔹 Commandes de Base PowerShell">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tableaux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tableaux
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boucles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boucles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conditions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-commandes-active-directory-utilisateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. 🔹 Commandes Active Directory - Utilisateurs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 🔹 Commandes Active Directory - Utilisateurs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recherche-dutilisateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recherche d'utilisateurs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creation-et-modification-dutilisateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Création et modification d'utilisateurs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recherche-avancee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recherche avancée
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-commandes-active-directory-groupes" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. 🔹 Commandes Active Directory - Groupes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 🔹 Commandes Active Directory - Groupes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recherche-de-groupes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recherche de groupes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-des-membres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gestion des membres
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-commandes-active-directory-ordinateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. 🔹 Commandes Active Directory - Ordinateurs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 🔹 Commandes Active Directory - Ordinateurs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recherche-dordinateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recherche d'ordinateurs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-des-ordinateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gestion des ordinateurs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-commandes-active-directory-unites-dorganisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. 🔹 Commandes Active Directory - Unités d'Organisation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 🔹 Commandes Active Directory - Unités d&#39;Organisation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recherche-dou" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recherche d'OU
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-des-ou" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gestion des OU
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-commandes-pratiques-rapports-et-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. 🔹 Commandes Pratiques - Rapports et Export
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. 🔹 Commandes Pratiques - Rapports et Export">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#export-vers-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      Export vers CSV
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filtres-avances" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filtres avancés
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-commandes-systeme-et-utilitaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. 🔹 Commandes Système et Utilitaires
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. 🔹 Commandes Système et Utilitaires">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#navigation-et-fichiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Navigation et fichiers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-des-erreurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gestion des erreurs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-raccourcis-et-alias" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. 🔹 Raccourcis et Alias
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. 🔹 Raccourcis et Alias">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#alias-courants" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alias courants
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commandes-avec-alias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commandes avec alias
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conseils-pratiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Conseils Pratiques
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ressources-supplementaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Ressources Supplémentaires
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M1-realite-2025/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Cours Moderne 2025
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../PowershellCourse/cours-powershell-ad-moderne/cas-horreur-reels/vendredi-17h-sans-whatif/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Ressources
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🧪 Labs & Exercices
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#navigation-du-cours" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧭 Navigation du Cours
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-commandes-de-base-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. 🔹 Commandes de Base PowerShell
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 🔹 Commandes de Base PowerShell">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tableaux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tableaux
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boucles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boucles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conditions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-commandes-active-directory-utilisateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. 🔹 Commandes Active Directory - Utilisateurs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 🔹 Commandes Active Directory - Utilisateurs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recherche-dutilisateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recherche d'utilisateurs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creation-et-modification-dutilisateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Création et modification d'utilisateurs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recherche-avancee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recherche avancée
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-commandes-active-directory-groupes" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. 🔹 Commandes Active Directory - Groupes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 🔹 Commandes Active Directory - Groupes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recherche-de-groupes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recherche de groupes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-des-membres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gestion des membres
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-commandes-active-directory-ordinateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. 🔹 Commandes Active Directory - Ordinateurs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 🔹 Commandes Active Directory - Ordinateurs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recherche-dordinateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recherche d'ordinateurs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-des-ordinateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gestion des ordinateurs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-commandes-active-directory-unites-dorganisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. 🔹 Commandes Active Directory - Unités d'Organisation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 🔹 Commandes Active Directory - Unités d&#39;Organisation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recherche-dou" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recherche d'OU
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-des-ou" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gestion des OU
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-commandes-pratiques-rapports-et-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. 🔹 Commandes Pratiques - Rapports et Export
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. 🔹 Commandes Pratiques - Rapports et Export">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#export-vers-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      Export vers CSV
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filtres-avances" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filtres avancés
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-commandes-systeme-et-utilitaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. 🔹 Commandes Système et Utilitaires
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. 🔹 Commandes Système et Utilitaires">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#navigation-et-fichiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Navigation et fichiers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-des-erreurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gestion des erreurs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-raccourcis-et-alias" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. 🔹 Raccourcis et Alias
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. 🔹 Raccourcis et Alias">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#alias-courants" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alias courants
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commandes-avec-alias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commandes avec alias
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conseils-pratiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Conseils Pratiques
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ressources-supplementaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Ressources Supplémentaires
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="powershell-cheat-sheet-commandes-essentielles">PowerShell Cheat Sheet - Commandes Essentielles</h1>
+<h2 id="navigation-du-cours">🧭 Navigation du Cours</h2>
+<p><a href="../README.md">🏠 Retour au Syllabus</a> | <a href="../Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations/">⏭️ Chapitre Suivant: Powershell AD - Requêtes et Informations</a></p>
+<hr />
+<h2 id="1-commandes-de-base-powershell">1. 🔹 Commandes de Base PowerShell</h2>
+<h3 id="variables">Variables</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Créer une variable</span>
+<span class="nv">$nomUtilisateur</span> <span class="p">=</span> <span class="s2">&quot;jean.dupont&quot;</span>
+
+<span class="c"># Afficher une variable</span>
+<span class="nb">Write-Host</span> <span class="nv">$nomUtilisateur</span>
+<span class="nv">$nomUtilisateur</span>  <span class="c"># Version courte</span>
+
+<span class="c"># Concaténation</span>
+<span class="nv">$nomComplet</span> <span class="p">=</span> <span class="nv">$prenom</span> <span class="p">+</span> <span class="s2">&quot; &quot;</span> <span class="p">+</span> <span class="nv">$nom</span>
+</code></pre></div>
+<h3 id="tableaux">Tableaux</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Créer un tableau</span>
+<span class="nv">$utilisateurs</span> <span class="p">=</span> <span class="p">@(</span><span class="s2">&quot;jean.dupont&quot;</span><span class="p">,</span> <span class="s2">&quot;marie.martin&quot;</span><span class="p">,</span> <span class="s2">&quot;pierre.durand&quot;</span><span class="p">)</span>
+
+<span class="c"># Accéder à un élément (index commence à 0)</span>
+<span class="nv">$utilisateurs</span><span class="p">[</span><span class="n">0</span><span class="p">]</span>  <span class="c"># Premier élément</span>
+<span class="nv">$utilisateurs</span><span class="p">[-</span><span class="n">1</span><span class="p">]</span> <span class="c"># Dernier élément</span>
+
+<span class="c"># Ajouter un élément</span>
+<span class="nv">$utilisateurs</span> <span class="p">+=</span> <span class="s2">&quot;luc.lefevre&quot;</span>
+</code></pre></div>
+<h3 id="boucles">Boucles</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Boucle foreach simple</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$utilisateur</span> <span class="k">in</span> <span class="nv">$utilisateurs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="nv">$utilisateur</span><span class="p">.</span><span class="n">Name</span>
+<span class="p">}</span>
+
+<span class="c"># Avec pipeline</span>
+<span class="nv">$utilisateurs</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nb">Write-Host</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>
+</code></pre></div>
+<h3 id="conditions">Conditions</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Condition simple</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$compteActif</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Compte actif&quot;</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Compte désactivé&quot;</span>
+<span class="p">}</span>
+
+<span class="c"># Comparaisons courantes</span>
+<span class="nv">$nombre</span> <span class="o">-eq</span> <span class="n">5</span>    <span class="c"># Égal</span>
+<span class="nv">$nombre</span> <span class="o">-ne</span> <span class="n">5</span>    <span class="c"># Différent</span>
+<span class="nv">$nombre</span> <span class="o">-gt</span> <span class="n">5</span>    <span class="c"># Supérieur</span>
+<span class="nv">$nombre</span> <span class="o">-lt</span> <span class="n">5</span>    <span class="c"># Inférieur</span>
+</code></pre></div>
+<h2 id="2-commandes-active-directory-utilisateurs">2. 🔹 Commandes Active Directory - Utilisateurs</h2>
+<h3 id="recherche-dutilisateurs">Recherche d'utilisateurs</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Tous les utilisateurs</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span>
+
+<span class="c"># Utilisateur spécifique</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Identity</span> <span class="s2">&quot;jean.dupont&quot;</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">SamAccountName</span> <span class="o">-eq</span> <span class="s2">&quot;jean.dupont&quot;</span><span class="p">}</span>
+
+<span class="c"># Utilisateurs avec propriétés étendues</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-Properties</span> <span class="p">*</span>
+
+<span class="c"># Recherche par propriétés</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Department</span> <span class="o">-eq</span> <span class="s2">&quot;Comptabilité&quot;</span><span class="p">}</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Title</span> <span class="o">-like</span> <span class="s2">&quot;*Manager*&quot;</span><span class="p">}</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">WhenCreated</span> <span class="o">-ge</span> <span class="s2">&quot;01/01/2023&quot;</span><span class="p">}</span>
+</code></pre></div>
+<h3 id="creation-et-modification-dutilisateurs">Création et modification d'utilisateurs</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Créer un utilisateur</span>
+<span class="nb">New-ADUser</span> <span class="n">-Name</span> <span class="s2">&quot;Marie Martin&quot;</span> <span class="n">-SamAccountName</span> <span class="s2">&quot;marie.martin&quot;</span> <span class="n">-Path</span> <span class="s2">&quot;OU=Users,OU=Comptabilité,OU=EU,DC=computerelectronics,DC=be&quot;</span>
+
+<span class="c"># Activer/Désactiver un compte</span>
+<span class="nb">Enable-ADAccount</span> <span class="n">-Identity</span> <span class="s2">&quot;marie.martin&quot;</span>
+<span class="nb">Disable-ADAccount</span> <span class="n">-Identity</span> <span class="s2">&quot;marie.martin&quot;</span>
+
+<span class="c"># Modifier les propriétés</span>
+<span class="nb">Set-ADUser</span> <span class="n">-Identity</span> <span class="s2">&quot;marie.martin&quot;</span> <span class="n">-Title</span> <span class="s2">&quot;Chef Comptable&quot;</span> <span class="n">-Department</span> <span class="s2">&quot;Comptabilité&quot;</span>
+</code></pre></div>
+<h3 id="recherche-avancee">Recherche avancée</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Utilisateurs actifs seulement</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Enabled</span> <span class="o">-eq</span> <span class="nv">$true</span><span class="p">}</span>
+
+<span class="c"># Utilisateurs avec mot de passe expiré</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">PasswordExpired</span> <span class="o">-eq</span> <span class="nv">$true</span><span class="p">}</span>
+
+<span class="c"># Utilisateurs verrouillés</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">LockedOut</span> <span class="o">-eq</span> <span class="nv">$true</span><span class="p">}</span>
+</code></pre></div>
+<h2 id="3-commandes-active-directory-groupes">3. 🔹 Commandes Active Directory - Groupes</h2>
+<h3 id="recherche-de-groupes">Recherche de groupes</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Tous les groupes</span>
+<span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">*</span>
+
+<span class="c"># Groupe spécifique</span>
+<span class="nb">Get-ADGroup</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-EU-RH-Users&quot;</span>
+
+<span class="c"># Groupes par type</span>
+<span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">GroupScope</span> <span class="o">-eq</span> <span class="s2">&quot;Global&quot;</span><span class="p">}</span>
+<span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">GroupCategory</span> <span class="o">-eq</span> <span class="s2">&quot;Security&quot;</span><span class="p">}</span>
+
+<span class="c"># Recherche par nom</span>
+<span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Name</span> <span class="o">-like</span> <span class="s2">&quot;GG-EU-*&quot;</span><span class="p">}</span>
+</code></pre></div>
+<h3 id="gestion-des-membres">Gestion des membres</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Ajouter un membre à un groupe</span>
+<span class="nb">Add-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-EU-RH-Users&quot;</span> <span class="n">-Members</span> <span class="s2">&quot;marie.martin&quot;</span>
+
+<span class="c"># Retirer un membre</span>
+<span class="nb">Remove-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-EU-RH-Users&quot;</span> <span class="n">-Members</span> <span class="s2">&quot;marie.martin&quot;</span>
+
+<span class="c"># Lister les membres</span>
+<span class="nb">Get-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-EU-RH-Users&quot;</span>
+
+<span class="c"># Récupérer tous les groupes d&#39;un utilisateur</span>
+<span class="nb">Get-ADPrincipalGroupMembership</span> <span class="n">-Identity</span> <span class="s2">&quot;marie.martin&quot;</span>
+</code></pre></div>
+<h2 id="4-commandes-active-directory-ordinateurs">4. 🔹 Commandes Active Directory - Ordinateurs</h2>
+<h3 id="recherche-dordinateurs">Recherche d'ordinateurs</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Tous les ordinateurs</span>
+<span class="nb">Get-ADComputer</span> <span class="n">-Filter</span> <span class="p">*</span>
+
+<span class="c"># Ordinateur spécifique</span>
+<span class="nb">Get-ADComputer</span> <span class="n">-Identity</span> <span class="s2">&quot;ws-compta-01&quot;</span>
+
+<span class="c"># Ordinateurs par OS</span>
+<span class="nb">Get-ADComputer</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">OperatingSystem</span> <span class="o">-like</span> <span class="s2">&quot;*Windows 10*&quot;</span><span class="p">}</span>
+
+<span class="c"># Ordinateurs activés/désactivés</span>
+<span class="nb">Get-ADComputer</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Enabled</span> <span class="o">-eq</span> <span class="nv">$true</span><span class="p">}</span>
+</code></pre></div>
+<h3 id="gestion-des-ordinateurs">Gestion des ordinateurs</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Créer un compte ordinateur</span>
+<span class="nb">New-ADComputer</span> <span class="n">-Name</span> <span class="s2">&quot;ws-compta-02&quot;</span> <span class="n">-Path</span> <span class="s2">&quot;OU=Computers,OU=Comptabilité,OU=EU,DC=computerelectronics,DC=be&quot;</span>
+
+<span class="c"># Activer/Désactiver un ordinateur</span>
+<span class="nb">Enable-ADAccount</span> <span class="n">-Identity</span> <span class="s2">&quot;ws-compta-02&quot;</span>
+<span class="nb">Disable-ADAccount</span> <span class="n">-Identity</span> <span class="s2">&quot;ws-compta-02&quot;</span>
+</code></pre></div>
+<h2 id="5-commandes-active-directory-unites-dorganisation">5. 🔹 Commandes Active Directory - Unités d'Organisation</h2>
+<h3 id="recherche-dou">Recherche d'OU</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Toutes les OU</span>
+<span class="nb">Get-ADOrganizationalUnit</span> <span class="n">-Filter</span> <span class="p">*</span>
+
+<span class="c"># OU spécifique</span>
+<span class="nb">Get-ADOrganizationalUnit</span> <span class="n">-Identity</span> <span class="s2">&quot;OU=Comptabilité,OU=EU,DC=computerelectronics,DC=be&quot;</span>
+
+<span class="c"># OU avec propriétés</span>
+<span class="nb">Get-ADOrganizationalUnit</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-Properties</span> <span class="n">Description</span><span class="p">,</span> <span class="n">ManagedBy</span>
+</code></pre></div>
+<h3 id="gestion-des-ou">Gestion des OU</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Créer une OU</span>
+<span class="nb">New-ADOrganizationalUnit</span> <span class="n">-Name</span> <span class="s2">&quot;Ventes&quot;</span> <span class="n">-Path</span> <span class="s2">&quot;OU=EU,DC=computerelectronics,DC=be&quot;</span>
+
+<span class="c"># Modifier une OU</span>
+<span class="nb">Set-ADOrganizationalUnit</span> <span class="n">-Identity</span> <span class="s2">&quot;OU=Ventes,OU=EU,DC=computerelectronics,DC=be&quot;</span> <span class="n">-Description</span> <span class="s2">&quot;Unité organisationnelle Ventes&quot;</span>
+</code></pre></div>
+<h2 id="6-commandes-pratiques-rapports-et-export">6. 🔹 Commandes Pratiques - Rapports et Export</h2>
+<h3 id="export-vers-csv">Export vers CSV</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Exporter tous les utilisateurs</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-Properties</span> <span class="n">Name</span><span class="p">,</span> <span class="n">SamAccountName</span><span class="p">,</span> <span class="n">Department</span><span class="p">,</span> <span class="n">Title</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;rapport_utilisateurs.csv&quot;</span> <span class="n">-Encoding</span> <span class="n">UTF8</span>
+
+<span class="c"># Exporter les membres d&#39;un groupe</span>
+<span class="nb">Get-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-EU-RH-Users&quot;</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">SamAccountName</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;membres_rh.csv&quot;</span> <span class="n">-Encoding</span> <span class="n">UTF8</span>
+</code></pre></div>
+<h3 id="filtres-avances">Filtres avancés</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Utilisateurs créés récemment</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">WhenCreated</span> <span class="o">-ge</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddDays</span><span class="p">(-</span><span class="n">30</span><span class="p">)}</span> <span class="n">-Properties</span> <span class="n">WhenCreated</span>
+
+<span class="c"># Utilisateurs n&#39;ayant pas changé leur mot de passe récemment</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">PasswordLastSet</span> <span class="o">-le</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddDays</span><span class="p">(-</span><span class="n">90</span><span class="p">)}</span> <span class="n">-Properties</span> <span class="n">PasswordLastSet</span>
+
+<span class="c"># Groupes avec plus de 10 membres</span>
+<span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-Properties</span> <span class="n">Members</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Members</span><span class="p">.</span><span class="n">Count</span> <span class="o">-gt</span> <span class="n">10</span> <span class="p">}</span>
+</code></pre></div>
+<h2 id="7-commandes-systeme-et-utilitaires">7. 🔹 Commandes Système et Utilitaires</h2>
+<h3 id="navigation-et-fichiers">Navigation et fichiers</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Aller dans un répertoire</span>
+<span class="nb">cd </span><span class="s2">&quot;C:\Scripts&quot;</span>
+
+<span class="c"># Lister le contenu</span>
+<span class="nb">Get-ChildItem</span>
+
+<span class="c"># Créer un fichier</span>
+<span class="nb">New-Item</span> <span class="n">-Path</span> <span class="s2">&quot;rapport.txt&quot;</span> <span class="n">-ItemType</span> <span class="n">File</span>
+
+<span class="c"># Lire un fichier</span>
+<span class="nb">Get-Content</span> <span class="n">-Path</span> <span class="s2">&quot;rapport.txt&quot;</span>
+</code></pre></div>
+<h3 id="gestion-des-erreurs">Gestion des erreurs</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Ignorer les erreurs</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Identity</span> <span class="s2">&quot;utilisateur_inexistant&quot;</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span>
+
+<span class="c"># Arrêter en cas d&#39;erreur</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Identity</span> <span class="s2">&quot;utilisateur_inexistant&quot;</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span>
+
+<span class="c"># Continuer malgré les erreurs</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Identity</span> <span class="s2">&quot;utilisateur_inexistant&quot;</span> <span class="n">-ErrorAction</span> <span class="k">Continue</span>
+</code></pre></div>
+<h2 id="8-raccourcis-et-alias">8. 🔹 Raccourcis et Alias</h2>
+<h3 id="alias-courants">Alias courants</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Alias de commandes</span>
+<span class="nb">dir </span>   <span class="c"># = Get-ChildItem</span>
+<span class="nb">ls </span>    <span class="c"># = Get-ChildItem</span>
+<span class="nb">cat </span>   <span class="c"># = Get-Content</span>
+<span class="nb">echo </span>  <span class="c"># = Write-Output</span>
+<span class="nb">clear </span> <span class="c"># = Clear-Host</span>
+</code></pre></div>
+<h3 id="commandes-avec-alias">Commandes avec alias</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Utiliser les alias</span>
+<span class="nb">dir </span><span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Extension</span> <span class="o">-eq</span> <span class="s2">&quot;.ps1&quot;</span><span class="p">}</span>
+<span class="nb">echo </span><span class="s2">&quot;Bonjour&quot;</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="n">-FilePath</span> <span class="s2">&quot;salutation.txt&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="conseils-pratiques">🚀 Conseils Pratiques</h2>
+<ol>
+<li><strong>Toujours utiliser <code>-Filter *</code></strong> pour commencer vos recherches</li>
+<li><strong>Utilisez <code>-Properties *</code></strong> pour voir toutes les propriétés disponibles</li>
+<li><strong>Testez vos commandes</strong> avec un seul objet avant de les appliquer à tous</li>
+<li><strong>Sauvegardez vos scripts</strong> dans des fichiers <code>.ps1</code></li>
+<li><strong>Utilisez les commentaires</strong> (<code>#</code>) pour expliquer vos scripts</li>
+</ol>
+<h2 id="ressources-supplementaires">📚 Ressources Supplémentaires</h2>
+<ul>
+<li><a href="https://docs.microsoft.com/fr-fr/powershell/">Documentation Microsoft PowerShell</a></li>
+<li><a href="https://docs.microsoft.com/fr-fr/powershell/module/activedirectory/">Module Active Directory PowerShell</a></li>
+<li><a href="https://docs.microsoft.com/fr-fr/powershell/module/microsoft.powershell.core/get-help">Get-Help</a></li>
+</ul>
+<hr />
+<p><em>Ce cheat sheet couvre les commandes essentielles pour démarrer avec PowerShell et Active Directory. Pour des besoins plus avancés, consultez la documentation complète.</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/choquitofrito/ActiveDirectory" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "navigation.prune", "content.code.copy"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

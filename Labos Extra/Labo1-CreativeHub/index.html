@@ -1,0 +1,2419 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo1-CreativeHub/">
+      
+      
+        <link rel="prev" href="../../Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/suppression_structure/">
+      
+      
+        <link rel="next" href="scripts/CreativeHub_Setup.ps1">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>📋 Vue d'Ensemble - Active Directory Course</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#laboratoire-active-directory-agence-creativehub" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Active Directory Course" class="md-header__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Active Directory Course
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              📋 Vue d'Ensemble
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  🏠 Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🖥️ Windows Server
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Chapitre%203.DNS/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🌐 DNS
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📁 Active Directory
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ⚡ PowerShell AD
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🧪 Labs & Exercices
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Active Directory Course" class="md-nav__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Active Directory Course
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏠 Accueil
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🖥️ Windows Server
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Chapitre%203.DNS/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🌐 DNS
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    📁 Active Directory
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    ⚡ PowerShell AD
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    🧪 Labs & Exercices
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            🧪 Labs & Exercices
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Lab Principal
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="./" class="md-nav__link md-nav__link--active">
+              
+  
+  
+  <span class="md-ellipsis">
+    Lab 1 - CreativeHub
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link md-nav__link--active" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            Lab 1 - CreativeHub
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="scripts/CreativeHub_Setup.ps1" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🔧 Setup & Cleanup
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="exercices/Exercice_01_Nouvel_Employe/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    📝 Exercices (9)
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="instructeur/Guide_Instructeur_Exercices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    👨‍🏫 Guide Instructeur
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../Labo2-MediCare/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Lab 2 - MediCare
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Labo%20et%20Exercices/Exercices%3A%20Questions%20Base/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Exercices Généraux
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectifs-pedagogiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectifs Pédagogiques
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scenario-entreprise" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scénario Entreprise
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scénario Entreprise">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#contexte-business" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contexte Business
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#structure-departementale" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structure Départementale
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Structure Départementale">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-marketing-5-employes" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Marketing (5 employés)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-creative-5-employes" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Creative (5 employés)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-client-services-4-employes" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Client Services (4 employés)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-it-support-4-employes" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. IT Support (4 employés)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#besoins-de-securite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Besoins de Sécurité
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structure-creee-par-le-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structure Créée par le Script
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Structure Créée par le Script">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arborescence-des-unites-organisationnelles-ous" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arborescence des Unités Organisationnelles (OUs)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Utilisateurs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groupes-de-securite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Groupes de Sécurité
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategies-de-groupe-gpos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stratégies de Groupe (GPOs)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Stratégies de Groupe (GPOs)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gpo-1-creativehub-restrictions-utilisateurs-juniors" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPO 1: CreativeHub - Restrictions Utilisateurs Juniors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpo-2-creativehub-blocage-usb-client-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPO 2: CreativeHub - Blocage USB Client Services
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpo-3-creativehub-lecteurs-reseau-partages" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPO 3: CreativeHub - Lecteurs Réseau Partagés
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instructions-dexecution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Instructions d'Exécution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Instructions d&#39;Exécution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-preparation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 1: Préparation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-execution-du-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 2: Exécution du Script
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-3-observation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 3: Observation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-4-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 4: Vérification
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercices-pratiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercices Pratiques
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#depannage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dépannage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dépannage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problemes-courants-et-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problèmes Courants et Solutions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commandes-de-diagnostic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commandes de Diagnostic
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Commandes de Diagnostic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verifier-letat-du-domaine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérifier l'état du domaine
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifier-les-roles-active-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérifier les rôles Active Directory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifier-les-privileges-de-lutilisateur-actuel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérifier les privilèges de l'utilisateur actuel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifier-la-replication-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérifier la réplication AD
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tester-la-connectivite-reseau-avec-le-domaine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tester la connectivité réseau avec le domaine
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fichiers-generes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fichiers Générés
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ressources-complementaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ressources Complémentaires
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ressources Complémentaires">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#documentation-officielle-microsoft" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentation Officielle Microsoft
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guides-pratiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Guides Pratiques
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evolutions-possibles-du-laboratoire" class="md-nav__link">
+    <span class="md-ellipsis">
+      Évolutions Possibles du Laboratoire
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="laboratoire-active-directory-agence-creativehub">Laboratoire Active Directory: Agence CreativeHub</h1>
+<h2 id="objectifs-pedagogiques">Objectifs Pédagogiques</h2>
+<p>À la fin de ce laboratoire, les étudiants seront capables de:</p>
+<ol>
+<li><strong>Comprendre la structure organisationnelle d'un Active Directory</strong> en explorant une hiérarchie d'OUs représentant une vraie entreprise</li>
+<li><strong>Gérer les comptes utilisateurs</strong> et comprendre l'importance des attributs (email, titre, département)</li>
+<li><strong>Utiliser les groupes de sécurité</strong> pour organiser les permissions et distinguer entre groupes d'utilisateurs et groupes d'administrateurs</li>
+<li><strong>Configurer et appliquer des Stratégies de Groupe (GPOs)</strong> pour implémenter des politiques de sécurité adaptées à différents départements</li>
+</ol>
+<h2 id="scenario-entreprise">Scénario Entreprise</h2>
+<p><strong>CreativeHub</strong> est une petite agence de marketing digital et design située en Belgique, comptant 18 employés répartis dans 4 départements. L'agence offre des services complets de communication digitale à ses clients:</p>
+<h3 id="contexte-business">Contexte Business</h3>
+<ul>
+<li><strong>Nom de l'entreprise</strong>: CreativeHub</li>
+<li><strong>Secteur</strong>: Marketing digital, design graphique, développement web, production vidéo</li>
+<li><strong>Taille</strong>: 18 employés permanents</li>
+<li><strong>Clients</strong>: PME belges et européennes nécessitant des services de communication digitale</li>
+</ul>
+<h3 id="structure-departementale">Structure Départementale</h3>
+<p>L'agence est organisée en 4 départements spécialisés:</p>
+<h4 id="1-marketing-5-employes">1. <strong>Marketing</strong> (5 employés)</h4>
+<p>Responsable de la stratégie digitale, gestion des réseaux sociaux, SEO/SEM, et création de contenu pour les clients.</p>
+<table>
+<thead>
+<tr>
+<th>Employé</th>
+<th>Fonction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Camille Bernard</strong></td>
+<td>Responsable Marketing Digital (Admin)</td>
+</tr>
+<tr>
+<td><strong>Amélie Dubois</strong></td>
+<td>Community Manager</td>
+</tr>
+<tr>
+<td><strong>Bastien Martin</strong></td>
+<td>Spécialiste SEO</td>
+</tr>
+<tr>
+<td><strong>Damien Petit</strong></td>
+<td>Content Strategist</td>
+</tr>
+<tr>
+<td><strong>Élise Robert</strong></td>
+<td>Social Media Analyst</td>
+</tr>
+</tbody>
+</table>
+<h4 id="2-creative-5-employes">2. <strong>Creative</strong> (5 employés)</h4>
+<p>L'équipe créative produit tous les visuels, vidéos et designs pour les campagnes clients.</p>
+<table>
+<thead>
+<tr>
+<th>Employé</th>
+<th>Fonction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fabien Moreau</strong></td>
+<td>Graphiste Senior (Admin)</td>
+</tr>
+<tr>
+<td><strong>Gabrielle Simon</strong></td>
+<td>Directrice Artistique</td>
+</tr>
+<tr>
+<td><strong>Hugo Laurent</strong></td>
+<td>Motion Designer</td>
+</tr>
+<tr>
+<td><strong>Inès Lefebvre</strong></td>
+<td>Vidéaste</td>
+</tr>
+<tr>
+<td><strong>Julien Roux</strong></td>
+<td>Designer UX/UI</td>
+</tr>
+</tbody>
+</table>
+<h4 id="3-client-services-4-employes">3. <strong>Client Services</strong> (4 employés)</h4>
+<p>Département gérant les relations clients, gestion de projets, et coordination entre les équipes techniques et créatives.</p>
+<table>
+<thead>
+<tr>
+<th>Employé</th>
+<th>Fonction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Karine Garnier</strong></td>
+<td>Chef de Projet Senior (Admin)</td>
+</tr>
+<tr>
+<td><strong>Laurent Faure</strong></td>
+<td>Account Manager</td>
+</tr>
+<tr>
+<td><strong>Manon Girard</strong></td>
+<td>Chef de Projet Junior</td>
+</tr>
+<tr>
+<td><strong>Nicolas André</strong></td>
+<td>Directeur des Opérations</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Note de sécurité</p>
+<p>Ce département manipule des données clients sensibles (contrats, budgets, informations stratégiques) nécessitant des mesures de sécurité renforcées.</p>
+</div>
+<h4 id="4-it-support-4-employes">4. <strong>IT Support</strong> (4 employés)</h4>
+<p>Équipe technique responsable du développement web, maintenance de l'infrastructure IT, et support aux autres départements.</p>
+<table>
+<thead>
+<tr>
+<th>Employé</th>
+<th>Fonction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Olivier Mercier</strong></td>
+<td>Développeur Web Full-Stack (Admin)</td>
+</tr>
+<tr>
+<td><strong>Pauline Blanc</strong></td>
+<td>Administratrice Systèmes</td>
+</tr>
+<tr>
+<td><strong>Quentin Guerin</strong></td>
+<td>Développeur Front-End</td>
+</tr>
+<tr>
+<td><strong>Rachid Dupont</strong></td>
+<td>Responsable IT</td>
+</tr>
+</tbody>
+</table>
+<h3 id="besoins-de-securite">Besoins de Sécurité</h3>
+<ol>
+<li><strong>Protection des données clients</strong>: Le département Client Services gère des informations sensibles nécessitant des restrictions d'accès (blocage USB)</li>
+<li><strong>Contrôle des juniors</strong>: Les employés juniors (stagiaires, nouvelles recrues) ont besoin de restrictions pour éviter les modifications système accidentelles</li>
+<li><strong>Collaboration</strong>: Tous les départements doivent accéder à des ressources partagées (projets clients, bibliothèque de ressources créatives)</li>
+<li><strong>Gestion des permissions</strong>: Chaque département a besoin d'administrateurs locaux pour gérer leurs équipes</li>
+</ol>
+<hr />
+<hr />
+<h2 id="structure-creee-par-le-script">Structure Créée par le Script</h2>
+<div class="admonition info">
+<p class="admonition-title">Scripts disponibles</p>
+<ul>
+<li><strong>Script de création</strong>: <a href="scripts/CreativeHub_Setup.ps1">CreativeHub_Setup.ps1</a></li>
+<li><strong>Script de nettoyage</strong>: <a href="scripts/CreativeHub_Cleanup.ps1">CreativeHub_Cleanup.ps1</a></li>
+<li><strong>Scripts de vérification</strong>: <a href="scripts/verification/">Dossier verification</a></li>
+</ul>
+</div>
+<h3 id="arborescence-des-unites-organisationnelles-ous">Arborescence des Unités Organisationnelles (OUs)</h3>
+<div class="highlight"><pre><span></span><code>DC=maxtec,DC=be
+└── OU=CreativeHub
+    ├── OU=Marketing
+    │   ├── OU=Users
+    │   ├── OU=Computers
+    │   └── OU=Groups
+    ├── OU=Creative
+    │   ├── OU=Users
+    │   ├── OU=Computers
+    │   └── OU=Groups
+    ├── OU=ClientServices
+    │   ├── OU=Users
+    │   ├── OU=Computers
+    │   └── OU=Groups
+    └── OU=ITSupport
+        ├── OU=Users
+        ├── OU=Computers
+        └── OU=Groups
+</code></pre></div>
+<p><strong>Total</strong>: 1 OU racine + 4 OUs départementales + 12 sous-OUs = <strong>17 Unités Organisationnelles</strong></p>
+<h3 id="utilisateurs">Utilisateurs</h3>
+<p>Le script crée <strong>18 comptes utilisateurs</strong> avec les attributs suivants:</p>
+<table>
+<thead>
+<tr>
+<th>Nom Complet</th>
+<th>Login (SAM)</th>
+<th>Email</th>
+<th>Département</th>
+<th>Titre/Poste</th>
+<th>Mot de passe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MARKETING</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Amélie Dubois</td>
+<td>amelie</td>
+<td>amelie@maxtec.be</td>
+<td>Marketing</td>
+<td>Community Manager</td>
+<td>Password1!</td>
+</tr>
+<tr>
+<td>Bastien Martin</td>
+<td>bastien</td>
+<td>bastien@maxtec.be</td>
+<td>Marketing</td>
+<td>Spécialiste SEO</td>
+<td>Password1!</td>
+</tr>
+<tr>
+<td>Camille Bernard</td>
+<td>camille</td>
+<td>camille@maxtec.be</td>
+<td>Marketing</td>
+<td>Responsable Marketing Digital</td>
+<td>Password1!</td>
+</tr>
+<tr>
+<td>Damien Petit</td>
+<td>damien</td>
+<td>damien@maxtec.be</td>
+<td>Marketing</td>
+<td>Content Strategist</td>
+<td>Password1!</td>
+</tr>
+<tr>
+<td>Élise Robert</td>
+<td>elise</td>
+<td>elise@maxtec.be</td>
+<td>Marketing</td>
+<td>Social Media Analyst</td>
+<td>Password1!</td>
+</tr>
+<tr>
+<td><strong>CREATIVE</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Fabien Moreau</td>
+<td>fabien</td>
+<td>fabien@maxtec.be</td>
+<td>Creative</td>
+<td>Graphiste Senior</td>
+<td>Password1!</td>
+</tr>
+<tr>
+<td>Gabrielle Simon</td>
+<td>gabrielle</td>
+<td>gabrielle@maxtec.be</td>
+<td>Creative</td>
+<td>Directrice Artistique</td>
+<td>Password1!</td>
+</tr>
+<tr>
+<td>Hugo Laurent</td>
+<td>hugo</td>
+<td>hugo@maxtec.be</td>
+<td>Creative</td>
+<td>Motion Designer</td>
+<td>Password1!</td>
+</tr>
+<tr>
+<td>Inès Lefebvre</td>
+<td>ines</td>
+<td>ines@maxtec.be</td>
+<td>Creative</td>
+<td>Vidéaste</td>
+<td>Password1!</td>
+</tr>
+<tr>
+<td>Julien Roux</td>
+<td>julien</td>
+<td>julien@maxtec.be</td>
+<td>Creative</td>
+<td>Designer UX/UI</td>
+<td>Password1!</td>
+</tr>
+<tr>
+<td><strong>CLIENT SERVICES</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Karine Garnier</td>
+<td>karine</td>
+<td>karine@maxtec.be</td>
+<td>ClientServices</td>
+<td>Chef de Projet Senior</td>
+<td>Password1!</td>
+</tr>
+<tr>
+<td>Laurent Faure</td>
+<td>laurent</td>
+<td>laurent@maxtec.be</td>
+<td>ClientServices</td>
+<td>Account Manager</td>
+<td>Password1!</td>
+</tr>
+<tr>
+<td>Manon Girard</td>
+<td>manon</td>
+<td>manon@maxtec.be</td>
+<td>ClientServices</td>
+<td>Chef de Projet Junior</td>
+<td>Password1!</td>
+</tr>
+<tr>
+<td>Nicolas André</td>
+<td>nicolas</td>
+<td>nicolas@maxtec.be</td>
+<td>ClientServices</td>
+<td>Directeur des Opérations</td>
+<td>Password1!</td>
+</tr>
+<tr>
+<td><strong>IT SUPPORT</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Olivier Mercier</td>
+<td>olivier</td>
+<td>olivier@maxtec.be</td>
+<td>ITSupport</td>
+<td>Développeur Web Full-Stack</td>
+<td>Password1!</td>
+</tr>
+<tr>
+<td>Pauline Blanc</td>
+<td>pauline</td>
+<td>pauline@maxtec.be</td>
+<td>ITSupport</td>
+<td>Administratrice Systèmes</td>
+<td>Password1!</td>
+</tr>
+<tr>
+<td>Quentin Guerin</td>
+<td>quentin</td>
+<td>quentin@maxtec.be</td>
+<td>ITSupport</td>
+<td>Développeur Front-End</td>
+<td>Password1!</td>
+</tr>
+<tr>
+<td>Rachid Dupont</td>
+<td>rachid</td>
+<td>rachid@maxtec.be</td>
+<td>ITSupport</td>
+<td>Responsable IT</td>
+<td>Password1!</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">Propriétés des comptes</p>
+<ul>
+<li>Sont <strong>activés</strong> par défaut</li>
+<li>Utilisent le mot de passe: <code>Password1!</code></li>
+<li>N'exigent <strong>pas</strong> de changement de mot de passe à la première connexion (pour faciliter les tests)</li>
+<li>Ont des adresses email au format <code>prenom@maxtec.be</code></li>
+</ul>
+</div>
+<h3 id="groupes-de-securite">Groupes de Sécurité</h3>
+<p>Le script crée <strong>8 groupes de sécurité globaux</strong> (Global Groups):</p>
+<table>
+<thead>
+<tr>
+<th>Nom du Groupe</th>
+<th>Type</th>
+<th>Emplacement</th>
+<th>Description</th>
+<th>Membres</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GG-CreativeHub-Marketing-Users</strong></td>
+<td>Global Security</td>
+<td>OU=Groups,OU=Marketing</td>
+<td>Tous les utilisateurs Marketing</td>
+<td>amelie, bastien, camille, damien, elise (5)</td>
+</tr>
+<tr>
+<td><strong>GG-CreativeHub-Marketing-Admin</strong></td>
+<td>Global Security</td>
+<td>OU=Groups,OU=Marketing</td>
+<td>Administrateurs Marketing</td>
+<td>amelie (1er alphabétique)</td>
+</tr>
+<tr>
+<td><strong>GG-CreativeHub-Creative-Users</strong></td>
+<td>Global Security</td>
+<td>OU=Groups,OU=Creative</td>
+<td>Tous les utilisateurs Creative</td>
+<td>fabien, gabrielle, hugo, ines, julien (5)</td>
+</tr>
+<tr>
+<td><strong>GG-CreativeHub-Creative-Admin</strong></td>
+<td>Global Security</td>
+<td>OU=Groups,OU=Creative</td>
+<td>Administrateurs Creative</td>
+<td>fabien (1er alphabétique)</td>
+</tr>
+<tr>
+<td><strong>GG-CreativeHub-ClientServices-Users</strong></td>
+<td>Global Security</td>
+<td>OU=Groups,OU=ClientServices</td>
+<td>Tous les utilisateurs Client Services</td>
+<td>karine, laurent, manon, nicolas (4)</td>
+</tr>
+<tr>
+<td><strong>GG-CreativeHub-ClientServices-Admin</strong></td>
+<td>Global Security</td>
+<td>OU=Groups,OU=ClientServices</td>
+<td>Administrateurs Client Services</td>
+<td>karine (1er alphabétique)</td>
+</tr>
+<tr>
+<td><strong>GG-CreativeHub-ITSupport-Users</strong></td>
+<td>Global Security</td>
+<td>OU=Groups,OU=ITSupport</td>
+<td>Tous les utilisateurs IT Support</td>
+<td>olivier, pauline, quentin, rachid (4)</td>
+</tr>
+<tr>
+<td><strong>GG-CreativeHub-ITSupport-Admin</strong></td>
+<td>Global Security</td>
+<td>OU=Groups,OU=ITSupport</td>
+<td>Administrateurs IT Support</td>
+<td>olivier (1er alphabétique)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Convention de nommage</p>
+<p>Format: <code>GG-[Entreprise]-[Département]-[Rôle]</code></p>
+<ul>
+<li><strong>GG</strong> = Global Group (groupe global)</li>
+<li><strong>Entreprise</strong> = CreativeHub</li>
+<li><strong>Département</strong> = Marketing, Creative, ClientServices, ITSupport</li>
+<li><strong>Rôle</strong> = Users (tous les utilisateurs) ou Admin (administrateurs)</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Logique d'appartenance automatique</p>
+<ul>
+<li>TOUS les utilisateurs d'un département sont ajoutés au groupe <code>-Users</code></li>
+<li>Le PREMIER utilisateur par ordre alphabétique devient automatiquement membre du groupe <code>-Admin</code></li>
+</ul>
+</div>
+<h3 id="strategies-de-groupe-gpos">Stratégies de Groupe (GPOs)</h3>
+<p>Le script crée et configure <strong>3 GPOs</strong> démontrant des cas d'usage courants en entreprise:</p>
+<h4 id="gpo-1-creativehub-restrictions-utilisateurs-juniors">GPO 1: CreativeHub - Restrictions Utilisateurs Juniors</h4>
+<p><strong>Objectif pédagogique:</strong> Protéger le système contre les modifications accidentelles par des utilisateurs inexpérimentés</p>
+<p><strong>Configuration:</strong></p>
+<ul>
+<li><strong>Désactive le Panneau de configuration</strong> (<code>NoControlPanel=1</code>)<ul>
+<li>Clé de registre: <code>HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer</code></li>
+</ul>
+</li>
+<li><strong>Désactive l'invite de commandes</strong> (<code>DisableCMD=2</code>)<ul>
+<li>Clé de registre: <code>HKCU\Software\Policies\Microsoft\Windows\System</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>Liée à:</strong></p>
+<ul>
+<li><code>OU=Users,OU=Marketing,OU=CreativeHub,DC=maxtec,DC=be</code></li>
+<li><code>OU=Users,OU=Creative,OU=CreativeHub,DC=maxtec,DC=be</code></li>
+</ul>
+<div class="admonition example">
+<p class="admonition-title">Raison business</p>
+<p>Les équipes Marketing et Creative ont souvent des stagiaires ou juniors qui ont besoin d'accéder aux applications métier (Adobe Creative Suite, outils marketing) mais ne doivent pas modifier les paramètres système.</p>
+</div>
+<h4 id="gpo-2-creativehub-blocage-usb-client-services">GPO 2: CreativeHub - Blocage USB Client Services</h4>
+<p><strong>Objectif pédagogique:</strong> Protéger les données sensibles contre l'exfiltration via périphériques USB</p>
+<p><strong>Configuration:</strong></p>
+<ul>
+<li><strong>Bloque la lecture depuis périphériques USB</strong> (<code>Deny_Read=1</code>)</li>
+<li><strong>Bloque l'écriture vers périphériques USB</strong> (<code>Deny_Write=1</code>)</li>
+<li>Clé de registre: <code>HKLM\Software\Policies\Microsoft\Windows\RemovableStorageDevices\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}</code></li>
+<li>GUID <code>{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}</code> = Removable Disks (disques amovibles)</li>
+</ul>
+<p><strong>Liée à:</strong></p>
+<ul>
+<li><code>OU=Users,OU=ClientServices,OU=CreativeHub,DC=maxtec,DC=be</code></li>
+</ul>
+<div class="admonition example">
+<p class="admonition-title">Raison business</p>
+<p>Le département Client Services manipule des contrats clients, informations budgétaires sensibles, et données stratégiques qui ne doivent jamais quitter l'infrastructure sécurisée de l'entreprise.</p>
+</div>
+<h4 id="gpo-3-creativehub-lecteurs-reseau-partages">GPO 3: CreativeHub - Lecteurs Réseau Partagés</h4>
+<p><strong>Objectif pédagogique:</strong> Faciliter l'accès aux ressources partagées via mappage de lecteurs réseau</p>
+<p><strong>Configuration:</strong></p>
+<ul>
+<li>GPO créée mais nécessite configuration manuelle via Group Policy Preferences</li>
+<li>Lecteurs suggérés:<ul>
+<li><strong>P:</strong> → <code>\\SERVEUR\Projets</code> (dossiers projets clients)</li>
+<li><strong>R:</strong> → <code>\\SERVEUR\Ressources</code> (bibliothèque d'assets créatifs, templates, logos clients)</li>
+</ul>
+</li>
+</ul>
+<p><strong>Liée à:</strong></p>
+<ul>
+<li><code>OU=CreativeHub,DC=maxtec,DC=be</code> (tous les départements)</li>
+</ul>
+<div class="admonition example">
+<p class="admonition-title">Raison business</p>
+<p>Tous les employés doivent accéder facilement aux projets clients en cours et à la bibliothèque de ressources créatives partagées (images, vidéos, templates).</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Configuration manuelle requise</p>
+<p>Le mappage de lecteurs réseau via GPO nécessite:</p>
+<ol>
+<li>Création des partages réseau sur le serveur de fichiers (à faire manuellement)</li>
+<li>Configuration via <strong>Group Policy Management Console (GPMC)</strong> → User Configuration → Preferences → Windows Settings → Drive Maps</li>
+</ol>
+</div>
+<hr />
+<h2 id="instructions-dexecution">Instructions d'Exécution</h2>
+<h3 id="etape-1-preparation">Étape 1: Préparation</h3>
+<ol>
+<li><strong>Connectez-vous</strong> au contrôleur de domaine Windows Server 2022 en tant qu'Administrateur du domaine</li>
+<li><strong>Ouvrez PowerShell ISE</strong> avec privilèges administratifs:</li>
+<li>Clic droit sur "Windows PowerShell ISE" → <strong>Exécuter en tant qu'administrateur</strong></li>
+<li><strong>Copiez</strong> le fichier <code>CreativeHub_Setup.ps1</code> sur le serveur (par exemple dans <code>C:\Labos\</code>)</li>
+</ol>
+<h3 id="etape-2-execution-du-script">Étape 2: Exécution du Script</h3>
+<ol>
+<li>
+<p>Dans PowerShell ISE, ouvrez le fichier <code>CreativeHub_Setup.ps1</code>:
+   <div class="highlight"><pre><span></span><code><span class="c"># Si le fichier est dans C:\Labos\</span>
+<span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">Labos</span>
+<span class="p">.\</span><span class="n">CreativeHub_Setup</span><span class="p">.</span><span class="n">ps1</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Ou</strong> copiez-collez tout le contenu du script dans la fenêtre de script PowerShell ISE</p>
+</li>
+<li>
+<p>Appuyez sur <strong>F5</strong> pour exécuter le script</p>
+</li>
+<li>
+<p>Le script vous demandera confirmation avant chaque étape majeure:</p>
+</li>
+<li><strong>O</strong> = Continuer avec cette étape</li>
+<li><strong>N</strong> = Sauter cette étape</li>
+<li><strong>Q</strong> = Quitter le script complètement</li>
+</ol>
+<h3 id="etape-3-observation">Étape 3: Observation</h3>
+<p>Pendant l'exécution, observez la sortie console avec attention:</p>
+<ul>
+<li><strong>Texte vert</strong> = Succès (objet créé)</li>
+<li><strong>Texte jaune</strong> = Avertissement (objet existe déjà, ou action nécessitant attention)</li>
+<li><strong>Texte rouge</strong> = Erreur</li>
+<li><strong>Texte cyan/bleu</strong> = Informations générales</li>
+<li><strong>Texte gris</strong> = Détails techniques</li>
+</ul>
+<p>Le script affiche des messages détaillés pour chaque action, ce qui permet de comprendre ce qui se passe dans Active Directory.</p>
+<h3 id="etape-4-verification">Étape 4: Vérification</h3>
+<p>À la fin de l'exécution, le script affiche un récapitulatif complet et exporte 3 fichiers CSV dans <code>C:\Labos\</code>:</p>
+<ul>
+<li><code>CreativeHub_Utilisateurs.csv</code> - Liste complète des utilisateurs</li>
+<li><code>CreativeHub_Groupes.csv</code> - Liste des groupes avec leurs membres</li>
+<li><code>CreativeHub_OUs.csv</code> - Structure des Unités Organisationnelles</li>
+</ul>
+<hr />
+<h2 id="exercices-pratiques">Exercices Pratiques</h2>
+<p>Après avoir exécuté le script, les étudiants peuvent approfondir leur apprentissage avec ces exercices pratiques guidés:</p>
+<div class="admonition tip">
+<p class="admonition-title">Exercices disponibles</p>
+<p>Le laboratoire CreativeHub comprend <strong>9 exercices progressifs</strong> avec scripts de vérification automatique:</p>
+<p><strong>Niveau Débutant:</strong></p>
+<ul>
+<li><a href="exercices/Exercice_01_Nouvel_Employe/">Exercice 01: Nouvel Employé</a> - Création utilisateur et groupes</li>
+<li><a href="exercices/Exercice_02_Depart_Employe/">Exercice 02: Départ Employé</a> - Désactivation et archivage</li>
+<li><a href="exercices/Exercice_05_Reset_Password/">Exercice 05: Reset Password</a> - Réinitialisation mot de passe</li>
+</ul>
+<p><strong>Niveau Intermédiaire:</strong></p>
+<ul>
+<li><a href="exercices/Exercice_03_GPO_Lecteur_Reseau/">Exercice 03: GPO Lecteur Réseau</a> - Drive mapping</li>
+<li><a href="exercices/Exercice_04_Groupe_Projet_Client/">Exercice 04: Groupe Projet Client</a> - Groupes inter-départementaux</li>
+</ul>
+<p><strong>Niveau Avancé:</strong></p>
+<ul>
+<li><a href="exercices/Exercice_06_Delegation_Controle/">Exercice 06: Délégation Contrôle</a> - Permissions OU</li>
+<li><a href="exercices/Exercice_07_Scenario_Onboarding_Complet/">Exercice 07: Onboarding Complet</a> - Scénario complet</li>
+<li><a href="exercices/Exercice_08_Troubleshooting_GPO/">Exercice 08: Troubleshooting GPO</a> - Diagnostic GPO</li>
+<li><a href="exercices/Exercice_09_Scenario_Crise_Securite/">Exercice 09: Crise Sécurité</a> - Gestion incident</li>
+</ul>
+</div>
+<hr />
+<h2 id="depannage">Dépannage</h2>
+<h3 id="problemes-courants-et-solutions">Problèmes Courants et Solutions</h3>
+<table>
+<thead>
+<tr>
+<th>Symptôme</th>
+<th>Cause Probable</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>"Access denied" ou "Accès refusé"</strong></td>
+<td>PowerShell ISE non lancé en tant qu'Administrateur</td>
+<td>Fermer PowerShell ISE, clic droit → "Exécuter en tant qu'administrateur", relancer le script</td>
+</tr>
+<tr>
+<td><strong>"Module ActiveDirectory not found"</strong></td>
+<td>Module AD non chargé ou rôle AD DS non installé</td>
+<td>Exécuter: <code>Import-Module ActiveDirectory</code> ou vérifier l'installation du rôle AD DS</td>
+</tr>
+<tr>
+<td><strong>"OU already exists" pour toutes les OUs</strong></td>
+<td>Script déjà exécuté précédemment</td>
+<td>C'est normal si vous relancez le script. Appuyez sur 'N' pour sauter les étapes déjà faites, ou exécutez <code>CreativeHub_Cleanup.ps1</code> pour tout supprimer</td>
+</tr>
+<tr>
+<td><strong>GPOs créées mais paramètres non appliqués sur les clients</strong></td>
+<td>Délai de rafraîchissement GPO pas encore écoulé</td>
+<td>Sur le client: exécuter <code>gpupdate /force</code> en tant qu'administrateur, puis redémarrer la session</td>
+</tr>
+<tr>
+<td><strong>"The specified domain does not exist"</strong></td>
+<td>Domaine maxtec.be non trouvé</td>
+<td>Vérifier que vous êtes sur le contrôleur de domaine et que le domaine est fonctionnel: <code>Get-ADDomain</code></td>
+</tr>
+<tr>
+<td><strong>Utilisateurs créés mais pas dans les groupes</strong></td>
+<td>Étape 5 du script sautée ou erreur</td>
+<td>Relancer le script et répondre 'O' à l'étape 5, ou ajouter manuellement avec <code>Add-ADGroupMember</code></td>
+</tr>
+<tr>
+<td><strong>GPO liée mais ne s'applique pas à un utilisateur</strong></td>
+<td>Filtrage de sécurité ou permissions insuffisantes</td>
+<td>Vérifier dans GPMC: Onglet Délégation → S'assurer que "Utilisateurs authentifiés" a les permissions "Lecture" et "Appliquer la stratégie de groupe"</td>
+</tr>
+<tr>
+<td><strong>Impossible de se connecter avec un compte utilisateur sur un client</strong></td>
+<td>Compte pas encore répliqué, ou client pas joint au domaine</td>
+<td>Attendre 5 minutes pour la réplication, vérifier que le client est bien joint au domaine: <code>nltest /dsgetdc:maxtec.be</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="commandes-de-diagnostic">Commandes de Diagnostic</h3>
+<h4 id="verifier-letat-du-domaine">Vérifier l'état du domaine</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># Informations sur le domaine</span>
+<span class="nb">Get-ADDomain</span> <span class="p">|</span> <span class="nb">Format-List</span>
+
+<span class="c"># Vérifier le niveau fonctionnel</span>
+<span class="nb">Get-ADDomain</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">DomainMode</span><span class="p">,</span> <span class="n">ForestMode</span>
+
+<span class="c"># Lister tous les contrôleurs de domaine</span>
+<span class="nb">Get-ADDomainController</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">IPv4Address</span><span class="p">,</span> <span class="n">OperatingSystem</span>
+</code></pre></div>
+<h4 id="verifier-les-roles-active-directory">Vérifier les rôles Active Directory</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># Vérifier que le rôle AD DS est installé</span>
+<span class="nb">Get-WindowsFeature</span> <span class="n">-Name</span> <span class="n">AD-Domain-Services</span>
+
+<span class="c"># Vérifier les rôles FSMO (maîtres d&#39;opérations)</span>
+<span class="nb">Get-ADDomain</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">InfrastructureMaster</span><span class="p">,</span> <span class="n">RIDMaster</span><span class="p">,</span> <span class="n">PDCEmulator</span>
+<span class="nb">Get-ADForest</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">SchemaMaster</span><span class="p">,</span> <span class="n">DomainNamingMaster</span>
+</code></pre></div>
+<h4 id="verifier-les-privileges-de-lutilisateur-actuel">Vérifier les privilèges de l'utilisateur actuel</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># Voir avec quel compte vous êtes connecté</span>
+<span class="n">whoami</span>
+
+<span class="c"># Voir vos groupes (vérifier si vous êtes Admins du Domaine)</span>
+<span class="n">whoami</span> <span class="p">/</span><span class="n">groups</span>
+
+<span class="c"># Vérifier les permissions sur une OU spécifique</span>
+<span class="p">(</span><span class="nb">Get-Acl</span> <span class="n">-Path</span> <span class="s2">&quot;AD:\OU=CreativeHub,DC=maxtec,DC=be&quot;</span><span class="p">).</span><span class="n">Access</span> <span class="p">|</span> <span class="nb">Format-Table</span> <span class="n">IdentityReference</span><span class="p">,</span> <span class="n">ActiveDirectoryRights</span>
+</code></pre></div>
+<h4 id="verifier-la-replication-ad">Vérifier la réplication AD</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># Vérifier l&#39;état de la réplication</span>
+<span class="n">repadmin</span> <span class="p">/</span><span class="n">replsummary</span>
+
+<span class="c"># Forcer la réplication</span>
+<span class="n">repadmin</span> <span class="p">/</span><span class="n">syncall</span> <span class="p">/</span><span class="n">AdeP</span>
+</code></pre></div>
+<h4 id="tester-la-connectivite-reseau-avec-le-domaine">Tester la connectivité réseau avec le domaine</h4>
+<div class="highlight"><pre><span></span><code><span class="c"># Tester la résolution DNS du domaine</span>
+<span class="n">nslookup</span> <span class="n">maxtec</span><span class="p">.</span><span class="n">be</span>
+
+<span class="c"># Vérifier le contrôleur de domaine utilisé</span>
+<span class="n">nltest</span> <span class="p">/</span><span class="n">dsgetdc</span><span class="p">:</span><span class="n">maxtec</span><span class="p">.</span><span class="n">be</span>
+
+<span class="c"># Tester la connexion LDAP</span>
+<span class="nb">Test-ComputerSecureChannel</span> <span class="n">-Verbose</span>
+</code></pre></div>
+<hr />
+<hr />
+<h2 id="fichiers-generes">Fichiers Générés</h2>
+<p>Le laboratoire CreativeHub génère les fichiers suivants:</p>
+<table>
+<thead>
+<tr>
+<th>Fichier</th>
+<th>Emplacement</th>
+<th>Description</th>
+<th>Généré par</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CreativeHub_Utilisateurs.csv</code></td>
+<td><code>C:\Labos\</code></td>
+<td>Liste de tous les utilisateurs avec propriétés</td>
+<td>Script setup (étape 7)</td>
+</tr>
+<tr>
+<td><code>CreativeHub_Groupes.csv</code></td>
+<td><code>C:\Labos\</code></td>
+<td>Liste des groupes avec membres</td>
+<td>Script setup (étape 7)</td>
+</tr>
+<tr>
+<td><code>CreativeHub_OUs.csv</code></td>
+<td><code>C:\Labos\</code></td>
+<td>Structure des OUs</td>
+<td>Script setup (étape 7)</td>
+</tr>
+<tr>
+<td><code>GPO_*.html</code></td>
+<td><code>C:\Labos\</code></td>
+<td>Rapports HTML des GPOs (optionnel)</td>
+<td>Commandes de vérification</td>
+</tr>
+<tr>
+<td><code>CreativeHub_Utilisateurs_Complet.csv</code></td>
+<td><code>C:\Labos\</code></td>
+<td>Export enrichi utilisateurs (optionnel)</td>
+<td>Commandes de vérification</td>
+</tr>
+<tr>
+<td><code>CreativeHub_Groupes_Rapport.csv</code></td>
+<td><code>C:\Labos\</code></td>
+<td>Rapport détaillé groupes (optionnel)</td>
+<td>Commandes de vérification</td>
+</tr>
+</tbody>
+</table>
+<p>Tous ces fichiers sont en encodage <strong>UTF-8</strong> et peuvent être ouverts avec Excel, LibreOffice, ou tout éditeur de texte.</p>
+<hr />
+<h2 id="ressources-complementaires">Ressources Complémentaires</h2>
+<h3 id="documentation-officielle-microsoft">Documentation Officielle Microsoft</h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/get-started/virtual-dc/active-directory-domain-services-overview">Active Directory Domain Services Overview</a></li>
+<li><a href="https://learn.microsoft.com/en-us/powershell/module/activedirectory/new-adorganizationalunit?view=windowsserver2022-ps">New-ADOrganizationalUnit Cmdlet</a></li>
+<li><a href="https://learn.microsoft.com/en-us/powershell/module/activedirectory/new-aduser?view=windowsserver2025-ps">New-ADUser Cmdlet</a></li>
+<li><a href="https://learn.microsoft.com/en-us/powershell/module/activedirectory/new-adgroup?view=windowsserver2022-ps">New-ADGroup Cmdlet</a></li>
+<li><a href="https://learn.microsoft.com/en-us/powershell/module/grouppolicy/">Group Policy Management with PowerShell</a></li>
+<li><a href="https://learn.microsoft.com/en-us/powershell/module/grouppolicy/set-gpregistryvalue?view=windowsserver2022-ps">Set-GPRegistryValue Cmdlet</a></li>
+</ul>
+<h3 id="guides-pratiques">Guides Pratiques</h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/creating-an-organizational-unit-design">Best Practices for Organizing Active Directory</a></li>
+<li><a href="https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/group-policy/group-policy-best-practices">Group Policy Best Practices</a></li>
+<li><a href="https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/best-practices-for-securing-active-directory">Active Directory Security Best Practices</a></li>
+</ul>
+<hr />
+<h2 id="evolutions-possibles-du-laboratoire">Évolutions Possibles du Laboratoire</h2>
+<p>Pour approfondir ce laboratoire dans le futur, vous pourriez:</p>
+<ol>
+<li><strong>Ajouter des partages réseau réels</strong>:</li>
+<li>Créer <code>\\SERVEUR\Projets</code> et <code>\\SERVEUR\Ressources</code></li>
+<li>Configurer des permissions NTFS basées sur les groupes AD</li>
+<li>
+<p>Compléter la GPO de mappage de lecteurs avec Drive Maps Preferences</p>
+</li>
+<li>
+<p><strong>Implémenter une politique de mots de passe renforcée</strong>:</p>
+</li>
+<li>Fine-Grained Password Policy pour exiger des mots de passe plus complexes pour les admins</li>
+<li>
+<p>Historique des mots de passe, durée de vie maximale, etc.</p>
+</li>
+<li>
+<p><strong>Ajouter des ordinateurs aux OUs Computers</strong>:</p>
+</li>
+<li>Joindre des machines Windows 10/11 au domaine</li>
+<li>Les déplacer dans les bonnes OUs (par département)</li>
+<li>
+<p>Créer des GPOs spécifiques aux ordinateurs (configuration logicielle, pare-feu, etc.)</p>
+</li>
+<li>
+<p><strong>Créer des scripts de connexion (Logon Scripts)</strong>:</p>
+</li>
+<li>Scripts PowerShell qui s'exécutent à la connexion de l'utilisateur</li>
+<li>Mapper des imprimantes réseau selon le département</li>
+<li>
+<p>Afficher un message de bienvenue personnalisé</p>
+</li>
+<li>
+<p><strong>Implémenter des quotas de stockage</strong>:</p>
+</li>
+<li>Configurer des quotas sur les dossiers personnels utilisateurs</li>
+<li>
+<p>Utiliser File Server Resource Manager (FSRM)</p>
+</li>
+<li>
+<p><strong>Audit et journalisation</strong>:</p>
+</li>
+<li>Activer l'audit des connexions réussies/échouées</li>
+<li>Audit des modifications d'objets AD (création/suppression utilisateurs)</li>
+<li>
+<p>Générer des rapports de sécurité</p>
+</li>
+<li>
+<p><strong>Scénarios de panne et récupération</strong>:</p>
+</li>
+<li>Simuler la corruption d'un compte utilisateur</li>
+<li>Restaurer un objet supprimé depuis la corbeille AD</li>
+<li>Gérer un compte verrouillé (lockout)</li>
+</ol>
+<hr />
+<p>Ce laboratoire vous donne une expérience pratique réaliste de la gestion d'Active Directory dans un contexte d'entreprise moderne. Les compétences acquises ici sont directement transférables à l'administration de vrais environnements AD en production.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/choquitofrito/ActiveDirectory" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "navigation.prune", "content.code.copy"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

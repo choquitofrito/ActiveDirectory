@@ -1,0 +1,1427 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo2-MediCare/exercices/">
+      
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Exercices Pratiques - MediCare Clinic - Active Directory Course</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#exercices-pratiques-medicare-clinic" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Active Directory Course" class="md-header__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Active Directory Course
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Exercices Pratiques - MediCare Clinic
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  🏠 Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🖥️ Windows Server
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Chapitre%203.DNS/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🌐 DNS
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📁 Active Directory
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ⚡ PowerShell AD
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🧪 Labs & Exercices
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Active Directory Course" class="md-nav__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Active Directory Course
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏠 Accueil
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🖥️ Windows Server
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Chapitre%203.DNS/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🌐 DNS
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    📁 Active Directory
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    ⚡ PowerShell AD
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🧪 Labs & Exercices
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vue-densemble" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vue d'Ensemble
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#niveau-debutant" class="md-nav__link">
+    <span class="md-ellipsis">
+      Niveau Débutant 🟢
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Niveau Débutant 🟢">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-01-transfert-de-patient" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 01 : Transfert de Patient
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-02-horaire-de-garde" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 02 : Horaire de Garde
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-03-audit-dacces-medical" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 03 : Audit d'Accès Médical
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#niveau-intermediaire" class="md-nav__link">
+    <span class="md-ellipsis">
+      Niveau Intermédiaire 🟡
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Niveau Intermédiaire 🟡">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-04-nouveau-service-medical" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 04 : Nouveau Service Médical
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-05-confidentialite-renforcee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 05 : Confidentialité Renforcée
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-06-delegation-chef-de-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 06 : Délégation Chef de Service
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#niveau-avance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Niveau Avancé 🔴
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Niveau Avancé 🔴">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercice-07-rotation-de-specialistes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 07 : Rotation de Spécialistes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercice-08-incident-rgpd-acces-non-autorise" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice 08 : Incident RGPD - Accès Non Autorisé
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parcours-dapprentissage-recommande" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parcours d'Apprentissage Recommandé
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parcours d&#39;Apprentissage Recommandé">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#debutants-complets-jour-1-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Débutants Complets (Jour 1-2)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etudiants-avec-bases-ad-jour-1-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étudiants avec Bases AD (Jour 1-2)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#differences-avec-creativehub" class="md-nav__link">
+    <span class="md-ellipsis">
+      Différences avec CreativeHub
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#badges-de-certification-medicare" class="md-nav__link">
+    <span class="md-ellipsis">
+      Badges de Certification MediCare
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Support
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scripts-de-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scripts de Vérification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commandes-powershell-essentielles-specifiques-medical" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commandes PowerShell Essentielles (Spécifiques Médical)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problemes-courants-specifiques-medicare" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problèmes Courants Spécifiques MediCare
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation-instructeur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentation Instructeur
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objectifs-pedagogiques-globaux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectifs Pédagogiques Globaux
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="exercices-pratiques-medicare-clinic">Exercices Pratiques - MediCare Clinic</h1>
+<p>Le laboratoire MediCare comprend <strong>8 exercices progressifs</strong> organisés par niveau de difficulté, axés sur la gestion d'un environnement médical avec exigences de conformité RGPD/HIPAA.</p>
+<h2 id="vue-densemble">Vue d'Ensemble</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Titre</th>
+<th>Niveau</th>
+<th>Durée</th>
+<th>Compétences Clés</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td><a href="Exercice_01_Transfert_Patient/">Transfert de Patient</a></td>
+<td>🟢 Débutant</td>
+<td>20-25 min</td>
+<td>Permissions NTFS, transfert données</td>
+</tr>
+<tr>
+<td>02</td>
+<td><a href="Exercice_02_Horaire_Garde/">Horaire de Garde</a></td>
+<td>🟢 Débutant</td>
+<td>25-30 min</td>
+<td>Comptes temporaires, Logon Hours</td>
+</tr>
+<tr>
+<td>03</td>
+<td><a href="Exercice_03_Audit_Acces_Medical/">Audit d'Accès Médical</a></td>
+<td>🟢 Débutant</td>
+<td>25-30 min</td>
+<td>Audit NTFS, Event Viewer, RGPD</td>
+</tr>
+<tr>
+<td>04</td>
+<td>Nouveau Service Médical</td>
+<td>🟡 Intermédiaire</td>
+<td>35-40 min</td>
+<td>Architecture OUs, département complet</td>
+</tr>
+<tr>
+<td>05</td>
+<td>Confidentialité Renforcée</td>
+<td>🟡 Intermédiaire</td>
+<td>30-35 min</td>
+<td>GPO sécurité, RGPD compliance</td>
+</tr>
+<tr>
+<td>06</td>
+<td>Délégation Chef de Service</td>
+<td>🟡 Intermédiaire</td>
+<td>30-35 min</td>
+<td>Delegation of Control, moindre privilège</td>
+</tr>
+<tr>
+<td>07</td>
+<td>Rotation de Spécialistes</td>
+<td>🔴 Avancé</td>
+<td>50-60 min</td>
+<td>Roaming profiles, folder redirection</td>
+</tr>
+<tr>
+<td>08</td>
+<td>Incident RGPD</td>
+<td>🔴 Avancé</td>
+<td>60-75 min</td>
+<td>Investigation forensique, rapport RGPD</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="niveau-debutant">Niveau Débutant 🟢</h2>
+<p>Ces exercices vous guident <strong>étape par étape</strong> avec des instructions détaillées pour maîtriser les bases de l'administration AD médicale.</p>
+<h3 id="exercice-01-transfert-de-patient"><a href="Exercice_01_Transfert_Patient/">Exercice 01 : Transfert de Patient</a></h3>
+<p><strong>Scénario</strong> : Le Dr. Catherine Leblanc transfère 3 patients vers le Dr. Philippe Moreau pour 2 mois de formation continue.</p>
+<p><strong>Vous apprendrez</strong> :
+- Modifier les <strong>permissions NTFS</strong> sur des dossiers patients
+- Transférer l'accès entre médecins (retirer ancien, ajouter nouveau)
+- Documenter le transfert pour <strong>traçabilité RGPD</strong>
+- Vérifier les ACLs via PowerShell</p>
+<p><strong>Particularité médicale</strong> : Respecter le principe du moindre privilège - retirer les accès dès qu'ils ne sont plus nécessaires (responsabilité médicale).</p>
+<p><strong>Script de vérification</strong> : <a href="../scripts/verification/verif_exercice_01.ps1">verif_exercice_01.ps1</a></p>
+<hr />
+<h3 id="exercice-02-horaire-de-garde"><a href="Exercice_02_Horaire_Garde/">Exercice 02 : Horaire de Garde</a></h3>
+<p><strong>Scénario</strong> : Créer un compte de garde rotatif "Médecin de Garde" avec accès restreint aux heures de nuit (18h-8h) et week-ends uniquement.</p>
+<p><strong>Vous apprendrez</strong> :
+- Créer un <strong>compte temporaire</strong> avec expiration dans 7 jours
+- Configurer les <strong>Logon Hours</strong> (restrictions horaires)
+- Ajouter à un groupe spécialisé (<strong>GG-MediCare-Medical-Oncall</strong>)
+- Tester les restrictions temporelles d'Active Directory</p>
+<p><strong>Particularité médicale</strong> : Les systèmes de garde médicale nécessitent des accès limités temporellement pour sécurité et conformité.</p>
+<p><strong>Script de vérification</strong> : <a href="../scripts/verification/verif_exercice_02.ps1">verif_exercice_02.ps1</a></p>
+<hr />
+<h3 id="exercice-03-audit-dacces-medical"><a href="Exercice_03_Audit_Acces_Medical/">Exercice 03 : Audit d'Accès Médical</a></h3>
+<p><strong>Scénario</strong> : Le Responsable Conformité demande un rapport des accès au dossier VIP "M. Dupont" durant les 7 derniers jours (audit RGPD).</p>
+<p><strong>Vous apprendrez</strong> :
+- Activer l'<strong>audit NTFS</strong> sur des dossiers sensibles
+- Consulter l'<strong>Event Viewer</strong> (Event ID 4663 - File Access)
+- Filtrer et analyser les événements de sécurité
+- Générer un <strong>rapport CSV</strong> avec : Utilisateur, Date/Heure, Action</p>
+<p><strong>Particularité médicale</strong> : Obligation légale RGPD/HIPAA de tracer tous les accès aux données patients pour détecter violations.</p>
+<p><strong>Script de vérification</strong> : <a href="../scripts/verification/verif_exercice_03.ps1">verif_exercice_03.ps1</a></p>
+<hr />
+<h2 id="niveau-intermediaire">Niveau Intermédiaire 🟡</h2>
+<p>Ces exercices décrivent l'objectif sans donner d'instructions détaillées. À vous de trouver comment faire!</p>
+<h3 id="exercice-04-nouveau-service-medical">Exercice 04 : Nouveau Service Médical</h3>
+<p><strong>Scénario</strong> : La clinique ouvre un nouveau service "Dermatologie" avec 3 employés (1 senior, 1 junior, 1 assistante).</p>
+<p><strong>Objectif</strong> : Créer de A à Z la structure AD complète pour ce département.</p>
+<p><strong>Tâches</strong> :
+- Créer sub-OU <code>OU=Dermatologie,OU=Medical,OU=MediCare</code> avec sous-OUs Users/Computers/Groups (<strong>IMPORTANT</strong> : <code>-ProtectedFromAccidentalDeletion $false</code>)
+- Créer 3 utilisateurs avec propriétés médicales appropriées
+- Créer 2 groupes : <strong>GG-MediCare-Dermato-Users</strong> et <strong>GG-MediCare-Dermato-Admin</strong>
+- Créer GPO shell "MediCare - Dermatologie Lecteur D" (manuel GPMC pour lecteur D:)
+- Documenter la structure en CSV</p>
+<p><strong>Indices</strong> :
+- Utiliser <code>New-ADOrganizationalUnit</code> avec protection désactivée
+- Groupes Global (GG-) obligatoires
+- GPO : Create shell only, manual Drive Map configuration required</p>
+<p><strong>Script de vérification</strong> : <a href="../scripts/verification/verif_exercice_04.ps1">verif_exercice_04.ps1</a></p>
+<hr />
+<h3 id="exercice-05-confidentialite-renforcee">Exercice 05 : Confidentialité Renforcée</h3>
+<p><strong>Scénario</strong> : Suite à un audit RGPD, renforcer la sécurité des postes médicaux avec nouvelles restrictions.</p>
+<p><strong>Objectif</strong> : Créer et configurer une GPO de sécurité renforcée pour le département Medical.</p>
+<p><strong>Tâches</strong> :
+- Créer GPO shell "MediCare - Sécurité Renforcée Médical"
+- Configurer manuellement dans GPMC (consulter <code>gpo-reference.md</code>) :
+  - <strong>Désactiver captures d'écran</strong> (User Config &gt; Administrative Templates)
+  - <strong>Bloquer impression vers imprimantes USB/personnelles</strong>
+  - <strong>Screen Lock timeout 10 minutes</strong> (Security Options)
+- Lier GPO à <code>OU=Users,OU=Medical</code>
+- Tester avec compte médecin après <code>gpupdate /force</code></p>
+<p><strong>Indices</strong> :
+- Ne JAMAIS utiliser <code>Set-GPRegistryValue</code> pour politiques standard
+- Consulter gpo-reference.md pour chemins exacts
+- Tester avec runas /user:maxtec\catherine</p>
+<p><strong>Script de vérification</strong> : <a href="../scripts/verification/verif_exercice_05.ps1">verif_exercice_05.ps1</a></p>
+<hr />
+<h3 id="exercice-06-delegation-chef-de-service">Exercice 06 : Délégation Chef de Service</h3>
+<p><strong>Scénario</strong> : Anne Leroy (Chef Nursing) doit pouvoir gérer les comptes de son équipe sans accès aux comptes médicaux.</p>
+<p><strong>Objectif</strong> : Déléguer la gestion des comptes Nursing à Anne sans privilèges excessifs.</p>
+<p><strong>Tâches</strong> :
+- Utiliser <strong>Delegation of Control Wizard</strong> sur <code>OU=Nursing,OU=MediCare</code>
+- Déléguer à <code>anne</code> :
+  - Reset passwords
+  - Unlock accounts
+  - Modify members of Nursing groups
+- Tester avec compte anne (<code>runas /user:maxtec\anne powershell</code>)
+- Vérifier qu'anne NE PEUT PAS modifier utilisateurs Medical
+- Documenter permissions déléguées (Get-Acl)</p>
+<p><strong>Indices</strong> :
+- Delegation Wizard dans Active Directory Users and Computers
+- Tester avec PowerShell : <code>Set-ADUser -Identity &lt;nursing_user&gt; -Description "Test"</code> sous compte anne
+- Vérifier refus d'accès sur Medical</p>
+<p><strong>Script de vérification</strong> : <a href="../scripts/verification/verif_exercice_06.ps1">verif_exercice_06.ps1</a></p>
+<hr />
+<h2 id="niveau-avance">Niveau Avancé 🔴</h2>
+<p>Ces exercices sont des <strong>scénarios réalistes complexes</strong> nécessitant analyse, décisions multiples et troubleshooting.</p>
+<h3 id="exercice-07-rotation-de-specialistes">Exercice 07 : Rotation de Spécialistes</h3>
+<p><strong>Scénario</strong> : 2 cardiologues (Dr. Amélie Laurent, Dr. Marc Bernard) alternent chaque semaine sur la même station de travail "CARDIO-WS01".</p>
+<p><strong>Objectif</strong> : Configurer des profils itinérants et redirection de dossiers pour une expérience utilisateur cohérente.</p>
+<p><strong>Tâches complexes</strong> :
+- Configurer <strong>Roaming Profiles</strong> pour les 2 cardiologues
+  - Profil stocké : <code>\\SRV\Profiles$\%username%</code>
+- Configurer <strong>Folder Redirection</strong> pour Documents
+  - Redirection : <code>\\SRV\Redirected$\%username%\Documents</code>
+- Configurer <strong>Primary Computer</strong> pour CARDIO-WS01
+  - Attribut AD : <code>msDS-PrimaryComputer</code>
+- Créer GPO "MediCare - Profils Itinérants Cardio" avec <strong>Loopback Processing</strong>
+- Tester connexion des 2 utilisateurs sur CARDIO-WS01
+- Vérifier que profils/documents suivent l'utilisateur</p>
+<p><strong>Technologies avancées</strong> :
+- Roaming User Profiles
+- Folder Redirection via GPO
+- Primary Computer (Fast Logon Optimization)
+- Group Policy Loopback Processing</p>
+<p><strong>Script de vérification</strong> : <a href="../scripts/verification/verif_exercice_07.ps1">verif_exercice_07.ps1</a></p>
+<hr />
+<h3 id="exercice-08-incident-rgpd-acces-non-autorise">Exercice 08 : Incident RGPD - Accès Non Autorisé</h3>
+<p><strong>Scénario</strong> : Le dossier médical d'une personnalité VIP a été consulté illégalement. Investigation RGPD complète requise.</p>
+<p><strong>Objectif</strong> : Mener une investigation forensique et produire un rapport RGPD professionnel.</p>
+<p><strong>Tâches d'investigation</strong> :
+- Analyser <strong>Event Viewer</strong> (Security log) pour identifier QUI a accédé à "VIP_Dossier.docx"
+- Utiliser <code>Get-Acl</code> pour vérifier permissions NTFS actuelles
+- Utiliser <code>Get-ADGroupMember</code> pour tracer appartenance aux groupes
+- Analyser logs d'impression (si activés)
+- Identifier l'utilisateur fautif et le <strong>chemin d'accès</strong> (groupe → permission)
+- Rédiger <strong>rapport RGPD</strong> :
+  - <strong>WHO</strong> : Utilisateur responsable
+  - <strong>WHEN</strong> : Date/heure exacte
+  - <strong>WHAT</strong> : Fichier consulté
+  - <strong>HOW</strong> : Chemin d'accès (groupe/permission)
+  - <strong>WHY</strong> : Légitime ou non (justification métier)
+- Recommandations de <strong>remédiation</strong> :
+  - Retrait groupe
+  - Renforcement ACL
+  - Formation sensibilisation</p>
+<p><strong>Compétences forensiques</strong> :
+- Analyse de logs Windows
+- Tracing de permissions complexes
+- Rédaction de rapport professionnel
+- Recommandations de sécurité</p>
+<p><strong>Script de vérification</strong> : <a href="../scripts/verification/verif_exercice_08.ps1">verif_exercice_08.ps1</a></p>
+<hr />
+<h2 id="parcours-dapprentissage-recommande">Parcours d'Apprentissage Recommandé</h2>
+<h3 id="debutants-complets-jour-1-2">Débutants Complets (Jour 1-2)</h3>
+<ol>
+<li><strong>Jour 1 Matin</strong> : Exercices 01 + 02 (Transfert + Garde)</li>
+<li><strong>Jour 1 Après-midi</strong> : Exercice 03 (Audit)</li>
+<li><strong>Jour 2 Matin</strong> : Exercice 04 (Nouveau Service)</li>
+<li><strong>Jour 2 Après-midi</strong> : Exercice 05 (Confidentialité)</li>
+</ol>
+<p><strong>Durée totale</strong> : ~4 heures effectives</p>
+<h3 id="etudiants-avec-bases-ad-jour-1-2">Étudiants avec Bases AD (Jour 1-2)</h3>
+<ol>
+<li><strong>Jour 1</strong> : Exercices 01 → 03 (révision rapide)</li>
+<li><strong>Jour 1</strong> : Exercices 04 → 06 (renforcement)</li>
+<li><strong>Jour 2</strong> : Exercice 07 (Profils itinérants - complexe)</li>
+<li><strong>Jour 2</strong> : Exercice 08 (Investigation RGPD - capstone)</li>
+</ol>
+<p><strong>Durée totale</strong> : ~6-8 heures</p>
+<hr />
+<h2 id="differences-avec-creativehub">Différences avec CreativeHub</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>CreativeHub</th>
+<th>MediCare</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Contexte</strong></td>
+<td>Agence créative, projets clients</td>
+<td>Clinique médicale, patients</td>
+</tr>
+<tr>
+<td><strong>Focus sécurité</strong></td>
+<td>Collaboration, partage projets</td>
+<td>Confidentialité RGPD/HIPAA</td>
+</tr>
+<tr>
+<td><strong>Exercices uniques</strong></td>
+<td>Onboarding employé, projets clients</td>
+<td>Transfert patients, garde médicale, audit RGPD</td>
+</tr>
+<tr>
+<td><strong>Technologies</strong></td>
+<td>GPO classiques, groupes AGDLP</td>
+<td>Audit NTFS, Logon Hours, profils itinérants</td>
+</tr>
+<tr>
+<td><strong>Scénarios</strong></td>
+<td>Crise sécurité générique</td>
+<td>Investigation RGPD médicale</td>
+</tr>
+<tr>
+<td><strong>Niveau compliance</strong></td>
+<td>Standard entreprise</td>
+<td>Réglementé (santé)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="badges-de-certification-medicare">Badges de Certification MediCare</h2>
+<p>Complétez les exercices pour obtenir votre badge :</p>
+<table>
+<thead>
+<tr>
+<th>Badge</th>
+<th>Critères</th>
+<th>Exercices Requis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🥉 <strong>Bronze Médical</strong></td>
+<td>Compétences de base AD médical</td>
+<td>01, 02, 03 réussis</td>
+</tr>
+<tr>
+<td>🥈 <strong>Argent Compliance</strong></td>
+<td>Compétences intermédiaires + conformité</td>
+<td>01-06 réussis</td>
+</tr>
+<tr>
+<td>🥇 <strong>Or RGPD</strong></td>
+<td>Compétences avancées + audit</td>
+<td>01-07 réussis</td>
+</tr>
+<tr>
+<td>💎 <strong>Diamant HIPAA</strong></td>
+<td>Maîtrise complète forensique</td>
+<td>01-08 réussis + Rapport professionnel Exercice 08</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="support">Support</h2>
+<h3 id="scripts-de-verification">Scripts de Vérification</h3>
+<p>Chaque exercice dispose d'un <strong>script PowerShell de vérification automatique</strong> :</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="s2">&quot;C:\Labos\MediCare\scripts\verification&quot;</span>
+<span class="p">.\</span><span class="n">verif_exercice_01</span><span class="p">.</span><span class="n">ps1</span>
+</code></pre></div>
+<h3 id="commandes-powershell-essentielles-specifiques-medical">Commandes PowerShell Essentielles (Spécifiques Médical)</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Gestion Permissions NTFS</span>
+<span class="nb">Get-Acl</span> <span class="n">C</span><span class="p">:\</span><span class="n">Temp</span><span class="p">\</span><span class="n">Dossiers_Patients</span><span class="p">\</span><span class="n">Patient_001</span>
+<span class="nv">$acl</span> <span class="p">=</span> <span class="nb">Get-Acl</span> <span class="p">&lt;</span><span class="n">chemin</span><span class="p">&gt;</span>
+<span class="nv">$acl</span><span class="p">.</span><span class="n">AddAccessRule</span><span class="p">(&lt;</span><span class="n">règle</span><span class="p">&gt;)</span>
+<span class="nb">Set-Acl</span> <span class="p">&lt;</span><span class="n">chemin</span><span class="p">&gt;</span> <span class="nv">$acl</span>
+
+<span class="c"># Audit NTFS</span>
+<span class="nv">$auditRule</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Security</span><span class="p">.</span><span class="n">AccessControl</span><span class="p">.</span><span class="n">FileSystemAuditRule</span><span class="p">(...)</span>
+<span class="nv">$acl</span><span class="p">.</span><span class="n">AddAuditRule</span><span class="p">(</span><span class="nv">$auditRule</span><span class="p">)</span>
+
+<span class="c"># Événements de sécurité</span>
+<span class="nb">Get-WinEvent</span> <span class="n">-FilterHashtable</span> <span class="p">@{</span><span class="n">LogName</span><span class="p">=</span><span class="s1">&#39;Security&#39;</span><span class="p">;</span> <span class="n">ID</span><span class="p">=</span><span class="n">4663</span><span class="p">}</span>
+<span class="nb">Get-EventLog</span> <span class="n">-LogName</span> <span class="n">Security</span> <span class="n">-Newest</span> <span class="n">50</span>
+
+<span class="c"># Logon Hours (via GUI recommandé)</span>
+<span class="c"># Active Directory Users &gt; Compte &gt; Account &gt; Logon Hours</span>
+
+<span class="c"># Profils itinérants</span>
+<span class="nb">Set-ADUser</span> <span class="n">-Identity</span> <span class="p">&lt;</span><span class="n">user</span><span class="p">&gt;</span> <span class="n">-ProfilePath</span> <span class="s2">&quot;\\SRV\Profiles$\%username%&quot;</span>
+
+<span class="c"># Primary Computer</span>
+<span class="nb">Set-ADUser</span> <span class="n">-Identity</span> <span class="p">&lt;</span><span class="n">user</span><span class="p">&gt;</span> <span class="n">-Add</span> <span class="p">@{</span><span class="n">msDS-PrimaryComputer</span><span class="p">=</span><span class="s2">&quot;CN=CARDIO-WS01,...&quot;</span><span class="p">}</span>
+</code></pre></div>
+<h3 id="problemes-courants-specifiques-medicare">Problèmes Courants Spécifiques MediCare</h3>
+<table>
+<thead>
+<tr>
+<th>Problème</th>
+<th>Solution Rapide</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Audit NTFS ne génère pas d'événements</td>
+<td>Vérifier GPO 4 (Audit) + Audit NTFS activé + Accès réel au fichier</td>
+</tr>
+<tr>
+<td>Logon Hours non respectées</td>
+<td>Attendre 30 min ou redémarrer pour prise en compte</td>
+</tr>
+<tr>
+<td>Profils itinérants non chargés</td>
+<td>Vérifier partage réseau accessible + permissions NTFS</td>
+</tr>
+<tr>
+<td>Event Viewer vide</td>
+<td>Journal Security plein ou désactivé</td>
+</tr>
+<tr>
+<td>Rapport CSV vide</td>
+<td>Filtrer sur bon nom de dossier (sensible à la casse)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="documentation-instructeur">Documentation Instructeur</h2>
+<p>Les formateurs peuvent consulter :</p>
+<ul>
+<li><strong>Index Exercices</strong> : (ce fichier) Vue d'ensemble complète</li>
+<li><strong>Scripts de Setup</strong> : <code>../scripts/MediCare_Setup.ps1</code> (création lab)</li>
+<li><strong>Scripts de Cleanup</strong> : <code>../scripts/MediCare_Cleanup.ps1</code> (réinitialisation)</li>
+<li><strong>GPO Reference</strong> : <code>/.claude/gpo-reference.md</code> (règles GPO validées)</li>
+</ul>
+<hr />
+<h2 id="objectifs-pedagogiques-globaux">Objectifs Pédagogiques Globaux</h2>
+<p>À la fin des 8 exercices, les étudiants maîtrisent :</p>
+<ol>
+<li><strong>Gestion de données sensibles</strong> : Permissions NTFS, audit, conformité RGPD</li>
+<li><strong>Comptes spécialisés</strong> : Temporaires, horaires restreints, partages</li>
+<li><strong>Audit et traçabilité</strong> : Event Viewer, rapports CSV, investigation</li>
+<li><strong>Architecture départementale</strong> : Création de structures complètes</li>
+<li><strong>GPOs de sécurité</strong> : Configuration manuelle correcte (pas Set-GPRegistryValue)</li>
+<li><strong>Délégation de contrôle</strong> : Moindre privilège, séparation des responsabilités</li>
+<li><strong>Profils utilisateurs avancés</strong> : Roaming profiles, folder redirection</li>
+<li><strong>Investigation forensique</strong> : Analyse de violations, rapports professionnels</li>
+</ol>
+<hr />
+<p><strong>Bon courage dans votre apprentissage de l'administration AD médicale! 🏥🔒</strong></p>
+<p><strong>Dernière mise à jour</strong> : 2025-10-05
+<strong>Version</strong> : 1.0
+<strong>Mainteneur</strong> : H2EB Active Directory Lab Project</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/choquitofrito/ActiveDirectory" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "navigation.prune", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2517 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://choquitofrito.github.io/ActiveDirectory/PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M3-ia-comme-copilote/">
+      
+      
+        <link rel="prev" href="../M2-survie-tickets/">
+      
+      
+        <link rel="next" href="../M4-scripts-bomba-lab/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>M3 - IA Copilote - Active Directory Course</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#module-3-lia-comme-copilote-prompts-securises-et-validation-critique" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Active Directory Course" class="md-header__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Active Directory Course
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              M3 - IA Copilote
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  🏠 Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🖥️ Windows Server
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%203.DNS/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🌐 DNS
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📁 Active Directory
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ⚡ PowerShell AD
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🧪 Labs & Exercices
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Active Directory Course" class="md-nav__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Active Directory Course
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏠 Accueil
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🖥️ Windows Server
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%203.DNS/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🌐 DNS
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    📁 Active Directory
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    ⚡ PowerShell AD
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            ⚡ PowerShell AD
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch9.0 - Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch9.1 - Concepts de Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch9.2 - Requêtes & Informations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Chapitre%209.3.Powershell%20AD%20-%20Creation_et_Modification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ch9.3 - Création & Modification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../CHEATSHEET/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cheatsheet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Cours Moderne 2025
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            Cours Moderne 2025
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M1-realite-2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    M1 - Réalité 2025
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M2-survie-tickets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    M2 - Survie Tickets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    M3 - IA Copilote
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    M3 - IA Copilote
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectif-de-ce-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objectif de ce Module
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nouvelle-philosophie-ia-copilote-pas-pilote" class="md-nav__link">
+    <span class="md-ellipsis">
+      🤝 Nouvelle Philosophie: IA = Copilote, PAS Pilote
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤝 Nouvelle Philosophie: IA = Copilote, PAS Pilote">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#approche-dangereuse" class="md-nav__link">
+    <span class="md-ellipsis">
+      ❌ APPROCHE DANGEREUSE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#approche-professionnelle-2025" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ APPROCHE PROFESSIONNELLE 2025
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#les-4-types-dutilisation-ia-pour-powershell-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧠 Les 4 Types d'Utilisation IA pour PowerShell AD
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧠 Les 4 Types d&#39;Utilisation IA pour PowerShell AD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#type-1-generer-des-idees-de-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type 1: 🔍 Générer des Idées de Base
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type-2-comprendre-du-code-existant" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type 2: 🔧 Comprendre du Code Existant
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type-3-detecter-les-problemes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type 3: 🚨 Détecter les Problèmes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type-4-execution-directe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type 4: ⚡ Exécution Directe
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#demonstration-live-session-chatgpt-securisee" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Démonstration Live: Session ChatGPT Sécurisée
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Démonstration Live: Session ChatGPT Sécurisée">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-reel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scénario Réel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prompt-naif-ne-pas-faire" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔥 PROMPT NAÏF (NE PAS FAIRE)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prompt-professionnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ PROMPT PROFESSIONNEL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reponse-ia-exemple" class="md-nav__link">
+    <span class="md-ellipsis">
+      🤖 Réponse IA (Exemple)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-critique-du-script-ia" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Validation Critique du Script IA
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Validation Critique du Script IA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#points-forts-identifies" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Points Forts Identifiés
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#points-a-ameliorer" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚠️ Points à Améliorer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ameliorations-suggerees" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Améliorations Suggérées
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-pratique-31-votre-premier-prompt-professionnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Exercice Pratique 3.1: Votre Premier Prompt Professionnel
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Exercice Pratique 3.1: Votre Premier Prompt Professionnel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mission" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mission
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-a-completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template à Compléter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solution-suggeree" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution Suggérée
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#les-5-regles-dor-pour-utiliser-lia-securisee" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛡️ Les 5 Règles d'Or pour Utiliser l'IA Sécurisée
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛡️ Les 5 Règles d&#39;Or pour Utiliser l&#39;IA Sécurisée">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#regle-1-contexte-precis-reponse-precise" class="md-nav__link">
+    <span class="md-ellipsis">
+      Règle #1: Contexte Précis = Réponse Précise
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regle-2-toujours-demander-les-securites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Règle #2: Toujours Demander les Sécurités
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regle-3-valider-ligne-par-ligne" class="md-nav__link">
+    <span class="md-ellipsis">
+      Règle #3: Valider Ligne par Ligne
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regle-4-adapter-a-votre-environnement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Règle #4: Adapter à Votre Environnement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regle-5-tester-dabord-executer-ensuite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Règle #5: Tester d'Abord, Exécuter Ensuite
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cas-dusage-avances-lia-comme-detecteur-de-problemes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎭 Cas d'Usage Avancés: L'IA comme Détecteur de Problèmes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎭 Cas d&#39;Usage Avancés: L&#39;IA comme Détecteur de Problèmes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-analyser-un-script-suspect" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scénario: Analyser un Script Suspect
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemple-danalyse" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exemple d'Analyse
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-pratique-32-ia-detective" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Exercice Pratique 3.2: IA Detective
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Exercice Pratique 3.2: IA Detective">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mission_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mission
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions-pour-lia" class="md-nav__link">
+    <span class="md-ellipsis">
+      Questions pour l'IA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reponse-attendue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Réponse Attendue
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prompts-prets-a-utiliser-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      💡 Prompts Prêts à Utiliser (Templates)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Prompts Prêts à Utiliser (Templates)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#template-diagnostic" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Template Diagnostic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-action-securisee" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Template Action Sécurisée
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-code-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Template Code Review
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recapitulatif-maitriser-lia-comme-copilote" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎓 Récapitulatif: Maîtriser l'IA comme Copilote
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Récapitulatif: Maîtriser l&#39;IA comme Copilote">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ce-que-vous-savez-maintenant" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Ce Que Vous Savez Maintenant
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ce-quil-faut-retenir" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚨 Ce Qu'Il Faut Retenir
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#votre-nouvelle-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Votre Nouvelle Workflow
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M4-scripts-bomba-lab/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    M4 - Scripts Bomba Lab
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M5-whatif-religieux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    M5 - WhatIf Religieux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../M6-kit-urgence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    M6 - Kit Urgence
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../cas-horreur-reels/vendredi-17h-sans-whatif/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Ressources
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🧪 Labs & Exercices
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectif-de-ce-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Objectif de ce Module
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nouvelle-philosophie-ia-copilote-pas-pilote" class="md-nav__link">
+    <span class="md-ellipsis">
+      🤝 Nouvelle Philosophie: IA = Copilote, PAS Pilote
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤝 Nouvelle Philosophie: IA = Copilote, PAS Pilote">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#approche-dangereuse" class="md-nav__link">
+    <span class="md-ellipsis">
+      ❌ APPROCHE DANGEREUSE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#approche-professionnelle-2025" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ APPROCHE PROFESSIONNELLE 2025
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#les-4-types-dutilisation-ia-pour-powershell-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧠 Les 4 Types d'Utilisation IA pour PowerShell AD
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧠 Les 4 Types d&#39;Utilisation IA pour PowerShell AD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#type-1-generer-des-idees-de-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type 1: 🔍 Générer des Idées de Base
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type-2-comprendre-du-code-existant" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type 2: 🔧 Comprendre du Code Existant
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type-3-detecter-les-problemes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type 3: 🚨 Détecter les Problèmes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type-4-execution-directe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type 4: ⚡ Exécution Directe
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#demonstration-live-session-chatgpt-securisee" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Démonstration Live: Session ChatGPT Sécurisée
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Démonstration Live: Session ChatGPT Sécurisée">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-reel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scénario Réel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prompt-naif-ne-pas-faire" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔥 PROMPT NAÏF (NE PAS FAIRE)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prompt-professionnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ PROMPT PROFESSIONNEL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reponse-ia-exemple" class="md-nav__link">
+    <span class="md-ellipsis">
+      🤖 Réponse IA (Exemple)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-critique-du-script-ia" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Validation Critique du Script IA
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Validation Critique du Script IA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#points-forts-identifies" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Points Forts Identifiés
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#points-a-ameliorer" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚠️ Points à Améliorer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ameliorations-suggerees" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Améliorations Suggérées
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-pratique-31-votre-premier-prompt-professionnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Exercice Pratique 3.1: Votre Premier Prompt Professionnel
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Exercice Pratique 3.1: Votre Premier Prompt Professionnel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mission" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mission
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-a-completer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template à Compléter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solution-suggeree" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution Suggérée
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#les-5-regles-dor-pour-utiliser-lia-securisee" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛡️ Les 5 Règles d'Or pour Utiliser l'IA Sécurisée
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛡️ Les 5 Règles d&#39;Or pour Utiliser l&#39;IA Sécurisée">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#regle-1-contexte-precis-reponse-precise" class="md-nav__link">
+    <span class="md-ellipsis">
+      Règle #1: Contexte Précis = Réponse Précise
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regle-2-toujours-demander-les-securites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Règle #2: Toujours Demander les Sécurités
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regle-3-valider-ligne-par-ligne" class="md-nav__link">
+    <span class="md-ellipsis">
+      Règle #3: Valider Ligne par Ligne
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regle-4-adapter-a-votre-environnement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Règle #4: Adapter à Votre Environnement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regle-5-tester-dabord-executer-ensuite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Règle #5: Tester d'Abord, Exécuter Ensuite
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cas-dusage-avances-lia-comme-detecteur-de-problemes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎭 Cas d'Usage Avancés: L'IA comme Détecteur de Problèmes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎭 Cas d&#39;Usage Avancés: L&#39;IA comme Détecteur de Problèmes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-analyser-un-script-suspect" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scénario: Analyser un Script Suspect
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemple-danalyse" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exemple d'Analyse
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-pratique-32-ia-detective" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Exercice Pratique 3.2: IA Detective
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Exercice Pratique 3.2: IA Detective">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mission_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mission
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions-pour-lia" class="md-nav__link">
+    <span class="md-ellipsis">
+      Questions pour l'IA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reponse-attendue" class="md-nav__link">
+    <span class="md-ellipsis">
+      Réponse Attendue
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prompts-prets-a-utiliser-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      💡 Prompts Prêts à Utiliser (Templates)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Prompts Prêts à Utiliser (Templates)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#template-diagnostic" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Template Diagnostic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-action-securisee" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Template Action Sécurisée
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-code-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Template Code Review
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recapitulatif-maitriser-lia-comme-copilote" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎓 Récapitulatif: Maîtriser l'IA comme Copilote
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Récapitulatif: Maîtriser l&#39;IA comme Copilote">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ce-que-vous-savez-maintenant" class="md-nav__link">
+    <span class="md-ellipsis">
+      ✅ Ce Que Vous Savez Maintenant
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ce-quil-faut-retenir" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚨 Ce Qu'Il Faut Retenir
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#votre-nouvelle-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Votre Nouvelle Workflow
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="module-3-lia-comme-copilote-prompts-securises-et-validation-critique">Module 3: L'IA comme Copilote - Prompts Sécurisés et Validation Critique</h1>
+<p><em>Durée: 1h30 | Prérequis: Modules 1-2 complétés</em></p>
+<h2 id="objectif-de-ce-module">🎯 Objectif de ce Module</h2>
+<p><strong>À la fin</strong>: Vous saurez utiliser l'IA (ChatGPT, Copilot, etc.) comme un copilote fiable pour PowerShell AD, pas comme un pilote automatique dangereux.</p>
+<hr />
+<h2 id="nouvelle-philosophie-ia-copilote-pas-pilote">🤝 Nouvelle Philosophie: IA = Copilote, PAS Pilote</h2>
+<h3 id="approche-dangereuse">❌ APPROCHE DANGEREUSE</h3>
+<div class="highlight"><pre><span></span><code>&quot;ChatGPT, écris-moi un script pour nettoyer AD&quot;
+→ Copier-coller direct
+→ Exécution aveugle
+→ 🔥 DÉSASTRE GARANTI
+</code></pre></div>
+<h3 id="approche-professionnelle-2025">✅ APPROCHE PROFESSIONNELLE 2025</h3>
+<div class="highlight"><pre><span></span><code>&quot;IA, aide-moi à comprendre et valider ce script AD&quot;
+→ Analysis critique ligne par ligne
+→ Adaptation environnement maxtec.be
+→ Tests avec -WhatIf
+→ ✅ Sécurité garantie
+</code></pre></div>
+<hr />
+<h2 id="les-4-types-dutilisation-ia-pour-powershell-ad">🧠 Les 4 Types d'Utilisation IA pour PowerShell AD</h2>
+<h3 id="type-1-generer-des-idees-de-base">Type 1: 🔍 <strong>Générer des Idées de Base</strong></h3>
+<p><strong>Bon pour</strong>: Structure générale, syntaxe de base, concepts
+<strong>Risque</strong>: Moyen
+<strong>Validation</strong>: Obligatoire</p>
+<h3 id="type-2-comprendre-du-code-existant">Type 2: 🔧 <strong>Comprendre du Code Existant</strong></h3>
+<p><strong>Bon pour</strong>: Expliquer scripts complexes, identifier risques
+<strong>Risque</strong>: Faible
+<strong>Validation</strong>: Recommandée</p>
+<h3 id="type-3-detecter-les-problemes">Type 3: 🚨 <strong>Détecter les Problèmes</strong></h3>
+<p><strong>Bon pour</strong>: Code review, identifier erreurs, suggestions sécurité
+<strong>Risque</strong>: Très faible
+<strong>Validation</strong>: Optionnelle</p>
+<h3 id="type-4-execution-directe">Type 4: ⚡ <strong>Exécution Directe</strong></h3>
+<p><strong>Bon pour</strong>: JAMAIS
+<strong>Risque</strong>: EXTRÊME
+<strong>Validation</strong>: IMPOSSIBLE</p>
+<hr />
+<h2 id="demonstration-live-session-chatgpt-securisee">🎯 Démonstration Live: Session ChatGPT Sécurisée</h2>
+<h3 id="scenario-reel">Scénario Réel</h3>
+<p><em>L'instructeur ouvre ChatGPT devant la classe</em></p>
+<p><strong>Ticket</strong>: "Trouver tous les utilisateurs du département RH qui n'ont pas changé leur mot de passe depuis 6 mois"</p>
+<h3 id="prompt-naif-ne-pas-faire">🔥 PROMPT NAÏF (NE PAS FAIRE)</h3>
+<div class="highlight"><pre><span></span><code>&quot;écris un script powershell pour trouver les utilisateurs RH avec vieux mots de passe&quot;
+</code></pre></div>
+<p><strong>Problème</strong>: Trop vague, pas de contexte sécurité</p>
+<h3 id="prompt-professionnel">✅ PROMPT PROFESSIONNEL</h3>
+<div class="highlight"><pre><span></span><code>&quot;Aide-moi à créer un script PowerShell pour Active Directory avec ces exigences:
+
+CONTEXTE:
+- Domaine: maxtec.be
+- Recherche: utilisateurs département RH
+- Critère: mot de passe non changé depuis 6 mois
+- Environnement: Production (sécurité critique)
+
+EXIGENCES SÉCURITÉ:
+- INCLUS -WhatIf et validation d&#39;erreurs
+- Limiter scope avec SearchBase
+- Affichage clair des résultats
+- Pas de modifications, seulement lecture
+- Commentaires explicatifs
+
+EXEMPLE STRUCTURE OU: OU=RH,OU=EU,DC=maxtec,DC=be
+
+Génère le script avec toutes les sécurités.&quot;
+</code></pre></div>
+<h3 id="reponse-ia-exemple">🤖 Réponse IA (Exemple)</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Script de recherche utilisateurs RH - Mots de passe anciens</span>
+<span class="c"># Généré avec assistance IA - À VALIDER AVANT USAGE</span>
+<span class="c"># Domaine: maxtec.be</span>
+
+<span class="nb">Import-Module</span> <span class="n">ActiveDirectory</span>
+
+<span class="c"># Configuration</span>
+<span class="nv">$dateLimit</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddDays</span><span class="p">(-</span><span class="n">180</span><span class="p">)</span>  <span class="c"># 6 mois</span>
+<span class="nv">$searchBase</span> <span class="p">=</span> <span class="s2">&quot;OU=RH,OU=EU,DC=maxtec,DC=be&quot;</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;=== RECHERCHE UTILISATEURS RH - MOTS DE PASSE ANCIENS ===&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;Date limite: $dateLimit&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;Search Base: $searchBase&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+
+<span class="k">try</span> <span class="p">{</span>
+    <span class="c"># Vérifier que le module AD est disponible</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">-not</span> <span class="p">(</span><span class="nb">Get-Module</span> <span class="n">ActiveDirectory</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="s2">&quot;Module ActiveDirectory non disponible&quot;</span>
+    <span class="p">}</span>
+
+    <span class="c"># Vérifier que l&#39;OU existe</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="nb">Get-ADOrganizationalUnit</span> <span class="n">-Identity</span> <span class="nv">$searchBase</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;✅ OU RH trouvée&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="s2">&quot;OU non trouvée: $searchBase&quot;</span>
+    <span class="p">}</span>
+
+    <span class="c"># Rechercher utilisateurs RH avec propriétés nécessaires</span>
+    <span class="nv">$utilisateursRH</span> <span class="p">=</span> <span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="nv">$searchBase</span> <span class="p">`</span>
+                      <span class="n">-Properties</span> <span class="n">PasswordLastSet</span><span class="p">,</span> <span class="n">Department</span><span class="p">,</span> <span class="n">LastLogonDate</span><span class="p">,</span> <span class="n">Enabled</span> <span class="p">`</span>
+                      <span class="n">-ErrorAction</span> <span class="n">Stop</span>
+
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Utilisateurs RH trouvés: </span><span class="p">$(</span><span class="nv">$utilisateursRH</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+
+    <span class="c"># Filtrer ceux avec mot de passe ancien</span>
+    <span class="nv">$utilisateursMotDePasseAncien</span> <span class="p">=</span> <span class="nv">$utilisateursRH</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span>
+        <span class="nv">$_</span><span class="p">.</span><span class="n">PasswordLastSet</span> <span class="o">-lt</span> <span class="nv">$dateLimit</span> <span class="o">-and</span>
+        <span class="nv">$_</span><span class="p">.</span><span class="n">Enabled</span> <span class="o">-eq</span> <span class="nv">$true</span> <span class="o">-and</span>
+        <span class="nv">$_</span><span class="p">.</span><span class="n">PasswordLastSet</span> <span class="o">-ne</span> <span class="nv">$null</span>
+    <span class="p">}</span>
+
+    <span class="c"># Afficher résultats</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$utilisateursMotDePasseAncien</span><span class="p">.</span><span class="n">Count</span> <span class="o">-eq</span> <span class="n">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;✅ Aucun utilisateur RH avec mot de passe &gt; 6 mois&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;⚠️  Utilisateurs RH avec mot de passe &gt; 6 mois:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;================================================&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+
+        <span class="nv">$utilisateursMotDePasseAncien</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="p">`</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Nom&quot;</span><span class="p">;</span> <span class="n">Expression</span><span class="p">={</span><span class="nv">$_</span><span class="p">.</span><span class="n">Name</span><span class="p">}},</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Login&quot;</span><span class="p">;</span> <span class="n">Expression</span><span class="p">={</span><span class="nv">$_</span><span class="p">.</span><span class="n">SamAccountName</span><span class="p">}},</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Dernier changement MDP&quot;</span><span class="p">;</span> <span class="n">Expression</span><span class="p">={</span><span class="nv">$_</span><span class="p">.</span><span class="n">PasswordLastSet</span><span class="p">}},</span>
+            <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&quot;Jours depuis changement&quot;</span><span class="p">;</span> <span class="n">Expression</span><span class="p">={((</span><span class="nb">Get-Date</span><span class="p">)</span> <span class="p">-</span> <span class="nv">$_</span><span class="p">.</span><span class="n">PasswordLastSet</span><span class="p">).</span><span class="n">Days</span><span class="p">}}</span> <span class="p">|</span>
+            <span class="nb">Format-Table</span> <span class="n">-AutoSize</span>
+
+        <span class="nb">Write-Host</span> <span class="s2">&quot;Total concernés: </span><span class="p">$(</span><span class="nv">$utilisateursMotDePasseAncien</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+    <span class="p">}</span>
+
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="nb">Write-Error</span> <span class="s2">&quot;Erreur lors de l&#39;exécution: </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span><span class="p">)</span><span class="s2">&quot;</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;Vérifiez les permissions et la connectivité AD&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="p">}</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;=== RECHERCHE TERMINÉE ===&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+</code></pre></div>
+<hr />
+<h2 id="validation-critique-du-script-ia">🔍 Validation Critique du Script IA</h2>
+<h3 id="points-forts-identifies">✅ Points Forts Identifiés</h3>
+<ol>
+<li><strong>Gestion d'erreurs</strong> avec try-catch</li>
+<li><strong>Vérifications préalables</strong> (module, OU)</li>
+<li><strong>SearchBase spécifique</strong> à maxtec.be</li>
+<li><strong>Affichage formaté</strong> des résultats</li>
+<li><strong>Pas de modifications</strong> (read-only)</li>
+</ol>
+<h3 id="points-a-ameliorer">⚠️ Points à Améliorer</h3>
+<ol>
+<li><strong>Hardcodé</strong>: SearchBase fixe (et si structure différente ?)</li>
+<li><strong>Filtre Department</strong>: Pas utilisé (redondance avec SearchBase)</li>
+<li><strong>Null check</strong>: PasswordLastSet peut être null pour certains comptes</li>
+</ol>
+<h3 id="ameliorations-suggerees">🔧 Améliorations Suggérées</h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Amélioration 1: Paramètres flexibles</span>
+<span class="k">param</span><span class="p">(</span>
+    <span class="no">[string]</span><span class="nv">$SearchBase</span> <span class="p">=</span> <span class="s2">&quot;OU=RH,OU=EU,DC=maxtec,DC=be&quot;</span><span class="p">,</span>
+    <span class="no">[int]</span><span class="nv">$JoursLimite</span> <span class="p">=</span> <span class="n">180</span>
+<span class="p">)</span>
+
+<span class="c"># Amélioration 2: Meilleur filtre</span>
+<span class="nv">$utilisateursMotDePasseAncien</span> <span class="p">=</span> <span class="nv">$utilisateursRH</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span>
+    <span class="nv">$_</span><span class="p">.</span><span class="n">PasswordLastSet</span> <span class="o">-ne</span> <span class="nv">$null</span> <span class="o">-and</span>
+    <span class="nv">$_</span><span class="p">.</span><span class="n">PasswordLastSet</span> <span class="o">-lt</span> <span class="nv">$dateLimit</span> <span class="o">-and</span>
+    <span class="nv">$_</span><span class="p">.</span><span class="n">Enabled</span> <span class="o">-eq</span> <span class="nv">$true</span>
+<span class="p">}</span>
+
+<span class="c"># Amélioration 3: Exclusions comptes service</span>
+<span class="nv">$utilisateursMotDePasseAncien</span> <span class="p">=</span> <span class="nv">$utilisateursRH</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span>
+    <span class="nv">$_</span><span class="p">.</span><span class="n">PasswordLastSet</span> <span class="o">-ne</span> <span class="nv">$null</span> <span class="o">-and</span>
+    <span class="nv">$_</span><span class="p">.</span><span class="n">PasswordLastSet</span> <span class="o">-lt</span> <span class="nv">$dateLimit</span> <span class="o">-and</span>
+    <span class="nv">$_</span><span class="p">.</span><span class="n">Enabled</span> <span class="o">-eq</span> <span class="nv">$true</span> <span class="o">-and</span>
+    <span class="nv">$_</span><span class="p">.</span><span class="n">SamAccountName</span> <span class="o">-notlike</span> <span class="s2">&quot;*svc*&quot;</span> <span class="o">-and</span>
+    <span class="nv">$_</span><span class="p">.</span><span class="n">SamAccountName</span> <span class="o">-notlike</span> <span class="s2">&quot;*service*&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="exercice-pratique-31-votre-premier-prompt-professionnel">🎯 Exercice Pratique 3.1: Votre Premier Prompt Professionnel</h2>
+<h3 id="mission">Mission</h3>
+<p>Créez un prompt pour générer un script qui trouve tous les utilisateurs IT de maxtec.be verrouillés.</p>
+<h3 id="template-a-completer">Template à Compléter</h3>
+<div class="highlight"><pre><span></span><code>&quot;Aide-moi à créer un script PowerShell pour Active Directory avec ces exigences:
+
+CONTEXTE:
+- Domaine: [À COMPLÉTER]
+- Recherche: [À COMPLÉTER]
+- Critère: [À COMPLÉTER]
+- Environnement: [À COMPLÉTER]
+
+EXIGENCES SÉCURITÉ:
+- [À COMPLÉTER]
+- [À COMPLÉTER]
+- [À COMPLÉTER]
+
+EXEMPLE STRUCTURE OU: [À COMPLÉTER]
+
+Génère le script avec toutes les sécurités.&quot;
+</code></pre></div>
+<h3 id="solution-suggeree">Solution Suggérée</h3>
+<div class="highlight"><pre><span></span><code>&quot;Aide-moi à créer un script PowerShell pour Active Directory avec ces exigences:
+
+CONTEXTE:
+- Domaine: maxtec.be
+- Recherche: utilisateurs département IT
+- Critère: comptes verrouillés (LockedOut = True)
+- Environnement: Production (sécurité critique)
+
+EXIGENCES SÉCURITÉ:
+- INCLUS gestion d&#39;erreurs et validation
+- Limiter scope avec SearchBase
+- Affichage des détails de verrouillage
+- Option -WhatIf pour déverrouillage
+- Commentaires explicatifs
+
+EXEMPLE STRUCTURE OU: OU=IT,OU=EU,DC=maxtec,DC=be
+
+Génère le script avec toutes les sécurités et option de déverrouillage.&quot;
+</code></pre></div>
+<hr />
+<h2 id="les-5-regles-dor-pour-utiliser-lia-securisee">🛡️ Les 5 Règles d'Or pour Utiliser l'IA Sécurisée</h2>
+<h3 id="regle-1-contexte-precis-reponse-precise">Règle #1: <strong>Contexte Précis = Réponse Précise</strong></h3>
+<div class="highlight"><pre><span></span><code>❌ &quot;script powershell utilisateurs&quot;
+✅ &quot;script PowerShell AD pour maxtec.be, utilisateurs département Ventes,
+   recherche comptes expirés, production, avec -WhatIf&quot;
+</code></pre></div>
+<h3 id="regle-2-toujours-demander-les-securites">Règle #2: <strong>Toujours Demander les Sécurités</strong></h3>
+<p><strong>Phrases magiques à inclure</strong>:
+- "INCLUS -WhatIf et validation d'erreurs"
+- "environnement production, sécurité critique"
+- "avec commentaires explicatifs"
+- "gestion d'erreurs robuste"</p>
+<h3 id="regle-3-valider-ligne-par-ligne">Règle #3: <strong>Valider Ligne par Ligne</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># ✅ BON: Comprendre chaque ligne</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Department</span> <span class="o">-eq</span> <span class="s2">&quot;IT&quot;</span><span class="p">}</span> <span class="n">-Properties</span> <span class="n">LockedOut</span>
+
+<span class="c"># ❌ MAUVAIS: Je ne comprends pas mais ça marche</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="p">|</span> <span class="p">?{</span><span class="nv">$_</span><span class="p">.</span><span class="n">LockedOut</span><span class="p">}</span> <span class="p">|</span> <span class="p">%{</span><span class="nb">Unlock-ADAccount</span> <span class="nv">$_</span><span class="p">}</span>
+</code></pre></div>
+<h3 id="regle-4-adapter-a-votre-environnement">Règle #4: <strong>Adapter à Votre Environnement</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># ❌ Script générique de l&#39;IA</span>
+<span class="n">-SearchBase</span> <span class="s2">&quot;OU=Users,DC=contoso,DC=com&quot;</span>
+
+<span class="c"># ✅ Adapté à maxtec.be</span>
+<span class="n">-SearchBase</span> <span class="s2">&quot;OU=IT,OU=EU,DC=maxtec,DC=be&quot;</span>
+</code></pre></div>
+<h3 id="regle-5-tester-dabord-executer-ensuite">Règle #5: <strong>Tester d'Abord, Exécuter Ensuite</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># TOUJOURS commencer par:</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Department</span> <span class="o">-eq</span> <span class="s2">&quot;IT&quot;</span><span class="p">}</span> <span class="n">-WhatIf</span>  <span class="c"># Même si pas nécessaire</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Department</span> <span class="o">-eq</span> <span class="s2">&quot;IT&quot;</span><span class="p">}</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span>  <span class="c"># Voir le résultat</span>
+<span class="c"># PUIS exécuter la vraie commande</span>
+</code></pre></div>
+<hr />
+<h2 id="cas-dusage-avances-lia-comme-detecteur-de-problemes">🎭 Cas d'Usage Avancés: L'IA comme Détecteur de Problèmes</h2>
+<h3 id="scenario-analyser-un-script-suspect">Scénario: Analyser un Script Suspect</h3>
+<p><strong>Prompt de Sécurité</strong>:
+<div class="highlight"><pre><span></span><code>&quot;Analyse ce script PowerShell AD ligne par ligne et identifie tous les risques de sécurité, erreurs potentielles, et améliorations nécessaires:
+
+[COLLER LE SCRIPT ICI]
+
+Focus sur:
+- Commandes dangereuses sans -WhatIf
+- Filtres trop larges
+- Gestion d&#39;erreurs manquante
+- Hardcoding problématique
+- Risques pour environnement production
+
+Donne une note de sécurité /10 et explique comment corriger.&quot;
+</code></pre></div></p>
+<h3 id="exemple-danalyse">Exemple d'Analyse</h3>
+<p><strong>Script à analyser</strong>:
+<div class="highlight"><pre><span></span><code><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Department</span> <span class="o">-eq</span> <span class="s2">&quot;IT&quot;</span><span class="p">}</span> <span class="p">|</span> <span class="nb">Set-ADUser</span> <span class="n">-Title</span> <span class="s2">&quot;Informaticien&quot;</span>
+</code></pre></div></p>
+<p><strong>Réponse IA attendue</strong>:
+<div class="highlight"><pre><span></span><code>ANALYSE SÉCURITÉ: 3/10 ⚠️
+
+RISQUES IDENTIFIÉS:
+1. 🚨 CRITIQUE: Get-ADUser -Filter * charge TOUS les utilisateurs du domaine
+2. 🚨 CRITIQUE: Set-ADUser sans -WhatIf = modifications directes
+3. ⚠️  MOYEN: Pas de gestion d&#39;erreurs
+4. ⚠️  MOYEN: Pas de vérification préalable
+
+CORRECTIONS NÉCESSAIRES:
+1. Utiliser SearchBase pour limiter scope
+2. Ajouter -WhatIf obligatoire
+3. Vérifier département avant modification
+4. Ajouter try-catch
+
+SCRIPT CORRIGÉ:
+[Script amélioré avec sécurités]
+</code></pre></div></p>
+<hr />
+<h2 id="exercice-pratique-32-ia-detective">🎯 Exercice Pratique 3.2: IA Detective</h2>
+<h3 id="mission_1">Mission</h3>
+<p>Utilisez l'IA pour analyser ce script "bomba" et identifier tous les problèmes:</p>
+<div class="highlight"><pre><span></span><code><span class="c"># Script trouvé sur un forum</span>
+<span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">Name</span> <span class="o">-like</span> <span class="s2">&quot;GG-*&quot;</span><span class="p">}</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nv">$membres</span> <span class="p">=</span> <span class="nb">Get-ADGroupMember</span> <span class="n">-Identity</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$membres</span><span class="p">.</span><span class="n">Count</span> <span class="o">-eq</span> <span class="n">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Remove-ADGroup</span> <span class="n">-Identity</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="n">-Confirm</span><span class="p">:</span><span class="nv">$false</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="questions-pour-lia">Questions pour l'IA</h3>
+<ol>
+<li>"Que fait exactement ce script ?"</li>
+<li>"Quels sont les risques si je l'exécute sur maxtec.be ?"</li>
+<li>"Comment le rendre sécurisé ?"</li>
+</ol>
+<h3 id="reponse-attendue">Réponse Attendue</h3>
+<p><strong>Risques majeurs</strong>:</p>
+<ul>
+<li>Suppression de groupes sans -WhatIf</li>
+<li>Pas de vérification si groupes critiques</li>
+<li>Logic flaw: groupes vides ≠ groupes inutiles</li>
+<li>Aucune sauvegarde avant suppression</li>
+</ul>
+<hr />
+<h2 id="prompts-prets-a-utiliser-templates">💡 Prompts Prêts à Utiliser (Templates)</h2>
+<h3 id="template-diagnostic">🔍 <strong>Template Diagnostic</strong></h3>
+<div class="highlight"><pre><span></span><code>&quot;Aide-moi à diagnostiquer un problème Active Directory:
+
+SITUATION: [Décrire le problème]
+DOMAINE: maxtec.be
+UTILISATEUR/GROUPE CONCERNÉ: [Nom]
+SYMPTÔMES: [Ce qui ne marche pas]
+
+Génère un script de diagnostic PowerShell avec:
+- Commandes pour identifier la cause
+- Vérifications étape par étape
+- Affichage clair des résultats
+- Pas de modifications, seulement lecture
+- Commentaires explicatifs&quot;
+</code></pre></div>
+<h3 id="template-action-securisee">🔧 <strong>Template Action Sécurisée</strong></h3>
+<div class="highlight"><pre><span></span><code>&quot;Crée un script PowerShell AD pour cette action:
+
+ACTION: [Ce que je veux faire]
+CIBLE: [Utilisateurs/Groupes concernés]
+ENVIRONNEMENT: maxtec.be, production critique
+
+SÉCURITÉS OBLIGATOIRES:
+- -WhatIf par défaut
+- Validation avant exécution
+- Gestion d&#39;erreurs robuste
+- Logging des actions
+- Possibilité d&#39;annulation
+
+Structure OU: OU=[dept],OU=EU,DC=maxtec,DC=be&quot;
+</code></pre></div>
+<h3 id="template-code-review">🔍 <strong>Template Code Review</strong></h3>
+<div class="highlight"><pre><span></span><code>&quot;Analyse ce script PowerShell AD et donne un audit complet:
+
+[COLLER SCRIPT]
+
+FOCUS SÉCURITÉ:
+- Risques pour production
+- Commandes dangereuses
+- Améliorations nécessaires
+- Note sécurité /10
+- Version corrigée
+
+ENVIRONNEMENT: maxtec.be, domaine production&quot;
+</code></pre></div>
+<hr />
+<h2 id="recapitulatif-maitriser-lia-comme-copilote">🎓 Récapitulatif: Maîtriser l'IA comme Copilote</h2>
+<h3 id="ce-que-vous-savez-maintenant">✅ Ce Que Vous Savez Maintenant</h3>
+<ol>
+<li><strong>Prompts précis</strong> = réponses utilisables</li>
+<li><strong>Validation critique</strong> de chaque script généré</li>
+<li><strong>Adaptation environnement</strong> obligatoire</li>
+<li><strong>L'IA détecte</strong> les problèmes mieux que nous</li>
+<li><strong>-WhatIf reste roi</strong> même avec l'IA</li>
+</ol>
+<h3 id="ce-quil-faut-retenir">🚨 Ce Qu'Il Faut Retenir</h3>
+<ul>
+<li><strong>L'IA = suggestions</strong>, vous = décision finale</li>
+<li><strong>Jamais de copier-coller aveugle</strong></li>
+<li><strong>Toujours tester</strong> avant production</li>
+<li><strong>L'IA peut se tromper</strong> sur votre contexte spécifique</li>
+</ul>
+<h3 id="votre-nouvelle-workflow">🎯 Votre Nouvelle Workflow</h3>
+<ol>
+<li><strong>Réfléchir</strong> au problème</li>
+<li><strong>Prompts précis</strong> avec contexte sécurité</li>
+<li><strong>Valider</strong> ligne par ligne</li>
+<li><strong>Adapter</strong> à maxtec.be</li>
+<li><strong>Tester</strong> avec -WhatIf</li>
+<li><strong>Documenter</strong> ce qui fonctionne</li>
+</ol>
+<hr />
+<p><em>☕ </em><em>PAUSE OBLIGATOIRE 10 minutes</em><em> - Essayez vos propres prompts</em></p>
+<hr />
+<p><strong>🎯 Prochaine étape</strong>: Module 4 - Scripts Bombes Lab (Détecter Erreurs Mortelles Cachées)</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/choquitofrito/ActiveDirectory" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "navigation.prune", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

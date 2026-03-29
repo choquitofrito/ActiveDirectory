@@ -1,0 +1,2794 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_07_Scenario_Onboarding_Complet/">
+      
+      
+        <link rel="prev" href="../Exercice_06_Delegation_Controle/">
+      
+      
+        <link rel="next" href="../Exercice_08_Troubleshooting_GPO/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Ex07 - Onboarding Complet - Active Directory Course</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#exercice-7-scenario-complet-onboarding-dune-nouvelle-stagiaire" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Active Directory Course" class="md-header__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Active Directory Course
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ex07 - Onboarding Complet
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  🏠 Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🖥️ Windows Server
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%203.DNS/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🌐 DNS
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📁 Active Directory
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ⚡ PowerShell AD
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🧪 Labs & Exercices
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Active Directory Course" class="md-nav__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Active Directory Course
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏠 Accueil
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🖥️ Windows Server
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%203.DNS/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🌐 DNS
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    📁 Active Directory
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    ⚡ PowerShell AD
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    🧪 Labs & Exercices
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            🧪 Labs & Exercices
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Lab Principal
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Lab 1 - CreativeHub
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            Lab 1 - CreativeHub
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../scripts/CreativeHub_Setup.ps1" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🔧 Setup & Cleanup
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_3" id="__nav_6_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    📝 Exercices (9)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            📝 Exercices (9)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_01_Nouvel_Employe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex01 - Nouvel Employé
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_02_Depart_Employe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex02 - Départ Employé
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_03_GPO_Lecteur_Reseau/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex03 - GPO Lecteur Réseau
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_04_Groupe_Projet_Client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex04 - Groupe Projet Client
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_05_Reset_Password/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex05 - Reset Password
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_06_Delegation_Controle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex06 - Délégation Contrôle
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Ex07 - Onboarding Complet
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex07 - Onboarding Complet
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#niveau-de-difficulte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Niveau de Difficulté
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objectifs-pedagogiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectifs Pédagogiques
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duree-estimee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Durée Estimée
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prérequis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contexte-scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contexte / Scénario
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tache-a-realiser" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tâche à Réaliser
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tâche à Réaliser">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mission-principale" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mission Principale
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exigences-detaillees" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exigences Détaillées
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exigences Détaillées">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-creation-du-compte-utilisateur" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Création du Compte Utilisateur
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-gestion-des-groupes" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Gestion des Groupes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-configuration-des-restrictions-de-securite-gpo" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Configuration des Restrictions de Sécurité (GPO)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-documentation-et-rapport" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Documentation et Rapport
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions-strategiques-a-resoudre" class="md-nav__link">
+    <span class="md-ellipsis">
+      Questions Stratégiques à Résoudre
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aucune-instruction-detaillee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Aucune Instruction Détaillée !
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification-de-la-reussite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérification de la Réussite
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vérification de la Réussite">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#script-de-verification-automatique" class="md-nav__link">
+    <span class="md-ellipsis">
+      Script de Vérification Automatique
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criteres-de-reussite-minimum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Critères de Réussite (Minimum)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-manuel-recommande" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Manuel Recommandé
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-complete-pour-instructeur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution Complète (Pour Instructeur)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solution Complète (Pour Instructeur)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#approche-recommandee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Approche Recommandée
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Approche Recommandée">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-analyse-et-decisions-strategiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 1 : Analyse et Décisions Stratégiques
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-implementation-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 2 : Implémentation PowerShell
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation-recommandee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentation Recommandée
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#points-cles-a-retenir" class="md-nav__link">
+    <span class="md-ellipsis">
+      Points Clés à Retenir
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Points Clés à Retenir">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#workflow-donboarding-professionnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Workflow d'Onboarding Professionnel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#securite-des-comptes-temporaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sécurité des Comptes Temporaires
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-des-projets-sensibles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gestion des Projets Sensibles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#depannage-erreurs-courantes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dépannage (Erreurs Courantes)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pour-aller-plus-loin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pour Aller Plus Loin
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pour Aller Plus Loin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#automatisation-avec-fonction-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automatisation avec Fonction PowerShell
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-de-compte-utilisateur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template de Compte Utilisateur
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-suivant-suggere" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice Suivant Suggéré
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_08_Troubleshooting_GPO/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex08 - Troubleshooting GPO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exercice_09_Scenario_Crise_Securite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ex09 - Crise Sécurité
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../instructeur/Guide_Instructeur_Exercices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    👨‍🏫 Guide Instructeur
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Labo2-MediCare/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Lab 2 - MediCare
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../Labo%20et%20Exercices/Exercices%3A%20Questions%20Base/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Exercices Généraux
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#niveau-de-difficulte" class="md-nav__link">
+    <span class="md-ellipsis">
+      Niveau de Difficulté
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objectifs-pedagogiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectifs Pédagogiques
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duree-estimee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Durée Estimée
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prérequis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contexte-scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contexte / Scénario
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tache-a-realiser" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tâche à Réaliser
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tâche à Réaliser">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mission-principale" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mission Principale
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exigences-detaillees" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exigences Détaillées
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exigences Détaillées">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-creation-du-compte-utilisateur" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Création du Compte Utilisateur
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-gestion-des-groupes" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Gestion des Groupes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-configuration-des-restrictions-de-securite-gpo" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Configuration des Restrictions de Sécurité (GPO)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-documentation-et-rapport" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Documentation et Rapport
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions-strategiques-a-resoudre" class="md-nav__link">
+    <span class="md-ellipsis">
+      Questions Stratégiques à Résoudre
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aucune-instruction-detaillee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Aucune Instruction Détaillée !
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification-de-la-reussite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérification de la Réussite
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vérification de la Réussite">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#script-de-verification-automatique" class="md-nav__link">
+    <span class="md-ellipsis">
+      Script de Vérification Automatique
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criteres-de-reussite-minimum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Critères de Réussite (Minimum)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-manuel-recommande" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Manuel Recommandé
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-complete-pour-instructeur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution Complète (Pour Instructeur)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solution Complète (Pour Instructeur)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#approche-recommandee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Approche Recommandée
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Approche Recommandée">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-analyse-et-decisions-strategiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 1 : Analyse et Décisions Stratégiques
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-implementation-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 2 : Implémentation PowerShell
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation-recommandee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentation Recommandée
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#points-cles-a-retenir" class="md-nav__link">
+    <span class="md-ellipsis">
+      Points Clés à Retenir
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Points Clés à Retenir">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#workflow-donboarding-professionnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Workflow d'Onboarding Professionnel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#securite-des-comptes-temporaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sécurité des Comptes Temporaires
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-des-projets-sensibles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gestion des Projets Sensibles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#depannage-erreurs-courantes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dépannage (Erreurs Courantes)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pour-aller-plus-loin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pour Aller Plus Loin
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pour Aller Plus Loin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#automatisation-avec-fonction-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automatisation avec Fonction PowerShell
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-de-compte-utilisateur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template de Compte Utilisateur
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercice-suivant-suggere" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercice Suivant Suggéré
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="exercice-7-scenario-complet-onboarding-dune-nouvelle-stagiaire">Exercice 7 : Scénario Complet - Onboarding d'une Nouvelle Stagiaire</h1>
+<h2 id="niveau-de-difficulte">Niveau de Difficulté</h2>
+<p>🔴 <strong>Avancé</strong> - Scénario réaliste multi-tâches</p>
+<h2 id="objectifs-pedagogiques">Objectifs Pédagogiques</h2>
+<ul>
+<li>Intégrer plusieurs compétences AD dans un workflow réaliste</li>
+<li>Prendre des décisions autonomes sur la configuration</li>
+<li>Gérer des exigences de sécurité complexes</li>
+<li>Documenter son travail pour l'audit</li>
+</ul>
+<h2 id="duree-estimee">Durée Estimée</h2>
+<p>40-50 minutes</p>
+<h2 id="prerequis">Prérequis</h2>
+<ul>
+<li>Maîtrise des exercices 1 à 6</li>
+<li>Compréhension des groupes, GPO, et délégation</li>
+<li>Capacité à travailler de manière autonome</li>
+<li>Esprit d'analyse et résolution de problèmes</li>
+</ul>
+<h2 id="contexte-scenario">Contexte / Scénario</h2>
+<p><strong>Date</strong>: Lundi 7 octobre 2025, 8h30</p>
+<p>Vous arrivez au bureau et trouvez cet email de Gabrielle Simon (Directrice Artistique) dans votre boîte de réception, envoyé hier soir à 22h :</p>
+<blockquote>
+<p><strong>Objet : URGENT - Nouvelle stagiaire demain matin 9h !</strong></p>
+<p><em>Bonjour l'équipe IT,</em></p>
+<p><em>Je sais que c'est un court préavis, mais nous avons une excellente nouvelle ! Léa Fontaine, une brillante étudiante en design graphique, commence son stage de 3 mois chez nous DEMAIN à 9h00. Elle nous a été recommandée par un de nos meilleurs clients.</em></p>
+<p><strong>Informations sur Léa :</strong>
+- Nom complet : Léa Fontaine
+- Email souhaité : lea.fontaine@maxtec.be
+- Fonction : Stagiaire Graphiste
+- Département : Creative
+- Durée du stage : 3 mois (fin le 7 janvier 2026)
+- Manager direct : Moi-même (Gabrielle Simon)</p>
+<p><strong>Besoins d'accès :</strong></p>
+<ol>
+<li><strong>Compte utilisateur</strong> avec les restrictions standards pour les stagiaires :</li>
+<li>Pas d'accès au Panneau de configuration</li>
+<li>Pas d'accès à l'invite de commandes</li>
+<li>
+<p>Compte temporaire (expiration automatique à la fin du stage)</p>
+</li>
+<li>
+<p><strong>Accès aux ressources Creative</strong> :</p>
+</li>
+<li>Doit être membre du groupe Creative-Users pour accéder aux ressources partagées</li>
+<li>
+<p>Doit pouvoir accéder au lecteur réseau des ressources créatives (si configuré)</p>
+</li>
+<li>
+<p><strong>Projet spécial - SecureBank</strong> :</p>
+</li>
+<li>Léa va travailler sur le projet SecureBank avec Fabien</li>
+<li>Elle doit donc être ajoutée au groupe projet SecureBank</li>
+<li>MAIS : comme c'est une stagiaire, elle ne doit avoir qu'un accès EN LECTURE SEULE</li>
+<li>
+<p>(Note IT : Créez un sous-groupe "GG-Projet-SecureBank-Lecture" si nécessaire)</p>
+</li>
+<li>
+<p><strong>Restrictions de sécurité pour stagiaires</strong> :</p>
+</li>
+<li>Bloquer l'accès aux périphériques USB (comme pour Client Services)</li>
+<li>Mot de passe initial : "StageCreative2025!" qu'elle devra changer à la première connexion</li>
+<li>Son poste de travail sera DESKTOP-CREATIVE-03</li>
+</ol>
+<p><em>Pouvez-vous configurer tout cela avant 9h demain ? Léa aura besoin d'être opérationnelle dès son arrivée pour rencontrer le client à 10h.</em></p>
+<p><em>Merci infiniment !</em>
+<em>Gabrielle</em></p>
+</blockquote>
+<p>Vous recevez également ce message de Rachid Dupont (Responsable IT) :</p>
+<blockquote>
+<p><em>"J'ai vu l'email de Gabrielle. Utilise cette opportunité pour mettre en place notre nouveau processus d'onboarding pour stagiaires. Pense à :</em>
+- <em>Documenter chaque étape de ce que tu fais</em>
+- <em>Créer une checklist réutilisable pour les prochains stagiaires</em>
+- <em>Vérifier que toutes les mesures de sécurité sont en place</em>
+- <em>M'envoyer un rapport de ce qui a été configuré</em></p>
+<p><em>Si tu as besoin de créer une nouvelle GPO ou de nouveaux groupes, vas-y. Fais preuve d'initiative !</em>
+<em>Rachid</em>"</p>
+</blockquote>
+<h2 id="tache-a-realiser">Tâche à Réaliser</h2>
+<p>Vous devez configurer l'environnement AD complet pour l'arrivée de Léa Fontaine.</p>
+<h3 id="mission-principale">Mission Principale</h3>
+<p>Préparer l'environnement Active Directory pour permettre à Léa Fontaine de commencer son stage dans les meilleures conditions, tout en respectant les contraintes de sécurité pour les stagiaires.</p>
+<h3 id="exigences-detaillees">Exigences Détaillées</h3>
+<h4 id="1-creation-du-compte-utilisateur">1. Création du Compte Utilisateur</h4>
+<ul>
+<li><strong>SAM Account</strong> : <code>lea.fontaine</code> ou <code>lfontaine</code> (à votre choix, justifiez)</li>
+<li><strong>Email</strong> : <code>lea.fontaine@maxtec.be</code></li>
+<li><strong>Fonction</strong> : Stagiaire Graphiste</li>
+<li><strong>Département</strong> : Creative</li>
+<li><strong>Mot de passe initial</strong> : <code>StageCreative2025!</code></li>
+<li><strong>Forcer le changement de mot de passe</strong> : Oui</li>
+<li><strong>Date d'expiration du compte</strong> : 7 janvier 2026 (fin du stage)</li>
+<li><strong>Description</strong> : Documenter qu'il s'agit d'un stagiaire avec dates de début et fin</li>
+</ul>
+<h4 id="2-gestion-des-groupes">2. Gestion des Groupes</h4>
+<ul>
+<li>Ajouter Léa au groupe <code>GG-CreativeHub-Creative-Users</code></li>
+<li>Gérer l'accès au projet SecureBank :</li>
+<li><strong>Option A</strong> : Créer un nouveau groupe <code>GG-Projet-SecureBank-Lecture</code> pour les accès en lecture seule</li>
+<li><strong>Option B</strong> : L'ajouter au groupe existant et gérer les permissions NTFS séparément</li>
+<li>Justifier votre choix dans votre documentation</li>
+</ul>
+<h4 id="3-configuration-des-restrictions-de-securite-gpo">3. Configuration des Restrictions de Sécurité (GPO)</h4>
+<p>Vous devez appliquer les restrictions suivantes à Léa :
+- Désactiver le Panneau de configuration
+- Désactiver l'invite de commandes
+- Bloquer les périphériques USB</p>
+<p><strong>Réflexion</strong> : Comment appliquer ces GPO ?
+- Option 1 : Les GPO existantes couvrent-elles déjà ces besoins ?
+- Option 2 : Faut-il créer une nouvelle GPO spécifique aux stagiaires ?
+- Option 3 : Faut-il créer une OU dédiée aux stagiaires ?</p>
+<h4 id="4-documentation-et-rapport">4. Documentation et Rapport</h4>
+<p>Créer un document texte (ou commentaire dans le script) qui contient :
+- Liste de toutes les actions effectuées
+- Justification des choix techniques (OU, groupes, GPO)
+- Informations de connexion à communiquer à Léa
+- Checklist de vérification avant l'arrivée de Léa
+- Procédure de départ (offboarding) à suivre dans 3 mois</p>
+<h3 id="questions-strategiques-a-resoudre">Questions Stratégiques à Résoudre</h3>
+<ol>
+<li><strong>Organisation des stagiaires</strong> :</li>
+<li>Faut-il créer une OU <code>OU=Stagiaires</code> sous Creative ?</li>
+<li>Ou garder Léa dans <code>OU=Users,OU=Creative</code> ?</li>
+<li>
+<p>Quels sont les avantages/inconvénients de chaque approche ?</p>
+</li>
+<li>
+<p><strong>Gestion des GPO</strong> :</p>
+</li>
+<li>La GPO "Restrictions Utilisateurs Juniors" existante s'applique-t-elle déjà ?</li>
+<li>Faut-il créer une GPO "Restrictions Stagiaires" spécifique ?</li>
+<li>
+<p>Comment gérer le blocage USB (GPO existante pour Client Services) ?</p>
+</li>
+<li>
+<p><strong>Sécurité du projet SecureBank</strong> :</p>
+</li>
+<li>Comment gérer un accès en lecture seule via les groupes AD ?</li>
+<li>
+<p>Faut-il créer une hiérarchie de groupes (global → domain local) ?</p>
+</li>
+<li>
+<p><strong>Expiration du compte</strong> :</p>
+</li>
+<li>Comment configurer l'expiration automatique à une date précise ?</li>
+<li>Que se passe-t-il après l'expiration (réactivation possible ?) ?</li>
+</ol>
+<h3 id="aucune-instruction-detaillee">Aucune Instruction Détaillée !</h3>
+<p>Cet exercice est volontairement ouvert. Utilisez votre jugement professionnel, vos connaissances des bonnes pratiques AD, et votre capacité de recherche pour trouver les meilleures solutions.</p>
+<p><strong>Ressources autorisées</strong> :
+- Documentation Microsoft (Get-Help, liens web)
+- PowerShell Get-Command / Get-Help
+- Vos notes des exercices précédents</p>
+<h2 id="verification-de-la-reussite">Vérification de la Réussite</h2>
+<h3 id="script-de-verification-automatique">Script de Vérification Automatique</h3>
+<div class="highlight"><pre><span></span><code><span class="p">.\</span><span class="n">verif_exercice_07</span><span class="p">.</span><span class="n">ps1</span>
+</code></pre></div>
+<h3 id="criteres-de-reussite-minimum">Critères de Réussite (Minimum)</h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Le compte utilisateur de Léa existe avec les propriétés correctes</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Le compte expire automatiquement le 7 janvier 2026</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Léa doit changer son mot de passe à la première connexion</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Léa est membre du groupe Creative-Users</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Léa a un accès (direct ou indirect) au projet SecureBank</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Des restrictions de sécurité (GPO) s'appliquent au compte de Léa</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Le compte est documenté (description, notes)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <em>Bonus</em> : Une OU spécifique pour les stagiaires a été créée</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <em>Bonus</em> : Un groupe séparé pour la lecture seule SecureBank existe</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <em>Bonus</em> : Documentation complète du processus</li>
+</ul>
+<h3 id="test-manuel-recommande">Test Manuel Recommandé</h3>
+<ol>
+<li>
+<p><strong>Vérifier l'expiration du compte</strong> :
+   <div class="highlight"><pre><span></span><code><span class="nb">Get-ADUser</span> <span class="n">-Identity</span> <span class="n">lea</span><span class="p">.</span><span class="n">fontaine</span> <span class="n">-Properties</span> <span class="n">AccountExpirationDate</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">AccountExpirationDate</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Vérifier les appartenances</strong> :
+   <div class="highlight"><pre><span></span><code><span class="nb">Get-ADPrincipalGroupMembership</span> <span class="n">-Identity</span> <span class="n">lea</span><span class="p">.</span><span class="n">fontaine</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Vérifier les GPO applicables</strong> :
+   <div class="highlight"><pre><span></span><code><span class="n">gpresult</span> <span class="p">/</span><span class="nb">r </span><span class="p">/</span><span class="n">scope</span><span class="p">:</span><span class="n">user</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="n">lea</span><span class="p">.</span><span class="n">fontaine</span>
+</code></pre></div></p>
+</li>
+</ol>
+<h2 id="solution-complete-pour-instructeur">Solution Complète (Pour Instructeur)</h2>
+<h3 id="approche-recommandee">Approche Recommandée</h3>
+<h4 id="etape-1-analyse-et-decisions-strategiques">Étape 1 : Analyse et Décisions Stratégiques</h4>
+<p><strong>Décisions</strong> :
+1. <strong>OU pour les stagiaires</strong> : Créer <code>OU=Stagiaires,OU=Creative</code> pour faciliter la gestion des GPO
+2. <strong>SAM Account</strong> : Utiliser <code>lea.fontaine</code> (plus clair que <code>lfontaine</code>)
+3. <strong>Groupe lecture seule</strong> : Créer <code>GG-Projet-SecureBank-Lecture</code> pour la scalabilité
+4. <strong>GPO</strong> : Créer une GPO "CreativeHub - Restrictions Stagiaires" liée à l'OU Stagiaires</p>
+<h4 id="etape-2-implementation-powershell">Étape 2 : Implémentation PowerShell</h4>
+<div class="highlight"><pre><span></span><code><span class="nb">Import-Module</span> <span class="n">ActiveDirectory</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;========================================&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot; ONBOARDING STAGIAIRE - LÉA FONTAINE&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;========================================&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+
+<span class="c"># Variables</span>
+<span class="nv">$firstName</span> <span class="p">=</span> <span class="s2">&quot;Léa&quot;</span>
+<span class="nv">$lastName</span> <span class="p">=</span> <span class="s2">&quot;Fontaine&quot;</span>
+<span class="nv">$samAccount</span> <span class="p">=</span> <span class="s2">&quot;lea.fontaine&quot;</span>
+<span class="nv">$email</span> <span class="p">=</span> <span class="s2">&quot;lea.fontaine@maxtec.be&quot;</span>
+<span class="nv">$title</span> <span class="p">=</span> <span class="s2">&quot;Stagiaire Graphiste&quot;</span>
+<span class="nv">$department</span> <span class="p">=</span> <span class="s2">&quot;Creative&quot;</span>
+<span class="nv">$password</span> <span class="p">=</span> <span class="nb">ConvertTo-SecureString</span> <span class="s2">&quot;StageCreative2025!&quot;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span>
+<span class="nv">$expirationDate</span> <span class="p">=</span> <span class="nb">Get-Date</span> <span class="s2">&quot;2026-01-07&quot;</span> <span class="c"># Fin du stage</span>
+<span class="nv">$description</span> <span class="p">=</span> <span class="s2">&quot;STAGIAIRE - Du 07/10/2025 au 07/01/2026 - Manager: Gabrielle Simon&quot;</span>
+
+<span class="nv">$rootOU</span> <span class="p">=</span> <span class="s2">&quot;OU=CreativeHub,DC=maxtec,DC=be&quot;</span>
+<span class="nv">$creativeOU</span> <span class="p">=</span> <span class="s2">&quot;OU=Creative,$rootOU&quot;</span>
+<span class="nv">$stagiaireOU</span> <span class="p">=</span> <span class="s2">&quot;OU=Stagiaires,$creativeOU&quot;</span>
+
+<span class="c"># ÉTAPE 1: Créer l&#39;OU Stagiaires</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">[1/7] Création de l&#39;OU Stagiaires...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nb">Get-ADOrganizationalUnit</span> <span class="n">-Identity</span> <span class="nv">$stagiaireOU</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  L&#39;OU Stagiaires existe déjà.&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="nb">New-ADOrganizationalUnit</span> <span class="n">-Name</span> <span class="s2">&quot;Stagiaires&quot;</span> <span class="n">-Path</span> <span class="nv">$creativeOU</span> <span class="n">-ProtectedFromAccidentalDeletion</span> <span class="nv">$false</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ OU Stagiaires créée&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="p">}</span>
+
+<span class="c"># ÉTAPE 2: Créer le compte utilisateur</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">[2/7] Création du compte utilisateur...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nb">Get-ADUser</span> <span class="n">-Identity</span> <span class="nv">$samAccount</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  L&#39;utilisateur $samAccount existe déjà.&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="nb">New-ADUser</span> <span class="n">-Name</span> <span class="s2">&quot;$firstName $lastName&quot;</span> <span class="p">`</span>
+        <span class="n">-GivenName</span> <span class="nv">$firstName</span> <span class="p">`</span>
+        <span class="n">-Surname</span> <span class="nv">$lastName</span> <span class="p">`</span>
+        <span class="n">-SamAccountName</span> <span class="nv">$samAccount</span> <span class="p">`</span>
+        <span class="n">-UserPrincipalName</span> <span class="s2">&quot;$samAccount@maxtec.be&quot;</span> <span class="p">`</span>
+        <span class="n">-EmailAddress</span> <span class="nv">$email</span> <span class="p">`</span>
+        <span class="n">-Title</span> <span class="nv">$title</span> <span class="p">`</span>
+        <span class="n">-Department</span> <span class="nv">$department</span> <span class="p">`</span>
+        <span class="n">-Description</span> <span class="nv">$description</span> <span class="p">`</span>
+        <span class="n">-Path</span> <span class="nv">$stagiaireOU</span> <span class="p">`</span>
+        <span class="n">-AccountPassword</span> <span class="nv">$password</span> <span class="p">`</span>
+        <span class="n">-Enabled</span> <span class="nv">$true</span> <span class="p">`</span>
+        <span class="n">-ChangePasswordAtLogon</span> <span class="nv">$true</span> <span class="p">`</span>
+        <span class="n">-AccountExpirationDate</span> <span class="nv">$expirationDate</span>
+
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ Compte créé pour $firstName $lastName&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;    SAM Account  : $samAccount&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;    Email        : $email&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;    Expiration   : $expirationDate&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+<span class="p">}</span>
+
+<span class="c"># ÉTAPE 3: Ajouter aux groupes</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">[3/7] Ajout aux groupes de sécurité...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+
+<span class="c"># Groupe Creative-Users</span>
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nb">Add-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-CreativeHub-Creative-Users&quot;</span> <span class="n">-Members</span> <span class="nv">$samAccount</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ Ajoutée au groupe Creative-Users&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span> <span class="o">-like</span> <span class="s2">&quot;*already a member*&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;  Déjà membre de Creative-Users&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;  ✗ ERREUR: </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Red</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c"># ÉTAPE 4: Créer le groupe de lecture SecureBank</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">[4/7] Création du groupe lecture SecureBank...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nv">$groupLecture</span> <span class="p">=</span> <span class="s2">&quot;GG-Projet-SecureBank-Lecture&quot;</span>
+<span class="nv">$projectGroupsOU</span> <span class="p">=</span> <span class="s2">&quot;OU=Groupes_Projets,$rootOU&quot;</span>
+
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nb">Get-ADGroup</span> <span class="n">-Identity</span> <span class="nv">$groupLecture</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  Le groupe $groupLecture existe déjà.&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="c"># Créer l&#39;OU Groupes_Projets si nécessaire</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="nb">Get-ADOrganizationalUnit</span> <span class="n">-Identity</span> <span class="nv">$projectGroupsOU</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+        <span class="nb">New-ADOrganizationalUnit</span> <span class="n">-Name</span> <span class="s2">&quot;Groupes_Projets&quot;</span> <span class="n">-Path</span> <span class="nv">$rootOU</span> <span class="n">-ProtectedFromAccidentalDeletion</span> <span class="nv">$false</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ OU Groupes_Projets créée&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="p">}</span>
+
+    <span class="nb">New-ADGroup</span> <span class="n">-Name</span> <span class="nv">$groupLecture</span> <span class="p">`</span>
+        <span class="n">-GroupScope</span> <span class="n">Global</span> <span class="p">`</span>
+        <span class="n">-GroupCategory</span> <span class="n">Security</span> <span class="p">`</span>
+        <span class="n">-Path</span> <span class="nv">$projectGroupsOU</span> <span class="p">`</span>
+        <span class="n">-Description</span> <span class="s2">&quot;Accès lecture seule au projet SecureBank (stagiaires et consultants)&quot;</span>
+
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ Groupe $groupLecture créé&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="p">}</span>
+
+<span class="c"># Ajouter Léa au groupe lecture</span>
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nb">Add-ADGroupMember</span> <span class="n">-Identity</span> <span class="nv">$groupLecture</span> <span class="n">-Members</span> <span class="nv">$samAccount</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ Léa ajoutée au groupe lecture SecureBank&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span> <span class="o">-like</span> <span class="s2">&quot;*already a member*&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;  Déjà membre du groupe lecture&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c"># ÉTAPE 5: Créer la GPO Restrictions Stagiaires</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">[5/7] Configuration des restrictions GPO...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nv">$gpoName</span> <span class="p">=</span> <span class="s2">&quot;CreativeHub - Restrictions Stagiaires&quot;</span>
+
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nb">Get-GPO</span> <span class="n">-Name</span> <span class="nv">$gpoName</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  La GPO $gpoName existe déjà.&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="c"># Créer la GPO</span>
+    <span class="nb">Import-Module</span> <span class="n">GroupPolicy</span>
+    <span class="nb">New-GPO</span> <span class="n">-Name</span> <span class="nv">$gpoName</span> <span class="n">-Comment</span> <span class="s2">&quot;Restrictions de sécurité pour les stagiaires&quot;</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+
+    <span class="c"># Désactiver le Panneau de configuration</span>
+    <span class="nb">Set-GPRegistryValue</span> <span class="n">-Name</span> <span class="nv">$gpoName</span> <span class="p">`</span>
+        <span class="n">-Key</span> <span class="s2">&quot;HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer&quot;</span> <span class="p">`</span>
+        <span class="n">-ValueName</span> <span class="s2">&quot;NoControlPanel&quot;</span> <span class="n">-Type</span> <span class="n">DWord</span> <span class="n">-Value</span> <span class="n">1</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+
+    <span class="c"># Désactiver l&#39;invite de commandes</span>
+    <span class="nb">Set-GPRegistryValue</span> <span class="n">-Name</span> <span class="nv">$gpoName</span> <span class="p">`</span>
+        <span class="n">-Key</span> <span class="s2">&quot;HKCU\Software\Policies\Microsoft\Windows\System&quot;</span> <span class="p">`</span>
+        <span class="n">-ValueName</span> <span class="s2">&quot;DisableCMD&quot;</span> <span class="n">-Type</span> <span class="n">DWord</span> <span class="n">-Value</span> <span class="n">2</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+
+    <span class="c"># Bloquer les périphériques USB (lecture et écriture)</span>
+    <span class="nb">Set-GPRegistryValue</span> <span class="n">-Name</span> <span class="nv">$gpoName</span> <span class="p">`</span>
+        <span class="n">-Key</span> <span class="s2">&quot;HKLM\Software\Policies\Microsoft\Windows\RemovableStorageDevices\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}&quot;</span> <span class="p">`</span>
+        <span class="n">-ValueName</span> <span class="s2">&quot;Deny_Write&quot;</span> <span class="n">-Type</span> <span class="n">DWord</span> <span class="n">-Value</span> <span class="n">1</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+
+    <span class="nb">Set-GPRegistryValue</span> <span class="n">-Name</span> <span class="nv">$gpoName</span> <span class="p">`</span>
+        <span class="n">-Key</span> <span class="s2">&quot;HKLM\Software\Policies\Microsoft\Windows\RemovableStorageDevices\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}&quot;</span> <span class="p">`</span>
+        <span class="n">-ValueName</span> <span class="s2">&quot;Deny_Read&quot;</span> <span class="n">-Type</span> <span class="n">DWord</span> <span class="n">-Value</span> <span class="n">1</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ GPO créée avec restrictions&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;    - Panneau de configuration désactivé&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;    - Invite de commandes désactivée&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;    - Périphériques USB bloqués&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+<span class="p">}</span>
+
+<span class="c"># ÉTAPE 6: Lier la GPO à l&#39;OU Stagiaires</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">[6/7] Liaison de la GPO...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nv">$existingLink</span> <span class="p">=</span> <span class="nb">Get-GPInheritance</span> <span class="n">-Target</span> <span class="nv">$stagiaireOU</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span> <span class="p">|</span>
+        <span class="nb">Select-Object</span> <span class="n">-ExpandProperty</span> <span class="n">GpoLinks</span> <span class="p">|</span>
+        <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">DisplayName</span> <span class="o">-eq</span> <span class="nv">$gpoName</span><span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$existingLink</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;  La GPO est déjà liée à l&#39;OU Stagiaires.&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nb">New-GPLink</span> <span class="n">-Name</span> <span class="nv">$gpoName</span> <span class="n">-Target</span> <span class="nv">$stagiaireOU</span> <span class="n">-LinkEnabled</span> <span class="n">Yes</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+        <span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ GPO liée à l&#39;OU Stagiaires&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+    <span class="p">}</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;  ⚠ Vérifiez manuellement le lien GPO&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="p">}</span>
+
+<span class="c"># ÉTAPE 7: Vérification finale</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">[7/7] Vérification finale...&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nv">$user</span> <span class="p">=</span> <span class="nb">Get-ADUser</span> <span class="n">-Identity</span> <span class="nv">$samAccount</span> <span class="n">-Properties</span> <span class="n">AccountExpirationDate</span><span class="p">,</span> <span class="n">PasswordExpired</span><span class="p">,</span> <span class="n">Description</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ Compte vérifié:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;    Nom             : </span><span class="p">$(</span><span class="nv">$user</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;    Email           : $email&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;    Expiration      : </span><span class="p">$(</span><span class="nv">$user</span><span class="p">.</span><span class="n">AccountExpirationDate</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;    Doit changer MDP: </span><span class="p">$(</span><span class="nv">$user</span><span class="p">.</span><span class="n">PasswordExpired</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;    Description     : </span><span class="p">$(</span><span class="nv">$user</span><span class="p">.</span><span class="n">Description</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+
+<span class="c"># Groupes</span>
+<span class="nv">$groups</span> <span class="p">=</span> <span class="nb">Get-ADPrincipalGroupMembership</span> <span class="n">-Identity</span> <span class="nv">$samAccount</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">  Groupes:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$group</span> <span class="k">in</span> <span class="nv">$groups</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;    - </span><span class="p">$(</span><span class="nv">$group</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="p">}</span>
+
+<span class="c"># RAPPORT FINAL</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">========================================&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot; ONBOARDING TERMINÉ AVEC SUCCÈS&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;========================================&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Green</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Informations à communiquer à Léa Fontaine:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  Nom d&#39;utilisateur : $samAccount&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  Mot de passe      : StageCreative2025!&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  Email             : $email&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  Domaine           : MAXTEC&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">White</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">  ⚠ Léa devra changer son mot de passe lors de la première connexion&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  ⚠ Le compte expirera automatiquement le </span><span class="p">$(</span><span class="nv">$expirationDate</span><span class="p">.</span><span class="n">ToShortDateString</span><span class="p">())</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Configuration de sécurité appliquée:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ Panneau de configuration désactivé&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ Invite de commandes désactivée&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ Périphériques USB bloqués&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  ✓ Accès lecture seule au projet SecureBank&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Rappel - Dans 3 mois (fin du stage):&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  1. Le compte sera automatiquement désactivé le 07/01/2026&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  2. Vérifier qu&#39;aucun fichier important n&#39;est dans son profil&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  3. Retirer Léa des groupes de sécurité&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;  4. Archiver le compte pendant 6 mois avant suppression définitive&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Gray</span>
+</code></pre></div>
+<h3 id="documentation-recommandee">Documentation Recommandée</h3>
+<p>Créer un fichier <code>Onboarding_Lea_Fontaine_Rapport.txt</code> :</p>
+<div class="highlight"><pre><span></span><code>========================================
+RAPPORT D&#39;ONBOARDING STAGIAIRE
+========================================
+
+Stagiaire     : Léa Fontaine
+Date début    : 07/10/2025
+Date fin      : 07/01/2026 (3 mois)
+Département   : Creative
+Manager       : Gabrielle Simon
+
+========================================
+ACTIONS EFFECTUÉES
+========================================
+
+1. STRUCTURE AD
+   - Créé OU : OU=Stagiaires,OU=Creative,OU=CreativeHub,DC=maxtec,DC=be
+   - Justification : Facilite l&#39;application des GPO spécifiques aux stagiaires
+
+2. COMPTE UTILISATEUR
+   - SAM Account : lea.fontaine
+   - UPN : lea.fontaine@maxtec.be
+   - Email : lea.fontaine@maxtec.be
+   - Fonction : Stagiaire Graphiste
+   - Département : Creative
+   - Expiration : 07/01/2026 (automatique)
+   - Change Password At Logon : Oui
+   - Emplacement : OU=Stagiaires,OU=Creative,OU=CreativeHub,DC=maxtec,DC=be
+
+3. GROUPES DE SÉCURITÉ
+   a) GG-CreativeHub-Creative-Users
+      - Accès aux ressources partagées du département Creative
+
+   b) GG-Projet-SecureBank-Lecture (CRÉÉ)
+      - Groupe Global pour accès lecture seule au projet SecureBank
+      - Permet de gérer finement les permissions NTFS
+      - Scalable pour futurs stagiaires/consultants
+
+4. STRATÉGIES DE GROUPE (GPO)
+   - Créé GPO : &quot;CreativeHub - Restrictions Stagiaires&quot;
+   - Restrictions appliquées :
+     * Panneau de configuration désactivé
+     * Invite de commandes désactivée
+     * Périphériques USB bloqués (lecture et écriture)
+   - Lien : OU=Stagiaires,OU=Creative,OU=CreativeHub,DC=maxtec,DC=be
+
+========================================
+DÉCISIONS TECHNIQUES ET JUSTIFICATIONS
+========================================
+
+DÉCISION 1 : Créer une OU Stagiaires
+  Justification :
+  - Facilite l&#39;application de GPO spécifiques
+  - Meilleure visibilité organisationnelle
+  - Scalable (futurs stagiaires)
+  - Permet un filtrage facile dans les rapports
+
+DÉCISION 2 : SAM Account &quot;lea.fontaine&quot; (pas &quot;lfontaine&quot;)
+  Justification :
+  - Plus explicite et professionnel
+  - Évite les ambiguïtés
+  - Conforme à l&#39;email demandé
+
+DÉCISION 3 : Créer groupe GG-Projet-SecureBank-Lecture
+  Justification :
+  - Séparation claire entre accès complet et lecture seule
+  - Facilite la gestion des permissions NTFS (AGDLP)
+  - Réutilisable pour futurs besoins similaires
+  - Principe du moindre privilège
+
+DÉCISION 4 : GPO dédiée aux stagiaires (pas réutilisation de GPO existante)
+  Justification :
+  - Flexibilité future (ajuster restrictions selon le type de stagiaire)
+  - Évite d&#39;impacter les employés permanents
+  - Meilleure traçabilité
+
+========================================
+INFORMATIONS DE CONNEXION
+========================================
+
+À communiquer à Léa le 07/10/2025 :
+  Nom d&#39;utilisateur : lea.fontaine
+  Domaine : MAXTEC
+  Mot de passe initial : StageCreative2025!
+  Email : lea.fontaine@maxtec.be
+
+IMPORTANT :
+  - Changement de mot de passe obligatoire à la première connexion
+  - Nouveau mot de passe doit respecter la politique de domaine
+  - Compte expire automatiquement le 07/01/2026
+
+========================================
+PROCÉDURE D&#39;OFFBOARDING (DANS 3 MOIS)
+========================================
+
+Date prévue : 07/01/2026
+
+ÉTAPES :
+1. JOUR J (dernier jour de stage)
+   □ Récupérer tous les équipements (laptop, badge, etc.)
+   □ Sauvegarder les fichiers de travail de Léa
+   □ Transférer les fichiers importants au manager (Gabrielle)
+
+2. JOUR J+1
+   □ Le compte sera automatiquement désactivé (expiration)
+   □ Vérifier que la désactivation a bien eu lieu
+   □ Retirer Léa du groupe GG-Projet-SecureBank-Lecture
+   □ (Garder dans Creative-Users pour historique temporaire)
+
+3. JOUR J+7 (1 semaine après)
+   □ Déplacer le compte vers OU=Comptes_Desactives (à créer si nécessaire)
+   □ Ajouter note dans Description : &quot;Compte expiré - Stage terminé&quot;
+
+4. JOUR J+180 (6 mois après - Avril 2026)
+   □ Archiver les fichiers du profil utilisateur
+   □ Supprimer définitivement le compte AD
+   □ Documenter la suppression dans le registre IT
+
+========================================
+CHECKLIST DE VÉRIFICATION (AVANT 9H)
+========================================
+
+□ Le compte lea.fontaine existe et est activé
+□ L&#39;email lea.fontaine@maxtec.be est configuré
+□ Le compte expire le 07/01/2026
+□ Le changement de mot de passe à la première connexion est activé
+□ Léa est membre de GG-CreativeHub-Creative-Users
+□ Léa est membre de GG-Projet-SecureBank-Lecture
+□ La GPO &quot;Restrictions Stagiaires&quot; est liée et activée
+□ Test de connexion effectué (optionnel : créer un compte test)
+□ Gabrielle Simon a été informée que tout est prêt
+□ Le poste DESKTOP-CREATIVE-03 est prêt et joint au domaine
+
+========================================
+TESTS EFFECTUÉS
+========================================
+
+1. Vérification du compte :
+   Get-ADUser -Identity lea.fontaine -Properties * | FL Name, AccountExpirationDate, Enabled
+
+2. Vérification des groupes :
+   Get-ADPrincipalGroupMembership -Identity lea.fontaine | Select Name
+
+3. Vérification des GPO applicables :
+   gpresult /r /scope:user /user:lea.fontaine
+
+========================================
+NOTES ET OBSERVATIONS
+========================================
+
+- Premier stagiaire dans l&#39;environnement CreativeHub
+- Structure créée est réutilisable pour futurs stagiaires
+- Considérer la création d&#39;un template de compte stagiaire
+- Envisager l&#39;automatisation avec un script PowerShell paramétrable
+
+Rapport généré le : [DATE]
+Administrateur : [VOTRE NOM]
+</code></pre></div>
+<h2 id="points-cles-a-retenir">Points Clés à Retenir</h2>
+<h3 id="workflow-donboarding-professionnel">Workflow d'Onboarding Professionnel</h3>
+<ol>
+<li><strong>Analyse des besoins</strong> avant de commencer</li>
+<li><strong>Planification</strong> de la structure (OUs, groupes)</li>
+<li><strong>Implémentation</strong> méthodique</li>
+<li><strong>Documentation</strong> exhaustive</li>
+<li><strong>Vérification</strong> et tests</li>
+<li><strong>Communication</strong> des informations au manager et à l'utilisateur</li>
+</ol>
+<h3 id="securite-des-comptes-temporaires">Sécurité des Comptes Temporaires</h3>
+<ul>
+<li><strong>Toujours configurer une date d'expiration</strong> pour les stagiaires/consultants</li>
+<li><strong>Restrictions appropriées</strong> selon le niveau de confiance</li>
+<li><strong>Accès minimal nécessaire</strong> (principe du moindre privilège)</li>
+<li><strong>Traçabilité</strong> (documentation de toutes les actions)</li>
+</ul>
+<h3 id="gestion-des-projets-sensibles">Gestion des Projets Sensibles</h3>
+<ul>
+<li><strong>Séparer les permissions</strong> : Lecture seule vs Modification</li>
+<li><strong>Utiliser des groupes intermédiaires</strong> pour la scalabilité</li>
+<li><strong>Stratégie AGDLP</strong> : Groupes globaux → Groupes domain local → Permissions</li>
+</ul>
+<h3 id="documentation">Documentation</h3>
+<ul>
+<li><strong>Toujours documenter</strong> les configurations complexes</li>
+<li><strong>Créer des procédures</strong> réutilisables</li>
+<li><strong>Planifier l'offboarding</strong> dès l'onboarding</li>
+</ul>
+<h2 id="depannage-erreurs-courantes">Dépannage (Erreurs Courantes)</h2>
+<table>
+<thead>
+<tr>
+<th>Problème</th>
+<th>Cause Possible</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>La GPO ne s'applique pas à Léa</td>
+<td>GPO liée à la mauvaise OU</td>
+<td>Vérifier le lien avec Get-GPInheritance</td>
+</tr>
+<tr>
+<td>Léa ne peut pas se connecter</td>
+<td>Compte expiré ou désactivé</td>
+<td>Vérifier Get-ADUser -Properties AccountExpirationDate, Enabled</td>
+</tr>
+<tr>
+<td>Les restrictions USB ne fonctionnent pas</td>
+<td>GPO HKLM nécessite redémarrage ordinateur</td>
+<td>Redémarrer le poste client</td>
+</tr>
+<tr>
+<td>Impossible de créer l'OU Stagiaires</td>
+<td>Protection contre suppression accidentelle</td>
+<td>Utiliser -ProtectedFromAccidentalDeletion $false</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pour-aller-plus-loin">Pour Aller Plus Loin</h2>
+<h3 id="automatisation-avec-fonction-powershell">Automatisation avec Fonction PowerShell</h3>
+<div class="highlight"><pre><span></span><code><span class="k">function</span> <span class="nb">New-StagiaireAccount</span> <span class="p">{</span>
+    <span class="k">param</span><span class="p">(</span>
+        <span class="p">[</span><span class="k">Parameter</span><span class="p">(</span><span class="k">Mandatory</span><span class="p">=</span><span class="nv">$true</span><span class="p">)]</span>
+        <span class="no">[string]</span><span class="nv">$FirstName</span><span class="p">,</span>
+
+        <span class="p">[</span><span class="k">Parameter</span><span class="p">(</span><span class="k">Mandatory</span><span class="p">=</span><span class="nv">$true</span><span class="p">)]</span>
+        <span class="no">[string]</span><span class="nv">$LastName</span><span class="p">,</span>
+
+        <span class="p">[</span><span class="k">Parameter</span><span class="p">(</span><span class="k">Mandatory</span><span class="p">=</span><span class="nv">$true</span><span class="p">)]</span>
+        <span class="no">[string]</span><span class="nv">$Department</span><span class="p">,</span>
+
+        <span class="p">[</span><span class="k">Parameter</span><span class="p">(</span><span class="k">Mandatory</span><span class="p">=</span><span class="nv">$true</span><span class="p">)]</span>
+        <span class="no">[datetime]</span><span class="nv">$StageEndDate</span><span class="p">,</span>
+
+        <span class="p">[</span><span class="k">Parameter</span><span class="p">(</span><span class="k">Mandatory</span><span class="p">=</span><span class="nv">$true</span><span class="p">)]</span>
+        <span class="no">[string]</span><span class="nv">$Manager</span>
+    <span class="p">)</span>
+
+    <span class="c"># Logique de création automatique du compte stagiaire</span>
+    <span class="c"># avec toutes les configurations standards</span>
+<span class="p">}</span>
+
+<span class="c"># Utilisation :</span>
+<span class="c"># New-StagiaireAccount -FirstName &quot;Léa&quot; -LastName &quot;Fontaine&quot; -Department &quot;Creative&quot; -StageEndDate &quot;2026-01-07&quot; -Manager &quot;Gabrielle Simon&quot;</span>
+</code></pre></div>
+<h3 id="template-de-compte-utilisateur">Template de Compte Utilisateur</h3>
+<p>Envisager la création de comptes "template" pour chaque type d'utilisateur (stagiaire, employé permanent, consultant) avec des configurations pré-définies.</p>
+<h2 id="exercice-suivant-suggere">Exercice Suivant Suggéré</h2>
+<p><strong>Exercice 8</strong> : Troubleshooting - Une GPO ne s'applique pas (diagnostiquer et résoudre)</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/choquitofrito/ActiveDirectory" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "navigation.prune", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

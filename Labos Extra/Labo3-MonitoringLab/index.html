@@ -1,0 +1,2640 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://choquitofrito.github.io/ActiveDirectory/Labos%20Extra/Labo3-MonitoringLab/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>Laboratoire Active Directory: Monitoring et Audit - Active Directory Course</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#laboratoire-active-directory-monitoring-et-audit" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Active Directory Course" class="md-header__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Active Directory Course
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Laboratoire Active Directory: Monitoring et Audit
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  🏠 Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🖥️ Windows Server
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Chapitre%203.DNS/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🌐 DNS
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📁 Active Directory
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ⚡ PowerShell AD
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🧪 Labs & Exercices
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Active Directory Course" class="md-nav__button md-logo" aria-label="Active Directory Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Active Directory Course
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/choquitofrito/ActiveDirectory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    choquitofrito/ActiveDirectory
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🏠 Accueil
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🖥️ Windows Server
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Chapitre%203.DNS/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🌐 DNS
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    📁 Active Directory
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Chapitre%209.0.Powershell%20AD%20-%20Introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    ⚡ PowerShell AD
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../Labo%20et%20Exercices/Labo/Labo_structure/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    🧪 Labs & Exercices
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectifs-pedagogiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectifs Pédagogiques
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scenario-entreprise" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scénario Entreprise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duree-estimee" class="md-nav__link">
+    <span class="md-ellipsis">
+      Durée Estimée
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prérequis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structure-creee-par-le-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structure Créée par le Script
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Structure Créée par le Script">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vue-densemble-de-larborescence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vue d'ensemble de l'arborescence
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unites-organisationnelles-ous" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unités Organisationnelles (OUs)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utilisateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Utilisateurs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Utilisateurs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#departement-it-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Département IT Operations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#departement-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      Département Security
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#departement-ressources-humaines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Département Ressources Humaines
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#departement-finance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Département Finance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comptes-de-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comptes de Service
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groupes-de-securite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Groupes de Sécurité
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Groupes de Sécurité">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#groupes-departementaux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Groupes Départementaux
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groupes-speciaux-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      Groupes Spéciaux Monitoring
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ordinateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ordinateurs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ordinateurs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#controleurs-de-domaine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contrôleurs de Domaine
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#serveurs-dinfrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Serveurs d'Infrastructure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stations-de-travail" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stations de Travail
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategies-de-groupe-gpos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stratégies de Groupe (GPOs)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Stratégies de Groupe (GPOs)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gpo-1-configuration-journaux-evenements" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPO 1: Configuration Journaux Événements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpo-2-restrictions-stations-sensibles" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPO 2: Restrictions Stations Sensibles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpo-3-verrouillage-session-automatique" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPO 3: Verrouillage Session Automatique
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#politiques-de-securite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Politiques de Sécurité
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Politiques de Sécurité">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#politique-de-mots-de-passe-domain-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      Politique de Mots de Passe (Domain-level)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#politiques-daudit-avancees" class="md-nav__link">
+    <span class="md-ellipsis">
+      Politiques d'Audit Avancées
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instructions-dexecution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Instructions d'Exécution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Instructions d&#39;Exécution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etape-1-preparer-lenvironnement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 1: Préparer l'environnement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-2-copier-le-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 2: Copier le script
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-3-lire-les-commentaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 3: Lire les commentaires
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-4-executer-le-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 4: Exécuter le script
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-5-configurer-les-gpos-manuellement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 5: Configurer les GPOs manuellement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etape-6-verifier-la-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Étape 6: Vérifier la création
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification-post-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérification Post-Exécution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vérification Post-Exécution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commandes-powershell-de-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commandes PowerShell de Vérification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-manuelle-gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vérification Manuelle (GUI)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#concepts-cles-demontres" class="md-nav__link">
+    <span class="md-ellipsis">
+      Concepts Clés Démontrés
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercices-pratiques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercices Pratiques
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#depannage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dépannage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dépannage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problemes-courants" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problèmes Courants
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commandes-de-diagnostic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commandes de Diagnostic
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evolutions-possibles-du-laboratoire" class="md-nav__link">
+    <span class="md-ellipsis">
+      Évolutions Possibles du Laboratoire
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="laboratoire-active-directory-monitoring-et-audit">Laboratoire Active Directory: Monitoring et Audit</h1>
+<h2 id="objectifs-pedagogiques">Objectifs Pédagogiques</h2>
+<div class="admonition info">
+<p class="admonition-title">Compétences visées</p>
+<ul>
+<li><strong>Comprendre l'importance du monitoring</strong> dans une infrastructure Active Directory</li>
+<li><strong>Configurer les politiques d'audit avancées</strong> pour tracer les événements de sécurité</li>
+<li><strong>Gérer les journaux d'événements Windows</strong> (taille, rétention, analyse)</li>
+<li><strong>Créer une structure organisationnelle</strong> adaptée au monitoring et à la séparation des rôles</li>
+<li><strong>Implémenter des comptes de service</strong> dédiés aux outils de monitoring</li>
+<li><strong>Appliquer des GPOs de sécurité</strong> pour renforcer la surveillance de l'infrastructure</li>
+</ul>
+</div>
+<h2 id="scenario-entreprise">Scénario Entreprise</h2>
+<div class="admonition example">
+<p class="admonition-title">Contexte professionnel</p>
+<p><strong>MonitoringTech SPRL</strong> est une PME bruxelloise spécialisée dans les services informatiques gérés (Managed Services Provider). L'entreprise compte 24 employés répartis en 4 départements:</p>
+<ul>
+<li><strong>IT Operations</strong> (5 personnes): Gère l'infrastructure serveurs, réseau et virtualisation</li>
+<li><strong>Security</strong> (5 personnes): Responsable de la sécurité informatique, audits et conformité</li>
+<li><strong>Ressources Humaines</strong> (5 personnes): Gestion du personnel et formation</li>
+<li><strong>Finance</strong> (5 personnes): Comptabilité, contrôle de gestion, reporting financier</li>
+</ul>
+<p>Suite à un incident de sécurité récent (tentative d'accès non autorisé détectée tardivement), la direction a mandaté l'équipe IT Operations et Security pour <strong>mettre en place une infrastructure de monitoring robuste</strong> avec traçabilité complète des événements critiques.</p>
+<p>Le laboratoire simule cette infrastructure après déploiement des solutions de monitoring (PRTG, collecteur de logs SIEM, outils d'audit).</p>
+</div>
+<h2 id="duree-estimee">Durée Estimée</h2>
+<div class="admonition note">
+<p class="admonition-title">Temps d'exécution</p>
+<ul>
+<li><strong>Exécution du script</strong>: 5-8 minutes</li>
+<li><strong>Configuration manuelle des GPOs</strong>: 15-20 minutes</li>
+<li><strong>Exploration et vérification</strong>: 20-30 minutes</li>
+<li><strong>Total</strong>: ~50 minutes</li>
+</ul>
+</div>
+<h2 id="prerequis">Prérequis</h2>
+<div class="admonition warning">
+<p class="admonition-title">Avant de commencer</p>
+<ul>
+<li>Windows Server 2022 avec rôle <strong>AD DS installé et configuré</strong></li>
+<li>Domaine <strong>maxtec.be</strong> fonctionnel</li>
+<li>PowerShell ISE ouvert en tant qu'<strong>Administrateur</strong></li>
+<li>Modules PowerShell: <code>ActiveDirectory</code>, <code>GroupPolicy</code> (installés automatiquement avec AD DS)</li>
+<li>Espace disque: ~500 MB libre pour les journaux d'événements étendus</li>
+</ul>
+</div>
+<h2 id="structure-creee-par-le-script">Structure Créée par le Script</h2>
+<h3 id="vue-densemble-de-larborescence">Vue d'ensemble de l'arborescence</h3>
+<div class="highlight"><pre><span></span><code>OU=MONITORING,DC=maxtec,DC=be
+│
+├── OU=ITOperations
+│   ├── OU=Users (5 utilisateurs)
+│   ├── OU=Computers (stations IT)
+│   └── OU=Groups (GG-MONITORING-ITOperations-Users, GG-MONITORING-ITOperations-Admin)
+│
+├── OU=Security
+│   ├── OU=Users (5 utilisateurs)
+│   ├── OU=Computers (stations Security)
+│   └── OU=Groups (GG-MONITORING-Security-Users, GG-MONITORING-Security-Admin, GG-MONITORING-SecurityAuditors)
+│
+├── OU=RH
+│   ├── OU=Users (5 utilisateurs)
+│   ├── OU=Computers (stations RH)
+│   └── OU=Groups (GG-MONITORING-RH-Users, GG-MONITORING-RH-Admin)
+│
+├── OU=Finance
+│   ├── OU=Users (5 utilisateurs)
+│   ├── OU=Computers (stations Finance)
+│   └── OU=Groups (GG-MONITORING-Finance-Users, GG-MONITORING-Finance-Admin)
+│
+├── OU=ServiceAccounts
+│   ├── svc_monitoring (compte service PRTG/Nagios)
+│   ├── svc_backup (compte service sauvegarde AD)
+│   ├── svc_audit (compte service collecte logs)
+│   ├── svc_replication (compte service vérification réplication)
+│   └── GG-MONITORING-ServiceAccounts (groupe)
+│
+└── OU=Computers
+    ├── OU=DomainControllers (MON-DC01, MON-DC02)
+    ├── OU=Servers (MON-SRV-MONITORING, MON-SRV-LOG, MON-SRV-BACKUP, MON-SRV-FILE)
+    └── OU=Workstations (MON-WS-IT01, MON-WS-IT02, MON-WS-SEC01, MON-WS-SEC02, MON-WS-RH01, MON-WS-FIN01)
+</code></pre></div>
+<h3 id="unites-organisationnelles-ous">Unités Organisationnelles (OUs)</h3>
+<div class="admonition info">
+<p class="admonition-title">Structure des OUs</p>
+<p><strong>OU Racine:</strong></p>
+<ul>
+<li><code>OU=MONITORING,DC=maxtec,DC=be</code> - Conteneur principal du laboratoire</li>
+</ul>
+<p><strong>Départements (4 OUs):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Département</th>
+<th>Chemin DN</th>
+<th>Sous-OUs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ITOperations</strong></td>
+<td><code>OU=ITOperations,OU=MONITORING,...</code></td>
+<td>Users, Computers, Groups</td>
+</tr>
+<tr>
+<td><strong>Security</strong></td>
+<td><code>OU=Security,OU=MONITORING,...</code></td>
+<td>Users, Computers, Groups</td>
+</tr>
+<tr>
+<td><strong>RH</strong></td>
+<td><code>OU=RH,OU=MONITORING,...</code></td>
+<td>Users, Computers, Groups</td>
+</tr>
+<tr>
+<td><strong>Finance</strong></td>
+<td><code>OU=Finance,OU=MONITORING,...</code></td>
+<td>Users, Computers, Groups</td>
+</tr>
+</tbody>
+</table>
+<p><strong>OUs Spéciales:</strong></p>
+<ul>
+<li><code>OU=ServiceAccounts</code> - Comptes de service pour outils monitoring</li>
+<li><code>OU=Computers</code> - Tous les ordinateurs (DCs, serveurs, stations)<ul>
+<li><code>OU=DomainControllers</code> - Contrôleurs de domaine</li>
+<li><code>OU=Servers</code> - Serveurs d'infrastructure</li>
+<li><code>OU=Workstations</code> - Stations de travail utilisateurs</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Protection contre suppression</p>
+<p>Toutes les OUs sont créées avec <code>-ProtectedFromAccidentalDeletion $false</code> pour faciliter les exercices de reconstruction et nettoyage du laboratoire.</p>
+</div>
+<h3 id="utilisateurs">Utilisateurs</h3>
+<h4 id="departement-it-operations">Département IT Operations</h4>
+<div class="admonition info">
+<p class="admonition-title">Équipe infrastructure et opérations</p>
+<table>
+<thead>
+<tr>
+<th>Nom Complet</th>
+<th>Login</th>
+<th>Email</th>
+<th>Fonction</th>
+<th>Mot de passe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Alexandre Martin</strong></td>
+<td>alexandre</td>
+<td>alexandre@maxtec.be</td>
+<td>Responsable Infrastructure</td>
+<td>Monitor2024!</td>
+</tr>
+<tr>
+<td><strong>Béatrice Dubois</strong></td>
+<td>beatrice</td>
+<td>beatrice@maxtec.be</td>
+<td>Administrateur Systèmes</td>
+<td>Monitor2024!</td>
+</tr>
+<tr>
+<td><strong>Charles Lefebvre</strong></td>
+<td>charles</td>
+<td>charles@maxtec.be</td>
+<td>Ingénieur Réseau</td>
+<td>Monitor2024!</td>
+</tr>
+<tr>
+<td><strong>Diane Bernard</strong></td>
+<td>diane</td>
+<td>diane@maxtec.be</td>
+<td>Technicien Support</td>
+<td>Monitor2024!</td>
+</tr>
+<tr>
+<td><strong>Émile Rousseau</strong></td>
+<td>emile</td>
+<td>emile@maxtec.be</td>
+<td>Spécialiste Virtualisation</td>
+<td>Monitor2024!</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Logique d'appartenance:</strong></p>
+<ul>
+<li>TOUS les utilisateurs → <code>GG-MONITORING-ITOperations-Users</code></li>
+<li>Alexandre (premier alphabétiquement) → <code>GG-MONITORING-ITOperations-Admin</code></li>
+</ul>
+</div>
+<h4 id="departement-security">Département Security</h4>
+<div class="admonition info">
+<p class="admonition-title">Équipe sécurité et audit</p>
+<table>
+<thead>
+<tr>
+<th>Nom Complet</th>
+<th>Login</th>
+<th>Email</th>
+<th>Fonction</th>
+<th>Mot de passe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fabien Moreau</strong></td>
+<td>fabien</td>
+<td>fabien@maxtec.be</td>
+<td>Responsable Sécurité (RSSI)</td>
+<td>Monitor2024!</td>
+</tr>
+<tr>
+<td><strong>Gabrielle Simon</strong></td>
+<td>gabrielle</td>
+<td>gabrielle@maxtec.be</td>
+<td>Analyste Sécurité Senior</td>
+<td>Monitor2024!</td>
+</tr>
+<tr>
+<td><strong>Henri Laurent</strong></td>
+<td>henri</td>
+<td>henri@maxtec.be</td>
+<td>Auditeur Systèmes</td>
+<td>Monitor2024!</td>
+</tr>
+<tr>
+<td><strong>Isabelle Michel</strong></td>
+<td>isabelle</td>
+<td>isabelle@maxtec.be</td>
+<td>Spécialiste Conformité</td>
+<td>Monitor2024!</td>
+</tr>
+<tr>
+<td><strong>Julien Leroy</strong></td>
+<td>julien</td>
+<td>julien@maxtec.be</td>
+<td>Analyste SOC</td>
+<td>Monitor2024!</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Logique d'appartenance:</strong></p>
+<ul>
+<li>TOUS les utilisateurs → <code>GG-MONITORING-Security-Users</code></li>
+<li>Fabien (premier alphabétiquement) → <code>GG-MONITORING-Security-Admin</code></li>
+<li>Henri, Isabelle, Julien → <code>GG-MONITORING-SecurityAuditors</code> (auditeurs en lecture seule)</li>
+</ul>
+</div>
+<h4 id="departement-ressources-humaines">Département Ressources Humaines</h4>
+<div class="admonition info">
+<p class="admonition-title">Équipe RH</p>
+<table>
+<thead>
+<tr>
+<th>Nom Complet</th>
+<th>Login</th>
+<th>Email</th>
+<th>Fonction</th>
+<th>Mot de passe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Karine Fontaine</strong></td>
+<td>karine</td>
+<td>karine@maxtec.be</td>
+<td>Directrice Ressources Humaines</td>
+<td>Monitor2024!</td>
+</tr>
+<tr>
+<td><strong>Laurent Chevalier</strong></td>
+<td>laurent</td>
+<td>laurent@maxtec.be</td>
+<td>Gestionnaire Paie</td>
+<td>Monitor2024!</td>
+</tr>
+<tr>
+<td><strong>Marie Girard</strong></td>
+<td>marie</td>
+<td>marie@maxtec.be</td>
+<td>Responsable Recrutement</td>
+<td>Monitor2024!</td>
+</tr>
+<tr>
+<td><strong>Nicolas Bonnet</strong></td>
+<td>nicolas</td>
+<td>nicolas@maxtec.be</td>
+<td>Assistant RH</td>
+<td>Monitor2024!</td>
+</tr>
+<tr>
+<td><strong>Olivia Dupont</strong></td>
+<td>olivia</td>
+<td>olivia@maxtec.be</td>
+<td>Formatrice Interne</td>
+<td>Monitor2024!</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Logique d'appartenance:</strong></p>
+<ul>
+<li>TOUS les utilisateurs → <code>GG-MONITORING-RH-Users</code></li>
+<li>Karine (premier alphabétiquement) → <code>GG-MONITORING-RH-Admin</code></li>
+</ul>
+</div>
+<h4 id="departement-finance">Département Finance</h4>
+<div class="admonition info">
+<p class="admonition-title">Équipe financière</p>
+<table>
+<thead>
+<tr>
+<th>Nom Complet</th>
+<th>Login</th>
+<th>Email</th>
+<th>Fonction</th>
+<th>Mot de passe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pascal Roux</strong></td>
+<td>pascal</td>
+<td>pascal@maxtec.be</td>
+<td>Directeur Financier (CFO)</td>
+<td>Monitor2024!</td>
+</tr>
+<tr>
+<td><strong>Quentin Garnier</strong></td>
+<td>quentin</td>
+<td>quentin@maxtec.be</td>
+<td>Contrôleur de Gestion</td>
+<td>Monitor2024!</td>
+</tr>
+<tr>
+<td><strong>Rachel Fabre</strong></td>
+<td>rachel</td>
+<td>rachel@maxtec.be</td>
+<td>Comptable Senior</td>
+<td>Monitor2024!</td>
+</tr>
+<tr>
+<td><strong>Sylvain Perrin</strong></td>
+<td>sylvain</td>
+<td>sylvain@maxtec.be</td>
+<td>Analyste Financier</td>
+<td>Monitor2024!</td>
+</tr>
+<tr>
+<td><strong>Théa Morel</strong></td>
+<td>thea</td>
+<td>thea@maxtec.be</td>
+<td>Assistante Comptable</td>
+<td>Monitor2024!</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Logique d'appartenance:</strong></p>
+<ul>
+<li>TOUS les utilisateurs → <code>GG-MONITORING-Finance-Users</code></li>
+<li>Pascal (premier alphabétiquement) → <code>GG-MONITORING-Finance-Admin</code></li>
+</ul>
+</div>
+<h4 id="comptes-de-service">Comptes de Service</h4>
+<div class="admonition warning">
+<p class="admonition-title">Comptes techniques pour monitoring</p>
+<table>
+<thead>
+<tr>
+<th>Nom Compte</th>
+<th>Description</th>
+<th>Mot de passe</th>
+<th>Propriétés</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>svc_monitoring</strong></td>
+<td>Compte service PRTG/Nagios</td>
+<td>ServiceP@ss2024!</td>
+<td>PasswordNeverExpires</td>
+</tr>
+<tr>
+<td><strong>svc_backup</strong></td>
+<td>Compte service sauvegarde AD</td>
+<td>ServiceP@ss2024!</td>
+<td>PasswordNeverExpires</td>
+</tr>
+<tr>
+<td><strong>svc_audit</strong></td>
+<td>Compte service collecte logs audit</td>
+<td>ServiceP@ss2024!</td>
+<td>PasswordNeverExpires</td>
+</tr>
+<tr>
+<td><strong>svc_replication</strong></td>
+<td>Compte service vérification réplication AD</td>
+<td>ServiceP@ss2024!</td>
+<td>PasswordNeverExpires</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tous les comptes de service</strong> appartiennent au groupe <code>GG-MONITORING-ServiceAccounts</code>.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Propriétés des comptes utilisateurs</p>
+<ul>
+<li>Comptes <strong>activés</strong> par défaut</li>
+<li>Mot de passe: <code>Monitor2024!</code> (utilisateurs normaux) ou <code>ServiceP@ss2024!</code> (comptes service)</li>
+<li><strong>Pas de changement obligatoire</strong> du mot de passe à la première connexion</li>
+<li>Format email: <code>login@maxtec.be</code></li>
+</ul>
+</div>
+<h3 id="groupes-de-securite">Groupes de Sécurité</h3>
+<div class="admonition danger">
+<p class="admonition-title">Convention de nommage OBLIGATOIRE</p>
+<p>TOUS les groupes utilisent le préfixe <strong>GG-</strong> (Global Group). Cette convention est <strong>strictement appliquée</strong> dans tout le laboratoire.</p>
+</div>
+<h4 id="groupes-departementaux">Groupes Départementaux</h4>
+<div class="admonition info">
+<p class="admonition-title">Groupes par département</p>
+<table>
+<thead>
+<tr>
+<th>Nom du Groupe</th>
+<th>Scope</th>
+<th>Description</th>
+<th>Membres</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GG-MONITORING-ITOperations-Users</strong></td>
+<td>Global</td>
+<td>Tous utilisateurs IT Ops</td>
+<td>alexandre, beatrice, charles, diane, emile</td>
+</tr>
+<tr>
+<td><strong>GG-MONITORING-ITOperations-Admin</strong></td>
+<td>Global</td>
+<td>Administrateurs IT Ops</td>
+<td>alexandre</td>
+</tr>
+<tr>
+<td><strong>GG-MONITORING-Security-Users</strong></td>
+<td>Global</td>
+<td>Tous utilisateurs Security</td>
+<td>fabien, gabrielle, henri, isabelle, julien</td>
+</tr>
+<tr>
+<td><strong>GG-MONITORING-Security-Admin</strong></td>
+<td>Global</td>
+<td>Administrateurs Security</td>
+<td>fabien</td>
+</tr>
+<tr>
+<td><strong>GG-MONITORING-SecurityAuditors</strong></td>
+<td>Global</td>
+<td>Auditeurs en lecture seule</td>
+<td>henri, isabelle, julien</td>
+</tr>
+<tr>
+<td><strong>GG-MONITORING-RH-Users</strong></td>
+<td>Global</td>
+<td>Tous utilisateurs RH</td>
+<td>karine, laurent, marie, nicolas, olivia</td>
+</tr>
+<tr>
+<td><strong>GG-MONITORING-RH-Admin</strong></td>
+<td>Global</td>
+<td>Administrateurs RH</td>
+<td>karine</td>
+</tr>
+<tr>
+<td><strong>GG-MONITORING-Finance-Users</strong></td>
+<td>Global</td>
+<td>Tous utilisateurs Finance</td>
+<td>pascal, quentin, rachel, sylvain, thea</td>
+</tr>
+<tr>
+<td><strong>GG-MONITORING-Finance-Admin</strong></td>
+<td>Global</td>
+<td>Administrateurs Finance</td>
+<td>pascal</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="groupes-speciaux-monitoring">Groupes Spéciaux Monitoring</h4>
+<div class="admonition tip">
+<p class="admonition-title">Groupes transverses pour monitoring</p>
+<table>
+<thead>
+<tr>
+<th>Nom du Groupe</th>
+<th>Scope</th>
+<th>Description</th>
+<th>Membres</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GG-MONITORING-MonitoringAdmins</strong></td>
+<td>Global</td>
+<td>Accès complet monitoring (PRTG, SIEM, logs)</td>
+<td>alexandre, beatrice, fabien</td>
+</tr>
+<tr>
+<td><strong>GG-MONITORING-ServiceAccounts</strong></td>
+<td>Global</td>
+<td>Comptes de service monitoring</td>
+<td>svc_monitoring, svc_backup, svc_audit, svc_replication</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="ordinateurs">Ordinateurs</h3>
+<h4 id="controleurs-de-domaine">Contrôleurs de Domaine</h4>
+<div class="admonition info">
+<p class="admonition-title">DCs - Infrastructure AD</p>
+<table>
+<thead>
+<tr>
+<th>Nom</th>
+<th>Description</th>
+<th>Localisation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MON-DC01</strong></td>
+<td>Contrôleur de domaine principal</td>
+<td>DataCenter Brussels</td>
+</tr>
+<tr>
+<td><strong>MON-DC02</strong></td>
+<td>Contrôleur de domaine secondaire</td>
+<td>DataCenter Antwerp</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="serveurs-dinfrastructure">Serveurs d'Infrastructure</h4>
+<div class="admonition info">
+<p class="admonition-title">Serveurs - Outils monitoring et support</p>
+<table>
+<thead>
+<tr>
+<th>Nom</th>
+<th>Description</th>
+<th>Localisation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MON-SRV-MONITORING</strong></td>
+<td>Serveur monitoring PRTG/Nagios</td>
+<td>DataCenter Brussels</td>
+</tr>
+<tr>
+<td><strong>MON-SRV-LOG</strong></td>
+<td>Serveur centralisation logs (SIEM)</td>
+<td>DataCenter Brussels</td>
+</tr>
+<tr>
+<td><strong>MON-SRV-BACKUP</strong></td>
+<td>Serveur sauvegarde et récupération</td>
+<td>DataCenter Antwerp</td>
+</tr>
+<tr>
+<td><strong>MON-SRV-FILE</strong></td>
+<td>Serveur fichiers départemental</td>
+<td>DataCenter Brussels</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="stations-de-travail">Stations de Travail</h4>
+<div class="admonition info">
+<p class="admonition-title">Workstations - Postes utilisateurs</p>
+<table>
+<thead>
+<tr>
+<th>Nom</th>
+<th>Utilisateur Assigné</th>
+<th>Département</th>
+<th>Localisation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MON-WS-IT01</strong></td>
+<td>Alexandre Martin</td>
+<td>IT Operations</td>
+<td>Brussels Office - Floor 2</td>
+</tr>
+<tr>
+<td><strong>MON-WS-IT02</strong></td>
+<td>Béatrice Dubois</td>
+<td>IT Operations</td>
+<td>Brussels Office - Floor 2</td>
+</tr>
+<tr>
+<td><strong>MON-WS-SEC01</strong></td>
+<td>Fabien Moreau</td>
+<td>Security</td>
+<td>Brussels Office - Floor 3</td>
+</tr>
+<tr>
+<td><strong>MON-WS-SEC02</strong></td>
+<td>Gabrielle Simon</td>
+<td>Security</td>
+<td>Brussels Office - Floor 3</td>
+</tr>
+<tr>
+<td><strong>MON-WS-RH01</strong></td>
+<td>Karine Fontaine</td>
+<td>RH</td>
+<td>Brussels Office - Floor 1</td>
+</tr>
+<tr>
+<td><strong>MON-WS-FIN01</strong></td>
+<td>Pascal Roux</td>
+<td>Finance</td>
+<td>Brussels Office - Floor 1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="strategies-de-groupe-gpos">Stratégies de Groupe (GPOs)</h3>
+<div class="admonition warning">
+<p class="admonition-title">Configuration manuelle requise</p>
+<p>Les GPOs sont créées comme <strong>shells vides</strong> par le script. La configuration des paramètres doit être effectuée <strong>manuellement via GPMC</strong> en suivant les instructions détaillées ci-dessous.</p>
+</div>
+<h4 id="gpo-1-configuration-journaux-evenements">GPO 1: Configuration Journaux Événements</h4>
+<div class="admonition info">
+<p class="admonition-title">MONITORING - Configuration Journaux Événements</p>
+<p><strong>Objectif:</strong> Augmenter la taille des journaux Windows pour conserver plus d'événements de monitoring</p>
+<p><strong>Liée à:</strong> <code>OU=MONITORING,DC=maxtec,DC=be</code></p>
+<p><strong>Configuration manuelle dans GPMC:</strong></p>
+<p><strong>Étape 1 - Journal Sécurité (Security Log):</strong></p>
+<ol>
+<li>Computer Configuration → Policies → Administrative Templates → Windows Components</li>
+<li>Event Log Service → Security</li>
+<li><strong>Specify the maximum log file size (KB)</strong> = <strong>Enabled</strong> → Valeur: <code>2097151</code> KB (2 GB)</li>
+<li><strong>Control Event Log behavior when the log file reaches its maximum size</strong> = <strong>Enabled</strong> → Sélectionner: "Overwrite events as needed"</li>
+</ol>
+<p><strong>Étape 2 - Journal Application:</strong></p>
+<ol>
+<li>Computer Configuration → Policies → Administrative Templates → Windows Components</li>
+<li>Event Log Service → Application</li>
+<li><strong>Specify the maximum log file size (KB)</strong> = <strong>Enabled</strong> → Valeur: <code>524288</code> KB (512 MB)</li>
+</ol>
+<p><strong>Étape 3 - Journal Système:</strong></p>
+<ol>
+<li>Computer Configuration → Policies → Administrative Templates → Windows Components</li>
+<li>Event Log Service → System</li>
+<li><strong>Specify the maximum log file size (KB)</strong> = <strong>Enabled</strong> → Valeur: <code>524288</code> KB (512 MB)</li>
+</ol>
+<p><strong>Vérification:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c"># Appliquer la GPO</span>
+<span class="n">gpupdate</span> <span class="p">/</span><span class="n">force</span>
+
+<span class="c"># Vérifier la taille du journal Sécurité</span>
+<span class="nb">Get-WinEvent</span> <span class="n">-ListLog</span> <span class="n">Security</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">LogName</span><span class="p">,</span> <span class="n">MaximumSizeInBytes</span>
+
+<span class="c"># Ouvrir Event Viewer et vérifier les propriétés</span>
+<span class="n">eventvwr</span><span class="p">.</span><span class="n">msc</span>
+<span class="c"># Clic droit sur Security → Properties → Maximum log size = 2 GB</span>
+</code></pre></div>
+</div>
+<h4 id="gpo-2-restrictions-stations-sensibles">GPO 2: Restrictions Stations Sensibles</h4>
+<div class="admonition info">
+<p class="admonition-title">MONITORING - Restrictions Stations Sensibles</p>
+<p><strong>Objectif:</strong> Bloquer l'accès aux périphériques USB amovibles sur les stations IT et Security pour éviter l'exfiltration de données</p>
+<p><strong>Liée à:</strong></p>
+<ul>
+<li><code>OU=Computers,OU=Security,OU=MONITORING,...</code></li>
+<li><code>OU=Computers,OU=ITOperations,OU=MONITORING,...</code></li>
+</ul>
+<p><strong>Configuration manuelle dans GPMC:</strong></p>
+<p><strong>Bloquer périphériques USB amovibles:</strong></p>
+<ol>
+<li>Computer Configuration → Policies → Administrative Templates → System</li>
+<li>Removable Storage Access</li>
+<li><strong>All Removable Storage classes: Deny all access</strong> = <strong>Enabled</strong></li>
+</ol>
+<p><strong>Vérification:</strong></p>
+<ol>
+<li>Connecter une clé USB à un ordinateur du département Security ou IT Operations</li>
+<li>Exécuter: <code>gpupdate /force</code></li>
+<li>La clé USB doit être <strong>bloquée</strong> avec message d'erreur Windows</li>
+<li>Vérifier dans Event Viewer: Security log → Event ID 4663 (tentative accès refusé)</li>
+</ol>
+</div>
+<h4 id="gpo-3-verrouillage-session-automatique">GPO 3: Verrouillage Session Automatique</h4>
+<div class="admonition info">
+<p class="admonition-title">MONITORING - Verrouillage Session Automatique</p>
+<p><strong>Objectif:</strong> Verrouiller automatiquement les sessions inactives après 10 minutes pour éviter les accès non autorisés</p>
+<p><strong>Liée à:</strong> <code>OU=MONITORING,DC=maxtec,DC=be</code></p>
+<p><strong>Configuration manuelle dans GPMC:</strong></p>
+<p><strong>Délai verrouillage automatique:</strong></p>
+<ol>
+<li>Computer Configuration → Policies → Windows Settings → Security Settings</li>
+<li>Local Policies → Security Options</li>
+<li><strong>Interactive logon: Machine inactivity limit</strong> = <strong>600 secondes</strong> (10 minutes)</li>
+</ol>
+<p><strong>Vérification:</strong></p>
+<ol>
+<li>Appliquer la GPO: <code>gpupdate /force</code></li>
+<li>Ouvrir une session utilisateur</li>
+<li>Laisser l'ordinateur inactif pendant 10 minutes</li>
+<li>L'écran doit se verrouiller automatiquement avec écran de connexion Windows</li>
+</ol>
+</div>
+<h3 id="politiques-de-securite">Politiques de Sécurité</h3>
+<h4 id="politique-de-mots-de-passe-domain-level">Politique de Mots de Passe (Domain-level)</h4>
+<div class="admonition success">
+<p class="admonition-title">Configurée automatiquement par PowerShell</p>
+<p>Cette politique est <strong>directement configurée par le script</strong> via <code>Set-ADDefaultDomainPasswordPolicy</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Valeur</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Longueur minimale</strong></td>
+<td>12 caractères</td>
+<td>Force des mots de passe robustes</td>
+</tr>
+<tr>
+<td><strong>Complexité</strong></td>
+<td>Activée</td>
+<td>Majuscules, minuscules, chiffres, symboles requis</td>
+</tr>
+<tr>
+<td><strong>Âge maximum</strong></td>
+<td>90 jours</td>
+<td>Rotation obligatoire tous les 3 mois</td>
+</tr>
+<tr>
+<td><strong>Âge minimum</strong></td>
+<td>1 jour</td>
+<td>Empêche changements répétitifs rapides</td>
+</tr>
+<tr>
+<td><strong>Historique</strong></td>
+<td>24 mots de passe</td>
+<td>Mémorise les 24 derniers mots de passe</td>
+</tr>
+<tr>
+<td><strong>Seuil verrouillage</strong></td>
+<td>5 tentatives</td>
+<td>Compte bloqué après 5 échecs</td>
+</tr>
+<tr>
+<td><strong>Durée verrouillage</strong></td>
+<td>30 minutes</td>
+<td>Déverrouillage automatique après 30 min</td>
+</tr>
+<tr>
+<td><strong>Fenêtre observation</strong></td>
+<td>30 minutes</td>
+<td>Compteur réinitialisé après 30 min sans échec</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Vérification:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c"># Consulter la politique actuelle</span>
+<span class="nb">Get-ADDefaultDomainPasswordPolicy</span> <span class="n">-Identity</span> <span class="s2">&quot;maxtec.be&quot;</span>
+
+<span class="c"># Tester en modifiant le mot de passe d&#39;un utilisateur</span>
+<span class="nb">Set-ADAccountPassword</span> <span class="n">-Identity</span> <span class="s2">&quot;diane&quot;</span> <span class="n">-NewPassword</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="s2">&quot;faible&quot;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">)</span>
+<span class="c"># Doit échouer car ne respecte pas les critères</span>
+</code></pre></div>
+</div>
+<h4 id="politiques-daudit-avancees">Politiques d'Audit Avancées</h4>
+<div class="admonition success">
+<p class="admonition-title">Configurées automatiquement par auditpol.exe</p>
+<p>Le script active <strong>12 politiques d'audit</strong> via la commande <code>auditpol /set</code>. Les événements sont enregistrés dans le journal <strong>Sécurité</strong> de Windows.</p>
+<table>
+<thead>
+<tr>
+<th>Catégorie</th>
+<th>Sous-catégorie</th>
+<th>Success</th>
+<th>Failure</th>
+<th>Événements tracés</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Logon/Logoff</strong></td>
+<td>Logon</td>
+<td>✅</td>
+<td>✅</td>
+<td>Connexions utilisateurs (Event ID 4624, 4625)</td>
+</tr>
+<tr>
+<td><strong>Logon/Logoff</strong></td>
+<td>Logoff</td>
+<td>✅</td>
+<td>❌</td>
+<td>Déconnexions utilisateurs (Event ID 4634, 4647)</td>
+</tr>
+<tr>
+<td><strong>Account Logon</strong></td>
+<td>Credential Validation</td>
+<td>✅</td>
+<td>✅</td>
+<td>Validation credentials Kerberos/NTLM (Event ID 4768, 4769, 4771)</td>
+</tr>
+<tr>
+<td><strong>Account Management</strong></td>
+<td>User Account Management</td>
+<td>✅</td>
+<td>✅</td>
+<td>Création/modification/suppression comptes (Event ID 4720, 4722, 4723, 4724, 4726)</td>
+</tr>
+<tr>
+<td><strong>Account Management</strong></td>
+<td>Security Group Management</td>
+<td>✅</td>
+<td>✅</td>
+<td>Modifications groupes de sécurité (Event ID 4727, 4728, 4729, 4730, 4731, 4732, 4733, 4756, 4757, 4758)</td>
+</tr>
+<tr>
+<td><strong>Account Management</strong></td>
+<td>Computer Account Management</td>
+<td>✅</td>
+<td>✅</td>
+<td>Gestion comptes ordinateurs (Event ID 4741, 4742, 4743)</td>
+</tr>
+<tr>
+<td><strong>Policy Change</strong></td>
+<td>Audit Policy Change</td>
+<td>✅</td>
+<td>✅</td>
+<td>Modifications politiques d'audit (Event ID 4719, 4912)</td>
+</tr>
+<tr>
+<td><strong>Policy Change</strong></td>
+<td>Authentication Policy Change</td>
+<td>✅</td>
+<td>✅</td>
+<td>Modifications politiques authentification (Event ID 4706, 4707, 4713, 4716, 4717, 4718, 4739)</td>
+</tr>
+<tr>
+<td><strong>Privilege Use</strong></td>
+<td>Sensitive Privilege Use</td>
+<td>✅</td>
+<td>✅</td>
+<td>Utilisation privilèges sensibles (Event ID 4672, 4673, 4674)</td>
+</tr>
+<tr>
+<td><strong>DS Access</strong></td>
+<td>Directory Service Access</td>
+<td>✅</td>
+<td>✅</td>
+<td>Accès objets AD DS (Event ID 4662)</td>
+</tr>
+<tr>
+<td><strong>DS Access</strong></td>
+<td>Directory Service Changes</td>
+<td>✅</td>
+<td>❌</td>
+<td>Modifications objets AD DS (Event ID 5136, 5137, 5138, 5139, 5141)</td>
+</tr>
+<tr>
+<td><strong>Object Access</strong></td>
+<td>File Share</td>
+<td>✅</td>
+<td>✅</td>
+<td>Accès partages réseau (Event ID 5140, 5142, 5143, 5144, 5145)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Vérification:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c"># Afficher toutes les politiques d&#39;audit configurées</span>
+<span class="n">auditpol</span> <span class="p">/</span><span class="n">get</span> <span class="p">/</span><span class="n">category</span><span class="p">:*</span>
+
+<span class="c"># Vérifier une sous-catégorie spécifique</span>
+<span class="n">auditpol</span> <span class="p">/</span><span class="n">get</span> <span class="p">/</span><span class="n">subcategory</span><span class="p">:</span><span class="s2">&quot;Logon&quot;</span>
+
+<span class="c"># Consulter les événements d&#39;audit dans Event Viewer</span>
+<span class="nb">Get-WinEvent</span> <span class="n">-FilterHashtable</span> <span class="p">@{</span><span class="n">LogName</span><span class="p">=</span><span class="s1">&#39;Security&#39;</span><span class="p">;</span> <span class="n">ID</span><span class="p">=</span><span class="n">4624</span><span class="p">}</span> <span class="n">-MaxEvents</span> <span class="n">20</span> <span class="p">|</span> <span class="nb">Format-Table</span> <span class="n">TimeCreated</span><span class="p">,</span> <span class="n">Message</span> <span class="n">-AutoSize</span>
+
+<span class="c"># Filtrer événements échecs de connexion</span>
+<span class="nb">Get-WinEvent</span> <span class="n">-FilterHashtable</span> <span class="p">@{</span><span class="n">LogName</span><span class="p">=</span><span class="s1">&#39;Security&#39;</span><span class="p">;</span> <span class="n">ID</span><span class="p">=</span><span class="n">4625</span><span class="p">}</span> <span class="n">-MaxEvents</span> <span class="n">10</span>
+</code></pre></div>
+</div>
+<h2 id="instructions-dexecution">Instructions d'Exécution</h2>
+<h3 id="etape-1-preparer-lenvironnement">Étape 1: Préparer l'environnement</h3>
+<div class="admonition warning">
+<p class="admonition-title">Prérequis techniques</p>
+<ol>
+<li>Vous devez être connecté en tant qu'<strong>Administrateur du domaine</strong> sur le contrôleur de domaine</li>
+<li>Le domaine <strong>maxtec.be</strong> doit être fonctionnel</li>
+<li>Ouvrir <strong>PowerShell ISE</strong> en tant qu'Administrateur (clic droit → Exécuter en tant qu'administrateur)</li>
+</ol>
+</div>
+<h3 id="etape-2-copier-le-script">Étape 2: Copier le script</h3>
+<div class="admonition tip">
+<p class="admonition-title">Récupération du script</p>
+<ol>
+<li>Localisez le fichier <code>MonitoringLab_Setup.ps1</code> dans le répertoire <code>scripts/</code></li>
+<li><strong>Option A</strong>: Ouvrir directement dans PowerShell ISE (File → Open → <code>MonitoringLab_Setup.ps1</code>)</li>
+<li><strong>Option B</strong>: Copier-coller le contenu complet du script dans l'éditeur PowerShell ISE</li>
+</ol>
+</div>
+<h3 id="etape-3-lire-les-commentaires">Étape 3: Lire les commentaires</h3>
+<div class="admonition note">
+<p class="admonition-title">Comprendre avant d'exécuter</p>
+<p>Avant d'exécuter, parcourez le script pour comprendre:</p>
+<ul>
+<li>Les 9 étapes principales (OUs, utilisateurs, groupes, ordinateurs, GPOs, etc.)</li>
+<li>Les conventions de nommage (préfixe GG- pour les groupes)</li>
+<li>Les mots de passe par défaut utilisés</li>
+<li>Les politiques de sécurité appliquées</li>
+</ul>
+</div>
+<h3 id="etape-4-executer-le-script">Étape 4: Exécuter le script</h3>
+<div class="admonition success">
+<p class="admonition-title">Lancement interactif</p>
+<ol>
+<li>Dans PowerShell ISE, appuyer sur <strong>F5</strong> (ou cliquer sur le bouton vert "Run Script")</li>
+<li>Le script vous demandera confirmation pour <strong>chaque étape majeure</strong></li>
+<li>Répondre avec:<ul>
+<li><strong>O</strong> (Oui) pour exécuter l'étape</li>
+<li><strong>N</strong> (Non) pour sauter l'étape</li>
+<li><strong>Q</strong> (Quitter) pour arrêter complètement le script</li>
+</ul>
+</li>
+<li>Observer la sortie console avec codes couleur:<ul>
+<li>🟢 <strong>Vert</strong>: Objet créé avec succès</li>
+<li>🟡 <strong>Jaune</strong>: Objet existe déjà (idempotence)</li>
+<li>🔴 <strong>Rouge</strong>: Erreur lors de la création</li>
+</ul>
+</li>
+</ol>
+</div>
+<h3 id="etape-5-configurer-les-gpos-manuellement">Étape 5: Configurer les GPOs manuellement</h3>
+<div class="admonition warning">
+<p class="admonition-title">Configuration GPMC requise</p>
+<p>Après exécution du script, <strong>3 GPOs sont créées mais vides</strong>. Vous devez les configurer manuellement:</p>
+<ol>
+<li>Ouvrir <strong>Group Policy Management Console</strong> (gpmc.msc)</li>
+<li>Naviguer vers <strong>Forest: maxtec.be → Domains → maxtec.be → Group Policy Objects</strong></li>
+<li>Pour chaque GPO créée (voir section GPOs ci-dessus):<ul>
+<li>Clic droit → <strong>Edit</strong></li>
+<li>Suivre les chemins de navigation indiqués dans la section GPOs</li>
+<li>Configurer les paramètres exacts spécifiés</li>
+<li>Fermer GPMC Editor</li>
+</ul>
+</li>
+<li>Appliquer les GPOs: <code>gpupdate /force</code></li>
+</ol>
+</div>
+<h3 id="etape-6-verifier-la-creation">Étape 6: Vérifier la création</h3>
+<div class="admonition tip">
+<p class="admonition-title">Validation post-exécution</p>
+<p>Utilisez les commandes PowerShell ci-dessous pour vérifier que tout est correct (voir section "Vérification Post-Exécution").</p>
+</div>
+<h2 id="verification-post-execution">Vérification Post-Exécution</h2>
+<h3 id="commandes-powershell-de-verification">Commandes PowerShell de Vérification</h3>
+<div class="admonition info">
+<p class="admonition-title">Vérifier les OUs créées</p>
+<div class="highlight"><pre><span></span><code><span class="c"># Afficher toutes les OUs sous MONITORING</span>
+<span class="nb">Get-ADOrganizationalUnit</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=MONITORING,DC=maxtec,DC=be&quot;</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">DistinguishedName</span> <span class="p">|</span>
+    <span class="nb">Sort-Object</span> <span class="n">DistinguishedName</span>
+
+<span class="c"># Compter le nombre total d&#39;OUs</span>
+<span class="p">(</span><span class="nb">Get-ADOrganizationalUnit</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=MONITORING,DC=maxtec,DC=be&quot;</span><span class="p">).</span><span class="n">Count</span>
+<span class="c"># Attendu: ~21 OUs</span>
+</code></pre></div>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Vérifier tous les utilisateurs créés</p>
+<div class="highlight"><pre><span></span><code><span class="c"># Lister tous les utilisateurs dans MONITORING</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=MONITORING,DC=maxtec,DC=be&quot;</span> <span class="n">-Properties</span> <span class="n">EmailAddress</span><span class="p">,</span> <span class="n">Title</span><span class="p">,</span> <span class="n">Department</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">SamAccountName</span><span class="p">,</span> <span class="n">EmailAddress</span><span class="p">,</span> <span class="n">Title</span><span class="p">,</span> <span class="n">Department</span><span class="p">,</span> <span class="n">Enabled</span> <span class="p">|</span>
+    <span class="nb">Format-Table</span> <span class="n">-AutoSize</span>
+
+<span class="c"># Compter les utilisateurs</span>
+<span class="p">(</span><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=MONITORING,DC=maxtec,DC=be&quot;</span><span class="p">).</span><span class="n">Count</span>
+<span class="c"># Attendu: 24 utilisateurs (20 normaux + 4 comptes service)</span>
+
+<span class="c"># Vérifier un utilisateur spécifique</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Identity</span> <span class="s2">&quot;alexandre&quot;</span> <span class="n">-Properties</span> <span class="p">*</span>
+</code></pre></div>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Vérifier les groupes et leurs membres</p>
+<div class="highlight"><pre><span></span><code><span class="c"># Lister tous les groupes avec préfixe GG-MONITORING</span>
+<span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="s1">&#39;Name -like &quot;GG-MONITORING*&quot;&#39;</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">GroupScope</span><span class="p">,</span> <span class="n">GroupCategory</span><span class="p">,</span> <span class="n">Description</span> <span class="p">|</span>
+    <span class="nb">Format-Table</span> <span class="n">-AutoSize</span>
+
+<span class="c"># Afficher les membres d&#39;un groupe spécifique</span>
+<span class="nb">Get-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;GG-MONITORING-ITOperations-Users&quot;</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">SamAccountName</span><span class="p">,</span> <span class="n">objectClass</span>
+
+<span class="c"># Afficher tous les groupes avec leurs membres (détaillé)</span>
+<span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=MONITORING,DC=maxtec,DC=be&quot;</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+    <span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">[GROUPE] </span><span class="p">$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span><span class="s2">&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+    <span class="nb">Get-ADGroupMember</span> <span class="n">-Identity</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">SamAccountName</span> <span class="p">|</span> <span class="nb">Format-Table</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Vérifier les ordinateurs créés</p>
+<div class="highlight"><pre><span></span><code><span class="c"># Lister tous les ordinateurs dans MONITORING</span>
+<span class="nb">Get-ADComputer</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=MONITORING,DC=maxtec,DC=be&quot;</span> <span class="n">-Properties</span> <span class="n">Description</span><span class="p">,</span> <span class="n">Location</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Description</span><span class="p">,</span> <span class="n">Location</span><span class="p">,</span> <span class="n">Enabled</span> <span class="p">|</span>
+    <span class="nb">Format-Table</span> <span class="n">-AutoSize</span>
+
+<span class="c"># Compter les ordinateurs</span>
+<span class="p">(</span><span class="nb">Get-ADComputer</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=MONITORING,DC=maxtec,DC=be&quot;</span><span class="p">).</span><span class="n">Count</span>
+<span class="c"># Attendu: 12 ordinateurs (2 DCs + 4 serveurs + 6 stations)</span>
+
+<span class="c"># Lister uniquement les DCs</span>
+<span class="nb">Get-ADComputer</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=DomainControllers,OU=Computers,OU=MONITORING,DC=maxtec,DC=be&quot;</span>
+</code></pre></div>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Vérifier les GPOs créées</p>
+<div class="highlight"><pre><span></span><code><span class="c"># Lister toutes les GPOs MONITORING</span>
+<span class="nb">Get-GPO</span> <span class="n">-All</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">DisplayName</span> <span class="o">-like</span> <span class="s2">&quot;MONITORING*&quot;</span><span class="p">}</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">DisplayName</span><span class="p">,</span> <span class="n">GpoStatus</span><span class="p">,</span> <span class="n">CreationTime</span><span class="p">,</span> <span class="n">Description</span> <span class="p">|</span>
+    <span class="nb">Format-Table</span> <span class="n">-AutoSize</span>
+
+<span class="c"># Vérifier les liens GPO</span>
+<span class="nb">Get-GPO</span> <span class="n">-Name</span> <span class="s2">&quot;MONITORING - Configuration Journaux Événements&quot;</span> <span class="p">|</span> <span class="nb">Get-GPOReport</span> <span class="n">-ReportType</span> <span class="n">Xml</span>
+</code></pre></div>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Vérifier la politique de mots de passe</p>
+<div class="highlight"><pre><span></span><code><span class="c"># Afficher la politique de mots de passe du domaine</span>
+<span class="nb">Get-ADDefaultDomainPasswordPolicy</span> <span class="n">-Identity</span> <span class="s2">&quot;maxtec.be&quot;</span>
+
+<span class="c"># Résultat attendu:</span>
+<span class="c"># MinPasswordLength: 12</span>
+<span class="c"># ComplexityEnabled: True</span>
+<span class="c"># MaxPasswordAge: 90 jours</span>
+<span class="c"># LockoutThreshold: 5</span>
+</code></pre></div>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Vérifier les politiques d'audit</p>
+<div class="highlight"><pre><span></span><code><span class="c"># Afficher toutes les politiques d&#39;audit</span>
+<span class="n">auditpol</span> <span class="p">/</span><span class="n">get</span> <span class="p">/</span><span class="n">category</span><span class="p">:*</span>
+
+<span class="c"># Vérifier une catégorie spécifique</span>
+<span class="n">auditpol</span> <span class="p">/</span><span class="n">get</span> <span class="p">/</span><span class="n">category</span><span class="p">:</span><span class="s2">&quot;Account Logon&quot;</span>
+
+<span class="c"># Vérifier les événements d&#39;audit récents</span>
+<span class="nb">Get-WinEvent</span> <span class="n">-FilterHashtable</span> <span class="p">@{</span><span class="n">LogName</span><span class="p">=</span><span class="s1">&#39;Security&#39;</span><span class="p">;</span> <span class="n">ID</span><span class="p">=</span><span class="n">4624</span><span class="p">}</span> <span class="n">-MaxEvents</span> <span class="n">5</span> <span class="p">|</span> <span class="nb">Format-List</span>
+</code></pre></div>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Exporter la structure en CSV pour référence</p>
+<div class="highlight"><pre><span></span><code><span class="c"># Exporter les utilisateurs</span>
+<span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=MONITORING,DC=maxtec,DC=be&quot;</span> <span class="n">-Properties</span> <span class="n">EmailAddress</span><span class="p">,</span> <span class="n">Title</span><span class="p">,</span> <span class="n">Department</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">SamAccountName</span><span class="p">,</span> <span class="n">EmailAddress</span><span class="p">,</span> <span class="n">Title</span><span class="p">,</span> <span class="n">Department</span><span class="p">,</span> <span class="n">Enabled</span> <span class="p">|</span>
+    <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;C:\Labos\MonitoringLab_Utilisateurs.csv&quot;</span> <span class="n">-NoTypeInformation</span> <span class="n">-Encoding</span> <span class="n">UTF8</span>
+
+<span class="c"># Exporter les groupes avec membres</span>
+<span class="nv">$groups</span> <span class="p">=</span> <span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=MONITORING,DC=maxtec,DC=be&quot;</span>
+<span class="nv">$groupData</span> <span class="p">=</span> <span class="p">@()</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$group</span> <span class="k">in</span> <span class="nv">$groups</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$members</span> <span class="p">=</span> <span class="nb">Get-ADGroupMember</span> <span class="n">-Identity</span> <span class="nv">$group</span><span class="p">.</span><span class="n">Name</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-ExpandProperty</span> <span class="n">SamAccountName</span>
+    <span class="nv">$groupData</span> <span class="p">+=</span> <span class="no">[PSCustomObject]</span><span class="p">@{</span>
+        <span class="n">GroupName</span> <span class="p">=</span> <span class="nv">$group</span><span class="p">.</span><span class="n">Name</span>
+        <span class="n">Members</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$members</span> <span class="n">-join</span> <span class="s2">&quot;; &quot;</span><span class="p">)</span>
+        <span class="n">MemberCount</span> <span class="p">=</span> <span class="nv">$members</span><span class="p">.</span><span class="n">Count</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="nv">$groupData</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;C:\Labos\MonitoringLab_Groupes.csv&quot;</span> <span class="n">-NoTypeInformation</span> <span class="n">-Encoding</span> <span class="n">UTF8</span>
+
+<span class="c"># Exporter les ordinateurs</span>
+<span class="nb">Get-ADComputer</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=MONITORING,DC=maxtec,DC=be&quot;</span> <span class="n">-Properties</span> <span class="n">Description</span><span class="p">,</span> <span class="n">Location</span> <span class="p">|</span>
+    <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&quot;C:\Labos\MonitoringLab_Ordinateurs.csv&quot;</span> <span class="n">-NoTypeInformation</span> <span class="n">-Encoding</span> <span class="n">UTF8</span>
+</code></pre></div>
+</div>
+<h3 id="verification-manuelle-gui">Vérification Manuelle (GUI)</h3>
+<div class="admonition tip">
+<p class="admonition-title">Vérification via outils graphiques</p>
+<p><strong>Active Directory Users and Computers (dsa.msc):</strong></p>
+<ol>
+<li>Ouvrir <strong>Active Directory Users and Computers</strong></li>
+<li>Naviguer vers <strong>maxtec.be → MONITORING</strong></li>
+<li>Vérifier la présence de toutes les OUs départementales</li>
+<li>Dans chaque département:<ul>
+<li>Vérifier les utilisateurs dans <code>OU=Users</code></li>
+<li>Vérifier les groupes dans <code>OU=Groups</code></li>
+<li>Double-cliquer sur un groupe → Onglet <strong>Members</strong> → Vérifier les appartenances</li>
+</ul>
+</li>
+<li>Vérifier les comptes de service dans <code>OU=ServiceAccounts</code></li>
+<li>Vérifier les ordinateurs dans <code>OU=Computers</code> (DCs, Servers, Workstations)</li>
+</ol>
+<p><strong>Group Policy Management Console (gpmc.msc):</strong></p>
+<ol>
+<li>Ouvrir <strong>Group Policy Management</strong></li>
+<li>Naviguer vers <strong>Forest: maxtec.be → Domains → maxtec.be → Group Policy Objects</strong></li>
+<li>Vérifier la présence des 3 GPOs MONITORING-*</li>
+<li>Clic droit sur chaque GPO → <strong>Edit</strong> → Vérifier les paramètres configurés</li>
+<li>Vérifier les liens: naviguer vers <strong>OU=MONITORING</strong> → Onglet <strong>Linked Group Policy Objects</strong></li>
+</ol>
+<p><strong>Event Viewer (eventvwr.msc):</strong></p>
+<ol>
+<li>Ouvrir <strong>Event Viewer</strong></li>
+<li>Naviguer vers <strong>Windows Logs → Security</strong></li>
+<li>Clic droit → <strong>Properties</strong> → Vérifier <strong>Maximum log size = 2 GB</strong> (après configuration GPO)</li>
+<li>Filtrer les événements d'audit:<ul>
+<li>Event ID 4624: Connexions réussies</li>
+<li>Event ID 4625: Échecs de connexion</li>
+<li>Event ID 4720: Création compte utilisateur</li>
+<li>Event ID 4728: Ajout membre à un groupe</li>
+</ul>
+</li>
+</ol>
+</div>
+<h2 id="concepts-cles-demontres">Concepts Clés Démontrés</h2>
+<div class="admonition abstract">
+<p class="admonition-title">Compétences Active Directory mises en pratique</p>
+<p><strong>1. Architecture AD pour le Monitoring</strong></p>
+<ul>
+<li>Séparation des responsabilités via OUs départementales</li>
+<li>OU dédiée aux comptes de service (meilleure pratique de sécurité)</li>
+<li>OU centralisée pour les ordinateurs avec sous-catégorisation (DCs/Servers/Workstations)</li>
+</ul>
+<p><strong>2. Gestion des Identités et Accès (IAM)</strong></p>
+<ul>
+<li>Comptes utilisateurs avec attributs complets (titre, département, email)</li>
+<li>Comptes de service avec propriétés spécifiques (PasswordNeverExpires, CannotChangePassword)</li>
+<li>Groupes de sécurité Global Groups (GG-) pour gérer les permissions</li>
+<li>Séparation rôles admin vs. utilisateurs standards</li>
+</ul>
+<p><strong>3. Audit et Traçabilité</strong></p>
+<ul>
+<li>Politiques d'audit avancées via <code>auditpol.exe</code></li>
+<li>Traçage des connexions, modifications de comptes, changements de politiques</li>
+<li>Accès aux objets AD DS et partages fichiers</li>
+<li>Journaux d'événements étendus pour conserver l'historique</li>
+</ul>
+<p><strong>4. Politiques de Sécurité</strong></p>
+<ul>
+<li>Politique de mots de passe renforcée (12 caractères, complexité, rotation)</li>
+<li>Verrouillage automatique des comptes après tentatives échouées</li>
+<li>Verrouillage automatique des sessions inactives</li>
+<li>Restriction des périphériques USB pour limiter l'exfiltration de données</li>
+</ul>
+<p><strong>5. Group Policy Objects (GPOs)</strong></p>
+<ul>
+<li>Création de GPOs via PowerShell</li>
+<li>Configuration manuelle dans GPMC pour paramètres Windows natifs</li>
+<li>Liaison de GPOs à des OUs spécifiques (héritage)</li>
+<li>Application sélective selon les départements</li>
+</ul>
+<p><strong>6. Monitoring Infrastructure</strong></p>
+<ul>
+<li>Comptes de service dédiés pour outils de monitoring (PRTG, Nagios, SIEM)</li>
+<li>Groupe spécial MonitoringAdmins pour accès administratif complet</li>
+<li>Groupe SecurityAuditors pour auditeurs en lecture seule</li>
+<li>Serveurs dédiés pour centralisation logs et backups</li>
+</ul>
+</div>
+<h2 id="exercices-pratiques">Exercices Pratiques</h2>
+<div class="admonition tip">
+<p class="admonition-title">Exercices disponibles</p>
+<p>Le laboratoire Monitoring comprend <strong>6 exercices progressifs</strong> avec scripts de vérification automatique:</p>
+<p><strong>Niveau Débutant:</strong></p>
+<ul>
+<li><a href="exercices/Exercice_01_Exploration_Structure.md">Exercice 01: Exploration de la Structure Monitoring</a> - Découverte guidée de l'arborescence AD et des objets créés</li>
+<li><a href="exercices/Exercice_02_Analyse_Evenements.md">Exercice 02: Analyse des Événements d'Audit</a> - Consultation des logs Security et identification des événements critiques</li>
+</ul>
+<p><strong>Niveau Intermédiaire:</strong></p>
+<ul>
+<li><a href="exercices/Exercice_03_Configuration_GPOs.md">Exercice 03: Configuration Complète des GPOs</a> - Configuration manuelle des 3 GPOs dans GPMC et tests de fonctionnement</li>
+<li><a href="exercices/Exercice_04_Comptes_Service.md">Exercice 04: Gestion des Comptes de Service</a> - Modification des comptes service et attribution de permissions monitoring</li>
+</ul>
+<p><strong>Niveau Avancé:</strong></p>
+<ul>
+<li><a href="exercices/Exercice_05_Audit_Personnalise.md">Exercice 05: Création d'une Politique d'Audit Personnalisée</a> - Définir et implémenter une nouvelle politique d'audit pour un besoin métier spécifique</li>
+<li><a href="exercices/Exercice_06_Incident_Investigation.md">Exercice 06: Simulation Incident de Sécurité et Investigation</a> - Scénario réaliste d'incident avec analyse forensique des logs AD</li>
+</ul>
+</div>
+<h2 id="depannage">Dépannage</h2>
+<h3 id="problemes-courants">Problèmes Courants</h3>
+<div class="admonition warning">
+<p class="admonition-title">Erreurs fréquentes et solutions</p>
+<table>
+<thead>
+<tr>
+<th>Erreur</th>
+<th>Cause Possible</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"OU already exists"</td>
+<td>Structure déjà créée lors d'une exécution précédente</td>
+<td>Utiliser le script <code>MonitoringLab_Cleanup.ps1</code> pour nettoyer, ou appuyer sur 'N' pour sauter l'étape</td>
+</tr>
+<tr>
+<td>"Access denied"</td>
+<td>PowerShell ISE non exécuté en tant qu'Administrateur</td>
+<td>Fermer PowerShell ISE, clic droit → Exécuter en tant qu'administrateur</td>
+</tr>
+<tr>
+<td>"Module ActiveDirectory not found"</td>
+<td>Module AD non chargé (rare avec AD DS installé)</td>
+<td>Exécuter: <code>Import-Module ActiveDirectory</code></td>
+</tr>
+<tr>
+<td>"Cannot validate argument on parameter 'Identity'"</td>
+<td>Erreur de syntaxe DN ou nom groupe incorrect</td>
+<td>Vérifier l'orthographe exacte du DN dans le script (respecter majuscules/minuscules)</td>
+</tr>
+<tr>
+<td>"The specified account already exists"</td>
+<td>Utilisateur existe déjà dans AD</td>
+<td>Le script est idempotent: il affichera un message jaune et continuera</td>
+</tr>
+<tr>
+<td>GPO créée mais paramètres vides</td>
+<td>Configuration manuelle non effectuée</td>
+<td>Ouvrir GPMC et suivre les instructions de configuration dans la section GPOs ci-dessus</td>
+</tr>
+<tr>
+<td>"auditpol : Access is denied"</td>
+<td>Permissions insuffisantes</td>
+<td>Exécuter PowerShell en tant qu'Administrateur du domaine</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="commandes-de-diagnostic">Commandes de Diagnostic</h3>
+<div class="admonition info">
+<p class="admonition-title">Commandes utiles pour diagnostiquer les problèmes</p>
+<p><strong>Vérifier le rôle AD DS:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c"># Vérifier que AD DS est installé et démarré</span>
+<span class="nb">Get-WindowsFeature</span> <span class="n">-Name</span> <span class="n">AD-Domain-Services</span>
+
+<span class="c"># Résultat attendu: Install State = Installed</span>
+</code></pre></div>
+<p><strong>Vérifier le domaine actuel:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c"># Afficher les informations du domaine</span>
+<span class="nb">Get-ADDomain</span>
+
+<span class="c"># Vérifier le nom DNS du domaine</span>
+<span class="p">(</span><span class="nb">Get-ADDomain</span><span class="p">).</span><span class="n">DNSRoot</span>
+<span class="c"># Attendu: maxtec.be</span>
+</code></pre></div>
+<p><strong>Vérifier les privilèges de l'utilisateur connecté:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c"># Vérifier l&#39;appartenance aux groupes Admins</span>
+<span class="n">whoami</span> <span class="p">/</span><span class="n">groups</span> <span class="p">|</span> <span class="n">findstr</span> <span class="s2">&quot;Admins&quot;</span>
+
+<span class="c"># Ou avec PowerShell</span>
+<span class="p">(</span><span class="no">[Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]</span><span class="p">::</span><span class="n">GetCurrent</span><span class="p">()).</span><span class="n">IsInRole</span><span class="p">(</span><span class="no">[Security.Principal.WindowsBuiltInRole]</span><span class="p">::</span><span class="n">Administrator</span><span class="p">)</span>
+<span class="c"># Doit retourner: True</span>
+</code></pre></div>
+<p><strong>Vérifier la connectivité avec le DC:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c"># Tester la connexion LDAP au DC</span>
+<span class="nb">Test-Connection</span> <span class="n">-ComputerName</span> <span class="p">(</span><span class="nb">Get-ADDomainController</span><span class="p">).</span><span class="n">HostName</span> <span class="n">-Count</span> <span class="n">2</span>
+
+<span class="c"># Afficher le DC actuellement utilisé</span>
+<span class="p">(</span><span class="nb">Get-ADDomainController</span><span class="p">).</span><span class="n">HostName</span>
+</code></pre></div>
+<p><strong>Vérifier les modules PowerShell chargés:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c"># Lister les modules importés</span>
+<span class="nb">Get-Module</span>
+
+<span class="c"># Vérifier spécifiquement ActiveDirectory et GroupPolicy</span>
+<span class="nb">Get-Module</span> <span class="n">-Name</span> <span class="n">ActiveDirectory</span><span class="p">,</span> <span class="n">GroupPolicy</span>
+
+<span class="c"># Si absents, les importer manuellement</span>
+<span class="nb">Import-Module</span> <span class="n">ActiveDirectory</span>
+<span class="nb">Import-Module</span> <span class="n">GroupPolicy</span>
+</code></pre></div>
+<p><strong>Diagnostic complet de l'environnement AD:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c"># Script de diagnostic complet</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;=== Diagnostic Environnement AD ===&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Cyan</span>
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Domaine:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nb">Get-ADDomain</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">DNSRoot</span><span class="p">,</span> <span class="n">DomainMode</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Contrôleur de domaine:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nb">Get-ADDomainController</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">HostName</span><span class="p">,</span> <span class="n">IPv4Address</span><span class="p">,</span> <span class="n">OperatingSystem</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Utilisateur actuel:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="n">whoami</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Privilèges administratifs:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="p">(</span><span class="no">[Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]</span><span class="p">::</span><span class="n">GetCurrent</span><span class="p">()).</span><span class="n">IsInRole</span><span class="p">(</span><span class="no">[Security.Principal.WindowsBuiltInRole]</span><span class="p">::</span><span class="n">Administrator</span><span class="p">)</span>
+
+<span class="nb">Write-Host</span> <span class="s2">&quot;</span><span class="se">`n</span><span class="s2">Modules PowerShell chargés:&quot;</span> <span class="n">-ForegroundColor</span> <span class="n">Yellow</span>
+<span class="nb">Get-Module</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Version</span>
+</code></pre></div>
+</div>
+<h2 id="evolutions-possibles-du-laboratoire">Évolutions Possibles du Laboratoire</h2>
+<div class="admonition tip">
+<p class="admonition-title">Extensions futures pour approfondir l'apprentissage</p>
+<p>Pour approfondir ce laboratoire dans des sessions avancées, vous pourriez:</p>
+<ol>
+<li>
+<p><strong>Intégration SIEM Réel</strong></p>
+<ul>
+<li>Installer un collecteur de logs (ELK Stack, Splunk Free, Wazuh)</li>
+<li>Configurer la collecte automatique des événements Windows Security</li>
+<li>Créer des tableaux de bord de monitoring en temps réel</li>
+</ul>
+</li>
+<li>
+<p><strong>Fine-Grained Password Policies (FGPP)</strong></p>
+<ul>
+<li>Créer des politiques de mots de passe différenciées par département</li>
+<li>Politique plus stricte pour Security (15 caractères minimum)</li>
+<li>Politique moins stricte pour RH (10 caractères)</li>
+</ul>
+</li>
+<li>
+<p><strong>Monitoring de Réplication AD</strong></p>
+<ul>
+<li>Scripts PowerShell pour surveiller l'état de réplication entre MON-DC01 et MON-DC02</li>
+<li>Alertes automatiques en cas de problème de réplication</li>
+<li>Dashboard de santé AD avec <code>Get-ADReplicationFailure</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Sauvegarde et Restauration AD</strong></p>
+<ul>
+<li>Configuration de sauvegardes système Windows Server Backup</li>
+<li>Sauvegarde de l'état système AD (System State)</li>
+<li>Exercices de restauration autoritaire et non-autoritaire</li>
+</ul>
+</li>
+<li>
+<p><strong>Audit Avancé avec PowerShell</strong></p>
+<ul>
+<li>Scripts de génération de rapports d'audit automatiques</li>
+<li>Détection d'anomalies (connexions en dehors des heures ouvrables)</li>
+<li>Alerting par email lors d'événements critiques</li>
+</ul>
+</li>
+<li>
+<p><strong>Intégration Azure AD Connect (Hybride)</strong></p>
+<ul>
+<li>Synchronisation avec Azure AD pour simulation cloud hybride</li>
+<li>Monitoring de la synchronisation</li>
+<li>Audit des identités cloud et on-premises</li>
+</ul>
+</li>
+<li>
+<p><strong>Scénarios de Réponse aux Incidents</strong></p>
+<ul>
+<li>Exercices de compromission simulée (compte piraté)</li>
+<li>Procédures de réponse (désactivation compte, analyse logs)</li>
+<li>Post-mortem et documentation d'incident</li>
+</ul>
+</li>
+<li>
+<p><strong>Performance Monitoring AD</strong></p>
+<ul>
+<li>Compteurs de performance Windows (LDAP queries, authentications)</li>
+<li>Monitoring des ressources serveurs (CPU, RAM, disque DCs)</li>
+<li>Baseline de performance et alertes de dépassement</li>
+</ul>
+</li>
+<li>
+<p><strong>Gestion des Certificats et PKI</strong></p>
+<ul>
+<li>Installation d'une autorité de certification (CA)</li>
+<li>Déploiement de certificats pour utilisateurs/ordinateurs</li>
+<li>Monitoring de l'expiration des certificats</li>
+</ul>
+</li>
+<li>
+<p><strong>Advanced Threat Analytics (ATA) / Microsoft Defender for Identity</strong></p>
+<ul>
+<li>Installation de Microsoft Defender for Identity</li>
+<li>Détection de comportements anormaux (Pass-the-Hash, Golden Ticket)</li>
+<li>Intégration avec le monitoring AD existant</li>
+</ul>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/choquitofrito/ActiveDirectory" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "navigation.prune", "content.code.copy"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
