@@ -5,25 +5,26 @@
 N'oubliez pas de changer le réseau à **Réseau interne** dans la configuration de VirtualBox
 
 ## 2. Demarrez la VM du **serveur**, puis suivez ces pas:
-   
-    1. ⚙️ Configuration du nom du serveur :
-        - Ouvrez le **Gestionnaire de serveur** > **Serveur local**
-        - Sélectionnez le nom actuel
-        - Cliquez sur **Modifier**
-                Nom : **dns1**
-                Suffixe DNS : **maxtec.be**
-        - Cliquez sur **OK**
-        - Redémarrez le serveur
-  
 
-    2. Configuration de l'ip du serveur
-       - Ouvrez le **Gestionnaire de serveur** > **Serveur local**
-       - Apuyez sur **Ethernet** -> Propriétés -> Protocol IpV4 
-         - Changez la config pour le protocole IPv4:
-           - Adresse IP: 192.168.0.2
-           - Masque: 255.255.255.0
-           - Serveur DNS: lui-même 192.168.0.2 (l'ip de votre serveur, ou l'adresse loopback 127.0.0.1)
-        - Redémarrez le serveur
+1. ⚙️ **Configuration du nom du serveur**
+
+    - Ouvrez le **Gestionnaire de serveur** > **Serveur local**
+    - Sélectionnez le nom actuel
+    - Cliquez sur **Modifier** :
+        - Nom : `dns1`
+        - Suffixe DNS : `maxtec.be`
+    - Cliquez sur **OK**
+    - Redémarrez le serveur
+
+2. 🌐 **Configuration de l'IP du serveur**
+
+    - Ouvrez le **Gestionnaire de serveur** > **Serveur local**
+    - Cliquez sur **Ethernet** → Propriétés → Protocole IPv4
+    - Configurez les valeurs suivantes :
+        - Adresse IP : `192.168.0.2`
+        - Masque : `255.255.255.0`
+        - Serveur DNS : `192.168.0.2` (l'ip de votre serveur, ou l'adresse loopback `127.0.0.1`)
+    - Redémarrez le serveur
 
 ## 3. Installez le rol d'AD-DS
 
