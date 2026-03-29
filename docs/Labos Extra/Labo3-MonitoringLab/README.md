@@ -680,18 +680,18 @@ OU=MONITORING,DC=maxtec,DC=be
 
     **Niveau Débutant:**
 
-    - [Exercice 01: Exploration de la Structure Monitoring](exercices/Exercice_01_Exploration_Structure.md) - Découverte guidée de l'arborescence AD et des objets créés
-    - [Exercice 02: Analyse des Événements d'Audit](exercices/Exercice_02_Analyse_Evenements.md) - Consultation des logs Security et identification des événements critiques
+    - Exercice 01: Exploration de la Structure Monitoring - Découverte guidée de l'arborescence AD et des objets créés
+    - Exercice 02: Analyse des Événements d'Audit - Consultation des logs Security et identification des événements critiques
 
     **Niveau Intermédiaire:**
 
-    - [Exercice 03: Configuration Complète des GPOs](exercices/Exercice_03_Configuration_GPOs.md) - Configuration manuelle des 3 GPOs dans GPMC et tests de fonctionnement
-    - [Exercice 04: Gestion des Comptes de Service](exercices/Exercice_04_Comptes_Service.md) - Modification des comptes service et attribution de permissions monitoring
+    - Exercice 03: Configuration Complète des GPOs - Configuration manuelle des 3 GPOs dans GPMC et tests de fonctionnement
+    - Exercice 04: Gestion des Comptes de Service - Modification des comptes service et attribution de permissions monitoring
 
     **Niveau Avancé:**
 
-    - [Exercice 05: Création d'une Politique d'Audit Personnalisée](exercices/Exercice_05_Audit_Personnalise.md) - Définir et implémenter une nouvelle politique d'audit pour un besoin métier spécifique
-    - [Exercice 06: Simulation Incident de Sécurité et Investigation](exercices/Exercice_06_Incident_Investigation.md) - Scénario réaliste d'incident avec analyse forensique des logs AD
+    - Exercice 05: Création d'une Politique d'Audit Personnalisée - Définir et implémenter une nouvelle politique d'audit pour un besoin métier spécifique
+    - Exercice 06: Simulation Incident de Sécurité et Investigation - Scénario réaliste d'incident avec analyse forensique des logs AD
 
 ## Dépannage
 

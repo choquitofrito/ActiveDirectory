@@ -1,7 +1,7 @@
 # Chapitre 9.3: Atelier pratique : Création et modification
 
 ## 🧭 Navigation du Cours
-[⏮️ Chapitre Précédent: Powershell AD - Requêtes et Informations](Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations.md) | [🏠 Retour au Syllabus](../README.md)
+[⏮️ Chapitre Précédent: Powershell AD - Requêtes et Informations](Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations.md) | [🏠 Retour au Syllabus](index.md)
 
 ---
 
@@ -219,7 +219,7 @@ foreach ($dept in $departements) {
 ---
 
 ## 🧭 Navigation
-[⏮️ Chapitre Précédent: Powershell AD - Requêtes et Informations](Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations.md) | [🏠 Retour au Syllabus](../README.md)
+[⏮️ Chapitre Précédent: Powershell AD - Requêtes et Informations](Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations.md) | [🏠 Retour au Syllabus](index.md)
 
 ---
 

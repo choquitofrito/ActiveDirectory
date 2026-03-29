@@ -1,7 +1,7 @@
 # Script de Suppression de Structure Active Directory
 
 ## 🧭 Navigation
-[⏮️ Retour au Labo](../Labo_structure.md) | [🏠 Retour au Syllabus](../../../README.md)
+[⏮️ Retour au Labo](../Labo_structure.md) | [🏠 Retour au Syllabus](../../../index.md)
 
 ---
 
@@ -196,7 +196,7 @@ catch {
 ---
 
 ## 🧭 Navigation
-[⏮️ Retour au Labo](../Labo_structure.md) | [🏠 Retour au Syllabus](../../../README.md)
+[⏮️ Retour au Labo](../Labo_structure.md) | [🏠 Retour au Syllabus](../../../index.md)
 
 ---
 

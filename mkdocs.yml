@@ -25,6 +25,10 @@ theme:
     - navigation.indexes
     - content.code.copy  # Habilita el botón de copia para bloques de código
 
+plugins:
+  - search
+  - glightbox
+
 markdown_extensions:
   - pymdownx.tasklist:
       custom_checkbox: true

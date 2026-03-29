@@ -1,7 +1,7 @@
 # Chapitre 8: Les Stratégies de Groupe (GPO)
 
 ## 🧭 Navigation du Cours
-[⏮️ Chapitre Précédent: Gestion des Utilisateurs](Chapitre%207.Gestion_des_Utilisateurs.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: PowerShell AD](Chapitre%209.0.Powershell%20AD%20-%20Introduction.md)
+[⏮️ Chapitre Précédent: Gestion des Utilisateurs](Chapitre%207.Gestion_des_Utilisateurs.md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: PowerShell AD](Chapitre%209.0.Powershell%20AD%20-%20Introduction.md)
 
 
 !!! info "📚 Dans ce chapitre:"

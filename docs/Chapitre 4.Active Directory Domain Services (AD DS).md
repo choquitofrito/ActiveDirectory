@@ -1,7 +1,7 @@
 # Chapitre 4: Active Directory Domain Services (AD DS)
 
 ## 🧭 Navigation du Cours
-[⏮️ Chapitre Précédent: DNS](Chapitre%203.DNS.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: DNS Pratique avec AD](Chapitre%205.DNS-Pratique-avec-AD.md)
+[⏮️ Chapitre Précédent: DNS](Chapitre%203.DNS.md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: DNS Pratique avec AD](Chapitre%205.DNS-Pratique-avec-AD.md)
 
 
 

@@ -655,20 +655,20 @@ Après avoir exécuté le script et configuré les GPOs manuellement, les étudi
 
     **Niveau Débutant:**
 
-    - [Exercice 01: Gestion des Comptes Utilisateurs Médicaux](exercices/Exercice_01_Gestion_Comptes.md) - Modifier, désactiver et déplacer des comptes
-    - [Exercice 02: Manipulation des Groupes de Sécurité](exercices/Exercice_02_Groupes_Securite.md) - Ajouter/retirer membres, créer groupes
+    - [Exercice 01: Gestion des Comptes Utilisateurs Médicaux](exercices/Exercice_01_Transfert_Patient.md) - Modifier, désactiver et déplacer des comptes
+    - [Exercice 02: Manipulation des Groupes de Sécurité](exercices/Exercice_02_Horaire_Garde.md) - Ajouter/retirer membres, créer groupes
 
     **Niveau Intermédiaire:**
 
-    - [Exercice 03: Configuration Avancée des GPOs](exercices/Exercice_03_GPOs_Avancees.md) - Configurer, tester et dépanner les GPOs
-    - [Exercice 04: Permissions NTFS et Partages Réseau](exercices/Exercice_04_Partages_Reseau.md) - Créer partages médicaux sécurisés
-    - [Exercice 05: Audit et Conformité Médicale](exercices/Exercice_05_Audit_Conformite.md) - Analyser logs d'audit, traçabilité
+    - [Exercice 03: Configuration Avancée des GPOs](exercices/Exercice_03_Audit_Acces_Medical.md) - Configurer, tester et dépanner les GPOs
+    - [Exercice 04: Permissions NTFS et Partages Réseau](exercices/Exercice_04_Nouveau_Service_Medical.md) - Créer partages médicaux sécurisés
+    - [Exercice 05: Audit et Conformité Médicale](exercices/Exercice_05_Confidentialite_Renforcee.md) - Analyser logs d'audit, traçabilité
 
     **Niveau Avancé:**
 
-    - [Exercice 06: Scénarios de Panne et Récupération](exercices/Exercice_06_Pannes_Recuperation.md) - Restaurer comptes, réinitialiser mots de passe
-    - [Exercice 07: Délégation de Contrôle Départementale](exercices/Exercice_07_Delegation_Controle.md) - Déléguer gestion RH et Medical
-    - [Exercice 08: Simulation Violation de Sécurité](exercices/Exercice_08_Violation_Securite.md) - Enquêter et remédier
+    - [Exercice 06: Scénarios de Panne et Récupération](exercices/Exercice_06_Delegation_Chef_Service.md) - Restaurer comptes, réinitialiser mots de passe
+    - [Exercice 07: Délégation de Contrôle Départementale](exercices/Exercice_07_Rotation_Specialistes.md) - Déléguer gestion RH et Medical
+    - [Exercice 08: Simulation Violation de Sécurité](exercices/Exercice_08_Incident_RGPD.md) - Enquêter et remédier
 
 ## Dépannage
 

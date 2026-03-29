@@ -1,7 +1,7 @@
 # Chapitre 2: Installation de Windows Server 2022 sur VirtualBox
 
 ## 🧭 Navigation du Cours
-[⏮️ Chapitre Précédent: Introduction](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: DNS](Chapitre%203.DNS.md)
+[⏮️ Chapitre Précédent: Introduction](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: DNS](Chapitre%203.DNS.md)
 
 
 !!! info "📚 Dans ce guide:"
@@ -262,5 +262,5 @@ Supossons qu'on a deux départements pour le moment:
 Vous êtes maintenant prêt(e) pour le **Chapitre 3: Configuration DNS**
 
 ## 🧭 Navigation
-[⏮️ Chapitre Précédent: Introduction](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 3: DNS](Chapitre%203.DNS.md)
+[⏮️ Chapitre Précédent: Introduction](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre 3: DNS](Chapitre%203.DNS.md)
 

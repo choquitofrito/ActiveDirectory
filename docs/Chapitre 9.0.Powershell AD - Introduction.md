@@ -1,7 +1,7 @@
 # Chapitre 9.0: Powershell AD - Introduction
 
 ## 🧭 Navigation du Cours
-[🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Powershell AD - Concepts base](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md)
+[🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: Powershell AD - Concepts base](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md)
 
 ---
 
@@ -163,7 +163,7 @@ Get-Help Get-ADUser -ShowWindow
 ---
 
 ## 🧭 Navigation
-[🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Powershell AD - Concepts base](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md)
+[🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: Powershell AD - Concepts base](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md)
 
 ---
 

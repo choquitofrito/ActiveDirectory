@@ -16,9 +16,9 @@ Cette collection contient **9 exercices progressifs** pour l'apprentissage de l'
 
 | # | Titre | Fichier | Durée | Compétences |
 |---|-------|---------|-------|-------------|
-| 1 | Bienvenue à notre Nouveau Graphiste ! | [Exercice_01_Nouvel_Employe.md](Exercice_01_Nouvel_Employe.md) | 15-20 min | Création utilisateur, Configuration propriétés, Ajout aux groupes |
-| 2 | Gérer le Départ d'un Employé | [Exercice_02_Depart_Employe.md](Exercice_02_Depart_Employe.md) | 15 min | Désactivation compte, Documentation, Gestion des départs |
-| 3 | Créer une GPO pour Mapper un Lecteur Projet Client | [Exercice_03_GPO_Lecteur_Reseau.md](Exercice_03_GPO_Lecteur_Reseau.md) | 20-25 min | Création GPO, Préférences, Liaison OU |
+| 1 | Bienvenue à notre Nouveau Graphiste ! | [Exercice_01_Nouvel_Employe.md](../exercices/Exercice_01_Nouvel_Employe.md) | 15-20 min | Création utilisateur, Configuration propriétés, Ajout aux groupes |
+| 2 | Gérer le Départ d'un Employé | [Exercice_02_Depart_Employe.md](../exercices/Exercice_02_Depart_Employe.md) | 15 min | Désactivation compte, Documentation, Gestion des départs |
+| 3 | Créer une GPO pour Mapper un Lecteur Projet Client | [Exercice_03_GPO_Lecteur_Reseau.md](../exercices/Exercice_03_GPO_Lecteur_Reseau.md) | 20-25 min | Création GPO, Préférences, Liaison OU |
 
 **Objectif** : Acquérir les bases de l'administration AD via des instructions détaillées étape par étape.
 
@@ -28,9 +28,9 @@ Cette collection contient **9 exercices progressifs** pour l'apprentissage de l'
 
 | # | Titre | Fichier | Durée | Compétences |
 |---|-------|---------|-------|-------------|
-| 4 | Créer un Groupe de Sécurité pour un Projet Client Confidentiel | [Exercice_04_Groupe_Projet_Client.md](Exercice_04_Groupe_Projet_Client.md) | 20-25 min | Groupes Global/DomainLocal, AGDLP, Organisation multi-départements |
-| 5 | Incident de Sécurité - Réinitialisation de Mot de Passe | [Exercice_05_Reset_Password.md](Exercice_05_Reset_Password.md) | 15 min | Sécurité, Réinitialisation MDP, Déverrouillage compte, Gestion incident |
-| 6 | Délégation de Contrôle - Autonomiser les Responsables de Département | [Exercice_06_Delegation_Controle.md](Exercice_06_Delegation_Controle.md) | 25-30 min | Délégation de contrôle, ACL, Principe du moindre privilège |
+| 4 | Créer un Groupe de Sécurité pour un Projet Client Confidentiel | [Exercice_04_Groupe_Projet_Client.md](../exercices/Exercice_04_Groupe_Projet_Client.md) | 20-25 min | Groupes Global/DomainLocal, AGDLP, Organisation multi-départements |
+| 5 | Incident de Sécurité - Réinitialisation de Mot de Passe | [Exercice_05_Reset_Password.md](../exercices/Exercice_05_Reset_Password.md) | 15 min | Sécurité, Réinitialisation MDP, Déverrouillage compte, Gestion incident |
+| 6 | Délégation de Contrôle - Autonomiser les Responsables de Département | [Exercice_06_Delegation_Controle.md](../exercices/Exercice_06_Delegation_Controle.md) | 25-30 min | Délégation de contrôle, ACL, Principe du moindre privilège |
 
 **Objectif** : Appliquer les connaissances de manière autonome sans instructions détaillées.
 
@@ -40,9 +40,9 @@ Cette collection contient **9 exercices progressifs** pour l'apprentissage de l'
 
 | # | Titre | Fichier | Durée | Compétences |
 |---|-------|---------|-------|-------------|
-| 7 | Scénario Complet - Onboarding d'une Nouvelle Stagiaire | [Exercice_07_Scenario_Onboarding_Complet.md](Exercice_07_Scenario_Onboarding_Complet.md) | 40-50 min | Workflow complet, Décisions stratégiques, Documentation, Sécurité stagiaires |
-| 8 | Troubleshooting - "La GPO Ne S'Applique Pas !" | [Exercice_08_Troubleshooting_GPO.md](Exercice_08_Troubleshooting_GPO.md) | 30-40 min | Diagnostic GPO, Filtrage de sécurité, gpresult, Méthodologie troubleshooting |
-| 9 | Scénario de Crise - Compte Administrateur Compromis | [Exercice_09_Scenario_Crise_Securite.md](Exercice_09_Scenario_Crise_Securite.md) | 60-90 min | Gestion de crise, Containment, Investigation, Remediation, Documentation incident |
+| 7 | Scénario Complet - Onboarding d'une Nouvelle Stagiaire | [Exercice_07_Scenario_Onboarding_Complet.md](../exercices/Exercice_07_Scenario_Onboarding_Complet.md) | 40-50 min | Workflow complet, Décisions stratégiques, Documentation, Sécurité stagiaires |
+| 8 | Troubleshooting - "La GPO Ne S'Applique Pas !" | [Exercice_08_Troubleshooting_GPO.md](../exercices/Exercice_08_Troubleshooting_GPO.md) | 30-40 min | Diagnostic GPO, Filtrage de sécurité, gpresult, Méthodologie troubleshooting |
+| 9 | Scénario de Crise - Compte Administrateur Compromis | [Exercice_09_Scenario_Crise_Securite.md](../exercices/Exercice_09_Scenario_Crise_Securite.md) | 60-90 min | Gestion de crise, Containment, Investigation, Remediation, Documentation incident |
 
 **Objectif** : Résoudre des problèmes complexes et réalistes en situation professionnelle.
 
@@ -54,15 +54,15 @@ Chaque exercice dispose d'un script PowerShell de vérification automatique :
 
 | Exercice | Script de Vérification | Description |
 |----------|------------------------|-------------|
-| 1 | [verif_exercice_01.ps1](verif_exercice_01.ps1) | Vérification création utilisateur Sophie |
-| 2 | [verif_exercice_02.ps1](verif_exercice_02.ps1) | Vérification désactivation compte Manon |
-| 3 | [verif_exercice_03.ps1](verif_exercice_03.ps1) | Vérification GPO mappage lecteur TechVision |
-| 4 | [verif_exercice_04.ps1](verif_exercice_04.ps1) | Vérification groupe projet SecureBank |
-| 5 | [verif_exercice_05.ps1](verif_exercice_05.ps1) | Vérification réinitialisation MDP Bastien |
-| 6 | [verif_exercice_06.ps1](verif_exercice_06.ps1) | Vérification délégation Gabrielle/Camille |
-| 7 | [verif_exercice_07.ps1](verif_exercice_07.ps1) | Vérification onboarding stagiaire Léa |
-| 8 | [verif_exercice_08.ps1](verif_exercice_08.ps1) | Vérification troubleshooting GPO juniors |
-| 9 | [verif_exercice_09.ps1](verif_exercice_09.ps1) | Vérification gestion incident sécurité |
+| 1 | [verif_exercice_01.ps1](../scripts/verification/verif_exercice_01.ps1) | Vérification création utilisateur Sophie |
+| 2 | [verif_exercice_02.ps1](../scripts/verification/verif_exercice_02.ps1) | Vérification désactivation compte Manon |
+| 3 | [verif_exercice_03.ps1](../scripts/verification/verif_exercice_03.ps1) | Vérification GPO mappage lecteur TechVision |
+| 4 | [verif_exercice_04.ps1](../scripts/verification/verif_exercice_04.ps1) | Vérification groupe projet SecureBank |
+| 5 | [verif_exercice_05.ps1](../scripts/verification/verif_exercice_05.ps1) | Vérification réinitialisation MDP Bastien |
+| 6 | [verif_exercice_06.ps1](../scripts/verification/verif_exercice_06.ps1) | Vérification délégation Gabrielle/Camille |
+| 7 | [verif_exercice_07.ps1](../scripts/verification/verif_exercice_07.ps1) | Vérification onboarding stagiaire Léa |
+| 8 | [verif_exercice_08.ps1](../scripts/verification/verif_exercice_08.ps1) | Vérification troubleshooting GPO juniors |
+| 9 | [verif_exercice_09.ps1](../scripts/verification/verif_exercice_09.ps1) | Vérification gestion incident sécurité |
 
 **Utilisation** :
 ```powershell
@@ -76,9 +76,9 @@ Chaque exercice dispose d'un script PowerShell de vérification automatique :
 | Document | Description |
 |----------|-------------|
 | [Guide_Instructeur_Exercices.md](Guide_Instructeur_Exercices.md) | Guide complet pour les formateurs (séquençage, pédagogie, évaluation) |
-| [README_CreativeHub.md](README_CreativeHub.md) | Documentation du lab CreativeHub (structure, utilisateurs, groupes) |
-| [CreativeHub_Setup.ps1](CreativeHub_Setup.ps1) | Script de déploiement du lab |
-| [CreativeHub_Cleanup.ps1](CreativeHub_Cleanup.ps1) | Script de nettoyage du lab |
+| [README_CreativeHub.md](../README.md) | Documentation du lab CreativeHub (structure, utilisateurs, groupes) |
+| [CreativeHub_Setup.ps1](../scripts/CreativeHub_Setup.ps1) | Script de déploiement du lab |
+| [CreativeHub_Cleanup.ps1](../scripts/CreativeHub_Cleanup.ps1) | Script de nettoyage du lab |
 
 ---
 

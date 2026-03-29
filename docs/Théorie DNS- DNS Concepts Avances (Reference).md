@@ -1,7 +1,7 @@
 # Annexe A: DNS - Concepts Avancés (Référence)
 
 ## 🧭 Navigation
-[🏠 Retour au Syllabus](../README.md) | [📖 Chapitre 3: DNS Préparation](Chapitre%203.DNS.md) | [💻 Chapitre 5: DNS Pratique](Chapitre%205.DNS-Pratique-avec-AD.md)
+[🏠 Retour au Syllabus](index.md) | [📖 Chapitre 3: DNS Préparation](Chapitre%203.DNS.md) | [💻 Chapitre 5: DNS Pratique](Chapitre%205.DNS-Pratique-avec-AD.md)
 
 ---
 
@@ -889,7 +889,7 @@ Maintenant que vous comprenez le DNS, vous êtes prêt(e) pour **Active Director
 > 💡 **Bonne nouvelle:** Quand vous installerez AD DS, le DNS se configurera automatiquement!
 
 ## 🧭 Navigation
-[⏮️ Chapitre Précédent: Installation VirtualBox](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 4: Active Directory](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md)
+[⏮️ Chapitre Précédent: Installation VirtualBox](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre 4: Active Directory](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md)
 Password1!
 ---
 

@@ -1,7 +1,7 @@
 # Chapitre 7: Gestion des Utilisateurs
 
 ## 🧭 Navigation du Cours
-[⏮️ Chapitre Précédent: Unités d'Organisation](Chapitre%206.Unites_Organisation.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Group Policy Objects](Chapitre%208.Group%20Policy%20Objects.md)
+[⏮️ Chapitre Précédent: Unités d'Organisation](Chapitre%206.Unites_Organisation.md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: Group Policy Objects](Chapitre%208.Group%20Policy%20Objects.md)
 
 
 !!! info "📚 Dans ce chapitre:"
@@ -470,7 +470,7 @@ C'est vrai qu'**on a limité l'accès par le réseau, mais quand-même un utilis
 
 - On doit **supprimer les `Utilisateurs` de la liste**, mais on ne peut pas car il hérite les autorisations des groupes plus haut dans la liste
 - Fermez la fenetre actuelle et cliquez sur `Avancé` dans les propriétés du dossier(onglet `Sécurité`)
-- Cliquez sur `Desactiver l'héritage` et puis `Convertir....`. N'appuyez pas sur `Supprimer` car vous enlèverez les permissions des groupes! (solution dans le fichier [Annexe: Permissions](syllabus/Annexe.Permissions.md) si besoin!)
+- Cliquez sur `Desactiver l'héritage` et puis `Convertir....`. N'appuyez pas sur `Supprimer` car vous enlèverez les permissions des groupes! (solution dans le fichier [Annexe: Permissions](Labo%20et%20Exercices/Labo/Annexe.Permissions.md) si besoin!)
 - Supprimez maintenant les groupes d'utilisateurs de la liste  
 - Cochez `Remplacer toutes les entrées` pour que les sous dossiers et fichiers inclus (dans le futur) dans le dossier partagé reçoivent les mêmes permissions
 - Cliquez sur `Ok` pour accepter et puis `OK` pour arriver à la fenetre des propriéteś (onglet Sécurité)
@@ -772,7 +772,7 @@ Vos utilisateurs sont créés et organisés! Il est maintenant temps d'apprendre
 > 💡 **Superbe travail:** Vous maîtrisez maintenant la gestion des identités dans Active Directory!
 
 ## 🧭 Navigation
-[⏮️ Chapitre Précédent: Unités d'Organisation](Chapitre%206.Unites_Organisation.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 8: Group Policy Objects](Chapitre%208.Group%20Policy%20Objects.md)
+[⏮️ Chapitre Précédent: Unités d'Organisation](Chapitre%206.Unites_Organisation.md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre 8: Group Policy Objects](Chapitre%208.Group%20Policy%20Objects.md)
 
 ---
 

@@ -1,7 +1,7 @@
 # PowerShell Cheat Sheet - Commandes Essentielles
 
 ## 🧭 Navigation du Cours
-[🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Powershell AD - Requêtes et Informations](Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations.md)
+[🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: Powershell AD - Requêtes et Informations](Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations.md)
 
 ---
 

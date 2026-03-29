@@ -1,7 +1,7 @@
 # Chapitre 5: DNS en Pratique avec Active Directory
 
 ## 🧭 Navigation du Cours
-[⏮️ Chapitre Précédent: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Unités d'Organisation](Chapitre%206.Unites_Organisation.md)
+[⏮️ Chapitre Précédent: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: Unités d'Organisation](Chapitre%206.Unites_Organisation.md)
 
 ## 📊 Votre Progrès
 
@@ -481,7 +481,7 @@ Vous savez maintenant:
 !!! info "Pour aller plus loin"
 
 Si vous voulez approfondir les concepts théoriques DNS:
-- 📖 [Annexe A - DNS Concepts Avancés (Référence)](Annexe%20A%20-%20DNS%20Concepts%20Avances%20(Reference).md)
+- 📖 [Annexe A - DNS Concepts Avancés (Référence)](Théorie%20DNS-%20DNS%20Concepts%20Avances%20(Reference).md)
   - Délégation DNS en détail
   - Architecture multi-sites
   - Zones secondaires avancées
@@ -490,7 +490,7 @@ Si vous voulez approfondir les concepts théoriques DNS:
 ---
 
 ## 🧭 Navigation
-[⏮️ Chapitre 4: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 6: Unités d'Organisation](Chapitre%206.Unites_Organisation.md)
+[⏮️ Chapitre 4: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre 6: Unités d'Organisation](Chapitre%206.Unites_Organisation.md)
 
 ---
 

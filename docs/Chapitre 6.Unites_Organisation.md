@@ -1,7 +1,7 @@
 # Chapitre 6 : Unités d'organisation (UOs)
 
 ## 🧭 Navigation du Cours
-[⏮️ Chapitre Précédent: DNS Pratique avec AD](Chapitre%205.DNS-Pratique-avec-AD.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre Suivant: Gestion des Utilisateurs](Chapitre%207.Gestion_des_Utilisateurs.md)
+[⏮️ Chapitre Précédent: DNS Pratique avec AD](Chapitre%205.DNS-Pratique-avec-AD.md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: Gestion des Utilisateurs](Chapitre%207.Gestion_des_Utilisateurs.md)
 
 
 ---
@@ -883,7 +883,7 @@ Maintenant que votre structure organisationnelle est en place, il est temps de c
     Vous maîtrisez maintenant l'organisation logique d'Active Directory !
 
 ## 🧭 Navigation
-[⏮️ Chapitre Précédent: DNS Pratique avec AD](Chapitre%205.DNS-Pratique-avec-AD.md) | [🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 7: Gestion des Utilisateurs](Chapitre%207.Gestion_des_Utilisateurs.md)
+[⏮️ Chapitre Précédent: DNS Pratique avec AD](Chapitre%205.DNS-Pratique-avec-AD.md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre 7: Gestion des Utilisateurs](Chapitre%207.Gestion_des_Utilisateurs.md)
 
 ---
 

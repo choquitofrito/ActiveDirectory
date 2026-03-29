@@ -373,6 +373,6 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 Vous êtes maintenant prêt(e) pour le **Chapitre 2: Installation avec VirtualBox**
 
 ## 🧭 Navigation
-[🏠 Retour au Syllabus](../README.md) | [⏭️ Chapitre 2: Installation VirtualBox](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md)
+[🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre 2: Installation VirtualBox](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md)
 
 
