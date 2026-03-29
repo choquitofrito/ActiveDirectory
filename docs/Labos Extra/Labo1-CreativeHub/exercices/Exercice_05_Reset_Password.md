@@ -76,53 +76,44 @@ Votre mission est de sécuriser immédiatement le compte de Bastien et lui perme
 
 ### Indices
 
-<details>
-<summary>💡 Indice 1 : Méthode GUI</summary>
+??? info "💡 Indice 1 : Méthode GUI"
+    1. Ouvrir `dsa.msc`
+    2. Localiser l'utilisateur Bastien dans `OU=Users,OU=Marketing,OU=CreativeHub`
+    3. Clic droit sur l'utilisateur → "Réinitialiser le mot de passe..."
+    4. Dans la fenêtre :
+       - Cocher "Déverrouiller le compte" (si l'option est disponible)
+       - Entrer le nouveau mot de passe
+       - Cocher "L'utilisateur doit changer le mot de passe à la prochaine ouverture de session"
+    5. Ajouter une note documentant l'incident dans l'onglet Général (Description)
+    
 
-1. Ouvrir `dsa.msc`
-2. Localiser l'utilisateur Bastien dans `OU=Users,OU=Marketing,OU=CreativeHub`
-3. Clic droit sur l'utilisateur → "Réinitialiser le mot de passe..."
-4. Dans la fenêtre :
-   - Cocher "Déverrouiller le compte" (si l'option est disponible)
-   - Entrer le nouveau mot de passe
-   - Cocher "L'utilisateur doit changer le mot de passe à la prochaine ouverture de session"
-5. Ajouter une note documentant l'incident dans l'onglet Général (Description)
+??? info "💡 Indice 2 : Méthode PowerShell"
+    ```powershell
+    Import-Module ActiveDirectory
+    
+    # Réinitialiser le mot de passe
+    $newPassword = ConvertTo-SecureString "TempSecure2025!" -AsPlainText -Force
+    Set-ADAccountPassword -Identity bastien -NewPassword $newPassword -Reset
+    
+    # Forcer le changement à la prochaine connexion
+    Set-ADUser -Identity bastien -ChangePasswordAtLogon $true
+    
+    # Déverrouiller le compte si nécessaire
+    Unlock-ADAccount -Identity bastien
+    
+    # Vérifier l'état
+    Get-ADUser -Identity bastien -Properties LockedOut, PasswordExpired | Select-Object Name, Enabled, LockedOut, PasswordExpired
+    ```
+    
 
-</details>
-
-<details>
-<summary>💡 Indice 2 : Méthode PowerShell</summary>
-
-```powershell
-Import-Module ActiveDirectory
-
-# Réinitialiser le mot de passe
-$newPassword = ConvertTo-SecureString "TempSecure2025!" -AsPlainText -Force
-Set-ADAccountPassword -Identity bastien -NewPassword $newPassword -Reset
-
-# Forcer le changement à la prochaine connexion
-Set-ADUser -Identity bastien -ChangePasswordAtLogon $true
-
-# Déverrouiller le compte si nécessaire
-Unlock-ADAccount -Identity bastien
-
-# Vérifier l'état
-Get-ADUser -Identity bastien -Properties LockedOut, PasswordExpired | Select-Object Name, Enabled, LockedOut, PasswordExpired
-```
-
-</details>
-
-<details>
-<summary>💡 Indice 3 : Vérifier si le compte est verrouillé</summary>
-
-```powershell
-Get-ADUser -Identity bastien -Properties LockedOut, AccountLockoutTime |
-    Select-Object Name, LockedOut, AccountLockoutTime
-```
-
-Si `LockedOut = True`, vous devez déverrouiller le compte.
-
-</details>
+??? info "💡 Indice 3 : Vérifier si le compte est verrouillé"
+    ```powershell
+    Get-ADUser -Identity bastien -Properties LockedOut, AccountLockoutTime |
+        Select-Object Name, LockedOut, AccountLockoutTime
+    ```
+    
+    Si `LockedOut = True`, vous devez déverrouiller le compte.
+    
 
 ## Vérification de la Réussite
 

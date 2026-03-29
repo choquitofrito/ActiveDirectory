@@ -89,38 +89,30 @@ Créer un groupe de sécurité nommé **GG-Projet-SecureBank** contenant exactem
 
 ### Indices (Si Nécessaire)
 
-<details>
-<summary>💡 Indice 1 : Étendue du groupe</summary>
+??? info "💡 Indice 1 : Étendue du groupe"
+    Dans un environnement à domaine unique, la meilleure pratique Microsoft est :
+    - **Groupes Globaux** : Pour regrouper des utilisateurs (ex: tous les utilisateurs d'un département)
+    - **Groupes Domain Local** : Pour attribuer des permissions sur des ressources
+    - **Stratégie AGDLP** : Ajouter les utilisateurs à un groupe Global, puis ce groupe Global à un groupe Domain Local qui a les permissions
+    
+    Pour cet exercice, comme le groupe contient directement des utilisateurs et sera utilisé pour des permissions locales, **Domain Local** est le choix approprié.
+    
 
-Dans un environnement à domaine unique, la meilleure pratique Microsoft est :
-- **Groupes Globaux** : Pour regrouper des utilisateurs (ex: tous les utilisateurs d'un département)
-- **Groupes Domain Local** : Pour attribuer des permissions sur des ressources
-- **Stratégie AGDLP** : Ajouter les utilisateurs à un groupe Global, puis ce groupe Global à un groupe Domain Local qui a les permissions
+??? info "💡 Indice 2 : Emplacement du groupe"
+    Comme le groupe concerne plusieurs départements, créez une nouvelle OU "Projets" ou "Groupes_Projets" sous l'OU racine CreativeHub :
+    - `OU=Groupes_Projets,OU=CreativeHub,DC=maxtec,DC=be`
+    
+    Ou utilisez l'OU Groups d'un département (par exemple ClientServices puisque c'est le département qui pilote le projet).
+    
 
-Pour cet exercice, comme le groupe contient directement des utilisateurs et sera utilisé pour des permissions locales, **Domain Local** est le choix approprié.
+??? info "💡 Indice 3 : Vérification des membres"
+    Après avoir ajouté les membres, double-cliquez sur le groupe, allez dans l'onglet "Membres" et comptez : vous devez voir exactement 5 noms.
+    
+    Utilisez aussi PowerShell pour vérifier :
+    ```powershell
+    Get-ADGroupMember -Identity "GG-Projet-SecureBank" | Select-Object Name, SamAccountName
+    ```
 
-</details>
-
-<details>
-<summary>💡 Indice 2 : Emplacement du groupe</summary>
-
-Comme le groupe concerne plusieurs départements, créez une nouvelle OU "Projets" ou "Groupes_Projets" sous l'OU racine CreativeHub :
-- `OU=Groupes_Projets,OU=CreativeHub,DC=maxtec,DC=be`
-
-Ou utilisez l'OU Groups d'un département (par exemple ClientServices puisque c'est le département qui pilote le projet).
-
-</details>
-
-<details>
-<summary>💡 Indice 3 : Vérification des membres</summary>
-
-Après avoir ajouté les membres, double-cliquez sur le groupe, allez dans l'onglet "Membres" et comptez : vous devez voir exactement 5 noms.
-
-Utilisez aussi PowerShell pour vérifier :
-```powershell
-Get-ADGroupMember -Identity "GG-Projet-SecureBank" | Select-Object Name, SamAccountName
-```
-</details>
 
 ## Vérification de la Réussite
 

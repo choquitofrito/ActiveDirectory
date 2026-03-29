@@ -123,69 +123,54 @@ Déléguer à **camille** (Camille Bernard) les permissions suivantes sur l'OU *
 
 ### Indices
 
-<details>
-<summary>💡 Indice 1 : Accéder à l'Assistant Délégation</summary>
+??? info "💡 Indice 1 : Accéder à l'Assistant Délégation"
+    1. Ouvrir `dsa.msc`
+    2. Naviguer vers l'OU cible (ex: OU=Users,OU=Creative,OU=CreativeHub)
+    3. **Clic droit** sur l'OU → **Déléguer le contrôle...**
+    4. L'Assistant Délégation de contrôle s'ouvre
+    5. Suivre les étapes :
+       - Ajouter les utilisateurs/groupes
+       - Sélectionner les tâches à déléguer
+       - Valider
+    
 
-1. Ouvrir `dsa.msc`
-2. Naviguer vers l'OU cible (ex: OU=Users,OU=Creative,OU=CreativeHub)
-3. **Clic droit** sur l'OU → **Déléguer le contrôle...**
-4. L'Assistant Délégation de contrôle s'ouvre
-5. Suivre les étapes :
-   - Ajouter les utilisateurs/groupes
-   - Sélectionner les tâches à déléguer
-   - Valider
+??? info "💡 Indice 2 : Tâches Courantes pour Gabrielle"
+    Pour Gabrielle (réinitialiser MDP et déverrouiller comptes) :
+    - Sélectionner "Réinitialiser les mots de passe utilisateur et forcer la modification du mot de passe lors de la prochaine ouverture de session"
+    - Cette tâche inclut automatiquement le déverrouillage de compte
+    
 
-</details>
+??? info "💡 Indice 3 : Tâches Courantes pour Camille"
+    Pour Camille (créer, modifier, gérer utilisateurs) :
+    - Sélectionner "Créer, supprimer et gérer les comptes utilisateurs"
+    - Sélectionner "Réinitialiser les mots de passe utilisateur..."
+    - Sélectionner "Modifier l'appartenance à un groupe"
+    
+    OU utiliser "Créer une tâche personnalisée à déléguer" pour un contrôle plus fin.
+    
 
-<details>
-<summary>💡 Indice 2 : Tâches Courantes pour Gabrielle</summary>
+??? info "💡 Indice 4 : Vérifier les Permissions (PowerShell)"
+    ```powershell
+    Import-Module ActiveDirectory
+    
+    # Voir les ACL (Access Control List) d'une OU
+    $ou = "OU=Users,OU=Creative,OU=CreativeHub,DC=maxtec,DC=be"
+    (Get-Acl "AD:$ou").Access | Where-Object {$_.IdentityReference -like "*gabrielle*"} | Format-Table IdentityReference, ActiveDirectoryRights, AccessControlType
+    ```
+    
 
-Pour Gabrielle (réinitialiser MDP et déverrouiller comptes) :
-- Sélectionner "Réinitialiser les mots de passe utilisateur et forcer la modification du mot de passe lors de la prochaine ouverture de session"
-- Cette tâche inclut automatiquement le déverrouillage de compte
-
-</details>
-
-<details>
-<summary>💡 Indice 3 : Tâches Courantes pour Camille</summary>
-
-Pour Camille (créer, modifier, gérer utilisateurs) :
-- Sélectionner "Créer, supprimer et gérer les comptes utilisateurs"
-- Sélectionner "Réinitialiser les mots de passe utilisateur..."
-- Sélectionner "Modifier l'appartenance à un groupe"
-
-OU utiliser "Créer une tâche personnalisée à déléguer" pour un contrôle plus fin.
-
-</details>
-
-<details>
-<summary>💡 Indice 4 : Vérifier les Permissions (PowerShell)</summary>
-
-```powershell
-Import-Module ActiveDirectory
-
-# Voir les ACL (Access Control List) d'une OU
-$ou = "OU=Users,OU=Creative,OU=CreativeHub,DC=maxtec,DC=be"
-(Get-Acl "AD:$ou").Access | Where-Object {$_.IdentityReference -like "*gabrielle*"} | Format-Table IdentityReference, ActiveDirectoryRights, AccessControlType
-```
-
-</details>
-
-<details>
-<summary>💡 Indice 5 : Tester la Délégation</summary>
-
-Option 1 : Se connecter avec le compte délégué
-- Ouvrir `dsa.msc` en tant que gabrielle
-- Essayer de réinitialiser un mot de passe dans Creative
-- Essayer de créer un utilisateur (devrait échouer)
-
-Option 2 : PowerShell avec credentials
-```powershell
-$cred = Get-Credential -UserName "MAXTEC\gabrielle" -Message "Entrez le mot de passe de Gabrielle"
-# Tester des commandes AD avec -Credential $cred
-```
-
-</details>
+??? info "💡 Indice 5 : Tester la Délégation"
+    Option 1 : Se connecter avec le compte délégué
+    - Ouvrir `dsa.msc` en tant que gabrielle
+    - Essayer de réinitialiser un mot de passe dans Creative
+    - Essayer de créer un utilisateur (devrait échouer)
+    
+    Option 2 : PowerShell avec credentials
+    ```powershell
+    $cred = Get-Credential -UserName "MAXTEC\gabrielle" -Message "Entrez le mot de passe de Gabrielle"
+    # Tester des commandes AD avec -Credential $cred
+    ```
+    
 
 ## Vérification de la Réussite
 

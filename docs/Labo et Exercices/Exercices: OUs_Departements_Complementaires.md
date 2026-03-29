@@ -89,56 +89,53 @@ Tâches:
 3. Trouver tous les utilisateurs dont le titre contient "Responsable" ou "Directeur/Directrice"
 4. Créer une requête LDAP pour trouver tous les utilisateurs créés aujourd'hui
 
-<details>
-<summary>Solution</summary>
-
-### Solution de recherche et filtrage d'objets AD
-
-1. **Trouver tous les utilisateurs du département Marketing**
-   - Ouvrez le Centre d'administration Active Directory
-   - Accédez à l'OU Marketing
-   - Dans le panneau de recherche, sélectionnez:
-     * Type d'objet: Utilisateur
-     * Cliquez sur "Rechercher"
-   
-   Ou en utilisant l'interface Utilisateurs et ordinateurs Active Directory:
-   - Accédez à l'OU Marketing
-   - Utilisez le filtre pour afficher uniquement les utilisateurs (Affichage > Filtrer > Utilisateurs)
-
-2. **Lister tous les groupes dont isabelle.martin est membre**
-   - Ouvrez Utilisateurs et ordinateurs Active Directory
-   - Localisez l'utilisateur isabelle.martin
-   - Faites un clic droit et sélectionnez "Propriétés"
-   - Accédez à l'onglet "Membre de"
-   - Tous les groupes dont l'utilisateur est membre seront affichés
-
-3. **Trouver tous les utilisateurs dont le titre contient "Responsable" ou "Directeur/Directrice"**
-   - Ouvrez le Centre d'administration Active Directory
-   - Cliquez sur "Recherche globale"
-   - Sélectionnez "Utilisateur" comme type d'objet
-   - Cliquez sur "Ajouter un critère"
-   - Sélectionnez "Titre" et entrez "Responsable" ou "Directeur" avec l'opérateur "Contient"
-   - Cliquez sur "Ajouter un critère" à nouveau
-   - Sélectionnez "Titre" et entrez "Directrice" avec l'opérateur "Contient"
-   - Assurez-vous que l'option "Correspond à n'importe quel critère" est sélectionnée
-   - Cliquez sur "Rechercher"
-
-4. **Créer une requête LDAP pour trouver tous les utilisateurs créés aujourd'hui**
-   - Ouvrez Utilisateurs et ordinateurs Active Directory
-   - Cliquez sur "Affichage" > "Fonctionnalités avancées" pour activer les fonctionnalités avancées
-   - Cliquez sur "Affichage" > "Recherche avancée"
-   - Dans le champ "LDAP Query", entrez:
-     ```
-     (&(objectCategory=person)(objectClass=user)(whenCreated>=DATE))
-     ```
-     où DATE est la date du jour au format AAAAMMJJ000000.0Z
-     Par exemple, pour le 16 mai 2025:
-     ```
-     (&(objectCategory=person)(objectClass=user)(whenCreated>=20250516000000.0Z))
-     ```
-   - Cliquez sur "Rechercher"
-
-</details>
+??? success "Solution"
+    ### Solution de recherche et filtrage d'objets AD
+    
+    1. **Trouver tous les utilisateurs du département Marketing**
+       - Ouvrez le Centre d'administration Active Directory
+       - Accédez à l'OU Marketing
+       - Dans le panneau de recherche, sélectionnez:
+         * Type d'objet: Utilisateur
+         * Cliquez sur "Rechercher"
+       
+       Ou en utilisant l'interface Utilisateurs et ordinateurs Active Directory:
+       - Accédez à l'OU Marketing
+       - Utilisez le filtre pour afficher uniquement les utilisateurs (Affichage > Filtrer > Utilisateurs)
+    
+    2. **Lister tous les groupes dont isabelle.martin est membre**
+       - Ouvrez Utilisateurs et ordinateurs Active Directory
+       - Localisez l'utilisateur isabelle.martin
+       - Faites un clic droit et sélectionnez "Propriétés"
+       - Accédez à l'onglet "Membre de"
+       - Tous les groupes dont l'utilisateur est membre seront affichés
+    
+    3. **Trouver tous les utilisateurs dont le titre contient "Responsable" ou "Directeur/Directrice"**
+       - Ouvrez le Centre d'administration Active Directory
+       - Cliquez sur "Recherche globale"
+       - Sélectionnez "Utilisateur" comme type d'objet
+       - Cliquez sur "Ajouter un critère"
+       - Sélectionnez "Titre" et entrez "Responsable" ou "Directeur" avec l'opérateur "Contient"
+       - Cliquez sur "Ajouter un critère" à nouveau
+       - Sélectionnez "Titre" et entrez "Directrice" avec l'opérateur "Contient"
+       - Assurez-vous que l'option "Correspond à n'importe quel critère" est sélectionnée
+       - Cliquez sur "Rechercher"
+    
+    4. **Créer une requête LDAP pour trouver tous les utilisateurs créés aujourd'hui**
+       - Ouvrez Utilisateurs et ordinateurs Active Directory
+       - Cliquez sur "Affichage" > "Fonctionnalités avancées" pour activer les fonctionnalités avancées
+       - Cliquez sur "Affichage" > "Recherche avancée"
+       - Dans le champ "LDAP Query", entrez:
+         ```
+         (&(objectCategory=person)(objectClass=user)(whenCreated>=DATE))
+         ```
+         où DATE est la date du jour au format AAAAMMJJ000000.0Z
+         Par exemple, pour le 16 mai 2025:
+         ```
+         (&(objectCategory=person)(objectClass=user)(whenCreated>=20250516000000.0Z))
+         ```
+       - Cliquez sur "Rechercher"
+    
 
 ## 7. 🔹 Délégation de Contrôle pour les Nouveaux Départements
 

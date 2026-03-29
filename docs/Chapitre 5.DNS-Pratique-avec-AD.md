@@ -164,20 +164,18 @@ nslookup files.maxtec.be
 
 **Mission:** Créez un enregistrement CNAME `www` qui pointe vers `fileserver` (pour simuler)
 
-<details>
-<summary>💡 Cliquez pour voir la solution</summary>
+??? success "💡 Cliquez pour voir la solution"
+    1. Clic droit sur zone **maxtec.be** → **Nouvel alias (CNAME)**
+    2. Nom: `www`
+    3. FQDN cible: `fileserver.maxtec.be`
+    4. OK
+    
+    Vérification:
+    ```powershell
+    nslookup www.maxtec.be
+    # Devrait résoudre vers fileserver.maxtec.be → 192.168.10.10
+    ```
 
-1. Clic droit sur zone **maxtec.be** → **Nouvel alias (CNAME)**
-2. Nom: `www`
-3. FQDN cible: `fileserver.maxtec.be`
-4. OK
-
-Vérification:
-```powershell
-nslookup www.maxtec.be
-# Devrait résoudre vers fileserver.maxtec.be → 192.168.10.10
-```
-</details>
 
 ### ✅ Checkpoint Lab 2
 
@@ -416,40 +414,38 @@ Vous devez configurer un nouveau serveur web pour maxtec.be. Voici les exigences
 
 ### 📝 Étapes à Réaliser
 
-<details>
-<summary>💡 Cliquez pour voir la solution complète</summary>
+??? success "💡 Cliquez pour voir la solution complète"
+    !!! example "Étape 1: Créer l'enregistrement A"
+    
+    ```
+    Gestionnaire DNS → maxtec.be → Clic droit → Nouveau hôte
+    - Nom: webserver
+    - IP: 192.168.10.15
+    - ☑️ Créer enregistrement PTR associé
+    ```
+    
+    !!! example "Étape 2: Créer les alias CNAME"
+    
+    ```
+    Alias 1:
+    - Nom: www
+    - FQDN cible: webserver.maxtec.be
+    
+    Alias 2:
+    - Nom: webadmin
+    - FQDN cible: webserver.maxtec.be
+    ```
+    
+    **Étape 3: Vérifier**
+    ```powershell
+    nslookup webserver.maxtec.be  # → 192.168.10.15
+    nslookup www.maxtec.be         # → webserver.maxtec.be → 192.168.10.15
+    nslookup webadmin.maxtec.be    # → webserver.maxtec.be → 192.168.10.15
+    nslookup 192.168.10.15         # → webserver.maxtec.be
+    ```
+    
+    **✅ Tous les tests doivent fonctionner !**
 
-!!! example "Étape 1: Créer l'enregistrement A"
-
-```
-Gestionnaire DNS → maxtec.be → Clic droit → Nouveau hôte
-- Nom: webserver
-- IP: 192.168.10.15
-- ☑️ Créer enregistrement PTR associé
-```
-
-!!! example "Étape 2: Créer les alias CNAME"
-
-```
-Alias 1:
-- Nom: www
-- FQDN cible: webserver.maxtec.be
-
-Alias 2:
-- Nom: webadmin
-- FQDN cible: webserver.maxtec.be
-```
-
-**Étape 3: Vérifier**
-```powershell
-nslookup webserver.maxtec.be  # → 192.168.10.15
-nslookup www.maxtec.be         # → webserver.maxtec.be → 192.168.10.15
-nslookup webadmin.maxtec.be    # → webserver.maxtec.be → 192.168.10.15
-nslookup 192.168.10.15         # → webserver.maxtec.be
-```
-
-**✅ Tous les tests doivent fonctionner !**
-</details>
 
 ### ✅ Validation Finale
 

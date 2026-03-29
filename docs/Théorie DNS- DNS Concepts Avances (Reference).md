@@ -54,29 +54,27 @@ Le DNS offre deux types de résolution :
 
 > **Objectif:** Comprendre comment le DNS fonctionne dans votre environnement
 
-<details>
-<summary>📙 Instructions</summary>
+??? info "📙 Instructions"
+    1. 🖥 **Préparation:**
+       - Ouvrez une console PowerShell ou CMD
+       - Assurez-vous d'être connecté à Internet
+    
+    2. 🔍 **Tests de résolution DNS:**
+       ```powershell
+       # Test d'un domaine public
+       ping -4 www.google.com
+       
+       # Test de notre futur domaine
+       ping -4 maxtec.be
+       ```
+    
+    3. 🧐 **Analyse:**
+       - Observez les adresses IP retournées
+       - Notez les différences entre les réponses
+       - Réfléchissez aux raisons des échecs
+    
+    > **Note:** L'option `-4` force l'utilisation de l'IPv4
 
-1. 🖥 **Préparation:**
-   - Ouvrez une console PowerShell ou CMD
-   - Assurez-vous d'être connecté à Internet
-
-2. 🔍 **Tests de résolution DNS:**
-   ```powershell
-   # Test d'un domaine public
-   ping -4 www.google.com
-   
-   # Test de notre futur domaine
-   ping -4 maxtec.be
-   ```
-
-3. 🧐 **Analyse:**
-   - Observez les adresses IP retournées
-   - Notez les différences entre les réponses
-   - Réfléchissez aux raisons des échecs
-
-> **Note:** L'option `-4` force l'utilisation de l'IPv4
-</details>
 
 ### Exemple de resolution inverse sous Windows
 
@@ -184,20 +182,17 @@ Voici l'arbre DNS de Maxtec, on voit aussi l'ensemble des sous-domaines et les r
 
 ![Diagramme DNS](diagrams/images/structure_reseau_geographic_zones.png)
 
-<details>
-<summary>💡 Avantages de cette structure</summary>
-
-- 🌐 **Séparation Géographique**
-  * Meilleure gestion du trafic réseau
-  * Répartition logique des ressources
-- 🛠️ **Séparation des Environnements**
-
-  * Sécurité renforcée
-- 💻 **Gestion des Ressources**
-  * Organisation claire
-  * Maintenance simplifiée
-
-</details>
+??? tip "💡 Avantages de cette structure"
+    - 🌐 **Séparation Géographique**
+      * Meilleure gestion du trafic réseau
+      * Répartition logique des ressources
+    - 🛠️ **Séparation des Environnements**
+    
+      * Sécurité renforcée
+    - 💻 **Gestion des Ressources**
+      * Organisation claire
+      * Maintenance simplifiée
+    
 
 
 ### 📍 Structure DNS Hybride
@@ -252,29 +247,23 @@ Une **zone DNS** est tout simplement **une partie de l'espace de noms DNS** (une
 
 ### ✨ Avantages de la Division en Zones
 
-<details>
-<summary>📑 Organisation Logique</summary>
+??? tip "📑 Organisation Logique"
+    - 🌐 Séparation par région (EU, US)
+    - 🛠️ Séparation par environnement (DEV, PROD)
+    - 💻 Gestion claire des ressources
 
-- 🌐 Séparation par région (EU, US)
-- 🛠️ Séparation par environnement (DEV, PROD)
-- 💻 Gestion claire des ressources
-</details>
 
-<details>
-<summary>🔒 Sécurité</summary>
+??? tip "🔒 Sécurité"
+    - 📜 Politiques par zone
+    - 🔐 Contrôle d'accès granulaire
+    - 🔑 Isolation des environnements
 
-- 📜 Politiques par zone
-- 🔐 Contrôle d'accès granulaire
-- 🔑 Isolation des environnements
-</details>
 
-<details>
-<summary>📈 Performance</summary>
+??? tip "📈 Performance"
+    - 🌍 Optimisation du trafic
+    - 📊 Répartition de charge
+    - 📉 Redondance améliorée
 
-- 🌍 Optimisation du trafic
-- 📊 Répartition de charge
-- 📉 Redondance améliorée
-</details>
 
 ### 🏛️ Structure du Réseau
 
@@ -354,23 +343,19 @@ Un serveur DNS ayant autorité sur un espace de nom :
 
 #### 🔑 Caractéristiques d'un Serveur avec Autorité
 
-<details>
-<summary>💻 Réponses Directes</summary>
+??? success "💻 Réponses Directes"
+    | Action | Description | Exemple |
+    |--------|-------------|----------|
+    | ✅ Réponse Positive | Renvoie l'IP immédiatement | `ws-compta-01 → 192.168.10.128` |
+    | ❌ Réponse Négative | Erreur si nom inexistant | `invalid-host → NXDOMAIN` |
+    | ⏱️ Performance | Réponse instantanée | Données en cache local |
 
-| Action | Description | Exemple |
-|--------|-------------|----------|
-| ✅ Réponse Positive | Renvoie l'IP immédiatement | `ws-compta-01 → 192.168.10.128` |
-| ❌ Réponse Négative | Erreur si nom inexistant | `invalid-host → NXDOMAIN` |
-| ⏱️ Performance | Réponse instantanée | Données en cache local |
-</details>
 
-<details>
-<summary>🔍 Gestion des Requêtes</summary>
+??? info "🔍 Gestion des Requêtes"
+    - 💾 **Données Locales**: Toutes les informations stockées localement
+    - 🔗 **Pas de Récursion**: Aucune consultation d'autres serveurs
+    - ⏳ **Réponse Rapide**: Accès direct aux données
 
-- 💾 **Données Locales**: Toutes les informations stockées localement
-- 🔗 **Pas de Récursion**: Aucune consultation d'autres serveurs
-- ⏳ **Réponse Rapide**: Accès direct aux données
-</details>
 
 ### 🔎 Serveur DNS sans Autorité
 
@@ -386,17 +371,15 @@ Un serveur DNS ayant autorité sur un espace de nom :
 
 #### 💻 Exemple de Requête Récursive
 
-<details>
-<summary>📡 Scénario: Résolution de www.google.com</summary>
+??? success "📡 Scénario: Résolution de www.google.com"
+    | Étape | Action | Détails |
+    |---------|---------|----------|
+    | 1️⃣ Client | `ws-compta-01` demande l'IP | Envoie requête à `dns1` |
+    | 2️⃣ DNS1 | Vérifie ses zones | Pas d'autorité sur google.com |
+    | 3️⃣ DNS1 | Contacte d'autres serveurs | Cherche les serveurs racine |
+    | 4️⃣ DNS1 | Obtient l'IP finale | Récupère 142.250.x.x |
+    | 5️⃣ DNS1 | Répond au client | Renvoie l'IP trouvée |
 
-| Étape | Action | Détails |
-|---------|---------|----------|
-| 1️⃣ Client | `ws-compta-01` demande l'IP | Envoie requête à `dns1` |
-| 2️⃣ DNS1 | Vérifie ses zones | Pas d'autorité sur google.com |
-| 3️⃣ DNS1 | Contacte d'autres serveurs | Cherche les serveurs racine |
-| 4️⃣ DNS1 | Obtient l'IP finale | Récupère 142.250.x.x |
-| 5️⃣ DNS1 | Répond au client | Renvoie l'IP trouvée |
-</details>
 
 #### 💡 Points Clés
 
@@ -472,33 +455,31 @@ Analysez comment `dns1.maxtec.be` répondra aux requêtes suivantes:
 - Indiquez si dns1 a l'autorité
 - Expliquez le processus de résolution
 
-<details>
-<summary>🔧 Solution</summary>
+??? success "🔧 Solution"
+    ##### 💻 Requête Interne (ws-compta-01)
+    ```plaintext
+    ✅ Avec Autorité
+    - Zone: maxtec.be
+    - IP: 192.168.10.128
+    - Réponse: Directe et immédiate
+    ```
+    
+    ##### 🌍 Requête Externe (google.com)
+    ```plaintext
+    ❌ Sans Autorité
+    - Cache ? → Réponse rapide
+    - Sinon → Redirecteur (FAI)
+    - Ou → Résolution itérative
+    ```
+    
+    ##### 🇺🇸 Requête Sous-domaine (us)
+    ```plaintext
+    ✅ Avec Autorité
+    - Zone: us.maxtec.be
+    - IP: 192.168.20.10
+    - Réponse: Directe (zone déléguée)
+    ```
 
-##### 💻 Requête Interne (ws-compta-01)
-```plaintext
-✅ Avec Autorité
-- Zone: maxtec.be
-- IP: 192.168.10.128
-- Réponse: Directe et immédiate
-```
-
-##### 🌍 Requête Externe (google.com)
-```plaintext
-❌ Sans Autorité
-- Cache ? → Réponse rapide
-- Sinon → Redirecteur (FAI)
-- Ou → Résolution itérative
-```
-
-##### 🇺🇸 Requête Sous-domaine (us)
-```plaintext
-✅ Avec Autorité
-- Zone: us.maxtec.be
-- IP: 192.168.20.10
-- Réponse: Directe (zone déléguée)
-```
-</details>
 
 
 <br>
@@ -509,39 +490,35 @@ Analysez comment `dns1.maxtec.be` répondra aux requêtes suivantes:
 
 ### 🌐 Architecture Multi-niveaux
 
-<details>
-<summary>🌍 Niveau Internet (DNS Public)</summary>
+??? info "🌍 Niveau Internet (DNS Public)"
+    | Composant | Rôle |
+    |-----------|-------|
+    | 📝 Registrar | Gère `maxtec.be` |
+    | 💻 DNS Public | Pointe vers nos serveurs |
+    | 🌎 Services | Site web, email, etc. |
+    
+    ```plaintext
+    # Exemple d'enregistrements publics
+    maxtec.be.    NS    ns1.registrar.com
+    www.maxtec.be A     203.0.113.10
+    ```
 
-| Composant | Rôle |
-|-----------|-------|
-| 📝 Registrar | Gère `maxtec.be` |
-| 💻 DNS Public | Pointe vers nos serveurs |
-| 🌎 Services | Site web, email, etc. |
 
-```plaintext
-# Exemple d'enregistrements publics
-maxtec.be.    NS    ns1.registrar.com
-www.maxtec.be A     203.0.113.10
-```
-</details>
+??? info "🏛️ Niveau Entreprise (DNS Interne)"
+    | Zone | Serveur | Rôle |
+    |------|---------|-------|
+    | Racine | `dns1` (192.168.0.2) | Primaire |
+    | Racine | `dns2` (192.168.0.3) | Secondaire |
+    | EU | `dns.eu` (192.168.10.2) | Services EU |
+    | US | `dns.us` (192.168.20.2) | Services US |
+    
+    ```plaintext
+    # Structure de délégation interne
+    maxtec.be → dns1, dns2
+    eu.maxtec.be → dns.eu
+    us.maxtec.be → dns.us
+    ```
 
-<details>
-<summary>🏛️ Niveau Entreprise (DNS Interne)</summary>
-
-| Zone | Serveur | Rôle |
-|------|---------|-------|
-| Racine | `dns1` (192.168.0.2) | Primaire |
-| Racine | `dns2` (192.168.0.3) | Secondaire |
-| EU | `dns.eu` (192.168.10.2) | Services EU |
-| US | `dns.us` (192.168.20.2) | Services US |
-
-```plaintext
-# Structure de délégation interne
-maxtec.be → dns1, dns2
-eu.maxtec.be → dns.eu
-us.maxtec.be → dns.us
-```
-</details>
 
 Cette configuration sera faite dans le contexte d'Active Directory.
 
@@ -564,31 +541,27 @@ Nous allons voir plus tard les **enregistrements** de zone (IN, NS, etc.).
 
 ### 🔍 Caractéristiques Principales
 
-<details>
-<summary>💻 Architecture</summary>
+??? info "💻 Architecture"
+    | Aspect | Description |
+    |--------|-------------|
+    | 📚 Données | Copie exacte de la zone principale |
+    | 🔄 Synchronisation | Automatique via transfert de zone |
+    | 🔒 Permissions | Lecture seule uniquement |
 
-| Aspect | Description |
-|--------|-------------|
-| 📚 Données | Copie exacte de la zone principale |
-| 🔄 Synchronisation | Automatique via transfert de zone |
-| 🔒 Permissions | Lecture seule uniquement |
-</details>
 
-<details>
-<summary>✨ Bénéfices</summary>
+??? info "✨ Bénéfices"
+    1. **Haute Disponibilité**
+       - 🛡️ Redondance en cas de panne
+       - 💻 Basculement automatique
+    
+    2. **Performance**
+       - ⚖️ Répartition de charge
+       - 📡 Proximité géographique
+    
+    3. **Sécurité**
+       - 🔐 Protection des données principales
+       - 🛡️ Isolation des modifications
 
-1. **Haute Disponibilité**
-   - 🛡️ Redondance en cas de panne
-   - 💻 Basculement automatique
-
-2. **Performance**
-   - ⚖️ Répartition de charge
-   - 📡 Proximité géographique
-
-3. **Sécurité**
-   - 🔐 Protection des données principales
-   - 🛡️ Isolation des modifications
-</details>
 
 ### 💻 Exemple: Infrastructure maxtec.be
 
@@ -689,23 +662,19 @@ Administration</summary>
 
 #### 🔍 Classification des Zones
 
-<details>
-<summary>🌐 Par Autorité</summary>
+??? info "🌐 Par Autorité"
+    | Type | Description | Exemple |
+    |------|-------------|----------|
+    | 💻 Principale | Source autoritaire | `dns1 → maxtec.be` |
+    | 🔄 Secondaire | Copie synchronisée | `dns2 → maxtec.be` |
 
-| Type | Description | Exemple |
-|------|-------------|----------|
-| 💻 Principale | Source autoritaire | `dns1 → maxtec.be` |
-| 🔄 Secondaire | Copie synchronisée | `dns2 → maxtec.be` |
-</details>
 
-<details>
-<summary>🔎 Par Direction</summary>
+??? info "🔎 Par Direction"
+    | Type | Conversion | Exemple |
+    |------|------------|----------|
+    | ➡️ Directe | Nom → IP | `ws-compta-01 → 192.168.10.128` |
+    | ⬅️ Inverse | IP → Nom | `192.168.10.128 → ws-compta-01` |
 
-| Type | Conversion | Exemple |
-|------|------------|----------|
-| ➡️ Directe | Nom → IP | `ws-compta-01 → 192.168.10.128` |
-| ⬅️ Inverse | IP → Nom | `192.168.10.128 → ws-compta-01` |
-</details>
 
 #### 💻 Exemple: Configuration DNS1
 
@@ -725,45 +694,37 @@ us.maxtec.be   # Directe (US)
 
 ### 💻 Enregistrements de Base
 
-<details>
-<summary>🔗 Adressage (A/AAAA)</summary>
+??? info "🔗 Adressage (A/AAAA)"
+    | Type | Usage | Exemple |
+    |------|--------|----------|
+    | A | IPv4 | `ws-compta-01 IN A 192.168.10.128` |
+    | AAAA | IPv6 | `ws-compta-01 IN AAAA 2001:db8::128` |
 
-| Type | Usage | Exemple |
-|------|--------|----------|
-| A | IPv4 | `ws-compta-01 IN A 192.168.10.128` |
-| AAAA | IPv6 | `ws-compta-01 IN AAAA 2001:db8::128` |
-</details>
 
-<details>
-<summary>📍 Alias (CNAME)</summary>
+??? info "📍 Alias (CNAME)"
+    | Usage | Description | Exemple |
+    |-------|-------------|----------|
+    | Alias | Redirection | `www IN CNAME ws-web-01` |
+    | Service | Flexibilité | `mail IN CNAME mx1.eu` |
 
-| Usage | Description | Exemple |
-|-------|-------------|----------|
-| Alias | Redirection | `www IN CNAME ws-web-01` |
-| Service | Flexibilité | `mail IN CNAME mx1.eu` |
-</details>
 
 ### 📡 Enregistrements de Service
 
-<details>
-<summary>💾 Infrastructure</summary>
+??? info "💾 Infrastructure"
+    | Type | Usage | Exemple |
+    |------|--------|----------|
+    | NS | Serveurs DNS | `eu IN NS dns.eu` |
+    | SOA | Zone Info | `@ IN SOA dns1 admin.ce.be` |
+    | PTR | IP vers Nom | `2.0 IN PTR dns1` |
 
-| Type | Usage | Exemple |
-|------|--------|----------|
-| NS | Serveurs DNS | `eu IN NS dns.eu` |
-| SOA | Zone Info | `@ IN SOA dns1 admin.ce.be` |
-| PTR | IP vers Nom | `2.0 IN PTR dns1` |
-</details>
 
-<details>
-<summary>📧 Services</summary>
+??? info "📧 Services"
+    | Type | Usage | Exemple |
+    |------|--------|----------|
+    | MX | Email | `@ IN MX 10 mail.eu` |
+    | SRV | Services | `_ldap._tcp IN SRV 10 389 dc1` |
+    | TXT | Vérification | `@ IN TXT "v=spf1 mx -all"` |
 
-| Type | Usage | Exemple |
-|------|--------|----------|
-| MX | Email | `@ IN MX 10 mail.eu` |
-| SRV | Services | `_ldap._tcp IN SRV 10 389 dc1` |
-| TXT | Vérification | `@ IN TXT "v=spf1 mx -all"` |
-</details>
 
 ### 💻 Exemple: Zone maxtec.be
 
@@ -795,90 +756,78 @@ L'information ci-dessous peut juste aider à comprendre le fonctionnement du DNS
 
 ### 🔧 Configuration via l'Interface Graphique
 
-<details>
-<summary>💻 Le Gestionnaire DNS</summary>
+??? info "💻 Le Gestionnaire DNS"
+    1. **Accès au Gestionnaire DNS**
+       - Ouvrir le **Gestionnaire de serveur**
+       - Sélectionner **Outils** → **DNS**
+    
+    2. **Structure du Gestionnaire DNS**
+       - Volet de gauche: Arborescence des zones
+       - Volet de droite: Enregistrements DNS
+       - Menu contextuel: Actions disponibles
 
-1. **Accès au Gestionnaire DNS**
-   - Ouvrir le **Gestionnaire de serveur**
-   - Sélectionner **Outils** → **DNS**
 
-2. **Structure du Gestionnaire DNS**
-   - Volet de gauche: Arborescence des zones
-   - Volet de droite: Enregistrements DNS
-   - Menu contextuel: Actions disponibles
-</details>
+??? info "🌐 Zones intégrées à l'AD"
+    | Type | Description |
+    |------|-------------|
+    | Zone Principale | `maxtec.be` créée automatiquement |
+    | Zone Inverse | Pour la résolution inverse des IPs |
+    | Zones Spéciales | `_msdcs`, ForestDNSZones, etc. |
 
-<details>
-<summary>🌐 Zones intégrées à l'AD</summary>
-
-| Type | Description |
-|------|-------------|
-| Zone Principale | `maxtec.be` créée automatiquement |
-| Zone Inverse | Pour la résolution inverse des IPs |
-| Zones Spéciales | `_msdcs`, ForestDNSZones, etc. |
-</details>
 
 ### 💻 Configuration Post-Installation
 
-<details>
-<summary>📡 Zones Additionnelles</summary>
+??? info "📡 Zones Additionnelles"
+    1. **Créer une Zone de Sous-domaine**
+       - Clic droit sur la zone avant
+       - **Nouvelle Zone** → **Zone Principale**
+       - Exemple: `eu.maxtec.be`
+    
+    2. **Zone Inverse**
+       - Clic droit sur **Zones de recherche inverse**
+       - **Nouvelle Zone** → **Zone Principale**
+       - Réseau: `192.168.0.0/16`
 
-1. **Créer une Zone de Sous-domaine**
-   - Clic droit sur la zone avant
-   - **Nouvelle Zone** → **Zone Principale**
-   - Exemple: `eu.maxtec.be`
 
-2. **Zone Inverse**
-   - Clic droit sur **Zones de recherche inverse**
-   - **Nouvelle Zone** → **Zone Principale**
-   - Réseau: `192.168.0.0/16`
-</details>
+??? info "🔗 Enregistrements Courants"
+    1. **Ajouter un Hôte (A)**
+       - Clic droit dans la zone
+       - **Nouvel hôte (A ou AAAA)**
+       - Exemple: `ws-compta-01`
+    
+    2. **Alias (CNAME)**
+       - Clic droit dans la zone
+       - **Nouvel alias (CNAME)**
+       - Exemple: `www` → `ws-web-01`
 
-<details>
-<summary>🔗 Enregistrements Courants</summary>
-
-1. **Ajouter un Hôte (A)**
-   - Clic droit dans la zone
-   - **Nouvel hôte (A ou AAAA)**
-   - Exemple: `ws-compta-01`
-
-2. **Alias (CNAME)**
-   - Clic droit dans la zone
-   - **Nouvel alias (CNAME)**
-   - Exemple: `www` → `ws-web-01`
-</details>
 
 ### 📚 Vérification du DNS AD
 
-<details>
-<summary>🔍 Tests Essentiels</summary>
+??? info "🔍 Tests Essentiels"
+    ```plaintext
+    # 1. Vérification du DC
+    nslookup dc1.maxtec.be
+    
+    # 2. Vérification des Services AD
+    nslookup -type=srv _ldap._tcp.maxtec.be
+    nslookup -type=srv _kerberos._tcp.maxtec.be
+    
+    # 3. Vérification du Domaine
+    nslookup maxtec.be
+    ```
 
-```plaintext
-# 1. Vérification du DC
-nslookup dc1.maxtec.be
 
-# 2. Vérification des Services AD
-nslookup -type=srv _ldap._tcp.maxtec.be
-nslookup -type=srv _kerberos._tcp.maxtec.be
+??? info "🔄 Enregistrement Dynamique"
+    ```plaintext
+    # Quand un poste rejoint le domaine:
+    1. Enregistrement automatique dans DNS
+    2. Création d'un enregistrement A
+       ws-compta-01.maxtec.be → 192.168.10.128 (par exemple)
+    
+    # Vérification
+    nslookup ws-compta-01.maxtec.be
+    ```
 
-# 3. Vérification du Domaine
-nslookup maxtec.be
-```
-</details>
-
-<details>
-<summary>🔄 Enregistrement Dynamique</summary>
-
-```plaintext
-# Quand un poste rejoint le domaine:
-1. Enregistrement automatique dans DNS
-2. Création d'un enregistrement A
-   ws-compta-01.maxtec.be → 192.168.10.128 (par exemple)
-
-# Vérification
-nslookup ws-compta-01.maxtec.be
-```
-</details>
 
 ---
 
