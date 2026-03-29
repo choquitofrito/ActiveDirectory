@@ -135,6 +135,7 @@ Get-WinEvent -LogName Security | Where-Object {$_.Id -eq 4728}
 
 ### La Vérité Cachée
 Le script avait un bug caché:
+
 1. **Groupe existait déjà** → New-ADGroup a échoué
 2. **Variable $groupe mal initialisée** dans une version antérieure
 3. **Add-ADGroupMember a tenté d'ajouter à un groupe inexistant**
@@ -297,6 +298,7 @@ Get-ADUser -Filter {Name -like "Test*"} | Remove-ADUser
 
 #### Question 1
 Vous devez désactiver le compte de Marie qui part demain. Première action ?
+
 - A) `Set-ADUser -Identity Marie -Enabled $false`
 - B) `Set-ADUser -Identity Marie -Enabled $false -WhatIf`
 - C) Demander confirmation au manager d'abord
@@ -305,6 +307,7 @@ Vous devez désactiver le compte de Marie qui part demain. Première action ?
 
 #### Question 2
 Script trouvé sur Stack Overflow avec 200 upvotes. Première exécution ?
+
 - A) Exécuter directement (200 upvotes = fiable)
 - B) Modifier pour votre environnement puis exécuter
 - C) Ajouter -WhatIf partout et analyser output
@@ -313,6 +316,7 @@ Script trouvé sur Stack Overflow avec 200 upvotes. Première exécution ?
 
 #### Question 3
 Vendredi 17h45, script "urgent" du DG. Que faites-vous ?
+
 - A) Exécuter rapidement avant de partir
 - B) -WhatIf d'abord, même sous pression
 - C) Remettre à lundi pour être sûr

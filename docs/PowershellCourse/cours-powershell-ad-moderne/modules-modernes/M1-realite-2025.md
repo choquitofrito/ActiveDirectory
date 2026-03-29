@@ -221,6 +221,7 @@ Get-ADUser -Filter {Department -eq "IT"} -Properties Department |
 ```
 
 **Exemples Concrets:**
+
 - `"PowerShell Active Directory find users by department"`
 - `"Get-ADUser locked out example"`
 - `"PowerShell AD group members bulk add"`

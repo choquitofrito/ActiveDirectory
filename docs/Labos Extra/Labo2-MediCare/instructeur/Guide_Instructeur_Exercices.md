@@ -20,6 +20,7 @@
 ### Ex 01 : Transfert Patient
 **Objectif** : Modifier permissions NTFS, documenter transfert RGPD
 **Pièges étudiants** :
+
 - Oublient de RETIRER les permissions de catherine (seulement AJOUTER philippe)
 - N'utilisent pas RemoveAccessRule correctement
 - Oublient de documenter dans Description
@@ -34,17 +35,20 @@ Set-Acl <folder> $acl
 ### Ex 02 : Horaire Garde
 **Objectif** : Compte temporaire + Logon Hours 18h-8h + week-ends
 **Pièges étudiants** :
+
 - Logon Hours via PowerShell = TRÈS complexe (bits manipulation)
 - Oublient de cocher "Cannot Change Password" (compte partagé)
 - Testent hors des horaires autorisés (message confus)
 
 **Solution rapide** :
+
 - **Imposer GUI** pour Logon Hours (Account > Logon Hours...)
 - Bloquer Lundi-Vendredi 8h-18h (laisser reste bleu)
 
 ### Ex 03 : Audit Accès Médical
 **Objectif** : Activer audit NTFS + Event Viewer + CSV
 **Pièges étudiants** :
+
 - Event ID 4663 introuvable si audit non activé
 - Filtrage XML events complexe
 - CSV vide si aucun accès réel au fichier
@@ -65,6 +69,7 @@ Set-Acl <folder> $acl
 ### Ex 04 : Nouveau Service Médical
 **Objectif** : Créer département Dermatologie de A à Z
 **Pièges étudiants** :
+
 - Oublient `-ProtectedFromAccidentalDeletion $false` (CRITIQUE!)
 - Groupes sans préfixe GG-
 - GPO configurée avec Set-GPRegistryValue (INTERDIT)
@@ -81,11 +86,13 @@ New-ADGroup -Name "GG-MediCare-Dermato-Users" -GroupScope Global ...
 ### Ex 05 : Confidentialité Renforcée
 **Objectif** : GPO sécurité médicale (GPO shell + config manuelle)
 **Pièges étudiants** :
+
 - Tentent Set-GPRegistryValue (apparaît comme "nom convivial introuvable")
 - Cherchent les paramètres dans mauvais endroit GPMC
 - Oublient de lier GPO à OU Medical
 
 **Solution rapide** :
+
 - **Créer shell uniquement** : `New-GPO` + `New-GPLink`
 - **Donner chemins exacts** : Consulter `.claude/gpo-reference.md`
 - **Tester** : `gpupdate /force` puis vérifier restrictions actives
@@ -93,11 +100,13 @@ New-ADGroup -Name "GG-MediCare-Dermato-Users" -GroupScope Global ...
 ### Ex 06 : Délégation Chef Service
 **Objectif** : Déléguer gestion Nursing à Anne (sans accès Medical)
 **Pièges étudiants** :
+
 - Ne testent pas avec `runas /user:maxtec\anne`
 - Donnent trop de permissions (Domain Admin par erreur)
 - Oublient de vérifier le REFUS d'accès Medical
 
 **Solution rapide** :
+
 1. AD Users and Computers > OU Nursing > Déléguer le contrôle
 2. Sélectionner `anne`
 3. Tâches : Reset passwords + Modify group membership
@@ -106,6 +115,7 @@ New-ADGroup -Name "GG-MediCare-Dermato-Users" -GroupScope Global ...
 ### Ex 07 : Rotation Spécialistes
 **Objectif** : Roaming profiles + folder redirection pour cardiologues
 **Pièges étudiants** :
+
 - Partages réseau inexistants (créer AVANT)
 - Permissions NTFS insuffisantes sur Profiles$ et Redirected$
 - Loopback Processing non configuré (GPO s'applique pas)
@@ -128,6 +138,7 @@ Set-ADUser -Identity marc -ProfilePath "\\SRV\Profiles$\%username%"
 ### Ex 08 : Incident RGPD
 **Objectif** : Investigation forensique + rapport RGPD complet
 **Pièges étudiants** :
+
 - Ne créent pas le scénario d'incident (instructeur doit le faire)
 - Event Viewer : filtrent mal Event ID 4663
 - Rapport RGPD incomplet (manque recommandations)
@@ -190,6 +201,7 @@ Get-GPO -All | Where {$_.DisplayName -like "*MediCare*"} | Select DisplayName
 ## Timing Recommandé (Session 4h)
 
 **Session Matin (2h)** :
+
 - 09h00-09h20 : Exercice 01 (Transfert Patient)
 - 09h20-09h50 : Exercice 02 (Horaire Garde)
 - 09h50-10h00 : Pause
@@ -197,6 +209,7 @@ Get-GPO -All | Where {$_.DisplayName -like "*MediCare*"} | Select DisplayName
 - 10h30-11h00 : Exercice 04 (Nouveau Service)
 
 **Session Après-midi (2h)** :
+
 - 13h00-13h30 : Exercice 05 (Confidentialité)
 - 13h30-14h00 : Exercice 06 (Délégation)
 - 14h00-14h10 : Pause
@@ -205,10 +218,12 @@ Get-GPO -All | Where {$_.DisplayName -like "*MediCare*"} | Select DisplayName
 ## Différenciation Pédagogique
 
 **Étudiants rapides** :
+
 - Exercice 07 + 08 (profils itinérants + investigation)
 - Challenge : Automatiser Exercice 01-03 en un seul script
 
 **Étudiants en difficulté** :
+
 - Focus Exercice 01-04 (fondamentaux)
 - Donner solutions partielles pour Exercice 05-06
 - Passer Exercice 07-08 (optionnels)

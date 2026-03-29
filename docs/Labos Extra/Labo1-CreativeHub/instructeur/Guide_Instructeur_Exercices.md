@@ -22,6 +22,7 @@ Les exercices suivent une progression pédagogique rigoureuse en 3 niveaux :
 - **Exercice 3** : Créer et lier une GPO de mappage réseau
 
 **Caractéristiques** :
+
 - Instructions détaillées avec captures d'écran recommandées
 - Résultats attendus après chaque étape
 - Approche "hold-your-hand" pour construire la confiance
@@ -35,6 +36,7 @@ Les exercices suivent une progression pédagogique rigoureuse en 3 niveaux :
 - **Exercice 6** : Déléguer le contrôle AD à des responsables
 
 **Caractéristiques** :
+
 - Objectifs clairs mais pas de marche à suivre
 - Indices disponibles si nécessaire
 - Développe l'autonomie et la réflexion
@@ -48,6 +50,7 @@ Les exercices suivent une progression pédagogique rigoureuse en 3 niveaux :
 - **Exercice 9** : Gérer une crise de sécurité (compte admin compromis)
 
 **Caractéristiques** :
+
 - Scénarios réalistes d'entreprise
 - Aucune instruction, juste des objectifs
 - Nécessite recherche et réflexion critique
@@ -102,6 +105,7 @@ Chaque exercice dispose d'un script de vérification automatique :
 #### Séquence sur 1 Journée (8 heures)
 
 **Matin (4 heures)** :
+
 - 09h00-09h30 : Introduction et démo du lab CreativeHub
 - 09h30-10h00 : Exercice 1 (guidé en groupe)
 - 10h00-10h15 : Pause
@@ -111,6 +115,7 @@ Chaque exercice dispose d'un script de vérification automatique :
 - 12h00-13h00 : Pause déjeuner
 
 **Après-midi (4 heures)** :
+
 - 13h00-13h45 : Exercice 4 (intermédiaire)
 - 13h45-14h15 : Exercice 5 (incident sécurité)
 - 14h15-14h30 : Pause
@@ -152,11 +157,13 @@ Chaque exercice dispose d'un script de vérification automatique :
 ### Gestion des Différences de Niveau
 
 **Si des étudiants terminent en avance** :
+
 - Proposer les "Pour Aller Plus Loin" dans chaque exercice
 - Demander de créer leur propre exercice
 - Faire du peer-teaching (aider les autres)
 
 **Si des étudiants sont en difficulté** :
+
 - Débloquer avec les indices fournis
 - Permettre le travail en binôme
 - Fournir la solution PowerShell mais demander de comprendre chaque ligne
@@ -194,6 +201,7 @@ Chaque script `verif_exercice_XX.ps1` :
 ### Personnalisation
 
 Les instructeurs peuvent modifier les scripts pour :
+
 - Ajouter des tests spécifiques
 - Ajuster les critères de réussite
 - Adapter au contexte de leur lab
@@ -211,10 +219,12 @@ Chaque exercice contient une section **"Solution Complète (Pour Instructeur)"**
 ### Quand Donner les Solutions
 
 **❌ À ÉVITER** :
+
 - Donner la solution dès qu'un étudiant demande
 - Afficher les solutions au tableau
 
 **✅ RECOMMANDÉ** :
+
 - Laisser les étudiants chercher (minimum 10-15 min)
 - Fournir des indices progressifs d'abord
 - Donner la solution après vérification de l'effort
@@ -316,6 +326,7 @@ gpresult /r
 ### Collecte de Feedback Étudiant
 
 À la fin de chaque exercice, demander :
+
 1. Difficulté perçue (1-5)
 2. Clarté des instructions (1-5)
 3. Temps nécessaire vs estimé
@@ -324,6 +335,7 @@ gpresult /r
 ### Évolution des Exercices
 
 Basé sur le feedback :
+
 - Ajuster les durées estimées
 - Clarifier les instructions ambiguës
 - Ajouter des indices supplémentaires
@@ -334,6 +346,7 @@ Basé sur le feedback :
 Ces 9 exercices forment un parcours pédagogique complet pour transformer des débutants en administrateurs AD compétents. L'approche progressive, les scénarios réalistes et les scripts de vérification automatiques créent une expérience d'apprentissage immersive et efficace.
 
 **Clés du succès** :
+
 - ✅ Environnement lab réaliste (CreativeHub)
 - ✅ Progression pédagogique rigoureuse
 - ✅ Feedback immédiat via scripts de vérification

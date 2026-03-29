@@ -3,6 +3,7 @@
 ## 📊 Objectifs d'apprentissage
 
 À la fin de ce chapitre, vous serez capable de :
+
 - Comprendre l'importance du monitoring dans Active Directory
 - Identifier les événements critiques à surveiller
 - Utiliser les outils natifs Windows pour le monitoring
@@ -116,6 +117,7 @@ Vous pouvez observer directement les logs dans **Journaux Windows** et **Journau
 
 
 **Filtrage rapide :**
+
 - Clic droit sur un log → **Filter Current Log**
 - Sélectionner les Event IDs pertinents
 - Sauvegarder comme **Custom View** pour réutilisation
@@ -192,6 +194,7 @@ repadmin /showrepl
    - Log : Security
    - Source : Microsoft Windows Security Auditing
    - Event ID : 4740
+
 4. **Action** : Send an email (nécessite configuration SMTP)
    - OU exécuter un script PowerShell :
 

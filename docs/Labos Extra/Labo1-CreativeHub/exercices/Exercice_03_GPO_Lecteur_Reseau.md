@@ -60,6 +60,7 @@ Votre mission : créer une GPO qui mappe automatiquement le lecteur T: pour tous
    - **Forêt: maxtec.be**
    - **Domaines**
    - **maxtec.be**
+
 2. Vous verrez plusieurs éléments dont **Objets de stratégie de groupe**
 
 
@@ -73,6 +74,7 @@ Votre mission : créer une GPO qui mappe automatiquement le lecteur T: pour tous
 3. Dans la fenêtre qui apparaît :
    - **Nom** : `CreativeHub - Lecteur Projet TechVision`
    - Laissez "GPO source" sur "(aucune)"
+
 4. Cliquez sur **OK**
 
 !!! success "Résultat attendu"
@@ -97,6 +99,7 @@ Votre mission : créer une GPO qui mappe automatiquement le lecteur T: pour tous
    - **Configuration utilisateur** (pas Configuration ordinateur !)
    - **Préférences**
    - **Paramètres Windows**
+
 2. **Clic droit** sur **Mappages de lecteurs**
 3. Sélectionnez **Nouveau** → **Lecteur mappé**
 
@@ -111,6 +114,7 @@ Remplissez les champs suivants :
 1. **Action** : Sélectionnez **Créer** (dans le menu déroulant)
 2. **Emplacement réseau** : `\\DNS1\TechVision`
    - **Note** : DNS1 est le nom de votre contrôleur de domaine (ajustez si différent)
+
 3. **Reconnecter** : **Cochez cette case** (pour que le lecteur soit reconnecté à chaque ouverture de session)
 4. **Lettre de lecteur** : Sélectionnez **T:** dans le menu déroulant
 5. **Afficher cette unité** : Laissez sur "Aucune modification"
@@ -135,6 +139,7 @@ Remplissez les champs suivants :
 
 1. Dans le volet de gauche de GPMC, naviguez vers :
    - **maxtec.be** → **CreativeHub** → **ClientServices** → **Users**
+
 2. **Clic droit** sur l'OU **Users**
 3. Sélectionnez **Lier un objet de stratégie de groupe existant...**
 4. Dans la liste, sélectionnez **CreativeHub - Lecteur Projet TechVision**
@@ -165,6 +170,7 @@ Remplissez les champs suivants :
    ```powershell
    gpupdate /force
    ```
+
 3. Attendez le message "Mise à jour de la stratégie utilisateur terminée avec succès"
 
 
@@ -277,9 +283,11 @@ Pour référence, voici la structure XML qui serait créée dans `Drives.xml` :
 - **GPO vs Préférences** :
   - Les **stratégies** (Policies) sont imposées et ne peuvent pas être modifiées par l'utilisateur
   - Les **préférences** (Preferences) configurent des paramètres mais l'utilisateur peut les modifier
+
 - **Configuration Utilisateur vs Ordinateur** :
   - **Utilisateur** : S'applique à l'utilisateur quel que soit l'ordinateur (bon pour les lecteurs réseau)
   - **Ordinateur** : S'applique à la machine quel que soit l'utilisateur connecté
+
 - **Ordre de liaison des GPO** : Si plusieurs GPO sont liées, l'ordre compte (de haut en bas = du plus faible au plus fort)
 - **gpupdate /force** : Force l'application immédiate des GPO (sinon, appliqué au prochain redémarrage/connexion)
 - **Héritage GPO** : Les GPO liées à l'OU parent s'appliquent aussi aux enfants (sauf si bloqué)

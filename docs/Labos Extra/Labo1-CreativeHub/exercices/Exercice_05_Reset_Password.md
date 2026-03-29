@@ -170,6 +170,7 @@ Get-ADUser -Identity bastien -Properties pwdLastSet |
    - **Confirmer le mot de passe** : `TempSecure2025!`
    - **Cocher** "Déverrouiller le compte de l'utilisateur" (si disponible)
    - **Cocher** "L'utilisateur doit changer le mot de passe à la prochaine ouverture de session"
+
 4. Cliquer sur **OK**
 
 #### Étape 4 : Documenter l'incident
@@ -180,11 +181,13 @@ Get-ADUser -Identity bastien -Properties pwdLastSet |
    ```
    INCIDENT SÉCURITÉ 04/10/2025 - Compte compromis (phishing) - Mot de passe réinitialisé
    ```
+
 4. Cliquer sur **Appliquer** puis **OK**
 
 #### Étape 5 : Informer l'utilisateur
 
 Dans un contexte réel, appelez immédiatement Bastien pour :
+
 - Lui communiquer le mot de passe temporaire de manière sécurisée
 - Lui expliquer comment choisir un nouveau mot de passe fort
 - Le sensibiliser aux emails de phishing

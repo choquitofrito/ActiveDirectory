@@ -20,6 +20,7 @@
 ## 🏑 Objectifs
 
 À la fin de ce guide, vous aurez :
+
 1. Une machine virtuelle VirtualBox fonctionnelle
 2. Windows Server 2022 installé et configuré
 3. Un environnement prêt pour l'installation d'Active Directory
@@ -196,6 +197,7 @@ Nous devons créer des machines virtuelles clientes pour simuler notre environne
 ### 📁 Objectif des VM Clientes
 
 Chaque département a des besoins spécifiques :
+
 - La Comptabilité a besoin d'accéder aux logiciels financiers
 - Les RH doivent gérer les dossiers du personnel
 - Les Ventes utilisent des applications commerciales

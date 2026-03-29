@@ -252,6 +252,7 @@ Le script crée et configure **3 GPOs** démontrant des cas d'usage courants en 
 1. **Connectez-vous** au contrôleur de domaine Windows Server 2022 en tant qu'Administrateur du domaine
 2. **Ouvrez PowerShell ISE** avec privilèges administratifs:
    - Clic droit sur "Windows PowerShell ISE" → **Exécuter en tant qu'administrateur**
+
 3. **Copiez** le fichier `CreativeHub_Setup.ps1` sur le serveur (par exemple dans `C:\Labos\`)
 
 ### Étape 2: Exécution du Script

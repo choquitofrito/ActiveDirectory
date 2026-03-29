@@ -22,6 +22,7 @@
 ## ⚠️ AVERTISSEMENT - EXERCICE RÉALISTE DE CRISE
 
 Cet exercice simule une situation de crise réelle. Vous devez :
+
 - **Agir rapidement** mais méthodiquement
 - **Prendre des notes** de toutes vos actions
 - **Justifier** chaque décision
@@ -292,6 +293,7 @@ Get-GPO -All |
 ## Aucune Instruction Détaillée !
 
 Cet exercice simule une vraie crise. Vous devez :
+
 - Utiliser votre jugement
 - Prioriser les actions
 - Documenter en temps réel
@@ -310,23 +312,27 @@ Cet exercice simule une vraie crise. Vous devez :
 ### Critères de Réussite (Minimum)
 
 **Containment** :
+
 - [ ] Le compte "support.temp" est désactivé ou supprimé
 - [ ] "support.temp" n'est plus membre de Admins du domaine
 - [ ] Le mot de passe d'Olivier a été réinitialisé
 - [ ] Aucun autre compte suspect n'est actif
 
 **Investigation** :
+
 - [ ] Timeline de l'attaque documentée
 - [ ] Liste des fichiers accédés identifiée
 - [ ] Pas de backdoor (autre compte malveillant) trouvé
 
 **Remediation** :
+
 - [ ] Compte malveillant supprimé définitivement
 - [ ] Mots de passe critiques réinitialisés
 - [ ] Pas de GPO malveillante présente
 - [ ] Audit de sécurité activé
 
 **Documentation** :
+
 - [ ] Rapport d'incident créé
 - [ ] Actions documentées
 - [ ] Recommandations de sécurité formulées

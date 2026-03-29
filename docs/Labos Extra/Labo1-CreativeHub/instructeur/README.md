@@ -44,11 +44,13 @@ Cette section contient les ressources pédagogiques destinées aux **formateurs*
 **Niveau technique**: Débutants avec 4 jours (28 heures) de formation théorique AD
 
 **Expérience préalable**:
+
 - Compréhension théorique des concepts AD (OUs, Users, Groups, GPOs)
 - PEU ou PAS d'expérience pratique en administration système
 - Certains étudiants peuvent n'avoir **AUCUN background technique**
 
 **Besoins spécifiques**:
+
 - Instructions claires et progressives
 - Feedback immédiat (scripts de vérification)
 - Contextes business réalistes pour donner du sens
@@ -78,18 +80,21 @@ Cette section contient les ressources pédagogiques destinées aux **formateurs*
 ### Méthodologie d'Animation
 
 **Avant chaque exercice**:
+
 1. Présenter le contexte business (2-3 minutes)
 2. Expliquer les objectifs pédagogiques
 3. Démontrer les outils clés si nécessaire
 4. Répondre aux questions de clarification
 
 **Pendant l'exercice**:
+
 1. Circuler entre les étudiants
 2. Observer sans intervenir immédiatement
 3. Poser des questions guidantes plutôt que donner les réponses
 4. Noter les difficultés communes pour débriefing
 
 **Après l'exercice**:
+
 1. Exécuter le script de vérification ensemble
 2. Débriefer: qu'avez-vous appris? quelles difficultés?
 3. Montrer les solutions alternatives (GUI vs PowerShell)
@@ -119,6 +124,7 @@ cd "C:\Labos\CreativeHub\verification"
 ```
 
 **Avantages**:
+
 - Crée un moment de validation collective
 - Permet de discuter des erreurs communes
 - Valorise les réussites
@@ -162,6 +168,7 @@ cd "C:\Labos\CreativeHub\verification"
 **Ne pas paniquer si les étudiants font des erreurs** - c'est l'objectif!
 
 Erreurs courantes attendues:
+
 - Oublier de vérifier les noms (sensibilité à la casse)
 - Créer les objets dans la mauvaise OU
 - Oublier d'activer un compte utilisateur
@@ -173,16 +180,19 @@ Erreurs courantes attendues:
 ### Adaptation au Niveau
 
 **Groupe rapide/expérimenté**:
+
 - Sauter les exercices 01-02 (faire en démo rapide)
 - Se concentrer sur 04-09
 - Ajouter des contraintes (temps limité, PowerShell obligatoire)
 
 **Groupe lent/débutant**:
+
 - Passer plus de temps sur 01-03
 - Faire 04-05 en démonstration guidée
 - Exercices avancés optionnels ou en bonus
 
 **Groupe mixte**:
+
 - Exercices obligatoires: 01, 03, 04, 06
 - Exercices rapides (02, 05) en autonomie
 - Exercices avancés pour ceux qui terminent rapidement
@@ -219,6 +229,7 @@ Erreurs courantes attendues:
 ### "Pourquoi désactiver un compte au lieu de le supprimer?"
 
 **Réponse**:
+
 1. **Réversibilité**: On peut réactiver si erreur ou retour du collaborateur
 2. **Audit**: Conservation de l'historique pour conformité légale
 3. **SID**: La suppression perd le SID, donc impossible de restaurer les permissions exactes
@@ -230,6 +241,7 @@ Erreurs courantes attendues:
 ### "Pourquoi ma GPO ne s'applique pas immédiatement?"
 
 **Réponse**: Les GPOs s'appliquent lors:
+
 - Du démarrage de l'ordinateur (Computer Configuration)
 - De la connexion utilisateur (User Configuration)
 - Du rafraîchissement automatique (90 min par défaut)
@@ -289,6 +301,7 @@ repadmin /syncall /AdeP
 ### Feedback Formateurs
 
 Après chaque session, notez:
+
 1. Exercices trop faciles/difficiles pour votre groupe
 2. Temps réels vs. temps estimés
 3. Questions récurrentes des étudiants

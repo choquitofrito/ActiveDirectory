@@ -27,6 +27,7 @@ Ces exercices vous guident **étape par étape** avec des instructions détaill�
 **Scénario**: Créer le compte de Sophie Moreau, nouvelle graphiste qui commence aujourd'hui.
 
 **Vous apprendrez**:
+
 - Créer un compte utilisateur via l'interface graphique
 - Configurer les propriétés essentielles (email, département, fonction)
 - Ajouter un utilisateur à un groupe de sécurité
@@ -40,6 +41,7 @@ Ces exercices vous guident **étape par étape** avec des instructions détaill�
 **Scénario**: Manon Girard quitte l'entreprise. Gérer son départ de manière professionnelle.
 
 **Vous apprendrez**:
+
 - Désactiver un compte utilisateur (vs. suppression)
 - Documenter les actions pour l'audit
 - Retirer un utilisateur des groupes de sécurité
@@ -53,6 +55,7 @@ Ces exercices vous guident **étape par étape** avec des instructions détaill�
 **Scénario**: Mapper automatiquement un lecteur réseau pour le projet client TechVision.
 
 **Vous apprendrez**:
+
 - Créer une stratégie de groupe (GPO)
 - Configurer les préférences de GPO (Drive Maps)
 - Lier une GPO à une unité organisationnelle
@@ -70,6 +73,7 @@ Ces exercices décrivent l'objectif sans donner d'instructions détaillées. À 
 **Scénario**: Créer une structure de groupes pour le projet confidentiel SecureBank.
 
 **Vous apprendrez**:
+
 - Créer des groupes Global et Domain Local
 - Comprendre et appliquer le modèle AGDLP
 - Organiser des permissions multi-départements
@@ -83,6 +87,7 @@ Ces exercices décrivent l'objectif sans donner d'instructions détaillées. À 
 **Scénario**: Incident de sécurité - Bastien pense que son mot de passe a été compromis.
 
 **Vous apprendrez**:
+
 - Réinitialiser un mot de passe de manière sécurisée
 - Déverrouiller un compte utilisateur
 - Gérer un incident de sécurité selon les bonnes pratiques
@@ -96,6 +101,7 @@ Ces exercices décrivent l'objectif sans donner d'instructions détaillées. À 
 **Scénario**: Permettre aux responsables de département de gérer leurs propres équipes.
 
 **Vous apprendrez**:
+
 - Utiliser l'assistant de délégation de contrôle
 - Comprendre les listes de contrôle d'accès (ACL)
 - Appliquer le principe du moindre privilège
@@ -113,6 +119,7 @@ Ces exercices sont des **scénarios réalistes complexes** nécessitant analyse,
 **Scénario**: Accueil complet d'une nouvelle stagiaire avec toutes les étapes professionnelles.
 
 **Vous apprendrez**:
+
 - Gérer un workflow d'onboarding de A à Z
 - Prendre des décisions stratégiques (sécurité, organisation)
 - Créer une documentation complète pour l'audit
@@ -126,6 +133,7 @@ Ces exercices sont des **scénarios réalistes complexes** nécessitant analyse,
 **Scénario**: La GPO de restriction des juniors ne s'applique pas sur certains utilisateurs. Pourquoi?
 
 **Vous apprendrez**:
+
 - Diagnostiquer les problèmes de GPO
 - Utiliser `gpresult`, `gpupdate`, et GPMC
 - Comprendre le filtrage de sécurité des GPOs
@@ -140,6 +148,7 @@ Ces exercices sont des **scénarios réalistes complexes** nécessitant analyse,
 **Scénario**: Le compte d'un administrateur a été compromis. Gestion de crise complète.
 
 **Vous apprendrez**:
+
 - Containment: isoler la menace immédiatement
 - Investigation: identifier l'étendue de la compromission
 - Remediation: nettoyer et sécuriser

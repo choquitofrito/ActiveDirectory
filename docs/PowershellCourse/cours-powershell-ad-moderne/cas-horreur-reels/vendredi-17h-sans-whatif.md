@@ -186,6 +186,7 @@ Lucas Bertrand          lucas.bertrand      13/10/2023 17:02:12    ← DÉVELOPP
 
 ### Le Pattern Mortel
 Le wildcard `*` a matché:
+
 - ✅ `Alexandre*` → Alexandre Durand (stagiaire)
 - ☠️ `Alexandre*` → **Alexandre Martin (DG adjoint)**
 - ✅ `Marie*` → Marie Petit (stagiaire)

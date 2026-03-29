@@ -10,6 +10,7 @@
 
 ## Scénario
 Anne Leroy (Chef Nursing) doit gérer son équipe sans accès Domain Admin :
+
 - Reset passwords infirmières
 - Unlock accounts
 - Modifier appartenance groupes Nursing
@@ -26,6 +27,7 @@ Anne Leroy (Chef Nursing) doit gérer son équipe sans accès Domain Admin :
    - Reset user passwords and force password change
    - Read all user information
    - Modify the membership of a group
+
 4. Tester avec `runas /user:maxtec\anne powershell`
 5. Vérifier refus d'accès sur Medical
 

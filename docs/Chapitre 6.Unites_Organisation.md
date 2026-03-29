@@ -23,6 +23,7 @@
 ## 1. 📙 Objectifs pédagogiques
 
 À la fin de ce chapitre, vous serez capable de :
+
 1. 🏢 Structurer votre organisation dans Active Directory
 2. ⚙️ Gérer efficacement les UOs et leurs objets
 3. 🔐 Mettre en place une stratégie de sécurité par délégation

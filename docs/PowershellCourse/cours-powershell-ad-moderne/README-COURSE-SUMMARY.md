@@ -10,6 +10,7 @@ Ce cours transforme l'approche traditionnelle de PowerShell AD vers une méthode
 ### **Module 1: Réalité 2025** (2h00)
 **Objectif**: Démystifier comment les admins travaillent vraiment
 **Contenu**:
+
 - Cercle d'honnêteté sur utilisation Google/IA
 - Démonstration live "Mon lundi typique"
 - Art de googler efficacement pour PowerShell AD
@@ -18,6 +19,7 @@ Ce cours transforme l'approche traditionnelle de PowerShell AD vers une méthode
 ### **Module 2: Survie Tickets** (2h00)
 **Objectif**: Maîtriser les 10 commandes qui sauvent des carrières
 **Contenu**:
+
 - Diagnostic utilisateur bloqué
 - Recherche par critères partiels
 - Gestion groupes et permissions
@@ -27,6 +29,7 @@ Ce cours transforme l'approche traditionnelle de PowerShell AD vers une méthode
 ### **Module 3: IA comme Copilote** (1h30)
 **Objectif**: Utiliser l'IA professionnellement et sécurisé
 **Contenu**:
+
 - Prompts précis avec exigences sécurité
 - Validation critique ligne par ligne
 - Templates prêts à utiliser
@@ -36,6 +39,7 @@ Ce cours transforme l'approche traditionnelle de PowerShell AD vers une méthode
 ### **Module 4: Scripts Bomba Lab** (2h00)
 **Objectif**: Détecter erreurs mortelles cachées
 **Contenu**:
+
 - Anatomie d'un script piégé
 - 3 scripts bombes éducatifs complets
 - Techniques de camouflage courantes
@@ -45,6 +49,7 @@ Ce cours transforme l'approche traditionnelle de PowerShell AD vers une méthode
 ### **Module 5: -WhatIf Religieux** (1h30)
 **Objectif**: Ancrer -WhatIf dans l'ADN professionnel
 **Contenu**:
+
 - Hall of fame des désastres sans -WhatIf
 - Simulacre "Vendredi 17h - Le piège"
 - Certification réflexes -WhatIf
@@ -54,6 +59,7 @@ Ce cours transforme l'approche traditionnelle de PowerShell AD vers une méthode
 ### **Module 6: Kit d'Urgence** (1h00)
 **Objectif**: Procedures structurées en situation de crise
 **Contenu**:
+
 - 10 étapes de survie "Break Glass"
 - Simulation crise en live avec classe
 - Scripts de diagnostic et récupération d'urgence

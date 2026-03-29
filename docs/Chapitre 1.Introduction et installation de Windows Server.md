@@ -276,6 +276,7 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
    - Langue : **Français**
    - Format de temps : **Français**
    - Clavier : **Français**
+
 3. Choisissez **Windows Server 2022 Standard (Desktop Experience)**
    !!! tip "Pourquoi Desktop Experience ?"
     
@@ -318,6 +319,7 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
    - IP : **192.168.0.2**
    - Masque : **255.255.255.0**
    - DNS : **127.0.0.1**
+
 3. Configurez la carte **WAN-VM** :
    - DHCP activé (automatique)
 

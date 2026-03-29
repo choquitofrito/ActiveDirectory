@@ -259,6 +259,7 @@ Génère le script avec toutes les sécurités et option de déverrouillage."
 
 ### Règle #2: **Toujours Demander les Sécurités**
 **Phrases magiques à inclure**:
+
 - "INCLUS -WhatIf et validation d'erreurs"
 - "environnement production, sécurité critique"
 - "avec commentaires explicatifs"

@@ -20,6 +20,7 @@ Configuration ordinateur > Stratégies > Paramètres Windows > Paramètres de s�
 - Une sous-OU `IT`, contenant :
   - `IT\Users` : utilisateurs du département IT
   - `IT\Computers` : ordinateurs du département IT
+
 - Trois utilisateurs créés dans `IT\Users` : `ines`, `irene`, `ivan`
 - Un utilisateur d'un autre département : `victor` dans `EU\Ventes\Users`
 - Un ordinateur joint au domaine dans `IT\Computers` : `ws-IT-01` (dans l'idéel deux ordinateurs si vous êtes à l'aise pour changer le nom d'un ordinateur ou pour créer une autre VM)

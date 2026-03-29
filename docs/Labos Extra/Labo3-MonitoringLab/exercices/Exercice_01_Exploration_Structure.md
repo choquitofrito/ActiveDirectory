@@ -221,6 +221,7 @@ Write-Host "Comptes de service : $($svc.Count)" -ForegroundColor Yellow
 L'exercice est entièrement guidé via l'interface graphique. Les étapes détaillées dans la section "Tâches à Réaliser" constituent la solution complète.
 
 Points d'attention pour l'instructeur :
+
 - Vérifier que les étudiants distinguent bien les OUs des conteneurs par défaut (CN=Users, CN=Computers)
 - S'assurer que les étudiants repèrent la convention de nommage `GG-` des groupes
 - Faire remarquer la différence entre comptes utilisateurs standards et comptes de service

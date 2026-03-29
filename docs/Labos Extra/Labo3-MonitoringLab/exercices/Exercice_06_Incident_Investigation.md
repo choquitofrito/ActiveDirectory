@@ -48,6 +48,7 @@ Avancé
 ### Tâche 1.1 : Désactiver le compte compromis
 
 Sans instructions pas-à-pas, vous devez :
+
 - Localiser le compte `svc_monitoring` dans AD
 - Le désactiver immédiatement
 - Documenter l'heure et la raison de la désactivation dans la description du compte
@@ -99,12 +100,14 @@ Set-ADAccountPassword -Identity "svc_monitoring" -NewPassword $newPwd -Reset
 Vous devez extraire TOUS les événements liés au compte `svc_monitoring` des dernières 48 heures.
 
 **Objectif** : Identifier :
+
 - Toutes les connexions réussies (4624) avec cet identifiant
 - Tous les échecs de connexion (4625)
 - Les connexions avec credentials explicites (4648)
 - L'adresse IP source de chaque connexion
 
 **Votre mission** : Écrire une commande PowerShell qui :
+
 1. Récupère les événements des dernières 48 heures
 2. Filtre sur les Event IDs 4624, 4625, 4648
 3. Extrait le nom du compte, l'heure, l'IP source
@@ -155,6 +158,7 @@ Get-WinEvent -LogName Security -MaxEvents 10000 |
 Vérifiez si des modifications de groupes ont été effectuées par ou pour le compte `svc_monitoring` :
 
 **Event IDs à chercher** :
+
 - 4728 : Membre ajouté à un groupe de sécurité global
 - 4729 : Membre retiré d'un groupe de sécurité global
 - 4732 : Membre ajouté à un groupe de sécurité local

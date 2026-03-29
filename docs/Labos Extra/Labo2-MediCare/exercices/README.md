@@ -26,6 +26,7 @@ Ces exercices vous guident **étape par étape** avec des instructions détaill�
 **Scénario** : Le Dr. Catherine Leblanc transfère 3 patients vers le Dr. Philippe Moreau pour 2 mois de formation continue.
 
 **Vous apprendrez** :
+
 - Modifier les **permissions NTFS** sur des dossiers patients
 - Transférer l'accès entre médecins (retirer ancien, ajouter nouveau)
 - Documenter le transfert pour **traçabilité RGPD**
@@ -42,6 +43,7 @@ Ces exercices vous guident **étape par étape** avec des instructions détaill�
 **Scénario** : Créer un compte de garde rotatif "Médecin de Garde" avec accès restreint aux heures de nuit (18h-8h) et week-ends uniquement.
 
 **Vous apprendrez** :
+
 - Créer un **compte temporaire** avec expiration dans 7 jours
 - Configurer les **Logon Hours** (restrictions horaires)
 - Ajouter à un groupe spécialisé (**GG-MediCare-Medical-Oncall**)
@@ -58,6 +60,7 @@ Ces exercices vous guident **étape par étape** avec des instructions détaill�
 **Scénario** : Le Responsable Conformité demande un rapport des accès au dossier VIP "M. Dupont" durant les 7 derniers jours (audit RGPD).
 
 **Vous apprendrez** :
+
 - Activer l'**audit NTFS** sur des dossiers sensibles
 - Consulter l'**Event Viewer** (Event ID 4663 - File Access)
 - Filtrer et analyser les événements de sécurité
@@ -80,6 +83,7 @@ Ces exercices décrivent l'objectif sans donner d'instructions détaillées. À 
 **Objectif** : Créer de A à Z la structure AD complète pour ce département.
 
 **Tâches** :
+
 - Créer sub-OU `OU=Dermatologie,OU=Medical,OU=MediCare` avec sous-OUs Users/Computers/Groups (**IMPORTANT** : `-ProtectedFromAccidentalDeletion $false`)
 - Créer 3 utilisateurs avec propriétés médicales appropriées
 - Créer 2 groupes : **GG-MediCare-Dermato-Users** et **GG-MediCare-Dermato-Admin**
@@ -87,6 +91,7 @@ Ces exercices décrivent l'objectif sans donner d'instructions détaillées. À 
 - Documenter la structure en CSV
 
 **Indices** :
+
 - Utiliser `New-ADOrganizationalUnit` avec protection désactivée
 - Groupes Global (GG-) obligatoires
 - GPO : Create shell only, manual Drive Map configuration required
@@ -102,15 +107,18 @@ Ces exercices décrivent l'objectif sans donner d'instructions détaillées. À 
 **Objectif** : Créer et configurer une GPO de sécurité renforcée pour le département Medical.
 
 **Tâches** :
+
 - Créer GPO shell "MediCare - Sécurité Renforcée Médical"
 - Configurer manuellement dans GPMC (consulter `gpo-reference.md`) :
   - **Désactiver captures d'écran** (User Config > Administrative Templates)
   - **Bloquer impression vers imprimantes USB/personnelles**
   - **Screen Lock timeout 10 minutes** (Security Options)
+
 - Lier GPO à `OU=Users,OU=Medical`
 - Tester avec compte médecin après `gpupdate /force`
 
 **Indices** :
+
 - Ne JAMAIS utiliser `Set-GPRegistryValue` pour politiques standard
 - Consulter gpo-reference.md pour chemins exacts
 - Tester avec runas /user:maxtec\catherine
@@ -126,16 +134,19 @@ Ces exercices décrivent l'objectif sans donner d'instructions détaillées. À 
 **Objectif** : Déléguer la gestion des comptes Nursing à Anne sans privilèges excessifs.
 
 **Tâches** :
+
 - Utiliser **Delegation of Control Wizard** sur `OU=Nursing,OU=MediCare`
 - Déléguer à `anne` :
   - Reset passwords
   - Unlock accounts
   - Modify members of Nursing groups
+
 - Tester avec compte anne (`runas /user:maxtec\anne powershell`)
 - Vérifier qu'anne NE PEUT PAS modifier utilisateurs Medical
 - Documenter permissions déléguées (Get-Acl)
 
 **Indices** :
+
 - Delegation Wizard dans Active Directory Users and Computers
 - Tester avec PowerShell : `Set-ADUser -Identity <nursing_user> -Description "Test"` sous compte anne
 - Vérifier refus d'accès sur Medical
@@ -155,17 +166,22 @@ Ces exercices sont des **scénarios réalistes complexes** nécessitant analyse,
 **Objectif** : Configurer des profils itinérants et redirection de dossiers pour une expérience utilisateur cohérente.
 
 **Tâches complexes** :
+
 - Configurer **Roaming Profiles** pour les 2 cardiologues
   - Profil stocké : `\\SRV\Profiles$\%username%`
+
 - Configurer **Folder Redirection** pour Documents
   - Redirection : `\\SRV\Redirected$\%username%\Documents`
+
 - Configurer **Primary Computer** pour CARDIO-WS01
   - Attribut AD : `msDS-PrimaryComputer`
+
 - Créer GPO "MediCare - Profils Itinérants Cardio" avec **Loopback Processing**
 - Tester connexion des 2 utilisateurs sur CARDIO-WS01
 - Vérifier que profils/documents suivent l'utilisateur
 
 **Technologies avancées** :
+
 - Roaming User Profiles
 - Folder Redirection via GPO
 - Primary Computer (Fast Logon Optimization)
@@ -182,6 +198,7 @@ Ces exercices sont des **scénarios réalistes complexes** nécessitant analyse,
 **Objectif** : Mener une investigation forensique et produire un rapport RGPD professionnel.
 
 **Tâches d'investigation** :
+
 - Analyser **Event Viewer** (Security log) pour identifier QUI a accédé à "VIP_Dossier.docx"
 - Utiliser `Get-Acl` pour vérifier permissions NTFS actuelles
 - Utiliser `Get-ADGroupMember` pour tracer appartenance aux groupes
@@ -193,12 +210,14 @@ Ces exercices sont des **scénarios réalistes complexes** nécessitant analyse,
   - **WHAT** : Fichier consulté
   - **HOW** : Chemin d'accès (groupe/permission)
   - **WHY** : Légitime ou non (justification métier)
+
 - Recommandations de **remédiation** :
   - Retrait groupe
   - Renforcement ACL
   - Formation sensibilisation
 
 **Compétences forensiques** :
+
 - Analyse de logs Windows
 - Tracing de permissions complexes
 - Rédaction de rapport professionnel

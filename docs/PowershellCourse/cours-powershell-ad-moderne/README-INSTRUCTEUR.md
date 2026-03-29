@@ -12,6 +12,7 @@
 
 ### Prérequis OBLIGATOIRES
 Les étudiants DOIVENT avoir complété :
+
 - ✅ Chapitres 1-8 (théorie AD complète)
 - ✅ Laboratoire maxtec.be configuré et fonctionnel
 - ✅ Chapitres 9.0-9.3 (concepts de base PowerShell)
@@ -19,6 +20,7 @@ Les étudiants DOIVENT avoir complété :
 
 ### Continuité Pédagogique
 Ce cours **complète** (ne remplace PAS) le contenu existant :
+
 - **Construit** sur la base théorique déjà acquise
 - **Modernise** les pratiques avec la philosophie 2025
 - **Applique** les connaissances à des scénarios professionnels réels
@@ -137,6 +139,7 @@ Get-ADUser -Filter {Enabled -eq $false} | Remove-ADUser -WhatIf
 
 ### M1: Réalité 2025
 **Démo centrale** : "Mon lundi typique"
+
 - Réviser les tickets en attente
 - Chercher utilisateurs avec problèmes login
 - Valider les appartenances aux groupes
@@ -146,12 +149,14 @@ Get-ADUser -Filter {Enabled -eq $false} | Remove-ADUser -WhatIf
 
 ### M2: Survie Tickets
 **Scénarios réels** :
+
 1. "User locked out" → `Get-ADUser -Identity Richard -Properties LockedOut`
 2. "Nouvel employé besoin groupes" → `Add-ADGroupMember -WhatIf`
 3. "Département déménagé" → `Get-ADUser -Filter {Department -eq "X"}`
 
 ### M3: IA comme Copilote
 **Démo en direct** : Utiliser ChatGPT pour générer script
+
 - Prompt : "Script PS pour utilisateurs inactifs avec validation"
 - Réviser output ligne par ligne
 - Identifier améliorations nécessaires
@@ -159,6 +164,7 @@ Get-ADUser -Filter {Enabled -eq $false} | Remove-ADUser -WhatIf
 
 ### M4: Scripts Bombes
 **Analyse forensique** : Trouver erreurs cachées
+
 - Script apparemment légitime
 - Chercher lignes dangereuses
 - Que se passerait-il si j'exécute ça ?
@@ -166,6 +172,7 @@ Get-ADUser -Filter {Enabled -eq $false} | Remove-ADUser -WhatIf
 
 ### M5: -WhatIf Religieux
 **Simulacre de désastre** : Script sans -WhatIf
+
 - Montrer output destructif
 - Calculer temps de récupération
 - Histoire réelle de vendredi 17h
@@ -173,6 +180,7 @@ Get-ADUser -Filter {Enabled -eq $false} | Remove-ADUser -WhatIf
 
 ### M6: Kit d'Urgence
 **Jeu de rôle de crise** : "Tout explose vendredi 17h"
+
 - Respirer, pas de panique
 - Documenter ce qui a mal tourné
 - Vérifier backups disponibles
@@ -184,6 +192,7 @@ Get-ADUser -Filter {Enabled -eq $false} | Remove-ADUser -WhatIf
 Au lieu d'un examen théorique :
 
 **Simulacre de Ticket Réel** :
+
 1. **Scénario** : "Onboarding 25 nouveaux employés lundi 8h"
 2. **Script fourni** : Avec 3 erreurs cachées (bombe)
 3. **Tâche** : Identifier erreurs + créer version sécurisée
@@ -238,6 +247,7 @@ Au lieu d'un examen théorique :
 ## 🎯 Objectif Final
 
 **En complétant ce cours**, les étudiants pourront :
+
 - ✅ **Lire et valider** scripts IA de manière critique
 - ✅ **Détecter code dangereux** avant d'exécuter
 - ✅ **Utiliser -WhatIf religieusement** en production

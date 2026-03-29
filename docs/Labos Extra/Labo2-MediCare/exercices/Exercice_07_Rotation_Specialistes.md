@@ -37,9 +37,11 @@ Set-ADUser -Identity marc -ProfilePath "\\SRV-MEDICARE\Profiles$\%username%"
    - User Config > Windows Settings > Folder Redirection > Documents
    - Target: `\\SRV-MEDICARE\Redirected$\%username%\Documents`
    - Settings: "Create a folder for each user under the root path"
+
 3. Configurer Loopback Processing :
    - Computer Config > Administrative Templates > System > Group Policy
    - "Configure user Group Policy loopback processing mode" = Enabled (Merge)
+
 4. Lier GPO à ordinateur CARDIO-WS01
 
 ### 4. Configurer Primary Computer (Optionnel)

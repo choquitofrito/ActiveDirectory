@@ -80,6 +80,7 @@ Pour modifier ce comportement on doit créer une stratégie de groupe (GPO) et l
 
 ## Vérification
 Pour vérifier l'application des paramètres :
+
 1. Exécuter : `gpupdate /force`
 2. Vérifier avec : `gpresult /r` ou `rsop.msc`
 

@@ -40,10 +40,12 @@
 **Objectif principal** : Familiariser les étudiants avec ADUC et PowerShell de base. Cet exercice ne doit générer aucun stress.
 
 **Points de blocage courants** :
+
 1. Les étudiants confondent les "Conteneurs" (CN=Users, CN=Computers) avec les OUs. Montrez la différence visuelle dans ADUC : les OUs ont une icône de dossier jaune avec un livre.
 2. Certains ne trouvent pas l'OU MONITORING car ils cherchent dans CN=Users plutôt que directement sous DC=maxtec,DC=be.
 
 **Questions pédagogiques à poser en classe** :
+
 - "Pourquoi les comptes de service sont-ils dans leur propre OU plutôt que mélangés avec les utilisateurs normaux ?"
 - "Que signifie le préfixe `GG-` sur les groupes ?"
 - "Quelle est la différence entre un compte actif et un compte désactivé dans ADUC ?"
@@ -68,11 +70,13 @@ Get-ADOrganizationalUnit -Filter * -SearchBase "OU=MONITORING,DC=maxtec,DC=be" |
 **Objectif principal** : Les étudiants doivent comprendre que les journaux Windows sont une source d'information essentielle, pas juste un outil de débogage.
 
 **Points de blocage courants** :
+
 1. "Mon journal est vide" : Souvent car le script `2_Generate-Events.ps1` n'a pas été exécuté, ou la taille du journal est trop petite. Solution : exécuter le script, augmenter la taille du journal.
 2. L'extraction XML avec `$event.ToXml()` peut dérouter les débutants. Montrez d'abord l'onglet Général de l'Observateur d'événements avant d'introduire PowerShell.
 3. Certains étudiants cherchent l'Event ID dans le mauvais journal (Application au lieu de Security).
 
 **Concepts clés à expliciter** :
+
 - La différence entre Event ID 4624 (succès) et 4625 (échec) : dessinez un diagramme au tableau
 - Le Logon Type : montrez un tableau des types courants (2=interactif, 3=réseau, 10=RDP)
 - L'importance de l'heure : un pic de 4625 à 03h00 du matin est un signal d'alerte clair
@@ -104,6 +108,7 @@ Get-WinEvent -LogName Security -MaxEvents 10000 |
 **Objectif principal** : Comprendre que les GPOs Windows standard se configurent EXCLUSIVEMENT via GPMC pour les paramètres d'audit et restrictions. La règle "no Set-GPRegistryValue" est fondamentale.
 
 **Points de blocage courants** :
+
 1. La navigation dans GPMC est complexe avec de nombreux niveaux d'arborescence. Faites une démonstration lente et claire avant de laisser les étudiants travailler seuls.
 2. "Je ne trouve pas Configuration avancée de la stratégie d'audit" : Il y a deux chemins : l'un "Local Policies" (basique) et l'autre "Advanced Audit Policy Configuration" (avancé). Pour ce lab, utilisez le chemin avancé.
 3. La politique de mots de passe via PowerShell est souvent réussie, mais les étudiants oublient de vérifier avec `Get-ADDefaultDomainPasswordPolicy`.
@@ -132,6 +137,7 @@ Interdire l'accès au Panneau de configuration et aux paramètres du PC
 ### Vérification Manuelle Instructeur
 
 Après que les étudiants ont terminé, vérifiez dans GPMC :
+
 1. Ouvrez la GPO "MonitoringTech - Audit Avancé" > Paramètres > Configuration ordinateur
 2. Vérifiez que les paramètres d'audit apparaissent SANS le message "nom convivial introuvable"
 3. Si le message apparaît : la GPO a été configurée via Set-GPRegistryValue et doit être recréée
@@ -145,6 +151,7 @@ Après que les étudiants ont terminé, vérifiez dans GPMC :
 **Objectif principal** : Comprendre le concept du moindre privilège appliqué aux comptes de service. Les comptes de service sont des vecteurs d'attaque fréquents.
 
 **Points de blocage courants** :
+
 1. `Add-ADGroupMember -Identity "Event Log Readers"` : le nom peut varier selon la langue du serveur. En français : "Lecteurs du journal des événements". Solution : utiliser le SID `S-1-5-32-573` ou chercher avec `Get-ADGroup -Filter { Name -like "*Event Log*" }`.
 2. La création du groupe avec `New-ADGroup` : les étudiants oublient souvent `-Path` ou spécifient un chemin incorrect.
 3. `CannotChangePassword` ne fonctionne pas directement avec `Set-ADUser` dans toutes les versions. Montrez l'alternative via ADUC si PowerShell échoue.
@@ -186,6 +193,7 @@ Event ID 4663 généré dans le journal Security
 ```
 
 **Points de blocage courants** :
+
 1. La manipulation des SACL avec .NET peut être intimidante. Si un étudiant bloque, montrez-lui l'alternative via l'interface graphique : clic droit sur le dossier > Propriétés > Sécurité > Avancé > onglet Audit.
 2. Les événements 4663 peuvent mettre quelques secondes à apparaître après l'accès au fichier. Dites aux étudiants d'attendre 30 secondes avant de vérifier.
 3. Sur un DC, il peut y avoir un déluge de 4663 pour les fichiers système. Filtrez toujours sur `ObjectName -like "*FinanceData*"`.
@@ -211,11 +219,13 @@ Autorisations de base : cocher Lecture, Écriture, Suppression > OK
 Lisez l'alerte email à voix haute comme si vous étiez le système de supervision. Créez un sentiment d'urgence modéré pour simuler la réalité professionnelle.
 
 **Points de blocage courants** :
+
 1. Les étudiants veulent tout analyser avant de confinement. Insistez : **d'abord confinement, ensuite analyse**. C'est la règle de base en incident response.
 2. L'extraction XML des événements (`$event.ToXml()`) est complexe. Si un étudiant bloque, donnez-lui le template du fichier exercice directement.
 3. La chronologie peut être difficile à construire si les journaux ne contiennent pas d'événements liés à `svc_monitoring`. Utilisez `2_Generate-Events.ps1` si nécessaire.
 
 **Points à souligner dans le debriefing** :
+
 - La documentation au moment du confinement (description du compte) est souvent oubliée dans la réalité, mais est cruciale pour les audits ultérieurs
 - Un bon rapport d'incident doit être compréhensible par quelqu'un qui n'a pas participé à l'investigation
 - La réactivation du compte doit être délibérée et documentée, pas simplement "undone"

@@ -120,6 +120,7 @@ Apprendre à ajouter des enregistrements DNS pour des ressources spécifiques (s
    - Nom: `fileserver`
    - Adresse IP: `192.168.10.10`
    - ☑️ Créer un enregistrement PTR associé (si zone inverse existe)
+
 4. **Cliquer** sur "Ajouter un hôte"
 
 **✅ Vérification:**
@@ -144,6 +145,7 @@ ping fileserver.maxtec.be
 3. **Remplir:**
    - Nom de l'alias: `files`
    - Nom de domaine complet (FQDN) de l'hôte cible: `fileserver.maxtec.be`
+
 4. **OK**
 
 **✅ Vérification:**
@@ -214,6 +216,7 @@ Permettre la résolution IP → Nom (l'inverse de la résolution normale)
    - Nom de zone inverse: **Zone de recherche inversée IPv4**
    - ID réseau: `192.168.0` (sans le dernier octet !)
    - Mises à jour dynamiques: **Autoriser uniquement les mises à jour dynamiques sécurisées**
+
 4. **Terminer**
 
 ### 🔍 Étape 2: Vérifier la Zone Créée
@@ -221,6 +224,7 @@ Permettre la résolution IP → Nom (l'inverse de la résolution normale)
 !!! info "Vérification de la zone créée"
 
 Dans **Zones de recherche inversée**, vous devriez voir:
+
 - `0.168.192.in-addr.arpa`
 
 > 📘 **Note:** L'ordre des octets est inversé dans les zones inverses (convention DNS)
@@ -230,6 +234,7 @@ Dans **Zones de recherche inversée**, vous devriez voir:
 !!! info "Enregistrements PTR existants"
 
 **Déroulez** la zone `0.168.192.in-addr.arpa`:
+
 - Vous devriez voir des enregistrements PTR pour votre serveur
 - Exemple: `2` → `dns1.maxtec.be` (si votre serveur est 192.168.0.2)
 
@@ -324,6 +329,7 @@ ipconfig /registerdns
 ```
 
 **Sur le serveur**, vérifier les paramètres de mise à jour dynamique:
+
 1. Gestionnaire DNS → Zone maxtec.be → Propriétés
 2. Onglet **Général**
 3. Mises à jour dynamiques: **Sécurisées uniquement**
@@ -467,6 +473,7 @@ Vous devez configurer un nouveau serveur web pour maxtec.be. Voici les exigences
 !!! success "Compétences acquises"
 
 Vous savez maintenant:
+
 - 🔧 Gérer le DNS dans un environnement Active Directory
 - 🔍 Diagnostiquer les problèmes de résolution DNS
 - 📝 Créer et maintenir des enregistrements DNS
@@ -477,6 +484,7 @@ Vous savez maintenant:
 !!! info "Pour aller plus loin"
 
 Si vous voulez approfondir les concepts théoriques DNS:
+
 - 📖 [Annexe A - DNS Concepts Avancés (Référence)](Théorie%20DNS-%20DNS%20Concepts%20Avances%20(Reference).md)
   - Délégation DNS en détail
   - Architecture multi-sites

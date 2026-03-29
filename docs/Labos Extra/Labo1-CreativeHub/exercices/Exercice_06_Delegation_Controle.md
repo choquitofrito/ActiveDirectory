@@ -26,21 +26,26 @@ Ce module permet d'exécuter des commandes **PowerShell** pour la gestion **Acti
 1. **Connectez-vous en tant qu'administrateur** sur le poste client (par exemple, **ws-client-01**).
 2. **Ouvrez les Paramètres Windows** :
    - Cliquez sur l'icône **Paramètres** (roue dentée) dans la barre des tâches, ou utilisez la recherche Windows et tapez **Paramètres**.
+
 3. **Accédez à la section Applications** :
    - Dans la fenêtre **Paramètres**, cliquez sur **Applications**.
+
 4. **Sélectionnez Fonctionnalités facultatives** :
    - Dans le menu de gauche, cliquez sur **Applications et fonctionnalités**.
    - Cliquez sur **Fonctionnalités facultatives** (ou utilisez la barre de recherche et tapez **fonctionnalités facultatives**).
+
 5. **Ajoutez une fonctionnalité** :
    - Cliquez sur **Ajouter une fonctionnalité**.
    - Dans la barre de recherche, tapez **RSAT**.
    - **Sélectionnez** : **RSAT : Outils d'administration de serveur distant**.
    - **Cochez spécifiquement** : **Outils Active Directory pour RSAT** (inclut les outils pour utilisateurs et ordinateurs **Active Directory**, ainsi que les services **LDS**).
+
 6. **Installez la fonctionnalité** :
    - Cliquez sur **Suivant**, puis sur **Installer**.
    - **Redémarrez** le poste client si nécessaire (Windows peut le demander).
 
 **Après l'installation :**
+
 - Vous pouvez maintenant utiliser des commandes **PowerShell** comme `Get-ADUser` ou `Set-ADAccountPassword` depuis le poste client.
 - Assurez-vous que le poste est connecté au domaine **maxtec.be** pour que les commandes fonctionnent correctement.
 
@@ -88,6 +93,7 @@ Déléguer à **gabrielle** (Gabrielle Simon) les permissions suivantes sur l'OU
 - Modifier les informations de compte (propriétés non sensibles)
 
 **NE PAS déléguer** :
+
 - Création d'utilisateurs
 - Suppression d'utilisateurs
 - Modification des appartenances aux groupes
@@ -205,12 +211,14 @@ Write-Host "`nPermissions de Camille sur Marketing:" -ForegroundColor Cyan
 ### Critères de Réussite
 
 **Pour Gabrielle (Creative) :**
+
 - [ ] Gabrielle a des permissions sur `OU=Users,OU=Creative`
 - [ ] Gabrielle peut réinitialiser les mots de passe (permission présente)
 - [ ] Gabrielle NE PEUT PAS créer d'utilisateurs (permission absente)
 - [ ] Les permissions s'appliquent uniquement à l'OU Creative Users
 
 **Pour Camille (Marketing) :**
+
 - [ ] Camille a des permissions sur `OU=Users,OU=Marketing`
 - [ ] Camille peut créer des utilisateurs (permission présente)
 - [ ] Camille peut modifier les utilisateurs (permission présente)

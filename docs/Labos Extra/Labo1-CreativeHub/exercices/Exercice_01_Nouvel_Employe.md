@@ -50,6 +50,7 @@ Votre mission : créer le compte utilisateur de Sophie avant son arrivée pour q
    - **maxtec.be**
    - **CreativeHub**
    - **Creative**
+
 2. Cliquez sur **Users**
 
 !!! success "Résultat attendu"
@@ -66,6 +67,7 @@ Votre mission : créer le compte utilisateur de Sophie avant son arrivée pour q
    - **Nom complet** : `Sophie Moreau` (généré automatiquement)
    - **Nom d'ouverture de session de l'utilisateur** : `sophie`
    - Vérifiez que le suffixe est bien `@maxtec.be`
+
 4. Cliquez sur **Suivant**
 
 
@@ -89,9 +91,11 @@ Votre mission : créer le compte utilisateur de Sophie avant son arrivée pour q
 1. **Double-clic** sur **Sophie Moreau** dans la liste
 2. Allez dans l'onglet **Général** :
    - **Adresse de messagerie** : `sophie@maxtec.be`
+
 3. Allez dans l'onglet **Organisation** :
    - **Fonction** : `Graphiste Junior`
    - **Service** : `Creative`
+
 4. Cliquez sur **Appliquer**, puis **OK**
 
 

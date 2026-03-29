@@ -143,6 +143,7 @@ if ($groupesVides.Count -gt 0) {
 **Temps limite**: 10 minutes
 
 **Consignes**:
+
 1. Lisez ce script ligne par ligne
 2. Identifiez TOUS les problèmes (minimum 5)
 3. Évaluez le risque si exécuté sur maxtec.be

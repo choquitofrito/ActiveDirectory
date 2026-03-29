@@ -82,6 +82,7 @@ Get-GPInheritance -Target "OU=MONITORING,DC=maxtec,DC=be" |
 Objectif : Configurer une politique de mots de passe forte pour MonitoringTech SPRL.
 
 **Contraintes** :
+
 - Longueur minimale : 12 caractères
 - Complexité activée (majuscules, minuscules, chiffres, caractères spéciaux)
 - Âge maximum : 90 jours

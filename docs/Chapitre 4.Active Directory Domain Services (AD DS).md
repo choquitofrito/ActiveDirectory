@@ -454,6 +454,7 @@ Maintenant que nous avons configuré notre contrôleur de domaine et ses zones D
 | Ordinateur | Nom, site | Localisation |
 
 Les **attributs répliqués sont sélectionnés selon leur importance** pour :
+
 - La recherche d'objets
 - L'authentification des utilisateurs
 - L'accès aux ressources

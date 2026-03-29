@@ -465,6 +465,7 @@ foreach ($groupe in $groupesPrivileges) {
 
 ### 🎯 Mémorisation: La Règle des 3
 Pour chaque commande, retenez:
+
 1. **Diagnostic** (que se passe-t-il ?)
 2. **Action** (que faire ?)
 3. **Vérification** (c'est réparé ?)

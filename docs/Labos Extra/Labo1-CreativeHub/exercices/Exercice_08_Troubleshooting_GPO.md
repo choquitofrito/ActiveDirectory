@@ -69,6 +69,7 @@ Vous recevez plusieurs tickets urgents du support utilisateur :
 La GPO "CreativeHub - Restrictions Utilisateurs Juniors" s'applique à TOUS les utilisateurs de Creative (OU=Users,OU=Creative), alors qu'elle devrait s'appliquer uniquement aux membres du groupe "GG-CreativeHub-Juniors".
 
 **Utilisateurs affectés** :
+
 - Hugo (Senior, ne devrait PAS avoir de restrictions)
 - Fabien (Senior, ne devrait PAS avoir de restrictions)
 - Julien (Junior, DEVRAIT avoir des restrictions) ← Ce serait le seul concerné
@@ -78,6 +79,7 @@ La GPO "CreativeHub - Restrictions Utilisateurs Juniors" s'applique à TOUS les 
 La GPO est liée à l'OU Marketing, mais le lien est **désactivé** par erreur.
 
 **Utilisateurs affectés** :
+
 - Damien devrait avoir des restrictions (il est junior) mais ne les a pas
 
 ### Problème 3 : Conflit d'héritage
@@ -99,6 +101,7 @@ Diagnostiquer pourquoi la GPO ne s'applique pas correctement et corriger les pro
 #### 1. Comprendre la Configuration Actuelle
 
 **Questions à investiguer** :
+
 - Quelles GPOs existent actuellement ?
 - Où sont-elles liées ?
 - Quels sont leurs paramètres ?
@@ -119,6 +122,7 @@ Get-GPOReport -Name "CreativeHub - Restrictions Utilisateurs Juniors" -ReportTyp
 #### 2. Identifier les Groupes
 
 **Questions** :
+
 - Le groupe "GG-CreativeHub-Juniors" existe-t-il ?
 - Qui en est membre ?
 - Est-il utilisé pour le filtrage de sécurité de la GPO ?
@@ -137,11 +141,13 @@ Get-ADGroupMember -Identity "GG-CreativeHub-Juniors"
 **Le problème probable** : La GPO n'utilise pas le filtrage de sécurité pour cibler uniquement le groupe Juniors.
 
 **Concepts clés** :
+
 - Par défaut, une GPO s'applique à "Authenticated Users" (tous les utilisateurs authentifiés)
 - Le **filtrage de sécurité** permet de limiter l'application à des groupes spécifiques
 - Le groupe doit avoir les permissions "Lecture" ET "Appliquer la stratégie de groupe"
 
 **Comment corriger** :
+
 1. Ouvrir `gpmc.msc`
 2. Sélectionner la GPO
 3. Onglet "Étendue" (Scope)
@@ -152,6 +158,7 @@ Get-ADGroupMember -Identity "GG-CreativeHub-Juniors"
 #### 4. Vérifier les Liens GPO
 
 **Questions** :
+
 - Les liens sont-ils activés ?
 - Y a-t-il des problèmes d'ordre de priorité ?
 
@@ -190,21 +197,26 @@ gpresult /h C:\Temp\gpresult_hugo.html /user:hugo
 Basé sur les profils de postes, voici les juniors (moins d'un an d'expérience) :
 
 **Marketing** :
+
 - Élise Robert (Social Media Analyst) - Junior
 - Damien Petit (Content Strategist) - Junior
 
 **Creative** :
+
 - Julien Roux (Designer UX/UI) - Junior
 
 **Client Services** :
+
 - Manon Girard (Chef de Projet Junior) - **DÉSACTIVÉE** (ne pas inclure)
 
 **IT Support** :
+
 - (Aucun junior identifié)
 
 ## Pas d'Instructions Détaillées !
 
 Cet exercice de troubleshooting nécessite que vous :
+
 - Analysiez la situation
 - Formuliez des hypothèses
 - Testez vos hypothèses

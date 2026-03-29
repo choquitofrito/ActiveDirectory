@@ -163,6 +163,7 @@ La GPO est prête: pour la tester, on va se connecter avec un client du départe
 3. Lancez aussi `gpresult /r` pour voir les politiques appliquées à l'utilisateur
    Si vous voulez plus de détail, lancez `gpresult /v`
    Si vous voulez un rapport dans un fichier, lancez `gpresult /h resultat.html`
+
 4. **Note importante** : Pour certaines GPOs, particulièrement celles qui affectent des paramètres système, un redémarrage complet du poste client peut être nécessaire pour que les changements prennent effet.
 5. Faites logout et connectez-vous à nouveau (même user)
 6. Ouvrez le panneau de configuration et cliquez sur `Système`
@@ -196,10 +197,12 @@ L'application des stratégies de groupe dépend de l'état du poste de travail e
 | Utilisateur connecté via RDP ou console | ✅ Oui | ✅ Oui | Le mode de connexion n'affecte pas l'application des stratégies |
 
 **Notes importantes sur le rafraîchissement** :
+
 - Les stratégies ordinateur :
   * S'appliquent **au démarrage initial** (il faut re-démarrer si on les change!!)
   * Se rafraîchissent automatiquement périodiquement
   * Peuvent être forcées avec `gpupdate /force /target:computer` (dans certains cas on a besoin de redémarrer le poste)
+
 - Les stratégies utilisateur :
   * S'appliquent à chaque connexion utilisateur
   * Se rafraîchissent périodiquement
@@ -257,6 +260,7 @@ Les **paramètres de stratégie de groupe (GPO) sont appliqués dans l'ordre sui
 > - Configuration utilisateur (User Configuration)
 
 **Point clé**: Les politiques peuvent être **écrasées** par les niveaux suivants, toujours en appliquant la plus restrictive. Exemples :
+
 - Une configuration locale permissive peut être restreinte par une GPO de domaine
 - Une politique de mot de passe du domaine (8 caractères) peut être renforcée dans une OU (12 caractères)
 
@@ -308,6 +312,7 @@ Voyons en détail chaque type.
 - Déploiement de logiciels (installation, mise à jour, désinstallation)
 
 ✔ **Paramètres Windows**  
+
 - Scripts (au démarrage et à l'arrêt)
 - Paramètres de sécurité (ex. stratégie de mot de passe, pare-feu Windows)
 - Configuration du pare-feu
@@ -333,11 +338,13 @@ Voyons en détail chaque type.
 - Déploiement de logiciels (installation, mise à jour, désinstallation)
 
 ✔ **Paramètres Windows**  
+
 - Scripts (à l'ouverture et à la fermeture de session)
 - Redirection de dossiers
 - Paramètres de sécurité (ex. interdire l'accès au panneau de configuration)
 
 ✔ **Modèles d’administration (Administrative Templates)**  
+
 - Restriction d'accès à certaines applications
 - Paramètres d’interface (ex. masquer les paramètres système)
 - Gestion des extensions de navigateur

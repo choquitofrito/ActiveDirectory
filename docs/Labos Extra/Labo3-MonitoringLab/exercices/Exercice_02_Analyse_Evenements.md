@@ -259,11 +259,13 @@ foreach ($id in $eventIds) {
 ### Méthode GUI
 
 Navigation dans l'Observateur d'événements :
+
 1. `eventvwr.msc` > Journaux Windows > Sécurité
 2. Filtrer le journal actuel > saisir l'Event ID souhaité
 3. Double-cliquer sur un événement pour lire les détails
 
 Points pédagogiques à souligner :
+
 - La différence entre l'onglet "Général" (lisible) et l'onglet "XML" (données brutes)
 - L'importance de noter l'heure, le compte et l'origine de chaque événement
 - La nécessité de filtrer car le journal peut contenir des milliers d'événements

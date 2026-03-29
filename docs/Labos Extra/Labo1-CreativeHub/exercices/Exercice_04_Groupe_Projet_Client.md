@@ -60,8 +60,10 @@ Créer un groupe de sécurité nommé **GG-Projet-SecureBank** contenant exactem
 2. **Type de groupe** : Groupe de **sécurité** (pas de distribution)
 3. **Étendue du groupe** : Choisir l'étendue appropriée (Global, Domain Local, ou Universal)
    - *Indice* : Le groupe sera utilisé pour gérer des permissions sur des ressources locales du domaine
+
 4. **Emplacement** : Le groupe doit être créé dans une OU appropriée
    - *Réflexion* : Où placer un groupe qui concerne plusieurs départements ?
+
 5. **Description** : Ajouter une description claire expliquant le but du groupe
 6. **Membres** : Ajouter les 5 utilisateurs spécifiés (et uniquement ceux-là)
 
@@ -169,6 +171,7 @@ Get-ADGroupMember -Identity "GG-Projet-SecureBank" |
    - **Nom du groupe (pré-Windows 2000)** : `GG-Projet-SecureBank`
    - **Étendue du groupe** : Sélectionner **Domaine local**
    - **Type de groupe** : Sélectionner **Sécurité**
+
 4. Cliquer sur OK
 
 #### Étape 3 : Ajouter une description

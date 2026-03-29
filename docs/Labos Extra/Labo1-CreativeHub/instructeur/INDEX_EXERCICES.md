@@ -252,11 +252,13 @@ Partagez vos retours avec votre formateur pour améliorer continuellement la for
 Ces exercices sont conçus pour un usage pédagogique dans le cadre de formations Active Directory.
 
 **Autorisations** :
+
 - ✅ Usage en classe et formations
 - ✅ Adaptation pour votre contexte spécifique
 - ✅ Distribution aux étudiants
 
 **Conditions** :
+
 - Conserver les crédits et références
 - Partager les améliorations avec la communauté
 - Usage non-commercial uniquement

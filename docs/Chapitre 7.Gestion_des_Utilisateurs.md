@@ -24,6 +24,7 @@
 ## 📙 Objectifs Pédagogiques
 
 À la fin de ce chapitre, vous serez capable de :
+
 1. Gérer les identités utilisateurs
 2. Appliquer les standards de nommage
 3. Implémenter les stratégies de sécurité
@@ -487,6 +488,7 @@ Jonglez vous-mêmes avec les permissions (ex: donnez l'accès d'écriture mais p
 
 
 **Caractéristiques des permissions NTFS** :
+
 - S'appliquent localement sur le serveur
 - Offrent un **contrôle granulaire** (fin, ciblé) des accès
 - Restent actives même en accès local
@@ -574,31 +576,37 @@ Active Directory inclut trois groupes intégrés essentiels :
 
 #### Admins du domaine
 Groupe **d'administration principal** du domaine :
+
 - Contrôle total sur le domaine
 - Accès complet aux ressources
 - Membre du groupe Administrators
 
 Responsabilités principales :
+
 - Gérer les contrôleurs de domaine
 - Configurer les stratégies de sécurité
 
 #### Enterprise Admins
 Groupe **d'administration de la forêt** AD :
+
 - Gère l'infrastructure globale
 - Configure les relations entre domaines
 - Administre les sites AD
 
 Responsabilités principales :
+
 - Étendre la forêt AD
 - Gérer la topologie des sites
 
 #### Schema Admins
 Groupe **spécialisé** pour le schéma AD :
+
 - Modifie la structure de l'annuaire
 - Accès très restreint
 - Utilisation ponctuelle
 
 Responsabilités principales :
+
 - Étendre le schéma AD
 - Préparer AD pour Exchange
 
@@ -606,21 +614,25 @@ Responsabilités principales :
 
 #### Account Operators
 Groupe pour la gestion des comptes :
+
 - Création et modification de comptes
 - Gestion des appartenances aux groupes
 - Privilèges limités (pas d'accès administrateur)
 
 Responsabilités principales :
+
 - Gérer les comptes utilisateurs
 - Administrer les groupes standard
 
 #### Backup Operators
 Groupe pour les opérations de sauvegarde :
+
 - Accès en lecture à tous les fichiers
 - Privilèges NTFS spéciaux
 - Droits de lecture sur le domaine
 
 Responsabilités principales :
+
 - Exécuter les sauvegardes système
 - Restaurer les données
 

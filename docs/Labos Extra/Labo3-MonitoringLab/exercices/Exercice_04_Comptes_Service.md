@@ -40,12 +40,14 @@ Intermédiaire
 **Objectif** : Ajouter une description détaillée et une adresse email fonctionnelle à chaque compte de service.
 
 **Contraintes** :
+
 - `svc_monitoring` : "Compte de service - Application de monitoring réseau - Contact: monitoring@monitoringtech.be"
 - `svc_backup` : "Compte de service - Solution de sauvegarde Veeam - Contact: backup@monitoringtech.be"
 - `svc_audit` : "Compte de service - Agent d'audit de sécurité - Contact: audit@monitoringtech.be"
 - `svc_replication` : "Compte de service - Réplication AD et bases de données - Contact: replication@monitoringtech.be"
 
 **Indices** :
+
 - Utilisez `Set-ADUser -Identity "svc_monitoring" -Description "..." -EmailAddress "..."`
 - Ou via ADUC : clic droit > Propriétés > onglet Général
 
@@ -69,6 +71,7 @@ Get-ADUser -Filter { SamAccountName -like "svc_*" } `
 **Objectif** : Créer un groupe global `GG-MONITORING-ServiceAccounts` dans l'OU `OU=ServiceAccounts,OU=MONITORING,DC=maxtec,DC=be` et y ajouter les 4 comptes de service.
 
 **Contraintes** :
+
 - Nom obligatoire : `GG-MONITORING-ServiceAccounts`
 - Portée : Globale (Global)
 - Type : Sécurité
@@ -76,6 +79,7 @@ Get-ADUser -Filter { SamAccountName -like "svc_*" } `
 - Membres : svc_monitoring, svc_backup, svc_audit, svc_replication
 
 **Indices** :
+
 - Utilisez `New-ADGroup` avec les paramètres `-GroupScope Global -GroupCategory Security`
 - Pour ajouter des membres : `Add-ADGroupMember`
 
@@ -99,10 +103,12 @@ Get-ADGroupMember "GG-MONITORING-ServiceAccounts" | Select-Object Name, SamAccou
 **Objectif** : Le compte `svc_audit` doit pouvoir lire les journaux d'événements à distance. Ajoutez-le au groupe intégré **Lecteurs du journal des événements** (Event Log Readers).
 
 **Contraintes** :
+
 - N'accordez que ce droit minimal, pas les droits Administrateur
 - Ce groupe se trouve dans `CN=Builtin,DC=maxtec,DC=be`
 
 **Indices** :
+
 - Nom du groupe en anglais : "Event Log Readers"
 - Nom du groupe en français : "Lecteurs du journal des événements"
 - Utilisez `Add-ADGroupMember -Identity "Event Log Readers" -Members "svc_audit"`
@@ -128,6 +134,7 @@ if ($membres -contains "svc_audit") {
 **Objectif** : Vérifier et configurer les options de sécurité appropriées pour chaque compte de service.
 
 **Contraintes pour tous les comptes de service** :
+
 - Le mot de passe ne doit pas expirer (`PasswordNeverExpires = $true`)
 - L'utilisateur ne doit pas pouvoir changer son mot de passe (`CannotChangePassword = $true`)
 - Kerberos pré-authentification activée (option par défaut, ne pas désactiver)
@@ -279,17 +286,20 @@ Write-Host "svc_audit ajouté à Event Log Readers." -ForegroundColor Green
 ### Méthode GUI (ADUC)
 
 Pour chaque compte de service :
+
 1. ADUC > OU=ServiceAccounts > OU=MONITORING
 2. Clic droit sur le compte > Propriétés
 3. Onglet Général : remplir Description et Adresse email
 4. Onglet Compte : cocher "Le mot de passe n'expire jamais"
 
 Pour le groupe :
+
 1. ADUC > OU=ServiceAccounts > clic droit > Nouveau > Groupe
 2. Nom : GG-MONITORING-ServiceAccounts, Portée : Globale, Type : Sécurité
 3. Onglet Membres : ajouter les 4 comptes svc_
 
 Pour Event Log Readers :
+
 1. ADUC > Builtin > Event Log Readers > Propriétés > Membres > Ajouter
 2. Chercher "svc_audit" et l'ajouter
 

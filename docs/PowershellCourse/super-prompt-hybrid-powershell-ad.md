@@ -3,6 +3,7 @@
 ## Contexto e Integración Existente
 
 **IMPORTANTE**: Este prompt complementa y moderniza los capítulos 8.x existentes del syllabus. Los estudiantes ya han completado:
+
 - 3 días de teoría AD (Capítulos 1-7)
 - Configuración del laboratorio maxtec.be (dns1.maxtec.be, estructura OU completa)
 - Capítulos 8.0-8.3: Conceptos base PowerShell AD (tradicionales)
@@ -101,6 +102,7 @@
 **Objetivo SMART**: "Al terminar, entenderás cómo trabajan los admins PS reales en 2025"
 
 **Contenido revolucionario**:
+
 1. **Sección "Confesiones de un Admin Real"**:
    - "Sí, uso ChatGPT para recordar sintaxis"
    - "90% del tiempo leo scripts, 10% escribo desde cero"
@@ -122,6 +124,7 @@
 **Los 10 comandos que salvan carreras profesionales**
 
 Para cada comando, estructura fija:
+
 - ✅ Comando seguro para producción
 - ⚠️ Versión con precaución
 - 🔴 Versión peligrosa (NUNCA hacer)
@@ -170,6 +173,7 @@ Get-ADUser -Filter * -Properties * | Where-Object {$_.Name -match ".*"}
 ```
 
 **Palabras mágicas para IA**:
+
 - "seguro en producción"
 - "incluye -WhatIf"
 - "valida errores"
@@ -180,6 +184,7 @@ Get-ADUser -Filter * -Properties * | Where-Object {$_.Name -match ".*"}
 **"Aprende a detectar minas terrestres antes de que exploten"**
 
 Cada script bomba tiene:
+
 - Aspecto legítimo a primera vista
 - Comentarios que despistan
 - 1-2 errores educativos ocultos
@@ -212,6 +217,7 @@ foreach ($usuario in $usuariosInactivos) {
 **"Tratamos -WhatIf como artículo de fe"**
 
 **Estructura de contenido**:
+
 1. **🚨 Historia de Horror**: "El viernes sin -WhatIf"
 2. **Demostraciones dramáticas**:
    ```powershell
@@ -221,6 +227,7 @@ foreach ($usuario in $usuariosInactivos) {
    # ✅ SIEMPRE empezar así
    Get-ADUser -Filter * | Remove-ADUser -WhatIf
    ```
+
 3. **Comandos que SIEMPRE necesitan -WhatIf**:
    - Remove-*
    - Set-* (cambios masivos)
@@ -346,6 +353,7 @@ Backup Admin: richard@maxtec.be
 ## TIMING TOTAL Y CERTIFICACIÓN
 
 **Duración total**: 10 horas exactas (complementa capítulos 8.x existentes)
+
 - M1: Realidad 2025 (2h)
 - M2: Supervivencia Tickets (2h)
 - M3: IA como Copiloto (1.5h)

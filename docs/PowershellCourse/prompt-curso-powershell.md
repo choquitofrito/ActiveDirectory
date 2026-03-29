@@ -89,6 +89,7 @@ Para cada archivo .md del curso:
    SamAccountName   : juan.perez
    UserPrincipalName : juan.perez@empresa.local
    ```
+
 5. **Recuadro "🔴 HISTORIA REAL"**: anécdota de qué pasó sin -WhatIf
 6. **Ejercicio GUIADO**: paso 1, paso 2, verificación, troubleshooting
 7. **Sección "Si algo sale mal"**: errores comunes con solución
@@ -122,6 +123,7 @@ Get-ADUser -Filter * | Where {$_.Enabled -eq $false} | Disable-ADAccount -WhatIf
 ### SCRIPTS BOMBA ESPECIFICACIÓN:
 
 Cada script debe:
+
 1. Parecer legítimo a primera vista
 2. Tener comentarios que despisten
 3. Contener 1-2 errores graves pero educativos
@@ -145,6 +147,7 @@ Cada script debe:
 ### CASOS DE HORROR (storytelling):
 
 Cada historia debe:
+
 - Ser anónima pero creíble
 - Durar 2-3 minutos de lectura
 - Tener moraleja clara

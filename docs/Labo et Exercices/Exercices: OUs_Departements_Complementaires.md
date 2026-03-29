@@ -45,6 +45,7 @@ Vous devez créer plusieurs utilisateurs pour les nouveaux départements selon l
 Vous devez créer des groupes globaux pour les nouveaux départements et y ajouter les utilisateurs appropriés.
 
 Tâches:
+
 1. Créer les groupes globaux suivants dans l'OU Groupes de la zone EU:
    - GG-EU-Info-Users
    - GG-EU-Marketing-Users
@@ -60,6 +61,7 @@ Tâches:
 Vous devez effectuer diverses opérations de gestion sur certains comptes utilisateurs.
 
 Tâches:
+
 1. Configurer le compte d'ivan comme compte d'administrateur (ajouter au groupe "Administrateurs du domaine")
 2. Définir une date d'expiration dans 6 mois pour le compte de michel (contrat à durée déterminée)
 3. Configurer des restrictions horaires pour lea (accès uniquement du lundi au vendredi, de 7h à 19h)
@@ -70,6 +72,7 @@ Tâches:
 L'entreprise lance un nouveau projet marketing qui nécessite une collaboration entre plusieurs départements.
 
 Tâches:
+
 1. Créer une nouvelle OU "Projets" sous l'OU EU
 2. Créer une sous-OU "ProjetNouveauSite" sous l'OU Projets
 3. Créer un groupe global GG-EU-ProjetSite-Membres dans l'OU Groupes
@@ -84,6 +87,7 @@ Tâches:
 Vous devez effectuer des recherches spécifiques dans l'Active Directory pour les nouveaux départements.
 
 Tâches:
+
 1. Trouver tous les utilisateurs du département Marketing
 2. Lister tous les groupes dont ines est membre
 3. Trouver tous les utilisateurs dont le titre contient "Responsable" ou "Directeur/Directrice"
@@ -142,6 +146,7 @@ Tâches:
 Vous devez configurer la délégation de contrôle pour permettre aux responsables de département de gérer leurs propres utilisateurs.
 
 Tâches:
+
 1. Déléguer à ivan (Informatique) les droits pour:
    - Créer, supprimer et gérer les comptes utilisateurs dans l'OU Informatique
    - Réinitialiser les mots de passe des utilisateurs dans l'OU Informatique
@@ -159,6 +164,7 @@ Tâches:
 Vous devez créer un comité de direction qui regroupe les responsables de tous les départements.
 
 Tâches:
+
 1. Créer un groupe global GG-EU-Comite-Direction dans l'OU Groupes
 2. Ajouter les responsables suivants au groupe:
    - ivan (Informatique)
@@ -173,6 +179,7 @@ Tâches:
 L'entreprise étend ses nouveaux départements aux États-Unis.
 
 Tâches:
+
 1. Créer les mêmes départements (Informatique, Marketing, Logistique) dans l'OU US
 2. Créer au moins deux utilisateurs pour chaque département dans la zone US
 3. Créer les groupes globaux correspondants (GG-US-Info-Users, GG-US-Marketing-Users, GG-US-Logistique-Users)

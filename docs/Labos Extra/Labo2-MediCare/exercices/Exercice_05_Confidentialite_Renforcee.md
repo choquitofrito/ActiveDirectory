@@ -10,6 +10,7 @@
 
 ## Scénario
 Suite à un **audit RGPD**, la clinique doit renforcer la sécurité des postes médicaux pour empêcher :
+
 1. Captures d'écran de dossiers patients (exfiltration visuelle)
 2. Impression vers imprimantes personnelles/USB
 3. Sessions non verrouillées (timeout 10 minutes)
@@ -26,6 +27,7 @@ Suite à un **audit RGPD**, la clinique doit renforcer la sécurité des postes 
    - Bloquer Impression vers imprimantes non réseau
    - Screen Lock timeout: 600 secondes (10 min)
    - Message de sécurité au logon
+
 5. Tester avec compte médecin (catherine ou philippe)
 
 ### Indices

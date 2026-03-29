@@ -21,6 +21,7 @@
 ## 📙 Contenu de cette Annexe
 
 Cette annexe couvre en détail:
+
 1. 🌐 Principes fondamentaux DNS
 2. 🔄 Processus de résolution (récursive vs itérative)
 3. 🏗️ Architecture DNS (zones, délégation, forêts)
@@ -46,6 +47,7 @@ Il est essentiel pour deux raisons principales :
 > **Point clé:** Sans DNS, nous devrions mémoriser les adresses IP de chaque service et ordinateur!
 
 Le DNS offre deux types de résolution :
+
 - 📝 **Directe** : Nom → IP (`www.google.com` → `142.250.179.174`)
 - 🔄 **Inverse** : IP → Nom (`142.250.179.174` → `www.google.com`)
 
@@ -85,6 +87,7 @@ Imaginons que vous souhaitez connaître le nom de domaine associé à l'adresse 
    ```powershell
    nslookup 8.8.8.8
    ```
+
 3. **Analysez le résultat** :  
    Vous verrez une réponse similaire à :
    ```
@@ -159,6 +162,7 @@ Un **espace de noms DNS** est **l'ensemble de noms DNS** organisés sous la form
 Un **forêt DNS** est un espace de noms avec plusieurs arbres.
 
 **Exemple de fusion d'entreprises:**
+
 - 🇪🇺 `maxtec.be` (Premier arbre)
 - 🇫🇷 `techshop.fr` (Deuxième arbre)
 
@@ -173,6 +177,7 @@ Chaque arbre garde son indépendance tout en permettant une collaboration entre 
 ### 📑 Cas Pratique: Maxtec
 
 **Maxtec** est une entreprise internationale avec:
+
 - 🇪🇺 Opérations en Europe
 - 🇺🇸 Opérations aux États-Unis
 
@@ -452,6 +457,7 @@ Analysez comment `dns1.maxtec.be` répondra aux requêtes suivantes:
 3. `fileserver.us.maxtec.be` (serveur de fichiers US)
 
 **Pour chaque cas:** 
+
 - Indiquez si dns1 a l'autorité
 - Expliquez le processus de résolution
 

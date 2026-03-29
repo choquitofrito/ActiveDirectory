@@ -331,10 +331,12 @@ auditpol /get /category:"Logon/Logoff","Account Management"
    - **Drive Letter**: `M:`
    - **Label as**: `Dossiers Patients`
    - **Reconnect**: ✅ Coché
+
 6. Onglet **Common**:
    - Cocher **Item-level targeting**
    - Cliquer **Targeting...**
    - Ajouter: **Security Group** = `GG-MediCare-Medical-Users`
+
 7. Appliquer
 
 **Configuration GPO - Lecteur N: (Notes Infirmières):**
@@ -346,6 +348,7 @@ auditpol /get /category:"Logon/Logoff","Account Management"
    - **Drive Letter**: `N:`
    - **Label as**: `Notes Infirmières`
    - **Reconnect**: ✅ Coché
+
 3. Onglet **Common**:
    - Cocher **Item-level targeting**
    - Cliquer **Targeting...**
@@ -363,10 +366,12 @@ auditpol /get /category:"Logon/Logoff","Account Management"
    - **Drive Letter**: `A:`
    - **Label as**: `Administration`
    - **Reconnect**: ✅ Coché
+
 3. Onglet **Common**:
    - Cocher **Item-level targeting**
    - Cliquer **Targeting...**
    - Ajouter: **Security Group** = `GG-MediCare-Administration-Users`
+
 4. Appliquer
 
 **Vérification:**
@@ -377,9 +382,11 @@ auditpol /get /category:"Logon/Logoff","Account Management"
 4. Connectez-vous avec un utilisateur **Medical** (ex: `catherine`)
    - Exécutez: `gpupdate /force`
    - Ouvrez **Ce PC**: Lecteurs M: et N: doivent apparaître
+
 5. Connectez-vous avec un utilisateur **Nursing** (ex: `anne`)
    - Exécutez: `gpupdate /force`
    - Ouvrez **Ce PC**: Seul le lecteur N: doit apparaître
+
 6. Connectez-vous avec un utilisateur **Administration** (ex: `patricia`)
    - Exécutez: `gpupdate /force`
    - Ouvrez **Ce PC**: Seul le lecteur A: doit apparaître
@@ -555,6 +562,7 @@ Write-Host "`n✅ Fichiers CSV exportés dans C:\Labos\" -ForegroundColor Green
    - Vérifier les 3 sous-OUs (Users, Computers, Groups)
    - Ouvrir **Users**: vérifier les utilisateurs avec titres médicaux
    - Ouvrir **Groups**: vérifier les groupes avec préfixe `GG-`
+
 5. Double-cliquer sur un groupe (ex: `GG-MediCare-Medical-Users`)
    - Onglet **Members**: vérifier la liste des membres
 

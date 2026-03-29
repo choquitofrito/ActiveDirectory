@@ -107,11 +107,13 @@ Préparer l'environnement Active Directory pour permettre à Léa Fontaine de co
 #### 3. Configuration des Restrictions de Sécurité (GPO)
 
 Vous devez appliquer les restrictions suivantes à Léa :
+
 - Désactiver le Panneau de configuration
 - Désactiver l'invite de commandes
 - Bloquer les périphériques USB
 
 **Réflexion** : Comment appliquer ces GPO ?
+
 - Option 1 : Les GPO existantes couvrent-elles déjà ces besoins ?
 - Option 2 : Faut-il créer une nouvelle GPO spécifique aux stagiaires ?
 - Option 3 : Faut-il créer une OU dédiée aux stagiaires ?
@@ -119,6 +121,7 @@ Vous devez appliquer les restrictions suivantes à Léa :
 #### 4. Documentation et Rapport
 
 Créer un document texte (ou commentaire dans le script) qui contient :
+
 - Liste de toutes les actions effectuées
 - Justification des choix techniques (OU, groupes, GPO)
 - Informations de connexion à communiquer à Léa
@@ -150,6 +153,7 @@ Créer un document texte (ou commentaire dans le script) qui contient :
 Cet exercice est volontairement ouvert. Utilisez votre jugement professionnel, vos connaissances des bonnes pratiques AD, et votre capacité de recherche pour trouver les meilleures solutions.
 
 **Ressources autorisées** :
+
 - Documentation Microsoft (Get-Help, liens web)
 - PowerShell Get-Command / Get-Help
 - Vos notes des exercices précédents
@@ -199,6 +203,7 @@ Cet exercice est volontairement ouvert. Utilisez votre jugement professionnel, v
 #### Étape 1 : Analyse et Décisions Stratégiques
 
 **Décisions** :
+
 1. **OU pour les stagiaires** : Créer `OU=Stagiaires,OU=Creative` pour faciliter la gestion des GPO
 2. **SAM Account** : Utiliser `lea.fontaine` (plus clair que `lfontaine`)
 3. **Groupe lecture seule** : Créer `GG-Projet-SecureBank-Lecture` pour la scalabilité

@@ -445,6 +445,7 @@ if ($evenements) {
 
 ### 🏅 **Vous Êtes Maintenant...**
 Un **Crisis PowerShell Warrior** certifié, capable de:
+
 - ✅ Garder sang-froid sous pression maximale
 - ✅ Suivre procédures structurées en chaos
 - ✅ Communiquer efficacement en crise

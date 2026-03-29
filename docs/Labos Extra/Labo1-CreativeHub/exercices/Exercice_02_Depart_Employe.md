@@ -41,6 +41,7 @@ Votre mission : désactiver le compte de Manon tout en préservant les données 
 1. Ouvrez **Utilisateurs et ordinateurs Active Directory** (dsa.msc)
 2. Naviguez vers :
    - **maxtec.be** → **CreativeHub** → **ClientServices** → **Users**
+
 3. Localisez **Manon Girard** dans la liste
 
 
@@ -75,6 +76,7 @@ Votre mission : désactiver le compte de Manon tout en préservant les données 
    ```
    COMPTE DÉSACTIVÉ - Départ le 04/10/2025 - Remplacée par [À définir]
    ```
+
 3. Cliquez sur **Appliquer**
 
 
