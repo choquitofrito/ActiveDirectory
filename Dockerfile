@@ -1,7 +1,7 @@
 FROM python:3.12-slim AS builder
 WORKDIR /app
 COPY . .
-RUN pip install mkdocs-material && mkdocs build
+RUN pip install mkdocs-material mkdocs-glightbox && mkdocs build
 
 FROM nginx:alpine
 COPY --from=builder /app/site /usr/share/nginx/html
