@@ -20,6 +20,8 @@ theme:
   palette:
     primary: indigo
     accent: blue
+  icon:
+    logo: material/domain
   features:
     - navigation.tabs
     - navigation.top
