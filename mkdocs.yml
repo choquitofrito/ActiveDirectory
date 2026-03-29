@@ -18,7 +18,8 @@ extra:
 theme:
   name: material
   palette:
-    scheme: default
+    primary: indigo
+    accent: blue
   features:
     - navigation.tabs
     - navigation.top
