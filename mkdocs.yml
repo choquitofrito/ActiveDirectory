@@ -20,6 +20,7 @@ theme:
   palette:
     scheme: default
   features:
+    - navigation.tabs
     - navigation.top
     - navigation.indexes
     - content.code.copy  # Habilita el botón de copia para bloques de código
