@@ -159,7 +159,7 @@ Des laboratoires complets avec structures AD réalistes, scripts automatisés et
 **Scripts de vérification automatique:** Chaque exercice inclut un [script de vérification PowerShell](Labos%20Extra/Labo2-MediCare/scripts/verification/) avec feedback coloré.
 
 **Pour instructeurs:**
-- [Guide Rapide Exercices](Labos%20Extra/Labo2-MediCare/instructeur/GUIDE_RAPIDE_EXERCICES.md): Référence rapide, pièges courants, timing
+- [Guide Rapide Exercices](Labos%20Extra/Labo2-MediCare/instructeur/Guide_Instructeur_Exercices.md): Référence rapide, pièges courants, timing
 
 ---
 

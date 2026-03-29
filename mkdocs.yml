@@ -114,7 +114,21 @@ nav:
               - Ex06 - Délégation Chef: Labos Extra/Labo2-MediCare/exercices/Exercice_06_Delegation_Chef_Service.md
               - Ex07 - Rotation Spécialistes: Labos Extra/Labo2-MediCare/exercices/Exercice_07_Rotation_Specialistes.md
               - Ex08 - Incident RGPD: Labos Extra/Labo2-MediCare/exercices/Exercice_08_Incident_RGPD.md
-          - 👨‍🏫 Guide Instructeur: Labos Extra/Labo2-MediCare/instructeur/GUIDE_RAPIDE_EXERCICES.md
+          - 👨‍🏫 Guide Instructeur: Labos Extra/Labo2-MediCare/instructeur/Guide_Instructeur_Exercices.md
+
+      - Lab 3 - MonitoringLab:
+          - 📋 Vue d'Ensemble: Labos Extra/Labo3-MonitoringLab/README.md
+          - 🔧 Setup & Cleanup:
+              - Setup: Labos Extra/Labo3-MonitoringLab/scripts/MonitoringLab_Setup.ps1
+              - Cleanup: Labos Extra/Labo3-MonitoringLab/scripts/MonitoringLab_Cleanup.ps1
+          - 📝 Exercices (6):
+              - Ex01 - Exploration Structure: Labos Extra/Labo3-MonitoringLab/exercices/Exercice_01_Exploration_Structure.md
+              - Ex02 - Analyse Événements: Labos Extra/Labo3-MonitoringLab/exercices/Exercice_02_Analyse_Evenements.md
+              - Ex03 - Configuration GPOs: Labos Extra/Labo3-MonitoringLab/exercices/Exercice_03_Configuration_GPOs.md
+              - Ex04 - Comptes de Service: Labos Extra/Labo3-MonitoringLab/exercices/Exercice_04_Comptes_Service.md
+              - Ex05 - Audit Personnalisé: Labos Extra/Labo3-MonitoringLab/exercices/Exercice_05_Audit_Personnalise.md
+              - Ex06 - Incident Investigation: Labos Extra/Labo3-MonitoringLab/exercices/Exercice_06_Incident_Investigation.md
+          - 👨‍🏫 Guide Instructeur: Labos Extra/Labo3-MonitoringLab/instructeur/Guide_Instructeur_Exercices.md
 
       - Exercices Généraux:
           - Questions de Base: "Labo et Exercices/Exercices: Questions Base.md"
