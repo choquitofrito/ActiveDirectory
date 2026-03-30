@@ -82,6 +82,10 @@ ipconfig /all
 **✅ Si vous voyez `127.0.0.1`** → Parfait ! Prêt pour installer AD
 **❌ Si vous voyez autre chose** → Revérifier la configuration
 
+!!! tip "Guide rapide disponible"
+
+    Toutes les étapes pratiques (configuration réseau, installation AD DS, promotion en DC et intégration du poste client) sont regroupées dans un guide unique :
+    **[⚡ Guide Rapide - Installation AD-DS](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md)**
 
 ## 3. Qu'est-ce qui va se passer au Chapitre 4 ? 🔮
 

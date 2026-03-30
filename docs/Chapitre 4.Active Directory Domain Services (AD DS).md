@@ -244,7 +244,10 @@ Ces serveurs gèrent l'ensemble des sites !
 
 ## 6. Laboratoire : promotion du serveur Windows Server en contrôleur de domaine
 
-> 📄 **Pour le guide complet d'installation d'Active Directory Domain Services (AD DS), consultez l'annexe : [Guide de base installation AD-DS](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md)**
+!!! tip "Guide rapide disponible"
+
+    Vous préférez un guide pas à pas sans la théorie ? Toutes les étapes pratiques (nom du serveur, IP, rôle AD DS, promotion en DC et intégration du poste client) sont regroupées ici :
+    **[⚡ Guide Rapide - Installation AD-DS](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md)**
 
 ### 6.1. Configuration réseau initiale
 

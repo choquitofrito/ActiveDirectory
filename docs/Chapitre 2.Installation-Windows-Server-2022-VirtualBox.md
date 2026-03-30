@@ -185,10 +185,13 @@ Nous travaillerons sur un sous-ensemble de cette structure de réseau:
 Le serveur aura maintenant le nom complet (FQDN) : `dns1.maxtec.be`
 
 !!! note "Note"
-    
+
     Vous pouvez aussi accéder au nom via **sysdm.cpl**
 
+!!! tip "Guide rapide disponible"
 
+    Un guide pas à pas couvrant **toute l'installation** (nom du serveur, IP, rôle AD DS, promotion en DC et intégration du poste client) est disponible :
+    **[⚡ Guide Rapide - Installation AD-DS](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md)**
 
 ## 4. 💻 Machines Clientes Windows 10
 
