@@ -42,8 +42,6 @@ markdown_extensions:
 
 nav:
   - 🏠 Accueil: index.md
-  - 📋 Guide Formateur 3 Jours: Guide-Formateur-3-Jours.md
-
   - 🖥️ Windows Server:
       - Ch1 - Introduction & Installation: Chapitre 1.Introduction et installation de Windows Server.md
       - Ch2 - VirtualBox Setup: Chapitre 2.Installation-Windows-Server-2022-VirtualBox.md
@@ -53,8 +51,8 @@ nav:
       - Référence - Concepts Avancés: Théorie DNS- DNS Concepts Avances (Reference).md
 
   - 📁 Active Directory:
-      - Ch4 - AD DS Introduction: Chapitre 4.Active Directory Domain Services (AD DS).md
-      - ⚡ Guide Rapide - Installation AD-DS: Labo Annexe 1-Guide de base installation AD-DS.md
+      - Ch4 - Active Directory Domain Services: Chapitre 4.Active Directory Domain Services (AD DS).md
+      - ⚡ Guide Rapide - Installation AD-DS & Jonction au Domaine: Labo Annexe 1-Guide de base installation AD-DS.md
       - Ch5 - DNS avec AD: Chapitre 5.DNS-Pratique-avec-AD.md
       - Ch6 - Unités d'Organisation: Chapitre 6.Unites_Organisation.md
       - Ch7 - Gestion Utilisateurs: Chapitre 7.Gestion_des_Utilisateurs.md
@@ -82,7 +80,6 @@ nav:
   - 🧪 Labs & Exercices:
       - Lab Principal:
           - Installation: Labo et Exercices/Labo/Labo_structure.md
-          - Guide AD-DS: Labo Annexe 1-Guide de base installation AD-DS.md
           - Annexe Permissions: Labo et Exercices/Labo/Annexe.Permissions.md
           - Scripts:
               - Création Structure: Labo et Exercices/Labo/PowerShell-scriptsStructure/creation_structure.md

@@ -470,51 +470,34 @@ Par exemple, pour un **utilisateur** :
     - Attributs **non répliqués** : photo de profil, scripts de connexion
 
 
-## 10. Laboratoire : Accès aux ressources du domaine
-
-### Cas pratique : Intégration d'un nouvel employé dans le domaine AD
-
-> 💡 Exemple concret d'intégration d'un nouvel employé dans l'infrastructure AD.
+## 10. Laboratoire : Joindre un poste au domaine
 
 ### Scénario
 
-Ahmed commence à travailler au sein du département informatique. Pour accéder aux ressources (serveurs de fichiers, imprimantes, logiciels de l'entreprise), son poste de travail doit être intégré au domaine AD. L'administrateur doit effectuer la configuration suivante.
+Ahmed commence à travailler au département informatique. Pour accéder aux ressources de l'entreprise (serveurs de fichiers, imprimantes, logiciels), son poste de travail doit être intégré au domaine AD.
 
-### 1. Configuration réseau
+!!! tip "Guide pas à pas"
+    Toutes les étapes détaillées (configuration IP, nom, jonction au domaine, troubleshooting) se trouvent dans le **[Guide Rapide - Partie B: Joindre un Poste Client au Domaine](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md#partie-b-joindre-un-poste-client-au-domaine)**.
 
-| Paramètre | Valeur | Menu de configuration |
-|------------|--------|---------------------|
-| IP | `192.168.0.10` | Paramètres Ethernet → Options d'adaptateur |
-| DNS | `192.168.0.2` | Options d'adaptateur → DNS |
-| Nom | `ws-it-01` | Ce PC → Propriétés → Renommer |
-| Suffixe | `maxtec.be` | Propriétés → Paramètres avancés |
+### Formats de connexion au domaine
 
-### 2. Intégrer le poste au domaine AD
-
-1. Ouvrir les **Propriétés système**
-2. Accéder aux **Paramètres avancés**
-3. Configurer la section **Nom de l'ordinateur** et le suffixe (`maxtec.be`)
-4. Sélectionner **Membre du domaine** : `MAXTEC`
-5. Saisir les identifiants d'**administrateur de domaine**
-
-> ⚠️ Redémarrer le poste après chaque modification majeure (changement de nom, intégration au domaine)
-
-### 3. Connexion au domaine
-
-> 💡 Ahmed utilise son compte de domaine AD pour se connecter. Un compte local n'est pas nécessaire.
+Une fois le poste joint au domaine, les utilisateurs peuvent se connecter avec deux formats:
 
 | Format | Exemple | Description |
 |--------|---------|-------------|
-| UPN | `ahmed@maxtec.be` | Format moderne (recommandé) |
-| NetBIOS | `maxtec\ahmed` | Format classique |
+| **UPN** | `ahmed@maxtec.be` | Format moderne (recommandé) |
+| **NetBIOS** | `MAXTEC\ahmed` | Format classique |
 
-#### Avantages de la connexion au domaine
+Les deux fonctionnent de manière identique. Le format UPN est plus lisible et c'est celui utilisé par Azure AD / Entra ID.
 
-!!! info "Bénéfices"
-    
-    - **Accès aux ressources partagées** du domaine (dossiers, imprimantes, applications, etc.)
-    - Application des **stratégies de sécurité** (par exemple, configuration du pare-feu)
-    - Journalisation de l'activité utilisateur sur le serveur
+### Avantages de la connexion au domaine
+
+!!! info "Pourquoi joindre un poste au domaine ?"
+
+    - **Accès aux ressources partagées** du domaine (dossiers, imprimantes, applications)
+    - **Application automatique des stratégies de sécurité** (GPO) configurées par l'administrateur
+    - **Authentification centralisée**: un seul compte pour accéder à toutes les ressources
+    - **Journalisation** de l'activité utilisateur sur le serveur (monitoring, audit)
 
 
 

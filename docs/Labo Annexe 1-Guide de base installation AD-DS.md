@@ -1,93 +1,188 @@
-# Guide base configuration AD
+# Guide de base: Installation AD-DS et Jonction au Domaine
 
-## 1. Créer VM Windows Server 2022 
+Ce guide couvre deux opérations distinctes:
 
-N'oubliez pas de changer le réseau à **Réseau interne** dans la configuration de VirtualBox
+- **[Partie A](#partie-a-installation-du-serveur-ad-ds)** - Préparer et promouvoir le serveur en contrôleur de domaine
+- **[Partie B](#partie-b-joindre-un-poste-client-au-domaine)** - Configurer et joindre un poste client au domaine
 
-## 2. Demarrez la VM du **serveur**, puis suivez ces pas:
+---
 
-1. ⚙️ **Configuration du nom du serveur**
+## Partie A: Installation du Serveur AD-DS
 
-    - Ouvrez le **Gestionnaire de serveur** > **Serveur local**
-    - Sélectionnez le nom actuel
-    - Cliquez sur **Modifier** :
-        - Nom : `dns1`
-        - Suffixe DNS : `maxtec.be`
-    - Cliquez sur **OK**
-    - Redémarrez le serveur
+### A1. Créer la VM Windows Server 2022
 
-2. 🌐 **Configuration de l'IP du serveur**
+Créez une machine virtuelle Windows Server 2022 dans VirtualBox.
 
-    - Ouvrez le **Gestionnaire de serveur** > **Serveur local**
-    - Cliquez sur **Ethernet** → Propriétés → Protocole IPv4
-    - Configurez les valeurs suivantes :
-        - Adresse IP : `192.168.0.2`
-        - Masque : `255.255.255.0`
-        - Serveur DNS : `192.168.0.2` (l'ip de votre serveur, ou l'adresse loopback `127.0.0.1`)
-    - Redémarrez le serveur
+!!! warning "Réseau"
+    Configurez la carte réseau en **Réseau interne** dans les paramètres VirtualBox de la VM.
 
-## 3. Installez le rol d'AD-DS
+### A2. Configurer le serveur
 
-| Étape | Action |
-|--------|--------|
-| 1 | Ouvrir le **Gestionnaire de serveur** |
-| 2 | Menu **Gérer** > **Ajouter des rôles** |
-| 3 | Choisir **Installation basée sur un rôle** |
-| 4 | Sélectionner `dns1.maxtec.be` |
-| 5 | Dans **Rôles**, cocher **Services AD DS** |
-| 6 | Accepter les fonctionnalités requises |
-| 7 | Terminer l'installation |
+Démarrez la VM du serveur, puis:
 
-Puis: cliquer sur l'avertissement pour que notre serveur devienne un DC (Controlêur de domaine)
+**Nom du serveur:**
 
-- Cliquez sur le lien "Promouvoir..." et attendre
-- "Ajouter une nouvelle forêt"
-- Tapez le password Password1! (ce sera le pass pour l'admin)
-- Tapez Suivant puis Suivant... puis Suivant... puis Suivant
-- Tapez Installer
+1. Ouvrez le **Gestionnaire de serveur** > **Serveur local**
+2. Cliquez sur le nom actuel du serveur
+3. Cliquez sur **Modifier**:
+    - Nom de l'ordinateur: `dns1`
+    - Cliquez sur **Plus...** → Suffixe DNS principal: `maxtec.be`
+4. **OK** → Redémarrez le serveur
 
-## 4. Promouvoir le serveur:
+**Adresse IP du serveur:**
 
+1. Ouvrez le **Gestionnaire de serveur** > **Serveur local**
+2. Cliquez sur **Ethernet** → Propriétés → Protocole Internet version 4 (TCP/IPv4)
+3. Configurez:
 
-| Étape | Configuration | Valeur |
-|--------|---------------|--------|
-| 1 | Type d'installation | Nouvelle forêt |
-| 2 | Nom de domaine | `maxtec.be` |
-| 3 | Niveau fonctionnel | Windows Server 2022 |
-| 4 | Mot de passe DSRM | `Password1!` |
-| 5 | Nom NetBIOS | `MAXTEC` |
+| Paramètre | Valeur |
+|-----------|--------|
+| Adresse IP | `192.168.0.2` |
+| Masque | `255.255.255.0` |
+| Passerelle | *(vide)* |
+| Serveur DNS préféré | `192.168.0.2` |
 
-## 5. Créer VM Windows 10 
+4. **OK** → Redémarrez le serveur
 
-Créer une machine Windows 10 sur virtualbox. 
-N'oubliez pas de changer le réseau à **Réseau interne** dans la configuration de VirtualBox
+### A3. Installer le rôle AD-DS
 
+1. Ouvrez le **Gestionnaire de serveur**
+2. Menu **Gérer** > **Ajouter des rôles et fonctionnalités**
+3. Choisissez **Installation basée sur un rôle**
+4. Sélectionnez le serveur `dns1.maxtec.be`
+5. Cochez **Services AD DS** (Active Directory Domain Services)
+6. Acceptez les fonctionnalités requises
+7. Terminez l'installation
 
-1. **Paramètres Système**:
-   - Clic droit sur Démarrer → Système
-   - Option **Changer Nom de l'ordinateur (AVANCÉ, pas la prémière option)**
-   - **Modifier**
+### A4. Promouvoir en contrôleur de domaine
 
-2. **Configuration:**
-   - Nom de l'ordinateur: `client1`
-   - Autres->Suffix principal -> `maxtec.be`
-   - NE CHANGEZ PAS LE DOMAINE
-   - **OK**, puis redemarrez
+Après l'installation du rôle, un avertissement apparaît dans le Gestionnaire de serveur:
 
-3. Fixed l'ip de la machine client
-   - Tapez **Ethernet** dans la barre de recherche
-   - Changez la config pour le protocole IPv4:
-     - Adresse IP: 192.168.0.10 (ou 11, 12...etc.) (pas automatique!)
-     - Masque: 255.255.255.0
-     - Serveur DNS: 192.168.0.2 (l'ip de votre serveur)
-   - **OK**, puis redemarrez
+1. Cliquez sur le lien **"Promouvoir ce serveur en contrôleur de domaine"**
+2. Sélectionnez **Ajouter une nouvelle forêt**
+3. Configurez:
 
+| Paramètre | Valeur |
+|-----------|--------|
+| Nom de domaine racine | `maxtec.be` |
+| Niveau fonctionnel | Windows Server 2022 |
+| Mot de passe DSRM | `Password1!` |
+| Nom NetBIOS | `MAXTEC` |
 
-4. **Authentification:**
+4. Cliquez **Suivant** à chaque étape restante
+5. Cliquez **Installer** → Le serveur redémarre automatiquement
 
-Pour le moment on peut se connecter uniquement avec l'Administrateur. On créera des Utilisateurs plus tard avec leurs propres crédentielles.
+!!! success "Vérification"
+    Après le redémarrage, l'écran de connexion devrait afficher **MAXTEC\Administrateur**. Votre contrôleur de domaine est prêt.
 
-   - Utilisateur: `Administrateur`
-   - Mot de passe: `Password1!`
+---
 
-   
+## Partie B: Joindre un Poste Client au Domaine
+
+### B1. Créer la VM Windows 10/11
+
+Créez une machine virtuelle Windows 10 ou 11 dans VirtualBox.
+
+!!! warning "Réseau"
+    Configurez la carte réseau en **Réseau interne** (le même réseau que le serveur).
+
+### B2. Configurer le nom du poste
+
+1. Clic droit sur **Démarrer** → **Système**
+2. Cliquez sur **Renommer ce PC (avancé)** (pas le bouton simple "Renommer ce PC")
+3. Cliquez sur **Modifier**:
+    - Nom de l'ordinateur: `client1`
+    - Laissez le **Groupe de travail** tel quel (ne changez pas encore le domaine)
+4. Cliquez sur **Plus...** → Suffixe DNS principal: `maxtec.be`
+5. **OK** → Redémarrez
+
+### B3. Configurer l'adresse IP
+
+1. Tapez `ncpa.cpl` dans la barre de recherche → Entrée
+2. Clic droit sur la carte réseau → **Propriétés**
+3. Double-cliquez sur **Protocole Internet version 4 (TCP/IPv4)**
+4. Configurez:
+
+| Paramètre | Valeur |
+|-----------|--------|
+| Adresse IP | `192.168.0.10` |
+| Masque | `255.255.255.0` |
+| Passerelle | *(vide)* |
+| Serveur DNS préféré | `192.168.0.2` (l'IP du serveur) |
+
+5. **OK** → **OK**
+
+!!! tip "Vérification rapide"
+    Ouvrez une invite de commandes et tapez:
+    ```
+    ping 192.168.0.2
+    ```
+    Si le ping répond, le poste peut communiquer avec le serveur. Sinon, vérifiez que les deux VMs sont sur le même réseau interne.
+
+### B4. Joindre le domaine
+
+C'est l'étape clé: rattacher le poste au domaine `maxtec.be`.
+
+1. Clic droit sur **Démarrer** → **Système**
+2. Cliquez sur **Renommer ce PC (avancé)**
+3. Cliquez sur **Modifier**
+4. Dans la section **Membre de**, sélectionnez **Domaine** et tapez:
+    ```
+    maxtec.be
+    ```
+5. Cliquez **OK**
+6. Une fenêtre d'authentification apparaît:
+
+| Champ | Valeur |
+|-------|--------|
+| Utilisateur | `Administrateur` |
+| Mot de passe | `Password1!` |
+
+7. Cliquez **OK**
+
+!!! success "Bienvenue dans le domaine maxtec.be"
+    Si tout est correct, un message s'affiche: **"Bienvenue dans le domaine maxtec.be"**. Le poste doit redémarrer.
+
+!!! failure "Ça ne marche pas ?"
+    | Problème | Solution |
+    |----------|----------|
+    | "Le domaine spécifié n'existe pas" | Vérifiez que le DNS du poste pointe vers `192.168.0.2` |
+    | "Le domaine n'est pas accessible" | Vérifiez le ping vers `192.168.0.2` |
+    | Timeout | Vérifiez que les deux VMs sont sur le même réseau interne VirtualBox |
+    | Erreur d'authentification | Vérifiez le mot de passe (`Password1!`) |
+
+### B5. Se connecter au domaine
+
+Après le redémarrage, l'écran de connexion montre le dernier utilisateur local. Pour se connecter au domaine:
+
+1. Cliquez sur **Autre utilisateur**
+2. Connectez-vous avec:
+
+| Champ | Valeur |
+|-------|--------|
+| Utilisateur | `MAXTEC\Administrateur` |
+| Mot de passe | `Password1!` |
+
+!!! info "Par la suite"
+    Pour le moment, seul le compte Administrateur existe sur le domaine. Vous créerez des utilisateurs dans les chapitres suivants, et chaque utilisateur pourra se connecter avec ses propres identifiants (ex: `MAXTEC\ivan`).
+
+### B6. Vérifier la jonction
+
+Sur le poste client, ouvrez une invite de commandes (ou PowerShell) et tapez:
+
+```powershell
+# Vérifier le domaine
+systeminfo | findstr "Domaine"
+# Résultat attendu: Domaine: maxtec.be
+
+# Vérifier la résolution DNS
+nslookup maxtec.be
+# Résultat attendu: Address: 192.168.0.2
+
+# Vérifier les services AD
+nslookup -type=SRV _ldap._tcp.maxtec.be
+# Résultat attendu: service = 0 100 389 dns1.maxtec.be
+```
+
+!!! success "Tout est prêt"
+    Si les trois commandes fonctionnent, votre poste est correctement joint au domaine. Vous pouvez continuer avec le cours.

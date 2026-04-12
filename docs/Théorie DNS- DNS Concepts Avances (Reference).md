@@ -347,147 +347,134 @@ Une **zone DNS** est tout simplement **une partie de l'espace de noms DNS** (une
 | `dns1.maxtec.be` | `maxtec.be` | ✔️ |
 | `dns2.maxtec.be` | `maxtec.be` | ✔️ |
 
-Un serveur DNS ayant autorité sur un espace de nom :
+Un serveur avec autorité possède **directement** les données de la zone dans ses fichiers. Il n'a besoin de consulter personne d'autre pour répondre.
 
-#### 🔑 Caractéristiques d'un Serveur avec Autorité
+**Concrètement, `dns1.maxtec.be` peut répondre à tout ce qui concerne `*.maxtec.be`:**
 
-??? success "💻 Réponses Directes"
-    | Action | Description | Exemple |
-    |--------|-------------|----------|
-    | ✅ Réponse Positive | Renvoie l'IP immédiatement | `ws-compta-01 → 192.168.10.128` |
-    | ❌ Réponse Négative | Erreur si nom inexistant | `invalid-host → NXDOMAIN` |
-    | ⏱️ Performance | Réponse instantanée | Données en cache local |
+![Serveur DNS avec autorité](diagrams/images/dns_autorite.png)
 
+Dans les deux cas, la réponse est **immédiate** car `dns1` possède toutes les données de la zone `maxtec.be` localement. Il ne contacte aucun autre serveur.
 
-??? info "🔍 Gestion des Requêtes"
-    - 💾 **Données Locales**: Toutes les informations stockées localement
-    - 🔗 **Pas de Récursion**: Aucune consultation d'autres serveurs
-    - ⏳ **Réponse Rapide**: Accès direct aux données
+!!! info "Différence clé avec un serveur sans autorité"
+    Un serveur **avec** autorité peut affirmer qu'un nom **n'existe pas** (NXDOMAIN). Un serveur **sans** autorité ne peut pas le savoir: il doit d'abord demander au serveur autoritaire.
 
 
-### 🔎 Serveur DNS sans Autorité
+### 🔎 Serveur DNS sans Autorité: Requêtes Récursives et Itératives
 
-> **💡 Note:** Un serveur sans autorité doit obtenir l'information d'autres sources via deux types de requêtes:
+Quand `dns1.maxtec.be` reçoit une requête pour `www.google.com`, il n'a pas la zone `google.com`. Il doit demander à d'autres serveurs. Mais **comment** demande-t-il ?
 
-#### Types de Requêtes
+#### L'analogie du concierge
 
-1. **🔍 Requêtes Récursives**
-   - Le serveur fait tout le travail de recherche
-   - Retourne une réponse complète au client
+Imaginez que vous êtes à l'hôtel et vous voulez l'adresse d'un restaurant:
 
-![Requête DNS récursive](diagrams/images/requetes_dns_recursive.png)
+| Approche | Vous faites quoi ? | Le concierge fait quoi ? |
+|----------|-------------------|--------------------------|
+| **Récursive** | Vous demandez au concierge: *"Trouvez-moi l'adresse"* et vous attendez | Le concierge appelle l'office de tourisme, puis le restaurant, et revient avec la réponse complète |
+| **Itérative** | Vous demandez: *"Qui pourrait savoir ?"* | Le concierge répond: *"Essayez l'office de tourisme"*. Vous y allez, ils disent *"Essayez le quartier sud"*. Vous y allez... |
 
-#### 💻 Exemple de Requête Récursive
+Dans le monde DNS, c'est pareil:
 
-??? success "📡 Scénario: Résolution de www.google.com"
-    | Étape | Action | Détails |
-    |---------|---------|----------|
-    | 1️⃣ Client | `ws-compta-01` demande l'IP | Envoie requête à `dns1` |
-    | 2️⃣ DNS1 | Vérifie ses zones | Pas d'autorité sur google.com |
-    | 3️⃣ DNS1 | Contacte d'autres serveurs | Cherche les serveurs racine |
-    | 4️⃣ DNS1 | Obtient l'IP finale | Récupère 142.250.x.x |
-    | 5️⃣ DNS1 | Répond au client | Renvoie l'IP trouvée |
+- **Récursive**: le client dit à `dns1` → *"Donne-moi la réponse complète, débrouille-toi"*
+- **Itérative**: `dns1` dit aux autres serveurs → *"Que sais-tu sur ce nom ?"* et suit les pistes lui-même
 
+---
 
-#### 💡 Points Clés
+### 🔍 Requête Récursive
 
-1. **Client**
-   - 🔍 Une seule requête
-   - ⏳ Attend la réponse finale
+> Le client demande une **réponse complète** à son résolveur. Une seule question, une seule réponse.
 
-2. **Serveur DNS**
-   - 💻 Gère toute la résolution
-   - 🔗 Contacte d'autres serveurs si nécessaire
-   - 💾 Met en cache les résultats
-     * Il fait toutes les requêtes nécessaires lui-même
-     * Le client n'a rien à faire de plus
+`ws-compta-01` demande l'IP de `www.google.com` à `dns1`. Il ne sait pas (et ne veut pas savoir) comment `dns1` trouvera la réponse. Il attend, c'est tout.
 
+![Requête DNS récursive](diagrams/images/dns_requete_recursive_v2.png)
 
-### 🔍 Requêtes Itératives
+---
 
-> 💡 **Définition:** Dans une requête itérative, chaque serveur renvoie la meilleure référence possible vers la réponse.
+### 🔍 Requête Itérative
 
-![Requête DNS itérative](diagrams/images/requetes_dns_iterative.png)
+> Le serveur interrogé donne **la meilleure piste qu'il connaît**. Le résolveur suit les pistes de serveur en serveur jusqu'à trouver la réponse.
 
-**Exemple de requête itérative :**
+C'est ce que `dns1` fait **en coulisses** pour honorer la requête récursive du client. Le client ne voit rien de tout ça:
 
-1. Le client demande l'IP de www.google.com à un serveur DNS
-2. Le serveur répond : "Je ne sais pas, essayez les serveurs DNS qui gèrent .com"
-3. Le client demande l'IP aux serveurs .com
-4. Les serveurs .com répondent : "Demandez aux serveurs DNS de Google"
-5. Le client demande l'IP aux serveurs DNS de Google
-6. Les serveurs DNS de Google répondent avec l'IP finale
+![Requête DNS itérative](diagrams/images/dns_requete_iterative_v2.png)
 
-**Points clés des requêtes itératives :**
+Chaque serveur dit *"Je ne sais pas, mais essayez là-bas"*. Le résolveur suit les références jusqu'au serveur qui possède la zone (`google.com`) et qui donne la réponse finale.
 
-- Le serveur DNS qui ne connaît pas la réponse renvoie une **référence** vers d'autres serveurs
-- **Le client doit faire** **plusieurs requêtes successives**
-- Chaque serveur aide à se rapprocher de la réponse finale
-- Plus complexe pour le client mais moins de charge sur les serveurs
+---
 
+### Les deux travaillent ensemble
 
-### Détail d'une requête DNS sans autorité
+La requête récursive et les requêtes itératives ne sont **pas deux alternatives**. Elles se combinent dans chaque résolution:
 
-Voici, plus en détail, la suite d'opérations pour chercher l'IP d'un serveur DNS **sans autorité**:
+1. Le **client** envoie **une requête récursive** à `dns1` → *"trouve-moi la réponse"*
+2. `dns1` effectue **plusieurs requêtes itératives** (racine → `.com` → `google.com`) → *"que sais-tu ?"*
+3. `dns1` retourne la réponse au client et la garde **en cache** (pour la prochaine fois)
 
-1. Chercher dans la **cache DNS** : Si l'IP a déjà été résolue récemment
-   - Réponse immédiate sans autre requête
-   - Valide jusqu'à expiration du TTL (Time To Live)
+**Le client ne fait qu'une seule requête. Le résolveur fait tout le travail.**
 
-2. Transmettre la requête au **redirecteur (forwarder)** : Si configuré
-   - Transmet la requête à un autre serveur DNS (souvent celui du FAI)
-   - **Attend** une **réponse récursive complète**
-   - Plus simple que la résolution itérative
+#### Autorité ≠ Type de requête
 
-3. Lancer une **Résolution Itérative** : **En dernier recours**
-   - Interroge les serveurs DNS racine
-   - Suit les références de serveur en serveur
-   - Processus plus complexe mais plus autonome
+!!! warning "Attention à cette confusion"
+    On pourrait croire que *"réponse complète = récursive"* et donc qu'un serveur avec autorité fait des requêtes récursives. **Non.** Ce sont deux choses différentes:
+
+    - **L'autorité** = est-ce que le serveur **possède** la zone ? (propriété du serveur)
+    - **Récursive/Itérative** = **comment** la question est posée ? (propriété de la requête)
+
+    `dns1` peut recevoir une requête récursive **ou** itérative pour `ws-compta-01.maxtec.be`. Dans les deux cas, il répond directement car il a les données. Le type de requête ne change rien quand le serveur a l'autorité. Ça ne compte que quand il **ne l'a pas**.
+
+??? info "Pour aller plus loin: les flags DNS"
+    Techniquement, c'est un flag dans l'en-tête de la requête DNS qui détermine le type:
+
+    | Flag | Valeur | Signification |
+    |------|--------|---------------|
+    | **RD** (Recursion Desired) | `1` | *"Je veux une réponse complète"* (récursive) |
+    | **RD** (Recursion Desired) | `0` | *"Donne-moi ce que tu sais"* (itérative) |
+    | **RA** (Recursion Available) | `1` | Le serveur confirme qu'il accepte de faire la récursion |
+
+    - Votre poste de travail envoie `RD=1` à `dns1`
+    - `dns1`, quand il interroge d'autres serveurs, envoie `RD=0`
+
+---
+
+### Résumé: que fait `dns1` quand il ne connaît pas la réponse ?
+
+Quand `dns1` reçoit une requête récursive pour un nom hors de ses zones, il essaie dans cet ordre:
+
+![Processus de résolution DNS](diagrams/images/dns_resolution_flow.png)
+
+1. **Cache DNS** → Si l'adresse a déjà été résolue récemment, réponse immédiate (valide jusqu'à expiration du TTL)
+2. **Forwarder** → Si configuré, transmet la requête à un autre résolveur (souvent celui du FAI) qui fait le travail à sa place
+3. **Résolution itérative** → En dernier recours, interroge les serveurs racine et suit les références lui-même
 
 <br>
 
 
-### 📝 Exercice: Analyse d'Autorité DNS
+### 📝 Exercice: Testez votre compréhension
 
-> **Objectif:** Comprendre quand un serveur DNS a l'autorité sur une requête.
+`dns1.maxtec.be` reçoit les requêtes suivantes. Pour chacune, répondez: **est-ce que `dns1` a l'autorité ? Que se passe-t-il ?**
 
-#### 📓 Instructions
+1. `ws-compta-01.maxtec.be`
+2. `www.google.com`
+3. `fileserver.us.maxtec.be`
 
-Analysez comment `dns1.maxtec.be` répondra aux requêtes suivantes:
-
-1. `ws-compta-01.maxtec.be` (poste de travail)
-2. `www.google.com` (site externe)
-3. `fileserver.us.maxtec.be` (serveur de fichiers US)
-
-**Pour chaque cas:** 
-
-- Indiquez si dns1 a l'autorité
-- Expliquez le processus de résolution
-
-??? success "🔧 Solution"
-    ##### 💻 Requête Interne (ws-compta-01)
-    ```plaintext
-    ✅ Avec Autorité
-    - Zone: maxtec.be
-    - IP: 192.168.10.128
-    - Réponse: Directe et immédiate
-    ```
+??? success "Solution"
+    **1. `ws-compta-01.maxtec.be`**
     
-    ##### 🌍 Requête Externe (google.com)
-    ```plaintext
-    ❌ Sans Autorité
-    - Cache ? → Réponse rapide
-    - Sinon → Redirecteur (FAI)
-    - Ou → Résolution itérative
-    ```
+    `dns1` **a l'autorité** sur `maxtec.be`. Il possède les données de cette zone.
+    → Réponse immédiate: `192.168.10.128`. Aucune requête externe.
     
-    ##### 🇺🇸 Requête Sous-domaine (us)
-    ```plaintext
-    ✅ Avec Autorité
-    - Zone: us.maxtec.be
-    - IP: 192.168.20.10
-    - Réponse: Directe (zone déléguée)
-    ```
+    **2. `www.google.com`**
+    
+    `dns1` **n'a pas l'autorité** sur `google.com`. Il doit chercher:
+
+    - Le client envoie une requête **récursive** à `dns1`
+    - `dns1` vérifie son cache → pas trouvé
+    - `dns1` transmet au forwarder (si configuré), sinon lance une résolution **itérative**: racine → `.com` → `google.com`
+    - `dns1` obtient `142.250.179.174`, la met en cache, et la retourne au client
+    
+    **3. `fileserver.us.maxtec.be`**
+    
+    `dns1` **a l'autorité** sur `us.maxtec.be` (sous-zone de `maxtec.be`).
+    → Réponse immédiate: `192.168.20.10`. Aucune requête externe.
 
 
 
