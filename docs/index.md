@@ -13,6 +13,15 @@ Ce cours vous guide à travers l'installation, la configuration et l'administrat
 **Prérequis:** Connaissances de base Windows Server
 **Contenu:** Théorie + pratique complète
 
+!!! tip "📋 Parcours recommandé: 3 jours (21h)"
+    Si vous disposez de **3 jours de formation** avec un DC et un client déjà installés, consultez le **[Guide Formateur 3 Jours](Guide-Formateur-3-Jours.md)** pour un parcours optimisé:
+
+    - **Jour 1:** DNS essentiel + OUs + Utilisateurs + Lab CreativeHub
+    - **Jour 2:** GPOs (programme) + PowerShell Moderne M1-M2 (le déclic)
+    - **Jour 3:** IA Copilote + Scripts Bomba + WhatIf + Simulation de Crise
+
+    *Philosophie: jamais plus de 30 min sans toucher le clavier.*
+
 ---
 
 ## 📖 Chapitres du cours

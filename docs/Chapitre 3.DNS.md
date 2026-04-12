@@ -3,6 +3,9 @@
 ## 🧭 Navigation du Cours
 [⏮️ Chapitre Précédent: Installation VirtualBox](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: Active Directory](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md)
 
+!!! tip "Pratique DNS disponible"
+    Ce chapitre couvre la **théorie essentielle** (15 min de lecture). Pour la **pratique hands-on** (créer des enregistrements, zones inverses, troubleshooting), passez directement au **[Chapitre 5 - DNS Pratique avec AD](Chapitre%205.DNS-Pratique-avec-AD.md)** après avoir lu ce chapitre.
+
 ---
 
 ## 1. DNS - L'Essentiel

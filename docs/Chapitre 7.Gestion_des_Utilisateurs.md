@@ -4,6 +4,13 @@
 [⏮️ Chapitre Précédent: Unités d'Organisation](Chapitre%206.Unites_Organisation.md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: Group Policy Objects](Chapitre%208.Group%20Policy%20Objects.md)
 
 
+!!! example "Exercices associés"
+    Après la théorie, passez à la pratique:
+
+    - **[Exercices Gestion Utilisateurs](Labo%20et%20Exercices/Exercices:%20Gestion_des_Utilisateurs.md)** - Création, restrictions, audit et gestion du cycle de vie
+    - **[Lab CreativeHub - Ex01](Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_01_Nouvel_Employe.md)** - Créer un nouvel employé (scénario réaliste)
+    - **[Lab CreativeHub - Ex02](Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_02_Depart_Employe.md)** - Gérer le départ d'un employé
+
 !!! info "📚 Dans ce chapitre:"
 
     1. 👤 [Identités Numériques](#1-identités-numériques)

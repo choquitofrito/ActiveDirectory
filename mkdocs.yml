@@ -42,6 +42,7 @@ markdown_extensions:
 
 nav:
   - 🏠 Accueil: index.md
+  - 📋 Guide Formateur 3 Jours: Guide-Formateur-3-Jours.md
 
   - 🖥️ Windows Server:
       - Ch1 - Introduction & Installation: Chapitre 1.Introduction et installation de Windows Server.md

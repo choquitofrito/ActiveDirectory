@@ -3,6 +3,9 @@
 ## 🧭 Navigation du Cours
 [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: Powershell AD - Concepts base](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md)
 
+!!! tip "Cours Moderne PowerShell 2025"
+    Ces chapitres (9.0-9.3) couvrent les **bases de PowerShell AD**. Pour une approche moderne et orientée terrain, consultez aussi le **[Cours Moderne 2025](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M1-realite-2025.md)** qui enseigne PowerShell à travers la résolution de tickets réels, l'utilisation de l'IA comme copilote, et la détection de scripts dangereux.
+
 ---
 
 !!! info "📚 Dans ce chapitre"

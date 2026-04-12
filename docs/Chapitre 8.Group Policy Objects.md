@@ -4,6 +4,15 @@
 [⏮️ Chapitre Précédent: Gestion des Utilisateurs](Chapitre%207.Gestion_des_Utilisateurs.md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: PowerShell AD](Chapitre%209.0.Powershell%20AD%20-%20Introduction.md)
 
 
+!!! example "Exercices associés"
+    Trois séries d'exercices progressifs + exercices en contexte lab:
+
+    - **[GPO Série 1](Labo%20et%20Exercices/Exercices:%20GPO-1.md)** - Templates administratifs, sécurité, déploiement logiciel
+    - **[GPO Série 2](Labo%20et%20Exercices/Exercices:%20GPO-2.md)** - Filtrage et ciblage GPO
+    - **[GPO Série 3](Labo%20et%20Exercices/Exercices:%20GPO-3.md)** - Scénarios complexes et troubleshooting
+    - **[Lab CreativeHub - Ex03](Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_03_GPO_Lecteur_Reseau.md)** - GPO lecteur réseau (scénario réaliste)
+    - **[Lab CreativeHub - Ex08](Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_08_Troubleshooting_GPO.md)** - Troubleshooting GPO
+
 !!! info "📚 Dans ce chapitre:"
 
     1. 🌐 [Introduction aux GPO](#1-introduction-aux-gpo)

@@ -4,6 +4,12 @@
 [⏮️ Chapitre Précédent: DNS Pratique avec AD](Chapitre%205.DNS-Pratique-avec-AD.md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: Gestion des Utilisateurs](Chapitre%207.Gestion_des_Utilisateurs.md)
 
 
+!!! example "Exercices associés"
+    Après la théorie, passez à la pratique:
+
+    - **[Exercice OUs Départements](Labo%20et%20Exercices/Exercices:%20OUs_Departements_Complementaires.md)** - Créer des OUs et utilisateurs pour les départements complémentaires de maxtec.be
+    - **[Lab CreativeHub](Labos%20Extra/Labo1-CreativeHub/README.md)** - Scénario complet d'agence marketing avec 9 exercices progressifs
+
 ---
 
 !!! info "📚 Dans ce chapitre :"

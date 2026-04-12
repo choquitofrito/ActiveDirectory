@@ -11,6 +11,9 @@
 - Analyser les logs d'événements AD
 - Détecter des anomalies de sécurité courantes
 
+!!! example "Lab pratique associé"
+    Le **[Lab 3 - MonitoringLab](Labos%20Extra/Labo3-MonitoringLab/README.md)** propose 6 exercices progressifs avec un scénario MSP: exploration de structure, analyse d'événements, configuration d'audit GPO, comptes de service, et investigation d'incidents. Chaque exercice inclut un script de vérification automatique.
+
 ---
 
 ## 🎯 Pourquoi surveiller Active Directory ?
