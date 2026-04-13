@@ -4,3 +4,14 @@ __pycache__/
 *.pyc
 *.pyo
 .DS_Store
+Thumbs.db
+
+# Credenciales
+docsBase/login mdp.txt
+
+# Archivos generados
+pdfs/
+slides/
+
+# Dependencias Windows
+scripts/poppler-windows-master/

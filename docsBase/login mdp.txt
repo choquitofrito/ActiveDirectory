@@ -1,4 +1,0 @@
-Windows Server
-
-Login : Administrateur
-MDP : Irisib2025
