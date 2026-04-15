@@ -23,7 +23,7 @@
        - Niveaux d'application
        - Ordre de traitement
     
-    3. 💻 [Configuration des GPO](#3-classifications-des-gpo)
+    3. 💻 [Ordre d'application des GPO (LSDO)](#3-ordre-dapplication-des-gpo-lsdo)
        - Outils de gestion
        - Exemples pratiques
 
@@ -236,11 +236,9 @@ Pour **activer/desactiver** une GPO, il faut cliquer sur l'OU liée à la GPO et
 
 L'option `Appliquer` **force l'application** de la GPO et saute même la hiérarchie des OUs (on coche `Appliquer` uniquement pour des politiques de sécurité critiques ou des cas similaires).
 
-## 3. Classifications des GPO
+## 3. Ordre d'application des GPO (LSDO)
 
 Pour pouvoir gérer proprement les GPOs on doit comprendre comment elles sont appliquées.
-
-## Ordre d'application LSDO
 
 Les **paramètres de stratégie de groupe (GPO) sont appliqués dans l'ordre suivant**, du plus général au plus spécifique :
 
