@@ -774,30 +774,30 @@ Get-EventLog -LogName "Directory Service" -Newest 50 -EntryType Error, Warning
 
 !!! warning "Vérifications à effectuer"
 
-1. **Vérifier le lien GPO**:
-   ```powershell
-   Get-GPInheritance -Target "OU=Users,OU=Medical,OU=MediCare,DC=maxtec,DC=be"
-   ```
+    1. **Vérifier le lien GPO**:
+        ```powershell
+        Get-GPInheritance -Target "OU=Users,OU=Medical,OU=MediCare,DC=maxtec,DC=be"
+        ```
 
-2. **Vérifier que la GPO est activée**:
-   ```powershell
-   Get-GPO -Name "MediCare - Blocage USB Zones Médicales" | Select-Object DisplayName, GpoStatus
-   ```
-   - GpoStatus doit être `AllSettingsEnabled`
+    2. **Vérifier que la GPO est activée**:
+        ```powershell
+        Get-GPO -Name "MediCare - Blocage USB Zones Médicales" | Select-Object DisplayName, GpoStatus
+        ```
+        - GpoStatus doit être `AllSettingsEnabled`
 
-3. **Forcer l'application**:
-   ```powershell
-   gpupdate /force
-   ```
+    3. **Forcer l'application**:
+        ```powershell
+        gpupdate /force
+        ```
 
-4. **Vérifier l'héritage**:
-   - Ouvrir GPMC
-   - Vérifier qu'aucune OU parent n'a "Block Inheritance"
-   - Vérifier qu'aucune GPO de priorité supérieure ne contredit
+    4. **Vérifier l'héritage**:
+        - Ouvrir GPMC
+        - Vérifier qu'aucune OU parent n'a "Block Inheritance"
+        - Vérifier qu'aucune GPO de priorité supérieure ne contredit
 
-5. **Vérifier la portée de sécurité**:
-   - Dans GPMC, onglet **Scope** de la GPO
-   - Vérifier que **Authenticated Users** ou le groupe cible a les permissions **Read** + **Apply Group Policy**
+    5. **Vérifier la portée de sécurité**:
+        - Dans GPMC, onglet **Scope** de la GPO
+        - Vérifier que **Authenticated Users** ou le groupe cible a les permissions **Read** + **Apply Group Policy**
 
 ## Évolutions Possibles du Laboratoire
 

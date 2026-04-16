@@ -35,12 +35,12 @@ Démarrez la VM du serveur, puis:
 2. Cliquez sur **Ethernet** → Propriétés → Protocole Internet version 4 (TCP/IPv4)
 3. Configurez:
 
-| Paramètre | Valeur |
-|-----------|--------|
-| Adresse IP | `192.168.0.2` |
-| Masque | `255.255.255.0` |
-| Passerelle | *(vide)* |
-| Serveur DNS préféré | `192.168.0.2` |
+    | Paramètre | Valeur |
+    |-----------|--------|
+    | Adresse IP | `192.168.0.2` |
+    | Masque | `255.255.255.0` |
+    | Passerelle | *(vide)* |
+    | Serveur DNS préféré | `192.168.0.2` |
 
 4. **OK** → Redémarrez le serveur
 
@@ -62,12 +62,12 @@ Après l'installation du rôle, un avertissement apparaît dans le Gestionnaire 
 2. Sélectionnez **Ajouter une nouvelle forêt**
 3. Configurez:
 
-| Paramètre | Valeur |
-|-----------|--------|
-| Nom de domaine racine | `maxtec.be` |
-| Niveau fonctionnel | Windows Server 2022 |
-| Mot de passe DSRM | `Password1!` |
-| Nom NetBIOS | `MAXTEC` |
+    | Paramètre | Valeur |
+    |-----------|--------|
+    | Nom de domaine racine | `maxtec.be` |
+    | Niveau fonctionnel | Windows Server 2022 |
+    | Mot de passe DSRM | `Password1!` |
+    | Nom NetBIOS | `MAXTEC` |
 
 4. Cliquez **Suivant** à chaque étape restante
 5. Cliquez **Installer** → Le serveur redémarre automatiquement
@@ -103,12 +103,12 @@ Créez une machine virtuelle Windows 10 ou 11 dans VirtualBox.
 3. Double-cliquez sur **Protocole Internet version 4 (TCP/IPv4)**
 4. Configurez:
 
-| Paramètre | Valeur |
-|-----------|--------|
-| Adresse IP | `192.168.0.10` |
-| Masque | `255.255.255.0` |
-| Passerelle | *(vide)* |
-| Serveur DNS préféré | `192.168.0.2` (l'IP du serveur) |
+    | Paramètre | Valeur |
+    |-----------|--------|
+    | Adresse IP | `192.168.0.10` |
+    | Masque | `255.255.255.0` |
+    | Passerelle | *(vide)* |
+    | Serveur DNS préféré | `192.168.0.2` (l'IP du serveur) |
 
 5. **OK** → **OK**
 
@@ -133,10 +133,10 @@ C'est l'étape clé: rattacher le poste au domaine `maxtec.be`.
 5. Cliquez **OK**
 6. Une fenêtre d'authentification apparaît:
 
-| Champ | Valeur |
-|-------|--------|
-| Utilisateur | `Administrateur` |
-| Mot de passe | `Password1!` |
+    | Champ | Valeur |
+    |-------|--------|
+    | Utilisateur | `Administrateur` |
+    | Mot de passe | `Password1!` |
 
 7. Cliquez **OK**
 

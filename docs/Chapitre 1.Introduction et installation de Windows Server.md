@@ -251,45 +251,49 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 
 !!! info "💻 Configuration matérielle"
 
-1. Dans Hyper-V Manager, sélectionnez `New` > `Virtual Machine`
-2. Configurez les paramètres suivants :
+    1. Dans Hyper-V Manager, sélectionnez `New` > `Virtual Machine`
+    2. Configurez les paramètres suivants :
 
-| Paramètre | Valeur |
-|------------|--------|
-| Nom | **Serveur1** |
-| Génération | Generation 2 |
-| Mémoire | 2048 MB (dynamique) |
-| Réseau | **LAN-VM** |
-| Disque dur | 50 GB (dynamique) |
-| Image | Votre fichier ISO Windows Server |
+    | Paramètre | Valeur |
+    |------------|--------|
+    | Nom | **Serveur1** |
+    | Génération | Generation 2 |
+    | Mémoire | 2048 MB (dynamique) |
+    | Réseau | **LAN-VM** |
+    | Disque dur | 50 GB (dynamique) |
+    | Image | Votre fichier ISO Windows Server |
 !!! info "🔗 Configuration réseau"
 
-1. Ouvrez les paramètres de la VM
-2. Ajoutez une deuxième carte réseau
-3. Configurez les adaptateurs :
-   - Adaptateur 1 : **LAN-VM** (réseau interne)
-   - Adaptateur 2 : **WAN-VM** (accès Internet)
+    1. Ouvrez les paramètres de la VM
+    2. Ajoutez une deuxième carte réseau
+    3. Configurez les adaptateurs :
+        - Adaptateur 1 : **LAN-VM** (réseau interne)
+        - Adaptateur 2 : **WAN-VM** (accès Internet)
 
 #### 💾 Installation du système
 
 !!! info "🔰 Installation de Windows Server"
 
-1. Démarrez la machine virtuelle
-2. Sélectionnez :
-   - Langue : **Français**
-   - Format de temps : **Français**
-   - Clavier : **Français**
+    1. Démarrez la machine virtuelle
+    2. Sélectionnez :
+        - Langue : **Français**
+        - Format de temps : **Français**
+        - Clavier : **Français**
 
-3. Choisissez **Windows Server 2022 Standard (Desktop Experience)**
-   !!! tip "Pourquoi Desktop Experience ?"
-    
-    Interface graphique familière pour débutants
-4. Acceptez la licence
-5. Sélectionnez **Installation personnalisée**
-   !!! warning "Attention"
-    
-    Pas "Mise à niveau" car nous partons de zéro
-6. Configurez le disque dur
+    3. Choisissez **Windows Server 2022 Standard (Desktop Experience)**
+
+        !!! tip "Pourquoi Desktop Experience ?"
+        
+            Interface graphique familière pour débutants
+
+    4. Acceptez la licence
+    5. Sélectionnez **Installation personnalisée**
+
+        !!! warning "Attention"
+        
+            Pas "Mise à niveau" car nous partons de zéro
+
+    6. Configurez le disque dur
 
 !!! note "Note"
     
@@ -318,14 +322,14 @@ L'outil de virtualisation que nous allons utiliser est **Hyper-V**.
 
 !!! info "🌐 Configuration réseau"
 
-1. Ouvrez les `Paramètres réseau`
-2. Configurez la carte **LAN-VM** :
-   - IP : **192.168.0.2**
-   - Masque : **255.255.255.0**
-   - DNS : **127.0.0.1**
+    1. Ouvrez les `Paramètres réseau`
+    2. Configurez la carte **LAN-VM** :
+        - IP : **192.168.0.2**
+        - Masque : **255.255.255.0**
+        - DNS : **127.0.0.1**
 
-3. Configurez la carte **WAN-VM** :
-   - DHCP activé (automatique)
+    3. Configurez la carte **WAN-VM** :
+        - DHCP activé (automatique)
 
 #### 📍 Vérifications essentielles
 

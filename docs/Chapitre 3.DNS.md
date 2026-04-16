@@ -44,31 +44,31 @@ DNS traduit : 142.250.179.174
 
 !!! info "Configuration réseau pour AD"
 
-1. **Ouvrir les Paramètres réseau**
-   - État du Réseau → Ethernet → Modifier les options de l'adaptateur
-   - Ou : `ncpa.cpl` dans Exécuter... plus simple!
+    1. **Ouvrir les Paramètres réseau**
+        - État du Réseau → Ethernet → Modifier les options de l'adaptateur
+        - Ou : `ncpa.cpl` dans Exécuter... plus simple!
 
-2. **Configurer l'adaptateur LAN-VM** (réseau interne)
-   - Clic droit sur la carte réseau LAN-VM → Propriétés
-   - Sélectionner "Protocole Internet version 4 (TCP/IPv4)"
-   - Cliquer sur Propriétés
+    2. **Configurer l'adaptateur LAN-VM** (réseau interne)
+        - Clic droit sur la carte réseau LAN-VM → Propriétés
+        - Sélectionner "Protocole Internet version 4 (TCP/IPv4)"
+        - Cliquer sur Propriétés
 
-3. **Paramètres réseau pour AD**
+    3. **Paramètres réseau pour AD**
 
-| Paramètre | Valeur | Explication |
-|-----------|--------|-------------|
-| Adresse IP | `192.168.0.2` | IP de votre serveur |
-| Masque | `255.255.255.0` | Réseau local |
-| Passerelle | *(vide pour l'instant)* | Pas nécessaire pour le réseau interne |
-| **DNS préféré** | `192.168.0.2` ou `127.0.0.1` | 🔑 **Le serveur s'utilise lui-même !** |
-| DNS auxiliaire | *(vide)* | Sera configuré après installation AD |
+    | Paramètre | Valeur | Explication |
+    |-----------|--------|-------------|
+    | Adresse IP | `192.168.0.2` | IP de votre serveur |
+    | Masque | `255.255.255.0` | Réseau local |
+    | Passerelle | *(vide pour l'instant)* | Pas nécessaire pour le réseau interne |
+    | **DNS préféré** | `192.168.0.2` ou `127.0.0.1` | 🔑 **Le serveur s'utilise lui-même !** |
+    | DNS auxiliaire | *(vide)* | Sera configuré après installation AD |
 
-> 🔑 **Pourquoi 127.0.0.1 ?**
-> - `127.0.0.1` = localhost = "moi-même"
-> - Quand AD s'installera, il créera un serveur DNS sur cette machine
-> - Le serveur devra utiliser son propre DNS pour fonctionner
+    > 🔑 **Pourquoi 127.0.0.1 ?**
+    > - `127.0.0.1` = localhost = "moi-même"
+    > - Quand AD s'installera, il créera un serveur DNS sur cette machine
+    > - Le serveur devra utiliser son propre DNS pour fonctionner
 
-4. **Valider et fermer**
+    4. **Valider et fermer**
 
 ### Test
 
@@ -96,20 +96,20 @@ Quand vous lancerez l'installation d'Active Directory Domain Services :
 
 !!! info "Qu'est-ce qui va se passer au Chapitre 4 ?"
 
-1. **📦 Installation automatique DNS**
-   - Windows Server installe le rôle DNS automatiquement
-   - Crée la zone DNS `maxtec.be`
-   - Configure tous les enregistrements nécessaires pour AD
+    1. **📦 Installation automatique DNS**
+        - Windows Server installe le rôle DNS automatiquement
+        - Crée la zone DNS `maxtec.be`
+        - Configure tous les enregistrements nécessaires pour AD
 
-2. **🌐 Configuration automatique**
-   - Enregistrements SRV pour Kerberos, LDAP
-   - Enregistrement A pour `dc1.maxtec.be`
-   - Zone de recherche directe et inverse
+    2. **🌐 Configuration automatique**
+        - Enregistrements SRV pour Kerberos, LDAP
+        - Enregistrement A pour `dc1.maxtec.be`
+        - Zone de recherche directe et inverse
 
-3. **✨ Magie DNS-AD**
-   - Quand un poste rejoint le domaine → DNS l'enregistre automatiquement
-   - Quand vous créez un utilisateur → DNS mis à jour
-   - Tout est intégré !
+    3. **✨ Magie DNS-AD**
+        - Quand un poste rejoint le domaine → DNS l'enregistre automatiquement
+        - Quand vous créez un utilisateur → DNS mis à jour
+        - Tout est intégré !
 
 
 

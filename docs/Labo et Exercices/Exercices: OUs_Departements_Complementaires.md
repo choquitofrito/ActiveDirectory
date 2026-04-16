@@ -6,14 +6,14 @@ Suite à l'expansion de l'entreprise maxtec.be, vous êtes chargé(e) de créer 
 
 !!! example "Tâches à réaliser"
 
-1. Sous les OUs géographiques existantes (EU et US), créer les nouvelles OUs départementales:
-   - OU=Informatique
-   - OU=Marketing
-   - OU=Logistique
+    1. Sous les OUs géographiques existantes (EU et US), créer les nouvelles OUs départementales:
+        - OU=Informatique
+        - OU=Marketing
+        - OU=Logistique
 
-2. Sous chaque nouvelle OU départementale, créer les sous-OUs:
-   - OU=Users
-   - OU=Computers
+    2. Sous chaque nouvelle OU départementale, créer les sous-OUs:
+        - OU=Users
+        - OU=Computers
 
 ## 2. 🔹 Création d'Utilisateurs pour les Nouveaux Départements
 
@@ -21,24 +21,24 @@ Vous devez créer plusieurs utilisateurs pour les nouveaux départements selon l
 
 !!! example "Tâches à réaliser"
 
-1. Créer les utilisateurs suivants dans l'OU Informatique de la zone EU:
-   - ivan (Administrateur Système)
-   - ines (Développeuse)
-   - irene (Technicien Support)
+    1. Créer les utilisateurs suivants dans l'OU Informatique de la zone EU:
+        - ivan (Administrateur Système)
+        - ines (Développeuse)
+        - irene (Technicien Support)
 
-2. Créer les utilisateurs suivants dans l'OU Marketing de la zone EU:
-   - marc (Directeur Marketing)
-   - marie (Chargée de Communication)
-   - michel (Designer Graphique)
+    2. Créer les utilisateurs suivants dans l'OU Marketing de la zone EU:
+        - marc (Directeur Marketing)
+        - marie (Chargée de Communication)
+        - michel (Designer Graphique)
 
-3. Créer les utilisateurs suivants dans l'OU Logistique de la zone EU:
-   - lucas (Responsable Logistique)
-   - lea (Gestionnaire de Stock)
+    3. Créer les utilisateurs suivants dans l'OU Logistique de la zone EU:
+        - lucas (Responsable Logistique)
+        - lea (Gestionnaire de Stock)
 
-4. Pour chaque utilisateur:
-   - Définir le mot de passe standard: "Password1!"
-   - Configurer le changement de mot de passe à la première connexion
-   - Remplir les champs: Prénom, Nom, Titre, Département, E-mail (prenom@maxtec.be)
+    4. Pour chaque utilisateur:
+        - Définir le mot de passe standard: "Password1!"
+        - Configurer le changement de mot de passe à la première connexion
+        - Remplir les champs: Prénom, Nom, Titre, Département, E-mail (prenom@maxtec.be)
 
 ## 3. 🔹 Création de Groupes Globaux pour les Nouveaux Départements
 
