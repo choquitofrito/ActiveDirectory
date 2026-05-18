@@ -11,6 +11,12 @@
 
 ---
 
+!!! info "Fil rouge : Jour 2 chez Maxtec"
+    
+    Sophie vous confie une nouvelle tâche : construire un script d'audit réutilisable. Jusqu'ici vous avez tapé des commandes une par une ; aujourd'hui vous allez les enchaîner avec des **variables**, des **tableaux**, des **boucles** et des **conditions**. Chaque mission ci-dessous s'appuie sur la précédente.
+
+---
+
 ## 1. 🔹 Les variables : des boîtes de rangement
 
 !!! tip "Concept simple"
@@ -34,23 +40,61 @@ echo $nomUtilisateur                 # Méthode 4: Utiliser l'alias 'echo' (comm
     
     Remarquez le symbole `$` qui indique qu'il s'agit d'une variable.
 
-### Exercice 1.1 : Créez votre première variable
+### Mission 1.1 — Variable de contexte
 
-!!! example "À vous de jouer !"
+!!! example "Objectif"
     
-    1. Créez une variable `$monDomaine` contenant le nom de votre domaine AD
-    2. Affichez son contenu
-    3. Modifiez sa valeur et affichez-la à nouveau
-
-### Exercice 1.2 : Variables et concaténation
-
-!!! example "Exercice pratique"
+    La convention Maxtec pour les logins est `prenom.nom`. Construisez les variables de base dont vous aurez besoin dans les missions suivantes :
     
-    1. Créez une variable `$prenom` contenant votre prénom
-    2. Créez une variable `$nom` contenant votre nom de famille
-    3. Créez une variable `$nomComplet` qui combine les deux avec un espace entre eux (indice : utilisez `$prenom + " " + $nom`)
-    4. Créez une variable `$loginAD` qui serait votre identifiant AD au format `prenom.nom` (comme "jean.dupont")
-    5. Affichez un message qui dit "Bonjour [nomComplet], votre login est [loginAD]"
+    1. Stockez `"maxtec.be"` dans `$domaine`
+    2. Créez `$prenom` et `$nom` avec votre propre prénom/nom
+    3. Déduisez `$login` au format `prenom.nom` en minuscules
+    4. Déduisez `$email` au format `login@maxtec.be`
+    5. Affichez un résumé : nom complet, login, email
+    
+    *Indice : `.ToLower()` convertit une chaîne en minuscules.*
+
+??? success "Solution"
+    
+    ```powershell
+    $domaine = "maxtec.be"
+    $prenom  = "Jean"
+    $nom     = "Dupont"
+    
+    $login   = $prenom.ToLower() + "." + $nom.ToLower()
+    $email   = "$login@$domaine"
+    
+    Write-Host "$prenom $nom — login : $login — email : $email"
+    ```
+    
+    À noter : dans une chaîne entre guillemets `"..."`, PowerShell évalue les variables directement (`"$login@$domaine"`). Pas besoin de concaténation.
+
+### Mission 1.2 — Stocker un résultat AD dans une variable
+
+!!! example "Objectif"
+    
+    Récupérez votre propre compte (ou un compte de test) et explorez ses propriétés via la variable :
+    
+    1. Stockez le résultat de `Get-ADUser -Identity $login -Properties *` dans `$monCompte`
+    2. Affichez le `GivenName`, `Surname`, `Title` et `Department`
+    3. Affichez la date de création (`WhenCreated`)
+    4. Vérifiez si le compte est activé (`Enabled`)
+
+??? success "Solution"
+    
+    ```powershell
+    $login     = "jean.dupont"   # adaptez
+    $monCompte = Get-ADUser -Identity $login -Properties *
+    
+    Write-Host "Prénom    : $($monCompte.GivenName)"
+    Write-Host "Nom       : $($monCompte.Surname)"
+    Write-Host "Titre     : $($monCompte.Title)"
+    Write-Host "Service   : $($monCompte.Department)"
+    Write-Host "Créé le   : $($monCompte.WhenCreated)"
+    Write-Host "Activé    : $($monCompte.Enabled)"
+    ```
+    
+    La syntaxe `$($variable.Propriete)` est nécessaire à l'intérieur d'une chaîne pour évaluer une propriété.
 
 
 ### Variables et commandes AD
@@ -172,15 +216,36 @@ if ($index -ge 0) {
     Pour la suppression, il faut faire attention à la taille fixe du tableau. Nous n'aborderons pas cette opération ici, mais vous pouvez la rechercher dans la documentation PowerShell si nécessaire.
 
 
-### Exercice 2.1 : Créez et manipulez un tableau
+### Mission 2.1 — Tableau des départements
 
-!!! example "Exercice pratique"
+!!! example "Objectif"
     
-    1. Créez un tableau contenant les noms de serveurs de votre réseau (par exemple: "dns1", "fileserver", "webserver")
-    2. Affichez le deuxième serveur du tableau
-    3. Ajoutez un quatrième serveur avec `$tableauServeurs += "mailserver"`
-    4. Faites une boucle `foreach` pour afficher chaque serveur sans utiliser le pipeline
-    5. Affichez chaque élément du tableau avec le pipeline
+    Sophie vous demande de préparer la liste des départements de Maxtec EU. Ce tableau servira dans la mission suivante pour boucler automatiquement dessus :
+    
+    1. Créez `$departements` avec : `RH`, `IT`, `Ventes`, `Comptabilité`, `Marketing`
+    2. Affichez le premier et le dernier élément
+    3. Ajoutez `"Logistique"` au tableau
+    4. Affichez le nombre total d'éléments
+    5. Vérifiez si `"RH"` est dans la liste (`.Contains()`)
+
+??? success "Solution"
+    
+    ```powershell
+    $departements = @("RH", "IT", "Ventes", "Comptabilité", "Marketing")
+    
+    Write-Host "Premier : $($departements[0])"
+    Write-Host "Dernier : $($departements[-1])"
+    
+    $departements += "Logistique"
+    
+    Write-Host "Total : $($departements.Count)"
+    
+    if ($departements.Contains("RH")) {
+        Write-Host "RH est dans la liste"
+    }
+    ```
+    
+    `[0]` = premier élément, `[-1]` = dernier. `$()` évalue une expression à l'intérieur d'une chaîne.
 
 
 
@@ -199,13 +264,23 @@ Write-Host $utilisateursComptabilite.Count
 Write-Host $utilisateursComptabilite[0].Name
 ```
 
-### Exercice 2.2 : Manipuler des collections d'objets AD
+### Mission 2.2 — Collections de groupes AD
 
-!!! example "Exercice avec Active Directory"
+!!! example "Objectif"
     
-    1. Récupérez tous les groupes dont le nom contient "GG-EU" (utiliser `Filter` - expliqué plus haut - et `like`)
-    2. Affichez le nombre de groupes trouvés
-    3. Affichez uniquement le nom du premier et du dernier groupe
+    1. Récupérez tous les groupes dont le nom contient `"GG-EU"` dans une variable `$groupesEU`
+    2. Affichez leur nombre
+    3. Affichez le nom du premier et du dernier groupe du tableau
+
+??? success "Solution"
+    
+    ```powershell
+    $groupesEU = Get-ADGroup -Filter {Name -like "*GG-EU*"}
+    
+    Write-Host "Groupes trouvés : $($groupesEU.Count)"
+    Write-Host "Premier : $($groupesEU[0].Name)"
+    Write-Host "Dernier : $($groupesEU[-1].Name)"
+    ```
 
 ## 3. 🔹 Les boucles : répéter des actions
 
@@ -242,21 +317,54 @@ $utilisateurs | ForEach-Object { Write-Host $_ }
 $utilisateurs | ForEach-Object { Write-Host $_.Name }  
 ```
 
-### Exercice 3.1 : Votre première boucle
+### Mission 3.1 — Boucle sur les départements
 
-!!! example "Exercice pratique"
+!!! example "Objectif"
     
-    1. Récupérez tous les groupes de sécurité dont le nom commence par "GG-" (groupes globaux)
-    2. Créez une boucle qui affiche pour chacun : "Le groupe [Nom] a la description: [Description]"
-    3. Modifiez votre boucle pour n'afficher que les groupes créés après le 1er janvier 2023
-
-### Exercice 3.2 : Utiliser le pipeline
-
-!!! example "Exercice avec pipeline"
+    Sophie veut un rapport listant combien d'utilisateurs actifs se trouvent dans chaque département. Utilisez le tableau `$departements` de la mission 2.1 :
     
-    1. Utilisez le pipeline pour lister tous les groupes de sécurité
-    2. Pour chaque groupe, affichez son nom et le nombre de membres
-    3. Bonus : triez les résultats par nombre de membres (indice : `Sort-Object`)
+    1. Bouclez sur `$departements`
+    2. Pour chaque département, comptez les utilisateurs actifs (`Enabled -eq $true`) filtrés par `Department`
+    3. Affichez une ligne par département : `"IT : 5 utilisateurs actifs"`
+
+??? success "Solution"
+    
+    ```powershell
+    $departements = @("RH", "IT", "Ventes", "Comptabilité", "Marketing")
+    
+    foreach ($dept in $departements) {
+        $count = (Get-ADUser -Filter "Department -eq '$dept' -and Enabled -eq 'True'").Count
+        Write-Host "$dept : $count utilisateurs actifs"
+    }
+    ```
+    
+    Le filtre en chaîne `"Department -eq '$dept' -and Enabled -eq 'True'"` permet d'injecter une variable directement.
+
+### Mission 3.2 — Membres par groupe (pipeline)
+
+!!! example "Objectif"
+    
+    Sophie veut savoir quels groupes `GG-EU` ont le plus de membres. Utilisez le pipeline :
+    
+    1. Récupérez tous les groupes dont le nom commence par `"GG-EU"`
+    2. Pour chaque groupe, récupérez le nombre de membres avec `Get-ADGroupMember`
+    3. Affichez `Nom du groupe — X membre(s)`, trié du plus grand au plus petit
+    
+    *Indice : `Sort-Object -Descending` et `$_.Members.Count` ou `(Get-ADGroupMember -Identity $_.Name).Count`*
+
+??? success "Solution"
+    
+    ```powershell
+    Get-ADGroup -Filter {Name -like "GG-EU*"} | ForEach-Object {
+        $nbMembres = (Get-ADGroupMember -Identity $_.Name).Count
+        [PSCustomObject]@{
+            Groupe  = $_.Name
+            Membres = $nbMembres
+        }
+    } | Sort-Object Membres -Descending | Format-Table -AutoSize
+    ```
+    
+    `[PSCustomObject]` crée un objet temporaire avec les champs qu'on veut afficher — plus propre que de concaténer des chaînes.
 
 ## 4. 🔹 Les conditions : prendre des décisions
 
@@ -300,11 +408,35 @@ if ([string]::IsNullOrEmpty($description)) {
 
 > Les opérateurs de comparaison courants sont: `-eq` (égal), `-ne` (différent), `-gt` (supérieur), `-lt` (inférieur), `-ge` (supérieur ou égal), `-le` (inférieur ou égal).
 
-### Exercice 4.1 : Conditions simples
+### Mission 4.1 — Vérification de compte
 
-1. Récupérez un utilisateur de votre choix
-2. Vérifiez s'il a une adresse email renseignée (modifiez les utilisateurs dans AD si besoin)
-3. Affichez un message approprié selon le cas
+!!! example "Objectif"
+    
+    Récupérez un utilisateur de votre choix et vérifiez :
+    
+    1. S'il a une adresse email renseignée (`EmailAddress`)
+    2. Si son compte est actif ou désactivé (`Enabled`)
+    3. Affichez un message différent selon chaque cas
+    
+    *Si aucun utilisateur n'a d'email dans votre labo, ajoutez-en un manuellement dans la console AD avant de continuer.*
+
+??? success "Solution"
+    
+    ```powershell
+    $user = Get-ADUser -Identity "jean.dupont" -Properties EmailAddress, Enabled
+    
+    if ([string]::IsNullOrEmpty($user.EmailAddress)) {
+        Write-Host "Pas d'email renseigné" -ForegroundColor Yellow
+    } else {
+        Write-Host "Email : $($user.EmailAddress)" -ForegroundColor Green
+    }
+    
+    if ($user.Enabled) {
+        Write-Host "Compte actif"
+    } else {
+        Write-Host "Compte désactivé" -ForegroundColor Red
+    }
+    ```
 
 ### Conditions multiples
 
@@ -321,12 +453,30 @@ if ($user.Enabled -eq $false) {
 }
 ```
 
-### Exercice 4.2 : Analyse d'utilisateurs
+### Mission 4.2 — Script de diagnostic utilisateur
 
-1. Créez un script qui demande un nom d'utilisateur et indique :
-   - Si son compte est activé ou désactivé
-   - S'il est membre du groupe "GG-EU-IT-Admin"
-   - Si son mot de passe n'expire jamais
+!!! example "Objectif"
+    
+    Écrivez un script qui demande un `SamAccountName` et affiche :
+    
+    - Compte activé ou désactivé
+    - Membre du groupe `GG-EU-IT-Admin` : oui ou non
+    - Mot de passe configuré pour ne jamais expirer : oui ou non (`PasswordNeverExpires`)
+
+??? success "Solution"
+    
+    ```powershell
+    $login = Read-Host "SamAccountName"
+    $user  = Get-ADUser -Identity $login -Properties Enabled, PasswordNeverExpires
+    
+    Write-Host "Statut     : $(if ($user.Enabled) {'Actif'} else {'Désactivé'})"
+    
+    $estAdmin = Get-ADGroupMember -Identity "GG-EU-IT-Admin" |
+                    Where-Object { $_.SamAccountName -eq $login }
+    Write-Host "IT-Admin   : $(if ($estAdmin) {'Oui'} else {'Non'})"
+    
+    Write-Host "MDP permanent : $(if ($user.PasswordNeverExpires) {'Oui'} else {'Non'})"
+    ```
 
 ### Exemple pratique : Rechercher un utilisateur
 
@@ -367,16 +517,49 @@ if ($utilisateurTrouve) {
 !!! warning "Important"
     Modifier les valeurs dans une variable n'a aucun effet sur l'objet réel dans Active Directory. Par exemple, si vous faites `$utilisateurTrouve.Title = "Nouveau Titre"`, cela change uniquement la valeur dans votre variable locale, pas dans AD. Pour modifier réellement un objet AD, vous devez utiliser des commandes spécifiques comme `Set-ADUser` que nous verrons plus tard.
 
-### Exercice 4.3 : Améliorer le script de recherche
+### Mission 4.3 — Enrichir le script de recherche
 
-1. Modifiez le script ci-dessus pour afficher également si le compte est activé ou désactivé
-2. Ajoutez une condition pour afficher un message spécial si l'utilisateur fait partie du service "Comptabilité"
-3. Affichez les trois premiers groupes dont l'utilisateur est membre
+!!! example "Objectif"
+    
+    Reprenez l'exemple de script ci-dessus et ajoutez :
+    
+    1. L'affichage du statut activé/désactivé
+    2. Un message différent si l'utilisateur appartient au service `Comptabilité`
+    3. Les 3 premiers groupes dont l'utilisateur est membre
 
-## 5. 🔹 Mini-projet : Rapport d'audit AD
+??? success "Solution"
+    
+    ```powershell
+    $login = Read-Host "SamAccountName"
+    $user  = Get-ADUser -Filter "SamAccountName -eq '$login'" `
+                 -Properties GivenName, Surname, Title, Department, WhenCreated, Enabled
+    
+    if (-not $user) {
+        Write-Host "Utilisateur introuvable." -ForegroundColor Red
+        return
+    }
+    
+    Write-Host "Prénom    : $($user.GivenName)"
+    Write-Host "Nom       : $($user.Surname)"
+    Write-Host "Titre     : $($user.Title)"
+    Write-Host "Service   : $($user.Department)"
+    Write-Host "Créé le   : $($user.WhenCreated)"
+    Write-Host "Statut    : $(if ($user.Enabled) {'Actif'} else {'Désactivé'})"
+    
+    if ($user.Department -eq "Comptabilité") {
+        Write-Host "→ Compte Comptabilité : accès aux partages financiers à vérifier." -ForegroundColor Yellow
+    }
+    
+    $groupes = Get-ADPrincipalGroupMembership -Identity $user.SamAccountName |
+                   Select-Object -First 3
+    Write-Host "Groupes (3 premiers) :"
+    $groupes | ForEach-Object { Write-Host "  - $($_.Name)" }
+    ```
 
-### Objectif
-Créer un rapport qui liste **tous les utilisateurs** d'une **Unité d'Organisation (OU)** spécifique, avec leur statut de compte et leurs groupes principaux.
+## 5. 🔹 Mini-projet : Rapport d'audit par OU
+
+### Contexte
+Sophie a besoin d'un rapport listant **tous les utilisateurs d'une OU** avec leur statut et leurs groupes principaux. Le script ci-dessous est fonctionnel — lisez-le, exécutez-le, puis améliorez-le avec les missions ci-dessous.
 
 ```powershell
 # Demander le nom de l'OU à l'utilisateur
@@ -419,16 +602,54 @@ if ($users.Count -eq 0) {
 }
 ```
 
-### Exercice final : Personnalisez le rapport
+### Mission 5.1 — Améliorer le rapport
 
-!!! example "Défi final"
+!!! example "Objectif"
     
-    1. Adaptez le script pour qu'il affiche également :
-        - La date de dernière connexion (LastLogonDate)
-        - Si le mot de passe expire ou non
+    Étendez le script d'audit pour qu'il affiche :
     
-    2. Ajoutez une condition pour mettre en évidence les comptes inactifs depuis plus de 30 jours
-    3. Bonus : Permettez de filtrer les utilisateurs par leur statut (actif/inactif)
+    1. La date de dernière connexion (`LastLogonDate`)
+    2. Si le mot de passe expire ou non (`PasswordNeverExpires`)
+    3. Marquez en rouge les comptes inactifs depuis plus de 30 jours
+
+??? success "Solution"
+    
+    ```powershell
+    $nomOU    = Read-Host "Nom de l'OU (ex: Ventes)"
+    $cheminOU = "OU=Users,OU=$nomOU,OU=EU,DC=maxtec,DC=be"
+    $limite   = (Get-Date).AddDays(-30)
+    
+    $users = Get-ADUser -Filter * -SearchBase $cheminOU `
+                 -Properties Enabled, MemberOf, LastLogonDate, PasswordNeverExpires
+    
+    if ($users.Count -eq 0) {
+        Write-Host "Aucun utilisateur dans $nomOU" -ForegroundColor Yellow
+        return
+    }
+    
+    Write-Host "=== AUDIT : OU $nomOU ($($users.Count) utilisateurs) ===" -ForegroundColor Cyan
+    
+    foreach ($user in $users) {
+        $statut  = if ($user.Enabled) { "ACTIF" } else { "DÉSACTIVÉ" }
+        $couleur = if ($user.Enabled) { "Green"  } else { "Red" }
+    
+        $inactif = $user.LastLogonDate -and $user.LastLogonDate -lt $limite
+        if ($inactif) { $couleur = "Red" }
+    
+        Write-Host "$($user.Name) — $statut$(if ($inactif) {' — INACTIF +30j'})" -ForegroundColor $couleur
+        Write-Host "  Dernière connexion : $($user.LastLogonDate)"
+        Write-Host "  MDP permanent      : $($user.PasswordNeverExpires)"
+    
+        $groupes = Get-ADPrincipalGroupMembership -Identity $user.SamAccountName |
+                       Select-Object -First 3
+        Write-Host "  Groupes : $($groupes.Name -join ', ')"
+        Write-Host ""
+    }
+    ```
+
+### Mission 5.2 — Bilan du Jour 2
+
+Vous savez maintenant combiner variables, tableaux, boucles et conditions pour automatiser des tâches réelles. Le chapitre 9.2 va plus loin sur les **requêtes et filtres**, et 9.3 passe à la **création et modification** d'objets AD.
 
 ---
 

@@ -11,6 +11,12 @@
 
 ---
 
+!!! info "Fil rouge : Semaine 2 chez Maxtec"
+    
+    Trois nouveaux arrivants rejoignent la société en début de semaine. Les RH vous ont transmis leurs informations et vous chargent de tout préparer avant leur premier jour. Les missions ci-dessous couvrent les opérations typiques : modification de profils, réinitialisation de mots de passe, gestion des groupes et création en masse depuis un CSV.
+
+---
+
 ## 1. 🔹 Modification d'attributs utilisateur
 
 !!! tip "Automatisation"
@@ -28,9 +34,37 @@ Get-ADUser -Filter "SamAccountName -eq 'Victor'" | Set-ADUser `
     -Description "Comptable senior pour les clients européens"
 ```
 
-!!! example "Exercice de modification"
+### Mission 1.1 — Mise à jour des profils
+
+!!! example "Objectif"
     
-    Modifiez la description de tous les utilisateurs du département Comptabilité (mettez par exemple: "Utilisateur de comptabilité")
+    Les RH ont mis à jour les titres de trois personnes. Appliquez ces changements :
+    
+    1. Modifiez un utilisateur de votre choix : changez son `Title` en `"Analyste Senior"` et son `Department` en `"IT"`
+    2. Modifiez la `Description` de **tous** les utilisateurs du département `"Comptabilité"` : mettez `"Equipe Comptabilité EU"`
+    3. Vérifiez les changements avec `Get-ADUser` après chaque modification
+
+??? success "Solution"
+    
+    ```powershell
+    # 1. Modifier un utilisateur
+    Get-ADUser -Filter "SamAccountName -eq 'jean.dupont'" | Set-ADUser `
+        -Title      "Analyste Senior" `
+        -Department "IT"
+    
+    # Vérification
+    Get-ADUser -Identity "jean.dupont" -Properties Title, Department |
+        Select-Object Name, Title, Department
+    
+    # 2. Modification en masse pour la Comptabilité
+    Get-ADUser -Filter "Department -eq 'Comptabilité'" | ForEach-Object {
+        Set-ADUser -Identity $_.SamAccountName -Description "Equipe Comptabilité EU"
+    }
+    
+    # Vérification
+    Get-ADUser -Filter "Department -eq 'Comptabilité'" -Properties Description |
+        Format-Table Name, Description
+    ```
 
 ## 2. 🔹 Gestion des mots de passe
 
@@ -59,9 +93,36 @@ Get-ADUser -Filter "Department -eq 'Stagiaires'" | ForEach-Object {
 }
 ```
 
-!!! example "Exercice mots de passe"
+### Mission 2.1 — Réinitialisation pour les nouveaux arrivants
+
+!!! example "Objectif"
     
-    Réinitialisez le mot de passe de tous les utilisateurs du département Comptabilité et forcez le changement de mot de passe à la prochaine connexion.
+    Les trois nouveaux arrivants n'ont pas encore de mot de passe défini. Appliquez la procédure standard :
+    
+    1. Réinitialisez le mot de passe d'un utilisateur avec `Password1!` et forcez le changement à la première connexion
+    2. Faites de même pour **tous** les utilisateurs du département `"Stagiaires"` en une seule opération
+    3. Vérifiez qu'aucun compte `"Stagiaires"` n'est verrouillé (`LockedOut`)
+
+??? success "Solution"
+    
+    ```powershell
+    # 1. Réinitialisation individuelle
+    $pass = ConvertTo-SecureString "Password1!" -AsPlainText -Force
+    
+    Set-ADAccountPassword -Identity "jean.dupont" -Reset -NewPassword $pass
+    Set-ADUser -Identity "jean.dupont" -ChangePasswordAtLogon $true
+    
+    # 2. Réinitialisation en masse pour les Stagiaires
+    Get-ADUser -Filter "Department -eq 'Stagiaires'" | ForEach-Object {
+        Set-ADAccountPassword -Identity $_.SamAccountName -Reset -NewPassword $pass
+        Set-ADUser -Identity $_.SamAccountName -ChangePasswordAtLogon $true
+        Write-Host "Réinitialisé : $($_.Name)"
+    }
+    
+    # 3. Vérification des comptes verrouillés
+    Get-ADUser -Filter "Department -eq 'Stagiaires'" -Properties LockedOut |
+        Format-Table Name, SamAccountName, LockedOut
+    ```
 
 
 ### Déverrouillage de compte
@@ -126,9 +187,34 @@ Get-ADUser -Filter * -SearchBase $cheminOU | ForEach-Object {
 }
 ```
 
-!!! example "Exercice groupes"
+### Mission 3.1 — Affectation aux groupes
+
+!!! example "Objectif"
     
-    Ajoutez un utilisateur à trois groupes différents, puis vérifiez ses appartenances.
+    Les trois nouveaux arrivants ont des profils différents. Appliquez les affectations suivantes :
+    
+    1. Ajoutez `jean.dupont` (IT) aux groupes `GG-EU-IT-Users` et `GG-EU-IT-Admin`
+    2. Ajoutez `sophie.dubois` (Ventes) au groupe `GG-EU-Ventes-Users`
+    3. Retirez `jean.dupont` de `GG-EU-IT-Admin` (accès accordé par erreur)
+    4. Vérifiez les groupes de `jean.dupont` en fin d'opération
+
+??? success "Solution"
+    
+    ```powershell
+    # 1. Ajouter jean.dupont à deux groupes
+    Add-ADGroupMember -Identity "GG-EU-IT-Users" -Members "jean.dupont"
+    Add-ADGroupMember -Identity "GG-EU-IT-Admin" -Members "jean.dupont"
+    
+    # 2. Ajouter sophie.dubois
+    Add-ADGroupMember -Identity "GG-EU-Ventes-Users" -Members "sophie.dubois"
+    
+    # 3. Retirer jean.dupont de IT-Admin
+    Remove-ADGroupMember -Identity "GG-EU-IT-Admin" -Members "jean.dupont" -Confirm:$false
+    
+    # 4. Vérification
+    Get-ADPrincipalGroupMembership -Identity "jean.dupont" |
+        Select-Object Name | Sort-Object Name
+    ```
 
 ## 4. 🔹 Mini-projet : Script pour créer plusieurs utilisateurs à partir d'un CSV
 
@@ -204,9 +290,61 @@ foreach ($dept in $departements) {
 }
 ```
 
-!!! example "Exercice final avancé"
+### Mission 4.1 — Enrichir le script CSV
+
+!!! example "Objectif"
     
-    Modifiez le script pour ajouter des attributs supplémentaires comme le bureau, le téléphone, et l'adresse. Ajoutez également une gestion d'erreurs plus robuste.
+    Les RH ont ajouté des colonnes au fichier CSV. Adaptez le script pour gérer ces nouveaux champs :
+    
+    1. Ajoutez `Bureau`, `Telephone`, et `Ville` au CSV et transmettez-les à `New-ADUser` (`-Office`, `-MobilePhone`, `-City`)
+    2. Après la création, ajoutez automatiquement chaque utilisateur au groupe correspondant à son département (ex: `"GG-EU-Ventes-Users"` pour le département `"Ventes"`)
+    3. Générez un rapport final : ligne par ligne `"[Nom] — [Département] — Créé : OK/ERREUR"`
+
+??? success "Solution"
+    
+    **CSV étendu (`utilisateurs.csv`)** :
+    ```
+    Prenom,Nom,Departement,Titre,OU,Bureau,Telephone,Ville
+    Thomas,Leclerc,Comptabilite,Comptable,"OU=Users,OU=Comptabilite,OU=EU,DC=maxtec,DC=be",B201,+32489001122,Bruxelles
+    Sophie,Dubois,Ventes,Commerciale,"OU=Users,OU=Ventes,OU=EU,DC=maxtec,DC=be",V105,+32489003344,Liège
+    Marc,Leroy,RH,Assistant RH,"OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be",R12,+32489005566,Gand
+    ```
+    
+    **Script adapté** :
+    ```powershell
+    $utilisateurs = Import-Csv -Path "C:\utilisateurs.csv" -Delimiter ","
+    $pass = ConvertTo-SecureString "Password1!" -AsPlainText -Force
+    
+    foreach ($user in $utilisateurs) {
+        $sam  = "$($user.Prenom.ToLower()).$($user.Nom.ToLower())"
+        $upn  = "$sam@maxtec.be"
+        $nom  = "$($user.Prenom) $($user.Nom)"
+    
+        if (Get-ADUser -Filter "SamAccountName -eq '$sam'" -ErrorAction SilentlyContinue) {
+            Write-Host "$nom — déjà existant, ignoré" -ForegroundColor Yellow
+            continue
+        }
+    
+        try {
+            New-ADUser -Name $nom `
+                -GivenName $user.Prenom -Surname $user.Nom `
+                -SamAccountName $sam -UserPrincipalName $upn `
+                -Path $user.OU `
+                -AccountPassword $pass -Enabled $true -ChangePasswordAtLogon $true `
+                -EmailAddress $upn `
+                -Office $user.Bureau -MobilePhone $user.Telephone -City $user.Ville
+    
+            # Affectation au groupe du département
+            $groupe = "GG-EU-$($user.Departement)-Users"
+            Add-ADGroupMember -Identity $groupe -Members $sam -ErrorAction SilentlyContinue
+    
+            Write-Host "$nom — $($user.Departement) — Créé : OK" -ForegroundColor Green
+        }
+        catch {
+            Write-Host "$nom — $($user.Departement) — Créé : ERREUR ($_)" -ForegroundColor Red
+        }
+    }
+    ```
 
 ## 🔹 Conclusion
 

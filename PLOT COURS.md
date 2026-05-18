@@ -1,3 +1,16 @@
+- Explicar DNS avanzado
+- Unidades de Organización sin delegación
+- Gestion Utilisateurs
+- GPOs
+- Powershell
+- Monitoring
+
+
+
+
+
+
+
 - Resumé concepts base (questions.md)
 
 - Parcourir chapitre 3

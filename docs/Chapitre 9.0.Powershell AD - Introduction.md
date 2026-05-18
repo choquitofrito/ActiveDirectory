@@ -165,6 +165,115 @@ Get-Help Get-ADUser -ShowWindow
 
 ---
 
+## 6. Fil rouge : Jour 1 chez Maxtec
+
+!!! info "Contexte"
+    
+    Vous venez d'arriver dans l'équipe IT de **Maxtec**. Sophie Martin, la responsable infrastructure, vous demande de prendre en main l'Active Directory avant toute intervention. Les missions ci-dessous balaient le module et utilisent uniquement les commandes vues plus haut.
+    
+    Chaque mission s'enchaîne avec la suivante : ce que vous découvrez ici servira directement aux chapitres 9.1 à 9.3.
+
+### Mission 1.1 — Inventaire du domaine
+
+!!! example "Objectif"
+    
+    Sophie veut connaître la volumétrie. Donnez-lui les chiffres exacts pour `maxtec.be` :
+    
+    1. Nombre total d'**utilisateurs**
+    2. Nombre total de **groupes**
+    3. Nombre total d'**unités d'organisation**
+    4. Nombre total d'**ordinateurs**
+    
+    *Indice : `(...).Count` autour d'une commande `Get-AD...`*
+
+??? success "Solution"
+    
+    ```powershell
+    (Get-ADUser -Filter *).Count
+    (Get-ADGroup -Filter *).Count
+    (Get-ADOrganizationalUnit -Filter *).Count
+    (Get-ADComputer -Filter *).Count
+    ```
+    
+    Les parenthèses forcent PowerShell à exécuter la commande d'abord, puis à appliquer `.Count` au tableau résultat.
+
+### Mission 1.2 — Carte d'identité du domaine
+
+!!! example "Objectif"
+    
+    Récupérez les informations de base du domaine :
+    
+    1. Le nom DNS (ex: `maxtec.be`)
+    2. Le `DomainMode` (niveau fonctionnel)
+    3. Le nom NetBIOS
+    4. Le ou les contrôleurs de domaine avec leur IP
+
+??? success "Solution"
+    
+    ```powershell
+    # Vue d'ensemble
+    Get-ADDomain
+    
+    # Propriétés ciblées
+    (Get-ADDomain).DNSRoot
+    (Get-ADDomain).DomainMode
+    (Get-ADDomain).NetBIOSName
+    
+    Get-ADDomainController -Filter * | Select-Object Name, IPv4Address
+    ```
+
+### Mission 1.3 — Comptes désactivés
+
+!!! example "Objectif"
+    
+    Un audit rapide avant le café :
+    
+    1. Listez les comptes utilisateurs **désactivés** du domaine
+    2. Donnez leur nombre exact
+    3. Affichez `Name` et `SamAccountName` en format tableau
+    
+    *Indice : la propriété `Enabled` vaut `$false` pour un compte désactivé.*
+
+??? success "Solution"
+    
+    ```powershell
+    Get-ADUser -Filter {Enabled -eq $false}
+    
+    (Get-ADUser -Filter {Enabled -eq $false}).Count
+    
+    Get-ADUser -Filter {Enabled -eq $false} |
+        Format-Table Name, SamAccountName
+    ```
+    
+    Le filtre `{Enabled -eq $false}` est l'équivalent en une ligne d'une recherche filtrée dans la console graphique.
+
+### Mission 1.4 — GUI vs PowerShell, en temps réel
+
+!!! example "Objectif"
+    
+    Comparaison empirique. Tâche : *« Trouver les utilisateurs créés ces 30 derniers jours. »*
+    
+    1. Faites-le **d'abord dans la GUI** (`Utilisateurs et ordinateurs Active Directory`). Chronométrez.
+    2. Faites-le ensuite **en PowerShell** avec la commande ci-dessous. Chronométrez.
+    3. Comparez les deux temps — et surtout, demandez-vous lequel est reproductible la semaine prochaine.
+
+??? success "La commande"
+    
+    ```powershell
+    $ilYaUnMois = (Get-Date).AddDays(-30)
+    Get-ADUser -Filter {WhenCreated -ge $ilYaUnMois} -Properties WhenCreated |
+        Select-Object Name, SamAccountName, WhenCreated |
+        Sort-Object WhenCreated
+    ```
+    
+    Au-delà du temps gagné, la vraie valeur est que la commande se sauvegarde dans un `.ps1` et se rejoue à l'identique chaque semaine.
+
+### Bilan du jour
+
+Vous savez maintenant compter les objets AD, lire les propriétés du domaine, écrire un filtre simple, et arbitrer entre GUI et PowerShell. Le chapitre 9.1 introduit les variables, tableaux, boucles et conditions pour transformer ces commandes ponctuelles en scripts réutilisables.
+
+---
+
 ## 🧭 Navigation
 [⏮️ Chapitre Précédent: Group Policy Objects](Chapitre%208.Group%20Policy%20Objects.md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: Powershell AD - Concepts base](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md)
 

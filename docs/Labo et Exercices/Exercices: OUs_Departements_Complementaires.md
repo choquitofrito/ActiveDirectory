@@ -1,189 +1,224 @@
 # Exercices: Unités d'Organisation et Utilisateurs - Départements Complémentaires
 
-## 1. 🔹 Création de la Structure d'Unités d'Organisation Complémentaires
+!!! info "🎯 Contexte"
 
-Suite à l'expansion de l'entreprise maxtec.be, vous êtes chargé(e) de créer des unités d'organisation pour les nouveaux départements qui viennent d'être formés.
+    Suite à l'expansion de l'entreprise **maxtec.be**, deux nouveaux départements sont créés : **Marketing** et **Logistique**. Vous êtes chargé(e) d'étendre la structure Active Directory existante (Ventes, RH, Comptabilite, IT) pour intégrer ces nouvelles équipes.
+
+    **Prérequis** : Le script `creation_structure.ps1` du labo a été exécuté. Vous disposez donc déjà des départements Ventes, RH, Comptabilite et IT sous `OU=EU,DC=maxtec,DC=be`, avec leurs utilisateurs et groupes (`GG-EU-<Dept>-Users` / `GG-EU-<Dept>-Admin`).
+
+---
+
+## 1. 🔹 Création de la Structure des Nouveaux Départements
 
 !!! example "Tâches à réaliser"
 
-    1. Sous les OUs géographiques existantes (EU et US), créer les nouvelles OUs départementales:
-        - OU=Informatique
-        - OU=Marketing
-        - OU=Logistique
+    1. Sous `OU=EU,DC=maxtec,DC=be`, créer les deux nouvelles OUs départementales :
+        - `OU=Marketing`
+        - `OU=Logistique`
 
-    2. Sous chaque nouvelle OU départementale, créer les sous-OUs:
-        - OU=Users
-        - OU=Computers
+    2. Sous chaque nouvelle OU départementale, créer les sous-OUs (mêmes noms que dans le reste du labo) :
+        - `OU=Users`
+        - `OU=Computers`
+        - `OU=Groups`
+
+    3. Vérifier que la nouvelle structure respecte la convention existante (par exemple : `OU=Users,OU=Marketing,OU=EU,DC=maxtec,DC=be`).
+
+---
 
 ## 2. 🔹 Création d'Utilisateurs pour les Nouveaux Départements
 
-Vous devez créer plusieurs utilisateurs pour les nouveaux départements selon la convention de nommage établie.
-
 !!! example "Tâches à réaliser"
 
-    1. Créer les utilisateurs suivants dans l'OU Informatique de la zone EU:
-        - ivan (Administrateur Système)
-        - ines (Développeuse)
-        - irene (Technicien Support)
+    1. Créer les utilisateurs suivants dans `OU=Users,OU=Marketing,OU=EU,DC=maxtec,DC=be` :
+        - **marc** (Directeur Marketing)
+        - **marie** (Chargée de Communication)
+        - **michel** (Designer Graphique)
 
-    2. Créer les utilisateurs suivants dans l'OU Marketing de la zone EU:
-        - marc (Directeur Marketing)
-        - marie (Chargée de Communication)
-        - michel (Designer Graphique)
+    2. Créer les utilisateurs suivants dans `OU=Users,OU=Logistique,OU=EU,DC=maxtec,DC=be` :
+        - **lucas** (Responsable Logistique)
+        - **lea** (Gestionnaire de Stock)
 
-    3. Créer les utilisateurs suivants dans l'OU Logistique de la zone EU:
-        - lucas (Responsable Logistique)
-        - lea (Gestionnaire de Stock)
+    3. Pour chaque utilisateur :
+        - Mot de passe standard : `Password1!`
+        - Activer "L'utilisateur doit changer son mot de passe à la prochaine ouverture de session"
+        - Remplir les champs : Prénom, Nom, Titre, Département, E-mail (`prenom@maxtec.be`)
 
-    4. Pour chaque utilisateur:
-        - Définir le mot de passe standard: "Password1!"
-        - Configurer le changement de mot de passe à la première connexion
-        - Remplir les champs: Prénom, Nom, Titre, Département, E-mail (prenom@maxtec.be)
+---
 
 ## 3. 🔹 Création de Groupes Globaux pour les Nouveaux Départements
 
-Vous devez créer des groupes globaux pour les nouveaux départements et y ajouter les utilisateurs appropriés.
+!!! example "Tâches à réaliser"
 
-Tâches:
+    1. Créer les groupes globaux de sécurité suivants dans l'OU `Groups` du département correspondant (convention identique au labo : `GG-EU-<Dept>-<Rôle>`) :
 
-1. Créer les groupes globaux suivants dans l'OU Groupes de la zone EU:
-   - GG-EU-Info-Users
-   - GG-EU-Marketing-Users
-   - GG-EU-Logistique-Users
+        | Groupe | OU de destination |
+        |---|---|
+        | `GG-EU-Marketing-Users` | `OU=Groups,OU=Marketing,OU=EU,...` |
+        | `GG-EU-Marketing-Admin` | `OU=Groups,OU=Marketing,OU=EU,...` |
+        | `GG-EU-Logistique-Users` | `OU=Groups,OU=Logistique,OU=EU,...` |
+        | `GG-EU-Logistique-Admin` | `OU=Groups,OU=Logistique,OU=EU,...` |
 
-2. Ajouter les utilisateurs appropriés à chaque groupe:
-   - ivan, ines et irene dans GG-EU-Info-Users
-   - marc, marie et michel dans GG-EU-Marketing-Users
-   - lucas et lea dans GG-EU-Logistique-Users
+    2. Ajouter les utilisateurs appropriés à chaque groupe :
+        - **marie** et **michel** dans `GG-EU-Marketing-Users`
+        - **marc** dans `GG-EU-Marketing-Admin`
+        - **lea** dans `GG-EU-Logistique-Users`
+        - **lucas** dans `GG-EU-Logistique-Admin`
+
+---
 
 ## 4. 🔹 Gestion des Comptes Utilisateurs Spéciaux
 
-Vous devez effectuer diverses opérations de gestion sur certains comptes utilisateurs.
+!!! example "Tâches à réaliser"
 
-Tâches:
+    1. **Compte d'administration** : ajouter **marc** au groupe `Administrateurs du domaine` (Domain Admins). Discutez ensuite : est-ce une bonne pratique pour un Directeur Marketing ? Pourquoi un groupe `GG-EU-Marketing-Admin` est plus approprié ?
 
-1. Configurer le compte d'ivan comme compte d'administrateur (ajouter au groupe "Administrateurs du domaine")
-2. Définir une date d'expiration dans 6 mois pour le compte de michel (contrat à durée déterminée)
-3. Configurer des restrictions horaires pour lea (accès uniquement du lundi au vendredi, de 7h à 19h)
-4. Configurer des restrictions de poste de travail pour irene (connexion uniquement sur ws-info-01.maxtec.be)
+    2. **Contrat à durée déterminée** : définir une date d'expiration dans **6 mois** pour le compte de **michel**.
 
-## 5. 🔹 Création d'une Structure de Projet Temporaire
+    3. **Restrictions horaires** : configurer pour **lea** un accès uniquement du **lundi au vendredi, de 7h à 19h**.
 
-L'entreprise lance un nouveau projet marketing qui nécessite une collaboration entre plusieurs départements.
+    4. **Restriction de poste de travail** : configurer pour **michel** la connexion **uniquement sur `ws-Marketing-01`** (vous n'avez pas besoin que la machine existe pour cet exercice — il s'agit de configurer la restriction côté AD).
 
-Tâches:
+---
 
-1. Créer une nouvelle OU "Projets" sous l'OU EU
-2. Créer une sous-OU "ProjetNouveauSite" sous l'OU Projets
-3. Créer un groupe global GG-EU-ProjetSite-Membres dans l'OU Groupes
-4. Ajouter les membres suivants au groupe GG-EU-ProjetSite-Membres:
-   - ines (Informatique)
-   - marie (Marketing)
-   - michel (Marketing)
-   - Un utilisateur de votre choix du département Ventes (créé dans l'exercice précédent)
+## 5. 🔹 Création d'une Structure de Projet Transverse
 
-## 6. 🔹 Recherche et Filtrage d'Objets AD Avancés
+!!! example "Contexte"
 
-Vous devez effectuer des recherches spécifiques dans l'Active Directory pour les nouveaux départements.
+    L'entreprise lance le projet **« NouveauSite »** : refonte du site web public. Le projet nécessite la collaboration entre Marketing, IT et Ventes.
 
-Tâches:
+!!! example "Tâches à réaliser"
 
-1. Trouver tous les utilisateurs du département Marketing
-2. Lister tous les groupes dont ines est membre
-3. Trouver tous les utilisateurs dont le titre contient "Responsable" ou "Directeur/Directrice"
-4. Créer une requête LDAP pour trouver tous les utilisateurs créés aujourd'hui
+    1. Créer une OU **`Projets`** sous `OU=EU,DC=maxtec,DC=be`.
+    2. Créer une sous-OU **`ProjetNouveauSite`** sous `OU=Projets,OU=EU,...`.
+    3. Créer une sous-OU `Groups` dans `ProjetNouveauSite`.
+    4. Créer un groupe global `GG-EU-ProjetSite-Membres` dans `OU=Groups,OU=ProjetNouveauSite,OU=Projets,OU=EU,...`.
+    5. Ajouter les membres suivants au groupe (mix de nouveaux et d'utilisateurs déjà présents dans le labo) :
+        - **marie** (Marketing — créée à l'étape 2)
+        - **michel** (Marketing — créé à l'étape 2)
+        - **ines** (IT — existante dans le labo)
+        - **victor** (Ventes — existant dans le labo)
+
+---
+
+## 6. 🔹 Recherche et Filtrage d'Objets AD
+
+!!! example "Tâches à réaliser"
+
+    1. Lister tous les utilisateurs du département **Marketing**.
+    2. Lister tous les groupes dont **ines** est membre.
+    3. Trouver tous les utilisateurs dont le **titre** contient « Responsable » ou « Directeur/Directrice ».
+    4. Construire une requête LDAP qui retourne tous les utilisateurs créés **aujourd'hui**.
 
 ??? success "Solution"
-    ### Solution de recherche et filtrage d'objets AD
-    
-    1. **Trouver tous les utilisateurs du département Marketing**
-       - Ouvrez le Centre d'administration Active Directory
-       - Accédez à l'OU Marketing
-       - Dans le panneau de recherche, sélectionnez:
-         * Type d'objet: Utilisateur
-         * Cliquez sur "Rechercher"
-       
-       Ou en utilisant l'interface Utilisateurs et ordinateurs Active Directory:
-       - Accédez à l'OU Marketing
-       - Utilisez le filtre pour afficher uniquement les utilisateurs (Affichage > Filtrer > Utilisateurs)
-    
-    2. **Lister tous les groupes dont isabelle.martin est membre**
-       - Ouvrez Utilisateurs et ordinateurs Active Directory
-       - Localisez l'utilisateur isabelle.martin
-       - Faites un clic droit et sélectionnez "Propriétés"
-       - Accédez à l'onglet "Membre de"
-       - Tous les groupes dont l'utilisateur est membre seront affichés
-    
-    3. **Trouver tous les utilisateurs dont le titre contient "Responsable" ou "Directeur/Directrice"**
-       - Ouvrez le Centre d'administration Active Directory
-       - Cliquez sur "Recherche globale"
-       - Sélectionnez "Utilisateur" comme type d'objet
-       - Cliquez sur "Ajouter un critère"
-       - Sélectionnez "Titre" et entrez "Responsable" ou "Directeur" avec l'opérateur "Contient"
-       - Cliquez sur "Ajouter un critère" à nouveau
-       - Sélectionnez "Titre" et entrez "Directrice" avec l'opérateur "Contient"
-       - Assurez-vous que l'option "Correspond à n'importe quel critère" est sélectionnée
-       - Cliquez sur "Rechercher"
-    
-    4. **Créer une requête LDAP pour trouver tous les utilisateurs créés aujourd'hui**
-       - Ouvrez Utilisateurs et ordinateurs Active Directory
-       - Cliquez sur "Affichage" > "Fonctionnalités avancées" pour activer les fonctionnalités avancées
-       - Cliquez sur "Affichage" > "Recherche avancée"
-       - Dans le champ "LDAP Query", entrez:
-         ```
-         (&(objectCategory=person)(objectClass=user)(whenCreated>=DATE))
-         ```
-         où DATE est la date du jour au format AAAAMMJJ000000.0Z
-         Par exemple, pour le 16 mai 2025:
-         ```
-         (&(objectCategory=person)(objectClass=user)(whenCreated>=20250516000000.0Z))
-         ```
-       - Cliquez sur "Rechercher"
-    
+
+    ### 1. Utilisateurs du département Marketing
+
+    **Via Centre d'administration Active Directory** :
+
+    - Naviguer jusqu'à `maxtec (local) > EU > Marketing > Users`
+    - Tous les utilisateurs Marketing y sont listés (marc, marie, michel)
+
+    Ou via **Utilisateurs et ordinateurs Active Directory** :
+
+    - Naviguer jusqu'à l'OU `Marketing > Users`
+    - `Affichage > Filtrer > Utilisateurs` pour n'afficher que les utilisateurs
+
+    ### 2. Groupes dont `ines` est membre
+
+    - Ouvrir **Utilisateurs et ordinateurs Active Directory**
+    - Localiser **ines** dans `EU > IT > Users`
+    - Clic droit → **Propriétés** → onglet **Membre de**
+    - Tous les groupes dont l'utilisateur est membre seront affichés (au minimum `Domain Users` et `GG-EU-IT-Users`)
+
+    ### 3. Utilisateurs avec « Responsable » ou « Directeur/Directrice » dans le titre
+
+    - Ouvrir le **Centre d'administration Active Directory**
+    - Cliquer sur **Recherche globale**
+    - Sélectionner **Utilisateur** comme type d'objet
+    - **Ajouter un critère** → **Titre** → opérateur **Contient** → valeur `Responsable`
+    - **Ajouter un critère** → **Titre** → opérateur **Contient** → valeur `Directeur`
+    - **Ajouter un critère** → **Titre** → opérateur **Contient** → valeur `Directrice`
+    - Choisir **Correspond à n'importe quel critère**
+    - Cliquer sur **Rechercher**
+
+    ### 4. Requête LDAP : utilisateurs créés aujourd'hui
+
+    - Ouvrir **Utilisateurs et ordinateurs Active Directory**
+    - `Affichage > Fonctionnalités avancées`
+    - `Affichage > Recherche avancée` (ou clic droit sur le domaine → Rechercher)
+    - Champ **Requête LDAP** :
+
+        ```
+        (&(objectCategory=person)(objectClass=user)(whenCreated>=AAAAMMJJ000000.0Z))
+        ```
+
+        Exemple pour le 18 mai 2026 :
+
+        ```
+        (&(objectCategory=person)(objectClass=user)(whenCreated>=20260518000000.0Z))
+        ```
+
+---
 
 ## 7. 🔹 Délégation de Contrôle pour les Nouveaux Départements
 
-Vous devez configurer la délégation de contrôle pour permettre aux responsables de département de gérer leurs propres utilisateurs.
+!!! example "Contexte"
 
-Tâches:
+    Vous voulez permettre aux responsables des nouveaux départements de gérer leurs propres utilisateurs sans les ajouter à `Domain Admins`.
 
-1. Déléguer à ivan (Informatique) les droits pour:
-   - Créer, supprimer et gérer les comptes utilisateurs dans l'OU Informatique
-   - Réinitialiser les mots de passe des utilisateurs dans l'OU Informatique
+!!! example "Tâches à réaliser"
 
-2. Déléguer à marc (Marketing) les droits pour:
-   - Créer, supprimer et gérer les comptes utilisateurs dans l'OU Marketing
-   - Réinitialiser les mots de passe des utilisateurs dans l'OU Marketing
+    1. Déléguer à **marc** (Marketing) les droits suivants sur `OU=Marketing,OU=EU,DC=maxtec,DC=be` :
+        - Créer, supprimer et gérer les comptes utilisateurs
+        - Réinitialiser les mots de passe
 
-3. Déléguer à lucas (Logistique) les droits pour:
-   - Créer, supprimer et gérer les comptes utilisateurs dans l'OU Logistique
-   - Réinitialiser les mots de passe des utilisateurs dans l'OU Logistique
+    2. Déléguer à **lucas** (Logistique) les mêmes droits sur `OU=Logistique,OU=EU,DC=maxtec,DC=be`.
 
-## 8. 🔹 Intégration avec les Départements Existants (Exercice Optionnel)
+    3. **Test** : Connectez-vous (RDP ou changement d'utilisateur) avec le compte **marc** et vérifiez qu'il peut bien créer un utilisateur de test dans `OU=Users,OU=Marketing,...`, mais **pas** dans `OU=Users,OU=Logistique,...`.
 
-Vous devez créer un comité de direction qui regroupe les responsables de tous les départements.
+    !!! tip "Rappel labo"
 
-Tâches:
+        Les utilisateurs **irene** (IT) et **valentin** (Ventes) existent déjà avec leurs groupes `GG-EU-IT-Admin` / `GG-EU-Ventes-Admin` créés par le script du labo. Une fois la délégation comprise, vous pouvez répéter l'opération en accordant les droits à ces groupes (et non aux utilisateurs individuellement) — c'est la pratique recommandée.
 
-1. Créer un groupe global GG-EU-Comite-Direction dans l'OU Groupes
-2. Ajouter les responsables suivants au groupe:
-   - ivan (Informatique)
-   - marc (Marketing)
-   - lucas (Logistique)
-   - Un responsable du département Comptabilité (créé dans l'exercice précédent)
-   - Un responsable du département RH (créé dans l'exercice précédent)
-   - Un responsable du département Ventes (créé dans l'exercice précédent)
+---
 
-## 9. 🔹 Création d'une Structure Internationale pour les Nouveaux Départements (Exercice Optionnel)
+## 8. 🔹 Comité de Direction (Exercice Optionnel)
 
-L'entreprise étend ses nouveaux départements aux États-Unis.
+!!! example "Contexte"
 
-Tâches:
+    Création d'un comité regroupant les responsables de chaque département.
 
-1. Créer les mêmes départements (Informatique, Marketing, Logistique) dans l'OU US
-2. Créer au moins deux utilisateurs pour chaque département dans la zone US
-3. Créer les groupes globaux correspondants (GG-US-Info-Users, GG-US-Marketing-Users, GG-US-Logistique-Users)
-4. Créer des groupes universels pour chaque fonction qui regroupent les utilisateurs des deux zones:
-   - U-Global-Info-Users (contient GG-EU-Info-Users et GG-US-Info-Users)
-   - U-Global-Marketing-Users (contient GG-EU-Marketing-Users et GG-US-Marketing-Users)
-   - U-Global-Logistique-Users (contient GG-EU-Logistique-Users et GG-US-Logistique-Users)
+!!! example "Tâches à réaliser"
+
+    1. Créer un groupe global `GG-EU-Comite-Direction` dans une OU `Groups` au niveau de `OU=EU` (créer l'OU si elle n'existe pas).
+    2. Ajouter les responsables suivants au groupe :
+        - **marc** (Marketing — créé à l'étape 2)
+        - **lucas** (Logistique — créé à l'étape 2)
+        - **valentin** (Ventes — existant dans le labo)
+        - **richard** (RH — existant dans le labo)
+        - **charlotte** (Comptabilité — existante dans le labo)
+        - **irene** (IT — existante dans le labo)
+
+    3. Discussion : quel **scope de groupe** (Global, DomainLocal, Universal) serait le plus approprié si demain une zone géographique `US` était ajoutée ? Pourquoi ?
+
+---
+
+## 9. 🔹 Vers une Structure Multi-Zones (Exercice Optionnel — Théorique)
+
+!!! warning "Note"
+
+    Cet exercice est **théorique** : le labo ne contient qu'une zone `EU`. L'objectif est de comprendre comment la structure évoluerait, pas de la créer réellement.
+
+!!! example "Tâches à réaliser"
+
+    Si l'entreprise ouvrait une filiale aux États-Unis :
+
+    1. Quelle serait la **nouvelle racine** dans AD ? (réponse attendue : `OU=US,DC=maxtec,DC=be`)
+    2. Quels groupes devraient être créés en miroir ? Donnez 2 exemples concrets pour Marketing.
+    3. Pour fédérer les utilisateurs Marketing des deux zones dans une seule ressource (par exemple un partage de fichiers commun), quel **type/scope de groupe** utiliseriez-vous, et quel serait son nom selon la convention `<Scope>-<Périmètre>-<Rôle>` ?
+
+??? success "Pistes de réponse"
+
+    1. `OU=US,DC=maxtec,DC=be`, avec la même structure interne (`Marketing/Users`, `Marketing/Computers`, `Marketing/Groups`, etc.)
+    2. `GG-US-Marketing-Users`, `GG-US-Marketing-Admin`
+    3. Un **groupe Universel** (Universal), par exemple `U-Global-Marketing-Users`, qui contiendrait à la fois `GG-EU-Marketing-Users` et `GG-US-Marketing-Users`. C'est l'application classique du modèle **AGUDLP** (Account → Global → Universal → DomainLocal → Permission).

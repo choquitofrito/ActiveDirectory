@@ -11,6 +11,12 @@
 
 ---
 
+!!! info "Fil rouge : Jour 3 chez Maxtec"
+    
+    Sophie vous confie l'audit de sécurité hebdomadaire. Il s'agit d'un ensemble de requêtes qu'on exécuterait chaque lundi matin pour détecter des anomalies. Vous allez construire ces requêtes une par une en utilisant les filtres présentés dans ce chapitre.
+
+---
+
 ## 1. 🔹 Obtenir des informations sur les utilisateurs
 
 Les commandes PowerShell permettent d'extraire rapidement des informations sur les utilisateurs avec différents niveaux de détail.
@@ -97,11 +103,71 @@ Get-ADUser -Filter {Country -eq "B" -and Department -eq "Ventes"} -Properties Co
     Format-Table Name, SamAccountName, Country, Department
 ```
 
-!!! example "Exercices pratiques"
+### Mission 1.1 — Recherches de base
+
+!!! example "Objectif"
     
-    **Exercice 1** : Trouvez tous les utilisateurs dont le nom contient "va" et affichez leur nom complet.
+    Construisez les trois requêtes suivantes. Pour chacune, affichez uniquement `Name` et `SamAccountName` en tableau :
     
-    **Exercice 2** : Pensez à une recherche utile au niveau de votre Active Directory et exécutez-la.
+    1. Tous les utilisateurs dont le nom contient `"va"` (filtre `-like`)
+    2. Tous les utilisateurs du département `"IT"` (filtre `-eq` sur `Department`)
+    3. Tous les utilisateurs **actifs** créés **après le 1er janvier 2024**
+
+??? success "Solution"
+    
+    ```powershell
+    # 1. Nom contenant "va"
+    Get-ADUser -Filter {Name -like "*va*"} |
+        Format-Table Name, SamAccountName
+    
+    # 2. Département IT
+    Get-ADUser -Filter {Department -eq "IT"} -Properties Department |
+        Format-Table Name, SamAccountName
+    
+    # 3. Actifs créés après le 1er janvier 2024
+    $depuis = Get-Date "2024-01-01"
+    Get-ADUser -Filter {Enabled -eq $true -and WhenCreated -ge $depuis} `
+               -Properties WhenCreated |
+        Select-Object Name, SamAccountName, WhenCreated |
+        Format-Table
+    ```
+
+### Mission 1.2 — Audit : comptes à risque
+
+!!! example "Objectif"
+    
+    Sophie veut identifier les comptes potentiellement problématiques. Trouvez :
+    
+    1. Les utilisateurs **désactivés** qui sont encore membres d'un groupe `GG-EU`
+    2. Les utilisateurs actifs dont le **mot de passe n'a pas changé depuis 90 jours** (`PasswordLastSet`)
+    3. Les utilisateurs sans adresse email (`EmailAddress` vide ou null)
+    
+    *Pour (2) : `(Get-Date).AddDays(-90)` donne la date limite.*
+
+??? success "Solution"
+    
+    ```powershell
+    # 1. Désactivés membres d'un groupe GG-EU
+    Get-ADUser -Filter {Enabled -eq $false} | ForEach-Object {
+        $groupes = Get-ADPrincipalGroupMembership -Identity $_.SamAccountName |
+                       Where-Object { $_.Name -like "GG-EU*" }
+        if ($groupes) {
+            Write-Host "$($_.Name) — désactivé mais membre de : $($groupes.Name -join ', ')" -ForegroundColor Yellow
+        }
+    }
+    
+    # 2. Mot de passe non changé depuis 90 jours
+    $limite = (Get-Date).AddDays(-90)
+    Get-ADUser -Filter {Enabled -eq $true -and PasswordLastSet -lt $limite} `
+               -Properties PasswordLastSet |
+        Select-Object Name, SamAccountName, PasswordLastSet |
+        Sort-Object PasswordLastSet | Format-Table
+    
+    # 3. Sans email
+    Get-ADUser -Filter {Enabled -eq $true} -Properties EmailAddress |
+        Where-Object { [string]::IsNullOrEmpty($_.EmailAddress) } |
+        Format-Table Name, SamAccountName
+    ```
 
 
 ## 2. 🔹 Obtenir des informations sur les groupes
@@ -132,16 +198,36 @@ Get-ADUser -Filter {SamAccountName -eq "victor"} | ForEach-Object {
 }
 ```
 
-!!! example "Exercices sur les groupes"
-    
-    **Exercice 1** : Trouvez tous les groupes dont le nom contient le mot "IT".
-    
-    **Exercice 2** : Affichez les membres du groupe "GG-EU-IT-Users". Utilisez Identity car Get-ADGroupMember n'accepte pas le paramètre -Filter.
+### Mission 2.1 — Exploration des groupes
 
-```powershell
-# Solution: on utilise identity car Get-ADGroupMember n'accepte pas le paramètre -Filter. Certaines commandes ne l'acceptent pas.
-Get-ADGroupMember -Identity "GG-EU-IT-Users" | Format-Table Name, SamAccountName
-```
+!!! example "Objectif"
+    
+    1. Listez tous les groupes dont le nom contient `"IT"`, avec leur description
+    2. Affichez les membres du groupe `GG-EU-IT-Users` (nom + SamAccountName)
+    3. Listez tous les groupes dont **aucun membre n'est actif** (groupes vides ou uniquement désactivés)
+    
+    *Note : `Get-ADGroupMember` n'accepte pas `-Filter`, utilisez `-Identity`.*
+
+??? success "Solution"
+    
+    ```powershell
+    # 1. Groupes contenant "IT"
+    Get-ADGroup -Filter {Name -like "*IT*"} -Properties Description |
+        Format-Table Name, Description
+    
+    # 2. Membres de GG-EU-IT-Users
+    Get-ADGroupMember -Identity "GG-EU-IT-Users" |
+        Format-Table Name, SamAccountName
+    
+    # 3. Groupes vides ou sans membres actifs
+    Get-ADGroup -Filter {Name -like "GG-EU*"} | ForEach-Object {
+        $membres = Get-ADGroupMember -Identity $_.Name |
+                       Where-Object { (Get-ADUser -Identity $_.SamAccountName).Enabled }
+        if ($membres.Count -eq 0) {
+            Write-Host "Groupe sans membres actifs : $($_.Name)"
+        }
+    }
+    ```
 
 !!! tip "Le paramètre -Identity"
     
@@ -262,9 +348,41 @@ Get-ADUser -Filter * -Properties Department, Title |
 Invoke-Item "C:\utilisateurs.html"
 ```
 
-!!! example "Exercice final"
+### Mission 4.1 — Rapport d'audit CSV + HTML
+
+!!! example "Objectif"
     
-    Exportez la liste de tous les groupes et leurs membres dans un fichier CSV.
+    Produisez deux fichiers de rapport pour Sophie :
+    
+    1. **CSV** : tous les utilisateurs actifs avec `Name`, `SamAccountName`, `Department`, `EmailAddress`, `PasswordLastSet`
+    2. **HTML** : le même rapport, à ouvrir dans un navigateur, avec un titre `"Audit Maxtec — Utilisateurs actifs"`
+    3. **Bonus** : un second CSV listant chaque groupe `GG-EU` avec le nombre de membres
+
+??? success "Solution"
+    
+    ```powershell
+    # 1. CSV utilisateurs actifs
+    Get-ADUser -Filter {Enabled -eq $true} `
+               -Properties Department, EmailAddress, PasswordLastSet |
+        Select-Object Name, SamAccountName, Department, EmailAddress, PasswordLastSet |
+        Export-Csv -Path "C:\audit_utilisateurs.csv" -NoTypeInformation -Encoding UTF8
+    
+    # 2. HTML
+    Get-ADUser -Filter {Enabled -eq $true} `
+               -Properties Department, EmailAddress, PasswordLastSet |
+        Select-Object Name, SamAccountName, Department, EmailAddress, PasswordLastSet |
+        ConvertTo-Html -Title "Audit Maxtec — Utilisateurs actifs" |
+        Out-File -FilePath "C:\audit_utilisateurs.html" -Encoding UTF8
+    Invoke-Item "C:\audit_utilisateurs.html"
+    
+    # 3. Bonus : groupes + nb membres
+    Get-ADGroup -Filter {Name -like "GG-EU*"} | ForEach-Object {
+        [PSCustomObject]@{
+            Groupe  = $_.Name
+            Membres = (Get-ADGroupMember -Identity $_.Name).Count
+        }
+    } | Export-Csv -Path "C:\audit_groupes.csv" -NoTypeInformation -Encoding UTF8
+    ```
 
 ---
 
