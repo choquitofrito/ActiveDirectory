@@ -296,7 +296,7 @@ Get-ADUser -Filter * -SearchBase $SearchBase -ResultSetSize 10 |
 
 # 4. Groupes critiques
 Write-Host "`n4. GROUPES CRITIQUES:" -ForegroundColor Yellow
-$groupesCritiques = @("Admins du domaine", "GG-EU-IT-Admins", "GG-EU-Ventes-Users")
+$groupesCritiques = @("Admins du domaine", "GG-EU-IT-Admin", "GG-EU-Ventes-Users")
 foreach ($groupe in $groupesCritiques) {
     try {
         $membres = Get-ADGroupMember -Identity $groupe -ErrorAction Stop

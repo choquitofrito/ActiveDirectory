@@ -325,7 +325,7 @@ if ($user.Enabled -eq $false) {
 
 1. Créez un script qui demande un nom d'utilisateur et indique :
    - Si son compte est activé ou désactivé
-   - S'il est membre du groupe "GG-EU-IT-Admins"
+   - S'il est membre du groupe "GG-EU-IT-Admin"
    - Si son mot de passe n'expire jamais
 
 ### Exemple pratique : Rechercher un utilisateur

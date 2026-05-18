@@ -290,7 +290,7 @@ EU
    ```
    # Délégation par département
    EU/RH → GG-EU-RH-Admins
-   EU/IT → GG-EU-IT-Admins
+   EU/IT → GG-EU-IT-Admin
    ```
 
 2. **Sécurité**
@@ -684,7 +684,7 @@ On peut **créer de groupes selon le rôle fonctionnel des utilisateurs** qui l'
    ```
    GG-EU-IT-Helpdesk    # Techniciens support niveau 1
    GG-EU-IT-Support     # Support niveau 2
-   GG-EU-IT-Admins      # Administrateurs système
+   GG-EU-IT-Admin      # Administrateurs système
    ```
 
 2. **Développement**

@@ -49,7 +49,7 @@ Structure OU:
 OU=EU,DC=maxtec,DC=be
 ├── OU=IT
 │   ├── OU=Users (Ivan, Ines, Irene)
-│   └── OU=Groups (GG-EU-IT-Users, GG-EU-IT-Admins)
+│   └── OU=Groups (GG-EU-IT-Users, GG-EU-IT-Admin)
 ├── OU=Ventes
 │   ├── OU=Users (Victor, Vanessa, Valeria, Valentin)
 │   └── OU=Groups (GG-EU-Ventes-Users, GG-EU-Ventes-Admins)

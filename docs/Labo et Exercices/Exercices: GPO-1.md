@@ -8,11 +8,11 @@
     
     - Créez la OU pour le département IT (si elle n'existe pas encore) 
     - Rajoutez quelques utilisateurs dans Users (ex: "ivan","ines","irene"). 
-    - Créez aussi un groupe pour les administrateurs de IT (ex: "GG-EU-IT-Admins") et un autre pour les utilisateurs (ex: "GG-EU-IT-Users"). 
+    - Créez aussi un groupe pour les administrateurs de IT (ex: "GG-EU-IT-Admin") et un autre pour les utilisateurs (ex: "GG-EU-IT-Users"). 
     - Assurez-vous d'avoir un ordinateur dans Computers (ws-IT-01)
     - Rajoutez des utilisateurs aux groupes: 
       - `GG-EU-IT-Users` : Ivan, Ines
-      - `GG-EU-IT-Admins` : Irene
+      - `GG-EU-IT-Admin` : Irene
       - `GG-EU-Ventes-Users` : Victor, Vanessa, Valeria
       - `GG-EU-Ventes-Admins` : Valentin
       - `GG-EU-RH-Users` : Rene, Rebecca
@@ -44,7 +44,7 @@
 !!! info "Étapes"
     
     1.2.1. Appliquer la GPO uniquement à Ventes
-    1.2.2. Appliquer la GPO à Ventes et IT mais créer une exception pour le groupe "GG-EU-IT-Admins" (Créez le groupe si nécessaire)
+    1.2.2. Appliquer la GPO à Ventes et IT mais créer une exception pour le groupe "GG-EU-IT-Admin" (Créez le groupe si nécessaire)
 
 !!! info "Configuration"
     

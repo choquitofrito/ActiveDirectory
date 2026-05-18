@@ -394,11 +394,11 @@ Après la création du compte, il est important de configurer les **propriétés
     **Puis :**
     
     - Créez la OU pour le département IT (si elle n'existe pas encore)
-    - Créez aussi un groupe pour les administrateurs de IT (ex: "GG-EU-IT-Admins") et un autre pour les utilisateurs (ex: "GG-EU-IT-Users")
+    - Créez aussi un groupe pour les administrateurs de IT (ex: "GG-EU-IT-Admin") et un autre pour les utilisateurs (ex: "GG-EU-IT-Users")
     - Assurez-vous d'avoir un ordinateur (Virtual Machine client) qui porte le nom `ws-IT-01` et un autre `ws-RH-01`. Si ce n'est pas le cas, modifiez les noms des ordinateurs dans vos machines virtuelles et re-démarrez-les
     - Dans le serveur, allez dans `Utilisateurs et ordinateurs AD` et rajoutez des utilisateurs aux groupes (s'ils n'existent pas, créez-les):
         - `GG-EU-IT-Users` : Ivan, Ines
-        - `GG-EU-IT-Admins` : Irene
+        - `GG-EU-IT-Admin` : Irene
         - `GG-EU-Ventes-Users` : Victor, Vanessa, Valeria
         - `GG-EU-Ventes-Admins` : Valentin
         - `GG-EU-RH-Users` : Rene, Rebecca
@@ -455,7 +455,7 @@ Après la création du compte, il est important de configurer les **propriétés
 
 !!! question "Question de réflexion"
     
-    Connectez-vous avec `irene` de `GG-EU-IT-Admins` et essayez de l'ouvrir le dossier. Qu'est-ce que vous observez ? Comment l'arranger ?
+    Connectez-vous avec `irene` de `GG-EU-IT-Admin` et essayez de l'ouvrir le dossier. Qu'est-ce que vous observez ? Comment l'arranger ?
 
 ### Permissions NTFS (système de fichiers)
 
@@ -493,7 +493,7 @@ C'est vrai qu'**on a limité l'accès par le réseau, mais quand-même un utilis
 - Cochez `Remplacer toutes les entrées` pour que les sous dossiers et fichiers inclus (dans le futur) dans le dossier partagé reçoivent les mêmes permissions
 - Cliquez sur `Ok` pour accepter et puis `OK` pour arriver à la fenetre des propriéteś (onglet Sécurité)
 - Dans l'onglet `Sécurité`, cliquez `Modifier` > `Ajouter`
-- Rajoutez les groupes `GG-EU-IT-Users` et `GG-EU-IT-Admins`. Rajoutez `Modification` (cochez la case) uniquement pour `GG-EU-IT-Admins`. Enlevez `Écriture` pour `GG-EU-IT-Users`
+- Rajoutez les groupes `GG-EU-IT-Users` et `GG-EU-IT-Admin`. Rajoutez `Modification` (cochez la case) uniquement pour `GG-EU-IT-Admin`. Enlevez `Écriture` pour `GG-EU-IT-Users`
 - Puis **appuyez sur ok pour revenir dans les propriétés du partage, onglet Sécurité**
 - Cliquez sur `OK` et vous arriverez dans la fenetre d'Autorisations
 - Cliquez sur `OK` pour quitter la fenetre d'Autorisations
@@ -673,7 +673,7 @@ Responsabilités principales :
   └─ 👑 GG-EU-Compta-Admins   # Administrateurs Comptabilité
   └─ 👑 GG-EU-RH-Admins      # Administrateurs RH
   └─ 👑 GG-EU-Ventes-Admins   # Administrateurs Ventes
-  └─ 👑 GG-EU-IT-Admins      # Administrateurs IT
+  └─ 👑 GG-EU-IT-Admin      # Administrateurs IT
 ```
 
 

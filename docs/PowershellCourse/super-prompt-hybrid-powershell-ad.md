@@ -89,7 +89,7 @@
 ```
 
 ### Grupos Existentes (USAR EN EJEMPLOS)
-- GG-EU-IT-Users, GG-EU-IT-Admins
+- GG-EU-IT-Users, GG-EU-IT-Admin
 - GG-EU-Ventes-Users, GG-EU-Ventes-Admins
 - GG-EU-RH-Users, GG-EU-RH-Admins
 - GG-EU-Compta-Users, GG-EU-Compta-Admins

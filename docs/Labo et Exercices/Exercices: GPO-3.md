@@ -14,7 +14,7 @@ Avant de commencer, assurez-vous d'avoir la structure complète de l'AD avec les
   - `GG-EU-Ventes-Users` : Victor, Vanessa, Valeria
   - `GG-EU-Ventes-Admins` : Valentin
   - `GG-EU-IT-Users` : Ivan, Ines
-  - `GG-EU-IT-Admins` : Irene
+  - `GG-EU-IT-Admin` : Irene
 
 - Assurez-vous d'avoir au moins un ordinateur dans chaque département :
   - `ws-compta-01.maxtec.be`

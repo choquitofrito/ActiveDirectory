@@ -109,7 +109,7 @@ try {
     
     # 2. Créer les départements et leurs sous-OUs
     if (Confirm-Step "Création des départements et leurs sous-OUs") {
-        $departments = @("Ventes", "RH", "Comptabilite")
+        $departments = @("Ventes", "RH", "Comptabilite", "IT")
         Write-Host "\nCréation des départements et leurs sous-OUs..." -ForegroundColor Cyan
         
         foreach ($dept in $departments) {
@@ -151,7 +151,10 @@ try {
             @{Name="Rene";Email="rene@maxtec.be";OU="RH"},
             @{Name="Charlotte";Email="charlotte@maxtec.be";OU="Comptabilite"},
             @{Name="Cindy";Email="cindy@maxtec.be";OU="Comptabilite"},
-            @{Name="Charles";Email="charles@maxtec.be";OU="Comptabilite"}
+            @{Name="Charles";Email="charles@maxtec.be";OU="Comptabilite"},
+            @{Name="Ivan";Email="ivan@maxtec.be";OU="IT"},
+            @{Name="Ines";Email="ines@maxtec.be";OU="IT"},
+            @{Name="Irene";Email="irene@maxtec.be";OU="IT"}
         )
     
         foreach ($user in $users) {
@@ -184,7 +187,9 @@ try {
             @{Name="GG-EU-RH-Admin";OU="RH"},
             @{Name="GG-EU-RH-Users";OU="RH"},
             @{Name="GG-EU-Compta-Admin";OU="Comptabilite"},
-            @{Name="GG-EU-Compta-Users";OU="Comptabilite"}
+            @{Name="GG-EU-Compta-Users";OU="Comptabilite"},
+            @{Name="GG-EU-IT-Admin";OU="IT"},
+            @{Name="GG-EU-IT-Users";OU="IT"}
         )
     
         foreach ($group in $groups) {
@@ -240,12 +245,14 @@ catch {
     - 🏢 **Ventes** : Vanessa, Valeria, Victor, Valentin
     - 👥 **RH** : Richard, Rebecca, René  
     - 💰 **Comptabilité** : Charlotte, Cindy, Charles
+    - 💻 **IT** : Ivan, Ines, Irene
     
     **Groupes de sécurité :**
     
     - `GG-EU-Ventes-Admin` / `GG-EU-Ventes-Users`
     - `GG-EU-RH-Admin` / `GG-EU-RH-Users`
     - `GG-EU-Compta-Admin` / `GG-EU-Compta-Users`
+    - `GG-EU-IT-Admin` / `GG-EU-IT-Users`
 
 !!! warning "🛡️ Sécurité"
     
