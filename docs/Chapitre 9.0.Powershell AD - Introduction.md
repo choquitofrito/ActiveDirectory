@@ -1,7 +1,7 @@
 # Chapitre 9.0: Powershell AD - Introduction
 
 ## 🧭 Navigation du Cours
-[🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: Powershell AD - Concepts base](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md)
+[⏮️ Chapitre Précédent: Group Policy Objects](Chapitre%208.Group%20Policy%20Objects.md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: Powershell AD - Concepts base](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md)
 
 !!! tip "Cours Moderne PowerShell 2025"
     Ces chapitres (9.0-9.3) couvrent les **bases de PowerShell AD**. Pour une approche moderne et orientée terrain, consultez aussi le **[Cours Moderne 2025](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M1-realite-2025.md)** qui enseigne PowerShell à travers la résolution de tickets réels, l'utilisation de l'IA comme copilote, et la détection de scripts dangereux.
@@ -81,9 +81,9 @@ Get-ADUser -Filter *
 
 
 
-# Afficher les utilisateurs du domaine, mais sélectionner des attributs spécifiques et les afficher de manière structurée
+# Afficher tous les utilisateurs du domaine, mais sélectionner des attributs spécifiques et les afficher de manière structurée
 # Le Format-Table permet d'afficher les résultats dans un format tabulaire
-# Les propriétés Name, Enabled et SamAccountName sont sélectionnées pour être affichées
+# La propriétés Enabled, qui n'est pas affichée par défaut, et sélectionnée avec Properties.
 Get-ADUser -Filter * -Properties Name, Enabled, SamAccountName | 
     Format-Table Name, Enabled, SamAccountName
 
@@ -96,7 +96,7 @@ Get-ADGroup -Filter *
 Get-ADComputer -Filter *
 
 # Afficher toutes les unités d'organisation (OUs)
-Get-ADComputer -Filter *
+Get-ADOrganizationalUnit -Filter *
 
 ```
 
@@ -133,7 +133,7 @@ Get-ADUser -Filter {PasswordLastSet -lt $date -and Enabled -eq $true} -Propertie
     
     Exécutez cette commande et discutez de la façon dont vous pourriez accomplir la même tâche avec l'interface graphique (spoiler: c'est très difficile).
 
-## 5. 🔹 Configuration de l'environnement PowerShell
+## 4. 🔹 Configuration de l'environnement PowerShell
 
 !!! tip "Configuration recommandée"
     
@@ -148,7 +148,7 @@ New-Item -Path "C:\Scripts" -ItemType Directory -Force
 ```
 
 
-## 6. 🔹 Aide et documentation
+## 5. 🔹 Aide et documentation
 
 !!! info "Aide intégrée"
     
@@ -166,7 +166,7 @@ Get-Help Get-ADUser -ShowWindow
 ---
 
 ## 🧭 Navigation
-[🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: Powershell AD - Concepts base](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md)
+[⏮️ Chapitre Précédent: Group Policy Objects](Chapitre%208.Group%20Policy%20Objects.md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: Powershell AD - Concepts base](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md)
 
 ---
 

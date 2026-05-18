@@ -56,14 +56,14 @@ Voici les opérateurs de filtre les plus utilisés avec les commandes PowerShell
 Get-ADUser -Filter * -ResultSetSize 10
 
 # Obtenir un utilisateur spécifique par son SamAccountName
-Get-ADUser -Filter {SamAccountName -eq "victor.vanhoof"}
+Get-ADUser -Filter {SamAccountName -eq "victor"}
 
 # Obtenir les utilisateurs dont le nom commence par V (il faut que le nom soit rempli!!)
 Get-ADUser -Filter {Name -like "V*"}
 
 # Obtenir un utilisateur avec des propriétés spécifiques
 # La propriété 'Department' en PowerShell correspond au champ 'Service' dans l'interface française d'AD
-Get-ADUser -Filter {SamAccountName -eq "victor.vanhoof"} -Properties DisplayName, EmailAddress, Department
+Get-ADUser -Filter {SamAccountName -eq "victor"} -Properties DisplayName, EmailAddress, Department
 ```
 
 ### Exemple pratique : Recherche avancée d'utilisateurs
@@ -149,7 +149,7 @@ Get-ADGroupMember -Identity "GG-EU-IT-Users" | Format-Table Name, SamAccountName
     
     - **Nom** : Simplement le nom du groupe (ex: -Identity "GG-EU-IT-Users")
     - **SamAccountName** : L'identifiant unique du groupe dans le domaine (ex: -Identity "GG-EU-IT-Users")
-    - **DistinguishedName** : Le chemin complet dans l'AD (ex: -Identity "CN=GG-EU-IT-Users,OU=Groups,OU=EU,DC=computerelectronics,DC=be")
+    - **DistinguishedName** : Le chemin complet dans l'AD (ex: -Identity "CN=GG-EU-IT-Users,OU=Groups,OU=EU,DC=maxtec,DC=be")
     - **GUID** : L'identifiant unique global (ex: -Identity "123e4567-e89b-12d3-a456-426614174000")
 
 
@@ -171,18 +171,24 @@ Get-ADOrganizationalUnit -Filter { Name -eq "RH"}
 
 # Trouver un user spécifique par son nom
 Get-ADUser -Filter {Country -eq "BE"}
+```
 
-# Obtenir les objets dans une OU spécifique
 !!! note "SearchBase obligatoire"
     
     SearchBase est nécessaire car il définit le point de départ de la recherche
-Get-ADObject -Filter * -SearchBase "OU=Users,OU=Comptabilite,OU=EU,DC=computerelectronics,DC=be"
 
-# Compter les utilisateurs dans une OU
+```powershell
+# Obtenir les objets dans une OU spécifique
+Get-ADObject -Filter * -SearchBase "OU=Users,OU=Comptabilite,OU=EU,DC=maxtec,DC=be"
+```
+
 !!! note "Limitation de recherche"
     
     SearchBase est nécessaire pour limiter la recherche à une OU spécifique
-(Get-ADUser -Filter * -SearchBase "OU=Users,OU=Comptabilite,OU=EU,DC=computerelectronics,DC=be").Count
+
+```powershell
+# Compter les utilisateurs dans une OU
+(Get-ADUser -Filter * -SearchBase "OU=Users,OU=Comptabilite,OU=EU,DC=maxtec,DC=be").Count
 ```
 
 

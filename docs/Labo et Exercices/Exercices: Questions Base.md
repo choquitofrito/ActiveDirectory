@@ -44,7 +44,7 @@ Essaye de repondre à ces questions en utilisant tes propres mots. Tout l'inform
 3. Qu'est-ce que c'est un domaine AD?
 
     ??? success "Réponse"
-        Un domaine AD est la structure administrative qui regroupe l'ensemble des éléments qui se trouvent dans le même annuaire (utilisateurs, ordinateurs, UOs, GPOs...). Le domaine AD porte le même nom que le domaine dns, pour nous `dns1.maxtec.be`.
+        Un domaine AD est la structure administrative qui regroupe l'ensemble des éléments qui se trouvent dans le même annuaire (utilisateurs, ordinateurs, UOs, GPOs...). Le domaine AD porte le même nom que le domaine dns, pour nous `maxtec.be`.
 
 4. Qu'est-ce que c'est un Domain Controller (DC)?
 

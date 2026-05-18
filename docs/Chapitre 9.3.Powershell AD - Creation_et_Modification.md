@@ -32,7 +32,7 @@ Get-ADUser -Filter "SamAccountName -eq 'Victor'" | Set-ADUser `
     
     Modifiez la description de tous les utilisateurs du département Comptabilité (mettez par exemple: "Utilisateur de comptabilité")
 
-## 4. 🔹 Gestion des mots de passe
+## 2. 🔹 Gestion des mots de passe
 
 !!! warning "Sécurité critique"
     
@@ -81,7 +81,7 @@ Get-ADUser -Filter {LockedOut -eq $true} -Properties LockedOut | ForEach-Object 
 ```
 
 
-## 5. 🔹 Gestion des appartenances aux groupes
+## 3. 🔹 Gestion des appartenances aux groupes
 
 !!! info "Gestion des accès"
     
@@ -91,23 +91,23 @@ Get-ADUser -Filter {LockedOut -eq $true} -Properties LockedOut | ForEach-Object 
 
 ```powershell
 # Ajouter un utilisateur à un groupe
-Get-ADUser -Filter "SamAccountName -eq 'pierre.dupont'" | Add-ADGroupMember -Identity "GG-EU-Comptabilité-Utilisateurs"
+Get-ADUser -Filter "SamAccountName -eq 'pierre.dupont'" | Add-ADGroupMember -Identity "GG-EU-Compta-Users"
 
 # Ajouter plusieurs utilisateurs à un groupe
-Get-ADUser -Filter "(SamAccountName -eq 'jean.martin') -or (SamAccountName -eq 'sophie.lambert')" | Add-ADGroupMember -Identity "GG-EU-Ventes-Utilisateurs"
+Get-ADUser -Filter "(SamAccountName -eq 'jean.martin') -or (SamAccountName -eq 'sophie.lambert')" | Add-ADGroupMember -Identity "GG-EU-Ventes-Users"
 ```
 
 ### Retirer un utilisateur d'un groupe
 
 ```powershell
 # Retirer un utilisateur d'un groupe
-Get-ADUser -Filter {SamAccountName -eq 'pierre.dupont'} | Remove-ADGroupMember -Identity "GG-EU-Comptabilité-Managers" -Confirm:$false
+Get-ADUser -Filter {SamAccountName -eq 'pierre.dupont'} | Remove-ADGroupMember -Identity "GG-EU-Compta-Admin" -Confirm:$false
 
 # Exemple: retirer tous les utilisateurs d'un service d'un groupe
 !!! note "Propriété Department"
     
     'Department' (propriété PowerShell) = 'Service' (interface française d'AD)
-Get-ADUser -Filter {Department -eq 'Stagiaires'} | Remove-ADGroupMember -Identity "GG-EU-Comptabilité-Utilisateurs" -Confirm:$false
+Get-ADUser -Filter {Department -eq 'Stagiaires'} | Remove-ADGroupMember -Identity "GG-EU-Compta-Users" -Confirm:$false
 ```
 
 ### Vérifier les appartenances
@@ -130,7 +130,7 @@ Get-ADUser -Filter * -SearchBase $cheminOU | ForEach-Object {
     
     Ajoutez un utilisateur à trois groupes différents, puis vérifiez ses appartenances.
 
-## 6. 🔹 Mini-projet : Script pour créer plusieurs utilisateurs à partir d'un CSV
+## 4. 🔹 Mini-projet : Script pour créer plusieurs utilisateurs à partir d'un CSV
 
 Ce mini-projet vous permettra de créer automatiquement plusieurs utilisateurs à partir d'un fichier CSV.
 
@@ -214,7 +214,7 @@ foreach ($dept in $departements) {
     
     Cette section vous a présenté les techniques essentielles pour créer et modifier des objets Active Directory avec PowerShell. Ces compétences vous permettront d'automatiser des tâches répétitives et de gagner un temps précieux dans votre administration quotidienne.
     
-    Dans la prochaine section, nous verrons comment gérer les stratégies de groupe (GPO) avec PowerShell.
+    Vous avez maintenant terminé le module PowerShell AD.
 
 ---
 

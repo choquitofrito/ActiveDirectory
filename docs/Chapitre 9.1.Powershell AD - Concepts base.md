@@ -62,7 +62,7 @@ echo $nomUtilisateur                 # Méthode 4: Utiliser l'alias 'echo' (comm
 ```powershell
 # Stocker un utilisateur dans une variable avec toutes ses propriétés
 $utilisateur = Get-ADUser -Identity "jean.dupont" -Properties *
-$groupe = Get-ADGroup -Identity "CN=GG-EU-RH-Admin,OU=Groups,OU=RH,OU=EU,DC=computerelectronics,DC=be" -Properties *
+$groupe = Get-ADGroup -Identity "CN=GG-EU-RH-Admin,OU=Groups,OU=RH,OU=EU,DC=maxtec,DC=be" -Properties *
 ```
 
 !!! note "Recherche par identifiant"
@@ -384,7 +384,7 @@ $nomOU = Read-Host "Entrez le nom de l'OU à auditer (ex: Ventes, RH...)"
 
 # Construire le chemin de l'OU (adapté au domaine maxtec.be)
 # Note: Le chemin exact dépend de votre structure AD
-$cheminOU = "OU=Users,OU=$nomOU,OU=EU,DC=computerelectronics,DC=be"
+$cheminOU = "OU=Users,OU=$nomOU,OU=EU,DC=maxtec,DC=be"
 
 # Récupérer les utilisateurs de cette OU
 $users = Get-ADUser -Filter * -SearchBase $cheminOU -Properties Enabled, MemberOf

@@ -1,7 +1,7 @@
 # PowerShell Cheat Sheet - Commandes Essentielles
 
 ## 🧭 Navigation du Cours
-[🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: Powershell AD - Requêtes et Informations](Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations.md)
+[⏮️ Chapitre Précédent: Powershell AD - Création et Modification](Chapitre%209.3.Powershell%20AD%20-%20Creation_et_Modification.md) | [🏠 Retour au Syllabus](index.md)
 
 ---
 
@@ -83,7 +83,7 @@ Get-ADUser -Filter {WhenCreated -ge "01/01/2023"}
 ### Création et modification d'utilisateurs
 ```powershell
 # Créer un utilisateur
-New-ADUser -Name "Marie Martin" -SamAccountName "marie.martin" -Path "OU=Users,OU=Comptabilité,OU=EU,DC=computerelectronics,DC=be"
+New-ADUser -Name "Marie Martin" -SamAccountName "marie.martin" -Path "OU=Users,OU=Comptabilite,OU=EU,DC=maxtec,DC=be"
 
 # Activer/Désactiver un compte
 Enable-ADAccount -Identity "marie.martin"
@@ -158,7 +158,7 @@ Get-ADComputer -Filter {Enabled -eq $true}
 ### Gestion des ordinateurs
 ```powershell
 # Créer un compte ordinateur
-New-ADComputer -Name "ws-compta-02" -Path "OU=Computers,OU=Comptabilité,OU=EU,DC=computerelectronics,DC=be"
+New-ADComputer -Name "ws-compta-02" -Path "OU=Computers,OU=Comptabilite,OU=EU,DC=maxtec,DC=be"
 
 # Activer/Désactiver un ordinateur
 Enable-ADAccount -Identity "ws-compta-02"
@@ -173,7 +173,7 @@ Disable-ADAccount -Identity "ws-compta-02"
 Get-ADOrganizationalUnit -Filter *
 
 # OU spécifique
-Get-ADOrganizationalUnit -Identity "OU=Comptabilité,OU=EU,DC=computerelectronics,DC=be"
+Get-ADOrganizationalUnit -Identity "OU=Comptabilite,OU=EU,DC=maxtec,DC=be"
 
 # OU avec propriétés
 Get-ADOrganizationalUnit -Filter * -Properties Description, ManagedBy
@@ -182,10 +182,10 @@ Get-ADOrganizationalUnit -Filter * -Properties Description, ManagedBy
 ### Gestion des OU
 ```powershell
 # Créer une OU
-New-ADOrganizationalUnit -Name "Ventes" -Path "OU=EU,DC=computerelectronics,DC=be"
+New-ADOrganizationalUnit -Name "Ventes" -Path "OU=EU,DC=maxtec,DC=be"
 
 # Modifier une OU
-Set-ADOrganizationalUnit -Identity "OU=Ventes,OU=EU,DC=computerelectronics,DC=be" -Description "Unité organisationnelle Ventes"
+Set-ADOrganizationalUnit -Identity "OU=Ventes,OU=EU,DC=maxtec,DC=be" -Description "Unité organisationnelle Ventes"
 ```
 
 ## 6. 🔹 Commandes Pratiques - Rapports et Export

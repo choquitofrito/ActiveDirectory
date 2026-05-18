@@ -1,5 +1,10 @@
 # Chapitre 10 - Surveillance et Monitoring Active Directory
 
+## 🧭 Navigation du Cours
+[⏮️ Chapitre Précédent: Powershell AD - Création et Modification](Chapitre%209.3.Powershell%20AD%20-%20Creation_et_Modification.md) | [🏠 Retour au Syllabus](index.md)
+
+---
+
 ## 📊 Objectifs d'apprentissage
 
 À la fin de ce chapitre, vous serez capable de :
@@ -372,5 +377,14 @@ Write-Output $rapport
 4. **Documenter les baselines** : Savoir ce qui est normal
 5. **Tester régulièrement** : Vérifier que les alertes fonctionnent
 6. **Corrélation** : Un événement seul ne fait pas un incident
+
+---
+
+## 🧭 Navigation
+[⏮️ Chapitre Précédent: Powershell AD - Création et Modification](Chapitre%209.3.Powershell%20AD%20-%20Creation_et_Modification.md) | [🏠 Retour au Syllabus](index.md)
+
+---
+
+**📚 Cours Active Directory - Monitoring | 👨‍💻 Pour débutants**
 
 

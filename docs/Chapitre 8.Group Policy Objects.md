@@ -570,3 +570,12 @@ Vous maîtrisez maintenant un des outils les plus puissants d'Active Directory !
 ### 🚀 Prochaine Étape
 Dans le prochain chapitre, nous explorerons des concepts avancés qui vous permettront de gérer des environnements encore plus complexes.
 
+---
+
+## 🧭 Navigation
+[⏮️ Chapitre Précédent: Gestion des Utilisateurs](Chapitre%207.Gestion_des_Utilisateurs.md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: PowerShell AD](Chapitre%209.0.Powershell%20AD%20-%20Introduction.md)
+
+---
+
+**📚 Cours Active Directory - GPO | 👨‍💻 Pour débutants**
+
