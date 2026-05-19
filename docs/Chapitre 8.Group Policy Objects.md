@@ -172,21 +172,19 @@ La GPO est prête: pour la tester, on va se connecter avec un client du départe
 
 1. Connectez-vous avec un user de `Ventes` (victor)
 2. Ouvrez une console et lancez `gpupdate /force` pour recevoir les GPOs du serveur
-3. Lancez aussi `gpresult /r` pour voir les politiques appliquées à l'utilisateur
-   Si vous voulez plus de détail, lancez `gpresult /v`
-   Si vous voulez un rapport dans un fichier, lancez `gpresult /h resultat.html`
+3. Lancez `gpresult /r` pour voir les politiques appliquées à l'utilisateur
+
+    > 📖 Détail complet des options de `gpupdate` et `gpresult` : voir la section [Boîte à outils](#boîte-à-outils-gpupdate-et-gpresult) plus bas.
 
 4. **Note importante** : Pour certaines GPOs, particulièrement celles qui affectent des paramètres système, un redémarrage complet du poste client peut être nécessaire pour que les changements prennent effet.
 5. Faites logout et connectez-vous à nouveau (même user)
 6. Ouvrez le panneau de configuration et cliquez sur `Système`
  ou `Programmes et fonctionnalités`. Ils devraient être vides.
 
-Connectez-vous maintenant avec un user de `Comptabilité` (ex: christophe). Le panier de configuration ne devrait pas être restreint.
+Connectez-vous maintenant avec un user de `Comptabilité` (ex: christophe). Le panneau de configuration ne devrait pas être restreint.
 
-On peut voir les politiques appliquées sur un utilisateur avec la commande `gpresult /r` (console ordinateur client)
-
-On peut forcer l'application des politiques depuis le serveur: faites click droit sur l'OU liée à la GPO et sélectionnez `Mettre à jour les stratégies de groupe`). 
-Ceci lance la commande à distance **sur les ordinateurs contenus dans l'OU**: le serveur se connecte aux session locales des ordinateurs. Si l'OU contient seulement des Utilisateurs elle n'aura aucun effet.
+On peut aussi forcer l'application des politiques **depuis le serveur** : clic droit sur l'OU liée à la GPO → `Mettre à jour les stratégies de groupe`.
+Ceci lance la commande à distance **sur les ordinateurs contenus dans l'OU** : le serveur se connecte aux sessions locales des ordinateurs. Si l'OU ne contient que des utilisateurs (pas d'ordinateurs), l'action n'aura aucun effet.
 
  
 
@@ -208,26 +206,110 @@ L'application des stratégies de groupe dépend de l'état du poste de travail e
 | Poste éteint | ❌ Non | ❌ Non | Aucune stratégie ne peut s'appliquer sur un poste éteint |
 | Utilisateur connecté via RDP ou console | ✅ Oui | ✅ Oui | Le mode de connexion n'affecte pas l'application des stratégies |
 
-**Notes importantes sur le rafraîchissement** :
+**Quand les GPOs s'appliquent-elles automatiquement ?**
 
-- Les stratégies ordinateur :
-  * S'appliquent **au démarrage initial** (il faut re-démarrer si on les change!!)
-  * Se rafraîchissent automatiquement périodiquement
-  * Peuvent être forcées avec `gpupdate /force /target:computer` (dans certains cas on a besoin de redémarrer le poste)
+- **Stratégies ordinateur** : au **démarrage** du poste, puis rafraîchissement en arrière-plan.
+- **Stratégies utilisateur** : à **l'ouverture de session**, puis rafraîchissement en arrière-plan.
+- **Rafraîchissement automatique** :
+    * **Postes membres du domaine** : toutes les **90 minutes**, avec un décalage aléatoire de 0 à 30 minutes (pour éviter que tous les postes contactent le DC en même temps).
+    * **Contrôleurs de domaine** : toutes les **5 minutes**.
+- Certaines extensions ne s'appliquent **pas** en arrière-plan et nécessitent un événement spécifique :
+    * **Installation logicielle ordinateur** → redémarrage requis.
+    * **Installation logicielle utilisateur / Redirection de dossiers** → fermeture de session requise.
 
-- Les stratégies utilisateur :
-  * S'appliquent à chaque connexion utilisateur
-  * Se rafraîchissent périodiquement
-  * Peuvent être forcées avec `gpupdate /force /target:user`
+> 💡 Conséquence pratique : si on veut tester immédiatement une GPO sans attendre 90 min ni rebooter, on utilise `gpupdate`. Pour vérifier ce qui a réellement été appliqué, on utilise `gpresult`.
 
-`gpupdate /force` lancera le tout.
+---
 
-Les stratégies ordinateur sont visibles uniquement si on ouvre un console en tant qu'administrateur et on lance:
+### Boîte à outils : `gpupdate` et `gpresult`
 
-`gpresult /r /scope:computer`
+Ce sont les **deux commandes de diagnostic GPO** à connaître par cœur. On les lance dans une console **sur le client** (pas sur le DC), en général **en tant qu'administrateur** pour avoir accès au scope ordinateur.
 
+#### 🔄 `gpupdate` — Forcer le rafraîchissement des GPOs
 
+Demande au client d'aller chercher immédiatement les GPOs sur le DC au lieu d'attendre le cycle de 90 minutes.
 
+| Option | Effet |
+|---|---|
+| (sans option) | Applique uniquement les paramètres qui ont **changé** depuis le dernier rafraîchissement. |
+| `/force` | Réapplique **toutes** les stratégies, même celles inchangées. C'est l'option utilisée en formation et en dépannage. |
+| `/target:computer` | Ne rafraîchit que la partie **ordinateur**. |
+| `/target:user` | Ne rafraîchit que la partie **utilisateur**. |
+| `/logoff` | Déconnecte l'utilisateur **après** application — nécessaire pour les extensions qui ne s'appliquent qu'à l'ouverture de session (ex. Redirection de dossiers, installation logicielle utilisateur). |
+| `/boot` | Redémarre la machine **après** application — nécessaire pour l'installation logicielle ciblant l'ordinateur. |
+| `/sync` | Force la **prochaine** application au prochain boot/logon à se faire en mode synchrone (le poste attend la fin de l'application avant d'afficher le bureau). Ignore `/force` et `/wait`. |
+| `/wait:<secondes>` | Attend N secondes la fin du traitement. Par défaut **600 s**. `0` = ne pas attendre, `-1` = attendre indéfiniment. |
+
+**Commande à retenir** :
+
+```cmd
+gpupdate /force
+```
+
+> ⚠️ `gpupdate` ne force **pas** un redémarrage ni une déconnexion sauf si on ajoute `/boot` ou `/logoff`. Si une GPO ne semble pas s'appliquer après un `gpupdate /force`, c'est souvent parce qu'elle nécessite l'un des deux : la commande affichera alors un message demandant l'action correspondante.
+
+#### 📋 `gpresult` — Vérifier ce qui a été appliqué
+
+Affiche le **RSoP** (Resultant Set of Policy) : la liste réelle des GPOs appliquées à l'utilisateur et à l'ordinateur, avec le détail de qui a gagné quand plusieurs GPOs entraient en conflit.
+
+| Option | Effet |
+|---|---|
+| `/r` | **Résumé** : liste des GPOs appliquées, groupes de sécurité, dernier rafraîchissement. **L'option à utiliser en premier.** |
+| `/v` | **Verbose** : ajoute les paramètres détaillés appliqués au premier niveau de précédence. |
+| `/z` | **Tout** : tous les paramètres, toutes les précédences. Très long → à rediriger vers un fichier. |
+| `/h <fichier.html>` | Génère un rapport **HTML** lisible et partageable. C'est la meilleure option pour analyser tranquillement. |
+| `/x <fichier.xml>` | Même chose en XML (pour traitement automatisé). |
+| `/scope user` | Limite à la partie **utilisateur**. |
+| `/scope computer` | Limite à la partie **ordinateur** (nécessite une console **administrateur**). |
+| `/user <domaine\user>` | Affiche le RSoP d'un autre utilisateur sur ce poste (utile pour comparer). |
+| `/s <machine>` | Cible une machine distante (`/u` et `/p` pour les credentials). |
+
+**Commandes à retenir** :
+
+```cmd
+:: Vue d'ensemble rapide (utilisateur + ordinateur)
+gpresult /r
+
+:: Uniquement les GPOs ordinateur (console en mode administrateur)
+gpresult /r /scope:computer
+
+:: Rapport HTML complet — la version "pro" pour le dépannage
+gpresult /h rapport.html
+
+:: Tout, dans un fichier texte
+gpresult /z > policy.txt
+```
+
+> ⚠️ On **doit** spécifier un format de sortie (`/r`, `/v`, `/z`, `/h` ou `/x`). `gpresult` tout court ne fait rien.
+
+#### 🧪 Workflow type de test d'une GPO
+
+Quand on vient de créer ou modifier une GPO et qu'on veut vérifier qu'elle est correctement appliquée à un utilisateur :
+
+1. **Côté client**, ouvrir une console **en tant qu'administrateur** :
+
+    ```cmd
+    gpupdate /force
+    ```
+
+2. Vérifier que la GPO apparaît bien dans les GPOs appliquées :
+
+    ```cmd
+    gpresult /r
+    ```
+
+    Chercher la section `Stratégie de groupe appliquée` (ou `Applied Group Policy Objects`).
+
+3. Si la GPO n'apparaît **pas** où elle devrait, générer le rapport HTML pour comprendre :
+
+    ```cmd
+    gpresult /h rapport.html
+    start rapport.html
+    ```
+
+    Le rapport indique pour chaque GPO si elle a été appliquée, refusée, et **pourquoi** (filtrage de sécurité, WMI, scope, lien désactivé…).
+
+4. Si la GPO touche une configuration **ordinateur** ou nécessite un événement spécial (logon, boot), refaire un **logout/login** ou un **redémarrage** selon le cas.
 
 
 ### Activer/desactiver une GPO
