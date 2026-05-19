@@ -86,6 +86,29 @@ Essaye de repondre à ces questions en utilisant tes propres mots. Tout l'inform
     ??? success "Réponse"
         Le catalogue global est une base de données qui contient une copie partielle de tous les objets de la forêt AD. Cela permet des recherches rapides d'objets dans toute la forêt.
 
+## Chapitre 5. DNS-Pratique-avec-AD
+
+1. Pourquoi le DNS est-il indispensable au fonctionnement de l'AD?
+
+    ??? success "Réponse"
+        L'AD utilise le DNS pour **localiser les contrôleurs de domaine** via des enregistrements spéciaux appelés **SRV records**. Sans DNS qui fonctionne correctement, les clients ne peuvent pas trouver les DC pour s'authentifier — l'AD devient inutilisable.
+
+2. Qu'est-ce que c'est un enregistrement SRV?
+
+    ??? success "Réponse"
+        Un enregistrement SRV (Service) indique **quel serveur fournit quel service** sur le réseau. Par exemple, `_ldap._tcp.maxtec.be` indique aux clients quels serveurs offrent le service LDAP du domaine.
+
+3. Si un client Windows ne peut pas rejoindre le domaine maxtec.be, quelle est la première chose à vérifier côté réseau?
+
+    ??? success "Réponse"
+        Vérifier la configuration **DNS du client**. Le client doit pointer vers un serveur DNS qui héberge la zone du domaine (dans notre cas, dns1.maxtec.be ou dns2.maxtec.be) — pas vers un DNS public comme 8.8.8.8.
+
+4. Quelle est la différence entre une zone DNS **intégrée à l'AD** et une zone DNS **standard**?
+
+    ??? success "Réponse"
+        - **Intégrée à l'AD** : la zone est stockée dans la base de données AD et se réplique automatiquement entre les DC. Plus sécurisée et résiliente.
+        - **Standard (fichier)** : la zone est stockée dans un fichier texte. La réplication doit être configurée manuellement (transfert de zone).
+
 ## Chapitre 6. Unités d'Organisation (OU)
 
 1. Quelle est la différence entre une OU et un groupe?

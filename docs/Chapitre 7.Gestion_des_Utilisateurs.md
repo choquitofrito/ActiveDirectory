@@ -94,6 +94,33 @@ Pour tous les deux, suivez ces règles:
 - En cas d'homonymes, on peut ajouter un identifiant supplémentaire
 - Pas de chiffres sauf si nécessaire pour distinguer des homonymes
 
+### Comptes Administrateurs : Bonne Pratique
+
+Dans un environnement réel, un administrateur système ne travaille pas avec un seul compte. Il en a **deux** :
+
+| Compte | Groupes | Usage |
+|--------|---------|-------|
+| `jdupont` | `GG-EU-IT-Users` | Travail quotidien : email, Teams, navigation |
+| `jdupont-adm` | `GG-EU-IT-Admins` | Tâches administratives uniquement |
+
+La même personne, deux comptes distincts. Pour une tâche admin, il ouvre une session séparée ou utilise `runas`.
+
+!!! warning "Pourquoi ne pas mettre la même compte dans les deux groupes ?"
+    
+    Si `jdupont` est membre à la fois de `GG-EU-IT-Users` ET `GG-EU-IT-Admins`, il hérite des droits admin **en permanence** — même quand il lit ses emails ou navigue sur le web.
+    
+    Conséquence : un malware ou un lien de phishing cliqué depuis cette session dispose de **privilèges admin sur tout le domaine**.
+    
+    Ce type de configuration est l'un des **premiers constats d'une audit de sécurité AD** : comptes à privilèges excessifs.
+
+!!! tip "Principe du moindre privilège"
+    
+    Chaque compte ne doit avoir que les droits **strictement nécessaires** à ce qu'il fait à cet instant. C'est le principe fondamental de sécurité en AD.
+
+!!! note "Dans notre labo"
+    
+    Pour simplifier, on utilisera une seule compte par personne. Mais gardez ce modèle à l'esprit : dans un environnement de production, **toute personne avec des droits admin devrait avoir deux comptes séparés**.
+
 ## 🎯 Checkpoint: Concepts des Comptes
 
 !!! info "Vérification de compréhension"
@@ -104,6 +131,7 @@ Pour tous les deux, suivez ces règles:
     - [ ] Comprendre SamAccountName vs UPN
     - [ ] Connaitre les règles de nommage (minuscules, pas de caractères spéciaux)
     - [ ] Savoir que le format standard est "prenom" et "prenom@maxtec.be"
+    - [ ] Comprendre pourquoi un admin devrait avoir deux comptes séparés
 
 
 
