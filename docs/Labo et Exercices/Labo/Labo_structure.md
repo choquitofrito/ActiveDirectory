@@ -15,116 +15,93 @@ Cet environnement est une version simplifiée de l'infrastructure complète, qui
 * Groupes globaux : GG-[Nom]
 * Utilisateurs : prenom.nom
 
-## Prérequis Techniques
+## Préparation de la VM
 
-### Préparation
+### Adaptateur réseau pour accéder à Internet (si besoin)
 
-Avant de commencer, assurez-vous d'avoir la structure complète de l'AD (si ce n'est pas le cas, lancez le script de Powershell - dossier PowerShell -> creation_structure).
+1. Éteignez la machine
+2. Ajoutez un adaptateur réseau en mode `pont`
+3. Redémarrez la machine
 
-1. Créez un fichier de script dans le serveur avec PowerShell ISE (lancez le en mode Admin)
-2. Ouvrez le fichier `creation_structure.ps1` et copiez-y le contenu du script
-3. Enregistrez le fichier
-4. Lancez le script
+### Installation des VirtualBox Guest Additions
 
-Puis, pour pratiquer:
-
-- Créez la OU pour le département IT (si elle n'existe pas encore) 
-- Créez aussi un groupe pour les administrateurs de IT (ex: "GG-EU-IT-Admin") et un autre pour les utilisateurs (ex: "GG-EU-IT-Users"). 
-- Assurez-vous d'avoir un ordinateur (Virtual Machine client) qui porte le nom `ws-IT-01` et un autre `ws-RH-01`. Si ce n'est pas le cas, modifiez les noms des ordinateurs dans vos machines virtuelles et re-démarrez-les.
-- Dans le serveur, allez dans `Utilisateurs et ordinateurs AD` et rajoutez des utilisateurs aux groupes (s'ils n'existent pas, créez-les): 
-  - `GG-EU-IT-Users` : Ivan, Ines
-  - `GG-EU-IT-Admin` : Irene
-  - `GG-EU-Ventes-Users` : Victor, Vanessa, Valeria
-  - `GG-EU-Ventes-Admins` : Valentin
-  - `GG-EU-RH-Users` : Rene, Rebecca
-  - `GG-EU-RH-Admins` : Richard
-  - `GG-EU-Compta-Users` : Charles, Cindy
-  - `GG-EU-Compta-Admins` : Charlotte
-
-
-
-## Installation d'un adaptateur réseau extra pour avoir l'internet (si besoin)
-
-1.  eteignez la machine 
-2.  rajoutez un adaptateur réseau "pont"
-3.  redémarrez la machine
-
-## Installation des VirtualBox Guest Additions (pour pouvoir copier-coller et glisser-deposer)
-
-Nous devons installer une extension de VirtualBox pour permettre le copier-coller et le glisser-déposer de fichiers entre la machine hôte et la machine virtuelle. Cette étape est nécessaire car nous créerons des scripts sur la machine hôte qui devront être transférés vers la machine virtuelle.
-
-Suivez cette procédure :
+Cette extension permet le copier-coller et le glisser-déposer entre la machine hôte et la VM. Nécessaire pour transférer le script PowerShell depuis votre poste vers le serveur.
 
 1. Démarrage :
-   * Lancez VirtualBox
-   * Démarrez votre machine virtuelle serveur
+    * Lancez VirtualBox
+    * Démarrez votre machine virtuelle serveur
 
 2. Montage du CD virtuel :
-   * Dans la fenêtre de la machine virtuelle
-   * Menu `Périphériques` > `Lecteurs optiques`
-   * Sélectionnez `VBoxGuestAdditions`
+    * Dans la fenêtre de la machine virtuelle
+    * Menu `Périphériques` > `Lecteurs optiques`
+    * Sélectionnez `VBoxGuestAdditions`
 
 3. Installation :
-   * Connectez-vous au serveur
-   * Ouvrez `Ce PC`
-   * Accédez au lecteur CD
-   * Double-cliquez sur `VBoxGuestAdditions`
-   * Suivez l'assistant d'installation
-   * Redémarrez lorsque demandé
-  
-## Configuration du Presse-papiers Partagé
+    * Connectez-vous au serveur
+    * Ouvrez `Ce PC`
+    * Accédez au lecteur CD
+    * Double-cliquez sur `VBoxGuestAdditions`
+    * Suivez l'assistant d'installation
+    * Redémarrez lorsque demandé
 
-Pour permettre l'échange de données entre votre machine hôte et la machine virtuelle :
+### Configuration du Presse-papiers Partagé
 
-1. Configuration du presse-papiers :
-   * Dans la fenêtre de la machine virtuelle, accédez au menu `Périphériques`
-   * Sélectionnez `Presse-papiers partagé` > `Bidirectionnel`
-   * Cette option permet le copier-coller de texte dans les deux sens
+1. Presse-papiers :
+    * Dans la fenêtre de la VM, menu `Périphériques`
+    * Sélectionnez `Presse-papiers partagé` > `Bidirectionnel`
 
-2. Configuration du glisser-déposer :
-   * Dans le même menu `Périphériques`
-   * Sélectionnez `Glisser-déposer` > `Bidirectionnel`
-   * Cette option permet le transfert de fichiers entre les deux systèmes
+2. Glisser-déposer :
+    * Même menu `Périphériques`
+    * Sélectionnez `Glisser-déposer` > `Bidirectionnel`
 
-## Vérification des Transferts
+### Vérification
 
-Pour vérifier que la configuration fonctionne correctement :
+1. Sur la machine hôte : téléchargez une image de test
+2. Sur la VM : effectuez un glisser-déposer de l'image vers le Bureau. Le fichier doit être correctement transféré.
 
-1. Sur la machine hôte :
-   * Téléchargez une image de test depuis Internet
-   * Repérez-la dans votre dossier `Téléchargements`
+## Création de la Structure AD
 
-2. Sur la machine virtuelle :
-   * Ouvrez le Bureau (Desktop)
-   * Effectuez un glisser-déposer de l'image depuis la machine hôte
-   * Vérifiez que le fichier a été correctement transféré
+Vous utiliserez le script [`creation_structure.ps1`](./PowerShell-scriptsStructure/creation_structure.md) pour créer automatiquement les OUs, utilisateurs et groupes globaux. Le script **ne crée pas les ordinateurs** : ceux-ci doivent rejoindre le domaine depuis les VMs clientes.
 
-## Script de Configuration de la Structure AD
+Le script est **idempotent** : il vérifie l'existence de chaque élément avant de le créer, donc vous pouvez le relancer sans erreur.
 
-Pour créer automatiquement la structure des Unités d'Organisation (UO), vous utiliserez le script [`creation_structure.ps1`](./PowerShell-scriptsStructure/creation_structure.md). Ce script ne crée pas les ordinateurs, car ceux-ci doivent être ajoutés au domaine depuis les machines virtuelles clientes. Cette procédure ne peut pas être exécutée depuis le serveur.
+### Préparer le fichier sur le serveur
 
-1. Consultez le contenu du script `creation_structure.ps1` sur GitBook
-2. Copiez le contenu (CTRL+A puis CTRL+C)
-3. Accédez à la VM du serveur
-4. Dans l'Explorateur de fichiers, cliquez sur "Affichage" dans la barre supérieure
-5. Activez l'option `Extensions des noms de fichiers`
-6. Créez un dossier `Scripts` dans `C:\` et accédez-y
-7. Créez un fichier texte (clic droit) et nommez-le `creation_structure.ps1`. Confirmez le changement d'extension
+1. Consultez le contenu du script `creation_structure.ps1` sur le site du cours et copiez-le (`CTRL+A` puis `CTRL+C`)
+2. Accédez à la VM du serveur
+3. Dans l'Explorateur de fichiers, onglet `Affichage` > activez `Extensions des noms de fichiers`
+4. Créez un dossier `Scripts` dans `C:\` et accédez-y
+5. Clic droit > Nouveau > Document texte, nommez-le `creation_structure.ps1` et confirmez le changement d'extension
+6. Ouvrez Windows PowerShell ISE (en mode Administrateur)
+7. Fichier > Ouvrir > `C:\Scripts\creation_structure.ps1`
+8. Collez le contenu copié et enregistrez
 
-Nous venons de créer un fichier de script PowerShell vide. Nous allons maintenant l'éditer avec PowerShell ISE, l'éditeur intégré à Windows Server.
+### Exécuter le script
 
-8. Ouvrez Windows PowerShell ISE (depuis la barre des tâches)
-9. Sélectionnez Fichier > Ouvrir et naviguez vers `C:\Scripts\creation_structure.ps1`
-10. Collez le contenu précédemment copié et enregistrez le fichier
+Lancez le script depuis PowerShell ISE. Il vous demandera de confirmer chaque étape (OUs, utilisateurs, groupes).
 
-**Vous disposez maintenant d'un script qui créera la structure des Unités d'Organisation (UO) dans Active Directory (OUs, groupes, utilisateurs)** La structure sera complète, à l'exception des ordinateurs. Les groupes seront créés, mais leurs membres devront être ajoutés ultérieurement.
+À la fin, vous disposerez de :
 
-**Important** : Ce script respecte votre structure existante et ajoute uniquement les éléments du laboratoire. Avant de l'exécuter, il est recommandé de :
-* Déplacer les utilisateurs existants vers le conteneur Users
-* Supprimer les groupes existants
+* L'OU racine `EU` avec les départements `Ventes`, `RH`, `Comptabilite` et `IT`
+* Les utilisateurs répartis dans leurs OUs respectives
+* Les groupes globaux `GG-EU-[Dept]-Admin` et `GG-EU-[Dept]-Users`
+
+**Les membres des groupes ne sont pas ajoutés automatiquement** — c'est l'objet de la pratique ci-dessous.
+
+## Pratique : assigner les utilisateurs aux groupes
+
+- Assurez-vous d'avoir une VM cliente nommée `ws-IT-01` et une autre `ws-RH-01`. Si ce n'est pas le cas, renommez vos VMs et redémarrez-les.
+- Dans le serveur, ouvrez `Utilisateurs et ordinateurs Active Directory` et ajoutez les utilisateurs aux groupes correspondants :
+    - `GG-EU-IT-Users` : Ivan, Ines
+    - `GG-EU-IT-Admin` : Irene
+    - `GG-EU-Ventes-Users` : Victor, Vanessa, Valeria
+    - `GG-EU-Ventes-Admin` : Valentin
+    - `GG-EU-RH-Users` : Rene, Rebecca
+    - `GG-EU-RH-Admin` : Richard
+    - `GG-EU-Compta-Users` : Charles, Cindy
+    - `GG-EU-Compta-Admin` : Charlotte
 
 **Attention** :
 
 - La suppression d'un groupe n'affecte pas les utilisateurs qui en étaient membres
 - La suppression d'une UO entraîne la suppression de tout son contenu
-
