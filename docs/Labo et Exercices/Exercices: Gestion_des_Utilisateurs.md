@@ -10,9 +10,9 @@
     2. Définir un mot de passe temporaire qui respecte la politique de sécurité
     3. Configurer le compte pour que Sophie doive changer son mot de passe à la première connexion
     4. Remplir les informations de base:
-       - Description: "Comptable Junior - Service Comptabilité"
-       - Bureau: "Bâtiment A - 1er étage"
-       - Téléphone: "+32 2 123 45 68"
+        - Description: "Comptable Junior - Service Comptabilité"
+        - Bureau: "Bâtiment A - 1er étage"
+        - Téléphone: "+32 2 123 45 68"
 
 ### Exercice 2: Restrictions d'Accès
 
@@ -51,17 +51,17 @@
     
     1. Désactiver son compte utilisateur
     2. Documenter la désactivation dans le champ "Description" des propriétés du compte avec:
-       - Date de désactivation
-       - Raison: "Départ de l'entreprise"
-       - Date de suppression prévue (dans 90 jours)
+        - Date de désactivation
+        - Raison: "Départ de l'entreprise"
+        - Date de suppression prévue (dans 90 jours)
        
-       !!! note "Note"
-           
-           Le champ "Description" se trouve dans l'onglet "Général" des propriétés du compte
+        !!! note "Note"
+
+            Le champ "Description" se trouve dans l'onglet "Général" des propriétés du compte
     
     3. Vérifier qu'il ne peut plus se connecter
 
-### Exercice 5 : Nettoyage des Accès
+### Exercice 5: Nettoyage des Accès
 
 !!! example "Contexte"
     
@@ -96,9 +96,9 @@
 !!! info "Tâches à réaliser"
     
     1. Créer un compte temporaire avec:
-       - Date d'expiration automatique dans 90 jours
-       - Accès limité à `ws-compta-01` uniquement
-       - Heures de connexion: 9h-17h, jours ouvrés
+        - Date d'expiration automatique dans 90 jours
+        - Accès limité à `ws-compta-01` uniquement
+        - Heures de connexion: 9h-17h, jours ouvrés
     
     2. Ajouter un préfixe "EXT-" dans la description
 
@@ -112,9 +112,9 @@
     
     1. Identifier les comptes qui n'ont pas été utilisés depuis 30 jours
     2. Pour chaque compte inactif:
-       - Vérifier s'il s'agit d'un départ non signalé
-       - Documenter le statut dans la description
-       - Préparer une liste pour la direction
+        - Vérifier s'il s'agit d'un départ non signalé
+        - Documenter le statut dans la description
+        - Préparer une liste pour la direction
 
 ### Exercice 9: Mise à Jour des Informations
 
@@ -125,8 +125,8 @@
 !!! info "Tâches à réaliser"
     
     1. Mettre à jour les informations de bureau **pour tous les utilisateurs** du service Comptabilité:
-       - Nouveau bureau: "Bâtiment B - 3e étage"
-       - Nouveau téléphone: format "+32 2 123 XX YY"
+        - Nouveau bureau: "Bâtiment B - 3e étage"
+        - Nouveau téléphone: format "+32 2 123 XX YY"
     
     2. Vérifier que les chemins réseau sont toujours valides
     3. Documenter les changements effectués
@@ -141,9 +141,9 @@
     
     1. Vérifier l'état du compte (verrouillé, désactivé, expiré?)
     2. Examiner les restrictions de connexion:
-       - Postes de travail autorisés
-       - Plages horaires
-       - Stratégie de mot de passe
+        - Postes de travail autorisés
+        - Plages horaires
+        - Stratégie de mot de passe
     
     3. Résoudre le problème en documentant chaque étape
 
@@ -157,9 +157,9 @@
     
     1. Créer un partage réseau pour les profils itinérants sur le serveur
     2. Configurer le profil itinérant pour trois commerciaux:
-       - Pierre Dubois
-       - Marie Lambert
-       - Ahmed Benali
+        - Pierre Dubois
+        - Marie Lambert
+        - Ahmed Benali
     
     3. Vérifier que leurs paramètres personnels sont conservés entre les postes
     4. Configurer une limite de taille pour les profils (500 MB)
@@ -175,9 +175,9 @@
     1. Créer un groupe "GG-EU-RH-AdminDelegue"
     2. Ajouter Claire au groupe
     3. Configurer les droits délégués:
-       - Création/modification de comptes dans l'OU RH
-       - Réinitialisation des mots de passe
-       - Modification des informations de profil
+        - Création/modification de comptes dans l'OU RH
+        - Réinitialisation des mots de passe
+        - Modification des informations de profil
     
     4. Tester les permissions avec le compte de Claire
 
@@ -191,8 +191,8 @@
     
     1. Identifier les utilisateurs à déplacer
     2. Planifier la migration:
-       - Nouveaux groupes nécessaires
-       - Modifications des droits d'accès
+        - Nouveaux groupes nécessaires
+        - Modifications des droits d'accès
     
     3. Exécuter le déplacement des comptes vers la nouvelle OU
     4. Mettre à jour toutes les appartenances aux groupes
@@ -207,14 +207,14 @@
 !!! info "Tâches à réaliser"
     
     1. Créer trois comptes de service:
-       - svc-backup (pour les sauvegardes)
-       - svc-monitoring (pour la surveillance)
-       - svc-print (pour le serveur d'impression)
+        - svc-backup (pour les sauvegardes)
+        - svc-monitoring (pour la surveillance)
+        - svc-print (pour le serveur d'impression)
     
     2. Configurer les paramètres de sécurité:
-       - Mots de passe complexes
-       - Pas d'expiration de mot de passe
-       - Connexion limitée aux serveurs spécifiques
+        - Mots de passe complexes
+        - Pas d'expiration de mot de passe
+        - Connexion limitée aux serveurs spécifiques
     
     3. Documenter les comptes dans un registre
 
