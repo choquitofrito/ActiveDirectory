@@ -82,8 +82,12 @@ Get-ADUser -Filter {WhenCreated -ge "01/01/2023"}
 
 ### Création et modification d'utilisateurs
 ```powershell
-# Créer un utilisateur
-New-ADUser -Name "Marie Martin" -SamAccountName "marie.martin" -Path "OU=Users,OU=Comptabilite,OU=EU,DC=maxtec,DC=be"
+# Créer un utilisateur (avec mot de passe initial)
+$pwd = ConvertTo-SecureString "Azerty_1" -AsPlainText -Force
+New-ADUser -Name "Marie Martin" -SamAccountName "marie.martin" `
+    -Path "OU=Users,OU=Comptabilite,OU=EU,DC=maxtec,DC=be" `
+    -AccountPassword $pwd -Enabled $true `
+    -ChangePasswordAtLogon $true
 
 # Activer/Désactiver un compte
 Enable-ADAccount -Identity "marie.martin"
@@ -91,6 +95,26 @@ Disable-ADAccount -Identity "marie.martin"
 
 # Modifier les propriétés
 Set-ADUser -Identity "marie.martin" -Title "Chef Comptable" -Department "Comptabilité"
+
+# Déplacer un objet vers une autre OU
+Move-ADObject -Identity "CN=Marie Martin,OU=Users,OU=Comptabilite,OU=EU,DC=maxtec,DC=be" `
+    -TargetPath "OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be"
+
+# Renommer un objet
+Rename-ADObject -Identity "CN=Marie Martin,OU=Users,..." -NewName "Marie Dupont"
+
+# Reset / changer le mot de passe
+Set-ADAccountPassword -Identity "marie.martin" -Reset `
+    -NewPassword (ConvertTo-SecureString "NewPwd_2025!" -AsPlainText -Force)
+
+# Forcer le changement à la prochaine ouverture de session
+Set-ADUser -Identity "marie.martin" -ChangePasswordAtLogon $true
+
+# Déverrouiller un compte
+Unlock-ADAccount -Identity "marie.martin"
+
+# Supprimer un utilisateur
+Remove-ADUser -Identity "marie.martin" -Confirm:$false
 ```
 
 ### Recherche avancée
@@ -103,6 +127,12 @@ Get-ADUser -Filter {PasswordExpired -eq $true}
 
 # Utilisateurs verrouillés
 Get-ADUser -Filter {LockedOut -eq $true}
+
+# Search-ADAccount : raccourcis pour les cas fréquents
+Search-ADAccount -AccountInactive -TimeSpan 90.00:00:00 -UsersOnly  # inactifs > 90 j
+Search-ADAccount -LockedOut -UsersOnly                              # verrouillés
+Search-ADAccount -PasswordNeverExpires -UsersOnly                   # mots de passe sans expiration
+Search-ADAccount -AccountDisabled -UsersOnly                        # désactivés
 ```
 
 ## 3. 🔹 Commandes Active Directory - Groupes
@@ -198,6 +228,44 @@ Get-ADUser -Filter * -Properties Name, SamAccountName, Department, Title | Expor
 # Exporter les membres d'un groupe
 Get-ADGroupMember -Identity "GG-EU-RH-Users" | Select-Object Name, SamAccountName | Export-Csv -Path "membres_rh.csv" -Encoding UTF8
 ```
+
+### Import CSV — Onboarding en masse
+```powershell
+# Fichier nouveaux_users.csv :
+# Prenom,Nom,SamAccountName,Department,OU
+# Pierre,Durand,pierre.durand,Comptabilite,"OU=Users,OU=Comptabilite,OU=EU,DC=maxtec,DC=be"
+# Sophie,Leblanc,sophie.leblanc,RH,"OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be"
+
+$pwd = ConvertTo-SecureString "Azerty_1" -AsPlainText -Force
+
+Import-Csv -Path "nouveaux_users.csv" | ForEach-Object {
+    New-ADUser `
+        -Name "$($_.Prenom) $($_.Nom)" `
+        -GivenName $_.Prenom -Surname $_.Nom `
+        -SamAccountName $_.SamAccountName `
+        -UserPrincipalName "$($_.SamAccountName)@maxtec.be" `
+        -Department $_.Department `
+        -Path $_.OU `
+        -AccountPassword $pwd -Enabled $true `
+        -ChangePasswordAtLogon $true
+}
+```
+
+### -WhatIf et -Confirm — l'assurance-vie du sysadmin
+```powershell
+# -WhatIf : montre ce qui SERAIT fait, sans rien exécuter
+Get-ADUser -Filter {Department -eq "RH"} | Remove-ADUser -WhatIf
+
+# Tester un import CSV avant de l'exécuter pour de vrai
+Import-Csv "nouveaux_users.csv" | ForEach-Object {
+    New-ADUser -Name "$($_.Prenom) $($_.Nom)" -SamAccountName $_.SamAccountName `
+        -Path $_.OU -WhatIf
+}
+
+# -Confirm : demande validation interactive avant chaque action
+Disable-ADAccount -Identity "marie.martin" -Confirm
+```
+**Règle d'or** : tout `Remove-*`, `Set-*` ou `Move-*` sur plusieurs objets se teste d'abord avec `-WhatIf`.
 
 ### Filtres avancés
 ```powershell
