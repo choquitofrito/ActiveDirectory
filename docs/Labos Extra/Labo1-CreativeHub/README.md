@@ -123,31 +123,31 @@ Le script crée **18 comptes utilisateurs** avec les attributs suivants:
 | Nom Complet | Login (SAM) | Email | Département | Titre/Poste | Mot de passe |
 |-------------|-------------|-------|-------------|-------------|--------------|
 | **MARKETING** |
-| Amélie Dubois | amelie | amelie@maxtec.be | Marketing | Community Manager | Password1! |
-| Bastien Martin | bastien | bastien@maxtec.be | Marketing | Spécialiste SEO | Password1! |
-| Camille Bernard | camille | camille@maxtec.be | Marketing | Responsable Marketing Digital | Password1! |
-| Damien Petit | damien | damien@maxtec.be | Marketing | Content Strategist | Password1! |
-| Élise Robert | elise | elise@maxtec.be | Marketing | Social Media Analyst | Password1! |
+| Amélie Dubois | amelie | amelie@maxtec.be | Marketing | Community Manager | Azerty_1 |
+| Bastien Martin | bastien | bastien@maxtec.be | Marketing | Spécialiste SEO | Azerty_1 |
+| Camille Bernard | camille | camille@maxtec.be | Marketing | Responsable Marketing Digital | Azerty_1 |
+| Damien Petit | damien | damien@maxtec.be | Marketing | Content Strategist | Azerty_1 |
+| Élise Robert | elise | elise@maxtec.be | Marketing | Social Media Analyst | Azerty_1 |
 | **CREATIVE** |
-| Fabien Moreau | fabien | fabien@maxtec.be | Creative | Graphiste Senior | Password1! |
-| Gabrielle Simon | gabrielle | gabrielle@maxtec.be | Creative | Directrice Artistique | Password1! |
-| Hugo Laurent | hugo | hugo@maxtec.be | Creative | Motion Designer | Password1! |
-| Inès Lefebvre | ines | ines@maxtec.be | Creative | Vidéaste | Password1! |
-| Julien Roux | julien | julien@maxtec.be | Creative | Designer UX/UI | Password1! |
+| Fabien Moreau | fabien | fabien@maxtec.be | Creative | Graphiste Senior | Azerty_1 |
+| Gabrielle Simon | gabrielle | gabrielle@maxtec.be | Creative | Directrice Artistique | Azerty_1 |
+| Hugo Laurent | hugo | hugo@maxtec.be | Creative | Motion Designer | Azerty_1 |
+| Inès Lefebvre | ines | ines@maxtec.be | Creative | Vidéaste | Azerty_1 |
+| Julien Roux | julien | julien@maxtec.be | Creative | Designer UX/UI | Azerty_1 |
 | **CLIENT SERVICES** |
-| Karine Garnier | karine | karine@maxtec.be | ClientServices | Chef de Projet Senior | Password1! |
-| Laurent Faure | laurent | laurent@maxtec.be | ClientServices | Account Manager | Password1! |
-| Manon Girard | manon | manon@maxtec.be | ClientServices | Chef de Projet Junior | Password1! |
-| Nicolas André | nicolas | nicolas@maxtec.be | ClientServices | Directeur des Opérations | Password1! |
+| Karine Garnier | karine | karine@maxtec.be | ClientServices | Chef de Projet Senior | Azerty_1 |
+| Laurent Faure | laurent | laurent@maxtec.be | ClientServices | Account Manager | Azerty_1 |
+| Manon Girard | manon | manon@maxtec.be | ClientServices | Chef de Projet Junior | Azerty_1 |
+| Nicolas André | nicolas | nicolas@maxtec.be | ClientServices | Directeur des Opérations | Azerty_1 |
 | **IT SUPPORT** |
-| Olivier Mercier | olivier | olivier@maxtec.be | ITSupport | Développeur Web Full-Stack | Password1! |
-| Pauline Blanc | pauline | pauline@maxtec.be | ITSupport | Administratrice Systèmes | Password1! |
-| Quentin Guerin | quentin | quentin@maxtec.be | ITSupport | Développeur Front-End | Password1! |
-| Rachid Dupont | rachid | rachid@maxtec.be | ITSupport | Responsable IT | Password1! |
+| Olivier Mercier | olivier | olivier@maxtec.be | ITSupport | Développeur Web Full-Stack | Azerty_1 |
+| Pauline Blanc | pauline | pauline@maxtec.be | ITSupport | Administratrice Systèmes | Azerty_1 |
+| Quentin Guerin | quentin | quentin@maxtec.be | ITSupport | Développeur Front-End | Azerty_1 |
+| Rachid Dupont | rachid | rachid@maxtec.be | ITSupport | Responsable IT | Azerty_1 |
 
 !!! info "Propriétés des comptes"
     - Sont **activés** par défaut
-    - Utilisent le mot de passe: `Password1!`
+    - Utilisent le mot de passe: `Azerty_1`
     - N'exigent **pas** de changement de mot de passe à la première connexion (pour faciliter les tests)
     - Ont des adresses email au format `prenom@maxtec.be`
 

@@ -193,7 +193,7 @@ try {
         $users = @("U_Test1", "U_Test2", "U_Test3", "U_Test4", "U_Test5")
 
         foreach ($user in $users) {
-            if (Simulate-SuccessfulLogon -Username $user -Password "Password1!") {
+            if (Simulate-SuccessfulLogon -Username $user -Password "Azerty_1") {
                 $eventsGenerated.SuccessfulLogons++
             }
             Start-Sleep -Milliseconds 800
@@ -252,7 +252,7 @@ try {
             }
 
             # Créer le nouveau compte
-            $securePassword = ConvertTo-SecureString "Password1!" -AsPlainText -Force
+            $securePassword = ConvertTo-SecureString "Azerty_1" -AsPlainText -Force
 
             New-ADUser -Name "Nouveau Testeur" `
                 -SamAccountName $newUserSam `

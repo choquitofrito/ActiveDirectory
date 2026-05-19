@@ -76,8 +76,8 @@ Votre mission : créer le compte utilisateur de Sophie avant son arrivée pour q
 
 ### Étape 4 : Configurer le Mot de Passe
 
-1. **Mot de passe** : `Password1!`
-2. **Confirmer le mot de passe** : `Password1!`
+1. **Mot de passe** : `Azerty_1`
+2. **Confirmer le mot de passe** : `Azerty_1`
 3. **Décochez** "L'utilisateur doit changer le mot de passe à la prochaine ouverture de session"
 4. **Cochez** "Le mot de passe n'expire jamais" (pour l'environnement de lab uniquement !)
 5. Cliquez sur **Suivant**, puis sur **Terminer**
@@ -169,7 +169,7 @@ $lastName = "Moreau"
 $samAccountName = "sophie"
 $userPath = "OU=Users,OU=Creative,OU=CreativeHub,DC=maxtec,DC=be"
 $groupName = "GG-CreativeHub-Creative-Users"
-$password = ConvertTo-SecureString "Password1!" -AsPlainText -Force
+$password = ConvertTo-SecureString "Azerty_1" -AsPlainText -Force
 
 # Créer l'utilisateur
 New-ADUser -Name "$firstName $lastName" `

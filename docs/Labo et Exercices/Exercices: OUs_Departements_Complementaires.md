@@ -39,7 +39,7 @@
         - **lea** (Gestionnaire de Stock)
 
     3. Pour chaque utilisateur :
-        - Mot de passe standard : `Password1!`
+        - Mot de passe standard : `Azerty_1`
         - Activer "L'utilisateur doit changer son mot de passe à la prochaine ouverture de session"
         - Remplir les champs : Prénom, Nom, Titre, Département, E-mail (`prenom@maxtec.be`)
 

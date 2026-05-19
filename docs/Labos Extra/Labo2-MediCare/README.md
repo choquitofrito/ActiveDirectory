@@ -121,7 +121,7 @@ maxtec.be
 
 !!! info "Propriétés des comptes"
     - Tous les comptes sont **activés** par défaut
-    - Mot de passe par défaut: `Password1!`
+    - Mot de passe par défaut: `Azerty_1`
     - **Aucun** changement de mot de passe requis à la première connexion
     - PasswordNeverExpires = `$false` (expiration selon politique domaine)
 

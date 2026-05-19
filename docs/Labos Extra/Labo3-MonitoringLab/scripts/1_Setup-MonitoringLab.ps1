@@ -80,7 +80,7 @@ $testGroupsOU = "OU=TestGroups,$rootOU"
 $serviceAccountsOU = "OU=ServiceAccounts,$rootOU"
 
 # Mot de passe par défaut pour tous les comptes
-$defaultPassword = "Password1!"
+$defaultPassword = "Azerty_1"
 $securePassword = ConvertTo-SecureString $defaultPassword -AsPlainText -Force
 
 # Créer le répertoire pour les scripts et logs si nécessaire

@@ -81,7 +81,7 @@ Import-Module GroupPolicy
 
 $domainDN = "DC=maxtec,DC=be"
 $rootOU = "OU=MediCare,$domainDN"
-$defaultPassword = "Password1!"
+$defaultPassword = "Azerty_1"
 
 # Créer le répertoire pour les exports CSV si nécessaire
 $exportPath = "C:\Labos"

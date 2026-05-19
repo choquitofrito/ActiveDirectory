@@ -342,7 +342,7 @@ Write-Host "La configuration manuelle des ACL nécessite de connaître tous les 
 
 ```powershell
 # Sur un poste client, ouvrir PowerShell
-$cred = Get-Credential -UserName "MAXTEC\gabrielle" -Message "Password: Password1!"
+$cred = Get-Credential -UserName "MAXTEC\gabrielle" -Message "Password: Azerty_1"
 
 # Tenter de réinitialiser le mot de passe de Fabien (dans Creative)
 $newPwd = ConvertTo-SecureString "NewPassword123!" -AsPlainText -Force

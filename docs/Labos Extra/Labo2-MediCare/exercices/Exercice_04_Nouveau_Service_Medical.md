@@ -129,7 +129,7 @@ $users = @(
 )
 
 foreach ($u in $users) {
-    $password = ConvertTo-SecureString "Password1!" -AsPlainText -Force
+    $password = ConvertTo-SecureString "Azerty_1" -AsPlainText -Force
     New-ADUser `
         -Name "$($u.FirstName) $($u.LastName)" `
         -GivenName $u.FirstName `

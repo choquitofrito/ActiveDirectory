@@ -89,7 +89,7 @@ Import-Module ActiveDirectory
 
 # Définir les variables globales
 $rootOU = "OU=EU,DC=maxtec,DC=be"
-$defaultPassword = "Password1!"
+$defaultPassword = "Azerty_1"
 
 try {
     Write-Host "Script de création de structure Active Directory" -ForegroundColor Green
@@ -256,7 +256,7 @@ catch {
 
 !!! warning "🛡️ Sécurité"
     
-    - **Mot de passe par défaut** : `Password1!`
+    - **Mot de passe par défaut** : `Azerty_1`
     - **⚠️ Important** : Changez les mots de passe après création
     - **Protection** : OUs non protégées contre suppression accidentelle
 
