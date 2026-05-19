@@ -2,17 +2,18 @@
 
 !!! example "Contexte"
     
-    Le service Comptabilité accueille une nouvelle comptable junior, Sophie Dubois.
+    Le département Comptabilité de Maxtec accueille une nouvelle comptable junior, Sophie Dubois.
 
 !!! info "Tâches à réaliser"
     
-    1. Créer un compte utilisateur pour Sophie en suivant la convention de nommage établie
+    1. Créer un compte utilisateur pour Sophie en suivant la convention de nommage établie (`prenom.nom`)
     2. Définir un mot de passe temporaire qui respecte la politique de sécurité
     3. Configurer le compte pour que Sophie doive changer son mot de passe à la première connexion
     4. Remplir les informations de base:
-        - Description: "Comptable Junior - Service Comptabilité"
+        - Description: "Comptable Junior - Comptabilité"
         - Bureau: "Bâtiment A - 1er étage"
         - Téléphone: "+32 2 123 45 68"
+        - Placer le compte dans `OU=Users,OU=Comptabilite,OU=EU,DC=maxtec,DC=be`
 
 ### Exercice 2: Restrictions d'Accès
 
@@ -20,7 +21,7 @@
     
     Pour des raisons de sécurité, Sophie ne doit pouvoir se connecter que:
     
-    - Sur le poste `ws-compta-01.maxtec.be`
+    - Sur le poste `ws-Compta-01.maxtec.be`
     - Du lundi au vendredi, de 8h à 18h (choisissez une heure qui vous permet de tester la connexion)
 
 !!! info "Tâches à réaliser"
@@ -29,7 +30,7 @@
     2. Définir les plages horaires autorisées
 
 
-### Exercice 3: Audit de Sécurité
+### Exercice 3: Audit de Sécurité `GPO`
 
 !!! example "Objectif"
     
@@ -41,11 +42,52 @@
     2. Confirmer que le compte expire dans 6 mois (durée du contrat d'essai)
     3. Activer la journalisation des tentatives de connexion échouées
 
+??? success "Solution"
+
+    **Tâche 1 — Vérifier la politique de mot de passe**
+
+    La politique s'applique automatiquement au niveau du domaine. Pour consulter la politique active :
+
+    `Outils` → `Gestion des stratégies de groupe` → double-clic sur `Default Domain Policy` → onglet `Paramètres` → `Configuration ordinateur > Paramètres Windows > Paramètres de sécurité > Stratégies de compte`
+
+    Pour vérifier si le compte a une politique spécifique (Fine-Grained) :
+
+    `Utilisateurs et ordinateurs AD` → clic droit sur l'utilisateur → `Objet de paramètres de mot de passe résultant`
+
+    ---
+
+    **Tâche 2 — Expiration du compte dans 6 mois**
+
+    `Utilisateurs et ordinateurs AD` → double-clic sur le compte → onglet **`Compte`**
+
+    Dans la section **"Le compte expire"** : sélectionner `Fin de :` et saisir la date (aujourd'hui + 6 mois).
+
+    ---
+
+    **Tâche 3 — Journalisation des tentatives de connexion échouées**
+
+    Cette configuration se fait via GPO, pas sur le compte individuel.
+
+    Dans `Default Domain Policy` (ou une GPO dédiée) :
+
+    ```
+    Configuration ordinateur
+      → Paramètres Windows
+        → Paramètres de sécurité
+          → Stratégies locales
+            → Stratégie d'audit
+              → Auditer les événements de connexion → ✅ Échecs
+    ```
+
+    Après application (`gpupdate /force`), les tentatives échouées apparaissent dans :
+
+    `Observateur d'événements` → `Journaux Windows` → `Sécurité` → **ID d'événement 4625**
+
 ### Exercice 4: Désactivation d'un Compte
 
 !!! warning "Situation"
     
-    Jan Vandenbergh (jan.vandenbergh@maxtec.be) quitte l'entreprise aujourd'hui.
+    Charles (`charles@maxtec.be`), comptable au département Comptabilité, quitte l'entreprise aujourd'hui.
 
 !!! info "Tâches à réaliser"
     
@@ -65,7 +107,7 @@
 
 !!! example "Contexte"
     
-    Suite au départ de Jan Vandenbergh:
+    Suite au départ de Charles:
 
 !!! info "Tâches à réaliser"
     
@@ -83,7 +125,7 @@
 
 !!! info "Tâches à réaliser"
     
-    1. Créer les comptes pour les deux Karim Benali en évitant les conflits
+    1. Créer les comptes pour les deux Karim Benali dans `OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be` en évitant les conflits
     2. Documenter clairement dans chaque compte le poste occupé
     3. S'assurer que leurs adresses email restent professionnelles et cohérentes
 
@@ -91,13 +133,13 @@
 
 !!! example "Contexte"
     
-    Un consultant externe, Marek Wojcik, arrive pour un audit de 3 mois.
+    Un consultant externe, Marek Wojcik, arrive pour un audit informatique de 3 mois. Il travaillera depuis le poste de l'équipe IT.
 
 !!! info "Tâches à réaliser"
     
     1. Créer un compte temporaire avec:
         - Date d'expiration automatique dans 90 jours
-        - Accès limité à `ws-compta-01` uniquement
+        - Accès limité à `ws-IT-01.maxtec.be` uniquement
         - Heures de connexion: 9h-17h, jours ouvrés
     
     2. Ajouter un préfixe "EXT-" dans la description
@@ -120,11 +162,11 @@
 
 !!! example "Contexte"
     
-    Suite à un déménagement interne:
+    Suite à un déménagement interne, le département Comptabilité change d'étage. Charlotte, Cindy et Sophie doivent avoir leurs informations mises à jour.
 
 !!! info "Tâches à réaliser"
     
-    1. Mettre à jour les informations de bureau **pour tous les utilisateurs** du service Comptabilité:
+    1. Mettre à jour les informations de bureau **pour Charlotte, Cindy et Sophie** (département Comptabilité):
         - Nouveau bureau: "Bâtiment B - 3e étage"
         - Nouveau téléphone: format "+32 2 123 XX YY"
     
@@ -135,7 +177,7 @@
 
 !!! warning "Problème signalé"
     
-    L'utilisatrice Sarah El Amrani signale qu'elle ne peut plus se connecter.
+    L'utilisatrice Ines (`ines@maxtec.be`, département IT) signale qu'elle ne peut plus se connecter.
 
 !!! info "Tâches à réaliser"
     
@@ -147,75 +189,83 @@
     
     3. Résoudre le problème en documentant chaque étape
 
-### Exercice 11: Gestion des Profils Itinérants
+### Exercice 11: Gestion des Profils Itinérants `GPO`
 
 !!! example "Objectif"
     
-    Vous devez configurer des profils itinérants pour l'équipe de vente qui se déplace entre plusieurs postes.
+    Vous devez configurer des profils itinérants pour l'équipe Ventes qui se déplace entre plusieurs postes.
 
 !!! info "Tâches à réaliser"
     
-    1. Créer un partage réseau pour les profils itinérants sur le serveur
+    1. Créer un partage réseau pour les profils itinérants sur le serveur (`\\dns1\Profiles$`)
     2. Configurer le profil itinérant pour trois commerciaux:
-        - Pierre Dubois
-        - Marie Lambert
-        - Ahmed Benali
+        - Vanessa
+        - Victor
+        - Valeria
     
     3. Vérifier que leurs paramètres personnels sont conservés entre les postes
-    4. Configurer une limite de taille pour les profils (500 MB)
+    4. Configurer une limite de taille pour les profils (500 MB) via GPO:
+
+        ```
+        Configuration utilisateur
+          → Modèles d'administration
+            → Système
+              → Profils utilisateur
+                → Limiter la taille du profil → Activé → 512000 Ko
+        ```
 
 ### Exercice 12: Délégation d'Administration
 
 !!! example "Objectif"
     
-    Vous devez permettre à Claire Martin, responsable RH, de gérer les comptes de son service.
+    Vous devez permettre à Rebecca, chargée de la gestion RH, de gérer les comptes de son service.
 
 !!! info "Tâches à réaliser"
     
-    1. Créer un groupe "GG-EU-RH-AdminDelegue"
-    2. Ajouter Claire au groupe
-    3. Configurer les droits délégués:
-        - Création/modification de comptes dans l'OU RH
+    1. Créer un groupe `GG-EU-RH-AdminDelegue` dans `OU=Groups,OU=RH,OU=EU,DC=maxtec,DC=be`
+    2. Ajouter Rebecca au groupe
+    3. Configurer les droits délégués sur `OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be`:
+        - Création/modification de comptes utilisateur
         - Réinitialisation des mots de passe
         - Modification des informations de profil
     
-    4. Tester les permissions avec le compte de Claire
+    4. Tester les permissions avec le compte de Rebecca
 
 ### Exercice 13: Migration d'Utilisateurs
 
 !!! example "Contexte"
     
-    Suite à une restructuration, l'équipe Support (5 personnes) passe du service IT au service Ventes.
+    Suite à une restructuration, Ivan et Ines (département IT) rejoignent l'équipe Ventes. Irene reste seule responsable IT.
 
 !!! info "Tâches à réaliser"
     
-    1. Identifier les utilisateurs à déplacer
+    1. Identifier les utilisateurs à déplacer (Ivan et Ines)
     2. Planifier la migration:
         - Nouveaux groupes nécessaires
         - Modifications des droits d'accès
     
-    3. Exécuter le déplacement des comptes vers la nouvelle OU
-    4. Mettre à jour toutes les appartenances aux groupes
+    3. Déplacer les comptes vers `OU=Users,OU=Ventes,OU=EU,DC=maxtec,DC=be`
+    4. Mettre à jour toutes les appartenances aux groupes:
+        - Retirer de `GG-EU-IT-Users`
+        - Ajouter à `GG-EU-Ventes-Users`
     5. Vérifier que les accès fonctionnent correctement
 
 ### Exercice 14: Gestion des Comptes de Service
 
 !!! example "Objectif"
     
-    Créer et sécuriser des comptes de service pour les applications internes.
+    Créer et sécuriser des comptes de service pour les applications internes de Maxtec.
 
 !!! info "Tâches à réaliser"
     
     1. Créer trois comptes de service:
-        - svc-backup (pour les sauvegardes)
-        - svc-monitoring (pour la surveillance)
-        - svc-print (pour le serveur d'impression)
+        - `svc-backup` (pour les sauvegardes)
+        - `svc-monitoring` (pour la surveillance)
+        - `svc-print` (pour le serveur d'impression)
     
     2. Configurer les paramètres de sécurité:
         - Mots de passe complexes
         - Pas d'expiration de mot de passe
-        - Connexion limitée aux serveurs spécifiques
+        - Connexion limitée aux serveurs spécifiques (`dns1.maxtec.be`)
     
     3. Documenter les comptes dans un registre
-
-
