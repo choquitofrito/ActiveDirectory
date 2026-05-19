@@ -138,9 +138,10 @@ Interdire l'accès au Panneau de configuration et aux paramètres du PC
 
 Après que les étudiants ont terminé, vérifiez dans GPMC :
 
-1. Ouvrez la GPO "MonitoringTech - Audit Avancé" > Paramètres > Configuration ordinateur
-2. Vérifiez que les paramètres d'audit apparaissent SANS le message "nom convivial introuvable"
+1. Ouvrez la GPO "MONITORING - Configuration Journaux Événements" > Paramètres > Configuration ordinateur
+2. Vérifiez que les paramètres d'Event Log Service (taille des journaux) apparaissent SANS le message "nom convivial introuvable"
 3. Si le message apparaît : la GPO a été configurée via Set-GPRegistryValue et doit être recréée
+4. Faire de même pour "MONITORING - Restrictions Stations Sensibles" (USB) et "MONITORING - Verrouillage Session Automatique" (inactivité)
 
 ---
 

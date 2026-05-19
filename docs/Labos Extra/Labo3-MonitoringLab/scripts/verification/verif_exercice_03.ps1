@@ -67,20 +67,24 @@ try {
 }
 
 # -----------------------------------------------
-# Test 2 : GPO "MonitoringTech - Audit Avancé" existe
+# Test 2 : Les 3 GPOs MONITORING existent
 # -----------------------------------------------
-Write-Host "`nTest 2 : GPO 'MonitoringTech - Audit Avancé' existence" -ForegroundColor Yellow
+Write-Host "`nTest 2 : Existence des 3 GPOs MONITORING" -ForegroundColor Yellow
+$gposAttendues = @(
+    "MONITORING - Configuration Journaux Événements",
+    "MONITORING - Restrictions Stations Sensibles",
+    "MONITORING - Verrouillage Session Automatique"
+)
 try {
-    $gpoAudit = Get-GPO -All -ErrorAction Stop |
-        Where-Object { $_.DisplayName -like "*Audit*" -and $_.DisplayName -like "*MonitoringTech*" }
-
-    if ($gpoAudit) {
-        Write-Host "  OK - GPO Audit trouvée : $($gpoAudit.DisplayName)" -ForegroundColor Green
-        Write-Host "  Info - Statut : $($gpoAudit.GpoStatus)" -ForegroundColor Gray
-    } else {
-        Write-Host "  AVERTISSEMENT - GPO d'audit 'MonitoringTech*Audit*' non trouvée" -ForegroundColor Yellow
-        Write-Host "  Conseil : Le script de setup aurait dû créer cette GPO. Vérifiez GPMC." -ForegroundColor Yellow
-        $avertissements++
+    foreach ($nomGpo in $gposAttendues) {
+        $gpo = Get-GPO -Name $nomGpo -ErrorAction SilentlyContinue
+        if ($gpo) {
+            Write-Host "  OK - GPO trouvée : $($gpo.DisplayName) [Statut : $($gpo.GpoStatus)]" -ForegroundColor Green
+        } else {
+            Write-Host "  ECHEC - GPO manquante : $nomGpo" -ForegroundColor Red
+            Write-Host "  Conseil : Relancer MonitoringLab_Setup.ps1 (étape 8)" -ForegroundColor Yellow
+            $erreurs++
+        }
     }
 } catch {
     Write-Host "  ERREUR - Module GroupPolicy manquant ou accès refusé : $($_.Exception.Message)" -ForegroundColor Red
@@ -138,18 +142,19 @@ try {
 }
 
 # -----------------------------------------------
-# Test 5 : Toutes les GPOs MonitoringTech listées
+# Test 5 : Configuration effective des journaux d'événements
 # -----------------------------------------------
-Write-Host "`nTest 5 : Inventaire des GPOs MonitoringTech" -ForegroundColor Yellow
+Write-Host "`nTest 5 : Configuration effective du journal Sécurité" -ForegroundColor Yellow
 try {
-    $toutesGPOs = Get-GPO -All | Where-Object { $_.DisplayName -like "MonitoringTech*" }
-    if ($toutesGPOs.Count -gt 0) {
-        Write-Host "  OK - $($toutesGPOs.Count) GPO(s) MonitoringTech trouvée(s) :" -ForegroundColor Green
-        foreach ($gpo in $toutesGPOs) {
-            Write-Host "    - $($gpo.DisplayName) [ID: $($gpo.Id)]" -ForegroundColor Gray
-        }
+    $secLog = Get-WinEvent -ListLog Security -ErrorAction Stop
+    $secSizeGB = [math]::Round($secLog.MaximumSizeInBytes / 1GB, 2)
+
+    if ($secSizeGB -ge 1.9) {
+        Write-Host "  OK - Taille max du journal Sécurité : $secSizeGB GB (>= 1.9 GB)" -ForegroundColor Green
     } else {
-        Write-Host "  AVERTISSEMENT - Aucune GPO 'MonitoringTech*' trouvée" -ForegroundColor Yellow
+        Write-Host "  AVERTISSEMENT - Taille max du journal Sécurité : $secSizeGB GB (attendu : ~2 GB)" -ForegroundColor Yellow
+        Write-Host "  Conseil : la GPO 'MONITORING - Configuration Journaux Événements' n'est peut-être pas configurée" -ForegroundColor Yellow
+        Write-Host "  ou pas encore appliquée. Exécutez 'gpupdate /force' puis relancez ce script." -ForegroundColor Yellow
         $avertissements++
     }
 } catch {

@@ -294,7 +294,7 @@ function Show-FinalStatistics {
         Write-Host ""
         Write-Host "💡 CONSEILS:" -ForegroundColor Cyan
         Write-Host "  • Exécutez 2_Generate-Events.ps1 pour générer des événements de test" -ForegroundColor Gray
-        Write-Host "  • Vérifiez que l'audit est activé (exécuté dans 1_Setup-MonitoringLab.ps1)" -ForegroundColor Gray
+        Write-Host "  • Vérifiez que l'audit est activé (exécuté dans MonitoringLab_Setup.ps1)" -ForegroundColor Gray
         Write-Host "  • Essayez de vous connecter/déconnecter pour générer des événements 4624" -ForegroundColor Gray
         Write-Host ""
     } else {

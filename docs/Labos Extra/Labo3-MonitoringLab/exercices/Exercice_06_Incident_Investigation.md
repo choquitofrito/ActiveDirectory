@@ -6,296 +6,358 @@ Avancé
 
 ## Objectifs Pédagogiques
 
+- Déclencher soi-même des événements réels dans le journal Security pour comprendre la trace qu'ils laissent
 - Conduire une investigation forensique d'un incident AD en suivant une méthodologie structurée
 - Corréler des événements de sécurité issus de plusieurs sources pour reconstruire une chronologie
 - Prendre des mesures de remédiation appropriées et rédiger un rapport d'incident
 
 ## Durée Estimée
 
-90 minutes
+90 minutes (45 min déclenchement + 45 min investigation/rapport)
 
 ## Prérequis
 
-- Tous les exercices précédents complétés
-- Script `2_Generate-Events.ps1` exécuté pour peupler les journaux
-- Bonne maîtrise des Event IDs (Exercice 02)
+- Tous les exercices précédents complétés (01–05)
+- Audit AD activé (configuré par `MonitoringLab_Setup.ps1` à l'étape 7, et renforcé par les GPOs de l'exercice 03)
+- Au moins deux fenêtres PowerShell ouvertes : une "attaquant" et une "investigateur"
 
 ## Contexte / Scénario
 
-!!! example "Scénario d'incident"
-    **ALERTE SÉCURITÉ - Lundi matin, 08h47**
-    
-    Vous recevez un email du système de supervision automatique :
-    
-    > **ALERTE CRITIQUE** : Activité anormale détectée sur le compte `svc_monitoring`
-    >
-    > - Multiples connexions réussies entre 02h00 et 04h30 du matin
-    > - Accès à des ressources du département Finance non habituels
-    > - Tentative de modification des membres du groupe `GG-MONITORING-Finance-Admin`
-    > - Origine de connexion inhabituelle : adresse IP `192.168.100.250` (non répertoriée)
-    >
-    > **Action requise** : Investigation immédiate
-    
-    Votre mission est d'investiguer cet incident, de déterminer ce qui s'est passé, de sécuriser l'environnement et de rédiger un rapport d'incident.
+!!! example "Scénario pédagogique"
+    Vous allez **jouer les deux rôles** dans cet exercice :
+
+    - **Rôle A — L'attaquant** : vous effectuez une série d'actions suspectes en utilisant des credentials privilégiés. Chaque action laisse une trace dans le journal Security.
+    - **Rôle B — L'investigateur** : 15 minutes après vos actions, vous "découvrez l'incident" et devez reconstruire ce qui s'est passé en lisant uniquement les journaux.
+
+    L'intérêt : vous saurez exactement ce qu'un attaquant aurait fait, et vous vérifierez si l'audit configuré aux exercices précédents permet bien de retrouver toute la chronologie. Si une action manque dans les logs, c'est que l'audit n'est pas assez large — c'est une découverte précieuse.
+
+!!! warning "Avant de commencer"
+    Notez l'heure de début sur une feuille à part : `$($Date_debut = Get-Date)`. Vous en aurez besoin pour filtrer les événements dans la phase d'investigation.
 
 ---
 
-## Phase 1 : Confinement Immédiat
+## Phase 1 : Préparation (5 min)
 
-!!! danger "Priorité absolue"
-    Avant toute investigation, sécurisez l'environnement pour arrêter l'attaque en cours.
-
-### Tâche 1.1 : Désactiver le compte compromis
-
-Sans instructions pas-à-pas, vous devez :
-
-- Localiser le compte `svc_monitoring` dans AD
-- Le désactiver immédiatement
-- Documenter l'heure et la raison de la désactivation dans la description du compte
-
-!!! tip "Rappel"
-    ```powershell
-    # Pour désactiver un compte
-    Disable-ADAccount -Identity "svc_monitoring"
-    # Pour ajouter une note dans la description
-    Set-ADUser -Identity "svc_monitoring" -Description "COMPROMIS - Désactivé le $(Get-Date -Format 'dd/MM/yyyy HH:mm') par [votre nom] - Investigation en cours"
-    ```
-
-### Tâche 1.2 : Vérifier l'état du groupe Finance Admin
-
-Vérifiez si des modifications non autorisées ont été apportées au groupe `GG-MONITORING-Finance-Admin` :
+### Tâche 1.1 : Vérifier que l'audit est actif
 
 ```powershell
-# Lister les membres actuels du groupe
-Get-ADGroupMember "GG-MONITORING-Finance-Admin" |
-    Select-Object Name, SamAccountName, objectClass
+# Doit montrer Success et/ou Failure activés pour ces sous-catégories
+auditpol /get /subcategory:"User Account Management","Security Group Management","Logon" |
+    Select-String "User Account|Security Group|Logon"
 ```
 
 !!! success "Résultat attendu"
-    Vous pouvez voir si des membres inattendus (notamment `svc_monitoring`) ont été ajoutés au groupe. Si c'est le cas, retirez-les immédiatement.
+    Au minimum **User Account Management : Success and Failure**, **Security Group Management : Success and Failure**, et **Logon : Success and Failure**. Si l'un manque :
 
-### Tâche 1.3 : Réinitialiser le mot de passe du compte compromis
+    ```powershell
+    auditpol /set /subcategory:"User Account Management" /success:enable /failure:enable
+    auditpol /set /subcategory:"Security Group Management" /success:enable /failure:enable
+    auditpol /set /subcategory:"Logon" /success:enable /failure:enable
+    ```
 
-Même désactivé, réinitialisez le mot de passe pour empêcher toute réactivation non autorisée :
+### Tâche 1.2 : Marquer le début de l'incident
 
 ```powershell
-$newPwd = ConvertTo-SecureString "M0nitor!ngT3ch@2026#NOUVEAU" -AsPlainText -Force
-Set-ADAccountPassword -Identity "svc_monitoring" -NewPassword $newPwd -Reset
+$Date_debut = Get-Date
+Write-Host "Début de l'incident simulé : $Date_debut" -ForegroundColor Yellow
+# Notez cette heure quelque part - vous en aurez besoin plus tard
 ```
 
 ---
 
-## Phase 2 : Investigation et Collecte de Preuves
+## Phase 2 : Rôle A — Effectuer les actions suspectes (15 min)
+
+Vous incarnez un attaquant qui a compromis un compte privilégié. Effectuez les actions suivantes **dans l'ordre**, en attendant 30 secondes entre chacune (pour qu'elles soient séparables dans la chronologie).
+
+!!! danger "Ces actions sont réelles dans votre lab"
+    Elles laisseront de vraies traces dans le journal Security. Faites-les uniquement sur ce lab MonitoringLab, pas sur un environnement de production.
+
+### Action 1 — Échecs de connexion (Event ID 4625)
+
+Vous tentez de "deviner" le mot de passe du compte `pascal` (CFO de Finance).
+
+Depuis une fenêtre **cmd**, exécutez 3 fois (avec un mauvais mot de passe à chaque fois) :
+
+```cmd
+runas /user:maxtec\pascal cmd
+```
+
+Quand l'invite demande le mot de passe, entrez n'importe quel mauvais mot de passe et appuyez sur Entrée. La commande échouera — c'est le but. Recommencez 3 fois.
+
+**Trace attendue** : 3 événements **4625** (Échec de connexion).
+
+### Action 2 — Connexion réussie (Event ID 4624)
+
+Vous trouvez enfin le bon mot de passe. Connectez-vous avec un compte existant — par exemple `alexandre` (Responsable Infrastructure) :
+
+```cmd
+runas /user:maxtec\alexandre cmd
+```
+
+Entrez le **bon** mot de passe (`Monitor2024!`). Une nouvelle fenêtre cmd s'ouvre sous ce compte.
+
+**Trace attendue** : 1 événement **4624** (Connexion réussie) avec `LogonType=2` (interactive).
+
+### Action 3 — Création d'un compte dormant (Event ID 4720)
+
+Toujours sous le compte compromis (ou directement en Domain Admin pour simplifier l'exercice), créez un nouveau compte qui servira de porte dérobée :
+
+```powershell
+$pwd = ConvertTo-SecureString "Backdoor_2026!" -AsPlainText -Force
+New-ADUser -Name "Compte Backup" `
+    -SamAccountName "svc_backup_v2" `
+    -UserPrincipalName "svc_backup_v2@maxtec.be" `
+    -Path "OU=ServiceAccounts,OU=MONITORING,DC=maxtec,DC=be" `
+    -AccountPassword $pwd `
+    -Enabled $true `
+    -PasswordNeverExpires $true `
+    -Description "Compte temporaire - À supprimer après l'exercice"
+```
+
+**Trace attendue** : 1 événement **4720** (Compte utilisateur créé).
+
+### Action 4 — Escalade de privilèges (Event ID 4728)
+
+Vous ajoutez ce nouveau compte au groupe Finance Admin pour avoir accès aux données financières :
+
+```powershell
+Add-ADGroupMember -Identity "GG-MONITORING-Finance-Admin" -Members "svc_backup_v2"
+```
+
+**Trace attendue** : 1 événement **4728** (Membre ajouté à un groupe global de sécurité).
+
+### Action 5 — Modification d'un compte existant (Event ID 4738)
+
+Vous modifiez la description d'un compte légitime pour effacer vos traces :
+
+```powershell
+Set-ADUser -Identity "alexandre" -Description "Compte principal Infrastructure"
+```
+
+**Trace attendue** : 1 événement **4738** (Compte utilisateur modifié).
+
+### Action 6 — Désactivation d'un compte sensible (Event ID 4725)
+
+Vous désactivez le compte d'audit pour empêcher la détection :
+
+```powershell
+Disable-ADAccount -Identity "henri"
+```
+
+**Trace attendue** : 1 événement **4725** (Compte utilisateur désactivé).
+
+### Synthèse de la Phase 2
+
+Vous venez d'effectuer 6 actions distinctes qui couvrent les principales catégories d'événements de sécurité AD. La phase 3 commence maintenant : vous "découvrez" l'incident et devez tout reconstruire en lisant les logs.
+
+---
+
+## Phase 3 : Rôle B — Investigation (30 min)
 
 !!! info "Méthodologie d'investigation"
     Une investigation forensique suit toujours cet ordre :
-    
+
     1. Collecter les preuves sans les altérer
     2. Établir une chronologie des événements
     3. Identifier le vecteur d'attaque
     4. Évaluer l'étendue des dommages
     5. Identifier le responsable (si possible)
 
-### Tâche 2.1 : Collecter les événements de connexion du compte suspect
-
-Vous devez extraire TOUS les événements liés au compte `svc_monitoring` des dernières 48 heures.
-
-**Objectif** : Identifier :
-
-- Toutes les connexions réussies (4624) avec cet identifiant
-- Tous les échecs de connexion (4625)
-- Les connexions avec credentials explicites (4648)
-- L'adresse IP source de chaque connexion
-
-**Votre mission** : Écrire une commande PowerShell qui :
-
-1. Récupère les événements des dernières 48 heures
-2. Filtre sur les Event IDs 4624, 4625, 4648
-3. Extrait le nom du compte, l'heure, l'IP source
-4. Affiche les résultats triés par heure
-
-!!! tip "Indice - Structure de base"
-    ```powershell
-    $debut = (Get-Date).AddHours(-48)
-    $events = Get-WinEvent -LogName Security |
-        Where-Object { $_.TimeCreated -gt $debut -and $_.Id -in @(4624, 4625, 4648) }
-    
-    foreach ($event in $events) {
-        $xml = [xml]$event.ToXml()
-        $data = $xml.Event.EventData.Data
-        $compte = ($data | Where-Object { $_.Name -eq "TargetUserName" }).'#text'
-        $ip = ($data | Where-Object { $_.Name -eq "IpAddress" }).'#text'
-    
-        if ($compte -like "*svc_monitoring*") {
-            # Afficher les informations...
-        }
-    }
-    ```
-
-### Tâche 2.2 : Identifier les accès aux ressources Finance
-
-Recherchez dans les journaux tous les accès au dossier `C:\FinanceData` (configuré dans l'exercice 05) effectués entre 02h00 et 05h00 :
+### Tâche 3.1 : Collecter TOUS les événements depuis l'heure de début
 
 ```powershell
-# Template de requête - à adapter
-$debut = (Get-Date).Date.AddDays(-1).AddHours(2)  # Hier à 02h00
-$fin = (Get-Date).Date.AddDays(-1).AddHours(5)    # Hier à 05h00
+# Récupérer tous les événements pertinents depuis le début de l'incident
+$eventIds = @(4624, 4625, 4720, 4722, 4725, 4728, 4729, 4732, 4733, 4738, 4740)
 
-Get-WinEvent -LogName Security -MaxEvents 10000 |
-    Where-Object { $_.Id -eq 4663 -and $_.TimeCreated -ge $debut -and $_.TimeCreated -le $fin } |
-    ForEach-Object {
-        $xml = [xml]$_.ToXml()
-        $data = $xml.Event.EventData.Data
-        $fichier = ($data | Where-Object { $_.Name -eq "ObjectName" }).'#text'
-        $user = ($data | Where-Object { $_.Name -eq "SubjectUserName" }).'#text'
-        if ($fichier -like "*Finance*") {
-            Write-Host "$($_.TimeCreated) | $user | $fichier"
-        }
-    }
+$evenements = Get-WinEvent -FilterHashtable @{
+    LogName   = "Security"
+    Id        = $eventIds
+    StartTime = $Date_debut
+} | Sort-Object TimeCreated
+
+Write-Host "Événements collectés : $($evenements.Count)" -ForegroundColor Cyan
 ```
 
-### Tâche 2.3 : Rechercher les modifications de groupes
+!!! success "Résultat attendu"
+    Vous devriez avoir au minimum **6 événements**, correspondant aux 6 actions de la phase 2 (souvent plus, car certaines actions génèrent plusieurs événements connexes).
 
-Vérifiez si des modifications de groupes ont été effectuées par ou pour le compte `svc_monitoring` :
-
-**Event IDs à chercher** :
-
-- 4728 : Membre ajouté à un groupe de sécurité global
-- 4729 : Membre retiré d'un groupe de sécurité global
-- 4732 : Membre ajouté à un groupe de sécurité local
+### Tâche 3.2 : Construire la chronologie
 
 ```powershell
-$groupModifs = Get-WinEvent -LogName Security -MaxEvents 5000 |
-    Where-Object { $_.Id -in @(4728, 4729, 4732) }
-
-foreach ($event in $groupModifs) {
+$chronologie = foreach ($event in $evenements) {
     $xml = [xml]$event.ToXml()
     $data = $xml.Event.EventData.Data
-    $membre = ($data | Where-Object { $_.Name -eq "MemberName" }).'#text'
-    $groupe = ($data | Where-Object { $_.Name -eq "TargetUserName" }).'#text'
-    $parCompte = ($data | Where-Object { $_.Name -eq "SubjectUserName" }).'#text'
-    
-    Write-Host "[$($event.Id)] $($event.TimeCreated) | Groupe: $groupe | Membre: $membre | Par: $parCompte"
+
+    $compte = ($data | Where-Object { $_.Name -eq "TargetUserName" }).'#text'
+    $par    = ($data | Where-Object { $_.Name -eq "SubjectUserName" }).'#text'
+    $ip     = ($data | Where-Object { $_.Name -eq "IpAddress" }).'#text'
+
+    [PSCustomObject]@{
+        Heure   = $event.TimeCreated.ToString("HH:mm:ss")
+        EventID = $event.Id
+        Cible   = $compte
+        Par     = $par
+        IP      = $ip
+    }
 }
+
+$chronologie | Format-Table -AutoSize
 ```
 
-### Tâche 2.4 : Établir la chronologie de l'incident
+!!! success "Résultat attendu"
+    Un tableau ordonné dans le temps qui devrait montrer :
 
-À partir de vos recherches, construisez manuellement une chronologie en complétant ce tableau :
+    | Heure | EventID | Description (à déduire) |
+    |-------|---------|---|
+    | T+0   | 4625 × 3 | Échecs de connexion sur `pascal` |
+    | T+1m  | 4624    | Connexion réussie de `alexandre` |
+    | T+2m  | 4720    | Création de `svc_backup_v2` |
+    | T+3m  | 4728    | Ajout à `GG-MONITORING-Finance-Admin` |
+    | T+4m  | 4738    | Modification d'`alexandre` |
+    | T+5m  | 4725    | Désactivation de `henri` |
 
-| Heure | Event ID | Description | Compte | IP Source |
-|-------|----------|-------------|--------|-----------|
-| ?     | ?        | ?           | svc_monitoring | 192.168.100.250 |
-| ?     | ?        | ?           | ?      | ?         |
+### Tâche 3.3 : Identifier les comptes touchés
 
-!!! tip "Astuce"
-    Exportez vos résultats dans un fichier CSV pour faciliter l'analyse :
-    ```powershell
-    # Export en CSV
-    $resultats | Export-Csv "C:\Temp\investigation_svc_monitoring.csv" -NoTypeInformation -Encoding UTF8
-    ```
+```powershell
+# Quels comptes ont été créés ou modifiés ?
+$evenements | Where-Object { $_.Id -in @(4720, 4738, 4725, 4722) } |
+    ForEach-Object {
+        $xml = [xml]$_.ToXml()
+        $cible = ($xml.Event.EventData.Data | Where-Object { $_.Name -eq "TargetUserName" }).'#text'
+        Write-Host "Event $($_.Id) à $($_.TimeCreated.ToString('HH:mm:ss')) : $cible"
+    }
+```
+
+### Tâche 3.4 : Identifier les groupes modifiés
+
+```powershell
+# Quels groupes ont vu leur composition changer ?
+$evenements | Where-Object { $_.Id -in @(4728, 4729, 4732, 4733) } |
+    ForEach-Object {
+        $xml = [xml]$_.ToXml()
+        $groupe = ($xml.Event.EventData.Data | Where-Object { $_.Name -eq "TargetUserName" }).'#text'
+        $membre = ($xml.Event.EventData.Data | Where-Object { $_.Name -eq "MemberName" }).'#text'
+        $action = if ($_.Id -in @(4728, 4732)) { "AJOUT" } else { "RETRAIT" }
+        Write-Host "[$action] $($_.TimeCreated.ToString('HH:mm:ss')) | Groupe: $groupe | Membre: $membre"
+    }
+```
+
+### Tâche 3.5 : Exporter la chronologie en CSV
+
+```powershell
+$chronologie | Export-Csv "C:\Labos\incident_$(Get-Date -Format 'yyyyMMdd_HHmm').csv" `
+    -NoTypeInformation -Encoding UTF8
+```
 
 ---
 
-## Phase 3 : Évaluation de l'Impact
+## Phase 4 : Remédiation (10 min)
 
-### Tâche 3.1 : Inventaire des ressources accessibles
+À partir de votre chronologie, vous savez maintenant exactement ce qui s'est passé. Mettez en place les actions correctives.
 
-Déterminez quelles ressources le compte `svc_monitoring` avait normalement accès et comparez avec les accès observés pendant l'incident :
+### Tâche 4.1 : Neutraliser le compte porte dérobée
 
 ```powershell
-# Voir les groupes d'appartenance du compte (y compris les groupes ajoutés pendant l'attaque)
-Write-Host "=== Groupes d'appartenance de svc_monitoring ===" -ForegroundColor Cyan
-Get-ADPrincipalGroupMembership "svc_monitoring" |
-    Select-Object Name, GroupScope, GroupCategory |
-    Format-Table -AutoSize
+# Désactiver immédiatement le compte créé pendant l'incident
+Disable-ADAccount -Identity "svc_backup_v2"
+Set-ADUser -Identity "svc_backup_v2" `
+    -Description "COMPROMIS - Créé pendant incident le $(Get-Date -Format 'dd/MM/yyyy') - À supprimer après validation"
+
+# Réinitialiser le mot de passe pour empêcher une réactivation
+$newPwd = ConvertTo-SecureString "P0stIncident@$(Get-Random)!" -AsPlainText -Force
+Set-ADAccountPassword -Identity "svc_backup_v2" -NewPassword $newPwd -Reset
 ```
 
-### Tâche 3.2 : Vérifier les autres comptes de service
-
-Vérifiez si les autres comptes de service présentent des anomalies similaires :
+### Tâche 4.2 : Nettoyer les appartenances aux groupes
 
 ```powershell
-$comptesService = @("svc_backup", "svc_audit", "svc_replication")
-foreach ($cpt in $comptesService) {
-    $info = Get-ADUser $cpt -Properties LastLogonDate, BadLogonCount, LockedOut, Enabled
-    Write-Host "Compte: $($info.SamAccountName) | Actif: $($info.Enabled) | Dernière connexion: $($info.LastLogonDate) | Tentatives échouées: $($info.BadLogonCount)"
-}
+# Retirer le compte compromis du groupe Finance Admin
+Remove-ADGroupMember -Identity "GG-MONITORING-Finance-Admin" `
+    -Members "svc_backup_v2" -Confirm:$false
+```
+
+### Tâche 4.3 : Réactiver les comptes désactivés à tort
+
+```powershell
+# Si henri a été désactivé pendant l'incident, le réactiver
+Enable-ADAccount -Identity "henri"
+```
+
+### Tâche 4.4 : Forcer le changement de mot de passe d'`alexandre`
+
+Le compte qui a "été utilisé" doit être considéré comme compromis :
+
+```powershell
+Set-ADUser -Identity "alexandre" -ChangePasswordAtLogon $true
 ```
 
 ---
 
-## Phase 4 : Remédiation
-
-### Tâche 4.1 : Nettoyer les modifications non autorisées
-
-Si `svc_monitoring` a été ajouté à des groupes auxquels il ne doit pas appartenir, retirez-le :
-
-```powershell
-# Template - adaptez selon vos découvertes
-# Remove-ADGroupMember -Identity "GG-MONITORING-Finance-Admin" -Members "svc_monitoring" -Confirm:$false
-```
-
-### Tâche 4.2 : Renforcer la sécurité des comptes de service
-
-Suite à cet incident, implémentez les mesures préventives suivantes :
-
-1. Activez `svc_monitoring` uniquement après avoir changé son mot de passe par un mot de passe fort
-2. Ajoutez une restriction horaire de connexion pour les comptes de service (uniquement pendant les heures de bureau)
-3. Documentez les permissions légitimes de chaque compte de service
-
-**Restriction horaire** (indice) :
-
-```powershell
-# Les comptes de service ne devraient se connecter qu'en heures de bureau
-# Plage autorisée : Lundi-Vendredi, 07h00-20h00
-$logonHours = New-Object byte[] 21
-# Heures de connexion autorisées (tableau de 21 octets représentant 168 heures)
-# 07h00-20h00, Lundi à Vendredi uniquement
-# Note: La configuration précise des LogonHours nécessite une manipulation bit par bit
-# Pour simplification, utilisez ADUC > Propriétés > Compte > Horaires de connexion
-Set-ADUser -Identity "svc_monitoring" -LogonHours $logonHours
-```
-
-!!! warning "Attention"
-    La configuration des horaires de connexion via PowerShell est complexe (manipulation de bits). Il est plus simple de le faire via ADUC : cliquez sur le compte > Propriétés > onglet Compte > bouton **Horaires de connexion**.
-
----
-
-## Phase 5 : Rapport d'Incident
+## Phase 5 : Rapport d'incident (10 min)
 
 ### Tâche 5.1 : Rédiger le rapport d'incident
 
-Rédigez un rapport d'incident structuré contenant les sections suivantes (dans un fichier texte ou PowerShell) :
+Créez un fichier `C:\Labos\rapport_incident.txt` avec la structure suivante (utilisez vos données collectées dans la phase 3) :
 
 ```
 RAPPORT D'INCIDENT DE SÉCURITÉ
 ===============================
-Date de l'incident : [date]
-Détecté par : [vous]
-Heure de détection : [heure]
-Heure de confinement : [heure]
+Date de l'incident   : [date du jour]
+Détecté par          : [votre nom / votre fonction]
+Heure de détection   : [Date_debut + 15min, simulée]
+Heure de confinement : [Get-Date au moment de la Phase 4]
 
 1. RÉSUMÉ EXÉCUTIF
-   [2-3 phrases décrivant l'incident en termes simples]
+   [2-3 phrases : compte légitime compromis, création d'un compte
+   dormant, escalade dans un groupe sensible, désactivation d'un
+   compte d'audit pour brouiller les pistes.]
 
 2. CHRONOLOGIE
-   [Tableau avec heure, événement, source]
+   [Tableau extrait de la phase 3 — heure, Event ID, action, compte cible]
 
 3. ÉTENDUE DE L'IMPACT
-   [Quels systèmes/données ont été affectés ?]
+   - Comptes créés         : svc_backup_v2
+   - Comptes modifiés      : alexandre (description), henri (désactivé)
+   - Groupes modifiés      : GG-MONITORING-Finance-Admin (+ svc_backup_v2)
+   - Données potentiellement accédées : à investiguer (cf. exercice 05)
 
 4. VECTEUR D'ATTAQUE
-   [Comment l'attaquant a-t-il compromis le compte ?]
+   [Tentatives échouées sur pascal puis connexion réussie sur alexandre.
+   Mot de passe d'alexandre vraisemblablement compromis (brute-force réussi,
+   hameçonnage, ou autre source).]
 
 5. MESURES DE CONFINEMENT
-   [Actions prises pour arrêter l'attaque]
+   - Compte svc_backup_v2 désactivé et mot de passe réinitialisé
+   - Compte retiré de GG-MONITORING-Finance-Admin
+   - Compte henri réactivé
+   - Forçage du changement de mot de passe d'alexandre
 
 6. REMÉDIATION
-   [Actions correctives effectuées]
+   [Actions effectuées dans la phase 4]
 
 7. RECOMMANDATIONS
-   [Mesures préventives pour éviter une récurrence]
+   - Renforcer la politique de mots de passe (déjà fait dans Ex. 03)
+   - Activer l'authentification multi-facteurs sur les comptes Admin
+   - Revoir l'audit pour s'assurer que TOUS les événements
+     pertinents sont bien capturés (cf. tâche 3.1)
+   - Mettre en place une alerte automatique sur les modifications
+     du groupe Finance Admin (cf. exercice 04 — 4_Create-CustomAlerts.ps1)
+```
+
+---
+
+## Nettoyage de l'exercice
+
+Pour remettre le lab dans son état initial avant l'exercice :
+
+```powershell
+# Supprimer le compte créé pendant l'incident
+Remove-ADUser -Identity "svc_backup_v2" -Confirm:$false
+
+# Restaurer la description d'alexandre (si vous le souhaitez)
+Set-ADUser -Identity "alexandre" -Description $null
+
+Write-Host "Lab nettoyé." -ForegroundColor Green
 ```
 
 ---
@@ -309,177 +371,94 @@ Import-Module ActiveDirectory
 Write-Host "=== Vérification Exercice 06 ===" -ForegroundColor Cyan
 $erreurs = 0
 
-# Test 1: Compte svc_monitoring désactivé
-$svc = Get-ADUser "svc_monitoring" -Properties Enabled, Description
-if (-not $svc.Enabled) {
-    Write-Host "svc_monitoring désactivé : OK" -ForegroundColor Green
+# Test 1 : Le compte svc_backup_v2 a été créé puis désactivé/supprimé
+$bd = Get-ADUser -Filter { SamAccountName -eq "svc_backup_v2" } -ErrorAction SilentlyContinue
+if ($bd -and -not $bd.Enabled) {
+    Write-Host "svc_backup_v2 désactivé : OK" -ForegroundColor Green
+} elseif (-not $bd) {
+    Write-Host "svc_backup_v2 supprimé (nettoyage final) : OK" -ForegroundColor Green
 } else {
-    Write-Host "svc_monitoring encore ACTIF - doit être désactivé !" -ForegroundColor Red
+    Write-Host "svc_backup_v2 toujours ACTIF — incomplet" -ForegroundColor Red
     $erreurs++
 }
 
-# Test 2: Description mise à jour (doit contenir "COMPROMIS" ou "Investigation")
-if ($svc.Description -like "*COMPROMIS*" -or $svc.Description -like "*investigation*") {
-    Write-Host "Description documentée : OK" -ForegroundColor Green
+# Test 2 : svc_backup_v2 retiré du groupe Finance Admin
+$finadm = Get-ADGroupMember "GG-MONITORING-Finance-Admin" |
+    Select-Object -ExpandProperty SamAccountName
+if ($finadm -notcontains "svc_backup_v2") {
+    Write-Host "svc_backup_v2 absent de Finance-Admin : OK" -ForegroundColor Green
 } else {
-    Write-Host "Description non documentée - ajoutez une note d'investigation" -ForegroundColor Yellow
+    Write-Host "svc_backup_v2 toujours dans Finance-Admin !" -ForegroundColor Red
+    $erreurs++
 }
 
-# Test 3: svc_monitoring retiré de Finance Admin (si applicable)
-try {
-    $financeAdminMembers = Get-ADGroupMember "GG-MONITORING-Finance-Admin" |
-        Select-Object -ExpandProperty SamAccountName
-    if ($financeAdminMembers -notcontains "svc_monitoring") {
-        Write-Host "svc_monitoring absent de GG-MONITORING-Finance-Admin : OK" -ForegroundColor Green
-    } else {
-        Write-Host "svc_monitoring toujours dans GG-MONITORING-Finance-Admin !" -ForegroundColor Red
-        $erreurs++
-    }
-} catch {
-    Write-Host "Groupe GG-MONITORING-Finance-Admin introuvable (normal si jamais modifié)" -ForegroundColor Yellow
+# Test 3 : henri réactivé
+$h = Get-ADUser "henri" -Properties Enabled
+if ($h.Enabled) {
+    Write-Host "henri réactivé : OK" -ForegroundColor Green
+} else {
+    Write-Host "henri est désactivé — vérifier si intentionnel" -ForegroundColor Yellow
 }
 
-# Test 4: Vérifier que les autres comptes de service sont toujours actifs
-$autresComptes = @("svc_backup", "svc_audit", "svc_replication")
-foreach ($cpt in $autresComptes) {
-    $u = Get-ADUser $cpt -Properties Enabled
-    if ($u.Enabled) {
-        Write-Host "$cpt actif : OK" -ForegroundColor Green
-    } else {
-        Write-Host "$cpt est DÉSACTIVÉ - vérifier si intentionnel" -ForegroundColor Yellow
-    }
+# Test 4 : alexandre forcé à changer son mot de passe
+$a = Get-ADUser "alexandre" -Properties pwdLastSet, PasswordExpired
+if ($a.PasswordExpired) {
+    Write-Host "alexandre doit changer son mot de passe au prochain logon : OK" -ForegroundColor Green
+} else {
+    Write-Host "alexandre n'est pas forcé de changer son mot de passe — ajouter -ChangePasswordAtLogon `$true" -ForegroundColor Yellow
 }
+
+# Test 5 : événements de la phase 2 retrouvés dans les logs
+$nbEvts = (Get-WinEvent -FilterHashtable @{LogName="Security"; Id=@(4624,4625,4720,4725,4728,4738); StartTime=$Date_debut} -ErrorAction SilentlyContinue).Count
+Write-Host "Événements collectés depuis Date_debut : $nbEvts (attendu ≥ 6)" -ForegroundColor $(if ($nbEvts -ge 6) { "Green" } else { "Yellow" })
 
 Write-Host "`n========================================" -ForegroundColor Cyan
 if ($erreurs -eq 0) {
-    Write-Host "PHASE DE CONFINEMENT RÉUSSIE!" -ForegroundColor Green
-    Write-Host "Poursuivez avec la remédiation et le rapport d'incident." -ForegroundColor Yellow
+    Write-Host "INVESTIGATION ET REMÉDIATION RÉUSSIES !" -ForegroundColor Green
 } else {
-    Write-Host "CONFINEMENT INCOMPLET : $erreurs point(s) à corriger" -ForegroundColor Red
+    Write-Host "REMÉDIATION INCOMPLÈTE : $erreurs point(s) à corriger" -ForegroundColor Red
 }
 ```
 
 ### Critères de Réussite
 
-- [ ] Le compte `svc_monitoring` est désactivé
-- [ ] La description du compte documente la raison et la date de désactivation
-- [ ] Vous avez collecté et analysé les événements des Event IDs 4624, 4625, 4648
-- [ ] Vous avez vérifié les modifications de groupes (4728, 4729)
-- [ ] Vous avez établi une chronologie de l'incident
-- [ ] Les membres non autorisés ont été retirés des groupes Finance
-- [ ] Un rapport d'incident a été rédigé avec les 7 sections demandées
-
----
-
-## Solution Complète (Pour Instructeur)
-
-### Script d'investigation complet
-
-```powershell
-# Solution complète - Investigation Incident Exercice 06
-
-# === PHASE 1 : CONFINEMENT ===
-Write-Host "`n=== PHASE 1 : CONFINEMENT ===" -ForegroundColor Red
-
-# Désactiver le compte compromis
-Disable-ADAccount -Identity "svc_monitoring"
-Set-ADUser -Identity "svc_monitoring" `
-    -Description "COMPROMIS - Désactivé le $(Get-Date -Format 'dd/MM/yyyy HH:mm') - Investigation Exercice 06"
-
-# Réinitialiser le mot de passe
-$newPwd = ConvertTo-SecureString "M0nitor!ngT3ch@2026#SecuredNew" -AsPlainText -Force
-Set-ADAccountPassword -Identity "svc_monitoring" -NewPassword $newPwd -Reset
-
-Write-Host "Compte svc_monitoring désactivé et mot de passe réinitialisé." -ForegroundColor Green
-
-# Vérifier et nettoyer les groupes
-try {
-    $financeAdminMembers = Get-ADGroupMember "GG-MONITORING-Finance-Admin" |
-        Select-Object -ExpandProperty SamAccountName
-    if ($financeAdminMembers -contains "svc_monitoring") {
-        Remove-ADGroupMember -Identity "GG-MONITORING-Finance-Admin" `
-            -Members "svc_monitoring" -Confirm:$false
-        Write-Host "svc_monitoring retiré de GG-MONITORING-Finance-Admin." -ForegroundColor Green
-    }
-} catch {
-    Write-Host "Groupe Finance-Admin non modifié (normal)." -ForegroundColor Gray
-}
-
-# === PHASE 2 : INVESTIGATION ===
-Write-Host "`n=== PHASE 2 : INVESTIGATION ===" -ForegroundColor Yellow
-
-$debut48h = (Get-Date).AddHours(-48)
-$eventIds = @(4624, 4625, 4648, 4728, 4729, 4663)
-
-$tousEvenements = Get-WinEvent -LogName Security -MaxEvents 50000 -ErrorAction SilentlyContinue |
-    Where-Object { $_.TimeCreated -gt $debut48h -and $_.Id -in $eventIds }
-
-Write-Host "Total événements récupérés : $($tousEvenements.Count)" -ForegroundColor Cyan
-
-$chronologie = foreach ($event in $tousEvenements) {
-    $xml = [xml]$event.ToXml()
-    $data = $xml.Event.EventData.Data
-    
-    $compte = ($data | Where-Object { $_.Name -eq "TargetUserName" }).'#text'
-    if (-not $compte) { $compte = ($data | Where-Object { $_.Name -eq "SubjectUserName" }).'#text' }
-    $ip = ($data | Where-Object { $_.Name -eq "IpAddress" }).'#text'
-    $objet = ($data | Where-Object { $_.Name -eq "ObjectName" }).'#text'
-    
-    if ($compte -like "*svc_monitoring*" -or $objet -like "*Finance*") {
-        [PSCustomObject]@{
-            Heure    = $event.TimeCreated.ToString("dd/MM/yyyy HH:mm:ss")
-            EventID  = $event.Id
-            Compte   = $compte
-            IP       = $ip
-            Objet    = $objet
-            Message  = $event.Message.Substring(0, [Math]::Min(100, $event.Message.Length))
-        }
-    }
-}
-
-Write-Host "`n=== CHRONOLOGIE DE L'INCIDENT ===" -ForegroundColor Cyan
-$chronologie | Sort-Object Heure | Format-Table -AutoSize
-
-# Exporter en CSV
-$chronologie | Sort-Object Heure |
-    Export-Csv "C:\Temp\rapport_incident_svc_monitoring.csv" -NoTypeInformation -Encoding UTF8
-Write-Host "Rapport exporté dans C:\Temp\rapport_incident_svc_monitoring.csv" -ForegroundColor Green
-
-# === PHASE 3 : RÉACTIVATION SÉCURISÉE ===
-Write-Host "`n=== PHASE 3 : RÉACTIVATION (après validation) ===" -ForegroundColor Green
-Write-Host "Pour réactiver le compte après investigation :" -ForegroundColor Yellow
-Write-Host "  Enable-ADAccount -Identity 'svc_monitoring'" -ForegroundColor Gray
-Write-Host "  Set-ADUser -Identity 'svc_monitoring' -Description 'Compte réactivé le $(Get-Date -Format dd/MM/yyyy) après investigation'" -ForegroundColor Gray
-```
+- [ ] Vous avez déclenché les 6 actions de la phase 2 (échecs de logon, connexion réussie, création, ajout groupe, modification, désactivation)
+- [ ] Vous avez retrouvé chacune de ces actions dans le journal Security via PowerShell
+- [ ] Vous avez construit une chronologie ordonnée des événements
+- [ ] Vous avez exporté la chronologie en CSV
+- [ ] Vous avez appliqué les 4 actions de remédiation (désactivation `svc_backup_v2`, retrait du groupe, réactivation `henri`, force-change du mdp d'`alexandre`)
+- [ ] Vous avez rédigé un rapport d'incident avec les 7 sections demandées
 
 ---
 
 ## Points Clés à Retenir
 
-- Le confinement doit toujours précéder l'investigation : on arrête la menace avant de chercher à comprendre ce qui s'est passé
-- Une bonne chronologie est la base de tout rapport d'incident : elle permet de comprendre la séquence des événements et de démontrer l'étendue de la compromission
-- Les comptes de service sont des cibles privilégiées car ils ont souvent des droits étendus et des mots de passe qui n'expirent pas
-- Un rapport d'incident bien rédigé est essentiel pour la conformité légale, l'assurance cyber, et la prévention de récurrence
+- **L'audit doit être configuré AVANT l'incident**. Sans audit, les actions de l'attaquant n'auront pas laissé de trace — votre chronologie sera vide.
+- **Le confinement précède l'investigation** : on désactive le compte compromis et on nettoie les modifications avant d'analyser l'incident en profondeur.
+- **Une chronologie ordonnée** est la base de tout rapport d'incident. Elle permet de comprendre la séquence et démontrer l'étendue de la compromission.
+- **Les "petites" modifications comptent** : un attaquant intelligent ne crée pas un compte "BACKDOOR_HAXOR" évident — il imite la nomenclature existante (`svc_backup_v2` ressemble à `svc_backup`).
+- **Les comptes d'audit (henri) sont des cibles** : les désactiver fait disparaître les yeux de la sécurité. C'est pourquoi il faut alerter immédiatement sur leur désactivation.
 
 ## Dépannage (Erreurs Courantes)
 
 | Erreur Possible | Cause | Solution |
 |-----------------|-------|----------|
-| Peu d'événements dans les journaux | Journal trop petit ou effacé | Exécuter `2_Generate-Events.ps1` pour peupler les journaux |
-| `Disable-ADAccount` échoue | Droits insuffisants | Utiliser un compte Domain Admin |
-| Chronologie incomplète | Audit non activé avant l'incident | Normal en lab : l'audit doit être préconfiguré pour tracer l'historique |
-| Rapport CSV vide | Aucun événement lié à svc_monitoring | Générer des événements de test avec le script dédié du lab |
+| Peu d'événements dans les journaux après la Phase 2 | Audit non activé | Tâche 1.1 — vérifier `auditpol /get` et relancer l'audit |
+| `runas /user:maxtec\pascal` ne génère pas 4625 | Le DC n'écrit pas les échecs venant du DC lui-même de la même façon | Faire le test depuis un client joint au domaine, ou utiliser `Invoke-Command -Credential` |
+| `Date_debut` perdu entre les phases | Variable PowerShell volatile | Notez l'heure sur papier OU exportez : `Get-Date \| Export-Clixml C:\Labos\debut.xml` |
+| Événements anciens écrasés | Journal Security trop petit | Vérifier la GPO `MONITORING - Configuration Journaux Événements` (Ex. 03) : 2 GB attendus |
+| Pas d'IP source dans les événements | Connexion locale ou via service | Normal pour les actions effectuées sur le DC lui-même — l'IP est vide ou `127.0.0.1` |
 
 ## Récapitulatif de la Progression
 
 !!! info "Félicitations !"
     Vous avez complété les 6 exercices du Labo MonitoringLab. Vous maîtrisez maintenant :
-    
+
     - L'exploration de la structure Active Directory
     - L'analyse des journaux d'événements de sécurité
     - La configuration de GPOs de sécurité et d'audit via GPMC
     - La gestion et sécurisation des comptes de service
     - La mise en place d'une politique d'audit personnalisée
     - La conduite d'une investigation d'incident de sécurité
-    
+
     Ces compétences sont directement applicables dans un environnement professionnel réel.

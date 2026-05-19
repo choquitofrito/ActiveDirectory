@@ -139,9 +139,9 @@ $domainDN = $domain.DistinguishedName
 
 Write-Host "`n[INFO] Domaine détecté: $($domain.DNSRoot)" -ForegroundColor Cyan
 
-$rootOU = "OU=MonitoringLab,$domainDN"
-$testUsersOU = "OU=TestUsers,$rootOU"
-$testGroupsOU = "OU=TestGroups,$rootOU"
+$rootOU = "OU=MONITORING,$domainDN"
+$testUsersOU = "OU=Users,OU=ITOperations,$rootOU"
+$testGroupsOU = "OU=Groups,OU=ITOperations,$rootOU"
 
 # Compteur d'événements
 $eventsGenerated = @{
@@ -176,9 +176,9 @@ try {
     Write-Host "  • Ajout/Retrait de membres de groupe (Event ID 4728/4729)" -ForegroundColor Gray
 
     # Vérifier que la structure existe
-    if (-not (Get-ADOrganizationalUnit -Filter "Name -eq 'MonitoringLab'" -SearchBase $domainDN)) {
-        Write-Host "`n❌ ERREUR: La structure MonitoringLab n'existe pas." -ForegroundColor Red
-        Write-Host "   Veuillez d'abord exécuter 1_Setup-MonitoringLab.ps1" -ForegroundColor Yellow
+    if (-not (Get-ADOrganizationalUnit -Filter "Name -eq 'MONITORING'" -SearchBase $domainDN)) {
+        Write-Host "`n❌ ERREUR: La structure MONITORING n'existe pas." -ForegroundColor Red
+        Write-Host "   Veuillez d'abord exécuter MonitoringLab_Setup.ps1" -ForegroundColor Yellow
         exit
     }
 
@@ -190,10 +190,10 @@ try {
         Write-Host "`n[ÉTAPE 1/7] Simulation de connexions réussies..." -ForegroundColor Cyan
         Write-Host "  Event ID 4624: An account was successfully logged on" -ForegroundColor Gray
 
-        $users = @("U_Test1", "U_Test2", "U_Test3", "U_Test4", "U_Test5")
+        $users = @("alexandre", "beatrice", "charles", "diane", "emile")
 
         foreach ($user in $users) {
-            if (Simulate-SuccessfulLogon -Username $user -Password "Azerty_1") {
+            if (Simulate-SuccessfulLogon -Username $user -Password "Monitor2024!") {
                 $eventsGenerated.SuccessfulLogons++
             }
             Start-Sleep -Milliseconds 800
@@ -239,7 +239,7 @@ try {
         Write-Host "`n[ÉTAPE 3/7] Création d'un nouveau compte utilisateur..." -ForegroundColor Cyan
         Write-Host "  Event ID 4720: A user account was created" -ForegroundColor Gray
 
-        $newUserSam = "U_TestNew"
+        $newUserSam = "test_newuser"
 
         try {
             # Vérifier si l'utilisateur existe déjà
@@ -281,7 +281,7 @@ try {
     # ÉTAPE 4: VERROUILLER UN COMPTE
     # ============================================
 
-    if (Confirm-Step "Verrouiller le compte U_Test1 (Event ID 4740)") {
+    if (Confirm-Step "Verrouiller le compte alexandre (Event ID 4740)") {
         Write-Host "`n[ÉTAPE 4/7] Verrouillage d'un compte utilisateur..." -ForegroundColor Cyan
         Write-Host "  Event ID 4740: A user account was locked out" -ForegroundColor Gray
 
@@ -318,16 +318,16 @@ try {
         }
 
         Write-Host "`n  [DÉMONSTRATION]" -ForegroundColor Cyan
-        Write-Host "  Pour verrouiller réellement U_Test1, exécutez sur une machine cliente:" -ForegroundColor Gray
-        Write-Host "    1. Ouvrir une session avec le compte U_Test1" -ForegroundColor Gray
+        Write-Host "  Pour verrouiller réellement alexandre, exécutez sur une machine cliente:" -ForegroundColor Gray
+        Write-Host "    1. Ouvrir une session avec le compte alexandre" -ForegroundColor Gray
         Write-Host "    2. Entrer 3 fois un mauvais mot de passe" -ForegroundColor Gray
         Write-Host "    3. Le compte sera verrouillé automatiquement" -ForegroundColor Gray
         Write-Host "    4. Event ID 4740 sera généré sur le DC" -ForegroundColor Gray
 
         # Vérifier si le compte est déjà verrouillé
-        $user = Get-ADUser -Identity "U_Test1" -Properties LockedOut
+        $user = Get-ADUser -Identity "alexandre" -Properties LockedOut
         if ($user.LockedOut) {
-            Write-Host "`n  ℹ️  Le compte U_Test1 est déjà verrouillé." -ForegroundColor Yellow
+            Write-Host "`n  ℹ️  Le compte alexandre est déjà verrouillé." -ForegroundColor Yellow
             $eventsGenerated.AccountLocked++
         } else {
             Write-Host "`n  📝 Simulation de verrouillage documentée (Event ID 4740)" -ForegroundColor Cyan
@@ -344,9 +344,9 @@ try {
         Write-Host "  Event ID 4729: A member was removed from a security-enabled global group" -ForegroundColor Gray
 
         try {
-            # Ajouter U_Test5 au groupe Admins (s'il n'y est pas)
-            $groupName = "GG-Monitoring-Admins"
-            $userName = "U_Test5"
+            # Ajouter diane au groupe MonitoringAdmins (s'il n'y est pas)
+            $groupName = "GG-MONITORING-MonitoringAdmins"
+            $userName = "diane"
 
             $isMember = Get-ADGroupMember -Identity $groupName | Where-Object { $_.SamAccountName -eq $userName }
 
@@ -388,7 +388,7 @@ try {
         Write-Host "  Event ID 4725: A user account was disabled" -ForegroundColor Gray
         Write-Host "  Event ID 4722: A user account was enabled" -ForegroundColor Gray
 
-        $userName = "U_Test2"
+        $userName = "beatrice"
 
         try {
             # Désactiver le compte
@@ -494,7 +494,7 @@ try {
     Write-Host "📝 EXERCICE PRATIQUE RECOMMANDÉ:" -ForegroundColor Cyan
     Write-Host "  Pour générer de VRAIS échecs de connexion (Event ID 4625):" -ForegroundColor White
     Write-Host "    1. Connectez-vous à une machine cliente Windows 10/11" -ForegroundColor Gray
-    Write-Host "    2. Essayez de vous connecter avec U_Test1 et un mauvais mot de passe" -ForegroundColor Gray
+    Write-Host "    2. Essayez de vous connecter avec alexandre et un mauvais mot de passe" -ForegroundColor Gray
     Write-Host "    3. Répétez 5 fois pour voir les Event ID 4625 sur le DC" -ForegroundColor Gray
     Write-Host "    4. Vérifiez les événements avec Get-WinEvent sur le DC" -ForegroundColor Gray
     Write-Host ""

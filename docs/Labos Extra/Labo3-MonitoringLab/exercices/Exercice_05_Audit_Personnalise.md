@@ -82,23 +82,40 @@ Avancé
     # ... continuer pour les autres sous-dossiers
     ```
 
-!!! tip "Indice 2 - Configurer l'audit NTFS via PowerShell"
-    ```powershell
-    # Pour activer l'audit sur un dossier, on peut utiliser icacls
-    # Syntaxe : icacls <chemin> /grant "*S-1-1-0:(OI)(CI)(GA)" (attention : ceci concerne les permissions, pas l'audit)
-    # Pour l'audit NTFS, utiliser la classe .NET FileSystemAuditRule
-    $path = "C:\FinanceData"
-    $acl = Get-Acl $path
-    # Créer une règle d'audit pour Everyone (Tout le monde)
-    $identity = [System.Security.Principal.NTAccount]"Everyone"
-    $rights = [System.Security.AccessControl.FileSystemRights]"FullControl"
-    $flags = [System.Security.AccessControl.AuditFlags]"Success,Failure"
-    $inheritFlags = [System.Security.AccessControl.InheritanceFlags]"ContainerInherit,ObjectInherit"
-    $propFlags = [System.Security.AccessControl.PropagationFlags]"None"
-    $auditRule = New-Object System.Security.AccessControl.FileSystemAuditRule($identity, $rights, $inheritFlags, $propFlags, $flags)
-    $acl.AddAuditRule($auditRule)
-    Set-Acl -Path $path -AclObject $acl
+!!! tip "Indice 2 - Configurer l'audit NTFS — deux méthodes au choix"
+
+    **Méthode A — GUI (recommandée pour débuter)** : configurez l'audit directement dans l'interface graphique des propriétés du dossier.
+
+    1. Clic droit sur `C:\FinanceData` > **Propriétés**
+    2. Onglet **Sécurité** > bouton **Avancé**
+    3. Onglet **Audit** > bouton **Ajouter**
+    4. **Principal** : cliquez sur "Sélectionner un principal", tapez `Everyone` (ou `Tout le monde` en français), validez
+    5. **Type** : **Tous** (Success + Failure)
+    6. **S'applique à** : *Ce dossier, les sous-dossiers et les fichiers*
+    7. **Autorisations de base** : cochez **Lecture**, **Modification**, **Suppression**, **Écriture**
+    8. **OK** > **Appliquer**
+
+    !!! warning "Cette méthode est plus lisible mais ne se scripte pas. Bien pour comprendre, pas pour déployer en masse."
+
+    **Méthode B — Ligne de commande (`icacls`)** : ajouter une SACL (System ACL) en une commande, scriptable.
+
+    ```cmd
+    REM Ajouter une SACL d'audit Success + Failure pour Everyone, sur les sous-dossiers et fichiers
+    icacls "C:\FinanceData" /setaudit "Everyone:(OI)(CI)(F)" /T
     ```
+
+    Lecture des SACL :
+
+    ```cmd
+    icacls "C:\FinanceData" /verify
+    icacls "C:\FinanceData"
+    ```
+
+    !!! info "Décodage des flags icacls"
+        - `(OI)` = Object Inherit (s'applique aux fichiers)
+        - `(CI)` = Container Inherit (s'applique aux sous-dossiers)
+        - `(F)` = Full audit access
+        - `/T` = applique récursivement
 
 !!! tip "Indice 3 - Activer l'audit système pour les accès objets"
     ```powershell
@@ -237,24 +254,13 @@ auditpol /set /subcategory:"User Account Management" /success:enable /failure:en
 Write-Host "Politiques d'audit système activées." -ForegroundColor Green
 
 # === PARTIE 3 : Configurer l'audit NTFS sur C:\FinanceData ===
-Write-Host "`nConfiguration de l'audit NTFS..." -ForegroundColor Yellow
+# Méthode recommandée : icacls (concis, scriptable)
+Write-Host "`nConfiguration de l'audit NTFS via icacls..." -ForegroundColor Yellow
 
-$path = "C:\FinanceData"
-$acl = Get-Acl $path
+icacls "C:\FinanceData" /setaudit "Everyone:(OI)(CI)(F)" /T
+Write-Host "Audit NTFS configuré sur C:\FinanceData (récursif)" -ForegroundColor Green
 
-# Créer la règle d'audit pour "Everyone" (Tout le monde)
-$identity = [System.Security.Principal.NTAccount]"Everyone"
-$rights = [System.Security.AccessControl.FileSystemRights]"Read, Write, Delete, Modify"
-$auditFlags = [System.Security.AccessControl.AuditFlags]"Success,Failure"
-$inheritFlags = [System.Security.AccessControl.InheritanceFlags]"ContainerInherit,ObjectInherit"
-$propFlags = [System.Security.AccessControl.PropagationFlags]"None"
-
-$auditRule = New-Object System.Security.AccessControl.FileSystemAuditRule(
-    $identity, $rights, $inheritFlags, $propFlags, $auditFlags
-)
-$acl.AddAuditRule($auditRule)
-Set-Acl -Path $path -AclObject $acl
-Write-Host "Audit NTFS configuré sur $path" -ForegroundColor Green
+# Alternative GUI : Propriétés du dossier > Sécurité > Avancé > Audit > Ajouter Everyone (Tous, Modification/Suppression/Lecture/Écriture, sous-dossiers et fichiers)
 
 # === PARTIE 4 : Tester l'audit ===
 Write-Host "`nTest d'accès aux fichiers pour générer des événements..." -ForegroundColor Yellow

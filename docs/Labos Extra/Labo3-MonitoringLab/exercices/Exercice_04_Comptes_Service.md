@@ -66,35 +66,57 @@ Get-ADUser -Filter { SamAccountName -like "svc_*" } `
 
 ---
 
-### Tâche 2 : Créer un groupe de sécurité pour les comptes de service
+### Tâche 2 : Vérifier le groupe de sécurité des comptes de service et ajuster sa description
 
-**Objectif** : Créer un groupe global `GG-MONITORING-ServiceAccounts` dans l'OU `OU=ServiceAccounts,OU=MONITORING,DC=maxtec,DC=be` et y ajouter les 4 comptes de service.
+**Contexte** : Le script de setup a déjà créé le groupe `GG-MONITORING-ServiceAccounts` dans l'OU `OU=ServiceAccounts,OU=MONITORING,DC=maxtec,DC=be` et y a ajouté les 4 comptes de service. Votre rôle ici est d'**auditer** ce groupe et de mettre sa description à jour.
+
+**Objectif** :
+
+1. Vérifier que le groupe `GG-MONITORING-ServiceAccounts` existe bien, est de portée Globale et de type Sécurité
+2. Vérifier que les 4 comptes de service en sont membres
+3. Ajuster sa description pour inclure le nom de l'entreprise et la date du dernier audit
 
 **Contraintes** :
 
-- Nom obligatoire : `GG-MONITORING-ServiceAccounts`
-- Portée : Globale (Global)
-- Type : Sécurité
-- Description : "Groupe de sécurité - Tous les comptes de service MonitoringTech"
-- Membres : svc_monitoring, svc_backup, svc_audit, svc_replication
+- Nom (à vérifier, pas à créer) : `GG-MONITORING-ServiceAccounts`
+- Portée attendue : Global
+- Type attendu : Security
+- Description à appliquer : `"Groupe de sécurité - Tous les comptes de service MonitoringTech - Dernier audit : $(Get-Date -Format 'dd/MM/yyyy')"`
+- Membres attendus : `svc_monitoring`, `svc_backup`, `svc_audit`, `svc_replication`
 
 **Indices** :
 
-- Utilisez `New-ADGroup` avec les paramètres `-GroupScope Global -GroupCategory Security`
-- Pour ajouter des membres : `Add-ADGroupMember`
+- `Get-ADGroup` pour récupérer les propriétés du groupe existant
+- `Get-ADGroupMember` pour lister les membres
+- `Set-ADGroup -Description` pour mettre à jour la description
+- Si un membre manque, utilisez `Add-ADGroupMember` pour l'ajouter
+- Si le groupe n'existe pas (anomalie), c'est que le setup a échoué — relancez `MonitoringLab_Setup.ps1`
 
 Vérification :
 
 ```powershell
-$group = Get-ADGroup "GG-MONITORING-ServiceAccounts" -Properties Members
+# Vérifier l'existence et les propriétés
+$group = Get-ADGroup "GG-MONITORING-ServiceAccounts" -Properties Description, Members
 Write-Host "Groupe : $($group.Name)"
-Write-Host "Portée : $($group.GroupScope)"
-Write-Host "Membres :"
-Get-ADGroupMember "GG-MONITORING-ServiceAccounts" | Select-Object Name, SamAccountName
+Write-Host "Portée : $($group.GroupScope) (attendu : Global)"
+Write-Host "Type   : $($group.GroupCategory) (attendu : Security)"
+Write-Host "Description : $($group.Description)"
+
+# Vérifier les membres
+$attendus = @("svc_monitoring", "svc_backup", "svc_audit", "svc_replication")
+$presents = Get-ADGroupMember "GG-MONITORING-ServiceAccounts" |
+    Select-Object -ExpandProperty SamAccountName
+$manquants = $attendus | Where-Object { $_ -notin $presents }
+
+if ($manquants) {
+    Write-Host "Membres manquants : $($manquants -join ', ')" -ForegroundColor Red
+} else {
+    Write-Host "Tous les comptes de service sont bien membres." -ForegroundColor Green
+}
 ```
 
 !!! success "Résultat attendu"
-    Le groupe existe avec portée Global et contient les 4 comptes de service.
+    Le groupe existe avec portée Global, type Security, contient les 4 comptes de service, et sa description a été mise à jour avec la date du dernier audit.
 
 ---
 
@@ -261,22 +283,30 @@ foreach ($sam in $descriptions.Keys) {
     Write-Host "Compte $sam mis à jour." -ForegroundColor Green
 }
 
-# Tâche 2 : Créer le groupe GG-MONITORING-ServiceAccounts
+# Tâche 2 : Vérifier le groupe GG-MONITORING-ServiceAccounts et mettre sa description à jour
 $groupName = "GG-MONITORING-ServiceAccounts"
-if (-not (Get-ADGroup -Filter { Name -eq $groupName } -ErrorAction SilentlyContinue)) {
-    New-ADGroup -Name $groupName `
-        -SamAccountName $groupName `
-        -GroupScope Global `
-        -GroupCategory Security `
-        -Path $baseOU `
-        -Description "Groupe de sécurité - Tous les comptes de service MonitoringTech"
-    Write-Host "Groupe $groupName créé." -ForegroundColor Green
-}
+$group = Get-ADGroup -Filter { Name -eq $groupName } -ErrorAction SilentlyContinue
 
-# Ajouter les membres au groupe
-$svcAccounts = @("svc_monitoring", "svc_backup", "svc_audit", "svc_replication")
-Add-ADGroupMember -Identity $groupName -Members $svcAccounts
-Write-Host "Membres ajoutés au groupe $groupName." -ForegroundColor Green
+if (-not $group) {
+    Write-Host "ANOMALIE : le groupe $groupName n'existe pas. Relancez MonitoringLab_Setup.ps1." -ForegroundColor Red
+} else {
+    # Mettre à jour la description
+    $newDesc = "Groupe de sécurité - Tous les comptes de service MonitoringTech - Dernier audit : $(Get-Date -Format 'dd/MM/yyyy')"
+    Set-ADGroup -Identity $groupName -Description $newDesc
+    Write-Host "Description du groupe $groupName mise à jour." -ForegroundColor Green
+
+    # Vérifier que les 4 comptes de service sont bien membres ; ajouter ceux qui manquent
+    $svcAccounts = @("svc_monitoring", "svc_backup", "svc_audit", "svc_replication")
+    $presents = Get-ADGroupMember $groupName | Select-Object -ExpandProperty SamAccountName
+    $manquants = $svcAccounts | Where-Object { $_ -notin $presents }
+
+    if ($manquants) {
+        Add-ADGroupMember -Identity $groupName -Members $manquants
+        Write-Host "Comptes manquants ajoutés : $($manquants -join ', ')" -ForegroundColor Yellow
+    } else {
+        Write-Host "Tous les comptes de service sont déjà membres." -ForegroundColor Green
+    }
+}
 
 # Tâche 3 : Ajouter svc_audit à Event Log Readers
 Add-ADGroupMember -Identity "Event Log Readers" -Members "svc_audit"
@@ -292,11 +322,11 @@ Pour chaque compte de service :
 3. Onglet Général : remplir Description et Adresse email
 4. Onglet Compte : cocher "Le mot de passe n'expire jamais"
 
-Pour le groupe :
+Pour le groupe (déjà créé par le setup, vous ne devez que vérifier et ajuster) :
 
-1. ADUC > OU=ServiceAccounts > clic droit > Nouveau > Groupe
-2. Nom : GG-MONITORING-ServiceAccounts, Portée : Globale, Type : Sécurité
-3. Onglet Membres : ajouter les 4 comptes svc_
+1. ADUC > OU=ServiceAccounts > localisez `GG-MONITORING-ServiceAccounts` > Propriétés
+2. Onglet Général : vérifiez Portée = Globale et Type = Sécurité ; mettez à jour la Description avec la date du jour
+3. Onglet Membres : vérifiez que les 4 comptes svc_ sont bien listés (sinon ajoutez les manquants)
 
 Pour Event Log Readers :
 

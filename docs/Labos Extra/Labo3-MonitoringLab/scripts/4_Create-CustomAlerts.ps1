@@ -373,7 +373,7 @@ Créé le: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
     # ÉTAPE 4: TESTER LES ALERTES
     # ============================================
 
-    if (Confirm-Step "Tester le système d'alerte (verrouillage de U_Test1)") {
+    if (Confirm-Step "Tester le système d'alerte (verrouillage de alexandre)") {
         Write-Host "`n[ÉTAPE 4/4] Test du système d'alerte..." -ForegroundColor Cyan
 
         Write-Host "`n  [INFORMATION PÉDAGOGIQUE]" -ForegroundColor Yellow
@@ -381,7 +381,7 @@ Créé le: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
         Write-Host "  Cela nécessite de:" -ForegroundColor Gray
         Write-Host "    1. Avoir une politique de verrouillage activée (minimum 3 tentatives)" -ForegroundColor Gray
         Write-Host "    2. Aller sur une machine cliente Windows 10/11" -ForegroundColor Gray
-        Write-Host "    3. Tenter de se connecter avec U_Test1 et un mauvais mot de passe 3 fois" -ForegroundColor Gray
+        Write-Host "    3. Tenter de se connecter avec alexandre et un mauvais mot de passe 3 fois" -ForegroundColor Gray
         Write-Host "    4. Le compte sera verrouillé et l'alerte sera déclenchée" -ForegroundColor Gray
         Write-Host ""
 
