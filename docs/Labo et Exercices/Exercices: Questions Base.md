@@ -93,17 +93,12 @@ Essaye de repondre à ces questions en utilisant tes propres mots. Tout l'inform
     ??? success "Réponse"
         L'AD utilise le DNS pour **localiser les contrôleurs de domaine** via des enregistrements spéciaux appelés **SRV records**. Sans DNS qui fonctionne correctement, les clients ne peuvent pas trouver les DC pour s'authentifier — l'AD devient inutilisable.
 
-2. Qu'est-ce que c'est un enregistrement SRV?
-
-    ??? success "Réponse"
-        Un enregistrement SRV (Service) indique **quel serveur fournit quel service** sur le réseau. Par exemple, `_ldap._tcp.maxtec.be` indique aux clients quels serveurs offrent le service LDAP du domaine.
-
-3. Si un client Windows ne peut pas rejoindre le domaine maxtec.be, quelle est la première chose à vérifier côté réseau?
+2. Si un client Windows ne peut pas rejoindre le domaine maxtec.be, quelle est la première chose à vérifier côté réseau?
 
     ??? success "Réponse"
         Vérifier la configuration **DNS du client**. Le client doit pointer vers un serveur DNS qui héberge la zone du domaine (dans notre cas, dns1.maxtec.be ou dns2.maxtec.be) — pas vers un DNS public comme 8.8.8.8.
 
-4. Quelle est la différence entre une zone DNS **intégrée à l'AD** et une zone DNS **standard**?
+3. Quelle est la différence entre une zone DNS **intégrée à l'AD** et une zone DNS **standard**?
 
     ??? success "Réponse"
         - **Intégrée à l'AD** : la zone est stockée dans la base de données AD et se réplique automatiquement entre les DC. Plus sécurisée et résiliente.
@@ -156,3 +151,145 @@ Essaye de repondre à ces questions en utilisant tes propres mots. Tout l'inform
 
     ??? success "Réponse"
         L'outil le plus utilisé est "Utilisateurs et ordinateurs Active Directory" (Active Directory Users and Computers ou ADUC) ou le centre de gestion Active Directory.
+
+2. Pourquoi est-il déconseillé d'utiliser le compte Administrateur du domaine pour le travail quotidien?
+
+    ??? success "Réponse"
+        Le compte Administrateur a tous les droits sur le domaine. L'utiliser pour des tâches quotidiennes (lire des emails, naviguer sur internet) augmente le risque qu'un malware ou un attaquant compromette tout le domaine. La bonne pratique est d'avoir un compte standard pour le travail et un compte admin séparé uniquement pour l'administration.
+
+3. Quelle est la différence entre désactiver un utilisateur et le supprimer?
+
+    ??? success "Réponse"
+        - **Désactiver** : le compte existe toujours dans l'AD, mais ne peut plus se connecter. Son SID, ses appartenances aux groupes et ses permissions sont préservés. Idéal pour un départ temporaire ou un employé qui quitte (en attendant transfert des données).
+        - **Supprimer** : le compte est éliminé. Si on recrée un utilisateur avec le même nom, il aura un nouveau SID et perdra toutes ses anciennes permissions.
+
+4. Qu'est-ce que c'est un SID et pourquoi est-il important?
+
+    ??? success "Réponse"
+        Le SID (**Security Identifier**) est l'identifiant unique d'un objet AD (utilisateur, groupe, ordinateur). Windows utilise le SID — pas le nom — pour appliquer les permissions. C'est pour cela que recréer un utilisateur avec le même nom ne récupère pas ses anciens droits.
+
+        !!! example "Exemple de SID"
+            ```
+            S-1-5-21-3623811015-3361044348-30300820-1013
+            ```
+
+            - `S` : indique qu'il s'agit d'un SID
+            - `1` : version du SID
+            - `5` : autorité (NT Authority)
+            - `21-3623811015-3361044348-30300820` : identifiant unique du **domaine** maxtec.be
+            - `1013` : **RID** (Relative ID) — propre à l'objet dans ce domaine
+
+            Si on supprime l'utilisateur `jdupont` puis on en recrée un avec le même nom, il aura un nouveau RID (par ex. `1247`) et donc un nouveau SID. Toutes les permissions liées à l'ancien SID sont perdues.
+
+        !!! info "SID vs distinguishedName : ne pas confondre"
+            Un objet AD a **deux identifiants** très différents :
+
+            | | **SID** | **distinguishedName (DN)** |
+            |---|---|---|
+            | Format | `S-1-5-21-...-1013` | `CN=Jean Dupont,OU=Compta,OU=Users,DC=maxtec,DC=be` |
+            | Rôle | Identifier pour la **sécurité** (ACL, permissions) | Identifier l'**emplacement** dans l'arbre AD |
+            | Change si... | on supprime/recrée l'objet | on **déplace** l'objet dans une autre OU ou on le **renomme** |
+            | Utilisé par | Windows (kernel, ACL) | LDAP, scripts, GPO scoping |
+
+            Conséquences pratiques :
+
+            - Déplacer `jdupont` de l'OU `Compta` vers `Direction` change son **DN** mais pas son **SID** → il garde toutes ses permissions.
+            - Supprimer `jdupont` puis le recréer change son **SID** → toutes les permissions sont perdues, même si le DN finit par être identique.
+
+        !!! tip "Voir le SID dans ADUC (interface graphique)"
+            1. Ouvrir **Utilisateurs et ordinateurs Active Directory**
+            2. Menu **Affichage → Fonctionnalités avancées** (à cocher)
+            3. Clic droit sur l'utilisateur → **Propriétés**
+            4. Onglet **Éditeur d'attributs**
+            5. Chercher l'attribut **`objectSid`** (et `distinguishedName` juste à côté pour comparer)
+
+5. Pourquoi utilise-t-on le préfixe `GG-` pour les groupes globaux dans le lab maxtec.be?
+
+    ??? success "Réponse"
+        C'est une convention de nommage qui permet d'identifier rapidement le **type de groupe** (GG = Groupe Global). On peut aussi voir `DL-` pour Domain Local et `UG-` pour Universal. Cela facilite la lecture, le tri et la documentation, surtout quand un environnement a des centaines de groupes.
+
+6. Quelle est la différence entre un groupe **Global**, **Domain Local** et **Universal**?
+
+    ??? success "Réponse"
+        - **Global (GG)** : regroupe des utilisateurs du **même domaine**. C'est dans ce groupe qu'on met les personnes.
+        - **Domain Local (DL)** : reçoit les permissions sur une ressource (un dossier, une imprimante). C'est ce groupe qu'on associe à un ACL.
+        - **Universal (UG)** : utile dans une forêt multi-domaines pour réunir des groupes globaux de différents domaines.
+
+        La règle classique **AGDLP** dit : on met les **A**ccounts dans des **G**lobals, qu'on imbrique dans des **D**omain **L**ocals, qui reçoivent les **P**ermissions.
+
+## Chapitre 8. Group Policy Objects
+
+1. Qu'est-ce que c'est une GPO?
+
+    ??? success "Réponse"
+        Une GPO (**Group Policy Object**) est un ensemble de paramètres de configuration qu'on applique de manière centralisée à des utilisateurs ou des ordinateurs du domaine. Cela évite de configurer chaque poste manuellement.
+
+2. Sur quels objets une GPO peut-elle être liée (linked)?
+
+    ??? success "Réponse"
+        Une GPO peut être liée à trois niveaux :
+
+        - Un **site** AD
+        - Un **domaine** entier
+        - Une **OU**
+
+        On ne peut **pas** lier une GPO directement à un groupe ou à un utilisateur individuel.
+
+3. Quelle est la différence entre la section **Computer Configuration** et **User Configuration** d'une GPO?
+
+    ??? success "Réponse"
+        - **Computer Configuration** : s'applique à la machine, au démarrage. Indépendant de qui se connecte.
+        - **User Configuration** : s'applique à l'utilisateur, à la connexion. Suit l'utilisateur d'une machine à l'autre.
+
+4. Dans quel ordre les GPOs sont-elles appliquées?
+
+    ??? success "Réponse"
+        L'ordre est **LSDOU** :
+
+        1. **L**ocal (la machine elle-même)
+        2. **S**ite
+        3. **D**omaine
+        4. **O**U (de la plus haute à la plus basse)
+
+        Si deux GPOs définissent la même valeur, **la dernière appliquée gagne** — donc une GPO liée à une OU enfant peut écraser celle du domaine.
+
+5. Que fait la commande `gpupdate /force`?
+
+    ??? success "Réponse"
+        Elle force le rafraîchissement immédiat des GPOs sur la machine, sans attendre le cycle automatique (toutes les 90 minutes environ). Utile pour tester une nouvelle GPO sans redémarrer.
+
+## Chapitre 9. PowerShell AD
+
+1. Pourquoi utiliser PowerShell pour gérer l'AD au lieu de l'interface graphique?
+
+    ??? success "Réponse"
+        PowerShell permet :
+
+        - **L'automatisation** : créer 100 utilisateurs en une commande au lieu de cliquer 100 fois
+        - **La reproductibilité** : un script s'exécute toujours de la même façon
+        - **L'audit** : on peut sauvegarder les scripts et savoir ce qui a été fait
+        - **L'accès à des paramètres avancés** non disponibles dans la GUI
+
+2. Quel module faut-il importer pour gérer l'AD via PowerShell?
+
+    ??? success "Réponse"
+        Le module **`ActiveDirectory`**. Il est installé automatiquement sur un contrôleur de domaine, et disponible via les RSAT sur un poste client.
+
+        ```powershell
+        Import-Module ActiveDirectory
+        ```
+
+3. Quelle est la différence entre `Get-ADUser` et `Get-ADUser -Filter *`?
+
+    ??? success "Réponse"
+        - `Get-ADUser` seul attend un identifiant et renverra une erreur.
+        - `Get-ADUser -Filter *` récupère **tous** les utilisateurs du domaine. L'astérisque agit comme un "joker".
+
+4. À quoi sert le paramètre `-SearchBase` dans les commandes AD?
+
+    ??? success "Réponse"
+        Il limite la recherche à une **OU spécifique** au lieu de chercher dans tout le domaine. Utile pour ne pas surcharger les requêtes :
+
+        ```powershell
+        Get-ADUser -Filter * -SearchBase "OU=Compta,OU=Users,DC=maxtec,DC=be"
+        ```
