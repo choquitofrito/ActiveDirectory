@@ -230,7 +230,9 @@
     
     Pour ajuster le ciblage, clique droit sur le Raccourci créé et Propriétés > Commun > Ciblage
 
-### 3.2. Modifier la GPO pour qu'elle affecte uniquement au groupe d'admins de Ventes (pas au groupe des utilisateurs)
+!!! note "Pour aller plus loin"
+    
+    Pour restreindre l'application du raccourci aux seuls administrateurs de Ventes (sans déplacer le lien de la GPO), voir l'exercice **Item-level targeting** dans `Exercices: GPO-3.md`.
 
 ## 4. Créer des exceptions à la GPO
 

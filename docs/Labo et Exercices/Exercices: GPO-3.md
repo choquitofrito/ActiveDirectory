@@ -68,6 +68,66 @@ Avant de commencer, assurez-vous d'avoir la structure complète de l'AD avec les
 Si la GPO ne fonctionne pas, allez dans l'observateur d'événements et regardez les logs de la GPO (Observateur d'événements > Journaux Windows > Application -> Filtrer -> Erreurs -> 520)
 
 
+## 2. 🔹 Ciblage au niveau de l'élément (Item-level targeting)
+
+### Exercice 2.1: Restreindre une préférence à un groupe de sécurité
+
+**Objectif** : Modifier la GPO `GPO-LinkBureau` (créée dans `Exercices: GPO-1.md`, section 3.1) pour que le raccourci de Bureau ne s'applique qu'aux membres de `GG-EU-Ventes-Admins`, sans toucher au lien de la GPO ni à l'OU.
+
+**Contexte professionnel** : Une même GPO peut contenir plusieurs préférences destinées à des sous-groupes différents (admins, users, mobiles...). Le ciblage d'élément permet de filtrer ligne par ligne à l'intérieur de la GPO, ce qui évite de multiplier les GPOs ou de créer des sous-OUs artificielles.
+
+**Pourquoi pas une sous-OU ou un autre lien ?** Les admins et les users de Ventes sont dans la **même OU**. Déplacer le lien de la GPO sur une sous-OU ferait disparaître le raccourci pour tous les utilisateurs Ventes. Le ciblage d'élément agit *à l'intérieur* de la préférence, sans modifier la portée de la GPO.
+
+#### Prérequis
+
+- Avoir terminé l'exercice 3.1 de `Exercices: GPO-1.md` (GPO `GPO-LinkBureau` qui crée un raccourci sur le Bureau des utilisateurs de Ventes).
+- Avoir au moins un utilisateur dans `GG-EU-Ventes-Admins` (ex: Valentin) et un dans `GG-EU-Ventes-Users` (ex: Victor).
+
+#### Étape 1: Activer le ciblage sur la préférence
+
+1. Ouvrez la console `Gestion des stratégies de groupe` (GPMC).
+2. Faites un clic droit sur la GPO `GPO-LinkBureau` > `Modifier`.
+3. Naviguez vers `Configuration Utilisateur > Préférences > Paramètres Windows > Raccourcis`.
+4. Double-cliquez sur le raccourci créé précédemment.
+5. Allez dans l'onglet `Commun`.
+6. Cochez `Ciblage au niveau de l'élément`.
+7. Cliquez sur le bouton `Ciblage...`.
+
+#### Étape 2: Définir la condition de ciblage
+
+1. Dans l'éditeur de ciblage : `Nouvel élément > Groupe de sécurité`.
+2. Cliquez sur `...` à côté du champ `Groupe` et sélectionnez `GG-EU-Ventes-Admins`.
+3. Laissez l'option `L'utilisateur dans le groupe` cochée (et non `L'ordinateur dans le groupe`).
+4. Validez avec `OK`, puis `Appliquer` et `OK`.
+
+#### Étape 3: Test de la GPO
+
+1. Sur un poste client de Ventes, connectez-vous avec **Valentin** (`GG-EU-Ventes-Admins`).
+2. Exécutez `gpupdate /force`, déconnectez-vous et reconnectez-vous.
+3. Vérifiez que le raccourci apparaît sur le Bureau.
+4. Déconnectez-vous et connectez-vous avec **Victor** ou **Vanessa** (`GG-EU-Ventes-Users`).
+5. Vérifiez que le raccourci **n'apparaît pas**.
+
+#### Question de réflexion
+
+Que se passe-t-il si vous utilisez l'action `Replace` (au lieu de `Create`) sur le raccourci, et qu'un utilisateur quitte ensuite le groupe `GG-EU-Ventes-Admins` ? (Indice : relisez le tableau des actions GPO de `Exercices: GPO-1.md` section 3.1.)
+
+#### Variante : combiner critères utilisateur et ordinateur
+
+Une même condition de ciblage peut mélanger des critères de **l'utilisateur** et de **l'ordinateur**. Exemple : faire apparaître le raccourci uniquement quand Valentin se connecte depuis un poste de l'OU `Ventes` (et pas depuis un portable de prêt).
+
+1. Dans l'éditeur de ciblage, conservez la condition `Groupe de sécurité = GG-EU-Ventes-Admins`.
+2. Ajoutez `Nouvel élément > Unité d'organisation` et sélectionnez `OU=Computers,OU=Ventes,OU=EU,...`. Cochez `L'ordinateur est dans l'unité d'organisation`.
+3. Sur la seconde ligne, vérifiez que l'opérateur est `ET` (bouton `Options d'élément`).
+
+!!! warning "Attention au contexte de la préférence"
+    
+    Cette astuce ne marche qu'avec une préférence située dans `Configuration Utilisateur` (évaluée à l'ouverture de session, où l'utilisateur **et** l'ordinateur sont connus). Dans `Configuration Ordinateur`, une condition sur l'utilisateur est évaluée contre le compte `SYSTEM` et échouera presque toujours.
+
+#### Pour aller plus loin
+
+Le ciblage d'élément accepte des conditions combinées (ET / OU / NON) et de nombreux critères : OS, plage IP, fichier existant, variable d'environnement, requête WMI, etc. C'est la même mécanique que celle utilisée pour les imprimantes dans la section suivante.
+
 ## 3. 🔹 Configuration d'imprimantes par emplacement
 
 ### Exercice 3.1: GPO-Imprimantes-EU
