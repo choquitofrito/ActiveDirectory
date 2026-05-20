@@ -53,7 +53,7 @@ Avant de commencer, assurez-vous d'avoir la structure complète de l'AD avec les
    - Cliquez-droit sur `Documents` > `Propriétés`
    - Sélectionnez `De base - Rediriger le dossier de chaque utilisateur vers le même emplacement`
    - Pour l'emplacement cible, sélectionnez `Créer un dossier pour chaque utilisateur sous le chemin racine`
-   - Entrez le chemin racine : `\\dns1\Shares\Comptabilite\UserData`
+   - Entrez le chemin racine : `\\dns1\Shares-Compta`
 
 #### Étape 3: Test de la GPO
 
