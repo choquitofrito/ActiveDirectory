@@ -216,20 +216,202 @@
 
 ### Exercice 12: Délégation d'Administration
 
-!!! example "Objectif"
-    
-    Vous devez permettre à Rebecca, chargée de la gestion RH, de gérer les comptes de son service.
+**Niveau** : 🟡 Intermédiaire · **Durée** : 30-45 min
 
-!!! info "Tâches à réaliser"
-    
-    1. Créer un groupe `GG-EU-RH-AdminDelegue` dans `OU=Groups,OU=RH,OU=EU,DC=maxtec,DC=be`
-    2. Ajouter Rebecca au groupe
-    3. Configurer les droits délégués sur `OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be`:
-        - Création/modification de comptes utilisateur
-        - Réinitialisation des mots de passe
-        - Modification des informations de profil
-    
-    4. Tester les permissions avec le compte de Rebecca
+!!! example "Objectif"
+
+    Permettre aux responsables de département (Richard pour RH, Valentin pour Ventes) de gérer leur propre équipe **sans être Domain Admin**, en appliquant le principe du moindre privilège.
+
+#### 📋 Prérequis
+
+- Lab Maxtec déployé (structure du `creation_structure.ps1` en place)
+- Groupes `GG-EU-RH-Admin` (contient Richard) et `GG-EU-Ventes-Admin` (contient Valentin) existants
+- Au moins une VM cliente jointe au domaine (ex: `ws-RH-01` ou `ws-Ventes-01`)
+- Session ouverte sur le DC ou sur un poste avec RSAT, en tant que `maxtec\Administrateur`
+
+---
+
+#### 🛠️ Installation préalable : RSAT sur le poste client
+
+La délégation se **configure** depuis n'importe quel poste qui a `dsa.msc` (le DC l'a nativement). On l'**utilise** depuis le poste de la personne déléguée, qui doit donc disposer de RSAT.
+
+!!! info "Pourquoi RSAT ?"
+
+    `gpmc.msc` et `dsa.msc` ne tournent **pas sur le DC** : ce sont des consoles d'administration distantes qui parlent au DC par LDAP. RSAT (Remote Server Administration Tools) installe ces consoles sur un poste client Windows. Une fois RSAT installé, **les permissions viennent du compte qui ouvre la console**, pas de l'installation elle-même.
+
+**Procédure (à exécuter sur le poste client, ex: `ws-RH-01`)** :
+
+1. **Connectez-vous en tant qu'administrateur local** du poste (la cuenta créée à l'install Windows). RSAT est un composant Windows, son installation requiert des droits admin **locaux** (pas de domaine).
+2. **Ouvrir le menu Fonctionnalités facultatives** : touche Windows → taper **`facultative`** → cliquer sur **Fonctionnalités facultatives**.
+3. **Ajouter une fonctionnalité** :
+   - Cliquer sur **Ajouter une fonctionnalité**
+   - Dans la barre de recherche, taper **RSAT**
+   - Cocher **RSAT : Outils Active Directory Domain Services et Services LDS** (inclut `dsa.msc`)
+   - Cocher aussi **RSAT : Outils de gestion des stratégies de groupe** (inclut `gpmc.msc`) — utile pour les exercices GPO ultérieurs
+   - Cliquer sur **Suivant** puis **Installer**
+4. **Redémarrer** le poste si Windows le demande.
+
+**Vérification — RSAT fonctionne** :
+
+Ouvrir **PowerShell** (sans privilèges admin) sur le poste client et lancer :
+
+```powershell
+Get-ADUser -Filter * -SearchBase "OU=RH,OU=EU,DC=maxtec,DC=be" |
+    Select-Object Name, SamAccountName
+```
+
+Vous devriez voir Richard, Rebecca et René. Si vous obtenez :
+
+- *"Get-ADUser n'est pas reconnu"* → le module RSAT AD n'est pas installé, reprenez l'étape 3
+- *"Impossible de contacter un serveur Active Directory"* → le poste n'est pas joint au domaine `maxtec.be`
+
+**Bonus GUI** : tapez `dsa.msc` dans Démarrer. La console "Utilisateurs et ordinateurs Active Directory" doit s'ouvrir et afficher le domaine `maxtec.be` avec ses OUs.
+
+---
+
+#### 📖 Contexte / Scénario
+
+Le manager IT de Maxtec, sous l'eau avec les demandes de support, vous résume la nouvelle politique :
+
+> *"On reçoit 40 reset password par mois et 8 créations de comptes. Les chefs de service peuvent gérer ça eux-mêmes. À chacun son périmètre, et personne ne touche aux autres départements. Voici ce que je veux :"*
+
+**Politique de délégation** :
+
+| Délégué | Groupe AD | Périmètre | Permissions accordées | Permissions refusées |
+|---------|-----------|-----------|----------------------|----------------------|
+| **Richard** | `GG-EU-RH-Admin` | `OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be` | Reset password<br>Déverrouillage compte | Création/suppression<br>Accès autres dépts |
+| **Valentin** | `GG-EU-Ventes-Admin` | `OU=Users,OU=Ventes,OU=EU,DC=maxtec,DC=be` | Création utilisateurs<br>Modification propriétés<br>Reset password | Suppression utilisateurs<br>Accès autres dépts |
+
+!!! tip "Bonne pratique : déléguer au groupe, pas à l'utilisateur"
+
+    On délègue toujours à `GG-EU-RH-Admin`, **pas directement à Richard**. Si demain Richard est remplacé, il suffit d'ajouter le remplaçant au groupe sans toucher à la délégation. C'est la même logique que pour l'attribution de permissions NTFS via AGDLP.
+
+---
+
+#### 📌 Étape 1 : Déléguer à Richard (RH — périmètre restreint)
+
+**Sur le DC**, en tant que `maxtec\Administrateur` :
+
+1. Ouvrir **`dsa.msc`** (Utilisateurs et ordinateurs Active Directory)
+2. Activer l'affichage avancé : menu **Affichage** → **Fonctionnalités avancées** (nécessaire pour voir l'onglet Sécurité plus tard)
+3. Naviguer jusqu'à `EU > RH`
+4. **Clic droit sur l'OU `Users`** (à l'intérieur de RH) → **Déléguer le contrôle…**
+5. L'assistant s'ouvre → **Suivant**
+6. **Sélectionner Users or Groups** :
+   - **Ajouter…** → taper `GG-EU-RH-Admin` → **Vérifier les noms** → **OK**
+   - **Suivant**
+7. **Sélectionner les tâches à déléguer** → cocher :
+   - ✅ **Réinitialiser les mots de passe utilisateur et forcer le changement de mot de passe à la prochaine ouverture de session**
+   - ✅ **Lire toutes les informations utilisateur**
+   - ❌ NE PAS cocher *Créer, supprimer et gérer les comptes utilisateur*
+   - **Suivant**
+8. **Terminer**
+
+!!! info "Et le déverrouillage de compte ?"
+
+    L'assistant standard ne propose pas explicitement "déverrouillage". Il est inclus indirectement quand on coche "Réinitialiser les mots de passe" (le déverrouillage est techniquement une modification de l'attribut `lockoutTime`, généralement autorisée avec le reset). Pour un déverrouillage explicite et séparé, il faut utiliser la délégation personnalisée (option **Créer une tâche personnalisée à déléguer**).
+
+---
+
+#### 📌 Étape 2 : Déléguer à Valentin (Ventes — périmètre étendu)
+
+1. Toujours dans `dsa.msc`, naviguer jusqu'à `EU > Ventes`
+2. **Clic droit sur l'OU `Users`** (à l'intérieur de Ventes) → **Déléguer le contrôle…**
+3. Assistant → **Suivant**
+4. **Ajouter** `GG-EU-Ventes-Admin` → **Vérifier les noms** → **OK** → **Suivant**
+5. **Tâches à déléguer** → cocher :
+   - ✅ **Créer, supprimer et gérer les comptes utilisateur** ⚠️ (l'assistant Microsoft regroupe création **et** suppression — voir la note ci-dessous)
+   - ✅ **Réinitialiser les mots de passe utilisateur et forcer le changement de mot de passe à la prochaine ouverture de session**
+   - ✅ **Lire toutes les informations utilisateur**
+   - ✅ **Modifier l'appartenance d'un groupe**
+   - **Suivant** → **Terminer**
+
+!!! warning "Limitation de l'assistant standard"
+
+    L'assistant regroupe **"Créer, supprimer et gérer"** dans une seule case. Si vous voulez vraiment **autoriser la création MAIS interdire la suppression**, il faut passer par **Créer une tâche personnalisée à déléguer** (option dans l'assistant à l'étape "Tâches"), puis sélectionner les attributs précis. Pour cet exercice, on accepte la limitation et on documente le compromis. C'est aussi l'occasion d'expliquer aux étudiants que les wizards Microsoft sont des raccourcis : pour du fine-grained, c'est `dsacls` ou PowerShell + `Set-Acl`.
+
+---
+
+#### 🧪 Étape 3 : Tester les délégations
+
+**Test A — Richard (devrait réussir)** :
+
+Sur `ws-RH-01` (avec RSAT installé) :
+
+1. Se connecter en tant que `maxtec\richard`
+2. Ouvrir `dsa.msc`
+3. Naviguer jusqu'à `EU > RH > Users`
+4. Clic droit sur **René** → **Réinitialiser le mot de passe** → définir un nouveau mot de passe → **OK**
+5. ✅ Doit fonctionner
+
+**Test B — Richard (devrait échouer)** :
+
+1. Toujours connecté en tant que Richard, naviguer jusqu'à `EU > Comptabilite > Users`
+2. Clic droit sur **Charlotte** → **Réinitialiser le mot de passe**
+3. ❌ Doit échouer avec *"Accès refusé"*
+
+**Test C — Richard (limite explicite)** :
+
+1. Clic droit sur `OU=Users` (dans RH) → **Nouveau** → **Utilisateur**
+2. ❌ L'option doit être grisée ou échouer — Richard n'a pas la délégation de création
+
+**Test D — Valentin (création autorisée)** :
+
+Sur `ws-Ventes-01` (ou via `runas /user:maxtec\valentin "mmc dsa.msc"` depuis le DC) :
+
+1. Naviguer jusqu'à `EU > Ventes > Users`
+2. Clic droit → **Nouveau** → **Utilisateur** → créer `vincent.test` avec mot de passe temporaire
+3. ✅ Doit fonctionner
+
+**Test E — Valentin (frontière respectée)** :
+
+1. Valentin tente de créer un utilisateur dans `EU > IT > Users`
+2. ❌ Doit échouer
+
+---
+
+#### ✅ Vérification PowerShell (audit de la délégation)
+
+Pour confirmer que les ACLs ont bien été posées sur les OUs, exécuter sur le DC (ou un poste avec RSAT) en tant que Domain Admin :
+
+```powershell
+# Importer le module RSAT AD
+Import-Module ActiveDirectory
+
+# Audit de l'OU Users de RH
+$ouRH = "AD:\OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be"
+Get-Acl $ouRH | Select-Object -ExpandProperty Access |
+    Where-Object { $_.IdentityReference -like "*GG-EU-RH-Admin*" } |
+    Format-Table IdentityReference, ActiveDirectoryRights, AccessControlType -AutoSize
+
+# Audit de l'OU Users de Ventes
+$ouVentes = "AD:\OU=Users,OU=Ventes,OU=EU,DC=maxtec,DC=be"
+Get-Acl $ouVentes | Select-Object -ExpandProperty Access |
+    Where-Object { $_.IdentityReference -like "*GG-EU-Ventes-Admin*" } |
+    Format-Table IdentityReference, ActiveDirectoryRights, AccessControlType -AutoSize
+```
+
+Vous devez voir des entrées `Allow` pour `MAXTEC\GG-EU-RH-Admin` et `MAXTEC\GG-EU-Ventes-Admin` avec des droits comme `ReadProperty`, `WriteProperty`, `ExtendedRight` (sur `User-Force-Change-Password`), etc.
+
+---
+
+#### ❓ Questions de réflexion
+
+1. **Pourquoi déléguer à `GG-EU-RH-Admin` et pas directement à Richard ?** Que se passe-t-il si Richard part en congé maladie et que Rebecca doit le remplacer ?
+
+2. **Que voit Richard dans `dsa.msc` ?** Voit-il les OUs des autres départements ? Pourquoi ?
+
+3. **Limite de l'assistant** : pourquoi le wizard de Microsoft regroupe-t-il "création" et "suppression" ? Comment contourner cette limitation si la politique exige une séparation stricte ?
+
+4. **Sécurité** : un délégué pourrait-il s'élever en privileges via sa délégation ? (Indice : peut-il modifier l'appartenance de son propre compte au groupe Domain Admins ?)
+
+---
+
+#### 💡 Pour aller plus loin
+
+- **Délégation fine-grained** : `dsacls` en ligne de commande ou `Set-Acl` en PowerShell pour spécifier exactement quels attributs (ex: `mail`, `telephoneNumber`) peuvent être modifiés.
+- **Délégation GPO** : voir `Exercices: GPO-2.md` Ex. 7 — c'est l'équivalent pour les GPOs (Security Filtering + onglet Delegation + droit de lier des GPOs à une OU).
+- **Audit** : activer l'audit des modifications d'ACL (`auditpol /set /subcategory:"Directory Service Changes" /success:enable`) pour tracer qui modifie quoi.
 
 ### Exercice 13: Migration d'Utilisateurs
 

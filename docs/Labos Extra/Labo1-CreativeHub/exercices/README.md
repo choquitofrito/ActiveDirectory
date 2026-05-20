@@ -242,13 +242,4 @@ Get-EventLog -LogName Security -Newest 10
 
 ---
 
-## Documentation Instructeur
-
-Les formateurs peuvent consulter:
-
-- **[Index Exercices](../instructeur/INDEX_EXERCICES.md)**: Vue d'ensemble complète avec matrice de compétences
-- **[Guide Instructeur](../instructeur/Guide_Instructeur_Exercices.md)**: Conseils pédagogiques, timing, évaluation
-
----
-
 **Bon courage et bonne formation! 🚀**
