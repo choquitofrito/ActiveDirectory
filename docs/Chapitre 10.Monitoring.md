@@ -10,11 +10,12 @@
 À la fin de ce chapitre, vous serez capable de :
 
 - Comprendre l'importance du monitoring dans Active Directory
-- Identifier les événements critiques à surveiller
-- Utiliser les outils natifs Windows pour le monitoring
-- Configurer des alertes basiques
-- Analyser les logs d'événements AD
+- Identifier les événements critiques à surveiller (Event IDs)
+- Utiliser l'**Event Viewer** et **`Get-WinEvent`** pour analyser les logs
 - Détecter des anomalies de sécurité courantes
+
+!!! warning "Périmètre de ce chapitre"
+    Ce chapitre se concentre sur les **outils de base** : Event Viewer + PowerShell `Get-WinEvent`. Notre lab Maxtec a **un seul DC**, donc tout ce qui touche à la **réplication multi-DC** (compteurs `NTDS DRA`, `repadmin`, etc.) est hors scope ici. Ces sujets avancés sont regroupés en fin de chapitre dans **"Pour aller plus loin (production)"**.
 
 !!! example "Lab pratique associé"
     Le **[Lab 3 - MonitoringLab](Labos%20Extra/Labo3-MonitoringLab/README.md)** propose 6 exercices progressifs avec un scénario MSP: exploration de structure, analyse d'événements, configuration d'audit GPO, comptes de service, et investigation d'incidents. Chaque exercice inclut un script de vérification automatique.
@@ -33,27 +34,27 @@ Active Directory est le **cœur de l'infrastructure IT** dans la plupart des ent
 | **Comptes verrouillés en masse** | Perte de productivité, possible attaque brute force | Event ID 4740 |
 | **Modification non autorisée de groupes** | Élévation de privilèges | Event ID 4728, 4732, 4756 |
 | **Échecs d'authentification répétés** | Tentative d'intrusion | Event ID 4625 |
-| **Réplication AD échouée** | Incohérence des données | Event ID 2042, 1925 |
 | **Modification de GPO** | Changement de configuration critique | Event ID 5136, 5137 |
+| **Création/suppression de comptes** | Activité administrative à tracer | Event ID 4720, 4726 |
 
 ---
 
 ## 🔍 Les 3 Piliers du Monitoring AD
 
 ### 1️⃣ **Disponibilité** (Availability)
-- Les contrôleurs de domaine sont-ils opérationnels ?
-- Les services AD essentiels fonctionnent-ils ?
-- La réplication fonctionne-t-elle correctement ?
+- Le contrôleur de domaine est-il opérationnel ?
+- Les services AD essentiels (NTDS, DNS, Netlogon) répondent-ils ?
 
-### 2️⃣ **Performance** (Performance)
-- Temps de réponse LDAP acceptable ?
-- Charge CPU/Mémoire normale ?
-- File d'attente de réplication sous contrôle ?
-
-### 3️⃣ **Sécurité** (Security)
-- Activités suspectes (connexions anormales) ?
-- Modifications non autorisées ?
+### 2️⃣ **Sécurité** (Security) — *focus principal de ce chapitre*
+- Activités suspectes (connexions anormales, échecs en série) ?
+- Modifications non autorisées (groupes privilégiés, GPOs) ?
 - Tentatives d'élévation de privilèges ?
+
+### 3️⃣ **Performance** (Performance) — *concerne les environnements de production*
+- Charge sur le DC (CPU/RAM/disque)
+- Temps de réponse aux requêtes LDAP
+
+> 💡 La performance et la disponibilité avancée se mesurent avec **Performance Monitor** (compteurs `NTDS`, `LDAP Searches/sec`, etc.). Ces sujets sont traités dans la section "Pour aller plus loin" — pour notre lab à 1 DC, le focus reste sur la **sécurité**.
 
 ---
 
@@ -107,10 +108,9 @@ Active Directory est le **cœur de l'infrastructure IT** dans la plupart des ent
 
 #### Services AD
 - **1000** : Active Directory Web Services démarré
-- **1202** : Promotion/rétrogradation DC
-- **1963** : Échec résolution DNS pour réplication
-- **1925** : Échec de réplication
-- **2042** : Réplication non effectuée depuis trop longtemps
+- **1202** : Promotion/rétrogradation DC (rare, événement de configuration)
+
+> 💡 Les Event IDs de réplication (1925, 2042, 1963) ne s'appliquent qu'aux environnements multi-DC. Voir "Pour aller plus loin" en fin de chapitre.
 
 ---
 
@@ -144,167 +144,19 @@ Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4740; StartTime=$date}
 Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4728,4732,4756} -MaxEvents 50
 ```
 
-### 3. Performance Monitor (PerfMon)
+### 3. Diagnostic rapide du DC : `dcdiag`
 
-**Compteurs AD critiques :**
-
-| Catégorie | Compteur | Seuil d'alerte |
-|-----------|----------|----------------|
-| **NTDS** | DRA Pending Replication Synchronizations | > 50 |
-| **NTDS** | LDAP Client Sessions | Baseline à établir |
-| **NTDS** | LDAP Searches/sec | > 200 peut indiquer une charge élevée |
-| **Database** | Database Cache % Hit | < 90% (besoin de RAM) |
-| **Processor** | % Processor Time | > 80% soutenu |
-| **Memory** | Available MBytes | < 1 GB critique |
-
-### 4. Active Directory Health Check (dcdiag)
+Pour vérifier que le contrôleur de domaine est en bon état :
 
 ```powershell
-# Diagnostic complet du DC
-dcdiag /v
-
-# Tester la réplication (ne nous concerne pas, on n'a pas de replications)
-# dcdiag /test:replications
-
-# Vérifier la connectivité DNS
-dcdiag /test:dns
-
-# Tester les services AD
+# Vérifier que les services AD essentiels tournent (NTDS, Netlogon, DNS, etc.)
 dcdiag /test:services
+
+# Vérifier la connectivité et la configuration DNS du DC
+dcdiag /test:dns
 ```
 
-### 5. Replication Status (repadmin)
-
-(Nous n'avons pas fait de replications pendant la formation)
-
-```powershell
-# Voir l'état de réplication
-repadmin /replsummary
-
-# Forcer la réplication
-repadmin /syncall /AdeP
-
-# Afficher les partenaires de réplication
-repadmin /showrepl
-```
-
----
-
-## 🚨 Configuration d'Alertes Basiques
-
-### Méthode 1 : Planificateur de tâches + Event Trigger
-
-**Scénario : Alerte email sur verrouillage de compte**
-
-1. **Ouvrir Planificateur de tâches** (`taskschd.msc`)
-2. **Create Basic Task** → "Alert Account Lockout"
-3. **Trigger** : "When a specific event is logged"
-   - Log : Security
-   - Source : Microsoft Windows Security Auditing
-   - Event ID : 4740
-
-4. **Action** : Send an email (nécessite configuration SMTP)
-   - OU exécuter un script PowerShell :
-
-```powershell
-# C:\Scripts\Alert-AccountLockout.ps1
-$event = Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4740} -MaxEvents 1
-$user = $event.Properties[0].Value
-$computer = $event.Properties[1].Value
-
-Send-MailMessage -To "admin@entreprise.com" `
-                 -From "dc01@entreprise.com" `
-                 -Subject "⚠️ ALERTE: Compte verrouillé - $user" `
-                 -Body "Compte: $user`nOrdinateur: $computer`nHeure: $($event.TimeCreated)" `
-                 -SmtpServer "smtp.entreprise.com"
-```
-
-### Méthode 2 : PowerShell Scheduled Job
-
-```powershell
-# Script de surveillance actif (à exécuter toutes les 15 min via tâche planifiée)
-$depuis = (Get-Date).AddMinutes(-15)
-
-# Vérifier les échecs de connexion massifs
-$echecs = Get-WinEvent -FilterHashtable @{
-    LogName='Security';
-    ID=4625;
-    StartTime=$depuis
-} -ErrorAction SilentlyContinue
-
-if ($echecs.Count -gt 20) {
-    Write-Warning "⚠️ $($echecs.Count) échecs de connexion détectés en 15 minutes!"
-    # Envoyer alerte
-}
-
-# Vérifier les modifications de groupes Admin
-$modifGroupes = Get-WinEvent -FilterHashtable @{
-    LogName='Security';
-    ID=4728,4732,4756;
-    StartTime=$depuis
-} -ErrorAction SilentlyContinue | Where-Object {
-    $_.Message -match "Domain Admins|Enterprise Admins|Schema Admins"
-}
-
-if ($modifGroupes) {
-    Write-Warning "⚠️ CRITIQUE: Modification de groupe privilégié détecté!"
-    # Envoyer alerte immédiate
-}
-```
-
----
-
-## 📊 Reporting Basique
-
-### Script : Rapport Quotidien de Sécurité
-
-```powershell
-# Rapport-Quotidien-AD.ps1
-param(
-    [int]$Heures = 24,
-    [string]$EmailDest = "admin@entreprise.com"
-)
-
-$debut = (Get-Date).AddHours(-$Heures)
-$rapport = @"
-═══════════════════════════════════════════════
-  RAPPORT QUOTIDIEN ACTIVE DIRECTORY
-  Période: $debut à $(Get-Date)
-═══════════════════════════════════════════════
-
-"@
-
-# 1. Comptes créés
-$comptesCreated = Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4720; StartTime=$debut} -ErrorAction SilentlyContinue
-$rapport += "`n👤 COMPTES CRÉÉS: $($comptesCreated.Count)`n"
-$comptesCreated | ForEach-Object {
-    $rapport += "  - $($_.Properties[0].Value) à $($_.TimeCreated)`n"
-}
-
-# 2. Comptes verrouillés
-$verrouilles = Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4740; StartTime=$debut} -ErrorAction SilentlyContinue
-$rapport += "`n🔒 COMPTES VERROUILLÉS: $($verrouilles.Count)`n"
-$verrouilles | ForEach-Object {
-    $rapport += "  - $($_.Properties[0].Value) verrouillé par $($_.Properties[1].Value)`n"
-}
-
-# 3. Modifications de groupes
-$groupesModif = Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4728,4732,4756; StartTime=$debut} -ErrorAction SilentlyContinue
-$rapport += "`n👥 MODIFICATIONS DE GROUPES: $($groupesModif.Count)`n"
-
-# 4. Échecs de connexion (top 5 utilisateurs)
-$echecs = Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4625; StartTime=$debut} -ErrorAction SilentlyContinue
-$topEchecs = $echecs | Group-Object {$_.Properties[5].Value} | Sort-Object Count -Descending | Select-Object -First 5
-$rapport += "`n❌ ÉCHECS DE CONNEXION: $($echecs.Count) total`n"
-$topEchecs | ForEach-Object {
-    $rapport += "  - $($_.Name): $($_.Count) échecs`n"
-}
-
-Write-Output $rapport
-
-# Optionnel: Envoyer par email
-# Send-MailMessage -To $EmailDest -From "dc01@entreprise.com" -Subject "Rapport AD Quotidien" -Body $rapport -SmtpServer "smtp.entreprise.com"
-```
+> 💡 Les commandes `repadmin` (état de réplication) et `dcdiag /test:replications` ne s'appliquent qu'aux environnements multi-DC. Voir "Pour aller plus loin" pour ces sujets.
 
 ---
 
@@ -342,13 +194,96 @@ Write-Output $rapport
 
 ### ❌ À ÉVITER
 
-1. ❌ Ignorer les avertissements de réplication (ne nous concerne pas dans cette formation)
-2. ❌ Ne surveiller qu'un seul DC (seulement si on en a plusieurs)
-3. ❌ Alertes trop sensibles (alert fatigue)
-4. ❌ Ne pas sécuriser les logs (cible d'attaquants)
-5. ❌ Oublier de monitorer les admins eux-mêmes
+1. ❌ Alertes trop sensibles (alert fatigue — au bout de 50 fausses alertes, plus personne ne lit)
+2. ❌ Ne pas sécuriser les logs (cible d'attaquants qui veulent effacer leurs traces)
+3. ❌ Oublier de monitorer les admins eux-mêmes (un admin compromis ne déclenche aucune alerte standard)
+4. ❌ Garder les logs avec une rétention par défaut (souvent 7 jours — insuffisant pour une investigation post-incident)
 
+---
 
+## 🚀 Pour aller plus loin (production multi-DC)
+
+Cette section regroupe les sujets **avancés** qui ne s'appliquent pas à notre lab à 1 DC, mais que vous rencontrerez dans des environnements de production. À étudier après avoir maîtrisé les bases.
+
+### Performance Monitor (PerfMon) — compteurs AD
+
+Dans un environnement de production, on surveille des compteurs spécifiques au service AD :
+
+| Catégorie | Compteur | Seuil indicatif |
+|-----------|----------|-----------------|
+| `NTDS` | `DRA Pending Replication Synchronizations` | > 50 = retard de réplication |
+| `NTDS` | `LDAP Client Sessions` | À baseliner sur 1-2 semaines |
+| `NTDS` | `LDAP Searches/sec` | > 200 = charge élevée |
+| `Database` | `Database Cache % Hit` | < 90% = besoin de RAM |
+| `Processor` | `% Processor Time` | > 80% soutenu = saturation |
+| `Memory` | `Available MBytes` | < 1 GB = critique |
+
+> ⚠️ Ces compteurs nécessitent une **baseline** établie sur plusieurs semaines avant de définir des seuils utiles. Un seuil pris à la volée génère du bruit.
+
+### Réplication multi-DC : `repadmin`
+
+Quand il y a plusieurs DC, la réplication LDAP+SYSVOL entre eux doit être surveillée :
+
+```powershell
+# Vue d'ensemble de l'état de réplication entre tous les DC
+repadmin /replsummary
+
+# Forcer la réplication immédiatement
+repadmin /syncall /AdeP
+
+# Voir les partenaires de réplication d'un DC
+repadmin /showrepl
+```
+
+Couplé avec `dcdiag /test:replications` pour un diagnostic complet.
+
+### Alertes automatiques par email sur événement
+
+**Méthode : Planificateur de tâches + Event Trigger**
+
+1. `taskschd.msc` → **Create Basic Task** → "Alert Account Lockout"
+2. **Trigger** : "When a specific event is logged" → Log: Security, Event ID: 4740
+3. **Action** : exécuter un script PowerShell qui envoie un email :
+
+```powershell
+$event = Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4740} -MaxEvents 1
+$user = $event.Properties[0].Value
+$computer = $event.Properties[1].Value
+
+Send-MailMessage -To "admin@entreprise.com" `
+                 -From "dc01@entreprise.com" `
+                 -Subject "⚠️ ALERTE: Compte verrouillé - $user" `
+                 -Body "Compte: $user`nOrdinateur: $computer`nHeure: $($event.TimeCreated)" `
+                 -SmtpServer "smtp.entreprise.com"
+```
+
+### Rapport quotidien automatisé
+
+Un script PowerShell exécuté chaque matin via tâche planifiée agrège les événements importants des dernières 24 h. Squelette :
+
+```powershell
+$debut = (Get-Date).AddHours(-24)
+$comptesCreated = Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4720; StartTime=$debut} -ErrorAction SilentlyContinue
+$verrouilles    = Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4740; StartTime=$debut} -ErrorAction SilentlyContinue
+$groupesModif   = Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4728,4732,4756; StartTime=$debut} -ErrorAction SilentlyContinue
+$echecs         = Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4625; StartTime=$debut} -ErrorAction SilentlyContinue
+
+Write-Host "Comptes créés       : $($comptesCreated.Count)"
+Write-Host "Comptes verrouillés : $($verrouilles.Count)"
+Write-Host "Modifs de groupes   : $($groupesModif.Count)"
+Write-Host "Échecs de connexion : $($echecs.Count)"
+```
+
+À enrichir avec `Send-MailMessage` ou export CSV/HTML selon besoin.
+
+### Outils tiers (à connaître pour l'entreprise)
+
+- **Netwrix Auditor** : audit AD complet (commercial)
+- **ManageEngine ADAudit Plus** : monitoring temps réel (commercial)
+- **Splunk** / **Graylog** : SIEM pour agréger logs de plusieurs sources
+- **Elastic Stack (ELK)** : alternative open-source pour la centralisation et la recherche
+
+---
 
 ## 🔗 Ressources Complémentaires
 
@@ -356,12 +291,6 @@ Write-Output $rapport
 - [Monitoring Active Directory](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/monitoring-active-directory-for-signs-of-compromise)
 - [Advanced Security Audit Policies](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/advanced-security-auditing)
 - [Event Log Reference](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/)
-
-### Outils Tiers (Aperçu)
-- **Netwrix Auditor** : Auditing AD complet (commercial)
-- **ManageEngine ADAudit Plus** : Monitoring temps réel
-- **Splunk** : SIEM pour agrégation logs
-- **Graylog** : Alternative open-source à Splunk
 
 ### Scripts Communautaires
 - [AD Security Checks (GitHub)](https://github.com/canix1/ADACLScanner)
