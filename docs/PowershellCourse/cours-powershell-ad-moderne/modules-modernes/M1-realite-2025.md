@@ -182,7 +182,7 @@ catch {
 
 - ✅ **Bon**: Gestion d'erreurs, vérifications
 - ✅ **Bon**: SearchBase spécifique à maxtec.be
-- ⚠️ **Attention**: Filtrer par Department peut ne pas marcher si la propriété Department est vide! Observez sa valeur dans les utilisateurs et ordinateurs d'AD
+- ⚠️ **Attention**: Filtrer par Department peut ne pas marcher si la propriété Department est vide! Observez sa valeur dans les utilisateurs et ordinateurs d'AD. Si c'est le cas sur votre lab, exécutez `scripts/Patch-UserDepartments.ps1` sur le DC pour renseigner cet attribut.
 - ⚠️ **Amélioration**: Ajouter exclusions pour comptes service
 
 ### 🎯 Exercice Pratique 1.1 (15 min)
