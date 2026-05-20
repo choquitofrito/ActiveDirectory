@@ -233,14 +233,3 @@
 !!! note "Pour aller plus loin"
     
     Pour restreindre l'application du raccourci aux seuls administrateurs de Ventes (sans déplacer le lien de la GPO), voir l'exercice **Item-level targeting** dans `Exercices: GPO-3.md`.
-
-## 4. Créer des exceptions à la GPO
-
-!!! example "Objectif"
-    
-    Eviter l'application d'une GPO sur un ordinateur ou un utilisateur en particulier
-
-### 4.1. Éviter la restriction du panneau de configuration sur les admin de Ventes
-
-
-
