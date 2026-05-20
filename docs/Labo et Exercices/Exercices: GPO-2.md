@@ -26,6 +26,34 @@ Configuration ordinateur > Stratégies > Paramètres Windows > Paramètres de s�
 - Un ordinateur joint au domaine dans `IT\Computers` : `ws-IT-01` (dans l'idéel deux ordinateurs si vous êtes à l'aise pour changer le nom d'un ordinateur ou pour créer une autre VM)
 
 
+??? success "Solution (cliquez pour afficher)"
+
+    **1. Créer et lier la GPO**
+
+    - Ouvrir `gpmc.msc`
+    - Clic droit sur l'OU `EU\IT\Computers` → `Créer un objet GPO dans ce domaine et le lier ici…`
+    - Nom : `GPO-IT-LoginRestreint`
+
+    **2. Configurer le droit "Permettre l'ouverture de session locale"**
+
+    - Clic droit sur la GPO → `Modifier`
+    - Naviguer jusqu'à : `Configuration ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies locales > Attribution des droits utilisateur`
+    - Double-cliquer sur **`Permettre l'ouverture de session locale`**
+    - Cocher `Définir ces paramètres de stratégie`
+    - Ajouter **uniquement** :
+        - `GG-EU-IT-Users` (le groupe global des utilisateurs IT)
+        - `Administrators` (groupe local — **NE JAMAIS L'OUBLIER**, sinon plus aucun admin ne peut se connecter à la machine)
+
+    !!! danger "Piège classique"
+        Si vous oubliez `Administrators` dans la liste, vous vous verrouillez vous-même hors des postes IT. Il faut alors passer par le mode sans échec ou révoquer la GPO depuis le DC. **Toujours inclure `Administrators` quand on configure "Permettre l'ouverture de session locale".**
+
+    **3. Tester**
+
+    - Sur `ws-IT-01` : `gpupdate /force` puis redémarrer
+    - Se connecter avec `irene` (IT\Users) → ✅ doit fonctionner
+    - Se connecter avec `victor` (Ventes\Users) → ❌ message : *"La méthode d'ouverture de session que vous tentez d'utiliser n'est pas autorisée."*
+
+    **Pourquoi ça marche ?** La GPO est liée à l'OU des **ordinateurs**, donc elle s'applique à `ws-IT-01`. Le droit "Permettre l'ouverture de session locale" est évalué côté machine : seuls les SIDs listés peuvent ouvrir une session interactive.
 
 
 ## Exercice 6: (Scripts) Nettoyage automatique du dossier Téléchargements à chaque démarrage
@@ -58,6 +86,44 @@ Attention à rajouter le script dans la section des script PowerShell!
 
 Le script doit se lancer dans la fermeture de session. 
 Cliquez et chercher le script sur le disque dur mais **utilisez un chemin de réseau**  dans la configuration!`\\dns1\SYSVOL\maxtec.be\scripts`. ATTENTION AU CHEMIN!!! pas `C:\Windows\SYSVOL\domain\scripts`!
+
+??? success "Solution (cliquez pour afficher)"
+
+    **1. Déposer le script sur le DC**
+
+    - Sur le DC, ouvrir l'Explorateur de fichiers
+    - Aller dans `C:\Windows\SYSVOL\domain\scripts` (créer le dossier `scripts` s'il n'existe pas)
+    - Créer un fichier `nettoyage_telechargements.ps1` avec le contenu fourni dans l'énoncé
+
+    !!! tip "Pourquoi SYSVOL ?"
+        Le dossier `SYSVOL` est **automatiquement répliqué** sur tous les DC du domaine et accessible depuis tous les postes via `\\<domaine>\SYSVOL\...`. C'est l'emplacement standard pour héberger des scripts de GPO.
+
+    **2. Créer et lier la GPO**
+
+    - `gpmc.msc` → clic droit sur l'OU `EU\RH\Users` → `Créer un objet GPO dans ce domaine et le lier ici…`
+    - Nom : `Nettoyage-Telechargements-Demarrage`
+
+    **3. Configurer le script de fermeture de session**
+
+    - Clic droit sur la GPO → `Modifier`
+    - Naviguer jusqu'à : `Configuration utilisateur > Stratégies > Paramètres Windows > Scripts (ouverture/fermeture de session)`
+    - Double-cliquer sur **`Fermeture de session`** (et **non** "Ouverture de session")
+    - Onglet **`Scripts PowerShell`** (en haut de la boîte de dialogue — pas l'onglet par défaut !)
+    - `Ajouter…` → `Parcourir…`
+    - Dans la barre d'adresse, taper le **chemin réseau** : `\\dns1\SYSVOL\maxtec.be\scripts`
+    - Sélectionner `nettoyage_telechargements.ps1`
+
+    !!! danger "Le piège du chemin"
+        Si vous parcourez via `C:\Windows\SYSVOL\domain\scripts`, la GPO enregistrera ce chemin **local**, qui n'existe **pas** sur les postes clients → le script ne s'exécutera jamais. Toujours utiliser le chemin UNC `\\dns1\SYSVOL\maxtec.be\scripts`.
+
+    **4. Tester**
+
+    - Sur un poste de RH, se connecter avec un utilisateur RH
+    - Déposer quelques fichiers dans `Téléchargements`
+    - **Fermer la session** (pas redémarrer — c'est un script de logoff)
+    - Se reconnecter → le dossier `Téléchargements` doit être vide
+
+    **Dépannage** : si rien ne se passe, vérifier dans `gpresult /h rapport.html` que la GPO est bien appliquée à l'utilisateur, et dans l'Observateur d'événements (`Journaux des applications et services > Microsoft > Windows > GroupPolicy > Operational`) qu'il n'y a pas d'erreur d'exécution du script.
 
 ---
 

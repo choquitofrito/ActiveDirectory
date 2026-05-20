@@ -24,25 +24,27 @@ Ce module permet d'exécuter des commandes **PowerShell** pour la gestion **Acti
 **Vous allez installer les outils nécessaires :**
 
 1. **Connectez-vous en tant qu'administrateur** sur le poste client (par exemple, **ws-client-01**).
-2. **Ouvrez les Paramètres Windows** :
-   - Cliquez sur l'icône **Paramètres** (roue dentée) dans la barre des tâches, ou utilisez la recherche Windows et tapez **Paramètres**.
+2. **Ouvrir le menu Fonctionnalités facultatives** : appuyez sur la touche Windows et tapez **`facultative`** — Windows propose directement **Fonctionnalités facultatives**. Cliquez dessus.
 
-3. **Accédez à la section Applications** :
-   - Dans la fenêtre **Paramètres**, cliquez sur **Applications**.
-
-4. **Sélectionnez Fonctionnalités facultatives** :
-   - Dans le menu de gauche, cliquez sur **Applications et fonctionnalités**.
-   - Cliquez sur **Fonctionnalités facultatives** (ou utilisez la barre de recherche et tapez **fonctionnalités facultatives**).
-
-5. **Ajoutez une fonctionnalité** :
+3. **Ajoutez une fonctionnalité** :
    - Cliquez sur **Ajouter une fonctionnalité**.
    - Dans la barre de recherche, tapez **RSAT**.
    - **Sélectionnez** : **RSAT : Outils d'administration de serveur distant**.
    - **Cochez spécifiquement** : **Outils Active Directory pour RSAT** (inclut les outils pour utilisateurs et ordinateurs **Active Directory**, ainsi que les services **LDS**).
 
-6. **Installez la fonctionnalité** :
+4. **Installez la fonctionnalité** :
    - Cliquez sur **Suivant**, puis sur **Installer**.
    - **Redémarrez** le poste client si nécessaire (Windows peut le demander).
+
+5. **Vérifiez que RSAT fonctionne** : ouvrez **PowerShell** (sans privilèges admin) et lancez :
+
+    ```powershell
+    Get-ADUser -Filter * | Select-Object -First 5 Name, SamAccountName
+    ```
+
+    Vous devriez voir 5 utilisateurs du domaine `maxtec.be`. Si vous obtenez l'erreur *"Get-ADUser n'est pas reconnu"*, le module n'est pas installé — relancez l'étape 3. Si l'erreur est *"Impossible de contacter un serveur AD"*, vérifiez que le poste est bien joint au domaine.
+
+    **Bonus — vérifier la console GUI** : tapez `dsa.msc` (Active Directory Users and Computers) ou `gpmc.msc` (Group Policy Management) dans Démarrer. Les deux doivent s'ouvrir et afficher la structure de `maxtec.be`.
 
 **Après l'installation :**
 

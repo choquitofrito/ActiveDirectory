@@ -32,6 +32,10 @@ plugins:
   - search
   - glightbox
 
+# Exclure les guides instructeur du site publié (restent dans le repo)
+exclude_docs: |
+  Labos Extra/*/instructeur/
+
 markdown_extensions:
   - pymdownx.tasklist:
       custom_checkbox: true
@@ -100,7 +104,6 @@ nav:
               - Ex07 - Onboarding Complet: Labos Extra/Labo1-CreativeHub/exercices/Exercice_07_Scenario_Onboarding_Complet.md
               - Ex08 - Troubleshooting GPO: Labos Extra/Labo1-CreativeHub/exercices/Exercice_08_Troubleshooting_GPO.md
               - Ex09 - Crise Sécurité: Labos Extra/Labo1-CreativeHub/exercices/Exercice_09_Scenario_Crise_Securite.md
-          - 👨‍🏫 Guide Instructeur: Labos Extra/Labo1-CreativeHub/instructeur/Guide_Instructeur_Exercices.md
 
       - Lab 2 - MediCare:
           - 📋 Vue d'Ensemble: Labos Extra/Labo2-MediCare/README.md
@@ -116,7 +119,6 @@ nav:
               - Ex06 - Délégation Chef: Labos Extra/Labo2-MediCare/exercices/Exercice_06_Delegation_Chef_Service.md
               - Ex07 - Rotation Spécialistes: Labos Extra/Labo2-MediCare/exercices/Exercice_07_Rotation_Specialistes.md
               - Ex08 - Incident RGPD: Labos Extra/Labo2-MediCare/exercices/Exercice_08_Incident_RGPD.md
-          - 👨‍🏫 Guide Instructeur: Labos Extra/Labo2-MediCare/instructeur/Guide_Instructeur_Exercices.md
 
       - Lab 3 - MonitoringLab:
           - 📋 Vue d'Ensemble: Labos Extra/Labo3-MonitoringLab/README.md
@@ -130,7 +132,6 @@ nav:
               - Ex04 - Comptes de Service: Labos Extra/Labo3-MonitoringLab/exercices/Exercice_04_Comptes_Service.md
               - Ex05 - Audit Personnalisé: Labos Extra/Labo3-MonitoringLab/exercices/Exercice_05_Audit_Personnalise.md
               - Ex06 - Incident Investigation: Labos Extra/Labo3-MonitoringLab/exercices/Exercice_06_Incident_Investigation.md
-          - 👨‍🏫 Guide Instructeur: Labos Extra/Labo3-MonitoringLab/instructeur/Guide_Instructeur_Exercices.md
 
       - Exercices Généraux:
           - Questions de Base: "Labo et Exercices/Exercices: Questions Base.md"
