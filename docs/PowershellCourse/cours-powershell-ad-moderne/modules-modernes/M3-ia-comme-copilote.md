@@ -1,150 +1,145 @@
-# Module 3: L'IA comme Copilote - Prompts Sécurisés et Validation Critique
+# Module 3 — L'IA comme copilote : prompts efficaces et validation critique
 *Durée: 1h30 | Prérequis: Modules 1-2 complétés*
 
-## 🎯 Objectif de ce Module
-**À la fin**: Vous saurez utiliser l'IA (ChatGPT, Copilot, etc.) comme un copilote fiable pour PowerShell AD, pas comme un pilote automatique dangereux.
+## Objectif
+
+À la fin de ce module, vous saurez utiliser une IA (ChatGPT, Copilot, Claude…) comme un copilote fiable pour PowerShell AD — pas comme un pilote automatique aveugle.
 
 ---
 
-## 🤝 Nouvelle Philosophie: IA = Copilote, PAS Pilote
+## Le principe : copilote, pas pilote
 
-### ❌ APPROCHE DANGEREUSE
+L'approche à éviter :
+
 ```
 "ChatGPT, écris-moi un script pour nettoyer AD"
 → Copier-coller direct
-→ Exécution aveugle
-→ 🔥 DÉSASTRE GARANTI
+→ Exécution sans relecture
+→ Désastre presque garanti
 ```
 
-### ✅ APPROCHE PROFESSIONNELLE 2025
+L'approche professionnelle :
+
 ```
-"IA, aide-moi à comprendre et valider ce script AD"
-→ Analysis critique ligne par ligne
-→ Adaptation environnement maxtec.be
-→ Tests avec -WhatIf
-→ ✅ Sécurité garantie
+"Aide-moi à comprendre et valider ce script AD"
+→ Analyse ligne par ligne
+→ Adaptation à l'environnement maxtec.be
+→ Test avec -WhatIf
+→ Exécution maîtrisée
 ```
 
 ---
 
-## 🧠 Les 4 Types d'Utilisation IA pour PowerShell AD
+## Quatre usages typiques
 
-### Type 1: 🔍 **Générer des Idées de Base**
-**Bon pour**: Structure générale, syntaxe de base, concepts
-**Risque**: Moyen
-**Validation**: Obligatoire
+### Usage 1 — Générer une base de script
 
-### Type 2: 🔧 **Comprendre du Code Existant**
-**Bon pour**: Expliquer scripts complexes, identifier risques
-**Risque**: Faible
-**Validation**: Recommandée
+Bon pour : structure générale, syntaxe de base, point de départ.
+Risque : moyen. Validation obligatoire.
 
-### Type 3: 🚨 **Détecter les Problèmes**
-**Bon pour**: Code review, identifier erreurs, suggestions sécurité
-**Risque**: Très faible
-**Validation**: Optionnelle
+### Usage 2 — Comprendre du code existant
 
-### Type 4: ⚡ **Exécution Directe**
-**Bon pour**: JAMAIS
-**Risque**: EXTRÊME
-**Validation**: IMPOSSIBLE
+Bon pour : expliquer un script complexe, identifier les risques.
+Risque : faible. Validation recommandée.
+
+### Usage 3 — Code review
+
+Bon pour : repérer les erreurs, suggérer des améliorations sécurité.
+Risque : très faible. Validation optionnelle.
+
+### Usage 4 — Exécution directe sans relecture
+
+À ne jamais faire. Risque maximal.
 
 ---
 
-## 🎯 Démonstration Live: Session ChatGPT Sécurisée
+## Démo en direct — session ChatGPT
 
-### Scénario Réel
-*L'instructeur ouvre ChatGPT devant la classe*
+*L'instructeur ouvre ChatGPT devant la classe.*
 
-**Ticket**: "Trouver tous les utilisateurs du département RH qui n'ont pas changé leur mot de passe depuis 6 mois"
+**Ticket** : trouver tous les utilisateurs RH dont le mot de passe n'a pas changé depuis 6 mois.
 
-### 🔥 PROMPT NAÏF (NE PAS FAIRE)
+### Prompt naïf — à éviter
+
 ```
-"écris un script powershell pour trouver les utilisateurs RH avec vieux mots de passe"
+écris un script powershell pour trouver les utilisateurs RH avec vieux mots de passe
 ```
 
-**Problème**: Trop vague, pas de contexte sécurité
+Trop vague, aucun contexte de sécurité. La réponse sera générique et probablement inutilisable telle quelle.
 
-### ✅ PROMPT PROFESSIONNEL
+### Prompt professionnel
+
 ```
-"Aide-moi à créer un script PowerShell pour Active Directory avec ces exigences:
+Aide-moi à créer un script PowerShell pour Active Directory avec ces exigences:
 
 CONTEXTE:
 - Domaine: maxtec.be
 - Recherche: utilisateurs département RH
 - Critère: mot de passe non changé depuis 6 mois
-- Environnement: Production (sécurité critique)
+- Environnement: production (sécurité critique)
 
 EXIGENCES SÉCURITÉ:
-- INCLUS -WhatIf et validation d'erreurs
-- Limiter scope avec SearchBase
+- Inclus -WhatIf et validation d'erreurs
+- Limiter le scope avec SearchBase
 - Affichage clair des résultats
-- Pas de modifications, seulement lecture
+- Lecture seule, aucune modification
 - Commentaires explicatifs
 
-EXEMPLE STRUCTURE OU: OU=RH,OU=EU,DC=maxtec,DC=be
-
-Génère le script avec toutes les sécurités."
+STRUCTURE OU: OU=RH,OU=EU,DC=maxtec,DC=be
 ```
 
-### 🤖 Réponse IA (Exemple)
+### Réponse IA type
+
 ```powershell
-# Script de recherche utilisateurs RH - Mots de passe anciens
-# Généré avec assistance IA - À VALIDER AVANT USAGE
+# Script de recherche utilisateurs RH — Mots de passe anciens
+# Généré avec assistance IA — à valider avant usage
 # Domaine: maxtec.be
 
 Import-Module ActiveDirectory
 
-# Configuration
-$dateLimit = (Get-Date).AddDays(-180)  # 6 mois
+$dateLimit = (Get-Date).AddDays(-180)
 $searchBase = "OU=RH,OU=EU,DC=maxtec,DC=be"
 
-Write-Host "=== RECHERCHE UTILISATEURS RH - MOTS DE PASSE ANCIENS ===" -ForegroundColor Cyan
+Write-Host "=== RECHERCHE UTILISATEURS RH — MOTS DE PASSE ANCIENS ===" -ForegroundColor Cyan
 Write-Host "Date limite: $dateLimit" -ForegroundColor Yellow
 Write-Host "Search Base: $searchBase" -ForegroundColor Yellow
 
 try {
-    # Vérifier que le module AD est disponible
     if (-not (Get-Module ActiveDirectory)) {
         throw "Module ActiveDirectory non disponible"
     }
-    
-    # Vérifier que l'OU existe
+
     try {
         Get-ADOrganizationalUnit -Identity $searchBase -ErrorAction Stop
-        Write-Host "✅ OU RH trouvée" -ForegroundColor Green
+        Write-Host "OU RH trouvée" -ForegroundColor Green
     } catch {
         throw "OU non trouvée: $searchBase"
     }
-    
-    # Rechercher utilisateurs RH avec propriétés nécessaires
+
     $utilisateursRH = Get-ADUser -Filter * -SearchBase $searchBase `
                       -Properties PasswordLastSet, Department, LastLogonDate, Enabled `
                       -ErrorAction Stop
-    
+
     Write-Host "Utilisateurs RH trouvés: $($utilisateursRH.Count)" -ForegroundColor Cyan
-    
-    # Filtrer ceux avec mot de passe ancien
+
     $utilisateursMotDePasseAncien = $utilisateursRH | Where-Object {
         $_.PasswordLastSet -lt $dateLimit -and
         $_.Enabled -eq $true -and
         $_.PasswordLastSet -ne $null
     }
-    
-    # Afficher résultats
+
     if ($utilisateursMotDePasseAncien.Count -eq 0) {
-        Write-Host "✅ Aucun utilisateur RH avec mot de passe > 6 mois" -ForegroundColor Green
+        Write-Host "Aucun utilisateur RH avec mot de passe > 6 mois" -ForegroundColor Green
     } else {
-        Write-Host "⚠️  Utilisateurs RH avec mot de passe > 6 mois:" -ForegroundColor Yellow
-        Write-Host "================================================" -ForegroundColor Yellow
-    
+        Write-Host "Utilisateurs RH avec mot de passe > 6 mois:" -ForegroundColor Yellow
+
         $utilisateursMotDePasseAncien | Select-Object `
             @{Name="Nom"; Expression={$_.Name}},
             @{Name="Login"; Expression={$_.SamAccountName}},
             @{Name="Dernier changement MDP"; Expression={$_.PasswordLastSet}},
             @{Name="Jours depuis changement"; Expression={((Get-Date) - $_.PasswordLastSet).Days}} |
             Format-Table -AutoSize
-    
+
         Write-Host "Total concernés: $($utilisateursMotDePasseAncien.Count)" -ForegroundColor Red
     }
 
@@ -152,42 +147,43 @@ try {
     Write-Error "Erreur lors de l'exécution: $($_.Exception.Message)"
     Write-Host "Vérifiez les permissions et la connectivité AD" -ForegroundColor Yellow
 }
-
-Write-Host "=== RECHERCHE TERMINÉE ===" -ForegroundColor Cyan
 ```
 
 ---
 
-## 🔍 Validation Critique du Script IA
+## Validation critique du script généré
 
-### ✅ Points Forts Identifiés
-1. **Gestion d'erreurs** avec try-catch
-2. **Vérifications préalables** (module, OU)
-3. **SearchBase spécifique** à maxtec.be
-4. **Affichage formaté** des résultats
-5. **Pas de modifications** (read-only)
+### Ce qui est bien
 
-### ⚠️ Points à Améliorer
-1. **Hardcodé**: SearchBase fixe (et si structure différente ?)
-2. **Filtre Department**: Pas utilisé (redondance avec SearchBase)
-3. **Null check**: PasswordLastSet peut être null pour certains comptes
+1. Gestion d'erreurs avec `try/catch`.
+2. Vérifications préalables (module, OU).
+3. SearchBase spécifique à maxtec.be.
+4. Affichage formaté.
+5. Lecture seule.
 
-### 🔧 Améliorations Suggérées
+### Ce qui mérite attention
+
+1. **SearchBase codée en dur** — et si la structure change ?
+2. **Filtre Department** non utilisé — redondance avec SearchBase.
+3. **Null check** — `PasswordLastSet` peut être `$null` pour certains comptes.
+
+### Améliorations possibles
+
 ```powershell
-# Amélioration 1: Paramètres flexibles
+# 1. Paramètres flexibles
 param(
     [string]$SearchBase = "OU=RH,OU=EU,DC=maxtec,DC=be",
     [int]$JoursLimite = 180
 )
 
-# Amélioration 2: Meilleur filtre
+# 2. Filtre plus robuste
 $utilisateursMotDePasseAncien = $utilisateursRH | Where-Object {
     $_.PasswordLastSet -ne $null -and
     $_.PasswordLastSet -lt $dateLimit -and
     $_.Enabled -eq $true
 }
 
-# Amélioration 3: Exclusions comptes service
+# 3. Exclusion des comptes de service
 $utilisateursMotDePasseAncien = $utilisateursRH | Where-Object {
     $_.PasswordLastSet -ne $null -and
     $_.PasswordLastSet -lt $dateLimit -and
@@ -199,14 +195,14 @@ $utilisateursMotDePasseAncien = $utilisateursRH | Where-Object {
 
 ---
 
-## 🎯 Exercice Pratique 3.1: Votre Premier Prompt Professionnel
+## Exercice 3.1 — votre premier prompt structuré
 
-### Mission
-Créez un prompt pour générer un script qui trouve tous les utilisateurs IT de maxtec.be verrouillés.
+**Mission** : créer un prompt pour générer un script qui trouve tous les utilisateurs IT de maxtec.be verrouillés.
 
-### Template à Compléter
+### Template à compléter
+
 ```
-"Aide-moi à créer un script PowerShell pour Active Directory avec ces exigences:
+Aide-moi à créer un script PowerShell pour Active Directory avec ces exigences:
 
 CONTEXTE:
 - Domaine: [À COMPLÉTER]
@@ -219,135 +215,135 @@ EXIGENCES SÉCURITÉ:
 - [À COMPLÉTER]
 - [À COMPLÉTER]
 
-EXEMPLE STRUCTURE OU: [À COMPLÉTER]
-
-Génère le script avec toutes les sécurités."
+STRUCTURE OU: [À COMPLÉTER]
 ```
 
-### Solution Suggérée
+### Solution
+
 ```
-"Aide-moi à créer un script PowerShell pour Active Directory avec ces exigences:
+Aide-moi à créer un script PowerShell pour Active Directory avec ces exigences:
 
 CONTEXTE:
 - Domaine: maxtec.be
 - Recherche: utilisateurs département IT
 - Critère: comptes verrouillés (LockedOut = True)
-- Environnement: Production (sécurité critique)
+- Environnement: production (sécurité critique)
 
 EXIGENCES SÉCURITÉ:
-- INCLUS gestion d'erreurs et validation
-- Limiter scope avec SearchBase
+- Gestion d'erreurs et validation
+- Limiter le scope avec SearchBase
 - Affichage des détails de verrouillage
-- Option -WhatIf pour déverrouillage
+- Option -WhatIf pour le déverrouillage
 - Commentaires explicatifs
 
-EXEMPLE STRUCTURE OU: OU=IT,OU=EU,DC=maxtec,DC=be
-
-Génère le script avec toutes les sécurités et option de déverrouillage."
+STRUCTURE OU: OU=IT,OU=EU,DC=maxtec,DC=be
 ```
 
 ---
 
-## 🛡️ Les 5 Règles d'Or pour Utiliser l'IA Sécurisée
+## Cinq règles pour utiliser une IA avec PowerShell AD
 
-### Règle #1: **Contexte Précis = Réponse Précise**
+### 1. Contexte précis = réponse précise
+
 ```
-❌ "script powershell utilisateurs"
-✅ "script PowerShell AD pour maxtec.be, utilisateurs département Ventes,
-   recherche comptes expirés, production, avec -WhatIf"
+À éviter : "script powershell utilisateurs"
+À préférer: "script PowerShell AD pour maxtec.be, utilisateurs département Ventes,
+            recherche comptes expirés, production, avec -WhatIf"
 ```
 
-### Règle #2: **Toujours Demander les Sécurités**
-**Phrases magiques à inclure**:
+### 2. Toujours demander les sécurités
 
-- "INCLUS -WhatIf et validation d'erreurs"
-- "environnement production, sécurité critique"
-- "avec commentaires explicatifs"
-- "gestion d'erreurs robuste"
+Phrases utiles à inclure dans le prompt :
 
-### Règle #3: **Valider Ligne par Ligne**
+- "Inclus `-WhatIf` et validation d'erreurs"
+- "Environnement production, sécurité critique"
+- "Avec commentaires explicatifs"
+- "Gestion d'erreurs robuste"
+
+### 3. Valider ligne par ligne
+
 ```powershell
-# ✅ BON: Comprendre chaque ligne
+# Bon : on comprend chaque ligne
 Get-ADUser -Filter {Department -eq "IT"} -Properties LockedOut
 
-# ❌ MAUVAIS: Je ne comprends pas mais ça marche
+# Mauvais : on l'exécute parce que "ça marche"
 Get-ADUser -Filter * | ?{$_.LockedOut} | %{Unlock-ADAccount $_}
 ```
 
-### Règle #4: **Adapter à Votre Environnement**
+### 4. Adapter à l'environnement
+
 ```powershell
-# ❌ Script générique de l'IA
+# Script générique
 -SearchBase "OU=Users,DC=contoso,DC=com"
 
-# ✅ Adapté à maxtec.be
+# Adapté à maxtec.be
 -SearchBase "OU=IT,OU=EU,DC=maxtec,DC=be"
 ```
 
-### Règle #5: **Tester d'Abord, Exécuter Ensuite**
+### 5. Tester d'abord
+
 ```powershell
-# TOUJOURS commencer par:
-Get-ADUser -Filter {Department -eq "IT"} -WhatIf  # Même si pas nécessaire
-Get-ADUser -Filter {Department -eq "IT"} | Select-Object Name  # Voir le résultat
-# PUIS exécuter la vraie commande
+# Toujours commencer par observer
+Get-ADUser -Filter {Department -eq "IT"} | Select-Object Name
+
+# Puis exécuter la vraie commande
 ```
 
 ---
 
-## 🎭 Cas d'Usage Avancés: L'IA comme Détecteur de Problèmes
+## L'IA comme outil de code review
 
-### Scénario: Analyser un Script Suspect
+### Prompt d'analyse de script
 
-**Prompt de Sécurité**:
 ```
-"Analyse ce script PowerShell AD ligne par ligne et identifie tous les risques de sécurité, erreurs potentielles, et améliorations nécessaires:
+Analyse ce script PowerShell AD ligne par ligne et identifie tous les risques
+de sécurité, erreurs potentielles, et améliorations nécessaires:
 
 [COLLER LE SCRIPT ICI]
 
 Focus sur:
-- Commandes dangereuses sans -WhatIf
+- Commandes destructives sans -WhatIf
 - Filtres trop larges
 - Gestion d'erreurs manquante
 - Hardcoding problématique
 - Risques pour environnement production
 
-Donne une note de sécurité /10 et explique comment corriger."
+Donne une note de sécurité /10 et explique comment corriger.
 ```
 
-### Exemple d'Analyse
-**Script à analyser**:
+### Exemple d'analyse
+
+**Script à analyser :**
+
 ```powershell
 Get-ADUser -Filter * | Where-Object {$_.Department -eq "IT"} | Set-ADUser -Title "Informaticien"
 ```
 
-**Réponse IA attendue**:
+**Réponse type :**
+
 ```
-ANALYSE SÉCURITÉ: 3/10 ⚠️
+Note sécurité: 3/10
 
-RISQUES IDENTIFIÉS:
-1. 🚨 CRITIQUE: Get-ADUser -Filter * charge TOUS les utilisateurs du domaine
-2. 🚨 CRITIQUE: Set-ADUser sans -WhatIf = modifications directes
-3. ⚠️  MOYEN: Pas de gestion d'erreurs
-4. ⚠️  MOYEN: Pas de vérification préalable
+Risques identifiés:
+1. Critique  — Get-ADUser -Filter * charge tous les utilisateurs du domaine
+2. Critique  — Set-ADUser sans -WhatIf, modification directe
+3. Moyen     — Pas de gestion d'erreurs
+4. Moyen     — Pas de vérification préalable
 
-CORRECTIONS NÉCESSAIRES:
-1. Utiliser SearchBase pour limiter scope
-2. Ajouter -WhatIf obligatoire
-3. Vérifier département avant modification
-4. Ajouter try-catch
-
-SCRIPT CORRIGÉ:
-[Script amélioré avec sécurités]
+Corrections nécessaires:
+1. Utiliser SearchBase pour limiter le scope
+2. Ajouter -WhatIf
+3. Vérifier le département avant modification
+4. Ajouter try/catch
 ```
 
 ---
 
-## 🎯 Exercice Pratique 3.2: IA Detective
+## Exercice 3.2 — détecter les problèmes
 
-### Mission
-Utilisez l'IA pour analyser ce script "bomba" et identifier tous les problèmes:
+Utilisez une IA pour analyser ce script et identifier les problèmes :
 
 ```powershell
-# Script trouvé sur un forum
 Get-ADGroup -Filter {Name -like "GG-*"} | ForEach-Object {
     $membres = Get-ADGroupMember -Identity $_.Name
     if ($membres.Count -eq 0) {
@@ -356,27 +352,27 @@ Get-ADGroup -Filter {Name -like "GG-*"} | ForEach-Object {
 }
 ```
 
-### Questions pour l'IA
-1. "Que fait exactement ce script ?"
-2. "Quels sont les risques si je l'exécute sur maxtec.be ?"
-3. "Comment le rendre sécurisé ?"
+### Questions à poser à l'IA
 
-### Réponse Attendue
+1. Que fait exactement ce script ?
+2. Quels sont les risques si je l'exécute sur maxtec.be ?
+3. Comment le rendre sécurisé ?
 
-**Risques majeurs**:
+### Risques attendus
 
-- Suppression de groupes sans -WhatIf
-- Pas de vérification si groupes critiques
-- Logic flaw: groupes vides ≠ groupes inutiles
-- Aucune sauvegarde avant suppression
+- Suppression de groupes sans `-WhatIf`.
+- Aucune vérification si certains groupes sont critiques.
+- Erreur de logique : groupe vide ≠ groupe inutile.
+- Aucune sauvegarde avant suppression.
 
 ---
 
-## 💡 Prompts Prêts à Utiliser (Templates)
+## Templates de prompts prêts à utiliser
 
-### 🔍 **Template Diagnostic**
+### Template diagnostic
+
 ```
-"Aide-moi à diagnostiquer un problème Active Directory:
+Aide-moi à diagnostiquer un problème Active Directory:
 
 SITUATION: [Décrire le problème]
 DOMAINE: maxtec.be
@@ -387,73 +383,74 @@ Génère un script de diagnostic PowerShell avec:
 - Commandes pour identifier la cause
 - Vérifications étape par étape
 - Affichage clair des résultats
-- Pas de modifications, seulement lecture
-- Commentaires explicatifs"
+- Lecture seule
+- Commentaires explicatifs
 ```
 
-### 🔧 **Template Action Sécurisée**
+### Template action sécurisée
+
 ```
-"Crée un script PowerShell AD pour cette action:
+Crée un script PowerShell AD pour cette action:
 
 ACTION: [Ce que je veux faire]
 CIBLE: [Utilisateurs/Groupes concernés]
-ENVIRONNEMENT: maxtec.be, production critique
+ENVIRONNEMENT: maxtec.be, production
 
-SÉCURITÉS OBLIGATOIRES:
+SÉCURITÉS:
 - -WhatIf par défaut
 - Validation avant exécution
-- Gestion d'erreurs robuste
+- Gestion d'erreurs
 - Logging des actions
-- Possibilité d'annulation
+- Annulation possible
 
-Structure OU: OU=[dept],OU=EU,DC=maxtec,DC=be"
+STRUCTURE OU: OU=[dept],OU=EU,DC=maxtec,DC=be
 ```
 
-### 🔍 **Template Code Review**
+### Template code review
+
 ```
-"Analyse ce script PowerShell AD et donne un audit complet:
+Analyse ce script PowerShell AD et donne un audit complet:
 
 [COLLER SCRIPT]
 
 FOCUS SÉCURITÉ:
 - Risques pour production
-- Commandes dangereuses
+- Commandes destructives
 - Améliorations nécessaires
 - Note sécurité /10
 - Version corrigée
 
-ENVIRONNEMENT: maxtec.be, domaine production"
+ENVIRONNEMENT: maxtec.be, domaine production
 ```
 
 ---
 
-## 🎓 Récapitulatif: Maîtriser l'IA comme Copilote
+## Récapitulatif
 
-### ✅ Ce Que Vous Savez Maintenant
-1. **Prompts précis** = réponses utilisables
-2. **Validation critique** de chaque script généré
-3. **Adaptation environnement** obligatoire
-4. **L'IA détecte** les problèmes mieux que nous
-5. **-WhatIf reste roi** même avec l'IA
+### Ce que vous savez faire maintenant
 
-### 🚨 Ce Qu'Il Faut Retenir
-- **L'IA = suggestions**, vous = décision finale
-- **Jamais de copier-coller aveugle**
-- **Toujours tester** avant production
-- **L'IA peut se tromper** sur votre contexte spécifique
+1. Écrire des prompts précis qui produisent du code utilisable.
+2. Valider de manière critique chaque script généré.
+3. Adapter systématiquement à l'environnement cible.
+4. Utiliser l'IA pour détecter les problèmes d'un script.
+5. Garder `-WhatIf` comme réflexe, même avec l'IA.
 
-### 🎯 Votre Nouvelle Workflow
-1. **Réfléchir** au problème
-2. **Prompts précis** avec contexte sécurité
-3. **Valider** ligne par ligne
-4. **Adapter** à maxtec.be
-5. **Tester** avec -WhatIf
-6. **Documenter** ce qui fonctionne
+### Points à retenir
+
+- L'IA propose, vous décidez.
+- Pas de copier-coller sans relecture.
+- Toujours tester avant production.
+- L'IA n'a pas votre contexte — elle se trompe sur les détails spécifiques.
+
+### Workflow
+
+1. Définir le problème.
+2. Prompt précis avec contexte sécurité.
+3. Valider ligne par ligne.
+4. Adapter à maxtec.be.
+5. Tester avec `-WhatIf`.
+6. Documenter.
 
 ---
 
-*☕ **PAUSE OBLIGATOIRE 10 minutes** - Essayez vos propres prompts*
-
----
-
-**🎯 Prochaine étape**: Module 4 - Scripts Bombes Lab (Détecter Erreurs Mortelles Cachées)
+**Suite** : Module 4 — Détecter les scripts dangereux (erreurs cachées et pièges classiques).

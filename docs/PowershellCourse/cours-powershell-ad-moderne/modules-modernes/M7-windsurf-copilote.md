@@ -1,70 +1,68 @@
-# Module 7: Windsurf comme Copilote — Écrire des Scripts avec l'IA ⚗️
+# Module 7 — Windsurf comme copilote : écrire des scripts avec une IA
 
-> **⚗️ MODULE EXPÉRIMENTAL** — Ce module utilise Windsurf IDE (gratuit) comme assistant de codage.
+> **Module expérimental** — Ce module utilise Windsurf IDE (gratuit) comme assistant de codage.
 > Les quotas et modèles disponibles peuvent changer. Si le chat IA n'est plus disponible,
-> les exercices restent valables avec Google ou ChatGPT comme alternative.
+> les exercices restent valables avec Google, ChatGPT ou Claude comme alternative.
 
-*Durée: 1h30 | Prérequis: Modules 1-6 complétés | Lab Maxtec installé et Patch-UserDepartments.ps1 exécuté*
-
----
-
-## 🎯 Objectif de ce Module
-
-**À la fin**: Vous saurez utiliser un assistant IA pour construire des scripts PowerShell pas à pas, en comprenant chaque ligne — pas en copiant aveuglément.
+*Durée: 1h30 | Prérequis: Modules 1-6 complétés | Lab Maxtec installé et `Patch-UserDepartments.ps1` exécuté*
 
 ---
 
-## 🔥 La Règle du Module
+## Objectif
+
+À la fin de ce module, vous saurez utiliser un assistant IA pour construire des scripts PowerShell pas à pas, en comprenant chaque ligne — pas en copiant aveuglément.
+
+---
+
+## La règle du module
 
 ```
-❌ INTERDIT: Copier-coller un script sans lire
-✅ OBLIGATOIRE: Comprendre chaque ligne avant d'exécuter
-
-L'IA est votre pair de programmation, pas votre secrétaire.
+À éviter : copier-coller un script sans le lire
+À faire   : comprendre chaque ligne avant d'exécuter
 ```
+
+L'IA est un pair de programmation, pas un secrétaire.
 
 ---
 
-## 🛠️ Configuration de Windsurf
+## Configuration de Windsurf
 
 ### Avant de commencer
 
-1. Créez un compte gratuit sur [windsurf.com](https://windsurf.com)
-2. Installez Windsurf IDE
-3. Ouvrez un nouveau fichier `.ps1`
-4. Le chat IA s'ouvre avec `Ctrl+L` (Cascade)
+1. Créez un compte gratuit sur [windsurf.com](https://windsurf.com).
+2. Installez Windsurf IDE.
+3. Ouvrez un nouveau fichier `.ps1`.
+4. Le chat IA s'ouvre avec `Ctrl+L` (Cascade).
 
-### Comment utiliser le chat efficacement
+### Bons réflexes de prompt
 
 ```
-✅ BON prompt:
-"Je travaille sur le domaine maxtec.be avec PowerShell.
+Je travaille sur le domaine maxtec.be avec PowerShell.
 J'ai des utilisateurs dans les OUs RH, Ventes, Comptabilite et IT.
 Je veux lister tous les utilisateurs du département RH avec leur statut
-Enabled. Explique chaque ligne."
-
-❌ MAUVAIS prompt:
-"Écris-moi un script PowerShell AD"
+Enabled. Explique chaque ligne.
 ```
 
-**Règle d'or**: donnez contexte (maxtec.be), objectif précis, et demandez toujours une explication.
+Trois éléments à toujours fournir : contexte (maxtec.be), objectif précis, demande d'explication.
 
 ---
 
-## 💻 Exercice 7.1 — Premiers Pas: Qui est dans RH ?
+## Exercice 7.1 — Premiers pas : qui est dans RH ?
 
-**Niveau**: Débutant | **Durée**: 15 min
+**Niveau** : débutant | **Durée** : 15 min
 
-### La Situation
+### Situation
 
-Vous êtes nouvel admin chez Maxtec. Votre responsable vous demande:
+Vous êtes nouvel admin chez Maxtec. Votre responsable vous demande :
+
 > *"Envoie-moi la liste des comptes RH — je veux savoir lesquels sont actifs."*
 
-### Votre Mission
+### Mission
 
-Utilisez Windsurf pour construire ce script. Ne tapez pas le code vous-même.
+Utilisez Windsurf pour construire le script. Ne tapez pas le code vous-même.
 
-**Prompt suggéré pour Windsurf:**
+Prompt suggéré :
+
 ```
 Je travaille sur le domaine maxtec.be. Les utilisateurs RH sont dans
 OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be et ont Department = "RH".
@@ -72,13 +70,13 @@ Je veux un script qui liste tous les utilisateurs RH avec leur nom,
 SamAccountName et statut Enabled. Explique chaque ligne du script.
 ```
 
-### Ce que vous devez faire AVANT d'exécuter
+### À faire avant d'exécuter
 
-Pour chaque ligne du script généré, répondez:
+Pour chaque ligne du script généré :
 
-1. **Qu'est-ce que cette ligne fait?**
-2. **Si je la supprime, qu'est-ce qui change?**
-3. **Quel paramètre puis-je modifier pour changer le résultat?**
+1. Qu'est-ce que cette ligne fait ?
+2. Si je la supprime, qu'est-ce qui change ?
+3. Quel paramètre puis-je modifier pour changer le résultat ?
 
 ### Résultat attendu
 
@@ -90,75 +88,71 @@ Rebecca   rebecca         True
 Rene      rene            True
 ```
 
-### Point de Discussion
+### Point de discussion
 
-> Le script utilise `-Filter {Department -eq "RH"}` ou `-SearchBase`?
-> Demandez à Windsurf: *"Quelle méthode est plus fiable et pourquoi?"*
+Le script utilise `-Filter {Department -eq "RH"}` ou `-SearchBase` ? Demandez à Windsurf : *"Quelle méthode est plus fiable et pourquoi ?"*
 
 ---
 
-## 💻 Exercice 7.2 — Ticket Réel: Compte Bloqué
+## Exercice 7.2 — Ticket réel : compte bloqué
 
-**Niveau**: Débutant-Intermédiaire | **Durée**: 20 min
+**Niveau** : débutant-intermédiaire | **Durée** : 20 min
 
-### La Situation
+### Situation
 
-Ticket entrant:
-> *"Bonjour, je suis Vanessa du département Ventes. Je n'arrive plus à me connecter depuis ce matin. Mon compte est peut-être bloqué?"*
+Ticket entrant :
 
-### Votre Mission en Deux Temps
+> *"Bonjour, je suis Vanessa du département Ventes. Je n'arrive plus à me connecter depuis ce matin. Mon compte est peut-être bloqué ?"*
 
-**Temps 1 — Diagnostic (avec Windsurf)**
+### Mission en deux temps
 
-Prompt:
+**1 — Diagnostic**
+
 ```
 Sur maxtec.be, je dois vérifier si l'utilisateur "vanessa" est bloqué.
 Je veux voir: LockedOut, BadPwdCount, LastBadPasswordAttempt et Enabled.
 Donne-moi le script avec explication de chaque paramètre -Properties.
 ```
 
-**Temps 2 — Résolution (avec Windsurf)**
+**2 — Résolution**
 
-Prompt:
 ```
 Le compte vanessa est bloqué (LockedOut = True). Écris le script pour
 le débloquer sans réinitialiser son mot de passe. Explique la différence
 entre Unlock-ADAccount et Set-ADAccountPassword.
 ```
 
-### Validation Obligatoire
+### Validation
 
-Avant d'exécuter la résolution:
+Avant d'exécuter :
 
 ```powershell
-# Vérifiez avec -WhatIf si la commande l'accepte, sinon simulez manuellement:
+# Vérifier l'état actuel
 Get-ADUser -Identity vanessa -Properties LockedOut | Select-Object Name, LockedOut
 ```
 
-Comparez avant/après.
+Comparer avant et après.
 
-### Question de Réflexion
+### Question de réflexion
 
-> L'IA a-t-elle proposé `-WhatIf` spontanément?
-> Si non, demandez-lui: *"Comment tester cette commande sans risque avant de l'exécuter?"*
+L'IA a-t-elle proposé `-WhatIf` spontanément ? Si non, demandez : *"Comment tester cette commande sans risque avant de l'exécuter ?"*
 
 ---
 
-## 💻 Exercice 7.3 — Rapport de Département
+## Exercice 7.3 — Rapport de département
 
-**Niveau**: Intermédiaire | **Durée**: 25 min
+**Niveau** : intermédiaire | **Durée** : 25 min
 
-### La Situation
+### Situation
 
-Votre responsable veut un rapport mensuel:
-> *"Chaque mois je veux voir par département: combien d'utilisateurs actifs,
-> combien de désactivés, et la date de dernière connexion la plus récente."*
+Votre responsable veut un rapport mensuel :
 
-### Votre Mission
+> *"Chaque mois je veux voir par département : combien d'utilisateurs actifs, combien de désactivés, et la date de dernière connexion la plus récente."*
 
-**Étape 1 — Construire avec Windsurf:**
+### Mission
 
-Prompt:
+**Étape 1 — construire avec Windsurf**
+
 ```
 Sur maxtec.be, je veux un script qui génère un rapport par département
 (RH, Ventes, Comptabilite, IT). Pour chaque département: nombre
@@ -168,43 +162,39 @@ Utilise -Properties Department, Enabled, LastLogonDate.
 Explique pourquoi LastLogonDate peut être vide ou incorrect.
 ```
 
-**Étape 2 — Comprendre la réponse:**
+**Étape 2 — comprendre la réponse**
 
-L'IA vous expliquera probablement pourquoi `LastLogonDate` est peu fiable
-(ne se réplique pas entre DCs en temps réel). Demandez-lui:
+L'IA expliquera probablement pourquoi `LastLogonDate` est peu fiable (ne se réplique pas entre DCs en temps réel). Demandez ensuite :
 
 ```
 Quelle propriété est plus fiable que LastLogonDate pour savoir
-quand un utilisateur s'est connecté pour la dernière fois?
+quand un utilisateur s'est connecté pour la dernière fois ?
 ```
 
-**Étape 3 — Modifier le script:**
+**Étape 3 — modifier le script**
 
-Adaptez le script pour utiliser la propriété recommandée par l'IA.
+Adaptez-le pour utiliser la propriété recommandée.
 
-### Ce Qu'on Apprend Ici
+### Ce qu'on apprend ici
 
-Ce n'est pas juste un exercice technique — c'est un exemple de comment
-l'IA peut enseigner des nuances que la documentation officielle noie
-dans du jargon.
+L'IA peut expliquer des nuances que la documentation officielle noie dans du jargon. C'est un usage de l'IA particulièrement intéressant : poser des questions précises et obtenir des réponses ciblées.
 
 ---
 
-## 💻 Exercice 7.4 — Onboarding: Nouveau Collègue
+## Exercice 7.4 — Onboarding : nouveau collègue
 
-**Niveau**: Intermédiaire-Avancé | **Durée**: 25 min
+**Niveau** : intermédiaire-avancé | **Durée** : 25 min
 
-### La Situation
+### Situation
 
-Email de RH:
-> *"Nouvelle arrivée lundi: Sophie Renard, département Ventes.
-> Merci de créer son compte et de l'ajouter aux groupes standards."*
+Email RH :
 
-### Votre Mission
+> *"Nouvelle arrivée lundi : Sophie Renard, département Ventes. Merci de créer son compte et de l'ajouter aux groupes standards."*
 
-**Étape 1 — Demandez les paramètres à l'IA:**
+### Mission
 
-Prompt:
+**Étape 1 — demander les paramètres**
+
 ```
 Sur maxtec.be, je dois créer un utilisateur pour le département Ventes.
 Structure OU: OU=Users,OU=Ventes,OU=EU,DC=maxtec,DC=be.
@@ -214,49 +204,48 @@ Crée un script avec -WhatIf d'abord, puis la version réelle.
 Explique les paramètres ChangePasswordAtLogon et AccountPassword.
 ```
 
-**Étape 2 — Identifiez les risques:**
+**Étape 2 — identifier les risques**
 
-Avant d'exécuter, posez cette question à l'IA:
 ```
-Quels problèmes peut-il y avoir si j'exécute ce script deux fois?
-Comment le rendre idempotent?
+Quels problèmes peut-il y avoir si j'exécute ce script deux fois ?
+Comment le rendre idempotent ?
 ```
 
-**Étape 3 — Exécutez en deux phases:**
+**Étape 3 — exécuter en deux phases**
 
 ```powershell
 # Phase 1: simulation
-.\onboarding-sophie.ps1 -WhatIf   # si le script accepte -WhatIf
+.\onboarding-sophie.ps1 -WhatIf
 
-# Phase 2: vérification manuelle de la commande critique
+# Phase 2: vérification manuelle
 Get-ADUser -Filter "SamAccountName -eq 'sophie.renard'" -ErrorAction SilentlyContinue
 
 # Phase 3: exécution réelle seulement si Phase 1 et 2 OK
 ```
 
-### Critère de Réussite
+### Critère de réussite
 
 ```powershell
-# Ce script doit retourner les bonnes valeurs:
 Get-ADUser -Identity "sophie.renard" -Properties Department, MemberOf |
-    Select-Object Name, Department, @{N="Groupes";E={($_.MemberOf | Get-ADGroup).Name}}
+    Select-Object Name, Department, @{N="Groupes"; E={($_.MemberOf | Get-ADGroup).Name}}
 ```
 
 ---
 
-## 💻 Exercice 7.5 — Audit de Sécurité: Mots de Passe
+## Exercice 7.5 — Audit de sécurité : mots de passe
 
-**Niveau**: Avancé | **Durée**: 20 min
+**Niveau** : avancé | **Durée** : 20 min
 
-### La Situation
+### Situation
 
-Audit trimestriel obligatoire:
-> *"Identifiez tous les comptes dont le mot de passe n'a pas changé
-> depuis plus de 90 jours et les comptes avec PasswordNeverExpires."*
+Audit trimestriel :
 
-### Votre Mission
+> *"Identifiez tous les comptes dont le mot de passe n'a pas changé depuis plus de 90 jours et les comptes avec PasswordNeverExpires."*
 
-**Prompt initial:**
+### Mission
+
+**Prompt initial :**
+
 ```
 Sur maxtec.be, je dois faire un audit de sécurité sur les mots de passe.
 Je veux deux listes:
@@ -265,56 +254,54 @@ Je veux deux listes:
 Génère le script avec explication. Inclus -WhatIf sur toute action.
 ```
 
-**Après avoir reçu le script, demandez:**
+**Suivi :**
+
 ```
 Ce script génère un rapport. Comment l'exporter en CSV proprement,
-avec un nom de fichier qui inclut la date d'aujourd'hui automatiquement?
+avec un nom de fichier qui inclut la date d'aujourd'hui automatiquement ?
 ```
 
-**Puis:**
+**Puis :**
+
 ```
 Y a-t-il des comptes système ou de service qu'on devrait exclure
-de cet audit? Comment les identifier dans AD?
+de cet audit ? Comment les identifier dans AD ?
 ```
 
-### Réflexion Finale
+### Réflexion finale
 
-Comparez le script final avec celui que l'IA a généré au départ.
-Combien d'améliorations avez-vous obtenues en posant des questions
-de suivi?
+Comparez le script final avec celui généré au départ. Combien d'améliorations avez-vous obtenues en posant des questions de suivi ?
 
-> C'est exactement comme ça que les admins expérimentés travaillent:
-> ils savent quoi demander, pas forcément comment l'écrire.
+C'est exactement comme ça que les admins expérimentés travaillent : ils savent quoi demander, pas forcément comment l'écrire.
 
 ---
 
-## 🎓 Récapitulatif: Ce que vous avez appris
+## Récapitulatif
 
-```
-✅ Formuler des prompts précis avec contexte AD
-✅ Lire et valider du code généré avant de l'exécuter
-✅ Poser des questions de suivi pour améliorer un script
-✅ Identifier les risques que l'IA ne mentionne pas spontanément
-✅ Comprendre pourquoi -WhatIf est non-négociable
-```
+Ce que vous savez faire maintenant :
 
-### 🤔 La Question Clé
+- Formuler des prompts précis avec contexte AD.
+- Lire et valider du code généré avant de l'exécuter.
+- Poser des questions de suivi pour améliorer un script.
+- Identifier les risques que l'IA ne mentionne pas spontanément.
+- Comprendre pourquoi `-WhatIf` reste non négociable.
 
-> Si Windsurf n'est plus disponible demain,
-> êtes-vous capable de retrouver ces scripts vous-même avec Google?
+### Question test
 
-Si la réponse est oui, ce module a atteint son objectif.
+Si Windsurf n'est plus disponible demain, êtes-vous capable de retrouver ces scripts vous-même avec Google ?
 
----
-
-## 🔧 Si le Chat IA ne Répond Plus (Quota Épuisé)
-
-Le tier gratuit de Windsurf a une quota journalière. Si vous atteignez la limite:
-
-1. **L'autocompletado Tab reste disponible** — tapez les premières lettres d'un cmdlet, Windsurf complète
-2. **Utilisez ChatGPT ou Claude** avec les mêmes prompts — la logique est identique
-3. **Référence rapide**: `scripts/Patch-UserDepartments.ps1` montre la structure type d'un script Maxtec
+Si oui, ce module a atteint son objectif.
 
 ---
 
-*🎯 **Fin du cours PowerShell Moderne** — Vous avez maintenant les outils pour survivre et progresser dans n'importe quel environnement AD réel.*
+## Si le chat IA ne répond plus (quota épuisé)
+
+Le tier gratuit de Windsurf a une quota journalière. Si vous l'atteignez :
+
+1. **L'autocomplétion Tab reste disponible** — tapez les premières lettres d'un cmdlet, Windsurf complète.
+2. **Utilisez ChatGPT ou Claude** avec les mêmes prompts — la logique est identique.
+3. **Référence rapide** : `scripts/Patch-UserDepartments.ps1` montre la structure type d'un script Maxtec.
+
+---
+
+*Fin du cours PowerShell Moderne.*

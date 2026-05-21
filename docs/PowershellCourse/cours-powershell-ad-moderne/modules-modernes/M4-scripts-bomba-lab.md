@@ -1,63 +1,61 @@
-# Module 4: Scripts Bomba Lab - Détecter les Erreurs Mortelles Cachées
+# Module 4 — Détecter les scripts dangereux
 
-## 🎯 Objectif de ce Module
-**À la fin**: Vous serez un détecteur humain de scripts dangereux, capable d'identifier les erreurs mortelles avant qu'elles explosent en production.
+## Objectif
 
----
-
-## 💣 Philosophie du Module: Apprendre du Désastre AVANT qu'il Arrive
-
-### Pourquoi ce Module Existe
-```
-📊 STATISTIQUES RÉELLES:
-- 73% des pannes AD = erreurs humaines de script
-- 89% des scripts dangereux = apparence légitimes
-- 95% des désastres = évitables avec validation
-- 100% des admins = ont une histoire d'horreur
-```
-
-### L'Art de la Détection
-
-**Un script bomba parfait** :
-
-- ✅ Semble légitime à première vue
-- ✅ Commentaires rassurants
-- ✅ Vient de source "fiable"
-- ☠️ Contient 1-2 erreurs mortelles cachées
-- ☠️ Explose seulement en production
+À la fin de ce module, vous saurez identifier les erreurs critiques cachées dans un script PowerShell AD avant de l'exécuter en production.
 
 ---
 
-## 🔬 Anatomie d'un Script Bomba
+## Pourquoi ce module
 
-### Les 5 Techniques de Camouflage
+La majorité des incidents AD majeurs viennent d'erreurs humaines de scripting, pas de pannes matérielles. Un script dangereux a typiquement les caractéristiques suivantes :
 
-#### 1. **Commentaires Trompeurs**
+- Il semble légitime à première vue.
+- Les commentaires sont rassurants.
+- Il vient d'une source perçue comme fiable.
+- Il contient une ou deux erreurs critiques cachées.
+- Le problème n'apparaît qu'en production, jamais en dev.
+
+L'objectif n'est pas d'avoir peur de PowerShell, mais d'apprendre à lire un script comme un auditeur sécurité.
+
+---
+
+## Cinq techniques de camouflage à connaître
+
+### 1. Commentaires trompeurs
 
 ```powershell
-# Script validé par l'équipe sécurité ✅
-# Testé sur environnement de dev ✅
-# Approuvé pour production ✅
+# Script validé par l'équipe sécurité
+# Testé sur environnement de dev
+# Approuvé pour production
 
-Get-ADUser -Filter * | Remove-ADUser -Confirm:$false  # ☠️
+Get-ADUser -Filter * | Remove-ADUser -Confirm:$false
 ```
 
-#### 2. **Erreur Subtile dans une Ligne Innocente**
+Le commentaire dit "validé". Le code dit "supprime tous les utilisateurs". Le commentaire ment.
+
+### 2. Erreur subtile dans une ligne banale
+
 ```powershell
-# Script parfaitement normal...
 $users = Get-ADUser -Filter {Department -eq "Stagiaires"}
-# 50 lignes de code propre...
-$users | Set-ADUser -Enabled $fase  # ☠️ $false écrit $fase
+# … 50 lignes de code propre …
+$users | Set-ADUser -Enabled $fase  # $false écrit $fase → $null
 ```
 
-#### 3. **TODO Rassurant**
+`$fase` est une variable inexistante, donc `$null`. PowerShell interprète `$null` comme `$false` dans ce contexte. Le script désactive silencieusement.
+
+### 3. TODO rassurant
+
 ```powershell
 # TODO: Tester sur environnement de dev d'abord
 # TODO: Valider avec l'équipe avant prod
-Remove-ADUser -Identity * -Confirm:$false  # ☠️ Mais exécuté quand même 😱
+Remove-ADUser -Identity * -Confirm:$false
 ```
 
-#### 4. **Apparence Professionnelle**
+Les TODO ne bloquent pas l'exécution. Le script tourne quand même.
+
+### 4. Apparence professionnelle
+
 ```powershell
 <#
 .SYNOPSIS
@@ -70,22 +68,24 @@ Remove-ADUser -Identity * -Confirm:$false  # ☠️ Mais exécuté quand même �
     2.1.5 - Production Ready
 #>
 
-# Code qui semble parfait mais contient erreur fatale...
+# Code qui semble parfait mais contient une erreur fatale...
 ```
 
-#### 5. **Erreur de Logic Business**
+Un en-tête bien formaté n'est pas un audit de sécurité.
+
+### 5. Erreur de logique métier
+
 ```powershell
 # Désactiver les comptes des employés qui partent
-Get-ADUser -Filter {Department -eq "Départs"} |  # ☠️ Département qui n'existe pas
+Get-ADUser -Filter {Department -eq "Départs"} |
     Set-ADUser -Enabled $false
-# Résultat: Aucun utilisateur trouvé, script "réussi" mais rien fait
 ```
+
+Si le département "Départs" n'existe pas, le filtre renvoie 0 résultat. Le script "réussit" en ne faisant rien — et personne ne s'en rend compte.
 
 ---
 
-## 🎪 Lab Pratique: Détecter les Bombes
-
-### 🚨 **SCRIPT BOMBA #1: Le Nettoyeur Innocent**
+## Lab 1 — Le nettoyeur innocent
 
 ```powershell
 # Script de nettoyage des groupes vides
@@ -98,24 +98,21 @@ Import-Module ActiveDirectory
 Write-Host "=== NETTOYAGE DES GROUPES VIDES ===" -ForegroundColor Green
 Write-Host "Recherche des groupes sans membres..." -ForegroundColor Yellow
 
-# Récupérer tous les groupes du domaine maxtec.be
 $tousLesGroupes = Get-ADGroup -Filter * -SearchBase "DC=maxtec,DC=be"
 
 Write-Host "Total groupes trouvés: $($tousLesGroupes.Count)" -ForegroundColor Cyan
 
 $groupesVides = @()
 
-# Vérifier chaque groupe pour voir s'il a des membres
 foreach ($groupe in $tousLesGroupes) {
     try {
         $membres = Get-ADGroupMember -Identity $groupe.SamAccountName -ErrorAction SilentlyContinue
-    
+
         if ($membres.Count -eq 0) {
             $groupesVides += $groupe
             Write-Host "Groupe vide trouvé: $($groupe.Name)" -ForegroundColor Yellow
         }
     } catch {
-        # Ignorer les erreurs de lecture
         continue
     }
 }
@@ -124,88 +121,83 @@ Write-Host "`nGroupes vides trouvés: $($groupesVides.Count)" -ForegroundColor Y
 
 if ($groupesVides.Count -gt 0) {
     Write-Host "Suppression des groupes vides..." -ForegroundColor Red
-    
+
     foreach ($groupeVide in $groupesVides) {
         Write-Host "Suppression: $($groupeVide.Name)" -ForegroundColor Red
-    
         # TODO: Ajouter validation supplémentaire avant production
         Remove-ADGroup -Identity $groupeVide.SamAccountName -Confirm:$false
     }
-    
-    Write-Host "✅ Nettoyage terminé avec succès!" -ForegroundColor Green
+
+    Write-Host "Nettoyage terminé" -ForegroundColor Green
 } else {
     Write-Host "Aucun groupe vide trouvé." -ForegroundColor Green
 }
 ```
 
-#### 🕵️ **MISSION DÉTECTIVE 4.1**
+### Exercice 4.1 — détecter les problèmes (10 min)
 
-**Temps limite**: 10 minutes
+1. Lisez le script ligne par ligne.
+2. Identifiez tous les problèmes (au moins 5).
+3. Évaluez le risque sur maxtec.be.
+4. Proposez 3 améliorations critiques.
 
-**Consignes**:
+### Analyse
 
-1. Lisez ce script ligne par ligne
-2. Identifiez TOUS les problèmes (minimum 5)
-3. Évaluez le risque si exécuté sur maxtec.be
-4. Proposez 3 améliorations critiques
-
-#### 💡 **SOLUTION DÉTAILLÉE**
-
-**🚨 ERREURS CRITIQUES IDENTIFIÉES:**
-
-1. **ABSENCE DE -WhatIf** (MORTEL)
-
-    ```powershell
-    Remove-ADGroup -Identity $groupeVide.SamAccountName -Confirm:$false  # ☠️
-    ```
-    **Risque**: Suppression immédiate et irréversible
-
-2. **LOGIQUE BUSINESS ERRONÉE** (GRAVE)
-
-    - Groupe vide ≠ Groupe inutile
-    - Groupes système peuvent être vides temporairement
-    - Groupes de sécurité peuvent être vides par design
-
-3. **AUCUNE EXCLUSION** (MORTEL)
-
-    ```powershell
-    $tousLesGroupes = Get-ADGroup -Filter * -SearchBase "DC=maxtec,DC=be"  # ☠️
-    ```
-    **Risque**: Inclut groupes système critiques (Admins du domaine vide = supprimé)
-
-4. **PAS DE VÉRIFICATION TYPE GROUPE** (GRAVE)
-
-    - Pas de distinction Distribution vs Sécurité
-    - Pas de vérification des groupes built-in
-
-5. **GESTION D'ERREURS INSUFFISANTE** (MOYEN)
-
-    ```powershell
-    } catch {
-        continue  # ☠️ Masque les erreurs importantes
-    }
-    ```
-
-6. **ABSENCE DE LOGGING** (MOYEN)
-
-    - Aucune trace de ce qui a été supprimé
-    - Impossible de rollback
-
-#### 🛠️ **VERSION SÉCURISÉE**
+**1. Absence de `-WhatIf` (critique)**
 
 ```powershell
-# Script de nettoyage des groupes vides - VERSION SÉCURISÉE
+Remove-ADGroup -Identity $groupeVide.SamAccountName -Confirm:$false
+```
+
+Suppression immédiate, irréversible.
+
+**2. Logique métier erronée (grave)**
+
+- Groupe vide ≠ groupe inutile.
+- Certains groupes système sont vides par design.
+- Certains groupes peuvent l'être temporairement.
+
+**3. Aucune exclusion (critique)**
+
+```powershell
+$tousLesGroupes = Get-ADGroup -Filter * -SearchBase "DC=maxtec,DC=be"
+```
+
+Inclut tous les groupes du domaine, y compris les groupes système et privilégiés.
+
+**4. Pas de vérification du type de groupe (grave)**
+
+Aucune distinction entre Distribution / Sécurité, ni protection des groupes built-in.
+
+**5. Gestion d'erreurs qui masque les problèmes (moyen)**
+
+```powershell
+} catch {
+    continue
+}
+```
+
+Les erreurs importantes sont silencieusement avalées.
+
+**6. Aucun logging (moyen)**
+
+Pas de trace de ce qui a été supprimé. Rollback impossible.
+
+### Version sécurisée
+
+```powershell
+# Nettoyage des groupes vides — version sécurisée
 param(
-    [switch]$WhatIf = $true,  # -WhatIf par défaut !
+    [switch]$WhatIf = $true,
     [switch]$IncludeBuiltIn = $false
 )
 
 Import-Module ActiveDirectory
 
-Write-Host "=== NETTOYAGE SÉCURISÉ DES GROUPES VIDES ===" -ForegroundColor Cyan
-Write-Host "Mode: $($WhatIf ? 'SIMULATION' : 'RÉEL')" -ForegroundColor $(if($WhatIf){'Yellow'}else{'Red'})
+Write-Host "=== NETTOYAGE DES GROUPES VIDES ===" -ForegroundColor Cyan
+Write-Host "Mode: $($WhatIf ? 'SIMULATION' : 'RÉEL')" -ForegroundColor $(if ($WhatIf) { 'Yellow' } else { 'Red' })
 
-# Groupes à JAMAIS supprimer (whitelist sécurité)
+# Whitelist des groupes critiques à ne jamais supprimer
 $groupesCritiques = @(
     "Admins du domaine", "Enterprise Admins", "Schema Admins",
     "Account Operators", "Backup Operators", "Server Operators",
@@ -213,86 +205,77 @@ $groupesCritiques = @(
     "Domain Controllers", "Cert Publishers", "Domain Guests"
 )
 
-# SearchBase spécifique pour éviter les groupes système
 $searchBase = if ($IncludeBuiltIn) { "DC=maxtec,DC=be" } else { "OU=EU,DC=maxtec,DC=be" }
 
 try {
-    # Récupérer groupes avec propriétés nécessaires
     $tousLesGroupes = Get-ADGroup -Filter * -SearchBase $searchBase -Properties GroupCategory, GroupScope
-    
+
     Write-Host "Groupes analysés dans: $searchBase" -ForegroundColor Cyan
     Write-Host "Total groupes trouvés: $($tousLesGroupes.Count)" -ForegroundColor Cyan
-    
+
     $groupesCandidats = @()
-    
+
     foreach ($groupe in $tousLesGroupes) {
-        # Vérifier si groupe critique
         if ($groupe.Name -in $groupesCritiques) {
-            Write-Host "SKIP: Groupe critique protégé - $($groupe.Name)" -ForegroundColor Green
+            Write-Host "Ignoré (groupe critique): $($groupe.Name)" -ForegroundColor Green
             continue
         }
-    
+
         try {
             $membres = Get-ADGroupMember -Identity $groupe.SamAccountName -ErrorAction Stop
-    
+
             if ($membres.Count -eq 0) {
                 $groupesCandidats += [PSCustomObject]@{
-                    Name = $groupe.Name
-                    SamAccountName = $groupe.SamAccountName
-                    GroupCategory = $groupe.GroupCategory
-                    GroupScope = $groupe.GroupScope
+                    Name              = $groupe.Name
+                    SamAccountName    = $groupe.SamAccountName
+                    GroupCategory     = $groupe.GroupCategory
+                    GroupScope        = $groupe.GroupScope
                     DistinguishedName = $groupe.DistinguishedName
                 }
-    
-                Write-Host "Candidat suppression: $($groupe.Name) ($($groupe.GroupCategory))" -ForegroundColor Yellow
+
+                Write-Host "Candidat: $($groupe.Name) ($($groupe.GroupCategory))" -ForegroundColor Yellow
             }
-    
         } catch {
             Write-Warning "Erreur lecture groupe $($groupe.Name): $($_.Exception.Message)"
         }
     }
-    
+
     if ($groupesCandidats.Count -eq 0) {
-        Write-Host "✅ Aucun groupe vide trouvé (hors groupes critiques)" -ForegroundColor Green
+        Write-Host "Aucun groupe vide trouvé (hors groupes critiques)" -ForegroundColor Green
         return
     }
-    
-    # Afficher résumé AVANT action
-    Write-Host "`n=== RÉSUMÉ SUPPRESSION ===" -ForegroundColor Yellow
+
+    Write-Host "`n=== RÉSUMÉ ===" -ForegroundColor Yellow
     $groupesCandidats | Format-Table Name, GroupCategory, GroupScope -AutoSize
     Write-Host "Total à supprimer: $($groupesCandidats.Count)" -ForegroundColor Yellow
-    
+
     if (-not $WhatIf) {
         $confirmation = Read-Host "Confirmer suppression ? (tapez 'SUPPRIMER' pour confirmer)"
         if ($confirmation -ne "SUPPRIMER") {
-            Write-Host "❌ Opération annulée par l'utilisateur" -ForegroundColor Red
+            Write-Host "Opération annulée" -ForegroundColor Red
             return
         }
     }
-    
-    # Suppression avec logging
+
     foreach ($groupe in $groupesCandidats) {
         $message = "Suppression groupe: $($groupe.Name) ($($groupe.GroupCategory))"
-    
+
         if ($WhatIf) {
             Write-Host "SIMULATION: $message" -ForegroundColor Yellow
         } else {
             Write-Host "RÉEL: $message" -ForegroundColor Red
-    
-            # Log avant suppression
+
             Add-Content -Path "C:\Scripts\Logs\groupes-supprimes-$(Get-Date -Format 'yyyyMMdd').log" `
                         -Value "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss'): $($groupe.DistinguishedName)"
         }
-    
+
         Remove-ADGroup -Identity $groupe.SamAccountName -Confirm:$false -WhatIf:$WhatIf
     }
-    
+
     if ($WhatIf) {
-        Write-Host "`n🎯 SIMULATION TERMINÉE" -ForegroundColor Yellow
-        Write-Host "Pour exécuter: .\script.ps1 -WhatIf:`$false" -ForegroundColor Cyan
+        Write-Host "`nSimulation terminée. Pour exécuter: .\script.ps1 -WhatIf:`$false" -ForegroundColor Cyan
     } else {
-        Write-Host "`n✅ SUPPRESSION TERMINÉE" -ForegroundColor Green
-        Write-Host "Log sauvegardé dans: C:\Scripts\Logs\" -ForegroundColor Cyan
+        Write-Host "`nSuppression terminée. Log: C:\Scripts\Logs\" -ForegroundColor Green
     }
 
 } catch {
@@ -302,10 +285,10 @@ try {
 
 ---
 
-### 🚨 **SCRIPT BOMBA #2: L'Organisateur de Déménagement**
+## Lab 2 — L'organisateur de déménagement
 
 ```powershell
-# Script de migration utilisateurs suite réorganisation
+# Script de migration utilisateurs suite à réorganisation
 # Auteur: Consultant Senior Migration AD
 # Date: 2024-12-01
 # Contexte: Fusion départements RH + Compta → "Administration"
@@ -315,7 +298,6 @@ Import-Module ActiveDirectory
 Write-Host "=== MIGRATION ORGANISATIONNELLE ===" -ForegroundColor Green
 Write-Host "Fusion RH + Compta → Administration" -ForegroundColor Yellow
 
-# Configuration de la migration
 $sourceOUs = @(
     "OU=RH,OU=EU,DC=maxtec,DC=be",
     "OU=Compta,OU=EU,DC=maxtec,DC=be"
@@ -325,114 +307,101 @@ $destinationOU = "OU=Administration,OU=EU,DC=maxtec,DC=be"
 
 Write-Host "Migration vers: $destinationOU" -ForegroundColor Cyan
 
-# Vérifier que l'OU destination existe
 try {
     Get-ADOrganizationalUnit -Identity $destinationOU -ErrorAction Stop
-    Write-Host "✅ OU destination confirmée" -ForegroundColor Green
+    Write-Host "OU destination confirmée" -ForegroundColor Green
 } catch {
     Write-Host "Création de l'OU destination..." -ForegroundColor Yellow
     New-ADOrganizationalUnit -Name "Administration" -Path "OU=EU,DC=maxtec,DC=be"
-    Write-Host "✅ OU destination créée" -ForegroundColor Green
+    Write-Host "OU destination créée" -ForegroundColor Green
 }
 
-# Migration des utilisateurs
 foreach ($sourceOU in $sourceOUs) {
     Write-Host "`nTraitement de: $sourceOU" -ForegroundColor Yellow
-    
+
     try {
-        # Récupérer tous les utilisateurs de l'OU source
         $utilisateurs = Get-ADUser -Filter * -SearchBase $sourceOU
-    
+
         Write-Host "Utilisateurs trouvés: $($utilisateurs.Count)" -ForegroundColor Cyan
-    
+
         foreach ($user in $utilisateurs) {
             Write-Host "Migration: $($user.Name)" -ForegroundColor Yellow
-    
-            # Déplacer l'utilisateur vers la nouvelle OU
+
             Move-ADObject -Identity $user.DistinguishedName -TargetPath $destinationOU
-    
-            # Mettre à jour le département
             Set-ADUser -Identity $user.SamAccountName -Department "Administration"
-    
-            Write-Host "✅ $($user.Name) migré" -ForegroundColor Green
+
+            Write-Host "  $($user.Name) migré" -ForegroundColor Green
         }
-    
+
     } catch {
         Write-Error "Erreur migration $sourceOU : $($_.Exception.Message)"
     }
 }
 
-Write-Host "`n🎯 MIGRATION TERMINÉE" -ForegroundColor Green
-Write-Host "Tous les utilisateurs sont maintenant dans Administration" -ForegroundColor Green
+Write-Host "`nMigration terminée" -ForegroundColor Green
 
-# Nettoyage: supprimer les anciennes OUs vides
+# Nettoyage des anciennes OUs
 Write-Host "`nNettoyage des anciennes OUs..." -ForegroundColor Yellow
 foreach ($oldOU in $sourceOUs) {
     Write-Host "Suppression: $oldOU" -ForegroundColor Red
     Remove-ADOrganizationalUnit -Identity $oldOU -Recursive -Confirm:$false
 }
 
-Write-Host "✅ Migration organisationnelle complète!" -ForegroundColor Green
+Write-Host "Migration organisationnelle complète" -ForegroundColor Green
 ```
 
-#### 🕵️ **MISSION DÉTECTIVE 4.2**
+### Exercice 4.2 — analyse (15 min)
 
-**Temps limite**: 15 minutes
+**Question** : si j'exécute ce script sur maxtec.be vendredi 17h, que se passe-t-il lundi matin ?
 
-**Question cruciale**: "Si j'exécute ce script sur maxtec.be vendredi 17h, que se passe-t-il lundi matin ?"
+### Analyse
 
-#### 💀 **ANALYSE FORENSIQUE**
+**1. Aucun `-WhatIf` (critique)**
 
-**🚨 ERREURS MORTELLES:**
+Migration et suppressions exécutées directement.
 
-1. **ABSENCE TOTALE DE -WhatIf** (CRITIQUE)
+**2. `Remove-ADOrganizationalUnit -Recursive` sans vérification (critique)**
 
-    - Migrations immédiatement irréversibles
-    - Suppressions d'OUs avec -Recursive
+```powershell
+Remove-ADOrganizationalUnit -Identity $oldOU -Recursive -Confirm:$false
+```
 
-2. **SUPPRESSION -RECURSIVE SANS VÉRIFICATION** (MORTEL)
+Supprime tout le contenu des OUs : groupes, GPOs, sous-OUs.
 
-    ```powershell
-    Remove-ADOrganizationalUnit -Identity $oldOU -Recursive -Confirm:$false  # ☠️
-    ```
-    **Conséquence**: Supprime TOUT le contenu des OUs (groupes, politiques, sous-OUs)
+**3. Logique de nettoyage défaillante (grave)**
 
-3. **LOGIQUE DE NETTOYAGE DÉFAILLANTE** (GRAVE)
+Le script suppose que la migration des utilisateurs a réussi. Si elle échoue partiellement, les OUs sont quand même supprimées.
 
-    - Script assume que migration = réussite
-    - Supprime OUs même si migration partielle échouée
+**4. Groupes laissés en arrière (critique)**
 
-4. **PAS DE VÉRIFICATION GROUPES** (CRITIQUE)
+Les utilisateurs sont déplacés, mais les groupes `GG-EU-RH-*` et `GG-EU-Compta-*` restent dans les OUs sources — et sont supprimés avec elles. Les permissions partent avec.
 
-    - Utilisateurs déplacés mais leurs groupes restent dans anciennes OUs
-    - Rupture des permissions et accès
+**5. Département forcé pour tout le monde (moyen)**
 
-5. **DÉPARTEMENT HARDCODÉ** (MOYEN)
+```powershell
+Set-ADUser -Identity $user.SamAccountName -Department "Administration"
+```
 
-    ```powershell
-    Set-ADUser -Identity $user.SamAccountName -Department "Administration"  # ☠️
-    ```
-    **Problème**: Force TOUS les users dans même département (perte granularité)
+Écrase la granularité d'origine.
 
-#### 🎭 **Scénario du Désastre**
+### Scénario de désastre
 
-**Vendredi 17h**: Script exécuté
+Vendredi 17h, exécution :
 
-- ✅ Users RH/Compta déplacés vers Administration
-- ☠️ Groupes GG-EU-RH-*, GG-EU-Compta-* supprimés avec OUs
-- ☠️ GPOs liées aux OUs supprimées
-- ☠️ Toute structure organisationnelle perdue
+- Utilisateurs RH et Compta déplacés vers Administration.
+- Groupes `GG-EU-RH-*` et `GG-EU-Compta-*` supprimés avec leurs OUs.
+- GPOs liées aux OUs supprimées.
 
-**Lundi 8h**: Chaos
+Lundi 8h :
 
-- Users existent mais n'ont plus aucun droit
-- Groupes de sécurité introuvables
-- Applications métier bloquées
-- Sauvegarde complète nécessaire = weekend entier
+- Les utilisateurs existent mais n'ont plus de droits.
+- Les groupes de sécurité sont introuvables.
+- Les applications métier ne répondent plus.
+- Restauration depuis sauvegarde : plusieurs heures, voire le weekend.
 
 ---
 
-### 🚨 **SCRIPT BOMBA #3: Le Sécurisateur de Mots de Passe**
+## Lab 3 — Le "sécurisateur" de mots de passe
 
 ```powershell
 # Script de sécurisation des mots de passe faibles
@@ -446,38 +415,33 @@ $motsDePasse = @(
     "welcome", "temp", "test", "maxtec", "2024"
 )
 
-Write-Host "=== AUDIT SÉCURITÉ MOTS DE PASSE ===" -ForegroundColor Red
-Write-Host "Recherche des mots de passe faibles..." -ForegroundColor Yellow
+Write-Host "=== AUDIT MOTS DE PASSE ===" -ForegroundColor Red
 
 foreach ($mdp in $motsDePasse) {
     Write-Host "Test mot de passe: $mdp" -ForegroundColor Cyan
-    
-    # Tester chaque utilisateur avec ce mot de passe
+
     $users = Get-ADUser -Filter * -SearchBase "OU=EU,DC=maxtec,DC=be"
-    
+
     foreach ($user in $users) {
         try {
-            # Tenter connexion avec mot de passe faible
             $credential = New-Object System.Management.Automation.PSCredential(
                 "$($user.SamAccountName)@maxtec.be",
                 (ConvertTo-SecureString $mdp -AsPlainText -Force)
             )
-    
-            # Test de connexion LDAP
+
             $connection = New-Object System.DirectoryServices.DirectoryEntry(
                 "LDAP://dns1.maxtec.be",
                 $credential.UserName,
                 $credential.GetNetworkCredential().Password
             )
-    
+
             if ($connection.Name -ne $null) {
                 Write-Host "TROUVÉ: $($user.Name) utilise '$mdp'" -ForegroundColor Red
-    
-                # Forcer changement immédiat
+
                 Set-ADUser -Identity $user.SamAccountName -ChangePasswordAtLogon $true
                 Set-ADAccountPassword -Identity $user.SamAccountName -Reset -NewPassword (ConvertTo-SecureString "TempSecure123!" -AsPlainText -Force)
-    
-                Write-Host "✅ Mot de passe réinitialisé pour $($user.Name)" -ForegroundColor Green
+
+                Write-Host "Mot de passe réinitialisé pour $($user.Name)" -ForegroundColor Green
             }
         } catch {
             # Connexion échouée = mot de passe différent (normal)
@@ -485,101 +449,79 @@ foreach ($mdp in $motsDePasse) {
     }
 }
 
-Write-Host "✅ Audit de sécurité terminé" -ForegroundColor Green
+Write-Host "Audit terminé" -ForegroundColor Green
 ```
 
-#### 🕵️ **MISSION DÉTECTIVE 4.3**
-**Question piège**: "Ce script semble améliorer la sécurité. Où est le problème ?"
+### Exercice 4.3 — où est le piège ?
 
-#### ⚡ **RÉVÉLATION CHOC**
+Ce script semble améliorer la sécurité. En réalité, c'est une attaque par force brute déguisée.
 
-**🚨 PROBLÈME CACHÉ MAJEUR:**
+**1. Tentatives de connexion massives (critique)**
 
-Ce script est une **ATTAQUE PAR BRUTE FORCE** déguisée !
+Le script teste systématiquement des mots de passe courants contre chaque compte. Sur un domaine de 500 utilisateurs et 10 mots de passe testés, ça fait 5 000 tentatives d'authentification.
 
-1. **TENTATIVES DE CONNEXION MASSIVES** (CRITIQUE)
+**2. Verrouillage en chaîne (critique)**
 
-    - Teste systématiquement mots de passe courants
-    - Génère des millions de tentatives de connexion
-    - Peut déclencher verrouillages massifs de comptes
+La policy de domaine verrouille typiquement après 5 échecs. Conséquence : tous les comptes ayant un mot de passe différent des 10 testés se retrouvent verrouillés. C'est-à-dire la grande majorité.
 
-2. **LOGS DE SÉCURITÉ POLLUÉS** (GRAVE)
+**3. Pollution des logs sécurité (grave)**
 
-    - Chaque tentative = événement sécurité logged
-    - Masque les vraies tentatives d'intrusion
-    - SIEM/SOC saturé d'alertes
+Chaque tentative génère un événement de sécurité. Les vraies attaques deviennent invisibles dans le bruit.
 
-3. **DÉNI DE SERVICE POTENTIEL** (CRITIQUE)
+**4. Risque légal (grave)**
 
-    - Peut verrouiller TOUS les comptes utilisateurs
-    - Surcharge contrôleur de domaine
-    - Impact business catastrophique
+Tester des mots de passe sans autorisation formelle peut violer la politique interne et le RGPD. Un audit de sécurité doit être autorisé par écrit.
 
-4. **VIOLATION POLITIQUE SÉCURITÉ** (LÉGAL)
-
-    - Test non autorisé de mots de passe
-    - Peut violer réglementations (RGPD, etc.)
-    - Risque disciplinaire/légal
-
-#### 🛡️ **APPROCHE SÉCURISÉE ALTERNATIVE**
+### Approche correcte
 
 ```powershell
-# BONNE PRATIQUE: Audit sans test actif
-# Utiliser outils Microsoft natifs
+# Auditer les attributs AD, pas tester les mots de passe
 
-# 1. Analyser longueur/complexité via propriétés AD
+# 1. Comptes à risque selon les propriétés AD
 Get-ADUser -Filter * -Properties PasswordLastSet, PasswordNeverExpires |
     Where-Object {
         $_.PasswordNeverExpires -eq $true -or
         $_.PasswordLastSet -lt (Get-Date).AddDays(-90)
     }
 
-# 2. Utiliser Group Policy pour imposer complexity
-# 3. Utiliser Azure AD Password Protection
-# 4. Sensibiliser utilisateurs = éducation > force
+# 2. Imposer la complexité via Group Policy (configuration manuelle)
+# 3. Activer Azure AD Password Protection
+# 4. Sensibiliser les utilisateurs
 ```
 
 ---
 
-## 🎓 Récapitulatif: Devenir Détecteur de Bombes
+## Récapitulatif — sept signaux d'alarme
 
-### 🔍 **Les 7 Signaux d'Alarme à Retenir**
+1. Absence de `-WhatIf` sur une commande destructive.
+2. `-Recursive` sans vérification du contenu.
+3. `-Filter *` sans limitation de scope.
+4. Gestion d'erreurs qui masque les problèmes (`continue` ou `catch` vide).
+5. Hardcoding de chemins ou de valeurs spécifiques.
+6. Logique métier non validée.
+7. `TODO` dans un script censé être prêt pour production.
 
-1. **🚨 ABSENCE -WhatIf** sur commandes destructives
-2. **🚨 -Recursive sans vérification** préalable
-3. **🚨 -Filter \*** sans limitations scope
-4. **⚠️ Gestion erreurs** qui masque problèmes
-5. **⚠️ Hardcoding** paths/valeurs spécifiques
-6. **⚠️ Logique business** non validée avec métier
-7. **⚠️ "TODO" dans script** supposé prêt prod
+## Checklist avant exécution
 
-### 🛠️ **Votre Checklist de Validation**
+Avant d'exécuter un script :
 
-Avant d'exécuter TOUT script:
+- Les commandes destructives ont `-WhatIf` ?
+- Le scope est limité (SearchBase / Filter précis) ?
+- La gestion d'erreurs est robuste ?
+- Les objets critiques sont exclus ?
+- Les actions importantes sont loggées ?
+- La logique métier est validée ?
+- Un test sur un environnement non-critique est possible ?
+- Un plan de rollback existe ?
 
-```
-□ Commandes destructives ont -WhatIf ?
-□ Scope limité avec SearchBase/Filter précis ?
-□ Gestion d'erreurs robuste ?
-□ Exclusions pour objets critiques ?
-□ Logging des actions importantes ?
-□ Validation business logic ?
-□ Test possible sur environnement non-critique ?
-□ Rollback plan en cas de problème ?
-```
+## Habitudes à prendre
 
-### 🎯 **Vos Nouvelles Habitudes**
-
-1. **Lire CHAQUE ligne** même si script semble simple
-2. **Questionner la logique** business avant technique
-3. **Chercher ce qui manque** (exclusions, validations)
-4. **Tester d'abord** avec -WhatIf ou échantillon réduit
-5. **Documenter** ce que vous validez et pourquoi
+1. Lire chaque ligne, même si le script semble simple.
+2. Questionner la logique métier avant la technique.
+3. Chercher ce qui manque (exclusions, validations).
+4. Tester d'abord avec `-WhatIf` ou un échantillon réduit.
+5. Documenter ce que vous validez et pourquoi.
 
 ---
 
-*☕ **PAUSE OBLIGATOIRE 15 minutes** - Digérer les révélations*
-
----
-
-**🎯 Prochaine étape**: Module 5 - -WhatIf Religieux (Pourquoi -WhatIf est Sacré)
+**Suite** : Module 5 — `-WhatIf`, pourquoi c'est non négociable.
