@@ -447,7 +447,7 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
     ipconfig /renew
     ```
 
-    Règle : un membre du domaine n'interroge **que** les DNS du domaine. L'accès Internet passe par les redirecteurs configurés sur le DC, pas par un DNS public sur le client.
+    Règle : un membre du domaine n'interroge **que** les DNS du domaine. C'est le DC qui résout les noms Internet, pas un DNS public configuré sur le client.
 
     **2. Enregistrement `intranet` obsolète.** Sur le DC, `intranet.maxtec.be` pointe vers `192.168.0.250`, l'ancien serveur décommissionné : `nslookup` répond, mais `\\192.168.0.250` est injoignable (`Test-NetConnection` échoue aussi). Correction dans le **Gestionnaire DNS** : `Zones de recherche directe` → `maxtec.be` → double-clic sur `intranet` → **Adresse IP** `192.168.0.2` → **OK**.
 

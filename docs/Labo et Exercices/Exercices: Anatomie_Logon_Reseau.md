@@ -407,7 +407,7 @@ Clear-DnsClientCache
     Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ResetServerAddresses
     ```
 
-    Règle : un poste du domaine n'utilise **que** les DNS du domaine. C'est le DC (redirecteurs DNS) qui résout Internet pour eux.
+    Règle : un poste du domaine n'utilise **que** les DNS du domaine. C'est le DC qui résout les noms Internet pour eux.
 
 ### Panne 2 — SMB bloqué par le pare-feu
 

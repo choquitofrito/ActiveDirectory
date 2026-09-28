@@ -332,7 +332,7 @@ Diagnostiquer trois pannes courantes à partir de leurs symptômes. Pour chaque 
     nslookup -type=SRV _ldap._tcp.dc._msdcs.maxtec.be   # doit maintenant renvoyer dns1.maxtec.be
     ```
 
-    Puis relancez la jonction. Règle : un poste du domaine n'utilise **que** les DC comme serveurs DNS ; l'accès Internet passe par les redirecteurs du DC ([Chapitre 3 §5](Chapitre%203.DNS.md#5-les-redirecteurs-forwarders)).
+    Puis relancez la jonction. Règle : un poste du domaine n'utilise **que** les DC comme serveurs DNS. C'est le DC qui se charge de résoudre les noms Internet.
 
 ### Scénario 2 : un enregistrement obsolète
 
