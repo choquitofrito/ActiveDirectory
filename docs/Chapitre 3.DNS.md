@@ -102,7 +102,12 @@ Si une de ces valeurs est différente, corrigez-la avant d'installer AD DS.
 
 ## 3. Ce que la promotion en DC fait dans le DNS
 
-Quand vous promouvrez le serveur (Chapitre 4) :
+!!! warning "Sections 3 et 4 : après la promotion du serveur"
+    Ces deux sections décrivent ce qui existe dans le DNS **une fois `dns1` promu en contrôleur de domaine**. Avant la promotion, le rôle DNS n'est pas installé : il n'y a rien à voir ni à vérifier.
+
+    Ordre à suivre : sections 1 et 2 de ce chapitre → promotion du serveur ([Chapitre 4, §6](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md#6-laboratoire-promotion-du-serveur-windows-server-en-controleur-de-domaine)) → retour ici pour les sections 3 et 4.
+
+Pendant la promotion (Chapitre 4), l'assistant a fait les opérations suivantes :
 
 1. **Installation du rôle DNS**
     - L'assistant installe le rôle DNS sur `dns1`
