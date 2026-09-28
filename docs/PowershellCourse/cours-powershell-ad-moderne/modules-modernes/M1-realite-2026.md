@@ -1,4 +1,4 @@
-# Module 1 — Comment travaillent les admins en 2025
+# Module 1 — Comment travaillent les admins en 2026
 *Durée: 2h00 | Prérequis: Chapitres 9.0-9.3 complétés*
 
 ## Objectif

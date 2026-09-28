@@ -421,7 +421,7 @@ Mantra : *stop — respirer — documenter — demander de l'aide — valider �
 
 Ce que vous maîtrisez maintenant :
 
-1. Une approche réaliste du travail PowerShell AD en 2025.
+1. Une approche réaliste du travail PowerShell AD en 2026.
 2. Les commandes essentielles du support niveau 1 et 2.
 3. L'utilisation professionnelle d'une IA comme copilote.
 4. La détection des scripts dangereux.

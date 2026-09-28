@@ -1,4 +1,4 @@
-# 🚀 Cours PowerShell AD Moderne 2025 - Résumé Complet
+# 🚀 Cours PowerShell AD Moderne 2026 - Résumé Complet
 
 ## 📋 Vue d'Ensemble du Cours
 
@@ -7,7 +7,7 @@ Ce cours transforme l'approche traditionnelle de PowerShell AD vers une méthode
 
 ## 📚 Structure Complète du Cours
 
-### **Module 1: Réalité 2025** (2h00)
+### **Module 1: Réalité 2026** (2h00)
 **Objectif**: Démystifier comment les admins travaillent vraiment
 **Contenu**:
 
@@ -216,7 +216,7 @@ Groupes: GG-EU-[Dept]-[Users/Admins]
 
 ---
 
-## 🏆 Certification "PowerShell AD Survivor 2025"
+## 🏆 Certification "PowerShell AD Survivor 2026"
 
 ### Compétences Certifiées
 1. **Validation critique scripts** IA et humains
@@ -237,4 +237,4 @@ Groupes: GG-EU-[Dept]-[Users/Admins]
 
 ---
 
-*Cours développé avec philosophie 2025: Honnêteté + IA + Sécurité + Survie Professionnelle*
+*Cours développé avec philosophie 2026: Honnêteté + IA + Sécurité + Survie Professionnelle*

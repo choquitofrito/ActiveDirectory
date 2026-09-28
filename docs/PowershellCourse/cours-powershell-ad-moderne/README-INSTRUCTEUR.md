@@ -1,11 +1,11 @@
-# 🚀 PowerShell AD Moderne 2025 - Guide de l'Instructeur
+# 🚀 PowerShell AD Moderne 2026 - Guide de l'Instructeur
 
 
 
 ### Philosophie Centrale
 - **PowerShell comme outil**, pas de programmation
 - **Lecture/validation de scripts IA** > écriture from scratch
-- **Honnêteté totale** sur comment on travaille vraiment en 2025
+- **Honnêteté totale** sur comment on travaille vraiment en 2026
 - **Prévention des désastres** avant les fonctionnalités avancées
 
 ## 🎯 Intégration avec le Syllabus Existant
@@ -22,14 +22,14 @@ Les étudiants DOIVENT avoir complété :
 Ce cours **complète** (ne remplace PAS) le contenu existant :
 
 - **Construit** sur la base théorique déjà acquise
-- **Modernise** les pratiques avec la philosophie 2025
+- **Modernise** les pratiques avec la philosophie 2026
 - **Applique** les connaissances à des scénarios professionnels réels
 
 ### Journée de Formation Intensive
 
 | Module | Durée | Contenu | Pause |
 |--------|-------|---------|-------|
-| **M1: Réalité 2025** |  | Confessions d'admin réel + démo live | ☕ |
+| **M1: Réalité 2026** |  | Confessions d'admin réel + démo live | ☕ |
 | **M2: Survie Tickets** |  | 10 commandes qui sauvent des carrières | 🍽️ |
 | **M3: IA comme Copilote** |  | Prompts sécurisés + validation critique | ☕ |
 | **M4: Scripts Bombes Lab** |  | Détecter erreurs mortelles cachées | ☕ |
@@ -137,7 +137,7 @@ Get-ADUser -Filter {Enabled -eq $false} | Remove-ADUser -WhatIf
 
 ## 🎭 Cas d'Usage par Module
 
-### M1: Réalité 2025
+### M1: Réalité 2026
 **Démo centrale** : "Mon lundi typique"
 
 - Réviser les tickets en attente
@@ -253,7 +253,7 @@ Au lieu d'un examen théorique :
 - ✅ **Utiliser -WhatIf religieusement** en production
 - ✅ **Résoudre tickets réels** avec confiance
 - ✅ **Gérer crises** sans panique (protocole break-glass)
-- ✅ **Travailler honnêtement** avec outils 2025
+- ✅ **Travailler honnêtement** avec outils 2026
 
 **Résultat** : Admins qui **survivent et prospèrent** dans le monde réel, pas qui mémorisent la syntaxe.
 
@@ -261,4 +261,4 @@ Au lieu d'un examen théorique :
 
 *"Le but n'est pas de les transformer en programmeurs PowerShell. Le but est qu'ils n'aient plus jamais peur d'un script, qu'ils sachent quand quelque chose est dangereux, et que lundi ils puissent résoudre des tickets réels avec confiance."*
 
-**- Philosophie du Cours PowerShell AD Moderne 2025**
+**- Philosophie du Cours PowerShell AD Moderne 2026**

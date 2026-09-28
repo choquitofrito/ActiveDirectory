@@ -38,7 +38,7 @@ Principe directeur : alterner blocs GPO et changements de tempo pour éviter 3 h
 
 | # | Durée | Bloc | Matériel |
 |---|------|------|----------|
-| 0 | 10 min | **M1 — Réalité 2025** (intro motivante) : comment les admins travaillent vraiment (Google + adapter + valider, pas mémoriser). | `cours-powershell-ad-moderne/modules-modernes/M1-realite-2025.md` |
+| 0 | 10 min | **M1 — Réalité 2026** (intro motivante) : comment les admins travaillent vraiment (Google + adapter + valider, pas mémoriser). | `cours-powershell-ad-moderne/modules-modernes/M1-realite-2026.md` |
 | 1 | 1 h | **Chap. 9.0 + 9.1 — Fondamentaux**<br>Module AD, verbes de base (Get/New/Set/Remove/Add/Move), variables, pipeline, boucles. | `Chapitre 9.0` + `Chapitre 9.1` |
 | 2 | 1 h 30 | **Pratique guidée**<br>Refaire en PowerShell ce qu'ils ont fait à la GUI : créer un utilisateur, le bouger entre OUs, l'ajouter à un groupe, le désactiver. Sur Maxtec. | `CHEATSHEET.md` §2-§3 |
 | 🍴 | 1 h | **Pause déjeuner** | |

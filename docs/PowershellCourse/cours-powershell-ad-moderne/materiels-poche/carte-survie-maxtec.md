@@ -79,4 +79,4 @@ OU=EU,DC=maxtec,DC=be
 
 ---
 
-*Carte v2.0 - "Post-désastre Julien" - Course PowerShell AD Moderne 2025*
+*Carte v2.0 - "Post-désastre Julien" - Course PowerShell AD Moderne 2026*
