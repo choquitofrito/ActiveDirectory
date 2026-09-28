@@ -1,7 +1,7 @@
 # Chapitre 11 - Sécurité Active Directory : l'essentiel
 
 ## Navigation du cours
-[⏮️ Chapitre précédent : Monitoring](Chapitre%2010.Monitoring.md) | [🏠 Retour au syllabus](index.md) | [⏭️ Suivant : Projet final](Labo%20et%20Exercices/Projet_Final.md)
+[⏮️ Chapitre précédent : Monitoring](Chapitre%2010.Monitoring.md) | [🏠 Retour au syllabus](index.md)
 
 ---
 
@@ -608,4 +608,4 @@ Si vous avez fait les pratiques précédentes, les constats « corbeille non act
 ---
 
 ## Navigation du cours
-[⏮️ Chapitre précédent : Monitoring](Chapitre%2010.Monitoring.md) | [🏠 Retour au syllabus](index.md) | [⏭️ Suivant : Projet final](Labo%20et%20Exercices/Projet_Final.md)
+[⏮️ Chapitre précédent : Monitoring](Chapitre%2010.Monitoring.md) | [🏠 Retour au syllabus](index.md)

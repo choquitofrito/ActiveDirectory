@@ -19,7 +19,7 @@ Vous allez monter, administrer, automatiser et sécuriser le domaine d'une entre
 | 2 | La structure du lab, le réseau au service de l'AD, les identités | [Ch6](Chapitre%206.Unites_Organisation.md), [Ch7](Chapitre%207.Gestion_des_Utilisateurs.md) | [Installation du lab](Labo%20et%20Exercices/Labo/Labo_structure.md), [Anatomie d'une ouverture de session](Labo%20et%20Exercices/Exercices:%20Anatomie_Logon_Reseau.md), [Gestion des utilisateurs](Labo%20et%20Exercices/Exercices:%20Gestion_des_Utilisateurs.md) |
 | 3 | Permissions et GPO | [Ch8](Chapitre%208.Group%20Policy%20Objects.md) | [AGDLP](Labo%20et%20Exercices/Exercices:%20AGDLP_Partage_Fichiers.md), [GPO-1](Labo%20et%20Exercices/Exercices:%20GPO-1.md), [GPO-2](Labo%20et%20Exercices/Exercices:%20GPO-2.md) |
 | 4 | PowerShell et observation | [Ch9.0](Chapitre%209.0.Powershell%20AD%20-%20Introduction.md) → [Ch9.3](Chapitre%209.3.Powershell%20AD%20-%20Creation_et_Modification.md), [Ch10](Chapitre%2010.Monitoring.md) | Missions des chapitres 9, lab d'audit du Ch10 |
-| 5 | Sécurité et projet | [Ch11](Chapitre%2011.Securite_AD.md) | [Projet final](Labo%20et%20Exercices/Projet_Final.md) |
+| 5 | Sécurité et projet | [Ch11](Chapitre%2011.Securite_AD.md) | Projet final *(bientôt disponible)* |
 
 Les jours 2 à 4 se terminent par un **ticket de dépannage** ([Dépannage](Labo%20et%20Exercices/Exercices:%20Depannage.md)) : une panne réelle sur le lab, seulement le symptôme au départ.
 
@@ -61,7 +61,6 @@ Les jours 2 à 4 se terminent par un **ticket de dépannage** ([Dépannage](Labo
 | [AGDLP - partage de fichiers](Labo%20et%20Exercices/Exercices:%20AGDLP_Partage_Fichiers.md) | Permissions selon la méthode AGDLP |
 | [GPO série 1](Labo%20et%20Exercices/Exercices:%20GPO-1.md) · [série 2](Labo%20et%20Exercices/Exercices:%20GPO-2.md) · [série 3](Labo%20et%20Exercices/Exercices:%20GPO-3.md) | Stratégies de groupe (la série 3 est une extension) |
 | [Dépannage](Labo%20et%20Exercices/Exercices:%20Depannage.md) | Tickets : GPO, compte, permissions, DNS |
-| [Projet final](Labo%20et%20Exercices/Projet_Final.md) | Évaluation : le département Logistique, de A à Z |
 
 ---
 

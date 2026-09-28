@@ -36,6 +36,8 @@ plugins:
 exclude_docs: |
   Labos Extra/*/instructeur/
   instructeur/
+  # Projet final masqué en attendant relecture
+  Labo et Exercices/Projet_Final.md
   PowershellCourse/*prompt*.md
   PowershellCourse/cours-powershell-ad-moderne/README-*.md
   TODO.txt
@@ -46,6 +48,12 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.details
   - admonition
+  - attr_list
+  # Scripts du lab : le code affiché dans la page est lu depuis le .ps1 téléchargeable (une seule source)
+  - pymdownx.snippets:
+      base_path: docs
+      check_paths: true  # le build échoue si un fichier inclus est introuvable
+      encoding: utf-8-sig  # les .ps1 sont en UTF-8 avec BOM : ne pas afficher le BOM dans la page
 
 
 nav:
@@ -105,7 +113,7 @@ nav:
           - GPO Série 2: "Labo et Exercices/Exercices: GPO-2.md"
           - GPO Série 3: "Labo et Exercices/Exercices: GPO-3.md"
           - Dépannage (tickets): "Labo et Exercices/Exercices: Depannage.md"
-      - 🎓 Projet final: Labo et Exercices/Projet_Final.md
+      # - 🎓 Projet final: Labo et Exercices/Projet_Final.md  # masqué en attendant relecture
 
   - 📦 Labos Extra (hors programme):
       - Lab 1 - CreativeHub:

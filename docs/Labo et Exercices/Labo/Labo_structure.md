@@ -77,14 +77,30 @@ Le script est **idempotent** : il vérifie l'existence de chaque élément avant
 
 ### Préparer le fichier sur le serveur
 
-1. Consultez le contenu du script `creation_structure.ps1` sur le site du cours et copiez-le (`CTRL+A` puis `CTRL+C`)
-2. Accédez à la VM du serveur
-3. Dans l'Explorateur de fichiers, onglet `Affichage` > activez `Extensions des noms de fichiers`
-4. Créez un dossier `Scripts` dans `C:\` et accédez-y
-5. Clic droit > Nouveau > Document texte, nommez-le `creation_structure.ps1` et confirmez le changement d'extension
+1. Sur la VM du serveur, dans l'Explorateur de fichiers, onglet `Affichage` > activez `Extensions des noms de fichiers`
+2. Créez un dossier `Scripts` dans `C:\`
+3. Récupérez le script depuis la [page du script](./PowerShell-scriptsStructure/creation_structure.md), bouton **Télécharger creation_structure.ps1**. Deux possibilités :
+    * **Depuis la VM**, si elle a accès à Internet : ouvrez la page dans le navigateur de la VM et cliquez sur le bouton. Si le navigateur signale que ce type de fichier peut être dangereux, choisissez de **conserver** le fichier. Déplacez ensuite le fichier de `Téléchargements` vers `C:\Scripts`.
+    * **Depuis la machine hôte** : téléchargez le fichier sur l'hôte, puis faites-le glisser dans `C:\Scripts` sur la VM (glisser-déposer configuré ci-dessus).
+4. Vérifiez le nom du fichier dans `C:\Scripts` : exactement `creation_structure.ps1`. Si vous avez téléchargé deux fois, le navigateur a pu l'appeler `creation_structure (1).ps1` : renommez-le.
+5. **Débloquez le fichier** : clic droit sur `creation_structure.ps1` > **Propriétés** > onglet **Général**. En bas, si la ligne *Sécurité : Ce fichier provient d'un autre ordinateur…* apparaît, cochez **Débloquer** > **OK**. Si la ligne n'apparaît pas, il n'y a rien à faire.
 6. Ouvrez Visual Studio Code (extension PowerShell) ou, à défaut, Windows PowerShell ISE, **en tant qu'administrateur**
 7. Ouvrez `C:\Scripts\creation_structure.ps1`
-8. Collez le contenu copié et enregistrez (le fichier doit rester dans `C:\Scripts`)
+
+!!! warning "Pourquoi débloquer ?"
+    Windows marque les fichiers venus d'Internet. La stratégie d'exécution par défaut de Windows Server (`RemoteSigned`) refuse de lancer un script marqué qui n'est pas signé. Sans l'étape 5, vous obtenez : *Impossible de charger le fichier C:\Scripts\creation_structure.ps1… n'est pas signé numériquement*. Débloquez le fichier et relancez.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
+
+    ```powershell
+    Unblock-File -Path C:\Scripts\creation_structure.ps1
+    ```
+
+??? note "Pas de téléchargement possible ? Créer le fichier par copier-coller"
+    1. Sur la [page du script](./PowerShell-scriptsStructure/creation_structure.md), copiez le code avec le bouton de copie du bloc
+    2. Dans `C:\Scripts`, clic droit > Nouveau > Document texte, nommez-le `creation_structure.ps1` et confirmez le changement d'extension
+    3. Ouvrez-le dans VS Code ou PowerShell ISE (en administrateur), collez le code et enregistrez
+    4. Dans VS Code, enregistrez en **UTF-8 avec BOM** pour que les accents s'affichent correctement (détails sur la page du script). Un fichier créé ainsi n'a pas besoin d'être débloqué.
 
 ### Exécuter le script
 
