@@ -31,16 +31,22 @@ Sans DNS, il faudrait mémoriser `142.250.179.174` pour Google, `151.101.1.140` 
 
 ### Pourquoi Active Directory a besoin du DNS
 
-Active Directory utilise les **noms DNS** pour tout localiser.
+Un poste du domaine ne connaît pas l'adresse du contrôleur de domaine (DC) : personne ne la lui a donnée. À chaque démarrage et à chaque ouverture de session, il la **demande au DNS**.
 
-| Ce qu'AD doit faire | Comment DNS aide |
-|---------------------|------------------|
-| Trouver les contrôleurs de domaine | Enregistrement SRV `_ldap._tcp.dc._msdcs.maxtec.be` → `dns1.maxtec.be` → `192.168.0.2` |
-| Authentifier les utilisateurs | Enregistrement SRV `_kerberos._tcp.maxtec.be` → serveur Kerberos |
-| Joindre des postes au domaine | Le poste localise un DC, puis enregistre son propre nom (`ws-IT-01.maxtec.be`) |
-| Appliquer les stratégies de groupe | Le poste localise un DC pour lire les GPO dans `SYSVOL` |
+Le DNS que vous connaissez répond à « quelle est l'adresse de `www.google.com` ? ». C'est un enregistrement **A** : un nom → une adresse, comme les pages blanches de l'annuaire. Active Directory ajoute un autre type de question : « **qui**, dans `maxtec.be`, fournit tel service ? ». C'est un enregistrement **SRV**, l'équivalent des pages jaunes : on cherche un métier, pas une personne. Le DC inscrit lui-même ces fiches SRV dans le DNS au moment où il devient contrôleur de domaine.
 
-**Sans DNS fonctionnel, Active Directory ne fonctionne pas.** Un poste dont le DNS pointe vers `8.8.8.8` ne trouvera jamais `maxtec.be`.
+Exemple : Ivan allume `ws-IT-01` et ouvre sa session. Voici ce que le poste demande au DNS, dans l'ordre :
+
+| Moment | La question du poste | La réponse du DNS | Ce qui se passe si le DNS ne répond pas |
+|--------|----------------------|-------------------|------------------------------------------|
+| Démarrage du poste | « Où est un contrôleur de domaine pour `maxtec.be` ? » | « C'est `dns1`, à l'adresse `192.168.0.2`. » | Le poste ne trouve pas le domaine. Message typique : *« Le domaine spécifié n'existe pas ou n'a pas pu être contacté »*. |
+| Ivan tape son mot de passe | « Qui vérifie les mots de passe (Kerberos) ? » | « Encore `dns1`. » | Le mot de passe ne peut pas être vérifié. Ivan ne peut pas se connecter, ou seulement avec un ancien profil en cache. |
+| Juste après la connexion | « Où lire les règles (GPO) à appliquer ? » | « Dans le dossier partagé `SYSVOL` de `dns1`. » | Les GPO ne s'appliquent pas : pas de lecteur réseau, pas de fond d'écran imposé, sans message d'erreur visible. |
+| Jonction au domaine (une seule fois) | « Où est le DC ? », puis « Enregistre mon nom, s'il te plaît. » | Le DNS ajoute `ws-IT-01.maxtec.be` → adresse du poste. | Impossible de joindre le poste au domaine. |
+
+Les noms techniques de ces fiches SRV, et comment les vérifier, sont à la [section 4](#4-les-enregistrements-srv-dun-controleur-de-domaine).
+
+**Sans DNS fonctionnel, Active Directory ne fonctionne pas.** Un poste dont le DNS pointe vers `8.8.8.8` interroge Google, qui ne connaît pas `maxtec.be` : aucune des questions du tableau n'obtient de réponse. C'est la panne AD la plus fréquente, et la première chose à vérifier (`ipconfig /all`, ligne « Serveurs DNS »).
 
 Quand vous promouvrez le serveur en contrôleur de domaine (Chapitre 4), l'assistant installe et configure le rôle DNS.
 
@@ -118,14 +124,18 @@ Quand vous promouvrez le serveur (Chapitre 4) :
 
 ## 4. Les enregistrements SRV d'un contrôleur de domaine
 
-Un enregistrement **SRV** répond à la question « quel serveur fournit tel service, sur quel port ? ». C'est ainsi qu'un poste trouve un DC sans connaître son nom à l'avance.
+Un enregistrement **SRV** répond à la question « quel serveur fournit tel service, sur quel port ? ». C'est ainsi qu'un poste trouve un DC sans connaître son nom à l'avance (les « pages jaunes » de la [section 1](#pourquoi-active-directory-a-besoin-du-dns)).
 
-| Enregistrement | Service | Port |
-|----------------|---------|------|
-| `_ldap._tcp.dc._msdcs.maxtec.be` | Contrôleurs de domaine du domaine (c'est celui que les postes cherchent) | 389 |
-| `_kerberos._tcp.maxtec.be` | Authentification Kerberos | 88 |
-| `_gc._tcp.maxtec.be` | Catalogue global | 3268 |
-| `_kpasswd._tcp.maxtec.be` | Changement de mot de passe Kerberos | 464 |
+Le nom d'un SRV se lit de gauche à droite : **le service**, puis **le protocole**, puis **le domaine**. `_kerberos._tcp.maxtec.be` veut dire « le service Kerberos, en TCP, pour `maxtec.be` ». La réponse contient le nom du serveur et le port à contacter.
+
+| Enregistrement | En clair | Quand le poste s'en sert | Port |
+|----------------|----------|--------------------------|------|
+| `_ldap._tcp.dc._msdcs.maxtec.be` | « Liste des contrôleurs de domaine de `maxtec.be` » | Au démarrage de `ws-IT-01`, à la jonction au domaine, et chaque fois qu'il doit retrouver un DC. **C'est le plus important** : s'il manque, rien d'autre ne fonctionne. | 389 |
+| `_kerberos._tcp.maxtec.be` | « Qui vérifie les mots de passe » | Quand Ivan tape son mot de passe à l'ouverture de session, puis quand il ouvre un partage réseau (le poste demande un ticket Kerberos). | 88 |
+| `_gc._tcp.maxtec.be` | « Qui a l'annuaire de toute la forêt » (catalogue global) | Pour les recherches dans l'annuaire (par exemple chercher un collègue dans Outlook). À l'ouverture de session, c'est le DC lui-même qui le consulte pour compléter la liste des groupes d'Ivan. Avec un seul domaine comme Maxtec, c'est simplement `dns1` ; il devient utile quand une entreprise a plusieurs domaines. | 3268 |
+| `_kpasswd._tcp.maxtec.be` | « Qui accepte les changements de mot de passe » | Quand Ivan change son mot de passe : Ctrl+Alt+Suppr → **Modifier un mot de passe**, ou à la première connexion si « L'utilisateur doit changer le mot de passe » est coché. | 464 |
+
+Dans le lab, les quatre réponses désignent le même serveur : `dns1`. Dans une entreprise avec plusieurs DC, chaque SRV en liste plusieurs, et le poste choisit de préférence un DC proche (même site).
 
 Après la promotion, vérifiez-les de deux façons.
 
