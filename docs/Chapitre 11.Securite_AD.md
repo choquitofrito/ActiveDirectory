@@ -233,7 +233,7 @@ NTLM est l'ancien protocole (années 1990), toujours utilisé en repli quand Ker
 - le condensat (hash) du mot de passe suffit à s'authentifier : un attaquant qui le vole n'a pas besoin du mot de passe en clair (*pass-the-hash*) ;
 - vulnérable au relais (un attaquant retransmet l'authentification à un autre serveur).
 
-État en 2026 : le protocole **NTLMv1 a été supprimé** de Windows 11 24H2 et Windows Server 2025. NTLM dans son ensemble est **déprécié** : Microsoft a annoncé sa désactivation par défaut dans la prochaine version majeure de Windows Server, sans date précise, et renforce l'audit NTLM dans les versions actuelles. En entreprise, le travail consiste à **identifier ce qui utilise encore NTLM** avant de pouvoir le couper.
+État en 2026 : le protocole **NTLMv1 a été supprimé** de Windows 11 24H2 et Windows Server 2025 (pas des machines du lab : Windows 10 et Windows Server 2022 le gardent, désactivable par GPO). NTLM dans son ensemble est **déprécié** : Microsoft a annoncé sa désactivation par défaut dans la prochaine version majeure de Windows Server, sans date précise, et renforce l'audit NTLM dans les versions actuelles. En entreprise, le travail consiste à **identifier ce qui utilise encore NTLM** avant de pouvoir le couper.
 
 ### Kerberoasting : le concept
 
@@ -411,7 +411,7 @@ La stratégie de mot de passe du domaine (Default Domain Policy) s'applique à t
 
 Chaque poste Windows a un compte **Administrateur local**. Si tous les postes ont le même mot de passe (image clonée, script de déploiement), un attaquant qui le récupère sur un poste se connecte à **tous** les autres. C'est le premier accélérateur de mouvement latéral.
 
-**Windows LAPS** (Local Administrator Password Solution) donne à chaque machine un mot de passe local **unique, aléatoire et renouvelé automatiquement**, stocké dans l'objet ordinateur AD. Seuls les comptes autorisés peuvent le lire. Windows LAPS est intégré à Windows 11, Windows Server 2019 et plus récents depuis les mises à jour d'avril 2023, et natif dans Windows Server 2025 : rien à installer, les modèles d'administration GPO sont inclus.
+**Windows LAPS** (Local Administrator Password Solution) donne à chaque machine un mot de passe local **unique, aléatoire et renouvelé automatiquement**, stocké dans l'objet ordinateur AD. Seuls les comptes autorisés peuvent le lire. Windows LAPS est intégré à Windows 10 et 11 et à Windows Server 2019 et plus récents (donc aux machines du lab) depuis les mises à jour d'avril 2023, et natif dans Windows Server 2025 : rien à installer, les modèles d'administration GPO sont inclus.
 
 !!! note "Ne pas confondre"
     L'ancien « Microsoft LAPS » (MSI à installer, attribut `ms-Mcs-AdmPwd`) est obsolète. On utilise ici **Windows LAPS**, avec le module PowerShell `LAPS` et les attributs `msLAPS-*`.
@@ -465,7 +465,7 @@ Chaque poste Windows a un compte **Administrateur local**. Si tous les postes on
     Le paramètre « Activer le chiffrement du mot de passe » (*Enable password encryption*) peut rester non configuré dans le lab ; en production, on l'active (niveau fonctionnel 2016 minimum requis). Si le chiffrement est actif, seuls les Admins du domaine (par défaut) peuvent déchiffrer le mot de passe.
 
     !!! tip "Compte Administrateur désactivé"
-        Sur Windows 11, le compte Administrateur intégré est désactivé par défaut. LAPS gère quand même son mot de passe. Si vous voulez tester une connexion avec ce compte, activez-le sur le poste (`net user Administrateur /active:yes`), puis désactivez-le après le test.
+        Sur Windows 10, le compte Administrateur intégré est désactivé par défaut. LAPS gère quand même son mot de passe. Si vous voulez tester une connexion avec ce compte, activez-le sur le poste (`net user Administrateur /active:yes`), puis désactivez-le après le test.
 
     **Étape 4 — sur ws-IT-01, PowerShell administrateur**
 
@@ -503,7 +503,7 @@ Chaque poste Windows a un compte **Administrateur local**. Si tous les postes on
 Sans corbeille, un objet supprimé perd la plupart de ses attributs, dont ses **appartenances aux groupes**. Le recréer avec le même nom ne sert à rien : il aura un **nouveau SID** et ne retrouvera aucune de ses permissions NTFS. La **corbeille AD** (*Recycle Bin*) conserve l'objet complet pendant la durée de vie des objets supprimés (180 jours par défaut).
 
 !!! warning "Activation irréversible"
-    Une fois activée, la corbeille ne peut plus être désactivée. C'est sans inconvénient réel, et c'est recommandé partout ; elle exige un niveau fonctionnel de forêt 2008 R2 minimum (votre lab est en 2016 ou 2025).
+    Une fois activée, la corbeille ne peut plus être désactivée. C'est sans inconvénient réel, et c'est recommandé partout ; elle exige un niveau fonctionnel de forêt 2008 R2 minimum (votre lab est au niveau 2016).
 
 !!! example "Cahier des charges"
     1. Activer la corbeille sur la forêt `maxtec.be`.

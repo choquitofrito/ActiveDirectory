@@ -9,7 +9,7 @@
     - expliquer pourquoi un poste ne trouve pas le contrôleur de domaine sans DNS (enregistrements SRV) ;
     - configurer le DNS du serveur sur `192.168.0.2` et le vérifier avec `ipconfig /all` ;
     - dire ce que la promotion en DC crée automatiquement dans le DNS, et ce qu'elle ne crée pas (zone inverse) ;
-    - interroger un enregistrement SRV avec `nslookup -type=SRV` ou `Resolve-DnsName`, et configurer un redirecteur.
+    - retrouver les enregistrements SRV dans le Gestionnaire DNS et les interroger avec `nslookup -type=SRV`, et configurer un redirecteur.
 
 !!! tip "Pratique DNS"
     Ce chapitre couvre l'essentiel (15 min de lecture). La pratique (créer des enregistrements, zone inverse, dépannage) est au **[Chapitre 5 - DNS Pratique avec AD](Chapitre%205.DNS-Pratique-avec-AD.md)**, après l'installation d'AD. La théorie approfondie est dans la [référence DNS](Théorie%20DNS-%20DNS%20Concepts%20Avances%20(Reference).md).
@@ -44,25 +44,14 @@ Active Directory utilise les **noms DNS** pour tout localiser.
 
 Quand vous promouvrez le serveur en contrôleur de domaine (Chapitre 4), l'assistant installe et configure le rôle DNS.
 
-### Si vous venez de Linux
+??? info "Si vous connaissez Linux"
+    Trois repères suffisent :
 
-| Linux | Windows |
-|-------|---------|
-| `/etc/resolv.conf` → `nameserver` | Propriétés IPv4 de la carte → « Serveur DNS préféré » ; `Get-DnsClientServerAddress` / `Set-DnsClientServerAddress` |
-| `/etc/resolv.conf` → `search` | Suffixe DNS principal (`maxtec.be`) et liste de suffixes ; `Get-DnsClientGlobalSetting` |
-| `/etc/hosts` | `C:\Windows\System32\drivers\etc\hosts` |
-| `dig`, `host` | `nslookup` (partout) et `Resolve-DnsName` (PowerShell, plus proche de `dig`) |
-| `resolvectl flush-caches` | `ipconfig /flushdns` ou `Clear-DnsClientCache` |
-| Cache : `resolvectl statistics` | `ipconfig /displaydns` ou `Get-DnsClientCache` |
-| BIND : fichiers de zone | Zones **intégrées à AD** : stockées dans la base AD et répliquées entre DC, pas dans des fichiers |
+    1. **Où l'on règle le serveur DNS de la machine.** Sous Linux, c'est un fichier texte (`/etc/resolv.conf`). Sous Windows, c'est dans les propriétés de la carte réseau, champ « Serveur DNS préféré » (`ncpa.cpl`).
+    2. **Le fichier `hosts` existe dans les deux systèmes.** Sous Windows, il se trouve dans `C:\Windows\System32\drivers\etc\hosts`. Dans les deux cas, il est consulté avant le DNS : une ligne oubliée dedans peut fausser une résolution.
+    3. **`nslookup` existe sur les deux.** C'est l'outil que nous utiliserons pour interroger un serveur DNS et vérifier une réponse.
 
-```powershell
-# Équivalent de "dig maxtec.be"
-Resolve-DnsName maxtec.be
-
-# Équivalent de "dig @192.168.0.2 dns1.maxtec.be"
-Resolve-DnsName dns1.maxtec.be -Server 192.168.0.2
-```
+    Une différence importante : dans Active Directory, les zones DNS ne sont pas stockées dans des fichiers texte, mais dans la base AD elle-même, qui est répliquée automatiquement entre les contrôleurs de domaine.
 
 ---
 
@@ -138,17 +127,22 @@ Un enregistrement **SRV** répond à la question « quel serveur fournit tel ser
 | `_gc._tcp.maxtec.be` | Catalogue global | 3268 |
 | `_kpasswd._tcp.maxtec.be` | Changement de mot de passe Kerberos | 464 |
 
-Après la promotion, vérifiez-les depuis le serveur ou un poste client :
+Après la promotion, vérifiez-les de deux façons.
 
-```powershell
-# Invite de commandes ou PowerShell
+**Dans le Gestionnaire DNS** (sur `dns1`) :
+
+1. Gestionnaire de serveur → **Outils** → **DNS** (ou Win+R → `dnsmgmt.msc`).
+2. Dépliez **DNS1** → **Zones de recherche directes** → **_msdcs.maxtec.be** → **dc** → **_tcp**.
+3. Vous devez voir l'enregistrement **_ldap** de type **Emplacement du service (SRV)** pointant vers `dns1.maxtec.be`, port 389.
+4. Pour Kerberos : **Zones de recherche directes** → **maxtec.be** → **_tcp** → enregistrement **_kerberos** (port 88).
+
+**Avec `nslookup`** (invite de commandes, sur le serveur ou un poste client) :
+
+```cmd
 nslookup -type=SRV _ldap._tcp.dc._msdcs.maxtec.be
 nslookup -type=SRV _kerberos._tcp.maxtec.be
 
-# PowerShell
-Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.maxtec.be
-
-# Demander à Windows quel DC il utiliserait
+rem Demander à Windows quel DC il utiliserait
 nltest /dsgetdc:maxtec.be
 ```
 
@@ -162,7 +156,13 @@ _ldap._tcp.dc._msdcs.maxtec.be   SRV service location:
           svr hostname   = dns1.maxtec.be
 ```
 
-Si ces enregistrements manquent, redémarrez le service Netlogon sur le DC (`Restart-Service Netlogon`) : il les réenregistre.
+**En PowerShell** (aperçu, vu au chapitre 9) :
+
+```powershell
+Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.maxtec.be
+```
+
+Si ces enregistrements manquent, redémarrez le service **Netlogon** sur le DC : il les réenregistre. Win+R → `services.msc` → clic droit sur **Netlogon** → **Redémarrer**. En invite de commandes : `net stop netlogon` puis `net start netlogon`.
 
 ## 5. Les redirecteurs (forwarders)
 
@@ -173,9 +173,16 @@ Si ces enregistrements manquent, redémarrez le service Netlogon sur le DC (`Res
 
 La règle en entreprise : **les postes interrogent uniquement le DC**, et c'est le DC qui redirige vers l'extérieur. On ne met jamais `8.8.8.8` comme DNS d'un poste du domaine.
 
-**Configuration (GUI)** : Gestionnaire DNS → clic droit sur **DNS1** → **Propriétés** → onglet **Redirecteurs** → **Modifier** → ajoutez l'adresse.
+**Configuration dans le Gestionnaire DNS** (sur `dns1`) :
 
-**Configuration (PowerShell)** :
+1. Gestionnaire de serveur → **Outils** → **DNS** (ou `dnsmgmt.msc`).
+2. Clic droit sur **DNS1** → **Propriétés** → onglet **Redirecteurs**.
+3. Cliquez sur **Modifier…**, saisissez l'adresse (par exemple `1.1.1.1`) puis **Entrée**. La validation affichée à côté peut échouer si le lab n'a pas d'accès Internet : ce n'est pas bloquant.
+4. **OK**, puis **Appliquer** / **OK**.
+
+**Vérification** : rouvrez l'onglet **Redirecteurs**, l'adresse doit être listée. Si une carte NAT est branchée, testez depuis le serveur : `nslookup www.google.com 192.168.0.2` doit renvoyer une adresse.
+
+**En PowerShell** (aperçu, vu au chapitre 9) :
 
 ```powershell
 Add-DnsServerForwarder -IPAddress 1.1.1.1

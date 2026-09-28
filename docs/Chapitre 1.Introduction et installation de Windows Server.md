@@ -4,7 +4,7 @@
     À la fin de ce chapitre, vous savez :
 
     - expliquer en trois points pourquoi une gestion centralisée (Active Directory) remplace la gestion poste par poste ;
-    - créer une VM Windows Server 2025 sous Hyper-V avec **une seule** carte réseau sur un réseau privé ;
+    - préparer la VM Windows Server 2022 du cours sous **VirtualBox** ([Chapitre 2](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md)), avec **une seule** carte réseau sur le réseau interne ;
     - renommer le serveur en `dns1` (suffixe `maxtec.be`) et lui donner l'IP fixe `192.168.0.2` ;
     - vérifier avec `hostname` et `ipconfig /all` que le serveur est prêt pour la promotion en contrôleur de domaine.
 
@@ -112,7 +112,7 @@ Tous ces aspects **peuvent être gérés depuis un seul endroit, le serveur Acti
 | Phase | Étape | Description |
 |-------|--------|-------------|
 | **1. Préparation** | Configuration VM | Création et paramétrage de la machine virtuelle |
-| | Installation Windows | Installation de Windows Server 2025 (2022 accepté) |
+| | Installation Windows | Installation de Windows Server 2022 |
 | **2. Configuration** | Services AD DS | Déploiement d'Active Directory (Chapitre 4) |
 | **3. Finalisation** | Tests | Vérification de la configuration |
 
@@ -136,8 +136,8 @@ Tous ces aspects **peuvent être gérés depuis un seul endroit, le serveur Acti
   _Exemple : partager des dossiers à plusieurs utilisateurs en même temps._
 
 !!! info "Versions utilisées dans ce cours"
-    - **Serveur** : Windows Server 2025 (ISO d'évaluation 180 jours). Windows Server 2022 est accepté.
-    - **Client** : Windows 11 Professionnel. Windows 10 n'est plus supporté depuis le 14/10/2025.
+    - **Serveur** : Windows Server 2022 (ISO fournie en cours, ou ISO d'évaluation 180 jours). La version actuelle est Windows Server 2025 ; tout le cours fonctionne sur 2022.
+    - **Client** : Windows 10 Professionnel.
 
     Toutes les valeurs du lab (noms, IP, OUs, groupes) sont dans la [Référence du lab Maxtec](Labo%20et%20Exercices/Labo/Reference_Lab_Maxtec.md).
 
@@ -146,26 +146,30 @@ Tous ces aspects **peuvent être gérés depuis un seul endroit, le serveur Acti
 
 Nos expériences ne doivent pas modifier la configuration de notre ordinateur, et nous devons **pouvoir facilement revenir à une configuration de départ** en cas d'erreur. D'où les machines virtuelles :
 
-- **Chaque machine virtuelle est indépendante** des autres et de l'ordinateur physique. Exemple : une VM Windows Server et une VM Windows 11 sur le même portable.
+- **Chaque machine virtuelle est indépendante** des autres et de l'ordinateur physique. Exemple : une VM Windows Server et une VM Windows 10 sur le même portable.
 - On peut **modifier la configuration d'une VM sans risque** pour l'ordinateur physique.
 - On peut **prendre un instantané (snapshot)** avant une étape risquée, ou **supprimer une VM et en recréer une**.
 
 
-### 3.2. Installation de Windows Server avec Hyper-V
+### 3.2. Installation pour le cours : VirtualBox
 
-!!! info "Deux alternatives, un seul résultat"
-    Ce chapitre installe le serveur avec **Hyper-V** (hôte Windows 10/11 Pro ou Entreprise). Si vous êtes sous Linux, macOS ou Windows Famille, utilisez **VirtualBox** : [Chapitre 2](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md). Ne faites pas les deux.
+En cours, toutes les VMs tournent sous **VirtualBox**. L'installation pas à pas est au [Chapitre 2](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md) ; le [Guide rapide (Annexe 1)](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md) reprend les mêmes étapes sans la théorie, de la VM jusqu'au poste client joint au domaine.
 
-    Si vous voulez aller vite, le [Guide rapide (Annexe 1)](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md) reprend toutes les étapes pratiques, de la VM jusqu'au poste client joint au domaine, sans la théorie. C'est le parcours de référence du lab.
+### 3.3. Option à la maison : installation avec Hyper-V
 
-### 3.2.1. Activation de Hyper-V dans Windows
+!!! warning "Hors cours"
+    Cette section ne sert **que** si vous voulez refaire le lab chez vous avec Hyper-V (hôte Windows 10/11 Pro ou Entreprise). En cours, on utilise VirtualBox (§3.2). Ne mélangez pas les deux pour un même lab.
+
+    Activer Hyper-V sur un PC où vous utilisez aussi VirtualBox peut fortement ralentir VirtualBox : si vous voulez garder VirtualBox chez vous, n'activez pas Hyper-V.
+
+### 3.3.1. Activation de Hyper-V dans Windows
 
 - Dans la barre de recherche de Windows, tapez **Activer ou désactiver des fonctionnalités Windows**
 - Cochez la case **Hyper-V** et cliquez sur **OK**
 - Redémarrez Windows
 
 
-### 3.2.2. Création du réseau virtuel
+### 3.3.2. Création du réseau virtuel
 
 Hyper-V propose trois types de commutateurs virtuels :
 
@@ -195,7 +199,7 @@ Pour le lab, **un seul réseau** suffit :
     Besoin d'Internet ponctuellement (mises à jour, téléchargement) ? Ajoutez une deuxième carte connectée au **Default Switch** (NAT fourni par Hyper-V) le temps de l'opération, puis retirez-la.
 
 
-### 3.2.3. Téléchargement de Windows Server
+### 3.3.3. Téléchargement de Windows Server
 
 La version d'évaluation est valable 180 jours, ce qui couvre largement le cours.
 
@@ -206,12 +210,12 @@ La version d'évaluation est valable 180 jours, ce qui couvre largement le cours
 | Espace disque | 32 GB | 50 GB (dynamique) |
 | Réseau | 1 carte réseau | 1 carte sur **LAN-VM** |
 
-1. Accédez au [Centre d'évaluation Microsoft](https://www.microsoft.com/fr-fr/evalcenter/download-windows-server-2025)
+1. Accédez au [Centre d'évaluation Microsoft](https://www.microsoft.com/fr-fr/evalcenter/download-windows-server-2022)
 2. Sélectionnez l'option **ISO**
 3. Choisissez la langue : **Français**
 4. Conservez le fichier ISO dans un emplacement facilement accessible
 
-### 3.2.4. Création de la machine virtuelle
+### 3.3.4. Création de la machine virtuelle
 
 !!! warning "Prérequis"
 
@@ -229,17 +233,17 @@ La version d'évaluation est valable 180 jours, ce qui couvre largement le cours
     | Disque dur | 50 GB (dynamique) |
     | Image | Votre fichier ISO Windows Server |
 
-!!! tip "Et le poste client Windows 11 ?"
-    Windows 11 exige TPM 2.0 et le démarrage sécurisé. Dans Hyper-V : VM de **génération 2**, puis **Paramètres > Sécurité > Activer le module de plateforme sécurisée**. La création et la jonction du client sont décrites dans l'[Annexe 1, Partie B](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md#partie-b-joindre-un-poste-client-au-domaine).
+!!! tip "Et le poste client Windows 10 ?"
+    Même procédure dans Hyper-V, avec l'ISO de Windows 10 Professionnel. La création et la jonction du client sont décrites dans l'[Annexe 1, Partie B](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md#partie-b-joindre-un-poste-client-au-domaine).
 
-### 3.2.5. Installation du système
+### 3.3.5. Installation du système
 
 1. Démarrez la machine virtuelle (appuyez sur une touche pour démarrer sur l'ISO)
 2. Sélectionnez :
     - Langue : **Français**
     - Format de l'heure : **Français (Belgique)**
     - Clavier : **Belge (point)** ou celui de votre ordinateur
-3. Choisissez **Windows Server 2025 Standard Evaluation (Expérience de bureau)**
+3. Choisissez **Windows Server 2022 Standard Evaluation (Expérience de bureau)**
 
     !!! tip "Pourquoi « Expérience de bureau » ?"
         L'option sans cette mention installe Server Core (sans interface graphique). En production, Core est souvent préférable ; pour apprendre, l'interface graphique est plus pratique.
@@ -250,7 +254,7 @@ La version d'évaluation est valable 180 jours, ce qui couvre largement le cours
 
 L'installation prend environ 15-20 minutes.
 
-### 3.2.6. Configuration post-installation
+### 3.3.6. Configuration post-installation
 
 **Compte administrateur**
 
@@ -287,20 +291,20 @@ Le nom complet (FQDN) du serveur est maintenant `dns1.maxtec.be`.
 
 3. **OK** → **OK**
 
-### 3.2.7. Vérifications
+### 3.3.7. Vérifications
 
-Ouvrez PowerShell :
+Ouvrez une invite de commandes (Win+R → `cmd`) :
 
 | Vérification | Commande | Résultat attendu |
 |--------------|----------|------------------|
 | Nom du serveur | `hostname` | `dns1` |
 | Adresse IP et DNS | `ipconfig /all` | IPv4 `192.168.0.2`, Serveurs DNS `192.168.0.2`, Suffixe DNS principal `maxtec.be` |
-| Une seule carte | `Get-NetAdapter` | Une seule carte active |
+| Une seule carte | Win+R → `ncpa.cpl` | Une seule carte réseau listée (en PowerShell, chapitre 9 : `Get-NetAdapter`) |
 
 !!! note "Et la résolution DNS ?"
     À ce stade, aucun serveur DNS n'existe encore : `nslookup` échouera, c'est attendu. Le rôle DNS est installé lors de la promotion en contrôleur de domaine (Chapitre 4), et vous vérifierez la résolution à ce moment-là (`nslookup dns1.maxtec.be`, puis Chapitre 5).
 
-### 3.2.8. Dépannage
+### 3.3.8. Dépannage
 
 **Virtualisation**
 
@@ -330,9 +334,9 @@ Si un problème persiste, consultez la [documentation Microsoft](https://learn.m
 
 ### Prochaine étape
 
-Votre serveur est prêt pour Active Directory. Passez au [Chapitre 3 : DNS](Chapitre%203.DNS.md).
+En cours : passez au [Chapitre 2](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md) pour installer les VMs sous VirtualBox.
 
-Le [Chapitre 2](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md) est l'alternative VirtualBox à ce chapitre : inutile de le suivre si vous avez installé avec Hyper-V, sauf pour la partie sur les postes clients.
+À la maison avec Hyper-V (§3.3) : votre serveur est prêt, passez au [Chapitre 3 : DNS](Chapitre%203.DNS.md). Pour le poste client, suivez le Chapitre 2 §4 en adaptant la création de la VM à Hyper-V.
 
 ## Navigation
-[Retour au Syllabus](index.md) | [Chapitre 2 : alternative VirtualBox](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md) | [Chapitre 3 : DNS](Chapitre%203.DNS.md)
+[Retour au Syllabus](index.md) | [Chapitre 2 : installation (VirtualBox)](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md) | [Chapitre 3 : DNS](Chapitre%203.DNS.md)

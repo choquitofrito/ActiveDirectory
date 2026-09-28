@@ -281,7 +281,7 @@ Cette étape transforme le serveur en contrôleur de domaine pour `maxtec.be` (d
 |--------|---------------|--------|
 | 1 | Type d'installation | Ajouter une nouvelle forêt |
 | 2 | Nom de domaine racine | `maxtec.be` |
-| 3 | Niveau fonctionnel de la forêt et du domaine | **Windows Server 2025** (serveur 2025) ou **Windows Server 2016** (serveur 2022 : il n'existe pas de niveau « 2022 ») |
+| 3 | Niveau fonctionnel de la forêt et du domaine | **Windows Server 2016** (c'est le niveau maximal avec un DC 2022 : il n'existe pas de niveau « 2022 ») |
 | 4 | Serveur DNS / Catalogue global | Cochés (par défaut) |
 | 5 | Mot de passe DSRM | `Password1!` |
 | 6 | Nom NetBIOS | `MAXTEC` |
@@ -330,6 +330,10 @@ Le détail et les commandes de vérification sont au [Chapitre 3 §4](Chapitre%2
 | DNS | Résolution de noms | Démarrage auto |
 | Netlogon | Localisation du DC, enregistrements SRV, canal sécurisé | Démarrage auto |
 
+Pour le vérifier : Win+R → `services.msc` (ou Gestionnaire de serveur → **Outils** → **Services**). Repérez **Services de domaine Active Directory**, **Serveur DNS** et **Netlogon** : colonne **État** = « En cours d'exécution », colonne **Type de démarrage** = « Automatique ».
+
+**En PowerShell** (aperçu, vu au chapitre 9) :
+
 ```powershell
 Get-Service NTDS, DNS, Netlogon
 ```
@@ -341,8 +345,10 @@ Get-Service NTDS, DNS, Netlogon
 | **SYSVOL** | Stratégies de groupe (GPO) et scripts | Répliqué entre tous les DC du domaine |
 | **NETLOGON** | Scripts d'ouverture de session (sous-dossier `scripts` de SYSVOL) | Lu par les postes à la connexion |
 
-```powershell
-net share   # SYSVOL et NETLOGON doivent apparaître
+Pour le vérifier : Gestionnaire de serveur → **Outils** → **Gestion de l'ordinateur** → **Dossiers partagés** → **Partages**, ou en invite de commandes (`SYSVOL` et `NETLOGON` doivent apparaître dans les deux cas) :
+
+```cmd
+net share
 ```
 
 
@@ -444,11 +450,17 @@ La plupart des modifications peuvent se faire sur n'importe quel DC (réplicatio
 - **Domaine** (un par domaine) : **maître RID** (distribue les blocs de RID qui forment les SID), **maître d'infrastructure** (références vers les objets d'autres domaines).
 - **Domaine** : **émulateur PDC** (changements de mot de passe urgents, verrouillages de compte, **source d'heure du domaine**, éditeur de GPO par défaut).
 
-Dans le lab, `dns1` détient les cinq rôles. Pour le vérifier :
+Dans le lab, `dns1` détient les cinq rôles. Pour le vérifier, en invite de commandes (sur `dns1`) :
+
+```cmd
+netdom query fsmo
+```
+
+Les cinq lignes doivent indiquer `dns1.maxtec.be`. En interface graphique, les trois rôles de domaine sont visibles dans **Utilisateurs et ordinateurs Active Directory** : clic droit sur `maxtec.be` → **Maîtres d'opérations…** (onglets **RID**, **Contrôleur principal de domaine**, **Infrastructure**).
+
+**En PowerShell** (aperçu, vu au chapitre 9) :
 
 ```powershell
-netdom query fsmo
-
 Get-ADDomain | Select-Object PDCEmulator, RIDMaster, InfrastructureMaster
 Get-ADForest | Select-Object SchemaMaster, DomainNamingMaster
 ```
@@ -479,7 +491,9 @@ Ivan commence à travailler au département IT. Pour accéder aux ressources de 
 
 ### Déplacer le poste dans son OU
 
-Après la jonction, `ws-IT-01` se trouve dans le conteneur par défaut `CN=Computers`, **où aucune GPO d'OU ne s'applique**. Une fois la structure du lab créée ([`creation_structure.ps1`](Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/creation_structure.md), Chapitre 6), déplacez-le dans `OU=Computers,OU=IT,OU=EU` :
+Après la jonction, `ws-IT-01` se trouve dans le conteneur par défaut `CN=Computers`, **où aucune GPO d'OU ne s'applique**. Une fois la structure du lab créée ([`creation_structure.ps1`](Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/creation_structure.md), Chapitre 6), déplacez-le dans `OU=Computers,OU=IT,OU=EU` depuis **Utilisateurs et ordinateurs Active Directory** : conteneur **Computers** > clic droit sur `WS-IT-01` > **Déplacer…** > `EU` > `IT` > `Computers`. Étapes détaillées et vérification : [Guide rapide, étape B7](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md#b7-deplacer-le-poste-dans-son-ou). Valeurs pour `ws-RH-01` : [Référence du lab Maxtec](Labo%20et%20Exercices/Labo/Reference_Lab_Maxtec.md).
+
+**En PowerShell** (aperçu, vu au chapitre 9) :
 
 ```powershell
 Get-ADComputer ws-IT-01 | Move-ADObject -TargetPath "OU=Computers,OU=IT,OU=EU,DC=maxtec,DC=be"
@@ -487,8 +501,6 @@ Get-ADComputer ws-IT-01 | Move-ADObject -TargetPath "OU=Computers,OU=IT,OU=EU,DC
 # Vérification
 Get-ADComputer ws-IT-01 | Select-Object DistinguishedName
 ```
-
-En GUI : **Utilisateurs et ordinateurs Active Directory** → **Computers** → clic droit sur `WS-IT-01` → **Déplacer…**. Voir la [Référence du lab Maxtec](Labo%20et%20Exercices/Labo/Reference_Lab_Maxtec.md) pour `ws-RH-01`.
 
 ### Formats de connexion au domaine
 

@@ -27,7 +27,7 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 2. **Délimiter** : un seul utilisateur ou tous ? un seul poste ou tous ? depuis quand ? qu'est-ce qui marche encore ?
 3. **Remonter la chaîne** : pour qu'un utilisateur ouvre une session et accède à un partage, il faut (dans l'ordre) : réseau → DNS → localisation du DC → authentification → jeton de groupes → GPO → permissions. Testez chaque maillon, du bas vers le haut.
 4. **Corriger une chose à la fois**, puis retester. Si vous changez trois paramètres d'un coup, vous ne saurez pas lequel a réparé.
-5. **Prouver** : une commande ou une capture qui montre que c'est réparé (`gpresult`, `Get-ADUser`, accès effectif...).
+5. **Prouver** : une commande ou une capture qui montre que c'est réparé (`gpresult`, onglet **Compte** dans `dsa.msc`, accès effectif, `nslookup`...).
 6. **Consigner** : cause racine, correction, comment éviter que ça revienne.
 
 !!! warning "Ce qu'on ne fait pas"
@@ -61,13 +61,13 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
 **Prérequis** : GPO-1 §4.1 réalisée (lecteur réseau `\\dns1\IT-Admin` pour l'IT). Pour la variante complète, aussi §2.1 (message de connexion) et §2.2 (verrouillage) : la GPO de verrouillage doit toujours être liée et active, et `ws-IT-01` ne doit pas être dans le groupe d'exception de §2.2.2, sinon le symptôme "l'écran ne se verrouille plus" n'est pas observable.
 
-**Outils autorisés** : `gpresult`, console **Gestion des stratégies de groupe** (`gpmc.msc`, y compris Modélisation et Résultats de stratégie de groupe), `dsa.msc`, PowerShell (`Get-GPInheritance`, `Get-GPPermission`, `Get-GPO`, `Get-ADComputer`). Pas de modification du contenu des GPO : les paramètres eux-mêmes sont corrects.
+**Outils autorisés** : console **Gestion des stratégies de groupe** (`gpmc.msc` : onglets **Étendue** > **Liaisons**, **Délégation** > **Avancé**, **Objets de stratégie de groupe liés**, Modélisation et Résultats de stratégie de groupe), `dsa.msc`, `gpresult` et `gpupdate` sur le poste. En aperçu, si vous connaissez déjà : PowerShell (`Get-GPInheritance`, `Get-GPPermission`, `Get-GPO`, `Get-ADComputer`). Pas de modification du contenu des GPO : les paramètres eux-mêmes sont corrects.
 
 ??? tip "Indice 1"
 
     Si le ticket signale aussi le verrouillage et le message (variante complète), il y a deux familles de symptômes : le lecteur (paramètre **utilisateur**) et le verrouillage/message (paramètres **ordinateur**). Une seule cause peut-elle expliquer les deux ? Dans tous les cas, lancez sur le poste, dans une session d'`irene` :
 
-    ```powershell
+    ```cmd
     gpresult /r
     ```
 
@@ -76,6 +76,11 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 ??? tip "Indice 2"
 
     Une GPO absente de `gpresult` n'est pas forcément filtrée : elle peut ne jamais avoir été "vue" parce que l'objet n'est pas dans l'OU où elle est liée, ou parce que le lien est inactif.
+
+    - **Où est le poste ?** `dsa.msc` > clic droit sur le domaine > **Rechercher…** > **Ordinateurs** > `ws-IT-01` > **Rechercher maintenant** > double-clic sur le résultat > onglet **Objet** (visible avec **Affichage > Fonctionnalités avancées**) : **Nom canonique de l'objet** donne son emplacement. Il doit être `maxtec.be/EU/IT/Computers/ws-IT-01`.
+    - **Le lien est-il actif ?** La GPO du lecteur est une GPO utilisateur : elle est liée à l'OU des utilisateurs IT. GPMC > sélectionnez `EU\IT\Users` > onglet **Objets de stratégie de groupe liés** : regardez la colonne **Lien activé**. Autre chemin : sélectionnez la GPO > onglet **Étendue** > section **Liaisons**, qui liste toutes les OU où elle est liée, avec l'état de chaque lien. Un lien désactivé apparaît aussi grisé dans l'arborescence.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     Get-ADComputer ws-IT-01 | Select-Object DistinguishedName
@@ -89,7 +94,9 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
 ??? tip "Indice 3"
 
-    Si la GPO du lecteur est bien liée, bien activée, et qu'elle n'apparaît toujours pas, allez voir **qui a le droit de la lire** : GPMC → la GPO → onglet **Délégation** → **Avancé**, ou :
+    Si la GPO du lecteur est bien liée, bien activée, et qu'elle n'apparaît toujours pas, allez voir **qui a le droit de la lire** : GPMC → la GPO → onglet **Étendue** → **Filtrage de sécurité**, puis onglet **Délégation** → **Avancé** (cases **Lecture** et **Appliquer la stratégie de groupe** pour chaque entrée).
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     Get-GPPermission -Name "<nom de la GPO>" -All | Select-Object @{n='Qui';e={$_.Trustee.Name}}, Permission
@@ -105,31 +112,35 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
     **1. Le poste est sorti de son OU (variante complète seulement).** `ws-IT-01` est dans le conteneur `CN=Computers`. Un conteneur n'est pas une OU : aucune GPO d'OU ne s'y applique. D'où la perte du verrouillage et du message de connexion (GPO ordinateur liées à `EU` et à l'IT).
 
+    Correction : `dsa.msc` → `Computers` → clic droit sur `ws-IT-01` → **Déplacer…** → `EU > IT > Computers` → **OK**. Puis redémarrez le poste.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
+
     ```powershell
     Get-ADComputer ws-IT-01 | Move-ADObject -TargetPath "OU=Computers,OU=IT,OU=EU,DC=maxtec,DC=be"
     ```
 
-    GUI : `dsa.msc` → `Computers` → clic droit sur `ws-IT-01` → **Déplacer…** → `EU > IT > Computers`.
+    **2. Le lien de la GPO du lecteur est désactivé.** Dans GPMC, onglet **Étendue** de la GPO → **Liaisons** : `Lien activé` = `Non` sur `IT/Users` (le lien apparaît grisé sous l'OU). La GPO existe, elle est intacte, mais elle n'est plus appliquée nulle part. Ne réactivez que ce lien-là : celui de `GPO-IT-LoginRestreint` (GPO-2 Ex5) reste désactivé ou supprimé, c'est voulu.
 
-    **2. Le lien de la GPO du lecteur est désactivé.** `Get-GPInheritance` montre `Enabled : False` sur le lien. La GPO existe, elle est intacte, mais elle n'est plus appliquée nulle part. Ne réactivez que ce lien-là : celui de `GPO-IT-LoginRestreint` (GPO-2 Ex5) reste désactivé ou supprimé, c'est voulu.
+    Correction : GPMC → `EU > IT > Users` (là où GPO-1 §4.1 l'a liée) → clic droit sur le lien → cocher **Lien activé**.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     # Là où GPO-1 §4.1 l'a liée (adaptez -Target si vous l'aviez liée ailleurs)
     Set-GPLink -Name "<nom de la GPO>" -Target "OU=Users,OU=IT,OU=EU,DC=maxtec,DC=be" -LinkEnabled Yes
     ```
 
-    GUI : GPMC → `EU > IT > Users` → clic droit sur le lien → cocher **Lien activé**. Pour retrouver où une GPO est liée : GPMC → la GPO → onglet **Étendue** → section **Liaisons**.
-
     **3. Le filtrage de sécurité a été fait à moitié.** Quelqu'un a voulu réserver le lecteur aux administrateurs IT (variation de GPO-1 §4.1) : il a ajouté `GG-EU-IT-Admin` et **supprimé** `Utilisateurs authentifiés`. Résultat : les ordinateurs ne peuvent plus lire la GPO, donc même `irene` ne la reçoit pas. `gpresult /h` l'indique comme refusée (accès refusé / sécurité) ou ne la montre pas.
 
-    Correction : garder `GG-EU-IT-Admin` en **Appliquer**, et remettre `Utilisateurs authentifiés` en **Lecture seule** (pas Appliquer, sinon le filtrage n'a plus d'effet).
+    Correction : garder `GG-EU-IT-Admin` en **Appliquer**, et remettre `Utilisateurs authentifiés` en **Lecture seule** (pas Appliquer, sinon le filtrage n'a plus d'effet) : GPMC → la GPO → onglet **Délégation** → **Ajouter…** → `Utilisateurs authentifiés` → permission **Lecture** → **OK**. Contrôle : **Avancé…** → `Utilisateurs authentifiés` : **Lecture** autorisé, **Appliquer la stratégie de groupe** non coché.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     # Sur un système en anglais : "Authenticated Users"
     Set-GPPermission -Name "<nom de la GPO>" -TargetName "Utilisateurs authentifiés" -TargetType Group -PermissionLevel GpoRead
     ```
-
-    GUI : GPMC → la GPO → **Délégation** → **Ajouter** → `Utilisateurs authentifiés` → **Lecture**.
 
     **Preuve** : sur le poste, `gpupdate /force`, fermeture puis réouverture de session d'`irene`, puis `gpresult /r` : la GPO du lecteur est dans les GPO utilisateur appliquées (variante complète : les GPO de verrouillage et de message aussi, dans les GPO ordinateur appliquées). Le lecteur est visible dans l'Explorateur.
 
@@ -256,7 +267,7 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
 **Prérequis** : [exercice AGDLP](./Exercices:%20AGDLP_Partage_Fichiers.md) terminé, y compris l'étape 8 (Compta en lecture). Le sous-dossier `Contrats` n'existe pas dans l'exercice AGDLP : le formateur le crée en injectant la panne.
 
-**Outils autorisés** : Explorateur (onglets **Sécurité**, **Avancé**, **Accès effectif**), `dsa.msc`, PowerShell (`Get-Acl`, `Get-ADGroup`, `Get-ADGroupMember`, `Get-ADPrincipalGroupMembership`, `Get-SmbShareAccess`), `whoami /groups` et `klist` sur le client. Contrainte : la correction doit respecter AGDLP (aucun utilisateur ni groupe global dans les ACL).
+**Outils autorisés** : Explorateur (Propriétés > **Partage** > **Partage avancé** > **Autorisations** ; **Sécurité** > **Avancé** > **Accès effectif**), `dsa.msc` (propriétés des groupes : **Général** > **Étendue du groupe**, **Membres**, **Membre de**), `whoami /groups` et `klist` sur le client, `icacls` sur le serveur. En aperçu, si vous connaissez déjà : PowerShell (`Get-Acl`, `Get-ADGroup`, `Get-ADGroupMember`, `Get-ADPrincipalGroupMembership`, `Get-SmbShareAccess`). Contrainte : la correction doit respecter AGDLP (aucun utilisateur ni groupe global dans les ACL).
 
 ??? tip "Indice 1"
 
@@ -268,6 +279,11 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
     Une entrée affichée comme **"Compte inconnu (S-1-5-21-…)"** désigne un objet supprimé. Si un groupe du même nom existe toujours, c'est qu'il a été **recréé** : nouveau SID, donc l'ACL ne le connaît pas.
 
+    - Liste des entrées : Explorateur → Propriétés de `C:\Shares\Ventes-Documents` → **Sécurité** → **Avancé** (ou `icacls C:\Shares\Ventes-Documents` en invite de commandes)
+    - Groupes : `dsa.msc` → `EU > Ventes > Groups` (ou **Rechercher…** `DL-Ventes-Documents`) → propriétés de chaque groupe `DL-Ventes-Documents-*` → onglet **Général** → **Étendue du groupe** ; avec l'affichage avancé, onglet **Objet** → **Créé le** : une date récente trahit une recréation
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
+
     ```powershell
     Get-ADGroup -Filter "Name -like 'DL-Ventes-Documents-*'" -Properties whenCreated |
         Select-Object Name, GroupScope, whenCreated, SID
@@ -278,11 +294,11 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
 ??? tip "Indice 3"
 
-    Sur `Contrats`, comparez les entrées **héritées** et **explicites** (`IsInherited`). Un **Refuser** explicite l'emporte sur une autorisation héritée.
+    Sur `Contrats`, comparez les entrées **héritées** et **explicites** : Propriétés → **Sécurité** → **Avancé**, colonne **Hérité de** (« Aucun » = entrée explicite). Un **Refuser** explicite l'emporte sur une autorisation héritée.
 
-    Pour Cindy : de quel groupe tient-elle son accès, en théorie ? Ce groupe est-il toujours là où il doit être ? Et après correction, si elle est toujours refusée, comparez sur son poste :
+    Pour Cindy : de quel groupe tient-elle son accès, en théorie ? Ce groupe est-il toujours là où il doit être (`dsa.msc` → propriétés du DL de lecture → onglet **Membres**) ? Et après correction, si elle est toujours refusée, comparez sur son poste :
 
-    ```powershell
+    ```cmd
     whoami /groups | findstr /i "DL-"
     klist
     ```
@@ -298,7 +314,9 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
     - son **SID a changé** : l'ACL NTFS contient toujours l'ancien SID ("Compte inconnu"), le nouveau groupe n'y figure pas → `valentin` (membre de `GG-EU-Ventes-Admin` seulement) n'a plus aucun accès ;
     - son étendue ne correspond plus à son préfixe `DL-`.
 
-    Correction :
+    Correction dans `dsa.msc` : propriétés de `DL-Ventes-Documents-Modification` → onglet **Général** → **Étendue du groupe** : **Universelle** → **Appliquer** (Global → Domaine local n'est pas direct, l'option est grisée) ; puis **Domaine local** → **OK**. Onglet **Membres** : `GG-EU-Ventes-Admin` doit y être, sinon **Ajouter…**.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     # Global -> Domaine local n'est pas direct : on passe par Universel
@@ -311,7 +329,9 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
     **2. Refuser explicite sur `Contrats`.** Une entrée **Refuser – Lecture et exécution** pour `GG-EU-Ventes-Users` a été posée sur le sous-dossier. Double faute : un groupe global dans une ACL, et un Deny qui écrase l'autorisation héritée de `DL-Ventes-Documents-Lecture`. Correction : supprimer l'entrée (Propriétés de `Contrats` → Sécurité → Avancé → sélectionner l'entrée **Refuser** → **Supprimer**). Ne rien ajouter à la place : l'héritage suffit.
 
-    **3. Compta sortie du DL de lecture.** `GG-EU-Compta-Users` n'est plus membre de `DL-Ventes-Documents-Lecture` (le "ménage" de la veille). On le remet :
+    **3. Compta sortie du DL de lecture.** `GG-EU-Compta-Users` n'est plus membre de `DL-Ventes-Documents-Lecture` (le "ménage" de la veille). On le remet : `dsa.msc` → propriétés de `DL-Ventes-Documents-Lecture` → onglet **Membres** → **Ajouter…** → `GG-EU-Compta-Users` → **Vérifier les noms** → **OK**.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     Add-ADGroupMember -Identity DL-Ventes-Documents-Lecture -Members GG-EU-Compta-Users
@@ -343,13 +363,13 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
 **Durée** : 45 min
 
-**Outils autorisés** : sur le poste : `ipconfig /all`, `nslookup`, `Resolve-DnsName`, `Test-NetConnection`, `nltest /dsgetdc:maxtec.be` ; sur le DC : console **DNS** (`dnsmgmt.msc`), `Get-DnsServerResourceRecord`. Interdit : sortir le poste du domaine et le rejoindre à nouveau.
+**Outils autorisés** : sur le poste : `ncpa.cpl` (propriétés de la carte réseau), `ipconfig /all`, `nslookup`, `ping`, `nltest /dsgetdc:maxtec.be`, l'Explorateur (`\\dns1\NETLOGON`) ; sur le DC : **Gestionnaire DNS** (`dnsmgmt.msc`). En aperçu, si vous connaissez déjà : PowerShell (`Resolve-DnsName`, `Test-NetConnection`, `Get-DnsServerResourceRecord`). Interdit : sortir le poste du domaine et le rejoindre à nouveau.
 
 ??? tip "Indice 1"
 
     "J'ai pu ouvrir ma session" ne prouve rien : Windows garde les identifiants en cache et ouvre une session même sans DC. Premier maillon de la chaîne :
 
-    ```powershell
+    ```cmd
     ipconfig /all
     ```
 
@@ -359,6 +379,16 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
     Une fois le poste revenu sur le bon DNS, testez chaque nom séparément et comparez avec ce que dit le serveur :
 
+    ```cmd
+    nslookup dns1.maxtec.be
+    nslookup -type=SRV _ldap._tcp.dc._msdcs.maxtec.be
+    nslookup intranet.maxtec.be
+    ```
+
+    Le nom se résout-il ? Puis la machine répond-elle ? Testez l'adresse obtenue : `ping <adresse>`, et dans l'Explorateur `\\<adresse>` (partage de fichiers, port 445). Sur le DC : **Gestionnaire DNS** → `Zones de recherche directe` → `maxtec.be` → enregistrement `intranet`. L'adresse correspond-elle à une machine qui existe ?
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
+
     ```powershell
     Resolve-DnsName dns1.maxtec.be
     Resolve-DnsName _ldap._tcp.dc._msdcs.maxtec.be -Type SRV
@@ -366,11 +396,19 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
     Test-NetConnection intranet.maxtec.be -Port 445
     ```
 
-    Sur le DC : `Get-DnsServerResourceRecord -ZoneName maxtec.be -Name intranet`. L'adresse correspond-elle à une machine qui existe ?
+    Sur le DC : `Get-DnsServerResourceRecord -ZoneName maxtec.be -Name intranet`.
 
 ??? tip "Indice 3"
 
-    Testez aussi la résolution **inverse** du poste. Ne supposez pas `192.168.0.10` : si le poste est passé en DHCP (lab Anatomie), il a une adresse de l'étendue. Prenez l'adresse IPv4 de `ws-IT-01` affichée par `ipconfig`, ou :
+    Testez aussi la résolution **inverse** du poste. Ne supposez pas `192.168.0.10` : si le poste est passé en DHCP (lab Anatomie), il a une adresse de l'étendue. Prenez l'adresse IPv4 de `ws-IT-01` affichée par `ipconfig` (ou `nslookup ws-IT-01.maxtec.be`), puis :
+
+    ```cmd
+    nslookup <adresse de ws-IT-01>
+    ```
+
+    Côté DC : **Gestionnaire DNS** → `Zones de recherche inversée` → `0.168.192.in-addr.arpa` : le pointeur de `ws-IT-01` est-il là ?
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     $ip = (Resolve-DnsName ws-IT-01.maxtec.be -Type A).IPAddress
@@ -385,6 +423,15 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
     **Trois causes, du bas vers le haut de la chaîne.**
 
     **1. Mauvais serveur DNS sur le client.** `ipconfig /all` montre `Serveurs DNS : 8.8.8.8`. Le réseau du lab est interne, 8.8.8.8 est injoignable ; et même joignable, un DNS public ne connaît pas `maxtec.be` ni ses enregistrements SRV. Sans eux, le poste ne trouve pas de DC : pas de `gpupdate`, pas de Kerberos, pas de `\\dns1`.
+
+    Correction sur le poste, en administrateur :
+
+    1. **Win+R** → `ncpa.cpl` → clic droit sur la carte `Ethernet` → **Propriétés**
+    2. **Protocole Internet version 4 (TCP/IPv4)** → **Propriétés**
+    3. **Utiliser l'adresse de serveur DNS suivante** : Serveur DNS préféré `192.168.0.2`, serveur auxiliaire vide → **OK** → **Fermer**. Si le poste est en DHCP (lab Anatomie), cochez plutôt **Obtenir les adresses des serveurs DNS automatiquement** : le DHCP distribue `192.168.0.2` (option 006)
+    4. Invite de commandes : `ipconfig /flushdns` (en DHCP : `ipconfig /renew` avant), puis `nltest /dsgetdc:maxtec.be`, qui doit renvoyer `dns1.maxtec.be`
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     Get-NetAdapter
@@ -402,7 +449,9 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
     Règle : un membre du domaine n'interroge **que** les DNS du domaine. L'accès Internet passe par les redirecteurs configurés sur le DC, pas par un DNS public sur le client.
 
-    **2. Enregistrement `intranet` obsolète.** Sur le DC, `intranet.maxtec.be` pointe vers `192.168.0.250`, l'ancien serveur décommissionné. `Test-NetConnection` échoue. Correction dans la console DNS (zone `maxtec.be` → `intranet` → Propriétés → adresse `192.168.0.2`), ou :
+    **2. Enregistrement `intranet` obsolète.** Sur le DC, `intranet.maxtec.be` pointe vers `192.168.0.250`, l'ancien serveur décommissionné : `nslookup` répond, mais `\\192.168.0.250` est injoignable (`Test-NetConnection` échoue aussi). Correction dans le **Gestionnaire DNS** : `Zones de recherche directe` → `maxtec.be` → double-clic sur `intranet` → **Adresse IP** `192.168.0.2` → **OK**.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     $ancien = Get-DnsServerResourceRecord -ZoneName maxtec.be -Name intranet -RRType A
@@ -414,17 +463,17 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
     **3. PTR du poste absent.** `nslookup` sur l'adresse de `ws-IT-01` (`ipconfig`) ne trouve pas de nom. La zone inverse existe mais l'enregistrement a disparu, et le poste ne pouvait pas le recréer tant qu'il interrogeait 8.8.8.8. Une fois le DNS corrigé :
 
-    ```powershell
+    ```cmd
     ipconfig /registerdns              # sur le poste, en administrateur
     ```
 
     ou création manuelle dans la console DNS (zone `0.168.192.in-addr.arpa` → Nouveau pointeur).
 
-    **Preuve** : `nltest /dsgetdc:maxtec.be` OK, `gpupdate /force` sans erreur, `Resolve-DnsName intranet.maxtec.be` → `192.168.0.2`, `Resolve-DnsName <adresse de ws-IT-01>` → `ws-IT-01.maxtec.be`.
+    **Preuve** : `nltest /dsgetdc:maxtec.be` OK, `gpupdate /force` sans erreur, `\\dns1\NETLOGON` s'ouvre dans l'Explorateur, `nslookup intranet.maxtec.be` → `192.168.0.2`, `nslookup <adresse de ws-IT-01>` → `ws-IT-01.maxtec.be`. (En PowerShell : `Resolve-DnsName`.)
 
 !!! abstract "Ce qu'il faut retenir"
 
     - "Plus rien ne marche" sur un poste de domaine : commencez par `ipconfig /all` et le serveur DNS. C'est la cause la plus fréquente.
     - Une session ouverte ne prouve pas que le DC est joignable (identifiants en cache).
     - Un enregistrement statique (créé à la main) ne se met jamais à jour tout seul. Quand un service déménage, on met le DNS à jour dans la même opération.
-    - `Resolve-DnsName` et `Test-NetConnection` séparent deux questions : "le nom se résout-il ?" et "la machine répond-elle ?".
+    - Deux questions séparées : "le nom se résout-il ?" (`nslookup`) et "la machine répond-elle ?" (`ping`, ouverture de `\\adresse`). En PowerShell : `Resolve-DnsName` et `Test-NetConnection`.

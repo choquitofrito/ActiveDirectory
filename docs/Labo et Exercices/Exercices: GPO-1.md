@@ -46,7 +46,7 @@
     2. Clic droit sur la GPO > **Modifier** > naviguez jusqu'au paramètre ci-dessus > **Activé** > OK
     3. Testez comme indiqué dans la vérification
 
-    Création et liaison en PowerShell (le paramètre lui-même se règle dans l'éditeur, voir les règles du cours sur `Set-GPRegistryValue`) :
+    **En PowerShell** (aperçu, vu au chapitre 9) : création et liaison uniquement ; le paramètre lui-même se règle dans l'éditeur (voir les règles du cours sur `Set-GPRegistryValue`).
 
     ```powershell
     New-GPO -Name "GPO-Restriction-PanneauConfig" |
@@ -82,7 +82,9 @@
     1. Clic droit sur `EU\IT\Users` > **Lier un objet de stratégie de groupe existant…** > `GPO-Restriction-CMD`
     2. Sélectionnez la GPO > onglet **Délégation** > **Avancé…** > **Ajouter** `GG-EU-IT-Admin` > cochez **Refuser** pour **Appliquer la stratégie de groupe** > OK
     3. Test : `ivan` n'a plus `cmd`, `irene` l'a toujours.
-    4. **Retour arrière** : une fois le test fait, clic droit sur le lien `GPO-Restriction-CMD` sous `EU\IT\Users` > décochez **Lien activé**. Les chapitres 10 et 11 utilisent des sessions `ivan` et ont besoin de `cmd`.
+    4. **Retour arrière** : une fois le test fait, clic droit sur le lien `GPO-Restriction-CMD` sous `EU\IT\Users` > décochez **Lien activé**. Les chapitres 10 et 11 utilisent des sessions `ivan` et ont besoin de `cmd`. Vérifiez : le lien apparaît grisé sous `EU\IT\Users`, et l'onglet **Étendue** de la GPO > **Liaisons** affiche `Non` dans la colonne **Lien activé** pour `IT/Users`.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     New-GPLink -Name "GPO-Restriction-CMD" -Target "OU=Users,OU=IT,OU=EU,DC=maxtec,DC=be"
@@ -140,6 +142,8 @@
     3. Dans GPMC, sélectionnez `GPO-Blocage-Inactivite` > onglet **Délégation** > **Avancé…** > **Ajouter** `GG-EU-Computers-SansVerrouillage` > **Refuser** pour **Appliquer la stratégie de groupe**
     4. **Redémarrez `ws-RH-01`** : un ordinateur ne voit sa nouvelle appartenance à un groupe qu'après avoir obtenu un nouveau ticket Kerberos, donc au redémarrage. `gpupdate /force` seul ne suffit pas.
 
+    **En PowerShell** (aperçu, vu au chapitre 9) :
+
     ```powershell
     New-ADGroup -Name "GG-EU-Computers-SansVerrouillage" -GroupScope Global -GroupCategory Security -Path "OU=Groups,OU=RH,OU=EU,DC=maxtec,DC=be"
     Add-ADGroupMember "GG-EU-Computers-SansVerrouillage" -Members (Get-ADComputer ws-RH-01)
@@ -149,8 +153,10 @@
 
     **Retour arrière (obligatoire)** : la GPO est liée à toute l'OU `EU`. Si vous la laissez à 15 s, `ws-IT-01` se verrouille toutes les 15 secondes pour le reste de la semaine.
 
-    1. Modifiez `GPO-Blocage-Inactivite` et remettez la valeur normale (`300` secondes), ou désactivez son lien sur `EU` (clic droit sur le lien > décochez **Lien activé**)
-    2. Si vous avez utilisé `ws-IT-01` à la place de `ws-RH-01`, retirez-le de `GG-EU-Computers-SansVerrouillage`, puis redémarrez-le
+    1. Modifiez `GPO-Blocage-Inactivite` et remettez la valeur normale (`300` secondes), ou désactivez son lien : dans GPMC, sous l'OU `EU`, clic droit sur le lien `GPO-Blocage-Inactivite` > décochez **Lien activé**
+    2. Si vous avez utilisé `ws-IT-01` à la place de `ws-RH-01` : `dsa.msc` > `EU > RH > Groups` > propriétés de `GG-EU-Computers-SansVerrouillage` > onglet **Membres** > sélectionnez `WS-IT-01` > **Supprimer** > **OK**, puis redémarrez le poste
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     Set-GPLink -Name "GPO-Blocage-Inactivite" -Target "OU=EU,DC=maxtec,DC=be" -LinkEnabled No
@@ -236,6 +242,15 @@
 
 !!! warning "Retour arrière si vous avez utilisé `ws-IT-01`"
     Remettez `ws-IT-01` dans son OU d'origine et retirez-le du groupe Chrome, puis redémarrez-le. Sinon il reçoit les GPOs ordinateur de RH et plus celles d'IT pour la suite du cours.
+
+    Dans **Utilisateurs et ordinateurs Active Directory** :
+
+    1. `EU` > `RH` > `Computers` > clic droit sur `WS-IT-01` > **Déplacer…** > `EU` > `IT` > `Computers`.
+    2. Propriétés du groupe `GG-EU-RH-Computers-Chrome` > onglet **Membres** > sélectionnez `WS-IT-01` > **Supprimer**.
+
+    3. Redémarrez `ws-IT-01`.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     Get-ADComputer ws-IT-01 | Move-ADObject -TargetPath "OU=Computers,OU=IT,OU=EU,DC=maxtec,DC=be"

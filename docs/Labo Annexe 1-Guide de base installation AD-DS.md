@@ -5,7 +5,7 @@ Ce guide couvre deux opérations distinctes:
 - **[Partie A](#partie-a-installation-du-serveur-ad-ds)** - Préparer et promouvoir le serveur en contrôleur de domaine
 - **[Partie B](#partie-b-joindre-un-poste-client-au-domaine)** - Configurer et joindre un poste client au domaine
 
-Valeurs officielles du lab (noms, IP, versions) : [Référence du lab Maxtec](Labo%20et%20Exercices/Labo/Reference_Lab_Maxtec.md). Serveur recommandé : Windows Server 2025 (2022 accepté). Client : Windows 11 Professionnel.
+Valeurs officielles du lab (noms, IP, versions) : [Référence du lab Maxtec](Labo%20et%20Exercices/Labo/Reference_Lab_Maxtec.md). Serveur : Windows Server 2022. Client : Windows 10 Professionnel.
 
 ---
 
@@ -13,10 +13,10 @@ Valeurs officielles du lab (noms, IP, versions) : [Référence du lab Maxtec](La
 
 ### A1. Créer la VM Windows Server
 
-Créez une machine virtuelle Windows Server 2025 (ou 2022) dans VirtualBox ou Hyper-V, édition **Standard (Expérience de bureau)**, mot de passe administrateur `Password1!`. Détails : [Chapitre 2](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md) (VirtualBox) ou [Chapitre 1](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md) (Hyper-V).
+Créez une machine virtuelle Windows Server 2022 dans **VirtualBox**, édition **Standard (Expérience de bureau)**, mot de passe administrateur `Password1!`. Détails : [Chapitre 2](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md). (À la maison avec Hyper-V : [Chapitre 1 §3.3](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md#33-option-a-la-maison-installation-avec-hyper-v).)
 
 !!! warning "Réseau"
-    **Une seule** carte réseau, en **Réseau interne** (VirtualBox) ou sur un commutateur **Private** (Hyper-V). Pas de deuxième carte NAT/pont sur le DC.
+    **Une seule** carte réseau, en **Réseau interne**. Pas de deuxième carte NAT/pont sur le DC.
 
 ### A2. Configurer le serveur
 
@@ -67,7 +67,7 @@ Après l'installation du rôle, un avertissement apparaît dans le Gestionnaire 
     | Paramètre | Valeur |
     |-----------|--------|
     | Nom de domaine racine | `maxtec.be` |
-    | Niveau fonctionnel (forêt et domaine) | Windows Server 2025 (serveur 2025) ou Windows Server 2016 (serveur 2022 : il n'existe pas de niveau « 2022 ») |
+    | Niveau fonctionnel (forêt et domaine) | Windows Server 2016 (niveau maximal avec un DC 2022 : il n'existe pas de niveau « 2022 ») |
     | Mot de passe DSRM | `Password1!` |
     | Nom NetBIOS | `MAXTEC` |
 
@@ -84,9 +84,9 @@ Après l'installation du rôle, un avertissement apparaît dans le Gestionnaire 
 
 ## Partie B: Joindre un Poste Client au Domaine
 
-### B1. Créer la VM Windows 11
+### B1. Créer la VM Windows 10
 
-Créez une machine virtuelle **Windows 11 Professionnel** (l'édition Famille ne peut pas rejoindre un domaine ; Windows 10 n'est plus supporté). VirtualBox 7 émule le TPM 2.0 et le démarrage sécurisé exigés par Windows 11 ; sous Hyper-V, utilisez une VM de génération 2 avec le TPM activé. Détails : [Chapitre 2 §4](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md#4-postes-clients-windows-11).
+Créez une machine virtuelle **Windows 10 Professionnel** (l'édition Famille ne peut pas rejoindre un domaine). Détails : [Chapitre 2 §4](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md#4-postes-clients-windows-10).
 
 !!! warning "Réseau"
     Configurez la carte réseau en **Réseau interne** (le même réseau que le serveur).
@@ -194,14 +194,19 @@ nslookup -type=SRV _ldap._tcp.dc._msdcs.maxtec.be
 
 ### B7. Déplacer le poste dans son OU
 
-Après la jonction, `ws-IT-01` se trouve dans le conteneur `CN=Computers`, **où aucune GPO d'OU ne s'applique**. Quand la structure du lab existe (script [`creation_structure.ps1`](Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/creation_structure.md), exécuté au Chapitre 6), déplacez le poste sur `dns1` :
+Après la jonction, `ws-IT-01` se trouve dans le conteneur `CN=Computers`, **où aucune GPO d'OU ne s'applique**. Quand la structure du lab existe (script [`creation_structure.ps1`](Labo%20et%20Exercices/Labo/PowerShell-scriptsStructure/creation_structure.md), exécuté au Chapitre 6), déplacez le poste dans son OU :
+
+1. Sur `dns1`, ouvrez **Utilisateurs et ordinateurs Active Directory** (Gestionnaire de serveur > **Outils**, ou `dsa.msc`).
+2. Dépliez `maxtec.be` > **Computers** : `WS-IT-01` y apparaît.
+3. Clic droit sur `WS-IT-01` > **Déplacer…** > choisissez `EU` > `IT` > `Computers` > **OK**. (Un glisser-déposer fonctionne aussi : Windows demande une confirmation.)
+4. Vérification : ouvrez `EU` > `IT` > `Computers` (touche **F5** pour rafraîchir) : `WS-IT-01` doit s'y trouver, et ne plus être dans **Computers**.
+5. Redémarrez le poste pour qu'il prenne en compte sa nouvelle OU.
+
+**En PowerShell** (aperçu, vu au chapitre 9) :
 
 ```powershell
 Get-ADComputer ws-IT-01 | Move-ADObject -TargetPath "OU=Computers,OU=IT,OU=EU,DC=maxtec,DC=be"
-
-# Vérification
 Get-ADComputer ws-IT-01 | Select-Object DistinguishedName
-# Résultat attendu: CN=WS-IT-01,OU=Computers,OU=IT,OU=EU,DC=maxtec,DC=be
 ```
 
-Pour le deuxième poste (`ws-RH-01`, `192.168.0.11`), même procédure avec `OU=Computers,OU=RH,OU=EU`. Voir la [Référence du lab Maxtec](Labo%20et%20Exercices/Labo/Reference_Lab_Maxtec.md).
+Pour le deuxième poste (`ws-RH-01`, `192.168.0.11`), même procédure vers `EU` > `RH` > `Computers`. Voir la [Référence du lab Maxtec](Labo%20et%20Exercices/Labo/Reference_Lab_Maxtec.md).

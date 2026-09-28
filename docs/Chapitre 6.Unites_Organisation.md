@@ -444,7 +444,7 @@ On teste **depuis `ws-IT-01` (ou `ws-RH-01`)**, pas en ouvrant une session sur l
 | Clic droit sur `EU > Comptabilite > Users` → **Nouveau > Utilisateur** | Refusé (tâche non déléguée) |
 | Modifier le numéro de téléphone de `charles` | Refusé (on a délégué la lecture, pas l'écriture) |
 
-En PowerShell (module AD installé avec RSAT) :
+**En PowerShell** (aperçu, vu au chapitre 9 ; module AD installé avec RSAT) :
 
 ```powershell
 $cred = Get-Credential MAXTEC\charlotte

@@ -15,7 +15,7 @@ Vous allez monter, administrer, automatiser et sécuriser le domaine d'une entre
 
 | Jour | Thème | Chapitres | Pratique |
 |------|-------|-----------|----------|
-| 1 | Du réseau au domaine | [Ch1](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md), [Ch3](Chapitre%203.DNS.md), [Ch4](Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29.md), [Ch5](Chapitre%205.DNS-Pratique-avec-AD.md) | [Guide d'installation AD DS](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md), labs DNS |
+| 1 | Du réseau au domaine | [Ch1](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md), [Ch2](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md), [Ch3](Chapitre%203.DNS.md), [Ch4](Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29.md), [Ch5](Chapitre%205.DNS-Pratique-avec-AD.md) | [Guide d'installation AD DS](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md), labs DNS |
 | 2 | La structure du lab, le réseau au service de l'AD, les identités | [Ch6](Chapitre%206.Unites_Organisation.md), [Ch7](Chapitre%207.Gestion_des_Utilisateurs.md) | [Installation du lab](Labo%20et%20Exercices/Labo/Labo_structure.md), [Anatomie d'une ouverture de session](Labo%20et%20Exercices/Exercices:%20Anatomie_Logon_Reseau.md), [Gestion des utilisateurs](Labo%20et%20Exercices/Exercices:%20Gestion_des_Utilisateurs.md) |
 | 3 | Permissions et GPO | [Ch8](Chapitre%208.Group%20Policy%20Objects.md) | [AGDLP](Labo%20et%20Exercices/Exercices:%20AGDLP_Partage_Fichiers.md), [GPO-1](Labo%20et%20Exercices/Exercices:%20GPO-1.md), [GPO-2](Labo%20et%20Exercices/Exercices:%20GPO-2.md) |
 | 4 | PowerShell et observation | [Ch9.0](Chapitre%209.0.Powershell%20AD%20-%20Introduction.md) → [Ch9.3](Chapitre%209.3.Powershell%20AD%20-%20Creation_et_Modification.md), [Ch10](Chapitre%2010.Monitoring.md) | Missions des chapitres 9, lab d'audit du Ch10 |
@@ -29,8 +29,8 @@ Les jours 2 à 4 se terminent par un **ticket de dépannage** ([Dépannage](Labo
 
 | Chapitre | Contenu |
 |----------|---------|
-| [Ch1 - Introduction et installation (Hyper-V)](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md) | Pourquoi centraliser, installation de Windows Server |
-| [Ch2 - Installation (VirtualBox)](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md) | Alternative VirtualBox, poste client Windows 11 |
+| [Ch1 - Introduction et Windows Server](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md) | Pourquoi centraliser, rôle de Windows Server (installation Hyper-V pour la maison en option) |
+| [Ch2 - Installation des VMs (VirtualBox)](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md) | Installation du cours : serveur et poste client Windows 10 sous VirtualBox |
 | [Ch3 - DNS pour AD](Chapitre%203.DNS.md) | Zones, enregistrements, SRV, redirecteurs |
 | [Ch4 - AD DS](Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29.md) | Forêt, domaine, promotion du DC, partitions, catalogue global, FSMO |
 | [Ch5 - DNS pratique avec AD](Chapitre%205.DNS-Pratique-avec-AD.md) | Labs DNS et dépannage |

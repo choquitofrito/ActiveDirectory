@@ -27,7 +27,12 @@
 
 ??? success "Solution"
 
-    `dsa.msc` > clic droit sur `EU` > **Nouveau > Unité d'organisation** > `Marketing` (protection décochée), puis dans `Marketing` : `Users`, `Computers`, `Groups`. Idem pour `Achats`.
+    1. `dsa.msc` > clic droit sur `EU` > **Nouveau > Unité d'organisation** > Nom `Marketing`, **décochez** **Protéger le conteneur contre une suppression accidentelle** > **OK**
+    2. Clic droit sur `Marketing` > **Nouveau > Unité d'organisation** : `Users`, puis `Computers`, puis `Groups` (protection décochée à chaque fois)
+    3. Idem pour `Achats`
+    4. Vérification : l'arborescence `EU > Marketing > Users` apparaît. Avec **Affichage > Fonctionnalités avancées**, propriétés de l'OU > onglet **Éditeur d'attributs** > `distinguishedName` montre `OU=Users,OU=Marketing,OU=EU,DC=maxtec,DC=be`.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     foreach ($d in "Marketing", "Achats") {
@@ -60,9 +65,15 @@
 
 ??? success "Solution"
 
-    GUI : `EU > Marketing > Users` > **Nouveau > Utilisateur**, login = prénom sans accent, mot de passe `Azerty_1`, case de changement à la prochaine ouverture cochée. Puis Propriétés : **Général** (E-mail), **Organisation** (Fonction, Service).
+    1. `dsa.msc` > `EU > Marketing` > clic droit sur `Users` > **Nouveau > Utilisateur**
+    2. Prénom, Nom, **Nom complet** : le prénom seul (`Marc`, voir ci-dessous) ; nom d'ouverture de session `marc` > **Suivant**
+    3. Mot de passe `Azerty_1` (deux fois), cochez **L'utilisateur doit changer le mot de passe à la prochaine ouverture de session** > **Suivant** > **Terminer**
+    4. Propriétés du compte : onglet **Général** (**Nom complet** `Marc Mertens`, **Adresse de messagerie** `marc@maxtec.be`), onglet **Organisation** (**Fonction** `Directeur Marketing`, **Service** `Marketing`)
+    5. Recommencez pour marie, michel, puis adrien et agathe dans `EU > Achats > Users`. Astuce : clic droit sur un compte terminé > **Copier…** reprend le service et les groupes ; il reste à changer nom, login et fonction.
 
     Exemple de noms : Marc Mertens, Marie Maes, Michel Michiels, Adrien Aerts, Agathe Albert. Comme dans le reste du lab, le nom de l'objet (`Name`, donc le `CN`) est le prénom ; le nom complet va dans `DisplayName`.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     $mdp = ConvertTo-SecureString "Azerty_1" -AsPlainText -Force   # mot de passe de LAB
@@ -95,7 +106,11 @@
 
 ??? success "Solution"
 
-    GUI : `EU > Marketing > Groups` > **Nouveau > Groupe** > étendue **Globale**, type **Sécurité**. Puis double-clic sur le groupe > **Membres** > **Ajouter…**.
+    1. `dsa.msc` > `EU > Marketing` > clic droit sur `Groups` > **Nouveau > Groupe** > Nom `GG-EU-Marketing-Users`, **Étendue du groupe** : **Globale**, **Type de groupe** : **Sécurité** > **OK**. Idem pour `GG-EU-Marketing-Admin`, puis les deux groupes Achats dans `EU > Achats > Groups`.
+    2. Double-clic sur le groupe > onglet **Membres** > **Ajouter…** > tapez `marie; michel` > **Vérifier les noms** > **OK** > **OK**
+    3. Idem pour les autres groupes. Contrôle : propriétés de `marie` > onglet **Membre de**.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     foreach ($d in "Marketing", "Achats") {
@@ -125,6 +140,15 @@
 
 ??? success "Solution"
 
+    Dans `dsa.msc` :
+
+    - **4.1** : propriétés de `Marc` > onglet **Membre de** > **Ajouter…** > `Admins du domaine` > **OK**. Après la discussion : même onglet > sélectionnez `Admins du domaine` > **Supprimer**. (Ou, depuis le conteneur `Users` du domaine : propriétés du groupe `Admins du domaine` > **Membres**.)
+    - **4.2** : propriétés de `Michel` > onglet **Compte** > **Le compte expire** > **Fin de :** aujourd'hui + 6 mois
+    - **4.3** : propriétés de `Agathe` > onglet **Compte** > **Horaires d'accès…** : sélectionnez tout > **Ouverture de session refusée**, puis sélectionnez lundi-vendredi 7h-19h > **Ouverture de session autorisée** > **OK**
+    - **4.4** : `EU > Marketing` > clic droit sur `Computers` > **Nouveau > Ordinateur** > `ws-Marketing-01` > **OK**. Puis propriétés de `Michel` > onglet **Compte** > **Se connecter à…** > **Les ordinateurs suivants** > `ws-Marketing-01` > **Ajouter** > **OK**
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
+
     ```powershell
     Add-ADGroupMember "Admins du domaine" -Members marc      # 4.1 (Domain Admins sur un serveur en anglais)
     Remove-ADGroupMember "Admins du domaine" -Members marc -Confirm:$false
@@ -135,7 +159,7 @@
     Set-ADUser michel -LogonWorkstations "ws-Marketing-01"                 # 4.4
     ```
 
-    4.3 : propriétés de `agathe` > onglet **Compte** > **Horaires d'accès…** : autorisé lundi-vendredi 7h-19h, refusé le reste.
+    4.3 n'a pas d'équivalent PowerShell lisible (`logonHours` est un tableau d'octets) : on passe par la GUI.
 
     4.1, discussion : `Admins du domaine` donne le contrôle total du domaine (tous les comptes, tous les DC, toutes les GPO). Un directeur métier n'en a pas besoin, et son compte, utilisé tous les jours pour les mails et le web, serait une porte d'entrée pour un attaquant. On lui donne uniquement ce dont il a besoin, par délégation sur son OU.
 
@@ -160,6 +184,13 @@
         - **victor** (Ventes — existant dans le labo)
 
 ??? success "Solution"
+
+    1. `dsa.msc` > clic droit sur `EU` > **Nouveau > Unité d'organisation** > `Projets` (protection décochée)
+    2. Clic droit sur `Projets` > **Nouveau > Unité d'organisation** > `ProjetNouveauSite`, puis dans celle-ci `Groups` (protection décochée)
+    3. Clic droit sur `Groups` > **Nouveau > Groupe** > `GG-EU-ProjetSite-Membres`, **Globale**, **Sécurité**
+    4. Propriétés du groupe > **Membres** > **Ajouter…** > `marie; michel; ines; victor` > **Vérifier les noms** > **OK**
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     New-ADOrganizationalUnit -Name Projets -Path "OU=EU,DC=maxtec,DC=be" -ProtectedFromAccidentalDeletion $false
@@ -195,7 +226,7 @@
     Ou via **Utilisateurs et ordinateurs Active Directory** :
 
     - Naviguer jusqu'à l'OU `Marketing > Users`
-    - `Affichage > Filtrer > Utilisateurs` pour n'afficher que les utilisateurs
+    - **Affichage > Options de filtre…** > **Afficher uniquement les types d'objets suivants** > cochez **Utilisateurs** pour n'afficher que les utilisateurs
 
     ### 2. Groupes dont `ines` est membre
 
@@ -203,7 +234,8 @@
     - Localiser **ines** dans `EU > IT > Users`
     - Clic droit → **Propriétés** → onglet **Membre de**
     - Tous les groupes dont l'utilisateur est membre seront affichés (au minimum `Utilisateurs du domaine` et `GG-EU-IT-Users`, plus `GG-EU-ProjetSite-Membres` si vous avez fait l'étape 5)
-    - En PowerShell : `Get-ADPrincipalGroupMembership ines | Select-Object Name`
+    - En invite de commandes : `net user ines /domain` (ligne « Groupes globaux »)
+    - En PowerShell (aperçu, vu au chapitre 9) : `Get-ADPrincipalGroupMembership ines | Select-Object Name`
 
     ### 3. Utilisateurs avec « Responsable » ou « Directeur/Directrice » dans le titre
 
@@ -289,6 +321,12 @@
     3. Discussion : quel **scope de groupe** (Global, DomainLocal, Universal) serait le plus approprié si demain une zone géographique `US` était ajoutée ? Pourquoi ?
 
 ??? success "Solution"
+
+    1. `dsa.msc` > clic droit sur `EU` > **Nouveau > Unité d'organisation** > `Groups` (protection décochée), si elle n'existe pas
+    2. Clic droit sur `EU > Groups` > **Nouveau > Groupe** > `GG-EU-Comite-Direction`, **Globale**, **Sécurité**
+    3. Propriétés > **Membres** > **Ajouter…** > `marc; adrien; valentin; richard; charlotte; irene` > **Vérifier les noms** > **OK**
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     New-ADOrganizationalUnit -Name Groups -Path "OU=EU,DC=maxtec,DC=be" -ProtectedFromAccidentalDeletion $false

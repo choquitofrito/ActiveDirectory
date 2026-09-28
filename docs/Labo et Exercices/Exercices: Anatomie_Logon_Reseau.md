@@ -56,7 +56,7 @@ Le DC est le serveur DNS des clients : c'est son adresse qu'on distribue dans l'
 
     Puis passez `ws-RH-01` (ou `ws-IT-01` si vous n'avez qu'un client) en DHCP et vérifiez qu'il obtient une adresse de l'étendue, le bon DNS et reste fonctionnel dans le domaine.
 
-    Si c'est `ws-IT-01` qui passe en DHCP, son adresse n'est plus `192.168.0.10`. Le poste met à jour son enregistrement A tout seul, mais l'ancien PTR `192.168.0.10` reste dans la zone inverse (le nettoyage automatique est désactivé) : supprimez-le dans le Gestionnaire DNS. Dans la suite du cours, retrouvez l'adresse du poste avec `Resolve-DnsName ws-IT-01.maxtec.be` plutôt que de supposer `.10`.
+    Si c'est `ws-IT-01` qui passe en DHCP, son adresse n'est plus `192.168.0.10`. Le poste met à jour son enregistrement A tout seul, mais l'ancien PTR `192.168.0.10` reste dans la zone inverse (le nettoyage automatique est désactivé) : supprimez-le dans le Gestionnaire DNS. Dans la suite du cours, retrouvez l'adresse du poste avec `nslookup ws-IT-01.maxtec.be` plutôt que de supposer `.10`.
 
 !!! warning "Un seul serveur DHCP sur le réseau interne"
     Le réseau interne VirtualBox n'a pas de DHCP par défaut, sauf si quelqu'un en a créé un (`VBoxManage dhcpserver`). Vérifiez-le avant : deux serveurs DHCP sur le même segment, c'est la loterie. Si votre client a aussi une carte NAT, elle reçoit sa propre adresse (10.0.2.x) et son propre DNS : désactivez-la pendant ce lab.
@@ -64,7 +64,36 @@ Le DC est le serveur DNS des clients : c'est son adresse qu'on distribue dans l'
 !!! note "Passerelle (option 003)"
     Le réseau interne du lab n'a pas de routeur, donc pas d'option 003. En entreprise, on la renseigne toujours.
 
-??? success "Solution — PowerShell sur le DC"
+??? success "Solution — Installer et configurer le DHCP sur le DC"
+
+    **1. Installer le rôle**
+
+    1. `Gestionnaire de serveur` > `Gérer` > `Ajouter des rôles et fonctionnalités`.
+    2. `Installation basée sur un rôle ou une fonctionnalité` > serveur `dns1.maxtec.be`.
+    3. Cochez **Serveur DHCP**, acceptez l'ajout des outils de gestion (`Ajouter des fonctionnalités`), puis `Suivant` jusqu'à `Installer`.
+
+    **2. Terminer la configuration (autorisation dans AD)**
+
+    1. Une fois l'installation terminée, cliquez sur le drapeau de notification (triangle jaune) du Gestionnaire de serveur > **Terminer la configuration DHCP**.
+    2. L'assistant crée les groupes de sécurité locaux (`Administrateurs DHCP`, `Utilisateurs DHCP`), puis, à l'écran `Autorisation`, laissez **Utiliser les informations d'identification de l'utilisateur suivant** (`MAXTEC\Administrateur`) > `Valider`.
+    3. Le résumé doit indiquer « Création du groupe de sécurité : Terminé » et « Autorisation du serveur DHCP : Terminé ».
+
+    **3. Créer l'étendue**
+
+    1. `Outils` > `DHCP` (ou `dhcpmgmt.msc`) > dépliez `dns1.maxtec.be` > clic droit sur **IPv4** > **Nouvelle étendue…**
+    2. Nom : `Maxtec-LAN`.
+    3. Plage d'adresses : début `192.168.0.100`, fin `192.168.0.199`, longueur `24`, masque `255.255.255.0`.
+    4. Exclusions et retard : rien, `Suivant`.
+    5. Durée du bail : **8** jours.
+    6. `Oui, je veux configurer ces options maintenant`.
+    7. Routeur (passerelle par défaut) : laissez vide (pas de routeur dans le lab, voir la note ci-dessus).
+    8. Nom de domaine et serveurs DNS : domaine parent `maxtec.be` (option 015), serveur DNS `192.168.0.2` (option 006) > `Ajouter`. Le serveur `dns1` est normalement déjà proposé.
+    9. Serveurs WINS : rien.
+    10. **Oui, je veux activer cette étendue maintenant** > `Terminer`.
+
+    Contrôle : sous `IPv4`, l'étendue `[192.168.0.0] Maxtec-LAN` apparaît sans flèche rouge (une flèche rouge vers le bas signale une étendue désactivée) ; `Options d'étendue` liste `006 Serveurs DNS` et `015 Nom de domaine DNS`. `IPv4` et le serveur doivent aussi afficher une coche verte : un point rouge signifie que le serveur n'est pas autorisé (clic droit sur le serveur > `Autoriser`).
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     # 1. Installer le rôle
@@ -90,7 +119,7 @@ Le DC est le serveur DNS des clients : c'est son adresse qu'on distribue dans l'
     Get-DhcpServerv4OptionValue -ScopeId 192.168.0.0
     ```
 
-    Le Gestionnaire de serveur affiche ensuite une alerte « Configuration post-déploiement » pour DHCP. Les étapes 2 et 3 l'ont faite ; pour faire disparaître l'avertissement :
+    Si vous passez par PowerShell, le Gestionnaire de serveur affiche ensuite une alerte « Configuration post-déploiement » pour DHCP. Les étapes 2 et 3 du script l'ont faite ; pour faire disparaître l'avertissement :
 
     ```powershell
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\ServerManager\Roles\12" -Name ConfigurationState -Value 2
@@ -100,7 +129,14 @@ Le DC est le serveur DNS des clients : c'est son adresse qu'on distribue dans l'
 
 ??? success "Solution — Passer le client en DHCP"
 
-    Sur `ws-RH-01`, invite de commandes **administrateur** (adaptez le nom de la carte, visible avec `ipconfig`) :
+    Sur `ws-RH-01` (session administrateur local ou administrateur du domaine) :
+
+    1. `Win + R` > `ncpa.cpl` > clic droit sur la carte du réseau interne (`Ethernet`) > **Propriétés**.
+    2. Sélectionnez **Protocole Internet version 4 (TCP/IPv4)** > `Propriétés`.
+    3. Cochez **Obtenir une adresse IP automatiquement** et **Obtenir les adresses des serveurs DNS automatiquement** > `OK` > `Fermer`.
+    4. Dans une invite de commandes, forcez l'enregistrement DNS de la nouvelle adresse : `ipconfig /registerdns`.
+
+    Alternative en invite de commandes **administrateur** (adaptez le nom de la carte, visible avec `ipconfig`) :
 
     ```
     netsh interface ip set address "Ethernet" dhcp
@@ -108,8 +144,6 @@ Le DC est le serveur DNS des clients : c'est son adresse qu'on distribue dans l'
     ipconfig /renew
     ipconfig /registerdns
     ```
-
-    Équivalent graphique : **Paramètres > Réseau et Internet > Ethernet > Attribution d'adresse IP > Modifier > Automatique (DHCP)**, et idem pour l'attribution du serveur DNS.
 
     **Vérification sur le client**
 
@@ -130,20 +164,23 @@ Le DC est le serveur DNS des clients : c'est son adresse qu'on distribue dans l'
 
     **Vérification sur le DC**
 
+    1. Console `DHCP` > `IPv4` > `Étendue [192.168.0.0] Maxtec-LAN` > **Baux d'adresses** (actualisez avec F5) : une ligne `ws-RH-01.maxtec.be` avec une adresse 192.168.0.1xx et l'expiration du bail.
+    2. Dans une invite de commandes : `nslookup ws-RH-01.maxtec.be` doit renvoyer la nouvelle adresse (vous pouvez aussi regarder l'enregistrement A dans le Gestionnaire DNS, zone `maxtec.be`, touche F5).
+
+    Si `nslookup` renvoie encore l'ancienne adresse (.11), relancez `ipconfig /registerdns` sur le client et patientez quelques secondes.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
+
     ```powershell
     Get-DhcpServerv4Lease -ScopeId 192.168.0.0
     Resolve-DnsName ws-RH-01.maxtec.be      # l'enregistrement A doit pointer sur la nouvelle adresse
     ```
 
-    Si `Resolve-DnsName` renvoie encore l'ancienne adresse (.11), relancez `ipconfig /registerdns` sur le client et patientez quelques secondes.
-
-    **Équivalent graphique sur le DC** : `dhcpmgmt.msc` → `dns1.maxtec.be` → IPv4 → clic droit **Nouvelle étendue** (l'assistant demande successivement plage, exclusions, durée du bail, puis options : passerelle, DNS, WINS). Les baux actifs sont visibles dans **Étendue > Baux d'adresses**.
-
 ---
 
 ## Partie B — Que se passe-t-il quand ivan ouvre une session ? (45 min)
 
-Toutes les commandes se lancent sur `ws-IT-01`, dans une invite de commandes ou PowerShell, sauf mention contraire.
+Toutes les commandes se lancent sur `ws-IT-01`, dans une invite de commandes (`cmd`), sauf mention contraire.
 
 ### Étape 1 — DNS : trouver le DC
 
@@ -170,7 +207,20 @@ Le poste ne connaît pas l'adresse du DC à l'avance. Il demande au DNS « qui f
 
 ### Étape 2 — Les ports utilisés
 
+Un port n'est utile que si le service derrière répond. Le test le plus parlant est donc d'utiliser le service lui-même.
+
 !!! example "À faire"
+    Pour chaque ligne, lancez le test fonctionnel et notez ce qu'il prouve :
+
+    | Port | Test fonctionnel | Ce qu'il démontre |
+    |------|------------------|-------------------|
+    | 53 | `nslookup dns1.maxtec.be` | Le serveur DNS répond (la ligne `Serveur :` indique qui a répondu) |
+    | 88 | `klist purge` puis `klist get krbtgt` (ou ouvrir `\\dns1\NETLOGON`, puis `klist`) | Le KDC délivre des tickets : Kerberos passe |
+    | 389 | `nltest /dsgetdc:maxtec.be` | Le client localise le DC (DNS) puis l'interroge (requête LDAP « ping » en UDP 389) |
+    | 445 | Explorateur : ouvrir `\\dns1\NETLOGON` | Le partage s'affiche : SMB passe |
+
+    **En PowerShell** (aperçu, vu au chapitre 9) : `Test-NetConnection` teste l'ouverture d'un port TCP précis, sans utiliser le service.
+
     ```powershell
     Test-NetConnection dns1 -Port 53
     Test-NetConnection dns1 -Port 88
@@ -182,7 +232,7 @@ Le poste ne connaît pas l'adresse du DC à l'avance. Il demande au DNS « qui f
 
 ??? success "Ce que vous devez voir"
 
-    Les quatre tests renvoient `TcpTestSucceeded : True`.
+    Les quatre tests fonctionnels réussissent : `nslookup` renvoie `192.168.0.2`, `klist` affiche un ticket `krbtgt/MAXTEC.BE`, `nltest` affiche `DC: \\dns1.maxtec.be` sans erreur, le contenu de `NETLOGON` s'affiche. Côté PowerShell, les quatre tests renvoient `TcpTestSucceeded : True`.
 
     | Port | Service | Rôle dans l'ouverture de session |
     |------|---------|----------------------------------|
@@ -191,7 +241,7 @@ Le poste ne connaît pas l'adresse du DC à l'avance. Il demande au DNS « qui f
     | 389 | LDAP | Lire les informations de l'annuaire (compte, GPO applicables) |
     | 445 | SMB | Télécharger les GPO depuis `SYSVOL`, accéder aux partages |
 
-    `Test-NetConnection` ne teste que TCP. Un port UDP (DNS, Kerberos, NTP) peut être filtré alors que le test TCP réussit ; pour DNS, `nslookup` reste le vrai test.
+    `Test-NetConnection` ne teste que TCP. Un port UDP (DNS, Kerberos, NTP) peut être filtré alors que le test TCP réussit : c'est pourquoi les tests fonctionnels (`nslookup`, `klist`, `nltest`, ouverture du partage) sont plus probants.
 
 ### Étape 3 — Kerberos : les tickets
 
@@ -227,7 +277,9 @@ Les groupes d'un utilisateur sont calculés **une fois**, à l'ouverture de sess
 
 !!! example "À faire"
     1. En session `ivan` sur `ws-IT-01` : `whoami /groups | findstr GG-`
-    2. Sur le DC, ajoutez `ivan` à `GG-EU-Ventes-Users` :
+    2. Sur le DC, ajoutez `ivan` à `GG-EU-Ventes-Users` : `dsa.msc` > `maxtec.be` > `EU` > `Ventes` > `Groups` > double-clic sur `GG-EU-Ventes-Users` > onglet **Membres** > `Ajouter…` > tapez `ivan` > `Vérifier les noms` > `OK` > `OK`.
+
+        **En PowerShell** (aperçu, vu au chapitre 9) :
 
         ```powershell
         Add-ADGroupMember -Identity "GG-EU-Ventes-Users" -Members ivan
@@ -236,7 +288,9 @@ Les groupes d'un utilisateur sont calculés **une fois**, à l'ouverture de sess
     3. Sur `ws-IT-01`, relancez `whoami /groups | findstr GG-`. Le groupe apparaît-il ?
     4. Faites `klist purge`, puis relancez `whoami /groups | findstr GG-`.
     5. Fermez la session, rouvrez-la en `ivan`, relancez la commande.
-    6. Nettoyage sur le DC :
+    6. Nettoyage sur le DC : même chemin, onglet **Membres** de `GG-EU-Ventes-Users` > sélectionnez `ivan` > `Supprimer` > `Oui` > `OK`.
+
+        **En PowerShell** (aperçu, vu au chapitre 9) :
 
         ```powershell
         Remove-ADGroupMember -Identity "GG-EU-Ventes-Users" -Members ivan -Confirm:$false
@@ -312,7 +366,13 @@ Travaillez en binôme : l'un provoque la panne sur le **client** (jamais sur le 
 
 ### Panne 1 — Le client utilise un DNS public
 
-**Mise en place (sur le client, PowerShell administrateur)** :
+**Mise en place (sur le client)** :
+
+1. `Win + R` > `ncpa.cpl` > clic droit sur `Ethernet` > `Propriétés` > **Protocole Internet version 4 (TCP/IPv4)** > `Propriétés`.
+2. Cochez **Utiliser l'adresse de serveur DNS suivante**, serveur DNS préféré : `8.8.8.8` (laissez l'adresse IP telle quelle) > `OK` > `Fermer`.
+3. Dans une invite de commandes : `ipconfig /flushdns`.
+
+**En PowerShell** (aperçu, vu au chapitre 9) :
 
 ```powershell
 Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses 8.8.8.8
@@ -331,7 +391,14 @@ Clear-DnsClientCache
 
     Cause : le DNS public ne connaît pas la zone interne `maxtec.be` et ne contient pas les enregistrements SRV. Dans le lab, il n'est même pas joignable (pas d'accès Internet).
 
-    Correction :
+    Correction : `ncpa.cpl` > `Ethernet` > `Propriétés` > `TCP/IPv4` > `Propriétés` :
+
+    - client en IP fixe : serveur DNS préféré `192.168.0.2` ;
+    - client en DHCP (partie A) : cochez **Obtenir les adresses des serveurs DNS automatiquement**.
+
+    Puis `ipconfig /flushdns` et `ipconfig /registerdns`, et vérifiez avec `nltest /dsgetdc:maxtec.be`.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     # client en IP fixe
@@ -344,7 +411,17 @@ Clear-DnsClientCache
 
 ### Panne 2 — SMB bloqué par le pare-feu
 
-**Mise en place (sur le client, PowerShell administrateur)** :
+**Mise en place (sur le client)** :
+
+1. `Win + R` > `wf.msc` (Pare-feu Windows Defender avec fonctions avancées de sécurité).
+2. **Règles de trafic sortant** > `Nouvelle règle…` (volet Actions).
+3. Type de règle : **Port** > `Suivant`.
+4. **TCP**, **Ports distants spécifiques** : `445, 139` > `Suivant`.
+5. **Bloquer la connexion** > `Suivant`.
+6. Profils : laissez `Domaine`, `Privé` et `Public` cochés > `Suivant`.
+7. Nom : `LAB-Panne-SMB` > `Terminer`.
+
+**En PowerShell** (aperçu, vu au chapitre 9) :
 
 ```powershell
 New-NetFirewallRule -DisplayName "LAB-Panne-SMB" -Direction Outbound -Protocol TCP -RemotePort 445,139 -Action Block
@@ -356,6 +433,13 @@ On bloque aussi le 139 : si le 445 ne répond pas, le client SMB de Windows se r
 
 ??? success "Diagnostic et solution"
 
+    1. `ping dns1` : répond. `nslookup dns1.maxtec.be` : répond. Le réseau et le DNS sont bons.
+    2. Explorateur > `\\dns1\NETLOGON` : « Chemin réseau introuvable ». Le service SMB n'est pas joignable.
+    3. `nltest /dsgetdc:maxtec.be` : réussit. Le DC est trouvé et répond en LDAP ; le problème est limité à SMB.
+    4. `wf.msc` > **Règles de trafic sortant** : triez par la colonne `Action`, cherchez une règle `Bloquer` active (icône rouge) portant sur les ports 445/139. On trouve `LAB-Panne-SMB`.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
+
     ```powershell
     Test-NetConnection dns1 -Port 445      # TcpTestSucceeded : False, PingSucceeded : True
     Test-NetConnection dns1 -Port 139      # idem
@@ -365,13 +449,15 @@ On bloque aussi le 139 : si le 445 ne répond pas, le client SMB de Windows se r
 
     Cause : le réseau fonctionne (ping, DNS), mais le port applicatif est filtré. `ping` teste ICMP, pas le service.
 
-    Correction :
+    Correction : `wf.msc` > **Règles de trafic sortant** > clic droit sur `LAB-Panne-SMB` > **Supprimer** (ou `Désactiver la règle`). Rouvrez `\\dns1\NETLOGON` pour vérifier.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     Remove-NetFirewallRule -DisplayName "LAB-Panne-SMB"
     ```
 
-    Réflexe à retenir : **« ping OK » ne prouve rien pour un service**. On teste le port du service (`Test-NetConnection -Port`).
+    Réflexe à retenir : **« ping OK » ne prouve rien pour un service**. On teste le service lui-même (ouvrir le partage, `nslookup`, `klist`…) ; en PowerShell, `Test-NetConnection -Port` teste le port.
 
 ### Panne 3 — Décalage horaire de plus de 5 minutes
 
@@ -385,7 +471,13 @@ On bloque aussi le 139 : si le 445 ne répond pas, le client SMB de Windows se r
 
     (Adaptez le nom de la VM tel qu'il apparaît dans VirtualBox.)
 
-2. Démarrer `ws-IT-01`, ouvrir PowerShell administrateur et empêcher la resynchronisation Windows avant d'avancer l'horloge :
+2. Démarrer `ws-IT-01`, ouvrir une session administrateur et empêcher la resynchronisation Windows avant d'avancer l'horloge :
+
+    1. `Win + R` > `services.msc` > double-clic sur **Temps Windows** > `Arrêter` > `OK`.
+    2. **Paramètres** > **Heure et langue** > **Date et heure** : désactivez **Régler l'heure automatiquement**, puis sous `Régler la date et l'heure manuellement` cliquez sur `Modifier` et avancez l'heure de **15 minutes** > `Modifier`.
+    3. Dans une invite de commandes : `klist purge`.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     Stop-Service w32time
@@ -405,6 +497,12 @@ On bloque aussi le 139 : si le 445 ne répond pas, le client SMB de Windows se r
     La mesure `w32tm` est la preuve principale. Les erreurs Kerberos côté client (`KRB_AP_ERR_SKEW`, écart d'horloge trop important) ne sont journalisées que si la journalisation Kerberos est activée **avant** la panne : `reg add HKLM\SYSTEM\CurrentControlSet\Control\Lsa\Kerberos\Parameters /v LogLevel /t REG_DWORD /d 1 /f` (à retirer ensuite avec `reg delete … /v LogLevel /f`). Elles apparaissent alors dans le journal **Système**, source `Security-Kerberos`.
 
     Correction :
+
+    1. `services.msc` > **Temps Windows** > `Démarrer`.
+    2. **Paramètres** > **Heure et langue** > **Date et heure** : réactivez **Régler l'heure automatiquement**.
+    3. Invite de commandes **administrateur** : `w32tm /resync /force`, puis `klist purge`.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     Start-Service w32time

@@ -83,7 +83,9 @@ Si la GPO ne fonctionne pas : Observateur d'événements > Journaux Windows > Ap
     - Sur le serveur : `C:\Shares\Compta-Docs\charles` existe. En tant qu'administrateur, vous ne pouvez pas l'ouvrir (droits exclusifs) : c'est le comportement attendu
     - Avec `cindy` : son propre dossier est créé, et elle ne peut pas ouvrir celui de `charles` (`\\dns1\Compta-Docs\charles` → accès refusé)
 
-    Vérification des permissions de la racine en PowerShell :
+    Vérification des permissions de la racine : sur le serveur, Explorateur > clic droit sur `C:\Shares\Compta-Docs` > **Propriétés** > onglet **Sécurité** > **Avancé** : les entrées doivent correspondre à l'étape 1 (colonne **S'applique à** : « Ce dossier seulement », « Les sous-dossiers et les fichiers seulement »…). En invite de commandes : `icacls C:\Shares\Compta-Docs`.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     (Get-Acl C:\Shares\Compta-Docs).Access | Format-Table IdentityReference, FileSystemRights, InheritanceFlags, PropagationFlags -AutoSize
@@ -221,8 +223,8 @@ Le ciblage d'élément accepte des conditions combinées (ET / OU / NON) et de n
 
 ??? success "Vérification"
 
-    - `Paramètres > Bluetooth et appareils > Imprimantes et scanners` ou, en PowerShell sur le poste : `Get-Printer | Select-Object Name, Type` → l'imprimante apparaît comme `Connection`
-    - Imprimante par défaut : `Get-CimInstance Win32_Printer -Filter "Default=True" | Select-Object Name`
+    - Sur `ws-IT-01` (Windows 10) : `Paramètres > Périphériques > Imprimantes et scanners` → l'imprimante apparaît sous la forme `Imprimante-EU-01 sur dns1`. Imprimante par défaut : `Panneau de configuration > Périphériques et imprimantes` (coche verte), ou mention **Par défaut** dans Paramètres. Décochez **Laisser Windows gérer mon imprimante par défaut** si Windows choisit à votre place.
+    - En PowerShell (aperçu, vu au chapitre 9) : `Get-Printer | Select-Object Name, Type` → l'imprimante apparaît comme `Connection` ; imprimante par défaut : `Get-CimInstance Win32_Printer -Filter "Default=True" | Select-Object Name`
     - `gpresult /r /scope user` → `GPO-Imprimantes-EU` appliquée
     - Si l'imprimante n'apparaît pas : journal `Application`, source **Group Policy Printers**. Une erreur d'accès ou de pilote renvoie au problème Point and Print ci-dessus.
 

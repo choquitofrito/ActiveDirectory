@@ -209,7 +209,7 @@ Démo en fin de journée : 5 à 10 min par binôme.
 
 ??? tip "Comment tester en tant que louis"
 
-    **Depuis le client avec RSAT** (recommandé) : ouvrez une session `louis` sur le poste client, lancez `dsa.msc` ou PowerShell avec le module ActiveDirectory. Si RSAT n'est pas installé sur Windows 11 : **Paramètres > Système > Fonctionnalités facultatives > Ajouter** → *RSAT : outils Active Directory Domain Services et Lightweight Directory Services*, ou en administrateur :
+    **Depuis le client avec RSAT** (recommandé) : ouvrez une session `louis` sur le poste client, lancez `dsa.msc` ou PowerShell avec le module ActiveDirectory. Si RSAT n'est pas installé sur Windows 10 : **Paramètres > Système > Fonctionnalités facultatives > Ajouter** → *RSAT : outils Active Directory Domain Services et Lightweight Directory Services*, ou en administrateur :
 
     ```powershell
     Add-WindowsCapability -Online -Name Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0

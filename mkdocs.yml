@@ -52,8 +52,8 @@ nav:
   - 🏠 Accueil: index.md
 
   - 🖥️ Fondations:
-      - Ch1 - Introduction & Installation (Hyper-V): Chapitre 1.Introduction et installation de Windows Server.md
-      - Ch2 - Installation (VirtualBox): Chapitre 2.Installation-Windows-Server-2022-VirtualBox.md
+      - Ch1 - Introduction & Windows Server: Chapitre 1.Introduction et installation de Windows Server.md
+      - Ch2 - Installation des VMs (VirtualBox): Chapitre 2.Installation-Windows-Server-2022-VirtualBox.md
       - ⚡ Guide Rapide - Installation AD-DS & Jonction au Domaine: Labo Annexe 1-Guide de base installation AD-DS.md
       - Ch3 - DNS pour AD: Chapitre 3.DNS.md
       - Ch4 - Active Directory Domain Services: Chapitre 4.Active Directory Domain Services (AD DS).md

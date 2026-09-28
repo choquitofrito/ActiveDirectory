@@ -21,7 +21,15 @@ En entreprise, même les administrateurs ouvrent le moins possible de sessions s
 | Tester ce que voit un **utilisateur** (partages, GPO, lecteurs réseau) | Sur le **poste client** `ws-IT-01` (ou `ws-RH-01`), connecté avec `MAXTEC\ivan`, `MAXTEC\cindy`… |
 | Tester une **délégation d'administration** (ex. réinitialiser des mots de passe dans une OU) | Sur le **poste client**, avec les outils d'administration **RSAT** installés, connecté avec le compte délégué |
 
-**Installer RSAT sur Windows 11** (session administrateur local, avec accès Internet ou via **Paramètres > Système > Fonctionnalités facultatives > Ajouter une fonctionnalité**, rechercher « RSAT ») :
+**Installer RSAT sur Windows 10** (session administrateur, accès Internet nécessaire) :
+
+1. **Démarrer** → **Paramètres** → **Applications** → **Applications et fonctionnalités** → **Fonctionnalités facultatives**.
+2. Cliquez sur **Ajouter une fonctionnalité** et tapez « RSAT » dans la zone de recherche.
+3. Cochez **RSAT : Services AD DS et outils AD LDS** (*RSAT: Active Directory Domain Services and Lightweight Directory Services Tools*) et **RSAT : Gestion des stratégies de groupe** (*RSAT: Group Policy Management Tools*). L'intitulé exact peut varier légèrement selon la version de Windows 10.
+4. Cliquez sur **Installer** et attendez la fin (plusieurs minutes, suivez la progression dans **Fonctionnalités facultatives**).
+5. Vérification : **Démarrer** → **Outils d'administration Windows** doit contenir **Utilisateurs et ordinateurs Active Directory** et **Gestion des stratégies de groupe**.
+
+**En PowerShell** (aperçu, vu au chapitre 9 ; PowerShell ouvert en administrateur) :
 
 ```powershell
 Get-WindowsCapability -Online -Name "Rsat.ActiveDirectory*" | Add-WindowsCapability -Online

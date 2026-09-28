@@ -496,7 +496,12 @@ Lecture pratique :
 
 !!! info "Ce qui passe sur le réseau"
 
-    L'accès à `\\dns1\IT-docs` utilise le protocole **SMB** sur le port **TCP 445**. Si l'accès échoue sans message clair, vérifiez d'abord que le port répond depuis le client :
+    L'accès à `\\dns1\IT-docs` utilise le protocole **SMB** sur le port **TCP 445**. Si l'accès échoue, lisez le message de l'Explorateur en ouvrant `\\dns1\IT-docs` depuis le client :
+
+    - **« Vous n'avez pas l'autorisation d'accéder à… »** (accès refusé) : SMB passe, le serveur a répondu ; le problème est dans les permissions.
+    - **« Chemin réseau introuvable »** (0x80070035) : le serveur SMB n'est pas joint (nom, réseau, pare-feu). Ouvrez `\\dns1` tout court : si la liste des partages (`NETLOGON`, `SYSVOL`, `IT-docs`…) s'affiche, le port 445 répond et c'est le nom du partage qui est faux.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) : test du port seul, sans permissions en jeu.
 
     ```powershell
     Test-NetConnection dns1 -Port 445
@@ -554,6 +559,10 @@ C'est vrai qu'**on a limité l'accès par le réseau, mais quand-même un utilis
 Connectez vous avez `ivan` de `GG-EU-IT-Users` et essayez de l'ouvrir le dossier.
 
 Jonglez vous-mêmes avec les permissions (ex: donnez l'accès d'écriture mais pas de modification aux GG-EU-IT-Users, etc...)
+
+!!! tip "Vérifier l'accès effectif sans changer de session"
+
+    Sur le serveur : clic droit sur `C:\Shares\IT-docs` > `Propriétés` > onglet `Sécurité` > `Avancé` > onglet **Accès effectif** > `Sélectionner un utilisateur` > `ivan` > `OK` > **Afficher l'accès effectif**. La colonne « Accès limité par » indique si c'est le partage ou NTFS qui bloque une permission.
 
 
 **Caractéristiques des permissions NTFS** :

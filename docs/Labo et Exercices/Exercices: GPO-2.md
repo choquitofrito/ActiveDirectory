@@ -51,11 +51,13 @@ Configuration ordinateur > Stratégies > Paramètres Windows > Paramètres de s�
 
     - Sur `ws-IT-01` : `gpupdate /force` puis redémarrer
     - Se connecter avec `ivan` (`GG-EU-IT-Users`) → doit fonctionner ; idem avec `irene` (`GG-EU-IT-Admin`)
-    - Se connecter avec `victor` (Ventes) → refusé, avec un message du type *« La méthode de connexion que vous tentez d'utiliser n'est pas autorisée »* (en anglais : *The sign-in method you're trying to use isn't allowed* ; le libellé exact varie selon la version de Windows 11)
+    - Se connecter avec `victor` (Ventes) → refusé, avec un message du type *« La méthode de connexion que vous tentez d'utiliser n'est pas autorisée »* (en anglais : *The sign-in method you're trying to use isn't allowed* ; le libellé exact varie selon la version de Windows)
 
     **Pourquoi ça marche ?** La GPO est liée à l'OU des **ordinateurs**, donc elle s'applique à `ws-IT-01`. Le droit "Permettre l'ouverture de session locale" est évalué côté machine : seuls les SID listés (directement ou via un groupe) peuvent ouvrir une session interactive. La GPO **remplace** la liste locale : par défaut, le groupe local `Utilisateurs` (qui contient `Utilisateurs du domaine`) y figurait, ce qui permettait à tout le monde de se connecter.
 
-    **N'oubliez pas de supprimer le lien de la GPO** (clic droit sur le lien sous `EU\IT\Computers` > **Supprimer**) avant de passer à la suite.
+    **N'oubliez pas de supprimer le lien de la GPO** avant de passer à la suite : GPMC > `EU\IT\Computers` > clic droit sur le lien `GPO-IT-LoginRestreint` > **Supprimer** > **OK** (la GPO reste dans `Objets de stratégie de groupe`). Vérifiez : sélectionnez l'OU `EU\IT\Computers` > onglet **Objets de stratégie de groupe liés** : `GPO-IT-LoginRestreint` n'y figure plus. Puis `gpupdate /force` et redémarrage de `ws-IT-01`.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     Remove-GPLink -Name "GPO-IT-LoginRestreint" -Target "OU=Computers,OU=IT,OU=EU,DC=maxtec,DC=be"
@@ -144,7 +146,9 @@ Pour sélectionner le script, **utilisez le chemin réseau** `\\dns1\SYSVOL\maxt
 - La GPO `GPO-LinkBureau` existe et est liée à `EU\Ventes\Users` ([GPO-1, 3.1](./Exercices:%20GPO-1.md))
 - Les groupes `GG-EU-Ventes-Admin` (membre : Valentin) et `GG-EU-IT-Admin` (membre : Irene) existent
 - Session ouverte avec un compte membre de `Admins du domaine` (ex. : `maxtec\Administrateur`)
-- **RSAT installé sur `ws-IT-01`** (au moins les outils de gestion des stratégies de groupe et AD DS) : le test de l'étape 4 se fait depuis le poste client, pas depuis le DC. Procédure : [Gestion des utilisateurs, Ex. 12](./Exercices:%20Gestion_des_Utilisateurs.md). En résumé, sur le poste (accès Internet requis : carte NAT temporaire, voir la procédure) :
+- **RSAT installé sur `ws-IT-01`** (au moins les outils de gestion des stratégies de groupe et AD DS) : le test de l'étape 4 se fait depuis le poste client, pas depuis le DC. Procédure : [Gestion des utilisateurs, Ex. 12](./Exercices:%20Gestion_des_Utilisateurs.md). En résumé, sur le poste (accès Internet requis : carte NAT temporaire, voir la procédure) : **Paramètres > Applications > Fonctionnalités facultatives > Ajouter une fonctionnalité** > recherchez `RSAT` > cochez **RSAT : Outils de gestion des stratégies de groupe** et **RSAT : Outils Active Directory Domain Services et Services LDS** > **Installer**.
+
+    **En PowerShell** (aperçu, vu au chapitre 9 ; console en administrateur) :
 
     ```powershell
     Add-WindowsCapability -Online -Name Rsat.GroupPolicy.Management.Tools~~~~0.0.1.0
@@ -258,7 +262,15 @@ Si vous souhaitez déléguer aussi la **création de nouvelles GPOs** (pas seule
 
 ---
 
-#### Vérification PowerShell
+#### Vérification
+
+Sur le DC, en administrateur du domaine :
+
+1. **Filtrage et délégation de la GPO** : GPMC > `Objets de stratégie de groupe` > `GPO-LinkBureau` > onglet **Étendue** > **Filtrage de sécurité** : seul `GG-EU-Ventes-Admin`. Onglet **Délégation** : `GG-EU-Ventes-Admin` = **Modifier les paramètres**, `Utilisateurs authentifiés` = **Lecture**. **Avancé…** pour le détail des cases.
+2. **Droit de lier sur l'OU Ventes** : GPMC > sélectionnez l'OU `EU\Ventes` > onglet **Délégation** > liste **Autorisation** : **Lier les objets GPO** → `GG-EU-Ventes-Admin` doit apparaître. Même information dans `dsa.msc` (affichage avancé) > propriétés de `Ventes` > **Sécurité** > **Avancé** : entrées `GG-EU-Ventes-Admin` sur `gPLink` et `gPOptions`.
+3. **Liens actifs sur l'OU Ventes** : GPMC > OU `EU\Ventes` (et `Ventes\Users`) > onglet **Objets de stratégie de groupe liés**.
+
+**En PowerShell** (aperçu, vu au chapitre 9) :
 
 ```powershell
 # Voir les permissions actuelles sur une GPO

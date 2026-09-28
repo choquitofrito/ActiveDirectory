@@ -45,7 +45,7 @@ PowerShell est un outil d'administration puissant qui permet d'automatiser et de
 
 !!! note "PowerShell 5.1 ou 7 ?"
     
-    Windows Server et Windows 11 livrent **Windows PowerShell 5.1** (`powershell.exe`). PowerShell 7 (`pwsh.exe`) s'installe à part et peut utiliser le module AD via une couche de compatibilité. Le DC du lab n'a que la 5.1 : **écrivez du code compatible 5.1**. En pratique, évitez l'opérateur ternaire `condition ? a : b` et l'opérateur `??`, qui n'existent qu'en 7. Pour connaître votre version : `$PSVersionTable.PSVersion`.
+    Windows Server et Windows 10 livrent **Windows PowerShell 5.1** (`powershell.exe`). PowerShell 7 (`pwsh.exe`) s'installe à part et peut utiliser le module AD via une couche de compatibilité. Le DC du lab n'a que la 5.1 : **écrivez du code compatible 5.1**. En pratique, évitez l'opérateur ternaire `condition ? a : b` et l'opérateur `??`, qui n'existent qu'en 7. Pour connaître votre version : `$PSVersionTable.PSVersion`.
 
 ```powershell
 # Vérifier si le module AD est chargé

@@ -661,7 +661,7 @@ Pour qu'une GPO s'applique à un utilisateur ou ordinateur, il doit avoir **deux
 
 !!! example "Exemples d'utilisation"
 
-    - Appliquer une GPO uniquement aux ordinateurs **Windows 11**
+    - Appliquer une GPO uniquement aux ordinateurs **Windows 10**
     - Appliquer des paramètres d'économie d'énergie uniquement aux **ordinateurs portables**
     - Installer un pilote uniquement sur les machines avec une **carte graphique NVIDIA**
 
@@ -681,11 +681,27 @@ Le **magasin central** est un dossier unique dans SYSVOL, répliqué sur tous le
 \\maxtec.be\SYSVOL\maxtec.be\Policies\PolicyDefinitions
 ```
 
-Pour le créer, copiez `C:\Windows\PolicyDefinitions` (avec le sous-dossier de langue `fr-FR`) à cet emplacement. Ensuite, GPMC indique « Définitions de stratégies (fichiers ADMX) récupérées à partir du magasin central » et tout le monde voit les mêmes paramètres. Pour gérer des paramètres propres à Windows 11 ou à une application (Edge, Office), on ajoute leurs ADMX dans ce dossier.
+Pour le créer, copiez `C:\Windows\PolicyDefinitions` (avec le sous-dossier de langue `fr-FR`) à cet emplacement. Ensuite, GPMC indique « Définitions de stratégies (fichiers ADMX) récupérées à partir du magasin central » et tout le monde voit les mêmes paramètres. Pour gérer des paramètres propres à une version récente de Windows ou à une application (Edge, Office), on ajoute leurs ADMX dans ce dossier.
 
 ## 9. Sauvegarder et restaurer une GPO
 
-Avant de modifier une GPO importante, sauvegardez-la. Sur le DC :
+Avant de modifier une GPO importante, sauvegardez-la. Sur le DC, créez d'abord un dossier `C:\GPOBackup`, puis dans **Gestion des stratégies de groupe** (`gpmc.msc`) :
+
+**Sauvegarder**
+
+1. Dépliez `Forêt : maxtec.be` > `Domaines` > `maxtec.be` > `Objets de stratégie de groupe`.
+2. Clic droit sur la GPO (ex. `GPO-Panneau-Restreint`) > **Sauvegarder…** Pour toutes les GPOs d'un coup : clic droit sur `Objets de stratégie de groupe` > **Sauvegarder tout…**
+3. Emplacement : `C:\GPOBackup`, description : ce que vous vous apprêtez à modifier > `Sauvegarder` > `OK`.
+
+**Restaurer**
+
+1. Clic droit sur `Objets de stratégie de groupe` > **Gérer les sauvegardes…**
+2. Emplacement : `C:\GPOBackup`. Cochez `Afficher uniquement la dernière version de chaque objet GPO`.
+3. Sélectionnez la sauvegarde > **Restaurer** > `OK`. Le bouton `Afficher les paramètres…` permet de vérifier le contenu avant.
+
+Si la GPO a été supprimée, elle réapparaît dans `Objets de stratégie de groupe` après la restauration.
+
+**En PowerShell** (aperçu, vu au chapitre 9) :
 
 ```powershell
 New-Item -ItemType Directory -Path C:\GPOBackup -Force | Out-Null
@@ -694,7 +710,7 @@ Backup-GPO -All -Path C:\GPOBackup                            # toutes les GPOs
 Restore-GPO -Name "GPO-Panneau-Restreint" -Path C:\GPOBackup  # restaure la dernière sauvegarde
 ```
 
-La sauvegarde contient les paramètres et le filtrage de sécurité, **pas les liens** : après restauration d'une GPO supprimée, il faut la relier à ses OUs (`New-GPLink`). Le même travail se fait dans GPMC : clic droit sur `Objets de stratégie de groupe` > `Sauvegarder tout…` / `Gérer les sauvegardes…`.
+La sauvegarde contient les paramètres et le filtrage de sécurité, **pas les liens** : après restauration d'une GPO supprimée, il faut la relier à ses OUs (clic droit sur l'OU > `Lier un objet de stratégie de groupe existant…` ; en PowerShell : `New-GPLink`).
 
 ## 10. Diagnostiquer une GPO qui ne s'applique pas
 
@@ -702,10 +718,10 @@ Quand `gpresult /r` ne montre pas la GPO attendue, suivez cette checklist dans l
 
 | # | Vérification | Comment |
 |---|---|---|
-| 1 | L'**objet** (utilisateur ou ordinateur) est-il dans l'OU liée, ou une sous-OU ? Un poste resté dans `CN=Computers` ne reçoit aucune GPO d'OU. | `Get-ADComputer ws-IT-01` / `Get-ADUser victor` → `DistinguishedName` |
+| 1 | L'**objet** (utilisateur ou ordinateur) est-il dans l'OU liée, ou une sous-OU ? Un poste resté dans `CN=Computers` ne reçoit aucune GPO d'OU. | `dsa.msc` : `Affichage` > `Fonctionnalités avancées`, puis `Propriétés` de l'objet > onglet `Objet` (« Nom canonique de l'objet » = son emplacement). En PowerShell (chapitre 9) : `Get-ADComputer ws-IT-01` / `Get-ADUser victor` → `DistinguishedName` |
 | 2 | Le **bon côté** de la GPO : paramètres utilisateur ↔ OU d'utilisateurs, paramètres ordinateur ↔ OU d'ordinateurs ? | Éditeur de GPO |
-| 3 | Le **lien** est-il activé ? Une OU parente bloque-t-elle l'héritage ? La GPO n'est-elle pas désactivée (onglet `Détails` > `État GPO`) ? | GPMC, onglet `Héritage de stratégie de groupe` de l'OU |
-| 4 | **Filtrage de sécurité** : l'objet est-il dans le groupe ciblé ? Un Refuser s'applique-t-il ? `Utilisateurs authentifiés` a-t-il encore la **Lecture** (MS16-072) ? | GPMC, onglets `Étendue` et `Délégation` |
+| 3 | Le **lien** est-il activé ? Une OU parente bloque-t-elle l'héritage ? La GPO n'est-elle pas désactivée (onglet `Détails` > `État GPO`) ? | GPMC : sélectionnez l'OU de l'objet > onglet `Héritage de stratégie de groupe` (liste de toutes les GPOs reçues, dans l'ordre ; une icône point d'exclamation bleu sur une OU parente = héritage bloqué). Sur le lien : clic droit > `Lien activé` coché. En PowerShell (chapitre 9) : `Get-GPInheritance` |
+| 4 | **Filtrage de sécurité** : l'objet est-il dans le groupe ciblé ? Un Refuser s'applique-t-il ? `Utilisateurs authentifiés` a-t-il encore la **Lecture** (MS16-072) ? | GPMC : sélectionnez la GPO > onglet `Étendue`, cadre `Filtrage de sécurité` (groupes ciblés) ; onglet `Délégation` > `Avancé…` pour voir les Refuser et vérifier `Utilisateurs authentifiés` en Lecture. Appartenance au groupe : `dsa.msc` > `Propriétés` de l'objet > onglet `Membre de`. En PowerShell (chapitre 9) : `Get-GPPermission` |
 | 5 | **Filtre WMI** : la requête est-elle vraie sur ce poste ? | `gpresult /h` indique « Refusé (Filtre WMI) » |
 | 6 | **Appartenance au groupe récente** : le jeton de sécurité date de l'ouverture de session. Un utilisateur ajouté à un groupe doit se déconnecter ; un ordinateur ajouté à un groupe doit redémarrer. | `whoami /groups` sur le client |
 | 7 | **Réplication SYSVOL / AD** (plusieurs DC) : la GPO est-elle présente sur le DC utilisé par le client ? | `gpresult /r` affiche le DC utilisé ; GPMC > onglet `État` de la GPO |

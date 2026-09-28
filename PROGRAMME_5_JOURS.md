@@ -27,7 +27,7 @@ Les jours 2, 3 et 4 se terminent par un **ticket de dépannage** (`Exercices: De
 | Durée | Bloc | Matériel |
 |------:|------|----------|
 | 0:30 | Pourquoi un annuaire centralisé ; où on trouve AD en 2026 (PME, écoles, hôpitaux, administrations belges ; NIS2 en une phrase) | Ch1 §1-2 |
-| 1:30 | Mise en place des VMs : serveur (1 carte réseau interne, IP fixe, nom `dns1`) et client `ws-IT-01` | Annexe 1 partie A (Ch1/Ch2 en référence) |
+| 1:30 | Mise en place des VMs : serveur (1 carte réseau interne, IP fixe, nom `dns1`) et client `ws-IT-01` | Ch2 (VirtualBox) ou Annexe 1 partie A (version courte) |
 | 1:15 | Promotion du DC + vérifications (SRV, SYSVOL/NETLOGON, services) | Ch4 §6, Annexe 1 A3-A4 |
 | 0:45 | DNS pour AD : zones, enregistrements A/PTR/SRV, redirecteurs, pourquoi le DC est son propre DNS (le rôle DNS existe maintenant) | Ch3 |
 | 0:45 | Jonction de `ws-IT-01` au domaine | Annexe 1 partie B, Ch4 §10 |
@@ -107,7 +107,7 @@ Le projet est conçu pour ~5 h : sur 4 h 15, la partie 5 (sécurité et reportin
 
 | Contenu | Statut |
 |---------|--------|
-| Ch1 §3 / Ch2 (installation Hyper-V / VirtualBox détaillée) | Référence si les VMs ne sont pas fournies |
+| Ch1 §3.3 (installation avec Hyper-V) | Uniquement pour refaire le lab à la maison ; en cours, tout se fait sous VirtualBox |
 | Théorie DNS avancée | Référence |
 | Gestion des utilisateurs Ex. 6-11, 13-14 (l'Ex. 12 est au programme du jour 3), `Exercices: OUs_Departements_Complementaires.md` | Entraînement en autonomie |
 | Cours PowerShell moderne M1-M7 | Lecture ; M5 (`-WhatIf`) conseillé |
@@ -126,12 +126,12 @@ Le projet est conçu pour ~5 h : sur 4 h 15, la partie 5 (sécurité et reportin
 
 ## Préparation formateur
 
-- [ ] VMs : ISO d'évaluation **Windows Server 2025** (180 jours) et **Windows 11 Pro** ; idéalement une VM serveur et une VM client préparées (sysprep ou OVA) pour gagner 1 h le jour 1.
-- [ ] VirtualBox 7.x sur les postes (TPM 2.0 / Secure Boot émulés pour Windows 11).
+- [ ] VMs : ISO **Windows Server 2022** et **Windows 10 Pro** ; idéalement une VM serveur et une VM client préparées (sysprep ou OVA) pour gagner 1 h le jour 1.
+- [ ] VirtualBox 7.x sur les postes.
 - [ ] Vérifier que les scripts `creation_structure` / `suppression_structure` passent sur un lab vierge.
 - [ ] Tester chaque paire `Break-Dx` / `Restore-Dx` (`docs/instructeur/`) la veille.
 - [ ] Télécharger PingCastle (édition gratuite) pour la démo du jour 5.
 - [ ] **RSAT sur le client** : le poste du lab n'a pas Internet. Installez « RSAT : Services AD DS » et « RSAT : Gestion des stratégies de groupe » dans l'image cliente avant le cours (ou, le jour 3, carte NAT temporaire sur le client → `Add-WindowsCapability` → retirer la carte → `ipconfig /flushdns`).
-- [ ] Serveur 2022 : appliquer au moins la mise à jour cumulative d'avril 2023 avant le cours (sinon pas de Windows LAPS intégré, Ch11).
+- [ ] DC 2022 et client Windows 10 : appliquer au moins la mise à jour cumulative d'avril 2023 avant le cours (sinon pas de Windows LAPS intégré, Ch11).
 - [ ] Imprimer `CHEATSHEET.md` (dont la section diagnostic réseau).
 - [ ] Préparer le CSV du jour 4 (Ch9.3) et celui du projet (dans `Projet_Final.md`).

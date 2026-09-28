@@ -8,7 +8,7 @@
 Pour réaliser les exercices de GPO, vous utiliserez un environnement de laboratoire simplifié comprenant :
 
 * Un contrôleur de domaine : `dns1.maxtec.be` (192.168.0.2)
-* Un poste client Windows 11 Professionnel **obligatoire** : `ws-IT-01.maxtec.be` (192.168.0.10)
+* Un poste client Windows 10 Professionnel **obligatoire** : `ws-IT-01.maxtec.be` (192.168.0.10)
 * Un second poste client **optionnel** : `ws-RH-01.maxtec.be` (192.168.0.11). Certains exercices (GPO appliquée à un département et pas à l'autre, profils itinérants) sont plus parlants avec deux postes ; sans lui, vous pouvez déplacer `ws-IT-01` d'une OU à l'autre.
 
 Cet environnement est une version simplifiée de l'infrastructure complète, qui dans un contexte d'entreprise inclurait des zones géographiques (eu/us) et des environnements (dev/prod).
@@ -107,7 +107,14 @@ Après la jonction au domaine :
 - `ws-IT-01` → `OU=Computers,OU=IT,OU=EU,DC=maxtec,DC=be`
 - `ws-RH-01` → `OU=Computers,OU=RH,OU=EU,DC=maxtec,DC=be`
 
-Dans `Utilisateurs et ordinateurs Active Directory` : conteneur `Computers` > clic droit sur le poste > `Déplacer…`. Ou en PowerShell sur le DC :
+Sur `dns1`, dans **Utilisateurs et ordinateurs Active Directory** :
+
+1. Dépliez `maxtec.be` > **Computers**.
+2. Clic droit sur `WS-IT-01` > **Déplacer…** > `EU` > `IT` > `Computers` > **OK**.
+3. Même chose pour `WS-RH-01` vers `EU` > `RH` > `Computers`, si vous avez ce poste.
+4. Vérifiez (touche **F5**) que chaque poste apparaît dans sa nouvelle OU.
+
+**En PowerShell** (aperçu, vu au chapitre 9) :
 
 ```powershell
 Get-ADComputer ws-IT-01 | Move-ADObject -TargetPath "OU=Computers,OU=IT,OU=EU,DC=maxtec,DC=be"

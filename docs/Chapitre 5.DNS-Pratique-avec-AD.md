@@ -95,12 +95,15 @@ L'enregistrement que cherche un poste pour joindre le domaine est `_ldap._tcp.dc
     - [ ] Pourquoi les enregistrements SRV sont-ils indispensables à AD ?
     - [ ] Combien d'enregistrements A voyez-vous, et qui les a créés ?
 
-**Test en PowerShell (sur `ws-IT-01` ou `dns1`) :**
-```powershell
+**Test en invite de commandes (sur `ws-IT-01` ou `dns1`) :**
+```cmd
 nslookup maxtec.be
 nslookup -type=SRV _ldap._tcp.dc._msdcs.maxtec.be
+```
 
-# Équivalent PowerShell
+**En PowerShell** (aperçu, vu au chapitre 9) :
+
+```powershell
 Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.maxtec.be
 ```
 
@@ -132,11 +135,12 @@ nslookup fileserver.maxtec.be
 # Address:  192.168.0.20
 ```
 
-??? note "La même chose en PowerShell (sur dns1)"
-    ```powershell
-    Add-DnsServerResourceRecordA -ZoneName "maxtec.be" -Name "fileserver" -IPv4Address "192.168.0.20"
-    Get-DnsServerResourceRecord -ZoneName "maxtec.be" -Name "fileserver"
-    ```
+**En PowerShell** (aperçu, vu au chapitre 9 ; sur `dns1`) :
+
+```powershell
+Add-DnsServerResourceRecordA -ZoneName "maxtec.be" -Name "fileserver" -IPv4Address "192.168.0.20"
+Get-DnsServerResourceRecord -ZoneName "maxtec.be" -Name "fileserver"
+```
 
 ### Exercice 2.2 : Créer un alias (CNAME)
 
@@ -160,10 +164,11 @@ nslookup files.maxtec.be
 
 Avantage d'un CNAME : si `fileserver` change d'IP, vous ne modifiez que l'enregistrement A ; l'alias `files` suit.
 
-??? note "La même chose en PowerShell"
-    ```powershell
-    Add-DnsServerResourceRecordCName -ZoneName "maxtec.be" -Name "files" -HostNameAlias "fileserver.maxtec.be"
-    ```
+**En PowerShell** (aperçu, vu au chapitre 9) :
+
+```powershell
+Add-DnsServerResourceRecordCName -ZoneName "maxtec.be" -Name "files" -HostNameAlias "fileserver.maxtec.be"
+```
 
 ### Exercice 2.3 : Alias web et imprimante
 
@@ -222,10 +227,11 @@ Utilisations :
     - Mises à jour dynamiques : **N'autoriser que les mises à jour dynamiques sécurisées**
 3. **Terminer**
 
-??? note "La même chose en PowerShell"
-    ```powershell
-    Add-DnsServerPrimaryZone -NetworkId "192.168.0.0/24" -ReplicationScope "Domain" -DynamicUpdate "Secure"
-    ```
+**En PowerShell** (aperçu, vu au chapitre 9) :
+
+```powershell
+Add-DnsServerPrimaryZone -NetworkId "192.168.0.0/24" -ReplicationScope "Domain" -DynamicUpdate "Secure"
+```
 
 ### Étape 2 : Vérifier la zone créée
 
@@ -284,17 +290,17 @@ Diagnostiquer trois pannes courantes à partir de leurs symptômes. Pour chaque 
 | Commande | Usage |
 |----------|-------|
 | `ipconfig /all` | Configuration IP et DNS du poste |
-| `nslookup nom` / `Resolve-DnsName nom` | Résoudre un nom |
+| `nslookup nom` | Résoudre un nom |
 | `nslookup IP` | Résolution inverse |
 | `nslookup -type=SRV _ldap._tcp.dc._msdcs.maxtec.be` | Le poste trouve-t-il un DC ? |
 | `nltest /dsgetdc:maxtec.be` | Quel DC Windows utiliserait |
 | `ipconfig /flushdns` | Vider le cache DNS du poste |
 | `ipconfig /registerdns` | Forcer l'enregistrement dynamique du poste |
-| `Get-DnsServerResourceRecord -ZoneName maxtec.be -Name <nom>` | Voir les enregistrements côté serveur |
+| Gestionnaire DNS (`dnsmgmt.msc`) → zone `maxtec.be` | Voir les enregistrements côté serveur (en PowerShell, chapitre 9 : `Get-DnsServerResourceRecord`) |
 
 ### Scénario 1 : le poste ne peut pas rejoindre le domaine
 
-**Préparation :** sur `ws-IT-01` (ou `ws-RH-01`), réglez le DNS préféré sur `8.8.8.8`.
+**Préparation :** sur `ws-IT-01` (ou `ws-RH-01`), réglez le DNS préféré sur `8.8.8.8` : Win+R → `ncpa.cpl` → clic droit sur la carte **Ethernet** → **Propriétés** → **Protocole Internet version 4 (TCP/IPv4)** → **Propriétés** → **Serveur DNS préféré** : `8.8.8.8` → **OK**.
 
 **Symptôme :** `nltest /dsgetdc:maxtec.be` et `gpupdate /force` échouent. Sur un poste pas encore joint, la jonction échouerait avec « Un contrôleur de domaine Active Directory (AD DC) pour le domaine maxtec.be n'a pas pu être contacté ». Pourtant `ping 192.168.0.2` répond.
 
@@ -311,7 +317,14 @@ Diagnostiquer trois pannes courantes à partir de leurs symptômes. Pour chaque 
 
     Le réseau fonctionne (le ping répond), mais le poste demande à un DNS public où se trouve le DC. Seul `dns1` connaît les enregistrements SRV de `maxtec.be`.
 
-    **Solution :**
+    **Solution :** remettez le DNS du poste sur le DC.
+
+    1. Win+R → `ncpa.cpl` → clic droit sur la carte **Ethernet** → **Propriétés**.
+    2. **Protocole Internet version 4 (TCP/IPv4)** → **Propriétés**.
+    3. **Serveur DNS préféré** : `192.168.0.2` → **OK** → **Fermer**.
+    4. En invite de commandes : `ipconfig /flushdns`, puis `nslookup -type=SRV _ldap._tcp.dc._msdcs.maxtec.be`, qui doit maintenant renvoyer `dns1.maxtec.be`.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses 192.168.0.2
@@ -324,6 +337,10 @@ Diagnostiquer trois pannes courantes à partir de leurs symptômes. Pour chaque 
 ### Scénario 2 : un enregistrement obsolète
 
 **Préparation :** sur `dns1`, le serveur de fichiers a « déménagé » de `192.168.0.20` vers `192.168.0.21`. Quelqu'un a ajouté le nouvel enregistrement A `fileserver` → `192.168.0.21` sans supprimer l'ancien.
+
+Pour le reproduire : Gestionnaire DNS → clic droit sur la zone **maxtec.be** → **Nouvel hôte (A ou AAAA)…** → Nom : `fileserver`, Adresse IP : `192.168.0.21` → **Ajouter un hôte**. L'ancien enregistrement `192.168.0.20` reste en place.
+
+**En PowerShell** (aperçu, vu au chapitre 9) :
 
 ```powershell
 Add-DnsServerResourceRecordA -ZoneName "maxtec.be" -Name "fileserver" -IPv4Address "192.168.0.21"
@@ -338,7 +355,13 @@ Add-DnsServerResourceRecordA -ZoneName "maxtec.be" -Name "fileserver" -IPv4Addre
     nslookup fileserver.maxtec.be
     # Addresses:  192.168.0.20
     #             192.168.0.21   ← deux réponses pour un seul serveur
+    ```
 
+    Côté serveur, dans le Gestionnaire DNS, zone **maxtec.be** : deux lignes `fileserver` de type **Hôte (A)**, une par adresse.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
+
+    ```powershell
     Get-DnsServerResourceRecord -ZoneName "maxtec.be" -Name "fileserver"
     ```
 
@@ -346,12 +369,17 @@ Add-DnsServerResourceRecordA -ZoneName "maxtec.be" -Name "fileserver" -IPv4Addre
 
     **Solution :** supprimez l'enregistrement obsolète sur `dns1`, puis videz le cache des clients.
 
+    1. Gestionnaire DNS → zone **maxtec.be** → clic droit sur la ligne `fileserver` dont les données sont `192.168.0.20` → **Supprimer** → **Oui**.
+    2. Sur le poste client, en invite de commandes : `ipconfig /flushdns`, puis `nslookup fileserver.maxtec.be` ne doit plus renvoyer que `192.168.0.21`.
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
+
     ```powershell
     Remove-DnsServerResourceRecord -ZoneName "maxtec.be" -RRType "A" -Name "fileserver" -RecordData "192.168.0.20" -Force
     ipconfig /flushdns   # sur le poste client
     ```
 
-    Pensez aussi au PTR : `192.168.0.20` pointe encore vers `fileserver` dans la zone inverse ; supprimez-le.
+    Pensez aussi au PTR : `192.168.0.20` pointe encore vers `fileserver` dans la zone inverse ; supprimez-le (Gestionnaire DNS → **Zones de recherche inversée** → `0.168.192.in-addr.arpa` → clic droit sur l'enregistrement `20` (pointeur vers `fileserver.maxtec.be`) → **Supprimer**).
 
     Pour les machines du domaine qui s'enregistrent seules, les enregistrements dynamiques obsolètes (poste supprimé, IP changée) se nettoient automatiquement si le **vieillissement et nettoyage** (aging/scavenging) est activé : il faut à la fois le **vieillissement sur la zone** (Gestionnaire DNS → clic droit sur **DNS1** → **Définir le vieillissement/nettoyage pour toutes les zones**) et le **nettoyage automatique sur le serveur** (clic droit sur **DNS1** → **Propriétés** → onglet **Avancé** → **Activer le nettoyage automatique des enregistrements obsolètes**). Les deux sont désactivés par défaut.
 
@@ -459,9 +487,10 @@ Attention : `www` existe déjà (exercice 2.3) et pointe vers `fileserver`.
     **Étape 2 : alias**
 
     - `www` existe déjà : double-cliquez dessus et remplacez la cible par `webserver.maxtec.be` (ou supprimez-le et recréez-le). Deux CNAME du même nom ne peuvent pas coexister.
-    - Nouvel alias : Nom `webadmin`, cible `webserver.maxtec.be`
+    - Nouvel alias : clic droit sur `maxtec.be` → **Nouvel alias (CNAME)…** → Nom `webadmin`, cible `webserver.maxtec.be` → **OK**
 
-    En PowerShell :
+    **En PowerShell** (aperçu, vu au chapitre 9) :
+
     ```powershell
     Add-DnsServerResourceRecordA -ZoneName "maxtec.be" -Name "webserver" -IPv4Address "192.168.0.30" -CreatePtr
     Remove-DnsServerResourceRecord -ZoneName "maxtec.be" -RRType "CName" -Name "www" -Force

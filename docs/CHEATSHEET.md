@@ -196,7 +196,7 @@ Get-ADComputer -Filter *
 Get-ADComputer -Identity "ws-IT-01"
 
 # Ordinateurs par OS
-Get-ADComputer -Filter {OperatingSystem -like "*Windows 11*"} -Properties OperatingSystem
+Get-ADComputer -Filter {OperatingSystem -like "*Windows 10*"} -Properties OperatingSystem
 
 # Ordinateurs activés/désactivés
 Get-ADComputer -Filter {Enabled -eq $true}

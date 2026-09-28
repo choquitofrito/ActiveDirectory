@@ -17,12 +17,12 @@ Valeurs officielles du lab. Tous les chapitres et exercices s'y réfèrent : en 
 | Poste client 2 (optionnel) | `ws-RH-01` — `192.168.0.11` (ou DHCP) — DNS : `192.168.0.2` |
 | Zone de recherche inverse | `0.168.192.in-addr.arpa` |
 
-| Logiciel | Recommandé | Accepté |
-|----------|-----------|---------|
-| Serveur | Windows Server 2025 (ISO d'évaluation 180 jours) | Windows Server 2022 |
-| Niveau fonctionnel forêt/domaine | Windows Server 2025 | Windows Server 2016 (niveau maximal avec un DC 2022) |
-| Client | Windows 11 Professionnel | — (Windows 10 n'est plus supporté depuis le 14/10/2025) |
-| Éditeur de scripts | Visual Studio Code + extension PowerShell | PowerShell ISE (n'évolue plus, reste présent sur le serveur) |
+| Logiciel | Version du cours | Remarque |
+|----------|------------------|----------|
+| Serveur | Windows Server 2022 | La version actuelle est Windows Server 2025 ; le cours n'en a pas besoin |
+| Niveau fonctionnel forêt/domaine | Windows Server 2016 | Niveau maximal avec un DC 2022 (il n'existe pas de niveau « 2022 ») |
+| Client | Windows 10 Professionnel | L'édition Famille ne peut pas rejoindre un domaine |
+| Éditeur de scripts | Visual Studio Code + extension PowerShell | PowerShell ISE fonctionne aussi (présent sur le serveur, n'évolue plus) |
 
 !!! warning "Une seule carte réseau sur le DC"
     Le DC n'a qu'une carte, sur le réseau interne. Un DC avec deux cartes (LAN + NAT) enregistre ses deux adresses dans DNS et les clients tombent au hasard sur la mauvaise. Si vous avez besoin d'Internet ponctuellement (mises à jour, téléchargement), ajoutez une carte NAT le temps de l'opération puis retirez-la.
@@ -32,6 +32,10 @@ Valeurs officielles du lab. Tous les chapitres et exercices s'y réfèrent : en 
 
     - `ws-IT-01` → `OU=Computers,OU=IT,OU=EU,DC=maxtec,DC=be`
     - `ws-RH-01` → `OU=Computers,OU=RH,OU=EU,DC=maxtec,DC=be`
+
+    Dans **Utilisateurs et ordinateurs Active Directory** : **Computers** > clic droit sur le poste > **Déplacer…** > choisir l'OU. Détail : [Guide rapide, étape B7](../../Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md#b7-deplacer-le-poste-dans-son-ou).
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
     Get-ADComputer ws-IT-01 | Move-ADObject -TargetPath "OU=Computers,OU=IT,OU=EU,DC=maxtec,DC=be"
