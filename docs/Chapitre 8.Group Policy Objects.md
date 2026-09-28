@@ -5,34 +5,42 @@
 
 
 !!! example "Exercices associés"
-    Trois séries d'exercices progressifs + exercices en contexte lab:
+    Trois séries d'exercices progressifs :
 
     - **[GPO Série 1](Labo%20et%20Exercices/Exercices:%20GPO-1.md)** - Templates administratifs, sécurité, déploiement logiciel
     - **[GPO Série 2](Labo%20et%20Exercices/Exercices:%20GPO-2.md)** - Filtrage et ciblage GPO
     - **[GPO Série 3](Labo%20et%20Exercices/Exercices:%20GPO-3.md)** - Scénarios complexes et troubleshooting
-    - **[Lab CreativeHub - Ex03](Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_03_GPO_Lecteur_Reseau.md)** - GPO lecteur réseau (scénario réaliste)
-    - **[Lab CreativeHub - Ex08](Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_08_Troubleshooting_GPO.md)** - Troubleshooting GPO
 
 !!! info "📚 Dans ce chapitre:"
 
-    1. 🌐 [Introduction aux GPO](#1-introduction-aux-gpo)
+    1. [Introduction aux GPO](#1-introduction-aux-gpo)
        - Concepts de base
-       - Types de stratégies
-    
-    2. 🔰 [Hiérarchie et Application](#2-création-des-gpos)
-       - Niveaux d'application
-       - Ordre de traitement
-    
-    3. 💻 [Ordre d'application des GPO (LSDO)](#3-ordre-dapplication-des-gpo-lsdo)
-       - Outils de gestion
-       - Exemples pratiques
+       - Sites AD
 
+    2. [Création des GPOs](#2-creation-des-gpos)
+       - Premier exemple guidé
+       - `gpupdate` et `gpresult`
+
+    3. [Ordre d'application des GPO (LSDO)](#3-ordre-dapplication-des-gpo-lsdo)
+       - Qui gagne en cas de conflit
+       - Blocage et mode Appliqué
+
+    4. [Filtrage](#7-filtrage-des-gpos) et [diagnostic](#10-diagnostiquer-une-gpo-qui-ne-sapplique-pas)
+
+## 📙 Objectifs pédagogiques
+
+À la fin de ce chapitre, vous serez capable de :
+
+1. Créer une GPO, la lier à une OU du lab et vérifier son application sur `ws-IT-01` avec `gpupdate /force` et `gpresult /r`
+2. Prédire quelle GPO gagne en cas de conflit (ordre L-S-D-OU, Bloquer l'héritage, Appliqué)
+3. Restreindre une GPO à un groupe par filtrage de sécurité sans la casser (règle MS16-072)
+4. Diagnostiquer une GPO qui ne s'applique pas à l'aide d'une checklist, de `gpresult /h` et du journal GroupPolicy
 
 ## 1. Introduction aux GPO
 
 ### 🌐 1.1. Qu'est-ce qu'une Stratégie de Groupe ?
 
-Une GPO est aussi un objet qu'on peut créer dans la base de données de AD-DS et qui a les capacités suivantes:
+Une GPO est un objet qu'on crée dans AD DS et qui a les capacités suivantes :
 
 | 🛠️ Capacités | Description |
 |------------|-------------|
@@ -41,9 +49,9 @@ Une GPO est aussi un objet qu'on peut créer dans la base de données de AD-DS e
 | 💾 **Déploiement** | Déployer des logiciels |
 | 🖥️ **Scripts** | Configurer des scripts de démarrage/arrêt |
 
-> 💡 **Principe clé**: Modifier **un seul GPO** pour configurer **plusieurs machines ou utilisateurs**!
->
-> 💡 **Pour débutants:** Une GPO = un ensemble de règles que vous appliquez à vos utilisateurs ou ordinateurs. Au lieu de configurer chaque PC un par un, vous créez une règle une fois et elle s'applique partout!
+> 💡 **Principe clé** : on modifie **une seule GPO** pour configurer **plusieurs machines ou utilisateurs**, au lieu de configurer chaque poste à la main.
+
+Une GPO est stockée en **deux parties** : un objet dans l'annuaire (le *conteneur*, répliqué avec AD) et un dossier de fichiers dans **SYSVOL** (`\\maxtec.be\SYSVOL\maxtec.be\Policies\{GUID}`, le *modèle*). Les clients lisent les deux. Si l'une manque ou n'est pas répliquée, la GPO ne s'applique pas (voir §10).
 
 
 
@@ -55,147 +63,148 @@ Une GPO est aussi un objet qu'on peut créer dans la base de données de AD-DS e
 | **Sécurité** | Implémente les politiques de sécurité de l'entreprise : complexité des mots de passe, restrictions d'accès, paramètres de pare-feu, etc. | Obligation de mots de passe complexes (12 caractères min.), configuration du pare-feu d'entreprise |
 | **Configuration Utilisateur** | Configure l'environnement de travail des utilisateurs : fond d'écran, paramètres Office, mappages de lecteurs réseau. | Application du fond d'écran d'entreprise, mappage automatique des lecteurs réseau par département |
 | **Configuration Système** | Gère les paramètres système : services Windows, paramètres réseau, configuration des mises à jour. | Activation/désactivation des services d'impression |
-| **Déploiement** | Automatise l'installation et la mise à jour des applications, pilotes et correctifs sur les postes clients. | Installation automatique de la suite Office 365, mise à jour automatique des logiciels Adobe |
-| **Restrictions** | Contrôle l'accès aux fonctionnalités système et applications selon les besoins métier et la sécurité. | Désactivation des ports USB pour le service RH, restriction de l'accès à PowerShell |
+| **Déploiement** | Automatise l'installation et la mise à jour des applications, pilotes et correctifs sur les postes clients. | Installation automatique d'un logiciel `.msi` depuis `\\dns1\Software` |
+| **Restrictions** | Contrôle l'accès aux fonctionnalités système et applications selon les besoins métier et la sécurité. | Désactivation des ports USB pour le service RH, restriction de l'accès à l'invite de commandes |
 | **Automatisation** | Automatise les tâches via des scripts exécutés à des moments spécifiques (connexion, démarrage, etc.). | Exécution de scripts de connexion pour mapper les lecteurs, sauvegarde automatique des fichiers utilisateurs |
 
 
-### 1.3. Qui est affecté par les GPOs ? Définition d’un site AD  
+### 1.3. Qui est affecté par les GPOs ? Définition d’un site AD
 
-Les **stratégies de groupe peuvent être appliquées à différents niveaux** de la hiérarchie AD : un ordinateur, un **site**, un domaine AD, une OU...  
+Les **stratégies de groupe peuvent être liées à différents niveaux** de la hiérarchie AD : un **site**, un domaine AD, une OU (et il existe aussi la stratégie locale de chaque ordinateur).
 
 ![Domaine AD](diagrams/images/domaineAD.png)
 
 **Rappel**:
 
 1. **Site AD vs Sous-zone DNS** :
-   - **Site AD** : 
+   - **Site AD** :
      * Représente une localisation physique
      * Défini par des sous-réseaux IP (ex: 192.168.10.0/24)
      * But : Optimisation du trafic et de la réplication
 
-   - **Zone DNS** : 
+   - **Zone DNS** :
      * Section d'un espace de noms DNS (ex: maxtec.be)
      * But : Organisation hiérarchique des noms
 
-!!! info "Notre infrastructure"
-    
+!!! info "Infrastructure de référence (scénario, pas le lab)"
+
     - **Domaine AD** et **Zone DNS** principale : `maxtec.be`
     - **Sites AD** : `site EU (192.168.10.0/24)` et `site US (192.168.20.0/24)`
     - **Zones DNS** : Zone EU (`eu.maxtec.be`), Zone US (`us.maxtec.be`)
 
 Ces concepts sont distincts mais complémentaires dans une infrastructure d'entreprise.
 
-Dans notre laboratoire de pratique, le domaine AD correspond au **site EU**, et nous avons un seul site (nous avons utilisé les ips `192.168.0.x` au lieu de  `192.168.10.x`), mais peu importe.  
+Dans le lab, il n'y a **qu'un site** et un seul réseau (`192.168.0.0/24`), qui joue le rôle du site EU.
 
-Nous avions convenu que les deux sites/zones seraient gérés par un seul contrôleur de domaine (`dns1`, le DC du labo) et, en théorie, un second en réplication (`dns2`).  
+Dans le scénario, les deux sites seraient gérés par le DC du lab (`dns1`) et, en théorie, un second DC en réplication (`dns2`), tous deux physiquement **chez nous**.
 
-Ces serveurs doivent gérer les deux sites et sont physiquement **chez nous**.  
+**Dans un environnement réel, nous aurions au moins deux autres DCs** : `dns3` et `dns4`, situés physiquement aux États-Unis.
+Les quatre DCs partagent la même base de données AD. Deux sont situés en Europe et les deux autres aux États-Unis.
 
-**Dans un environnement réel, nous aurions au moins deux autres DCs** : `dns3` et `dns4`, qui seraient situés physiquement aux États-Unis.  
-Les quatre DCs peuvent gérer les deux sites et partager la même base de données AD. Deux sont situés en Europe et les deux autres aux États-Unis.  
+#### Faut-il recréer la base AD dans chaque site ?
 
-#### Et alors on doit re-créer la BD d'active Directory partout??
+**Non.**
 
-**NON!**
+La **séparation** en sites n'a **pas d'impact** sur le contenu de la base.
 
-La **séparation** en sites n'a **pas d'impact** sur la BD.
+Les objets AD (comme les OU) sont stockés dans la base de données du DC, qui est **répliquée à l'identique** sur tous les DCs du domaine. La configuration des OUs est donc la même sur tous les DCs, quel que soit leur site.
 
-Pourquoi? Car **les objets AD (comme les OU) sont stockés dans la base de données du DC**, qui est **la même** (copie) dans tous les DCs de la même forêt, ce qui implique que **la configuration des OUs est la même dans tous les DCs, peu importe le site.**.
+**En pratique :** on peut créer toute la structure des OUs sur le seul DC du lab. Si on ajoutait un DC `dns3` pour le site USA, il recevrait la même configuration AD par réplication.
 
-**En gros:** On peut créer toute la structure (EU et USA) des OUs dans le seul DC de notre labo. Si on rajoutait un autre DC (`dns3`) pour le site USA il aurait la même configuration AD que le DC du site EU (on ne devrait pas la ré-creer sur le nouveau DC).
+Notre site porte le nom `Default-First-Site-Name` (`Gestionnaire de serveur` → `Outils` → `Sites et services Active Directory` → `Sites`), nom donné par AD DS lors de la création du domaine.
 
-Notre site porte le nom `Default First Site Name` (Barre de tache->`Server Manager`->`Sites`->`Sites et services`->`Sites`) , nom donnée par AD-DS lors la création du domaine. 
-
-Ce sera notre site pour l'Europe, **alors renommez-le à `Site-EU`** (click droit sur le site->`Rename`).
-On pourrait créer un autre site si on avait un autre adaptateur réseau, chacun associé a un sous-réseau, mais ce n'est pas le but de notre labo.
-
-Connaissant la notion de site, continuons maintenant avec la classification des GPOs.
+Ce sera notre site pour l'Europe : **renommez-le en `Site-EU`** (clic droit sur le site → `Renommer`).
+On pourrait créer un autre site associé à un autre sous-réseau, mais ce n'est pas le but du lab.
 
 ## 🎯 Checkpoint: Concepts GPO et Sites
 
 !!! info "Vérification de compréhension"
-    
-    Avant de créer vos premières GPOs:
-    
-    - [ ] Savoir qu'une GPO est un ensemble de règles pour configurer plusieurs machines
-    - [ ] Comprendre que les GPOs s'appliquent à différents niveaux (site, domaine, UO)
-    - [ ] Savoir que notre labo a un seul site (Site-EU)
-    - [ ] Comprendre que les sites sont distincts des zones DNS
 
-> 💡 **Pour débutants:** Ne vous inquiétez pas si les concepts de sites semblent complexes. L'important est de comprendre que les GPOs sont des règles que vous appliquez à vos utilisateurs et ordinateurs!
+    Avant de créer vos premières GPOs :
+
+    - [ ] Une GPO est un ensemble de paramètres appliqué à plusieurs machines ou utilisateurs
+    - [ ] Une GPO se lie à un site, au domaine ou à une OU
+    - [ ] Le lab a un seul site (`Site-EU`)
+    - [ ] Un site (physique, sous-réseaux) n'est pas une zone DNS (espace de noms)
 
 ## 2. Création des GPOs
 
 Nous allons étudier les caractéristiques des GPOs en détail plus tard, mais commençons par créer une GPO d'exemple.
 
-Avant de commencer, assurez-vous d'avoir installé le laboratoire en suivant les instructions du document d'installation Labo_structure.md
+Avant de commencer, vérifiez que la structure du lab est en place et que `ws-IT-01` est dans son OU (voir la [Référence du lab Maxtec](Labo%20et%20Exercices/Labo/Reference_Lab_Maxtec.md)).
 
-### Exemple pratique: restreindre le panneau de configuration aux membres de Ventes
+### Exemple pratique : restreindre le panneau de configuration aux utilisateurs de Ventes
 
 !!! example "Objectif"
-    
-    Créons une GPO pour cacher certains éléments du panneau de configuration aux Users de Ventes.
+
+    Créer la GPO `GPO-Panneau-Restreint` qui cache deux éléments du panneau de configuration aux utilisateurs de Ventes.
 
 !!! info "Suite d'opérations"
-    
-    - **Créer** une GPO nommée `GPO-Restrictions-VentesPC` et liée à l'OU `Ventes`. Dans ce cas, elle affectera aux utilisateurs de Ventes, peu importe sur quel ordinateur ils se connectent.
-    - **Modifier** la GPO (vide au départ): elle doit empêcher l'accès des utilisateurs de Ventes aux éléments suivants du panneau de configuration:
-      - Programmes et fonctionnalités
-      - Système
-    
-    - **Appliquer** la GPU (dans ce cas à l'OU `Ventes`)
-    - **Se connecter** au serveur avec un user de `Ventes` et vérifier que le panneau de configuration est restreint (on voit que les options `Programmes et fonctionnalités` et `Système` sont cachées)
 
-Pour faire tout ça, voici les étapes:
+    - **Créer** la GPO `GPO-Panneau-Restreint` et la **lier** à l'OU `EU > Ventes > Users`. C'est une GPO de configuration **utilisateur** : elle suivra les utilisateurs de Ventes quel que soit l'ordinateur sur lequel ils se connectent.
+    - **Modifier** la GPO (vide au départ) : elle doit cacher aux utilisateurs de Ventes :
+        - Programmes et fonctionnalités
+        - Système
+    - **Tester** depuis le poste client `ws-IT-01` avec un utilisateur de Ventes (`victor`), puis avec un utilisateur d'un autre service.
 
-Dans le **serveur**:
+Pour faire tout ça, voici les étapes.
 
-1. Ouvrir le `Gestionnire de Serveur` > `Outils` > `Gestion de stratégies de groupe`
-2. Cliquer sur la `Forèt` > `Domaines` > `maxtec.be`
-3. Deployer l'UO `EU` (Europe)
-4. Clique droit sur l'OU `User` dans `Ventes` > `Créer un objet GPO dans ce domaine et le lier ici`
-5. Nommez la GPO `GPO-Panneau-Restreint` (par exemple)
-6. Deployer la OU `Users` dans `Ventes`, observez qu'il y a un élément qui porte le nom `GPO-Panneau-Restreint`. Cet élément est **un lien** vers la GPO qui se trouve à cet endroit pour indiquer que la GPO s'applique à cett unité d'organisation. 
+Sur le **serveur** :
 
-**Note:** Le **vrai objet GPO** se trouve dans l'arbre, dans le folder `Objets de Strategie de groupe`. Ceci permet de **lier/délier cette GPO à une ou plusieurs OUs** (ex: si on veut limiter le panneau de configuration aux Users de `Ventes` et `RH` mais pas à ceux de `Comptabilité`). On fera ça plus tard.
+1. Ouvrir `Gestionnaire de serveur` > `Outils` > `Gestion de stratégie de groupe`
+2. Déplier `Forêt : maxtec.be` > `Domaines` > `maxtec.be`
+3. Déplier l'OU `EU` puis `Ventes`
+4. Clic droit sur l'OU `Users` de `Ventes` > `Créer un objet GPO dans ce domaine, et le lier ici…`
+5. Nommez la GPO `GPO-Panneau-Restreint`
+6. Sous l'OU `Users` de `Ventes`, un élément `GPO-Panneau-Restreint` apparaît. C'est **un lien** : il indique que la GPO s'applique à cette unité d'organisation.
 
-7. Clique droit sur la GPO `GPO-Panneau-Restreint` et sélectionnez `Modifier`
-8. Cliquez sur `Configuration de l'utilisateur` > `Stratégies` > `Modeles d'administration` > `Panneau de configuration` > `Masquer les éléments ...` 
-9. Cliquez sur `Activer`, puis sur `Afficher`   
-10. Rajoutez `Système` et `Programmes et fonctionnalités` à la liste (tapez-les à la main)
-11. Clique sur `Ok` > `Appliquer`
+!!! note "Lien et objet"
 
-Dans le **client**:
+    Le **vrai objet GPO** se trouve dans le dossier `Objets de stratégie de groupe`. Une même GPO peut être **liée à plusieurs OUs** (ex. Ventes et RH mais pas Comptabilite) ; supprimer un lien ne supprime pas la GPO.
 
-La GPO est prête: pour la tester, on va se connecter avec un client du département Ventes sur la MV Windows (ex: victor)
+7. Clic droit sur le lien `GPO-Panneau-Restreint` > `Modifier`
+8. `Configuration utilisateur` > `Stratégies` > `Modèles d'administration` > `Panneau de configuration` > **`Masquer les éléments spécifiés du Panneau de configuration`**
+9. Cochez `Activé`, puis cliquez sur `Afficher…`
+10. Ajoutez les **noms canoniques** des éléments, un par ligne :
+    - `Microsoft.System`
+    - `Microsoft.ProgramsAndFeatures`
+11. `OK` > `Appliquer` > `OK`
 
-1. Connectez-vous avec un user de `Ventes` (victor)
-2. Ouvrez une console et lancez `gpupdate /force` pour recevoir les GPOs du serveur
-3. Lancez `gpresult /r` pour voir les politiques appliquées à l'utilisateur
+!!! warning "Noms canoniques, pas noms affichés"
 
-    > 📖 Détail complet des options de `gpupdate` et `gpresult` : voir la section [Boîte à outils](#boîte-à-outils-gpupdate-et-gpresult) plus bas.
+    Ce paramètre attend les noms canoniques (`Microsoft.System`), pas le texte affiché dans le panneau (« Système »). Un nom affiché tapé à la main est simplement ignoré, sans message d'erreur. La liste des noms canoniques est dans la documentation Microsoft « Canonical names of Control Panel items ».
 
-4. **Note importante** : Pour certaines GPOs, particulièrement celles qui affectent des paramètres système, un redémarrage complet du poste client peut être nécessaire pour que les changements prennent effet.
-5. Faites logout et connectez-vous à nouveau (même user)
-6. Ouvrez le panneau de configuration et cliquez sur `Système`
- ou `Programmes et fonctionnalités`. Ils devraient être vides.
+Sur le **client** `ws-IT-01` :
 
-Connectez-vous maintenant avec un user de `Comptabilité` (ex: christophe). Le panneau de configuration ne devrait pas être restreint.
+La GPO étant liée à l'OU des **utilisateurs** de Ventes, elle s'applique à `victor` même sur le poste de l'IT.
 
-On peut aussi forcer l'application des politiques **depuis le serveur** : clic droit sur l'OU liée à la GPO → `Mettre à jour les stratégies de groupe`.
-Ceci lance la commande à distance **sur les ordinateurs contenus dans l'OU** : le serveur se connecte aux sessions locales des ordinateurs. Si l'OU ne contient que des utilisateurs (pas d'ordinateurs), l'action n'aura aucun effet.
+1. Ouvrez une session avec `MAXTEC\victor`
+2. Ouvrez une console et lancez `gpupdate /force`
+3. Lancez `gpresult /r` et vérifiez que `GPO-Panneau-Restreint` apparaît dans la partie **Paramètres utilisateur**
 
- 
+    > 📖 Détail des options de `gpupdate` et `gpresult` : voir la [Boîte à outils](#boite-a-outils-gpupdate-et-gpresult) plus bas.
 
-**ATTENTION**: Deux points vitaux
+4. Fermez la session et rouvrez-la (même utilisateur)
+5. Ouvrez le panneau de configuration (`control`), passez l'affichage en **Grandes icônes** : `Système` et `Programmes et fonctionnalités` ne doivent plus apparaître
 
-1. Une GPO affecte **les ordinateurs et les utilisateurs liés à l'OU** sur laquelle la GPO est liée **et à ses sous-OUs**. Si l'OU contient uniquement de groupes elle ne sera pas appliquée aux utilisateurs de ces groupes.
+Connectez-vous ensuite avec un utilisateur de `Comptabilite` (ex. `cindy`) : le panneau de configuration ne doit pas être restreint.
 
-2. Si une GPO contient uniquement des paramètres Utilisateur et elle est liée à une OU contenant seulement des ordinateurs, la GPO n'aura aucun effet.
+!!! note "Forcer la mise à jour depuis le serveur"
+
+    Dans GPMC, clic droit sur une OU → `Mise à jour de la stratégie de groupe…` lance un `gpupdate` à distance sur les **ordinateurs** de cette OU (et pour les sessions ouvertes sur ces ordinateurs). Sur une OU qui ne contient que des utilisateurs, comme `EU/Ventes/Users`, il n'y a donc rien à faire.
+
+    Cette commande crée une tâche planifiée à distance sur chaque poste. Le pare-feu du client doit l'autoriser : il ne faut **jamais désactiver le pare-feu**, mais ouvrir les règles prédéfinies **Gestion à distance des tâches planifiées** (RPC et RPC-EPMAP) et **Infrastructure de gestion Windows (WMI-Entrée)**. On le fait par GPO sur l'OU des ordinateurs : `Configuration ordinateur` > `Stratégies` > `Paramètres Windows` > `Paramètres de sécurité` > `Pare-feu Windows Defender avec fonctions avancées de sécurité` > `Règles de trafic entrant` > `Nouvelle règle…` > `Prédéfinie`.
 
 
-### Être sur que les GPOs soient appliquées
+
+**ATTENTION** : deux points vitaux
+
+1. Une GPO affecte **les ordinateurs et les utilisateurs situés dans l'OU** où elle est liée **et dans ses sous-OUs**. Si l'OU ne contient que des groupes, la GPO ne s'applique pas aux membres de ces groupes.
+
+2. Si une GPO ne contient que des paramètres Utilisateur et qu'elle est liée à une OU qui ne contient que des ordinateurs, elle n'a aucun effet (sauf *loopback*, voir §4.1).
+
+
+### Être sûr que les GPOs soient appliquées
 
 L'application des stratégies de groupe dépend de l'état du poste de travail et de la session utilisateur. Voici les points clés à comprendre :
 
@@ -225,7 +234,7 @@ L'application des stratégies de groupe dépend de l'état du poste de travail e
 
 Ce sont les **deux commandes de diagnostic GPO** à connaître par cœur. On les lance dans une console **sur le client** (pas sur le DC), en général **en tant qu'administrateur** pour avoir accès au scope ordinateur.
 
-#### 🔄 `gpupdate` — Forcer le rafraîchissement des GPOs
+#### `gpupdate` — Forcer le rafraîchissement des GPOs
 
 Demande au client d'aller chercher immédiatement les GPOs sur le DC au lieu d'attendre le cycle de 90 minutes.
 
@@ -248,7 +257,7 @@ gpupdate /force
 
 > ⚠️ `gpupdate` ne force **pas** un redémarrage ni une déconnexion sauf si on ajoute `/boot` ou `/logoff`. Si une GPO ne semble pas s'appliquer après un `gpupdate /force`, c'est souvent parce qu'elle nécessite l'un des deux : la commande affichera alors un message demandant l'action correspondante.
 
-#### 📋 `gpresult` — Vérifier ce qui a été appliqué
+#### `gpresult` — Vérifier ce qui a été appliqué
 
 Affiche le **RSoP** (Resultant Set of Policy) : la liste réelle des GPOs appliquées à l'utilisateur et à l'ordinateur, avec le détail de qui a gagné quand plusieurs GPOs entraient en conflit.
 
@@ -282,7 +291,7 @@ gpresult /z > policy.txt
 
 > ⚠️ On **doit** spécifier un format de sortie (`/r`, `/v`, `/z`, `/h` ou `/x`). `gpresult` tout court ne fait rien.
 
-#### 🧪 Workflow type de test d'une GPO
+#### Workflow type de test d'une GPO
 
 Quand on vient de créer ou modifier une GPO et qu'on veut vérifier qu'elle est correctement appliquée à un utilisateur :
 
@@ -312,11 +321,11 @@ Quand on vient de créer ou modifier une GPO et qu'on veut vérifier qu'elle est
 4. Si la GPO touche une configuration **ordinateur** ou nécessite un événement spécial (logon, boot), refaire un **logout/login** ou un **redémarrage** selon le cas.
 
 
-### Activer/desactiver une GPO
+### Activer/désactiver une GPO
 
-Pour **activer/desactiver** une GPO, il faut cliquer sur l'OU liée à la GPO et **sélectionner/désélectionner** `Lien active`. **La politique sera uniquement appliquée si le lien est actif**.
+Pour **activer/désactiver** un lien de GPO, clic droit sur le lien (sous l'OU) → cocher/décocher `Lien activé`. **La GPO n'est appliquée à cette OU que si le lien est activé.**
 
-L'option `Appliquer` **force l'application** de la GPO et saute même la hiérarchie des OUs (on coche `Appliquer` uniquement pour des politiques de sécurité critiques ou des cas similaires).
+L'option `Appliqué` (*Enforced*) sur un lien fait deux choses : la GPO **traverse les OUs qui bloquent l'héritage**, et elle **gagne les conflits** contre les GPOs liées plus bas. On la réserve aux paramètres de sécurité qui ne doivent pas être contournés (voir §3).
 
 ## 3. Ordre d'application des GPO (LSDO)
 
@@ -332,64 +341,87 @@ Les **paramètres de stratégie de groupe (GPO) sont appliqués dans l'ordre sui
 
 2. **S**ite
    - **GPOs** liées aux sites AD (zones physiques du réseau)
-   - S'applique à tous les objets d'un site
-   - *Exemples* : Configuration proxy (Site-EU), permissions d'accès aux imprimantes (Site-US)
+   - S'applique aux ordinateurs situés dans le site (et aux utilisateurs qui s'y connectent)
+   - *Exemples* : Configuration proxy (Site-EU), imprimantes locales au site
 
 3. **D**omaine
    - **GPOs** globales pour tout le domaine AD
-   - S'applique à tous les objets (utilisateurs, ordinateurs, groupes)
+   - S'applique à tous les utilisateurs et ordinateurs du domaine
    - *Exemples* : Politique de mot de passe, installation antivirus
    - Rappel : un domaine peut contenir plusieurs sites (Site-EU, Site-US)
 
 4. **O**U (le plus spécifique)
    - **GPOs** pour des départements ou groupes spécifiques
-   - *Exemples* : Logiciels comptables (OU Comptabilité), accès dossiers (OU RH)
-   - Une OU peut contenir des objets de plusieurs sites
-   - Note : Dans notre cas, les OUs racines (EU, USA) sont liées à leurs sites respectifs (Site-EU, Site-US)
+   - *Exemples* : Logiciels comptables (OU Comptabilite), accès dossiers (OU RH)
+   - Les OUs parentes sont traitées avant les OUs enfants (`EU` avant `EU/RH`, avant `EU/RH/Users`)
+   - Une OU peut contenir des objets de plusieurs sites : OUs et sites sont indépendants
 
 > **Note**: Chaque GPO contient deux sections distinctes :
+>
 > - Configuration ordinateur (Computer Configuration)
 > - Configuration utilisateur (User Configuration)
 
-**Point clé**: Les politiques peuvent être **écrasées** par les niveaux suivants, toujours en appliquant la plus restrictive. Exemples :
+### Qui gagne en cas de conflit ?
 
-- Une configuration locale permissive peut être restreinte par une GPO de domaine
-- Une politique de mot de passe du domaine (8 caractères) peut être renforcée dans une OU (12 caractères)
+**Règle** : quand deux GPOs configurent le même paramètre avec des valeurs différentes, **c'est la dernière appliquée qui gagne**. Comme l'ordre est Local → Site → Domaine → OU parente → OU enfant, **l'OU la plus proche de l'objet gagne**. Ce n'est **pas** « la plus restrictive » : une GPO d'OU peut très bien assouplir un paramètre fixé au domaine.
+
+Deux options modifient cette règle :
+
+| Option | Où | Effet |
+|---|---|---|
+| **Bloquer l'héritage** | Sur une OU | L'OU ne reçoit plus les GPOs liées aux niveaux supérieurs (sauf celles en mode Appliqué) |
+| **Appliqué** (*Enforced*) | Sur un lien de GPO | La GPO passe malgré un blocage et **gagne** contre les GPOs liées plus bas |
+
+Plusieurs GPOs liées à la **même** OU : c'est l'**ordre des liens** (onglet `Objets de stratégie de groupe liés`) qui décide ; le lien n° 1 a la plus haute priorité.
+
+!!! example "Exemple Maxtec"
+
+    - `GPO-Ecran-Domaine` liée au domaine : verrouillage de l'écran après 15 min.
+    - `GPO-Ecran-RH` liée à `EU/RH` : verrouillage après 5 min.
+
+    Pour un poste de `EU/RH/Computers`, c'est **5 min** (l'OU est plus proche). Si le lien de `GPO-Ecran-Domaine` est en mode **Appliqué**, c'est **15 min**, même si `EU/RH` bloque l'héritage.
+
+!!! warning "Exception : la politique de mots de passe du domaine"
+
+    La politique de mots de passe et de verrouillage des **comptes du domaine** n'est lue que dans les GPOs **liées à la racine du domaine** (en pratique la `Default Domain Policy`). La même politique liée à une OU n'affecte **que les comptes locaux** des ordinateurs de cette OU, pas les comptes AD.
+
+    Pour exiger 12 caractères aux admins et 8 aux autres, on n'utilise donc pas une GPO d'OU mais une **stratégie de mot de passe affinée** (*Fine-Grained Password Policy*, objet PSO), appliquée à un utilisateur ou à un groupe global. Elle se crée dans le Centre d'administration Active Directory ou avec `New-ADFineGrainedPasswordPolicy`. Voir [Chapitre 11 : Sécurité AD](Chapitre%2011.Securite_AD.md).
 
 ## 4. 📌 Clarification des stratégies GPO dans Active Directory
 
-Les deux grandes catégories de stratégies GPO sont: 
+Les deux grandes catégories de stratégies GPO sont :
 
-### 1️⃣ **Configuration ordinateur**  
+### 1️⃣ **Configuration ordinateur**
 - S'applique aux machines, **indépendamment de l’utilisateur** qui se connecte.
 - Exemples : paramétrage des services Windows, pare-feu, gestion des mises à jour.
 
-### 2️⃣ **Configuration utilisateur**  
+### 2️⃣ **Configuration utilisateur**
 - S'applique aux **utilisateurs** lorsqu'ils se connectent à une machine, **indépendamment de l'ordinateur**.
 - Exemples : restriction d'accès à certains programmes, redirection de dossiers.
 
-💡 **Un même GPO peut contenir des paramètres dans les deux catégories, mais ils ne s'appliquent qu’aux objets auxquels ils sont liés (ordinateurs ou utilisateurs).**
+💡 **Une même GPO peut contenir des paramètres dans les deux catégories. La partie ordinateur ne s'applique qu'aux ordinateurs de l'OU, la partie utilisateur qu'aux utilisateurs de l'OU.**
 
 
 ### Les sous-menus de chaque catégorie
-Chaque catégorie (ordinateur et utilisateur) contient les mêmes sous-sections principales :
+Chaque catégorie (ordinateur et utilisateur) contient deux branches : **Stratégies** et **Préférences**.
 
 #### **Stratégies (Policies)**
-- Contient des paramètres **fortement gérés** par l’administrateur.
-- Stockés dans la base de registre sous `Policies`.
-- Priorité élevée : Windows réapplique la règle même si l’utilisateur tente de la modifier.
-- Exemples : paramétrage des services Windows, pare-feu, gestion des mises à jour.
+- Contient des paramètres **imposés** par l’administrateur.
+- Pour les modèles d'administration, écrits dans des clés de registre dédiées (`...\Policies\...`) que l'utilisateur standard ne peut pas modifier.
+- Quand la GPO ne s'applique plus (lien supprimé, utilisateur déplacé), le paramètre est **retiré automatiquement**.
+- Contient trois sous-dossiers : Paramètres du logiciel, Paramètres Windows, **Modèles d'administration**.
 
 #### **Préférences (Preferences)**
-- Contient des paramètres **modifiables** par l'utilisateur (pas comme les stratégies).
-- Écrit dans la base de registre **hors "Policies"**, donc modifiable après application.
-- Exemples : configuration des imprimantes, mappage de lecteurs réseau.
+- Paramètres **appliqués comme valeur de départ** : lecteurs réseau, raccourcis, imprimantes, clés de registre, utilisateurs et groupes locaux…
+- Écrits aux emplacements normaux (hors `Policies`) : l'utilisateur peut les modifier **entre deux rafraîchissements**.
+- Par défaut, ils sont **réappliqués à chaque rafraîchissement** (toutes les 90 min, à chaque ouverture de session), ce qui écrase la modification de l'utilisateur. Option `Appliquer une fois et ne pas réappliquer` dans l'onglet `Commun` pour une vraie valeur par défaut.
+- Quand la GPO ne s'applique plus, le paramètre **reste en place** (« tatouage »), sauf si l'on a coché `Supprimer cet élément lorsqu'il n'est plus appliqué`.
 
 #### 🔧 **Modèles d'administration (Administrative Templates)**
-- **Ensemble de définitions de paramètres GPO** au format ADMX/ADML
-- Peuvent être appliqués soit comme stratégies (forcés), soit comme préférences (modifiables)
-- L'administrateur choisit le mode d'application lors de la configuration
-- Permettent une gestion centralisée sans modification directe du registre Windows
+- Sous-dossier des **Stratégies** (pas une troisième catégorie, et pas des préférences).
+- Définis par des fichiers **ADMX/ADML** : chaque fichier décrit des paramètres, leur texte d'aide et la clé de registre qu'ils pilotent.
+- C'est ce qui permet de configurer un paramètre (« Masquer les éléments spécifiés du Panneau de configuration ») sans connaître la clé de registre.
+- Pour une clé de registre qui n'a pas de modèle, on utilise la préférence `Registre`, pas un modèle d'administration.
 
 Voyons en détail chaque type.
 
@@ -399,83 +431,89 @@ Voyons en détail chaque type.
 
 #### 📌 Configuration Ordinateur > Stratégies
 
-✔ **Paramètres Logiciel**  
+✔ **Paramètres du logiciel**
 
 - Déploiement de logiciels (installation, mise à jour, désinstallation)
 
-✔ **Paramètres Windows**  
+✔ **Paramètres Windows**
 
 - Scripts (au démarrage et à l'arrêt)
-- Paramètres de sécurité (ex. stratégie de mot de passe, pare-feu Windows)
-- Configuration du pare-feu
+- Paramètres de sécurité (stratégie de mot de passe, stratégie d'audit, droits utilisateur, pare-feu Windows Defender)
 
 
-✔ **Modèles d’administration (Administrative Templates)**  
+✔ **Modèles d’administration (Administrative Templates)**
 
 - Configuration des services système
 - Restriction sur l’installation des pilotes
 - Paramètres de Windows Update
 
 !!! example "Exemples"
-    
-    - **Désactiver l'installation automatique des imprimantes réseau** : *Configuration ordinateur > Strategies > Modèles d'administration > Menu Démarrer et Barre des tâches > Ne pas conserver d'historique des documents récemment ouverts*.
-    - **Forcer une mise à jour Windows automatique** : *Configuration ordinateur > Strategies > Modèles d'administration > Composants Windows > Windows Update > Configurer les mises à jour automatiques*.
-**Vous devez d'abord desactiver le pare-feu dans les ordinateurs client**!
+
+    - **Attendre le réseau avant l'ouverture de session** (utile pour que les GPOs utilisateur s'appliquent dès la première connexion) : *Configuration ordinateur > Stratégies > Modèles d'administration > Système > Ouverture de session > Toujours attendre le réseau lors du démarrage de l'ordinateur et de l'ouverture de session*.
+    - **Configurer Windows Update** : *Configuration ordinateur > Stratégies > Modèles d'administration > Composants Windows > Windows Update > Configurer les mises à jour automatiques* (dans les ADMX récents, sous le sous-dossier *Gérer l'expérience de l'utilisateur final*).
 
 
 #### 📌 Configuration Utilisateur > Stratégies
 
-✔ **Paramètres Logiciel**  
+✔ **Paramètres du logiciel**
 
 - Déploiement de logiciels (installation, mise à jour, désinstallation)
 
-✔ **Paramètres Windows**  
+✔ **Paramètres Windows**
 
 - Scripts (à l'ouverture et à la fermeture de session)
 - Redirection de dossiers
-- Paramètres de sécurité (ex. interdire l'accès au panneau de configuration)
+- Paramètres de sécurité (stratégies de clé publique, restriction logicielle)
 
-✔ **Modèles d’administration (Administrative Templates)**  
+✔ **Modèles d’administration (Administrative Templates)**
 
-- Restriction d'accès à certaines applications
+- Restriction d'accès à certaines applications et au panneau de configuration
 - Paramètres d’interface (ex. masquer les paramètres système)
 - Gestion des extensions de navigateur
 
 !!! example "Exemples"
-    
-    - **Désactiver la modification du fond d'écran** : *Configuration utilisateur > Modèles d'administration > Panneau de configuration > Personnalisation > Empêcher de modifier l'arrière-plan*.
-    - **Restreindre l'accès au gestionnaire de tâches** : *Configuration utilisateur > Modèles d'administration > Système > Options Ctrl+Alt+Suppr > Supprimer le Gestionnaire des tâches*.
+
+    - **Désactiver la modification du fond d'écran** : *Configuration utilisateur > Stratégies > Modèles d'administration > Panneau de configuration > Personnalisation > Empêcher la modification de l'arrière-plan du Bureau*.
+    - **Restreindre l'accès au gestionnaire de tâches** : *Configuration utilisateur > Stratégies > Modèles d'administration > Système > Options Ctrl+Alt+Suppr > Supprimer le Gestionnaire des tâches*.
 
 
-#### 🛑 **Piège courant : le filtrage GPO par cible**
-⚠️ Une erreur fréquente est d’appliquer une GPO contenant des paramètres **"Configuration utilisateur"** sur une **Unité Organisationnelle (OU) contenant uniquement des ordinateurs**, ou vice versa.
+#### Piège courant : paramètres utilisateur sur une OU d'ordinateurs
+Une erreur fréquente est de lier une GPO contenant des paramètres **Configuration utilisateur** à une OU qui ne contient **que des ordinateurs** (ou l'inverse) : rien ne s'applique.
 
-💡 **Solution : utiliser "Boucle de rappel utilisateur" (Loopback Processing)**  
-👉 Cela permet de forcer l'application des paramètres utilisateur sur un ordinateur, même si la GPO est liée à une OU contenant des ordinateurs.
+**Cas particulier : le traitement en boucle de rappel (*loopback*)**
+
+Parfois, on veut justement que l'**ordinateur** décide de l'environnement de l'utilisateur, quel que soit l'utilisateur : salle de formation, kiosque, poste en libre-service. Dans ce cas :
+
+1. On crée une GPO liée à l'OU des **ordinateurs** concernés, qui contient les paramètres **utilisateur** voulus.
+2. Dans cette GPO, on active : *Configuration ordinateur > Stratégies > Modèles d'administration > Système > Stratégie de groupe > Configurer le mode de traitement par bouclage de la stratégie de groupe utilisateur*.
+3. On choisit le mode :
+    - **Fusionner** : l'utilisateur reçoit ses GPOs habituelles **plus** les paramètres utilisateur des GPOs de l'ordinateur (qui gagnent en cas de conflit).
+    - **Remplacer** : l'utilisateur ne reçoit **que** les paramètres utilisateur des GPOs de l'ordinateur.
 
 ---
 
 ### 4.2. Préférences (Preferences)
-- Contient des paramètres **modifiables** par l'utilisateur
-- Écrit dans la base de registre **hors "Policies"**, donc modifiable après application
-- Exemples : configuration des imprimantes, mappage de lecteurs réseau
+- Valeurs de départ, que l'utilisateur peut modifier entre deux rafraîchissements
+- Réappliquées à chaque rafraîchissement, sauf option `Appliquer une fois et ne pas réappliquer`
+- Exemples : lecteurs réseau, imprimantes, raccourcis, clés de registre
 
-**Exemple pratique** :
+**Exemple pratique** (le partage `\\dns1\IT-Admin` est celui de l'exercice GPO-1) :
 ```
-Configuration utilisateur > Préférences > Paramètres Windows > Lecteurs réseau
-Action: Créer
-Emplacement: \\srv-files\commun
+Configuration utilisateur > Préférences > Paramètres Windows > Mappages de lecteurs
+Action: Mettre à jour
+Emplacement: \\dns1\IT-Admin
 Lettre: Z:
 ```
-L'utilisateur peut modifier la lettre du lecteur si nécessaire.
+L'utilisateur peut déconnecter le lecteur `Z:` ; il sera recréé au prochain rafraîchissement ou à la prochaine ouverture de session. Une stratégie, elle, ne laisserait pas le choix.
 
 
 ## **Résumé final en une image mentale**
-🔹 **Configuration ordinateur** = Gère le PC et ses paramètres système.  
-🔹 **Configuration utilisateur** = Gère l'expérience de l’utilisateur.  
-🔹 **Stratégies (Policies)** = Restrictions strictes, contrôlées par l’admin.  
-🔹 **Préférences (Preferences)** = Configurations plus souples, modifiables par l'utilisateur.
-🔹 **Boucle de rappel utilisateur** = Force l'application des paramètres utilisateur sur un ordinateur, même si la GPO est liée à une OU contenant des ordinateurs.
+
+- 🔹 **Configuration ordinateur** = Gère le PC et ses paramètres système.
+- 🔹 **Configuration utilisateur** = Gère l'expérience de l’utilisateur.
+- 🔹 **Stratégies (Policies)** = Imposées, retirées quand la GPO ne s'applique plus.
+- 🔹 **Préférences (Preferences)** = Valeurs réappliquées à chaque rafraîchissement, modifiables entre-temps, restent en place quand la GPO ne s'applique plus (sauf option).
+- 🔹 **Boucle de rappel (loopback)** = Les paramètres utilisateur viennent des GPOs de l'ordinateur (salles de formation, kiosques).
 
 ## 5 🎯 Ciblage vs Liaison des GPO
 
@@ -487,31 +525,32 @@ Une distinction importante existe entre le **ciblage** (*targeting* en anglais) 
 | Ciblage au niveau de l'élément | Détermine si l'action spécifique dans la GPO s'applique | Si la condition échoue, l'action est ignorée, mais pas la GPO entière |
 | Filtrage de sécurité (ACL) | Détermine qui peut appliquer la GPO | Si l'utilisateur n'a pas de droits, la GPO est ignorée |
 
-> 💡 **Note importante** : Le ciblage existe à la fois dans les Stratégies (Policies) et les Préférences (Preferences), mais avec des différences :
-> - Dans les **Stratégies** : Ciblage principalement via les filtres de sécurité et les filtres WMI
-> - Dans les **Préférences** : Ciblage plus flexible avec des options supplémentaires (filtrage par IP, par groupe, par variable d'environnement...)
+> 💡 **Note importante** : le filtrage agit à deux niveaux :
+>
+> - **GPO entière** : filtrage de sécurité et filtre WMI (tout ou rien)
+> - **Élément de préférence** : ciblage au niveau de l'élément (par groupe, plage IP, système d'exploitation, variable d'environnement…), un élément à la fois
 
 
 
 ## 6. Utilisation de la délégation pour créer des exceptions
 
+On peut empêcher une GPO de s'appliquer à un groupe en lui **refusant** la permission `Appliquer la stratégie de groupe`.
 
-On peut utiliser la délégation pour empecher une GPO de s'appliquer sur un utilisateur ou sur un groupe.
-Quand vous cliquez sur Delegation, vous voyez un liste de groupes et de permissions.
-C'est un menu confus car l'ensemble **de permissions qu'on y trouve montrent à la fois qui administre la GPO, qui l'applique et qui est exclude l'application de la GPO**.
+L'onglet `Délégation` d'une GPO mélange trois choses : **qui administre** la GPO (modifier, supprimer), **qui l'applique** (Lecture + Appliquer la stratégie de groupe) et **qui en est exclu** (Refuser). Par défaut :
 
-**Exemple:** 
+- `Utilisateurs authentifiés` : Lecture + Appliquer (d'où l'application à tout le monde dans l'OU)
+- `Admins du domaine`, `Administrateurs de l'entreprise` : Modifier les paramètres, supprimer, modifier la sécurité
 
-Les Utilisateurs authentifiés peuvent uniquement lire le contenu de la GPO, pas les modifier
-Les Administrateurs de domaine peuvent modifier, supprimer etc...
+!!! example "Exemple : exclure le responsable Ventes de `GPO-Panneau-Restreint`"
 
-Ces permissions peuvent être changées.
+    La GPO du §2 est liée à `EU/Ventes/Users` et touche donc aussi `valentin`, responsable Ventes (membre de `GG-EU-Ventes-Admin`). On veut l'en exclure.
 
-- Faites double click sur la GPO et allez dans l'onglet `Delegation` > Avancé
-- Rajoutez le groupe sur lequel la GPO ne doit pas s'appliquer 
-- Dans la section des droits, selectionnez  `Refuser` dans `Appliquer la stratégie de groupe`. 
+    1. GPMC > `Objets de stratégie de groupe` > `GPO-Panneau-Restreint` > onglet `Délégation` > `Avancé…`
+    2. `Ajouter…` > `GG-EU-Ventes-Admin` > `OK`
+    3. Pour ce groupe, cochez `Refuser` sur la ligne `Appliquer la stratégie de groupe` > `OK` et confirmez
+    4. Sur `ws-IT-01`, connectez-vous en `valentin`, `gpupdate /force` puis `gpresult /r` : la GPO apparaît dans la liste des GPOs **filtrées**, motif « Refusé (Sécurité) ». Avec `victor`, elle est toujours appliquée.
 
-La GPO s'appliquera normalement, sauf pour le groupe dont l'application de la GPO est refusée.
+    Un **Refuser** l'emporte sur un Autoriser : même si `valentin` est aussi dans `Utilisateurs authentifiés`, la GPO ne s'applique pas à lui.
 
 
 ## 7. Filtrage des GPOs
@@ -526,7 +565,7 @@ Une fois qu'une GPO est liée à un niveau (Site, Domaine ou OU), on peut affine
 
 !!! example "Scénario pratique"
 
-    Vous avez une GPO liée à `OU=EU-Ventes` qui installe un logiciel de CRM coûteux. Vous voulez que **seuls les vendeurs seniors** (`GG-EU-Ventes-Seniors`) reçoivent ce logiciel, pas tous les employés de ventes.
+    Une GPO liée à `EU/Ventes/Users` installe le client d'un CRM coûteux. Seuls les **responsables** (`GG-EU-Ventes-Admin`, donc `valentin`) doivent le recevoir, pas `victor`, `vanessa` ni `valeria`.
 
 #### Comment fonctionne le filtrage de sécurité ?
 
@@ -534,61 +573,66 @@ Pour qu'une GPO s'applique à un utilisateur ou ordinateur, il doit avoir **deux
 
 | Permission | Description |
 |------------|-------------|
-| **Read** (Lecture) | Pouvoir lire le contenu de la GPO |
-| **Apply Group Policy** | Permission d'appliquer la stratégie |
+| **Lecture** | Pouvoir lire le contenu de la GPO |
+| **Appliquer la stratégie de groupe** | Permission d'appliquer la stratégie |
 
 !!! warning "Comportement par défaut"
 
-    Par défaut, toute GPO nouvellement créée a le groupe **"Authenticated Users"** (Utilisateurs authentifiés) dans le filtrage de sécurité, ce qui signifie qu'elle s'applique à **tout le monde** dans l'OU liée.
+    Par défaut, toute GPO nouvellement créée a le groupe **Utilisateurs authentifiés** dans le filtrage de sécurité : elle s'applique à **tous** les utilisateurs et ordinateurs de l'OU liée (les comptes ordinateurs sont aussi des « utilisateurs authentifiés »).
 
 #### Exemple Pratique : Restreindre une GPO
 
 !!! example "Configuration étape par étape"
 
-    **Situation** : Une GPO `GPO-CRM-Installation` est liée à `OU=EU-Ventes`, mais on veut qu'elle s'applique uniquement à `GG-EU-Ventes-Seniors`.
-    
+    **Situation** : la GPO `GPO-CRM-Installation` est liée à `EU/Ventes/Users` et doit s'appliquer uniquement à `GG-EU-Ventes-Admin`.
+
     **Étapes** :
-    
-    1. Ouvrir **GPMC** (Group Policy Management Console)
+
+    1. Ouvrir **GPMC**
        ```
-       Menu Démarrer > Gestion de stratégie de groupe
+       Gestionnaire de serveur > Outils > Gestion de stratégie de groupe
        ```
-    
+
     2. Naviguer vers la GPO :
        ```
-       Group Policy Objects > GPO-CRM-Installation
+       Objets de stratégie de groupe > GPO-CRM-Installation
        ```
-    
-    3. Sélectionner la GPO et regarder le panneau de droite, section **"Security Filtering"**
-    
-    4. **Supprimer "Authenticated Users"** :
-       - Sélectionner `Authenticated Users`
-       - Cliquer sur **Remove** (Supprimer)
-       - Confirmer la suppression
-    
-    5. **Ajouter le groupe cible** :
-       - Cliquer sur **Add** (Ajouter)
-       - Taper `GG-EU-Ventes-Seniors`
-       - Cliquer sur **Check Names** pour vérifier
-       - Cliquer sur **OK**
-    
-    ✅ **Résultat** : La GPO ne s'appliquera maintenant qu'aux membres de `GG-EU-Ventes-Seniors`
+
+    3. Onglet **Étendue**, section **Filtrage de sécurité**
+
+    4. **Ajouter le groupe cible** :
+        - Cliquer sur **Ajouter…**
+        - Taper `GG-EU-Ventes-Admin` > **Vérifier les noms** > **OK**
+
+    5. **Retirer « Utilisateurs authentifiés » du filtrage** :
+        - Sélectionner `Utilisateurs authentifiés` > **Supprimer** > confirmer
+
+    6. **Remettre « Utilisateurs authentifiés » en Lecture seule** (étape indispensable) :
+        - Onglet **Délégation** > **Avancé…**
+        - **Ajouter…** > `Utilisateurs authentifiés` (ou `Ordinateurs du domaine`)
+        - Cocher **Autoriser** uniquement pour **Lecture** (pas « Appliquer la stratégie de groupe ») > **OK**
+
+    ✅ **Résultat** : la GPO ne s'applique qu'aux membres de `GG-EU-Ventes-Admin`.
+
+!!! danger "Pourquoi l'étape 6 (MS16-072)"
+
+    Depuis le correctif de sécurité MS16-072 (juin 2016), le poste lit les GPOs **utilisateur** avec le compte de l'**ordinateur**, pas celui de l'utilisateur. Si vous retirez `Utilisateurs authentifiés` sans laisser au moins la **Lecture** aux ordinateurs, le poste ne peut plus lire la GPO et **elle ne s'applique à personne**, sans message d'erreur clair.
 
 #### Vérification du Filtrage
 
 !!! example "Test de la configuration"
 
     **Test 1 - Utilisateur dans le groupe ciblé :**
-    
-    1. Connectez-vous avec un utilisateur membre de `GG-EU-Ventes-Seniors` (ex: `valentin`)
+
+    1. Sur `ws-IT-01`, connectez-vous avec `valentin` (membre de `GG-EU-Ventes-Admin`)
     2. Exécutez `gpupdate /force` et `gpresult /r`
-    3. ✅ Vous devriez voir `GPO-CRM-Installation` dans les GPOs appliquées
-    
+    3. ✅ `GPO-CRM-Installation` doit figurer dans les GPOs appliquées
+
     **Test 2 - Utilisateur hors du groupe :**
-    
-    1. Connectez-vous avec un utilisateur de `OU=EU-Ventes` mais PAS membre de `GG-EU-Ventes-Seniors` (ex: `victor`)
+
+    1. Connectez-vous avec `victor` (dans `EU/Ventes/Users` mais PAS membre de `GG-EU-Ventes-Admin`)
     2. Exécutez `gpupdate /force` et `gpresult /r`
-    3. ❌ `GPO-CRM-Installation` ne doit **pas** apparaître dans les GPOs appliquées
+    3. ❌ `GPO-CRM-Installation` doit apparaître parmi les GPOs **filtrées** (« Refusé (Sécurité) »), pas parmi les appliquées
 
 #### Cas d'Usage Fréquents
 
@@ -596,17 +640,17 @@ Pour qu'une GPO s'applique à un utilisateur ou ordinateur, il doit avoir **deux
 
     | Scénario | GPO | Groupe ciblé |
     |----------|-----|--------------|
-    | Logiciel spécialisé | `GPO-Photoshop-Install` | `GG-EU-Design-Users` |
-    | Restrictions managers | `GPO-USB-Block` | `GG-EU-Compta-Users` (exclure admins) |
+    | Logiciel spécialisé | `GPO-Compta-Logiciel` | `GG-EU-Compta-Users` |
+    | Blocage USB sauf responsables | `GPO-USB-Block` | `GG-EU-Compta-Users` (Charlotte, dans `GG-EU-Compta-Admin`, n'est pas concernée) |
     | Fond d'écran département | `GPO-Wallpaper-RH` | `GG-EU-RH-Users` |
-    | Imprimante spécifique | `GPO-Printer-Legal` | `GG-EU-Legal-Users` |
+    | Lecteur réseau IT | `GPO-Lecteur-IT` | `GG-EU-IT-Users` |
 
 !!! warning "Bonnes pratiques"
 
     - ✅ **Toujours utiliser des groupes**, jamais des utilisateurs individuels
     - ✅ Utiliser des **groupes globaux** (GG-) pour le filtrage
     - ✅ Documenter quel groupe reçoit quelle GPO
-    - ❌ Ne pas oublier de retirer "Authenticated Users" quand vous ciblez un groupe spécifique
+    - ✅ Quand vous retirez `Utilisateurs authentifiés` du filtrage, laissez-le en **Lecture** dans la délégation
     - ❌ Éviter de multiplier les filtrages complexes (privilégier la simplicité)
 
 ### 7.2. Filtrage WMI (Windows Management Instrumentation)
@@ -623,34 +667,78 @@ Pour qu'une GPO s'applique à un utilisateur ou ordinateur, il doit avoir **deux
 
 !!! note "Note"
 
-    Le filtrage WMI est plus avancé et sera abordé dans des exercices pratiques. Pour l'instant, concentrez-vous sur le **filtrage de sécurité** qui couvre 90% des besoins courants.
+    Le filtrage WMI est plus avancé et sera abordé dans des exercices pratiques. Il ralentit aussi le traitement (la requête s'exécute sur chaque poste). Pour l'instant, concentrez-vous sur le **filtrage de sécurité**, qui couvre la plupart des besoins courants.
 
 ---
 
-> **Note importante** : En cas de conflit entre GPO, la règle est simple : la dernière GPO appliquée (la plus spécifique) l'emporte sur les précédentes.
+## 8. Le magasin central ADMX (Central Store)
+
+Par défaut, l'éditeur de GPO lit les modèles d'administration (fichiers `.admx` / `.adml`) **sur la machine où il est ouvert** (`C:\Windows\PolicyDefinitions`). Deux administrateurs sur deux machines différentes peuvent donc voir des listes de paramètres différentes.
+
+Le **magasin central** est un dossier unique dans SYSVOL, répliqué sur tous les DC :
+
+```
+\\maxtec.be\SYSVOL\maxtec.be\Policies\PolicyDefinitions
+```
+
+Pour le créer, copiez `C:\Windows\PolicyDefinitions` (avec le sous-dossier de langue `fr-FR`) à cet emplacement. Ensuite, GPMC indique « Définitions de stratégies (fichiers ADMX) récupérées à partir du magasin central » et tout le monde voit les mêmes paramètres. Pour gérer des paramètres propres à Windows 11 ou à une application (Edge, Office), on ajoute leurs ADMX dans ce dossier.
+
+## 9. Sauvegarder et restaurer une GPO
+
+Avant de modifier une GPO importante, sauvegardez-la. Sur le DC :
+
+```powershell
+New-Item -ItemType Directory -Path C:\GPOBackup -Force | Out-Null
+Backup-GPO -Name "GPO-Panneau-Restreint" -Path C:\GPOBackup   # une GPO
+Backup-GPO -All -Path C:\GPOBackup                            # toutes les GPOs
+Restore-GPO -Name "GPO-Panneau-Restreint" -Path C:\GPOBackup  # restaure la dernière sauvegarde
+```
+
+La sauvegarde contient les paramètres et le filtrage de sécurité, **pas les liens** : après restauration d'une GPO supprimée, il faut la relier à ses OUs (`New-GPLink`). Le même travail se fait dans GPMC : clic droit sur `Objets de stratégie de groupe` > `Sauvegarder tout…` / `Gérer les sauvegardes…`.
+
+## 10. Diagnostiquer une GPO qui ne s'applique pas
+
+Quand `gpresult /r` ne montre pas la GPO attendue, suivez cette checklist dans l'ordre. La plupart des pannes se trouvent dans les trois premiers points.
+
+| # | Vérification | Comment |
+|---|---|---|
+| 1 | L'**objet** (utilisateur ou ordinateur) est-il dans l'OU liée, ou une sous-OU ? Un poste resté dans `CN=Computers` ne reçoit aucune GPO d'OU. | `Get-ADComputer ws-IT-01` / `Get-ADUser victor` → `DistinguishedName` |
+| 2 | Le **bon côté** de la GPO : paramètres utilisateur ↔ OU d'utilisateurs, paramètres ordinateur ↔ OU d'ordinateurs ? | Éditeur de GPO |
+| 3 | Le **lien** est-il activé ? Une OU parente bloque-t-elle l'héritage ? La GPO n'est-elle pas désactivée (onglet `Détails` > `État GPO`) ? | GPMC, onglet `Héritage de stratégie de groupe` de l'OU |
+| 4 | **Filtrage de sécurité** : l'objet est-il dans le groupe ciblé ? Un Refuser s'applique-t-il ? `Utilisateurs authentifiés` a-t-il encore la **Lecture** (MS16-072) ? | GPMC, onglets `Étendue` et `Délégation` |
+| 5 | **Filtre WMI** : la requête est-elle vraie sur ce poste ? | `gpresult /h` indique « Refusé (Filtre WMI) » |
+| 6 | **Appartenance au groupe récente** : le jeton de sécurité date de l'ouverture de session. Un utilisateur ajouté à un groupe doit se déconnecter ; un ordinateur ajouté à un groupe doit redémarrer. | `whoami /groups` sur le client |
+| 7 | **Réplication SYSVOL / AD** (plusieurs DC) : la GPO est-elle présente sur le DC utilisé par le client ? | `gpresult /r` affiche le DC utilisé ; GPMC > onglet `État` de la GPO |
+| 8 | Le paramètre nécessite-t-il une **fermeture de session ou un redémarrage** (installation logicielle, redirection de dossiers) ? | Message de `gpupdate /force` |
+
+Deux sources d'information complètent la checklist :
+
+- **`gpresult /h rapport.html`** (console admin sur le client) : pour chaque GPO, appliquée ou refusée, et **pourquoi** (« Refusé (Sécurité) », « Refusé (Filtre WMI) », « Vide », « Lien désactivé »…).
+- **Journal d'événements du client** : `Observateur d'événements` > `Journaux des applications et des services` > `Microsoft` > `Windows` > `GroupPolicy` > `Operational`. On y voit chaque cycle de traitement, le DC contacté, le temps de traitement et les erreurs de lecture de SYSVOL.
 
 ---
 
 ## 🎯 Checkpoint Final - Maîtrise des GPOs
 
 !!! info "Vérification finale"
-    
-    Avant de terminer ce chapitre, assurez-vous de bien comprendre :
-    
-    ✅ **Ce qu'est une GPO** : Un ensemble de règles qui s'applique automatiquement
-    ✅ **L'ordre d'application** : Site → Domaine → OU
-    ✅ **Le filtrage** : Comment cibler des groupes ou types d'ordinateurs spécifiques
-    ✅ **L'héritage** : Comment les règles se propagent dans la hiérarchie
 
-> 💡 **Pour débutants** : Si vous pouvez expliquer les GPOs avec l'analogie des règles d'une école (règles générales + règles spécifiques par classe), vous avez compris l'essentiel !
+    Avant de terminer ce chapitre, vérifiez que vous savez :
+
+    - [ ] Créer une GPO, la lier à une OU et vérifier son application avec `gpupdate /force` et `gpresult /r`
+    - [ ] Donner l'ordre d'application **Local → Site → Domaine → OU** et dire qui gagne (le dernier appliqué, sauf Appliqué)
+    - [ ] Expliquer pourquoi une politique de mot de passe liée à une OU ne touche pas les comptes du domaine
+    - [ ] Filtrer une GPO sur un groupe en laissant `Utilisateurs authentifiés` en Lecture
+    - [ ] Différencier stratégie et préférence
+    - [ ] Suivre la checklist de diagnostic du §10
 
 ---
 
-
-Vous maîtrisez maintenant un des outils les plus puissants d'Active Directory ! Les Group Policy Objects vous permettront d'automatiser et de standardiser la configuration de tous vos ordinateurs et utilisateurs.
-
 ### 🚀 Prochaine Étape
-Dans le prochain chapitre, nous explorerons des concepts avancés qui vous permettront de gérer des environnements encore plus complexes.
+Le chapitre suivant introduit **PowerShell pour Active Directory** : les mêmes opérations (utilisateurs, groupes, OUs, et une partie des GPOs) en ligne de commande.
+
+!!! note "Pour aller plus loin (hors parcours)"
+
+    Le dossier `Labos Extra` contient des scénarios complémentaires qui ne font pas partie du parcours du cours : [CreativeHub - GPO lecteur réseau](Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_03_GPO_Lecteur_Reseau.md), [CreativeHub - Troubleshooting GPO](Labos%20Extra/Labo1-CreativeHub/exercices/Exercice_08_Troubleshooting_GPO.md).
 
 ---
 
@@ -659,5 +747,4 @@ Dans le prochain chapitre, nous explorerons des concepts avancés qui vous perme
 
 ---
 
-**📚 Cours Active Directory - GPO | 👨‍💻 Pour débutants**
-
+**📚 Cours Active Directory - GPO**

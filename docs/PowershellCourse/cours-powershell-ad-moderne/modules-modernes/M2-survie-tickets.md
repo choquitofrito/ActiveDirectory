@@ -47,14 +47,14 @@ AccountExpirationDate   :
 ### Variante plus lourde
 
 ```powershell
-# Toutes les propriétés — coûteux sur gros AD, à éviter sauf nécessité
+# Toutes les propriétés - coûteux sur gros AD, à éviter sauf nécessité
 Get-ADUser -Identity Richard -Properties *
 ```
 
 ### À ne pas faire
 
 ```powershell
-# Charge TOUS les utilisateurs avec TOUTES les propriétés — crash potentiel
+# Charge TOUS les utilisateurs avec TOUTES les propriétés - crash potentiel
 Get-ADUser -Filter * -Properties *
 ```
 
@@ -95,7 +95,7 @@ Valeria     Valeria         Ventes      True
 ### Variante plus large
 
 ```powershell
-# Recherche sur le Name complet — peut être lent
+# Recherche sur le Name complet - peut être lent
 Get-ADUser -Filter {Name -like "*Val*"} -Properties Department
 ```
 
@@ -151,7 +151,7 @@ $utilisateurs | ForEach-Object {
 ### À ne pas faire
 
 ```powershell
-# Sans validation préalable — peut donner des droits admin par erreur
+# Sans validation préalable - peut donner des droits admin par erreur
 Add-ADGroupMember -Identity "Admins du domaine" -Members Charles
 ```
 
@@ -167,16 +167,16 @@ Ajouter Rebecca au groupe RH-Admins, avec toutes les vérifications.
 
 ```powershell
 # 1. Vérifier le groupe
-Get-ADGroup -Identity "GG-EU-RH-Admins"
+Get-ADGroup -Identity "GG-EU-RH-Admin"
 
 # 2. Voir les membres actuels
-Get-ADGroupMember -Identity "GG-EU-RH-Admins"
+Get-ADGroupMember -Identity "GG-EU-RH-Admin"
 
 # 3. Simuler
-Add-ADGroupMember -Identity "GG-EU-RH-Admins" -Members Rebecca -WhatIf
+Add-ADGroupMember -Identity "GG-EU-RH-Admin" -Members Rebecca -WhatIf
 
 # 4. Si OK, exécuter
-Add-ADGroupMember -Identity "GG-EU-RH-Admins" -Members Rebecca
+Add-ADGroupMember -Identity "GG-EU-RH-Admin" -Members Rebecca
 ```
 
 ---
@@ -196,14 +196,14 @@ Get-ADPrincipalGroupMembership -Identity Richard |
 Name              GroupScope  GroupCategory
 ----              ----------  -------------
 Domain Users      Global      Security
-GG-EU-RH-Admins   Global      Security
+GG-EU-RH-Admin   Global      Security
 GG-EU-RH-Users    Global      Security
 ```
 
 ### Variante via MemberOf
 
 ```powershell
-# Affiche les DN complets — moins lisible
+# Affiche les DN complets - moins lisible
 Get-ADUser -Identity Richard -Properties MemberOf |
     Select-Object -ExpandProperty MemberOf
 ```
@@ -211,7 +211,7 @@ Get-ADUser -Identity Richard -Properties MemberOf |
 ### À ne pas faire
 
 ```powershell
-# Récursif sur tous les groupes — très lent
+# Récursif sur tous les groupes - très lent
 Get-ADGroup -Filter * | ForEach-Object {
     Get-ADGroupMember -Identity $_ -Recursive
 }
@@ -275,7 +275,7 @@ $groupes | ForEach-Object {
 ### À ne pas faire
 
 ```powershell
-# Suppression directe — perte de données, problèmes d'audit
+# Suppression directe - perte de données, problèmes d'audit
 Remove-ADUser -Identity Marie -Confirm:$false
 ```
 
@@ -304,7 +304,7 @@ Get-ADUser -Identity Charles | Select-Object Name, Enabled
 Set-ADAccountPassword -Identity Charles -Reset -NewPassword (ConvertTo-SecureString $motDePasseTemp -AsPlainText -Force)
 Set-ADUser -Identity Charles -ChangePasswordAtLogon $true
 
-# 3. Communiquer par canal sécurisé (téléphone, en personne — pas email/chat)
+# 3. Communiquer par canal sécurisé (téléphone, en personne - pas email/chat)
 Write-Host "Mot de passe temporaire généré pour Charles" -ForegroundColor Green
 ```
 
@@ -319,7 +319,7 @@ Set-ADAccountPassword -Identity Charles -Reset -NewPassword $nouveauMDP
 ### À ne pas faire
 
 ```powershell
-# Mot de passe en clair dans le script — visible dans l'historique
+# Mot de passe en clair dans le script - visible dans l'historique
 Set-ADAccountPassword -Identity Charles -NewPassword "Password123"
 ```
 
@@ -358,7 +358,7 @@ Search-ADAccount -LockedOut -SearchBase "OU=EU,DC=maxtec,DC=be" |
 ### À ne pas faire
 
 ```powershell
-# Déverrouillage en masse sans diagnostic — masque les tentatives d'intrusion
+# Déverrouillage en masse sans diagnostic - masque les tentatives d'intrusion
 Get-ADUser -Filter {LockedOut -eq $true} | Unlock-ADAccount
 ```
 
@@ -396,7 +396,7 @@ try {
     break
 }
 
-# Création — simuler d'abord
+# Création - simuler d'abord
 $parametres = @{
     Name                  = $displayName
     SamAccountName        = $samAccountName

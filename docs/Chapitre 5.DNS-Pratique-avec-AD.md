@@ -1,501 +1,513 @@
 # Chapitre 5: DNS en Pratique avec Active Directory
 
-## 🧭 Navigation du Cours
-[⏮️ Chapitre Précédent: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: Unités d'Organisation](Chapitre%206.Unites_Organisation.md)
+## Navigation du cours
+[Chapitre précédent : Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [Retour au Syllabus](index.md) | [Chapitre suivant : Unités d'Organisation](Chapitre%206.Unites_Organisation.md)
 
-## 📊 Votre Progrès
+!!! abstract "Objectifs"
+    À la fin de ce chapitre, vous savez :
 
-!!! info "Progrès du cours"
+    - retrouver dans le Gestionnaire DNS les enregistrements créés par la promotion (SOA, NS, A, SRV) ;
+    - créer des enregistrements A et CNAME et vérifier avec `nslookup` qu'ils se résolvent ;
+    - créer la zone inverse `0.168.192.in-addr.arpa` et vérifier avec `nslookup 192.168.0.10` qu'un poste est résolu par son IP ;
+    - diagnostiquer trois pannes DNS courantes : DNS du client mal configuré, enregistrement obsolète, PTR absent.
 
-- [✅] Chapitre 1-3: Préparation
-- [✅] Chapitre 4: Active Directory DS installé
-- [🔄] **Chapitre 5**: DNS Pratique avec AD *(En cours)*
-- [⏸️] Chapitre 6: Unités d'Organisation
+Vous avez installé Active Directory et le domaine **maxtec.be** fonctionne. Ce chapitre met en pratique le DNS sur cette infrastructure.
+
+**Prérequis** : `dns1` promu contrôleur de domaine et `ws-IT-01` joint au domaine ([Chapitre 4 §10](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md#10-laboratoire-joindre-un-poste-au-domaine)).
+
+Adresses utilisées dans ce chapitre (toutes dans `192.168.0.0/24`) :
+
+| Nom | IP | Existe réellement ? |
+|-----|----|---------------------|
+| `dns1.maxtec.be` | `192.168.0.2` | Oui (DC) |
+| `ws-IT-01.maxtec.be` | `192.168.0.10` | Oui (poste client) |
+| `ws-RH-01.maxtec.be` | `192.168.0.11` | Optionnel |
+| `fileserver.maxtec.be` | `192.168.0.20` | Non : enregistrement d'exercice |
+| `webserver.maxtec.be` | `192.168.0.30` | Non : enregistrement d'exercice |
+| `printer-01.maxtec.be` | `192.168.0.40` | Non : enregistrement d'exercice |
+
+Les machines d'exercice n'existent pas : `nslookup` doit les résoudre, mais `ping` ne recevra pas de réponse. C'est normal.
 
 ---
 
-> Vous avez installé Active Directory et maintenant vous avez un domaine **maxtec.be** fonctionnel !
->
-> Dans ce chapitre, nous allons **pratiquer DNS** avec votre infrastructure réelle. Fini la théorie abstraite, place à la manipulation concrète !
-
-
-
----
-
-## 💻 Lab 1: Explorer le DNS créé par Active Directory
-
-> 💡 **Prérequis** : Vous devez avoir complété la jonction d'un poste au domaine dans le [Chapitre 4: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md#10-laboratoire-accès-aux-ressources-du-domaine)
+## Lab 1 : Explorer le DNS créé par Active Directory
 
 ### Objectif
-Découvrir et comprendre ce qu'Active Directory a créé automatiquement dans le DNS après la jonction d'un poste au domaine.
+Découvrir ce que la promotion en DC et la jonction du poste ont créé dans le DNS.
 
+### Étape 1 : Ouvrir le Gestionnaire DNS
 
-### 🖥️ Étape 1: Ouvrir le Gestionnaire DNS
-
-1. **Sur votre serveur** (dc1 ou dns1), ouvrir **Gestionnaire de serveur**
+1. **Sur `dns1`**, ouvrez le **Gestionnaire de serveur**
 2. Menu **Outils** → **DNS**
-3. La console **Gestionnaire DNS** s'ouvre
+3. La console **Gestionnaire DNS** s'ouvre (raccourci : `dnsmgmt.msc` dans Win+R)
 
-> 💡 **Astuce rapide:** Vous pouvez aussi taper `dnsmgmt.msc` dans Exécuter (Win+R)
-
-### 🌐 Étape 2: Explorer la Zone maxtec.be
+### Étape 2 : Explorer la zone maxtec.be
 
 Dans le volet gauche, déroulez :
 ```
 DNS
-└── DNS1 (ou nom de votre serveur)
+└── DNS1
     └── Zones de recherche directes
-        └── maxtec.be  ← CLIQUEZ ICI
+        ├── _msdcs.maxtec.be
+        └── maxtec.be   ← cliquez ici
 ```
 
-**Observez les enregistrements créés automatiquement !**
+### Étape 3 : Identifier les enregistrements
 
-### 📋 Étape 3: Identifier les Enregistrements Critiques
-
-Dans le volet droit, vous devriez voir plusieurs enregistrements. Complétons ce tableau ensemble :
+Dans le volet droit, complétez ce tableau :
 
 | Nom | Type | Valeur/Données | À quoi ça sert ? |
 |-----|------|----------------|------------------|
-| (identique au dossier parent) | SOA | dns1.maxtec.be | 🔑 **Start of Authority** - définit l'autorité sur cette zone |
-| (identique au dossier parent) | NS | dns1.maxtec.be | 🌐 **Name Server** - indique quel serveur DNS est autoritaire |
-| dns1 | A | 192.168.0.2 | 💻 **Adresse** de votre contrôleur de domaine |
-| _msdcs | ... | ... | 📁 **Dossier spécial** pour les services AD |
-| _sites | ... | ... | 📁 Services AD par site géographique |
-| _tcp | ... | ... | 📁 Services TCP (LDAP, Kerberos) |
-| _udp | ... | ... | 📁 Services UDP |
+| (identique au dossier parent) | SOA | dns1.maxtec.be | **Start of Authority** : paramètres de la zone et serveur de référence |
+| (identique au dossier parent) | NS | dns1.maxtec.be | **Name Server** : serveur DNS qui fait autorité sur la zone |
+| (identique au dossier parent) | A | 192.168.0.2 | Le nom de domaine `maxtec.be` lui-même pointe vers le DC |
+| dns1 | A | 192.168.0.2 | Adresse du contrôleur de domaine |
+| ws-IT-01 | A | 192.168.0.10 | Enregistré **par le poste lui-même** après la jonction |
+| _msdcs, _sites, _tcp, _udp | (dossiers) | ... | Enregistrements SRV des services AD |
+| DomainDnsZones, ForestDnsZones | (dossiers) | ... | Partitions d'application qui stockent les zones DNS |
 
-### 🔎 Étape 4: Explorer les Enregistrements SRV
+Si `ws-IT-01` n'apparaît pas, voir le [scénario 3 du Lab 4](#scenario-3-le-poste-nest-pas-resolu-par-son-ip).
 
-Les enregistrements SRV (Service) sont **CRITIQUES** pour Active Directory !
+### Étape 4 : Explorer les enregistrements SRV
 
-1. **Déroulez** `_tcp` dans la zone maxtec.be
-2. **Cliquez** sur `_ldap`
-3. **Observez** les enregistrements SRV
+Les enregistrements SRV (Service) permettent aux postes de trouver les contrôleurs de domaine.
 
-**Exemple d'enregistrement SRV que vous devriez voir:**
+1. Déroulez `_tcp` dans la zone `maxtec.be`
+2. Double-cliquez sur `_ldap`
+3. Observez :
+
 ```
-_ldap._tcp.maxtec.be
-Service: LDAP
-Protocole: TCP
-Port: 389
-Hôte cible: dns1.maxtec.be
+Service : _ldap
+Protocole : _tcp
+Priorité : 0      Poids : 100
+Numéro de port : 389
+Hôte offrant ce service : dns1.maxtec.be.
 ```
 
-> 🔑 **Pourquoi c'est important ?**
-> Quand un poste veut joindre le domaine, il demande : "Où est le serveur LDAP ?"
-> Le DNS répond grâce à cet enregistrement SRV !
+L'enregistrement que cherche un poste pour joindre le domaine est `_ldap._tcp.dc._msdcs.maxtec.be` (zone `_msdcs.maxtec.be` → `dc` → `_tcp`). Explication au [Chapitre 3 §4](Chapitre%203.DNS.md#4-les-enregistrements-srv-dun-controleur-de-domaine).
 
-### ✅ Checkpoint Lab 2
+### Checkpoint Lab 1
 
 !!! info "Vérification de compréhension"
 
-- [ ] Où se trouvent les zones DNS ? (Gestionnaire DNS → Zones de recherche directes)
-- [ ] Qu'est-ce qu'un enregistrement SOA ? (Start of Authority - autorité sur la zone)
-- [ ] Pourquoi les enregistrements SRV sont importants ? (Localisation des services AD)
-- [ ] Combien d'enregistrements A voyez-vous ? (Au moins un pour votre DC)
+    - [ ] Où se trouvent les zones DNS ? (Gestionnaire DNS → Zones de recherche directes)
+    - [ ] Qu'est-ce qu'un enregistrement SOA ?
+    - [ ] Pourquoi les enregistrements SRV sont-ils indispensables à AD ?
+    - [ ] Combien d'enregistrements A voyez-vous, et qui les a créés ?
 
-**🎯 Test rapide en PowerShell:**
+**Test en PowerShell (sur `ws-IT-01` ou `dns1`) :**
 ```powershell
-# Vérifier que le DNS résout votre domaine
 nslookup maxtec.be
+nslookup -type=SRV _ldap._tcp.dc._msdcs.maxtec.be
 
-# Vérifier les services LDAP
-nslookup -type=SRV _ldap._tcp.maxtec.be
+# Équivalent PowerShell
+Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.maxtec.be
 ```
 
 ---
 
-## 🛠️ Lab 2: Créer des Enregistrements Manuellement
+## Lab 2 : Créer des enregistrements manuellement
 
 ### Objectif
-Apprendre à ajouter des enregistrements DNS pour des ressources spécifiques (serveurs, alias, etc.)
+Ajouter des enregistrements pour des ressources qui ne s'enregistrent pas seules (serveurs à IP fixe hors domaine, imprimantes, alias).
 
-### 📝 Exercice 2.1: Créer un Enregistrement A (Hôte)
+### Exercice 2.1 : Créer un enregistrement A (hôte)
 
-**Scénario:** Vous avez un serveur de fichiers qui aura l'IP `192.168.10.10`
+**Scénario :** un serveur de fichiers aura l'IP `192.168.0.20`.
 
-1. **Dans Gestionnaire DNS**, clic droit sur la zone **maxtec.be**
-2. **Nouveau hôte (A ou AAAA)...**
-3. **Remplir:**
-   - Nom: `fileserver`
-   - Adresse IP: `192.168.10.10`
-   - ☑️ Créer un enregistrement PTR associé (si zone inverse existe)
+1. **Dans le Gestionnaire DNS**, clic droit sur la zone **maxtec.be**
+2. **Nouvel hôte (A ou AAAA)...**
+3. Remplissez :
+    - Nom : `fileserver`
+    - Adresse IP : `192.168.0.20`
+    - Laissez **Créer un pointeur (PTR) associé** décoché pour l'instant : la zone inverse n'existe pas encore (Lab 3)
+4. Cliquez sur **Ajouter un hôte**
 
-4. **Cliquer** sur "Ajouter un hôte"
-
-**✅ Vérification:**
+**Vérification :**
 ```powershell
-# Test 1: Résolution DNS
 nslookup fileserver.maxtec.be
 
-# Résultat attendu:
+# Résultat attendu :
 # Nom :    fileserver.maxtec.be
-# Address: 192.168.10.10
-
-# Test 2: Ping
-ping fileserver.maxtec.be
+# Address:  192.168.0.20
 ```
 
-### 🔗 Exercice 2.2: Créer un Alias (CNAME)
+??? note "La même chose en PowerShell (sur dns1)"
+    ```powershell
+    Add-DnsServerResourceRecordA -ZoneName "maxtec.be" -Name "fileserver" -IPv4Address "192.168.0.20"
+    Get-DnsServerResourceRecord -ZoneName "maxtec.be" -Name "fileserver"
+    ```
 
-**Scénario:** Vous voulez que `files.maxtec.be` pointe vers `fileserver.maxtec.be`
+### Exercice 2.2 : Créer un alias (CNAME)
 
-1. **Dans Gestionnaire DNS**, clic droit sur la zone **maxtec.be**
-2. **Nouvel alias (CNAME)...**
-3. **Remplir:**
-   - Nom de l'alias: `files`
-   - Nom de domaine complet (FQDN) de l'hôte cible: `fileserver.maxtec.be`
+**Scénario :** `files.maxtec.be` doit pointer vers `fileserver.maxtec.be`.
 
-4. **OK**
+1. Clic droit sur la zone **maxtec.be** → **Nouvel alias (CNAME)...**
+2. Remplissez :
+    - Nom de l'alias : `files`
+    - Nom de domaine complet (FQDN) de l'hôte de destination : `fileserver.maxtec.be`
+3. **OK**
 
-**✅ Vérification:**
+**Vérification :**
 ```powershell
 nslookup files.maxtec.be
 
-# Résultat attendu:
-# Nom :    fileserver.maxtec.be  ← Notez l'alias !
-# Address: 192.168.10.10
+# Résultat attendu :
+# Nom :    fileserver.maxtec.be
+# Address:  192.168.0.20
+# Aliases:  files.maxtec.be
 ```
 
-> 💡 **Avantage des CNAME:**
-> Si `fileserver` change d'IP, vous mettez à jour UNE SEULE fois l'enregistrement A, et l'alias `files` fonctionne toujours !
+Avantage d'un CNAME : si `fileserver` change d'IP, vous ne modifiez que l'enregistrement A ; l'alias `files` suit.
 
-### 🌐 Exercice 2.3: Créer un Enregistrement pour un Service Web
-
-**Scénario:** Vous voulez que `www.maxtec.be` pointe vers un serveur web
-
-**Mission:** Créez un enregistrement CNAME `www` qui pointe vers `fileserver` (pour simuler)
-
-??? success "💡 Cliquez pour voir la solution"
-    1. Clic droit sur zone **maxtec.be** → **Nouvel alias (CNAME)**
-    2. Nom: `www`
-    3. FQDN cible: `fileserver.maxtec.be`
-    4. OK
-    
-    Vérification:
+??? note "La même chose en PowerShell"
     ```powershell
-    nslookup www.maxtec.be
-    # Devrait résoudre vers fileserver.maxtec.be → 192.168.10.10
+    Add-DnsServerResourceRecordCName -ZoneName "maxtec.be" -Name "files" -HostNameAlias "fileserver.maxtec.be"
+    ```
+
+### Exercice 2.3 : Alias web et imprimante
+
+**Mission :**
+
+1. Créez un CNAME `www` qui pointe vers `fileserver.maxtec.be` (en attendant un vrai serveur web).
+2. Créez un enregistrement A `printer-01` → `192.168.0.40`.
+
+??? success "Solution"
+    1. Clic droit sur la zone **maxtec.be** → **Nouvel alias (CNAME)** → Nom : `www`, FQDN cible : `fileserver.maxtec.be` → **OK**
+    2. Clic droit sur la zone **maxtec.be** → **Nouvel hôte (A ou AAAA)** → Nom : `printer-01`, IP : `192.168.0.40` → **Ajouter un hôte**
+
+    Vérification :
+    ```powershell
+    nslookup www.maxtec.be         # -> fileserver.maxtec.be, 192.168.0.20
+    nslookup printer-01.maxtec.be  # -> 192.168.0.40
     ```
 
 
-### ✅ Checkpoint Lab 2
+### Checkpoint Lab 2
 
-!!! info "Vérification de compréhension"
+!!! info "Vérification"
 
-- [ ] Enregistrement A: `fileserver.maxtec.be` → `192.168.10.10`
-- [ ] Alias CNAME: `files.maxtec.be` → `fileserver.maxtec.be`
-- [ ] Alias CNAME: `www.maxtec.be` → `fileserver.maxtec.be`
-- [ ] Tous se résolvent correctement avec `nslookup`
-
----
-
-## 🔄 Lab 3: Configurer une Zone de Recherche Inverse
-
-### Objectif
-Permettre la résolution IP → Nom (l'inverse de la résolution normale)
-
-### 🌐 Pourquoi une Zone Inverse ?
-
-**Résolution normale:** `ws-compta-01.maxtec.be` → `192.168.10.128`
-**Résolution inverse:** `192.168.10.128` → `ws-compta-01.maxtec.be`
-
-!!! info "Utilisations de la résolution inverse"
-
-- 🔐 Authentification (vérifier qu'une IP correspond bien à un nom attendu)
-- 📧 Anti-spam (serveurs mail vérifient les noms des expéditeurs)
-- 🔍 Troubleshooting (logs plus lisibles)
-
-### 📝 Étape 1: Créer la Zone Inverse
-
-1. **Dans Gestionnaire DNS**, clic droit sur **Zones de recherche inversée**
-2. **Nouvelle zone...**
-3. Assistant de création:
-   - Type: **Zone principale** ✓ "Stocker la zone dans Active Directory"
-   - Portée: **Vers tous les serveurs DNS exécutés sur des contrôleurs de domaine dans ce domaine**
-   - Nom de zone inverse: **Zone de recherche inversée IPv4**
-   - ID réseau: `192.168.0` (sans le dernier octet !)
-   - Mises à jour dynamiques: **Autoriser uniquement les mises à jour dynamiques sécurisées**
-
-4. **Terminer**
-
-### 🔍 Étape 2: Vérifier la Zone Créée
-
-!!! info "Vérification de la zone créée"
-
-Dans **Zones de recherche inversée**, vous devriez voir:
-
-- `0.168.192.in-addr.arpa`
-
-> 📘 **Note:** L'ordre des octets est inversé dans les zones inverses (convention DNS)
-
-### 📋 Étape 3: Observer les Enregistrements PTR
-
-!!! info "Enregistrements PTR existants"
-
-**Déroulez** la zone `0.168.192.in-addr.arpa`:
-
-- Vous devriez voir des enregistrements PTR pour votre serveur
-- Exemple: `2` → `dns1.maxtec.be` (si votre serveur est 192.168.0.2)
-
-### ✅ Étape 4: Tester la Résolution Inverse
-
-```powershell
-# Test résolution inverse de votre serveur
-nslookup 192.168.0.2
-
-# Résultat attendu:
-# Nom :    dns1.maxtec.be
-# Address: 192.168.0.2
-
-# Test résolution inverse du poste client
-nslookup 192.168.10.128  # (remplacez par l'IP de votre client)
-
-# Si configuré automatiquement:
-# Nom :    ws-compta-01.maxtec.be
-# Address: 192.168.10.128
-```
-
-### 🔧 Étape 5: Ajouter un Enregistrement PTR Manuellement
-
-**Si un enregistrement PTR n'existe pas** pour le poste client:
-
-1. **Clic droit** sur la zone `0.168.192.in-addr.arpa`
-2. **Nouveau pointeur (PTR)...**
-3. **Adresse IP de l'hôte:** `192.168.10.128` (exemple)
-4. **Nom de domaine complet de l'hôte:** `ws-compta-01.maxtec.be`
-5. **OK**
-
-### ✅ Checkpoint Lab 3
-
-!!! info "Vérification de compréhension"
-
-- [ ] Zone inverse créée: `0.168.192.in-addr.arpa`
-- [ ] Enregistrement PTR pour le serveur existe
-- [ ] `nslookup 192.168.0.2` retourne `dns1.maxtec.be`
-- [ ] Vous comprenez la différence entre résolution directe et inverse
+    - [ ] Enregistrement A : `fileserver.maxtec.be` → `192.168.0.20`
+    - [ ] Alias CNAME : `files.maxtec.be` → `fileserver.maxtec.be`
+    - [ ] Alias CNAME : `www.maxtec.be` → `fileserver.maxtec.be`
+    - [ ] Enregistrement A : `printer-01.maxtec.be` → `192.168.0.40`
+    - [ ] Tous se résolvent avec `nslookup`
 
 ---
 
-## 🔧 Lab 4: Dépannage DNS - Troubleshooting
+## Lab 3 : Configurer une zone de recherche inverse
 
 ### Objectif
-Apprendre à diagnostiquer et résoudre les problèmes DNS courants.
+Permettre la résolution IP → nom. La promotion en DC **ne crée pas** cette zone : c'est à vous de le faire.
 
-### 🚨 Scénario 1: "Je ne peux plus rejoindre le domaine"
+### Pourquoi une zone inverse ?
 
-**Symptôme:** Un nouveau poste ne peut pas joindre le domaine maxtec.be
+- **Résolution directe :** `ws-IT-01.maxtec.be` → `192.168.0.10`
+- **Résolution inverse :** `192.168.0.10` → `ws-IT-01.maxtec.be`
 
-**Diagnostic étape par étape:**
+Utilisations :
 
-```powershell
-# Sur le poste client, vérifier la configuration réseau
-ipconfig /all
+- **Dépannage et journaux** : un journal qui affiche des noms plutôt que des IP est plus lisible
+- **Outils** : `nslookup` affiche « Serveur : UnKnown » quand le serveur DNS lui-même n'a pas de PTR
+- **Messagerie** : les serveurs mail vérifient la résolution inverse des expéditeurs (anti-spam)
 
-# Vérifier:
-# 1. L'adresse IP est correcte ?
-# 2. Le serveur DNS est 192.168.0.2 ?
-# 3. Le suffixe DNS principal est maxtec.be ?
-```
+### Étape 1 : Créer la zone inverse
 
-**Test DNS:**
-```powershell
-# Test 1: Peut-on résoudre le domaine ?
-nslookup maxtec.be
+1. **Dans le Gestionnaire DNS**, clic droit sur **Zones de recherche inversée** → **Nouvelle zone...**
+2. Assistant :
+    - Type : **Zone principale**, cochez **Enregistrer la zone dans Active Directory**
+    - Étendue de réplication : **Vers tous les serveurs DNS exécutés sur des contrôleurs de domaine dans ce domaine**
+    - **Zone de recherche inversée IPv4**
+    - ID réseau : `192.168.0` (sans le dernier octet)
+    - Mises à jour dynamiques : **N'autoriser que les mises à jour dynamiques sécurisées**
+3. **Terminer**
 
-# Test 2: Peut-on trouver le contrôleur de domaine ?
-nslookup dns1.maxtec.be
+??? note "La même chose en PowerShell"
+    ```powershell
+    Add-DnsServerPrimaryZone -NetworkId "192.168.0.0/24" -ReplicationScope "Domain" -DynamicUpdate "Secure"
+    ```
 
-# Test 3: Les services AD sont-ils visibles ?
-nslookup -type=SRV _ldap._tcp.maxtec.be
-```
+### Étape 2 : Vérifier la zone créée
 
-**Solutions courantes:**
-| Problème | Solution |
-|----------|----------|
-| DNS serveur incorrect | Configurer DNS = 192.168.0.2 |
-| Pas de connectivité réseau | Vérifier carte réseau LAN-VM |
-| Cache DNS corrompu | `ipconfig /flushdns` |
+Dans **Zones de recherche inversée**, vous voyez `0.168.192.in-addr.arpa`. L'ordre des octets est inversé : c'est la convention DNS (du plus spécifique au plus général, comme dans un nom).
 
-### 🔍 Scénario 2: "Un poste ne s'enregistre pas automatiquement dans le DNS"
+### Étape 3 : Remplir la zone
 
-**Diagnostic:**
+La zone est vide au départ. Les machines du domaine enregistrent leur PTR elles-mêmes lors de leur prochain enregistrement dynamique ; forcez-le :
 
 ```powershell
-# Sur le poste client
+# Sur dns1, puis sur ws-IT-01
 ipconfig /registerdns
-
-# Force le ré-enregistrement DNS
 ```
 
-**Sur le serveur**, vérifier les paramètres de mise à jour dynamique:
+Actualisez la zone (F5) après une ou deux minutes : `2` → `dns1.maxtec.be` et `10` → `ws-IT-01.maxtec.be` doivent apparaître.
 
-1. Gestionnaire DNS → Zone maxtec.be → Propriétés
-2. Onglet **Général**
-3. Mises à jour dynamiques: **Sécurisées uniquement**
+### Étape 4 : Tester la résolution inverse
 
-### 🛠️ Commandes de Dépannage Essentielles
+```powershell
+nslookup 192.168.0.2
+# Nom :    dns1.maxtec.be
+# Address:  192.168.0.2
 
-| Commande | Usage | Exemple |
-|----------|-------|---------|
-| `nslookup nom` | Résoudre un nom | `nslookup www.maxtec.be` |
-| `nslookup IP` | Résolution inverse | `nslookup 192.168.0.2` |
-| `ipconfig /flushdns` | Vider cache DNS | Après modification enregistrement |
-| `ipconfig /registerdns` | Forcer enregistrement | Poste pas dans DNS |
-| `nslookup -type=SRV` | Vérifier services | `nslookup -type=SRV _ldap._tcp.maxtec.be` |
+nslookup 192.168.0.10
+# Nom :    ws-IT-01.maxtec.be
+# Address:  192.168.0.10
+```
 
-### ✅ Checkpoint Lab 4
+### Étape 5 : Ajouter un PTR manuellement
 
-!!! info "Vérification de compréhension"
+Les enregistrements d'exercice (`fileserver`) ne s'enregistrent pas seuls. Deux méthodes :
 
-- [ ] Vous savez vérifier la configuration DNS d'un poste (`ipconfig /all`)
-- [ ] Vous savez tester la résolution DNS (`nslookup`)
-- [ ] Vous connaissez les commandes de dépannage essentielles
-- [ ] Vous comprenez les mises à jour dynamiques sécurisées
+- **Clic droit** sur `0.168.192.in-addr.arpa` → **Nouveau pointeur (PTR)...** → Adresse IP : `192.168.0.20`, Nom d'hôte : `fileserver.maxtec.be` → **OK**
+- Ou modifiez l'enregistrement A `fileserver` et cochez **Mettre à jour l'enregistrement de pointeur (PTR) associé**
+
+Vérification : `nslookup 192.168.0.20` → `fileserver.maxtec.be`.
+
+### Checkpoint Lab 3
+
+!!! info "Vérification"
+
+    - [ ] Zone inverse créée : `0.168.192.in-addr.arpa`
+    - [ ] `nslookup 192.168.0.2` retourne `dns1.maxtec.be`
+    - [ ] `nslookup 192.168.0.10` retourne `ws-IT-01.maxtec.be`
+    - [ ] `nslookup 192.168.0.20` retourne `fileserver.maxtec.be`
 
 ---
 
-## 📚 Concepts DNS Clés - Récapitulatif
+## Lab 4 : Dépannage DNS
 
-Maintenant que vous avez **pratiqué**, récapitulons les concepts importants :
+### Objectif
+Diagnostiquer trois pannes courantes à partir de leurs symptômes. Pour chaque scénario, préparez la panne (ou demandez à un collègue de la préparer sans vous dire laquelle), diagnostiquez, puis comparez avec la solution.
 
-### 🌐 Types d'Enregistrements DNS
+**Commandes de diagnostic :**
 
-| Type | Nom complet | Usage | Exemple vécu dans les labs |
+| Commande | Usage |
+|----------|-------|
+| `ipconfig /all` | Configuration IP et DNS du poste |
+| `nslookup nom` / `Resolve-DnsName nom` | Résoudre un nom |
+| `nslookup IP` | Résolution inverse |
+| `nslookup -type=SRV _ldap._tcp.dc._msdcs.maxtec.be` | Le poste trouve-t-il un DC ? |
+| `nltest /dsgetdc:maxtec.be` | Quel DC Windows utiliserait |
+| `ipconfig /flushdns` | Vider le cache DNS du poste |
+| `ipconfig /registerdns` | Forcer l'enregistrement dynamique du poste |
+| `Get-DnsServerResourceRecord -ZoneName maxtec.be -Name <nom>` | Voir les enregistrements côté serveur |
+
+### Scénario 1 : le poste ne peut pas rejoindre le domaine
+
+**Préparation :** sur `ws-IT-01` (ou `ws-RH-01`), réglez le DNS préféré sur `8.8.8.8`.
+
+**Symptôme :** `nltest /dsgetdc:maxtec.be` et `gpupdate /force` échouent. Sur un poste pas encore joint, la jonction échouerait avec « Un contrôleur de domaine Active Directory (AD DC) pour le domaine maxtec.be n'a pas pu être contacté ». Pourtant `ping 192.168.0.2` répond.
+
+??? success "Diagnostic et solution"
+    **Diagnostic :**
+
+    ```powershell
+    ipconfig /all
+    # Serveurs DNS . . . : 8.8.8.8   ← le problème
+
+    nslookup -type=SRV _ldap._tcp.dc._msdcs.maxtec.be
+    # Échec : 8.8.8.8 ne connaît pas la zone interne maxtec.be
+    ```
+
+    Le réseau fonctionne (le ping répond), mais le poste demande à un DNS public où se trouve le DC. Seul `dns1` connaît les enregistrements SRV de `maxtec.be`.
+
+    **Solution :**
+
+    ```powershell
+    Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses 192.168.0.2
+    ipconfig /flushdns
+    nslookup -type=SRV _ldap._tcp.dc._msdcs.maxtec.be   # doit maintenant renvoyer dns1.maxtec.be
+    ```
+
+    Puis relancez la jonction. Règle : un poste du domaine n'utilise **que** les DC comme serveurs DNS ; l'accès Internet passe par les redirecteurs du DC ([Chapitre 3 §5](Chapitre%203.DNS.md#5-les-redirecteurs-forwarders)).
+
+### Scénario 2 : un enregistrement obsolète
+
+**Préparation :** sur `dns1`, le serveur de fichiers a « déménagé » de `192.168.0.20` vers `192.168.0.21`. Quelqu'un a ajouté le nouvel enregistrement A `fileserver` → `192.168.0.21` sans supprimer l'ancien.
+
+```powershell
+Add-DnsServerResourceRecordA -ZoneName "maxtec.be" -Name "fileserver" -IPv4Address "192.168.0.21"
+```
+
+**Symptôme :** les utilisateurs se plaignent que `\\fileserver` fonctionne « une fois sur deux ».
+
+??? success "Diagnostic et solution"
+    **Diagnostic :**
+
+    ```powershell
+    nslookup fileserver.maxtec.be
+    # Addresses:  192.168.0.20
+    #             192.168.0.21   ← deux réponses pour un seul serveur
+
+    Get-DnsServerResourceRecord -ZoneName "maxtec.be" -Name "fileserver"
+    ```
+
+    Le DNS renvoie les deux adresses (en alternance, « round robin »). Les clients qui tombent sur l'ancienne IP échouent.
+
+    **Solution :** supprimez l'enregistrement obsolète sur `dns1`, puis videz le cache des clients.
+
+    ```powershell
+    Remove-DnsServerResourceRecord -ZoneName "maxtec.be" -RRType "A" -Name "fileserver" -RecordData "192.168.0.20" -Force
+    ipconfig /flushdns   # sur le poste client
+    ```
+
+    Pensez aussi au PTR : `192.168.0.20` pointe encore vers `fileserver` dans la zone inverse ; supprimez-le.
+
+    Pour les machines du domaine qui s'enregistrent seules, les enregistrements dynamiques obsolètes (poste supprimé, IP changée) se nettoient automatiquement si le **vieillissement et nettoyage** (aging/scavenging) est activé : il faut à la fois le **vieillissement sur la zone** (Gestionnaire DNS → clic droit sur **DNS1** → **Définir le vieillissement/nettoyage pour toutes les zones**) et le **nettoyage automatique sur le serveur** (clic droit sur **DNS1** → **Propriétés** → onglet **Avancé** → **Activer le nettoyage automatique des enregistrements obsolètes**). Les deux sont désactivés par défaut.
+
+### Scénario 3 : le poste n'est pas résolu par son IP
+
+**Préparation :** sur `dns1`, supprimez le PTR de `ws-IT-01` (`10` dans `0.168.192.in-addr.arpa`).
+
+**Symptôme :** `nslookup 192.168.0.10` répond « Non-existent domain ». Un outil de supervision affiche l'IP au lieu du nom du poste.
+
+??? success "Diagnostic et solution"
+    **Diagnostic :**
+
+    ```powershell
+    nslookup ws-IT-01.maxtec.be   # fonctionne : l'enregistrement A existe
+    nslookup 192.168.0.10         # échoue : pas de PTR
+    ```
+
+    Vérifiez d'abord que la zone `0.168.192.in-addr.arpa` existe (si elle n'existe pas, aucune résolution inverse ne fonctionne : Lab 3). Si elle existe, seul le PTR du poste manque. Cas fréquent : le poste a été joint **avant** la création de la zone inverse.
+
+    **Solution :** sur `ws-IT-01`, forcez le réenregistrement dynamique (A et PTR) :
+
+    ```powershell
+    ipconfig /registerdns
+    ```
+
+    Attendez une minute, puis `nslookup 192.168.0.10` sur n'importe quelle machine. Si le PTR ne revient pas, vérifiez dans les propriétés IPv4 avancées de la carte (onglet **DNS**) que **Enregistrer les adresses de cette connexion dans le système DNS** est cochée, ou créez le PTR manuellement.
+
+### Checkpoint Lab 4
+
+!!! info "Vérification"
+
+    - [ ] Vous savez vérifier la configuration DNS d'un poste (`ipconfig /all`)
+    - [ ] Vous savez tester qu'un poste trouve un DC (`nslookup -type=SRV`, `nltest /dsgetdc`)
+    - [ ] Vous savez repérer et supprimer un enregistrement obsolète
+    - [ ] Vous savez pourquoi un PTR peut manquer et comment le recréer
+
+Nettoyage : pour revenir aux valeurs de référence, remplacez `fileserver` → `192.168.0.21` par `fileserver` → `192.168.0.20` (enregistrement A et PTR), sinon `files` et `www` pointent vers une adresse qui n'est plus celle du cours. Remettez le DNS du poste de test sur `192.168.0.2`.
+
+---
+
+## Récapitulatif
+
+### Types d'enregistrements DNS
+
+| Type | Nom complet | Usage | Exemple du chapitre |
 |------|-------------|-------|---------------------------|
-| **A** | Address | Nom → IPv4 | `fileserver.maxtec.be` → `192.168.10.10` |
+| **A** | Address | Nom → IPv4 | `fileserver.maxtec.be` → `192.168.0.20` |
 | **CNAME** | Canonical Name | Alias | `www` → `fileserver` |
 | **PTR** | Pointer | IP → Nom (inverse) | `192.168.0.2` → `dns1.maxtec.be` |
-| **SRV** | Service | Localisation service | `_ldap._tcp` pour AD |
-| **NS** | Name Server | Serveur DNS autoritaire | `maxtec.be` → `dns1.maxtec.be` |
-| **SOA** | Start of Authority | Autorité sur zone | Paramètres de la zone |
+| **SRV** | Service | Localisation d'un service | `_ldap._tcp.dc._msdcs.maxtec.be` → `dns1:389` |
+| **NS** | Name Server | Serveur DNS qui fait autorité | `maxtec.be` → `dns1.maxtec.be` |
+| **SOA** | Start of Authority | Paramètres de la zone | Numéro de série, serveur principal |
 
-### 🔄 Résolution DNS dans Active Directory
+### Ce qui se passe quand un poste rejoint le domaine
 
-**Ce qui se passe quand un poste rejoint le domaine:**
+1. Le **poste** demande au DNS : « où est un contrôleur de domaine pour maxtec.be ? » (requête SRV `_ldap._tcp.dc._msdcs.maxtec.be`)
+2. Le **DNS** répond : `dns1.maxtec.be`, port 389, puis donne l'IP `192.168.0.2`
+3. Le **poste** contacte le DC (LDAP, Kerberos) avec les identifiants d'un compte autorisé
+4. Le **DC** crée le compte ordinateur dans AD (conteneur `CN=Computers`)
+5. Après redémarrage, le **poste** enregistre lui-même son nom dans DNS (mise à jour dynamique sécurisée) : `ws-IT-01.maxtec.be` → `192.168.0.10`
 
-1. 🖥️ **Poste client** envoie requête DNS: "Où est le contrôleur de domaine ?"
-2. 🌐 **DNS** répond avec enregistrement SRV: "C'est dns1.maxtec.be:389 (LDAP)"
-3. 🔐 **Poste** se connecte au DC via LDAP
-4. ✅ **AD** authentifie le poste et l'ajoute au domaine
-5. 📝 **AD** demande à DNS de créer enregistrement A pour le poste
-6. 🎉 **DNS** crée automatiquement `ws-compta-01.maxtec.be`
+Vous avez observé le résultat de ce processus au Lab 1.
 
-**Vous avez VU tout ce processus dans le Lab 1 !**
-
-### 🏗️ Architecture DNS-AD Intégrée
+### Architecture DNS-AD intégrée
 
 ```
-┌─────────────────────────────────────┐
-│   Active Directory (maxtec.be)      │
-│                                     │
-│   ┌─────────────────────────────┐  │
-│   │         DNS Intégré         │  │
-│   │                             │  │
-│   │  • Zones AD automatiques    │  │
-│   │  • Enregistrements SRV      │  │
-│   │  • Mises à jour dynamiques  │  │
-│   └─────────────────────────────┘  │
-│                │                    │
-│                ↓                    │
-│   ┌──────────────────────────────┐ │
-│   │ Postes clients s'enregistrent│ │
-│   │    automatiquement           │ │
-│   └──────────────────────────────┘ │
-└─────────────────────────────────────┘
+┌──────────────────────────────────────┐
+│   Active Directory (maxtec.be)       │
+│                                      │
+│   ┌──────────────────────────────┐   │
+│   │   DNS intégré à AD           │   │
+│   │   • Zones stockées dans AD   │   │
+│   │   • Enregistrements SRV      │   │
+│   │   • Mises à jour dynamiques  │   │
+│   │     sécurisées               │   │
+│   └──────────────────────────────┘   │
+│                  ↑                   │
+│   ┌──────────────────────────────┐   │
+│   │ Les postes du domaine        │   │
+│   │ s'enregistrent eux-mêmes     │   │
+│   └──────────────────────────────┘   │
+└──────────────────────────────────────┘
 ```
 
 ---
 
-## 🎯 Exercice Final: Validation Complète
+## Exercice final
 
-### Mission Complète
+### Mission
 
-Vous devez configurer un nouveau serveur web pour maxtec.be. Voici les exigences:
+Maxtec installe un serveur web. Exigences :
 
-1. **Serveur web** aura le nom `webserver` et l'IP `192.168.10.15`
-2. **Les utilisateurs** doivent pouvoir accéder via `www.maxtec.be`
-3. **Les admins** doivent pouvoir accéder via `webadmin.maxtec.be`
-4. **La résolution inverse** doit fonctionner pour l'IP du serveur
+1. Le serveur s'appelle `webserver`, IP `192.168.0.30`
+2. Les utilisateurs y accèdent via `www.maxtec.be`
+3. Les admins y accèdent via `webadmin.maxtec.be`
+4. La résolution inverse fonctionne pour l'IP du serveur
 
-### 📝 Étapes à Réaliser
+Attention : `www` existe déjà (exercice 2.3) et pointe vers `fileserver`.
 
-??? success "💡 Cliquez pour voir la solution complète"
-    !!! example "Étape 1: Créer l'enregistrement A"
-    
-    ```
-    Gestionnaire DNS → maxtec.be → Clic droit → Nouveau hôte
-    - Nom: webserver
-    - IP: 192.168.10.15
-    - ☑️ Créer enregistrement PTR associé
-    ```
-    
-    !!! example "Étape 2: Créer les alias CNAME"
-    
-    ```
-    Alias 1:
-    - Nom: www
-    - FQDN cible: webserver.maxtec.be
-    
-    Alias 2:
-    - Nom: webadmin
-    - FQDN cible: webserver.maxtec.be
-    ```
-    
-    **Étape 3: Vérifier**
+??? success "Solution"
+    **Étape 1 : enregistrement A avec PTR**
+
+    Gestionnaire DNS → `maxtec.be` → clic droit → **Nouvel hôte** : Nom `webserver`, IP `192.168.0.30`, cochez **Créer un pointeur (PTR) associé** (la zone inverse existe maintenant).
+
+    **Étape 2 : alias**
+
+    - `www` existe déjà : double-cliquez dessus et remplacez la cible par `webserver.maxtec.be` (ou supprimez-le et recréez-le). Deux CNAME du même nom ne peuvent pas coexister.
+    - Nouvel alias : Nom `webadmin`, cible `webserver.maxtec.be`
+
+    En PowerShell :
     ```powershell
-    nslookup webserver.maxtec.be  # → 192.168.10.15
-    nslookup www.maxtec.be         # → webserver.maxtec.be → 192.168.10.15
-    nslookup webadmin.maxtec.be    # → webserver.maxtec.be → 192.168.10.15
-    nslookup 192.168.10.15         # → webserver.maxtec.be
+    Add-DnsServerResourceRecordA -ZoneName "maxtec.be" -Name "webserver" -IPv4Address "192.168.0.30" -CreatePtr
+    Remove-DnsServerResourceRecord -ZoneName "maxtec.be" -RRType "CName" -Name "www" -Force
+    Add-DnsServerResourceRecordCName -ZoneName "maxtec.be" -Name "www" -HostNameAlias "webserver.maxtec.be"
+    Add-DnsServerResourceRecordCName -ZoneName "maxtec.be" -Name "webadmin" -HostNameAlias "webserver.maxtec.be"
     ```
-    
-    **✅ Tous les tests doivent fonctionner !**
+
+    **Étape 3 : vérifier**
+    ```powershell
+    ipconfig /flushdns             # sur le poste : l'ancien www est peut-être en cache
+    nslookup webserver.maxtec.be   # -> 192.168.0.30
+    nslookup www.maxtec.be         # -> webserver.maxtec.be -> 192.168.0.30
+    nslookup webadmin.maxtec.be    # -> webserver.maxtec.be -> 192.168.0.30
+    nslookup 192.168.0.30          # -> webserver.maxtec.be
+    ```
 
 
-### ✅ Validation Finale
+### Validation finale
 
 !!! info "Vérification finale"
 
-- [ ] Enregistrement A créé pour webserver
-- [ ] Alias www.maxtec.be fonctionne
-- [ ] Alias webadmin.maxtec.be fonctionne
-- [ ] Résolution inverse de 192.168.10.15 fonctionne
-- [ ] Tous les nslookup réussissent
+    - [ ] Enregistrement A créé pour `webserver`
+    - [ ] `www.maxtec.be` pointe vers `webserver`
+    - [ ] `webadmin.maxtec.be` fonctionne
+    - [ ] La résolution inverse de `192.168.0.30` fonctionne
 
 ---
 
-## 🎯 Vous Maîtrisez DNS avec Active Directory !
+## Compétences acquises
 
+Vous savez maintenant :
 
-### 🚀 Compétences Acquises
+- gérer le DNS d'un domaine Active Directory ;
+- créer et maintenir des enregistrements A, CNAME et PTR, en GUI et en PowerShell ;
+- diagnostiquer les problèmes de résolution les plus courants.
 
-!!! success "Compétences acquises"
+### Pour aller plus loin
 
-Vous savez maintenant:
+La [Référence DNS - Concepts avancés](Théorie%20DNS-%20DNS%20Concepts%20Avances%20(Reference).md) couvre :
 
-- 🔧 Gérer le DNS dans un environnement Active Directory
-- 🔍 Diagnostiquer les problèmes de résolution DNS
-- 📝 Créer et maintenir des enregistrements DNS
-- 🔄 Comprendre l'intégration DNS-AD
-
-### 📚 Pour Aller Plus Loin
-
-!!! info "Pour aller plus loin"
-
-Si vous voulez approfondir les concepts théoriques DNS:
-
-- 📖 [Annexe A - DNS Concepts Avancés (Référence)](Théorie%20DNS-%20DNS%20Concepts%20Avances%20(Reference).md)
-  - Délégation DNS en détail
-  - Architecture multi-sites
-  - Zones secondaires avancées
-  - Enregistrements spécialisés
+- la résolution récursive et itérative ;
+- la délégation DNS ;
+- les zones secondaires ;
+- les enregistrements spécialisés (MX, TXT).
 
 ---
 
-## 🧭 Navigation
-[⏮️ Chapitre 4: Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre 6: Unités d'Organisation](Chapitre%206.Unites_Organisation.md)
-
----
-
-**📚 Cours Active Directory - Chapitre 5/9 | 💻 Hands-on complet**
+## Navigation
+[Chapitre 4 : Active Directory DS](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) | [Retour au Syllabus](index.md) | [Chapitre 6 : Unités d'Organisation](Chapitre%206.Unites_Organisation.md)

@@ -31,160 +31,96 @@
     
     1. **⚠️ VÉRIFIEZ** que vous êtes dans un environnement de test
     2. **Copier le code** ci-dessous (utilisez le bouton de copie)
-    3. **Sauvegarder** dans un fichier `suppression_structure.ps1`
+    3. **Sauvegarder** dans `C:\Scripts\suppression_structure.ps1`
     4. **Exécuter** avec PowerShell en tant qu'administrateur
-    5. **Confirmer** chaque action si demandé
+    5. **Lire** l'inventaire et la simulation `-WhatIf`, puis taper `SUPPRIMER` pour confirmer
 
 !!! info "🔄 Processus de suppression"
     
-    Le script suit cet ordre logique :
-    
-    1. **👥 Utilisateurs** → Suppression de tous les comptes
-    2. **💻 Ordinateurs** → Suppression des machines du domaine
-    3. **🏷️ Groupes** → Suppression des groupes de sécurité
-    4. **📁 Structure OU** → Suppression récursive des unités d'organisation
+    1. Vérifie que le domaine est bien `maxtec.be` et que `OU=EU` existe
+    2. Affiche l'inventaire des objets contenus dans `OU=EU` (par type)
+    3. Lance une simulation `-WhatIf`
+    4. Demande de taper `SUPPRIMER`
+    5. Retire la protection contre la suppression accidentelle puis supprime `OU=EU` avec `-Recursive`
 
 ---
 
 ## 📜 Code du Script
 
 ```powershell
-# Script pour supprimer la structure des OUs
-# Stocker ce script dans un fichier supression.ps1
+# Script de suppression de la structure du lab Maxtec
+# Fichier : C:\Scripts\suppression_structure.ps1
+# Supprime OU=EU et TOUT ce qu'elle contient (utilisateurs, groupes, ordinateurs, sous-OUs)
 
-# ATTENTION: Ce script supprime des objets AD. À utiliser avec précaution!
-
-# Importer le module Active Directory
 Import-Module ActiveDirectory
 
-# Fonction pour supprimer récursivement les OUs
-function Remove-OUStructure {
-    param (
-        [Parameter(Mandatory=$true)]
-        [string]$OUPath
-    )
-    
-    # Récupérer toutes les sous-OUs
-    $childOUs = Get-ADOrganizationalUnit -Filter * -SearchBase $OUPath -SearchScope OneLevel
-    
-    foreach ($childOU in $childOUs) {
-        # Supprimer récursivement les sous-OUs
-        Remove-OUStructure -OUPath $childOU.DistinguishedName
-        
-        # Désactiver la protection contre la suppression accidentelle
-        Set-ADOrganizationalUnit -Identity $childOU.DistinguishedName -ProtectedFromAccidentalDeletion $false
-        
-        # Supprimer l'OU
-        Write-Host "Suppression de l'OU: $($childOU.Name)"
-        Remove-ADOrganizationalUnit -Identity $childOU.DistinguishedName -Confirm:$false
-    }
+$rootOU = "OU=EU,DC=maxtec,DC=be"
+
+# Garde-fou 1 : bon domaine
+if ((Get-ADDomain).DNSRoot -ne 'maxtec.be') {
+    Write-Host "Ce script est prévu pour le domaine maxtec.be. Arrêt." -ForegroundColor Red
+    exit
 }
 
-# Chemin de base pour l'OU EU
-$baseOU = "OU=EU,DC=maxtec,DC=be"
+# Garde-fou 2 : l'OU existe
+try {
+    $null = Get-ADOrganizationalUnit -Identity $rootOU
+} catch {
+    Write-Host "L'OU $rootOU n'existe pas : rien à supprimer." -ForegroundColor Yellow
+    exit
+}
+
+# Inventaire de ce qui va disparaître
+$objets = Get-ADObject -Filter * -SearchBase $rootOU
+Write-Host "`nObjets qui seront supprimés :" -ForegroundColor Cyan
+$objets | Group-Object ObjectClass | Select-Object Name, Count | Format-Table -AutoSize
+
+# Simulation (-WhatIf) : rien n'est supprimé ici
+Remove-ADOrganizationalUnit -Identity $rootOU -Recursive -WhatIf
+
+# Confirmation explicite
+$reponse = Read-Host "`nTapez SUPPRIMER pour confirmer (toute autre réponse annule)"
+if ($reponse -cne 'SUPPRIMER') {
+    Write-Host "Annulé. Aucune modification." -ForegroundColor Yellow
+    exit
+}
 
 try {
-    # 1. Supprimer les utilisateurs
-    Write-Host "Suppression des utilisateurs..."
-    $users = @(
-        "vanessa", "valeria", "victor", "valentin",  # Ventes
-        "richard", "rebecca", "rene",                # RH
-        "charlotte", "cindy", "charles"              # Comptabilité
-    )
-    
-    foreach ($user in $users) {
-        $userDN = "CN=$user,*,OU=EU,DC=maxtec,DC=be"
-        Get-ADUser -Filter {SamAccountName -eq $user} | Remove-ADUser -Confirm:$false
-        Write-Host "Utilisateur supprimé: $user"
-    }
-    
-    # 2. Supprimer les ordinateurs
-    Write-Host "Suppression des ordinateurs..."
-    $computers = @(
-        "ws-ventes-01", "ws-ventes-02",  # Ventes
-        "ws-RH-01", "ws-RH-02",          # RH
-        "ws-compta-01", "ws-compta-02"   # Comptabilité
-    )
-    
-    foreach ($computer in $computers) {
-        Get-ADComputer -Filter {Name -eq $computer} | Remove-ADComputer -Confirm:$false
-        Write-Host "Ordinateur supprimé: $computer"
-    }
-    
-    # 3. Supprimer les groupes
-    Write-Host "Suppression des groupes..."
-    $groups = @(
-        "GG-EU-Ventes-Admin", "GG-EU-Ventes-Users",    # Ventes
-        "GG-EU-RH-Admin", "GG-EU-RH-Users",           # RH
-        "GG-EU-Compta-Admin", "GG-EU-Compta-Users"    # Comptabilité
-    )
-    
-    foreach ($group in $groups) {
-        Get-ADGroup -Filter {Name -eq $group} | Remove-ADGroup -Confirm:$false
-        Write-Host "Groupe supprimé: $group"
-    }
-    
-    # 4. Supprimer la structure d'OUs
-    Write-Host "Suppression de la structure d'OUs..."
-    
-    # Désactiver la protection contre la suppression accidentelle sur l'OU racine
-    Set-ADOrganizationalUnit -Identity $baseOU -ProtectedFromAccidentalDeletion $false
-    
-    # Supprimer récursivement toute la structure
-    Remove-OUStructure -OUPath $baseOU
-    
-    # Supprimer l'OU racine EU
-    Remove-ADOrganizationalUnit -Identity $baseOU -Confirm:$false
-    Write-Host "OU racine EU supprimée"
-    
-    Write-Host "Structure supprimée avec succès!"
+    # Retirer la protection contre la suppression accidentelle sur TOUS les objets (OUs, mais aussi
+    # utilisateurs ou groupes protégés pendant les exercices) : un seul objet protégé bloque -Recursive
+    Get-ADObject -Filter * -SearchBase $rootOU -Properties ProtectedFromAccidentalDeletion |
+        Where-Object { $_.ProtectedFromAccidentalDeletion } |
+        Set-ADObject -ProtectedFromAccidentalDeletion $false -ErrorAction Stop
+
+    Remove-ADOrganizationalUnit -Identity $rootOU -Recursive -Confirm:$false -ErrorAction Stop
+    Write-Host "`nStructure supprimée." -ForegroundColor Green
+    Write-Host "Les VMs clientes restent jointes au domaine mais leurs comptes ordinateur ont disparu :" -ForegroundColor Gray
+    Write-Host "re-joignez-les (ou remettez-les en groupe de travail) après avoir relancé creation_structure." -ForegroundColor Gray
 }
 catch {
-    Write-Error "Une erreur s'est produite: $_"
+    Write-Host "`nERREUR : $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host "Objets restants dans l'OU :" -ForegroundColor Gray
+    Get-ADObject -Filter * -SearchBase $rootOU -Properties ProtectedFromAccidentalDeletion -ErrorAction SilentlyContinue |
+        Select-Object Name, ObjectClass, ProtectedFromAccidentalDeletion | Format-Table -AutoSize
 }
 ```
 
 ---
 
-## 🔧 Fonctionnalités du Script
+## 🔧 Ce qu'il faut remarquer
 
-!!! success "✨ Fonctionnalités techniques"
+!!! success "Bonnes pratiques appliquées"
     
-    **🔄 Suppression récursive**
-    
-    - Fonction `Remove-OUStructure` pour suppression hiérarchique
-    - Gestion automatique des dépendances
-    - Désactivation de la protection contre suppression accidentelle
-    
-    **🎯 Ordre de suppression intelligent**
-    
-    - Utilisateurs → Ordinateurs → Groupes → Structure OU
-    - Évite les erreurs de dépendances
-    - Progression logique et sécurisée
-    
-    **🛡️ Gestion d'erreurs**
-    
-    - Try-catch global pour capturer les erreurs
-    - Messages informatifs pour chaque suppression
-    - Arrêt sécurisé en cas de problème
+    - **Une seule opération** : `Remove-ADOrganizationalUnit -Recursive` supprime tout le contenu de l'OU, y compris les objets créés pendant les exercices (nouveaux utilisateurs, groupes DL, ordinateurs joints). Pas de liste à maintenir.
+    - **Simulation avant action** : `-WhatIf` montre ce qui serait supprimé.
+    - **Confirmation non triviale** : taper un mot entier, sensible à la casse (`-cne`), évite le "O + Entrée" machinal.
+    - **Erreurs réellement capturées** : `-ErrorAction Stop` transforme l'erreur en exception, sinon le `catch` ne se déclenche pas.
 
-!!! info "📋 Objets supprimés"
+!!! info "Ce qui n'est pas supprimé"
     
-    **👥 Utilisateurs supprimés :**
-    
-    - **Ventes** : vanessa, valeria, victor, valentin
-    - **RH** : richard, rebecca, rené
-    - **Comptabilité** : charlotte, cindy, charles
-    
-    **💻 Ordinateurs supprimés :**
-    
-    - **Ventes** : ws-ventes-01, ws-ventes-02
-    - **RH** : ws-RH-01, ws-RH-02
-    - **Comptabilité** : ws-compta-01, ws-compta-02
-    
-    **🏷️ Groupes supprimés :**
-    
-    - Tous les groupes `GG-EU-*-Admin` et `GG-EU-*-Users`
+    - Les GPOs : elles vivent hors des OUs (seuls leurs liens disparaissent). Nettoyage dans la GPMC ou avec `Get-GPO -All`.
+    - Les partages et dossiers créés sur le serveur (`C:\Shares`…).
+    - Les objets créés en dehors de `OU=EU`.
 
 !!! danger "🚨 Avertissements critiques"
     

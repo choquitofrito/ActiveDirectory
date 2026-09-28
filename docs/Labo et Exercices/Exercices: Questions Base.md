@@ -1,6 +1,8 @@
+# Questions de base
+
 ### Concepts de base
 
-Essaye de repondre à ces questions en utilisant tes propres mots. Tout l'information se trouve dans le syllabus.
+Répondez à ces questions avec vos propres mots avant d'ouvrir la réponse. Toute l'information se trouve dans le syllabus.
 
 ## Chapitre 3. DNS
 
@@ -16,13 +18,15 @@ Essaye de repondre à ces questions en utilisant tes propres mots. Tout l'inform
         Par exemple:
 
         ```
-        ws-compta-01 IN A 192.168.10.128
+        ws-IT-01 IN A 192.168.0.10
         ```
 
-3. Qu'est-ce que c'est un arbre DNS et une forêt DNS?
+3. Qu'est-ce que c'est un arbre DNS ? Existe-t-il une « forêt DNS » ?
 
     ??? success "Réponse"
-        Un arbre DNS est une structure hiérarchique de noms de domaine partageant un même suffixe (ex: .maxtec.be). Une forêt DNS est l'ensemble de tous les arbres DNS sur Internet.
+        L'espace de noms DNS est **un seul arbre** hiérarchique, qui part de la racine (`.`), puis les domaines de premier niveau (`be`), puis `maxtec.be`, puis `eu.maxtec.be`, etc. Chaque nœud est un domaine.
+
+        La « forêt DNS » n'existe pas : **arbre** et **forêt** au sens de plusieurs arbres sont des notions d'**Active Directory**. Une forêt AD regroupe un ou plusieurs arbres de domaines AD (par exemple `maxtec.be` et `techshop.fr`) qui partagent le même schéma et la même configuration.
 
 4. Qu'est-ce que c'est un serveur avec autorité?
 
@@ -62,9 +66,11 @@ Essaye de repondre à ces questions en utilisant tes propres mots. Tout l'inform
     ??? success "Réponse"
         Avant d'installer AD DS, il faut:
 
-        - Configurer une adresse IP statique
-        - Configurer le nom du serveur (hostname)
-        - Installer et configurer AD-DS
+        - Configurer une adresse IP statique (`192.168.0.2`)
+        - Mettre comme serveur DNS préféré l'adresse du serveur lui-même (`192.168.0.2`), puisqu'il hébergera le DNS du domaine
+        - Configurer le nom du serveur (`dns1`, suffixe DNS `maxtec.be`) : renommer un DC après la promotion est beaucoup plus compliqué
+
+        Ensuite seulement : installer le rôle AD DS, puis promouvoir le serveur en contrôleur de domaine.
 
 7. Expliquez brièvement qu'est-ce que c'est le schéma de l'AD
 
@@ -84,7 +90,7 @@ Essaye de repondre à ces questions en utilisant tes propres mots. Tout l'inform
 9. Qu'est-ce que c'est un catalogue global?
 
     ??? success "Réponse"
-        Le catalogue global est une base de données qui contient une copie partielle de tous les objets de la forêt AD. Cela permet des recherches rapides d'objets dans toute la forêt.
+        Le catalogue global est un rôle de contrôleur de domaine : il contient une **réplique partielle de tous les objets de la forêt** AD (tous les objets, mais seulement une sélection de leurs attributs). Il permet des recherches rapides dans toute la forêt, et il est utilisé à l'ouverture de session pour résoudre un UPN (`ivan@maxtec.be`) et connaître l'appartenance aux groupes universels.
 
 ## Chapitre 5. DNS-Pratique-avec-AD
 
@@ -96,7 +102,7 @@ Essaye de repondre à ces questions en utilisant tes propres mots. Tout l'inform
 2. Si un client Windows ne peut pas rejoindre le domaine maxtec.be, quelle est la première chose à vérifier côté réseau?
 
     ??? success "Réponse"
-        Vérifier la configuration **DNS du client**. Le client doit pointer vers un serveur DNS qui héberge la zone du domaine (dans notre cas, dns1.maxtec.be ou dns2.maxtec.be) — pas vers un DNS public comme 8.8.8.8.
+        Vérifier la configuration **DNS du client**. Le client doit pointer vers un serveur DNS qui héberge la zone du domaine (dans notre cas, `dns1.maxtec.be`, `192.168.0.2`) — pas vers un DNS public comme 8.8.8.8, qui ne connaît pas les enregistrements SRV de `maxtec.be`.
 
 3. Quelle est la différence entre une zone DNS **intégrée à l'AD** et une zone DNS **standard**?
 
@@ -143,7 +149,9 @@ Essaye de repondre à ces questions en utilisant tes propres mots. Tout l'inform
 6. Est-ce qu'on peut établir des stratégies de groupe sur les objets d'un groupe d'utilisateurs?
 
     ??? success "Réponse"
-        Non, on ne peut pas appliquer des stratégies de groupe sur les objets d'un groupe d'utilisateurs. Les stratégies de groupe (GPOs) sont appliquées aux objets d'une OU, pas aux groupes.
+        Pas directement : une GPO ne se **lie** pas à un groupe, seulement à un site, un domaine ou une OU.
+
+        Mais on peut **filtrer** son application par groupe : avec le **filtrage de sécurité** (onglet **Étendue** dans GPMC), une GPO liée à une OU ne s'applique qu'aux utilisateurs ou ordinateurs de cette OU **qui sont aussi membres** du groupe indiqué. Par exemple, une GPO liée à `OU=Users,OU=Ventes,OU=EU` filtrée sur `GG-EU-Ventes-Admin` ne s'applique qu'à `valentin`.
 
 ## Chapitre 7. Gestion des Utilisateurs
 
@@ -179,22 +187,22 @@ Essaye de repondre à ces questions en utilisant tes propres mots. Tout l'inform
             - `21-3623811015-3361044348-30300820` : identifiant unique du **domaine** maxtec.be
             - `1013` : **RID** (Relative ID) — propre à l'objet dans ce domaine
 
-            Si on supprime l'utilisateur `jdupont` puis on en recrée un avec le même nom, il aura un nouveau RID (par ex. `1247`) et donc un nouveau SID. Toutes les permissions liées à l'ancien SID sont perdues.
+            Si on supprime l'utilisateur `cindy` puis on en recrée un avec le même nom, il aura un nouveau RID (par ex. `1247`) et donc un nouveau SID. Toutes les permissions liées à l'ancien SID sont perdues.
 
         !!! info "SID vs distinguishedName : ne pas confondre"
             Un objet AD a **deux identifiants** très différents :
 
             | | **SID** | **distinguishedName (DN)** |
             |---|---|---|
-            | Format | `S-1-5-21-...-1013` | `CN=Jean Dupont,OU=Compta,OU=Users,DC=maxtec,DC=be` |
+            | Format | `S-1-5-21-...-1013` | `CN=Cindy,OU=Users,OU=Comptabilite,OU=EU,DC=maxtec,DC=be` |
             | Rôle | Identifier pour la **sécurité** (ACL, permissions) | Identifier l'**emplacement** dans l'arbre AD |
             | Change si... | on supprime/recrée l'objet | on **déplace** l'objet dans une autre OU ou on le **renomme** |
             | Utilisé par | Windows (kernel, ACL) | LDAP, scripts, GPO scoping |
 
             Conséquences pratiques :
 
-            - Déplacer `jdupont` de l'OU `Compta` vers `Direction` change son **DN** mais pas son **SID** → il garde toutes ses permissions.
-            - Supprimer `jdupont` puis le recréer change son **SID** → toutes les permissions sont perdues, même si le DN finit par être identique.
+            - Déplacer `cindy` de l'OU `Comptabilite` vers l'OU `RH` change son **DN** mais pas son **SID** → elle garde toutes ses permissions.
+            - Supprimer `cindy` puis la recréer change son **SID** → toutes les permissions sont perdues, même si le DN finit par être identique.
 
         !!! tip "Voir le SID dans ADUC (interface graphique)"
             1. Ouvrir **Utilisateurs et ordinateurs Active Directory**
@@ -291,5 +299,5 @@ Essaye de repondre à ces questions en utilisant tes propres mots. Tout l'inform
         Il limite la recherche à une **OU spécifique** au lieu de chercher dans tout le domaine. Utile pour ne pas surcharger les requêtes :
 
         ```powershell
-        Get-ADUser -Filter * -SearchBase "OU=Compta,OU=Users,DC=maxtec,DC=be"
+        Get-ADUser -Filter * -SearchBase "OU=Users,OU=Comptabilite,OU=EU,DC=maxtec,DC=be"
         ```

@@ -52,13 +52,13 @@ OU=EU,DC=maxtec,DC=be
 │   └── OU=Groups (GG-EU-IT-Users, GG-EU-IT-Admin)
 ├── OU=Ventes
 │   ├── OU=Users (Victor, Vanessa, Valeria, Valentin)
-│   └── OU=Groups (GG-EU-Ventes-Users, GG-EU-Ventes-Admins)
+│   └── OU=Groups (GG-EU-Ventes-Users, GG-EU-Ventes-Admin)
 ├── OU=RH
 │   ├── OU=Users (Rene, Rebecca, Richard)
-│   └── OU=Groups (GG-EU-RH-Users, GG-EU-RH-Admins)
+│   └── OU=Groups (GG-EU-RH-Users, GG-EU-RH-Admin)
 └── OU=Compta
     ├── OU=Users (Charles, Cindy, Charlotte)
-    └── OU=Groups (GG-EU-Compta-Users, GG-EU-Compta-Admins)
+    └── OU=Groups (GG-EU-Compta-Users, GG-EU-Compta-Admin)
 ```
 
 ### Vérification Initiale (EXÉCUTER AVANT LE COURS)

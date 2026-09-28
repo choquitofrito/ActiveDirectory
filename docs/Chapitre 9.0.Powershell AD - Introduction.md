@@ -8,9 +8,16 @@
 
 ---
 
-!!! info "📚 Dans ce chapitre"
+!!! info "Objectifs du chapitre"
     
-    Découvrez PowerShell pour Active Directory : un outil puissant pour automatiser et simplifier la gestion de votre domaine.
+    À la fin de ce chapitre, vous savez :
+    
+    - vérifier que le module `ActiveDirectory` est disponible et choisir votre éditeur (VS Code ou ISE) ;
+    - lister et compter les utilisateurs, groupes, OUs et ordinateurs de `maxtec.be` ;
+    - afficher des propriétés qui ne sont pas renvoyées par défaut (`-Properties`) ;
+    - écrire un filtre simple (`Enabled -eq $false`) ;
+    - trouver l'aide d'une commande (`Get-Help`, `Update-Help`, `-Online`) ;
+    - transposer vos réflexes bash vers PowerShell.
 
 ---
 
@@ -29,7 +36,16 @@ PowerShell est un outil d'administration puissant qui permet d'automatiser et de
 
 !!! note "Module disponible"
     
-    Sur un contrôleur de domaine avec le rôle AD DS installé, ce module est généralement **déjà disponible et chargé automatiquement** dans PowerShell ISE.
+    Sur un contrôleur de domaine avec le rôle AD DS installé, le module `ActiveDirectory` est **déjà installé**. PowerShell le charge automatiquement dès que vous tapez une commande `*-AD*` : pas besoin d'`Import-Module` en temps normal.
+
+!!! tip "Quel éditeur ?"
+    
+    - **Recommandé : Visual Studio Code + extension PowerShell**, installé soit sur le poste client `ws-IT-01` (avec les outils RSAT, voir plus bas), soit directement sur le DC. Coloration, autocomplétion, débogage, et c'est l'outil que vous retrouverez en entreprise.
+    - **Accepté : PowerShell ISE**, présent d'office sur Windows Server. Il fonctionne, mais Microsoft ne le fait plus évoluer.
+
+!!! note "PowerShell 5.1 ou 7 ?"
+    
+    Windows Server et Windows 11 livrent **Windows PowerShell 5.1** (`powershell.exe`). PowerShell 7 (`pwsh.exe`) s'installe à part et peut utiliser le module AD via une couche de compatibilité. Le DC du lab n'a que la 5.1 : **écrivez du code compatible 5.1**. En pratique, évitez l'opérateur ternaire `condition ? a : b` et l'opérateur `??`, qui n'existent qu'en 7. Pour connaître votre version : `$PSVersionTable.PSVersion`.
 
 ```powershell
 # Vérifier si le module AD est chargé
@@ -81,11 +97,12 @@ Get-ADUser -Filter *
 
 
 
-# Afficher tous les utilisateurs du domaine, mais sélectionner des attributs spécifiques et les afficher de manière structurée
-# Le Format-Table permet d'afficher les résultats dans un format tabulaire
-# La propriétés Enabled, qui n'est pas affichée par défaut, et sélectionnée avec Properties.
-Get-ADUser -Filter * -Properties Name, Enabled, SamAccountName | 
-    Format-Table Name, Enabled, SamAccountName
+# Par défaut, Get-ADUser ne renvoie qu'une dizaine de propriétés
+# (Name, SamAccountName, Enabled, DistinguishedName, UserPrincipalName...).
+# Department et LastLogonDate n'en font pas partie : il faut les demander avec -Properties.
+# Format-Table affiche le résultat en tableau.
+Get-ADUser -Filter * -Properties Department, LastLogonDate |
+    Format-Table Name, SamAccountName, Department, LastLogonDate
 
 # Obtenir d'autres types d'objets AD
 
@@ -152,12 +169,25 @@ New-Item -Path "C:\Scripts" -ItemType Directory -Force
 
 !!! info "Aide intégrée"
     
-    PowerShell dispose d'un système d'aide intégré complet mais très technique pour débuter :
+    PowerShell dispose d'un système d'aide intégré, complet mais assez technique. Sur une installation neuve, seule une aide minimale est présente : il faut d'abord la télécharger avec `Update-Help` (console en administrateur, accès Internet requis). Sans Internet, `-Online` ouvre la page correspondante sur learn.microsoft.com depuis une machine connectée.
 
 ```powershell
+# Télécharger l'aide complète (une fois, en administrateur)
+Update-Help -UICulture en-US -ErrorAction SilentlyContinue
+
 # Afficher l'aide dans une fenêtre séparée
 Get-Help Get-ADUser -ShowWindow
+
+# Seulement les exemples
+Get-Help Get-ADUser -Examples
+
+# Ouvrir la documentation en ligne dans le navigateur
+Get-Help Get-ADUser -Online
 ```
+
+!!! note "Pourquoi `-UICulture en-US` ?"
+    
+    L'aide n'existe pas pour toutes les langues. Sur un Windows en français, `Update-Help` sans paramètre affiche souvent des erreurs pour les modules sans aide française. Ici, `-ErrorAction SilentlyContinue` est acceptable : un module sans aide n'est pas un problème.
 
 !!! example "Exercice d'exploration"
     
@@ -165,7 +195,36 @@ Get-Help Get-ADUser -ShowWindow
 
 ---
 
-## 6. Fil rouge : Jour 1 chez Maxtec
+## 6. Si vous venez de Linux / bash
+
+Beaucoup de réflexes se transposent, mais la différence fondamentale est la suivante : **dans un pipeline PowerShell, ce sont des objets qui circulent, pas du texte**. On ne découpe pas des colonnes avec `cut` ou `awk`, on demande une propriété par son nom.
+
+| bash | PowerShell | Remarque |
+|------|-----------|----------|
+| `ls` | `Get-ChildItem` (alias `ls`, `dir`) | Les options GNU (`ls -la`) ne marchent pas : `Get-ChildItem -Force` |
+| `cat fichier` | `Get-Content fichier` (alias `cat`) | |
+| `grep motif` sur du texte | `Select-String motif` | Pour chercher dans des fichiers ou du texte |
+| `grep` sur une sortie de commande | `Where-Object { $_.Propriete -eq 'x' }` | On filtre sur une propriété, pas sur une ligne |
+| `wc -l` | `Measure-Object` ou `(...).Count` | |
+| `sort`, `head -5` | `Sort-Object`, `Select-Object -First 5` | |
+| `cut`, `awk '{print $1}'` | `Select-Object Name, Department` | |
+| `man commande` | `Get-Help commande` | Après `Update-Help` |
+| `which` | `Get-Command` | Indique aussi le module d'origine |
+| `x=5` puis `$x` | `$x = 5` puis `$x` | Le `$` est aussi présent à l'affectation |
+| `> fichier.txt` | `> fichier.txt` ou `Out-File` | Pour des données : `Export-Csv` |
+| `echo` | `Write-Host` / `Write-Output` | |
+| `rm -rf` | `Remove-Item -Recurse -Force` | Existe aussi avec `-WhatIf` |
+
+Les pièges classiques quand on arrive de bash :
+
+- **Filtrer côté serveur, pas côté client.** `Get-ADUser -Filter "Department -eq 'IT'"` demande au DC de ne renvoyer que les comptes IT. `Get-ADUser -Filter * | Where-Object Department -eq 'IT'` rapatrie **tout** l'annuaire puis trie localement : sans importance sur 13 comptes, très lent sur 50 000. Réflexe : `-Filter` d'abord, `Where-Object` seulement pour ce que `-Filter` ne sait pas faire.
+- **`Format-Table` / `Format-List` toujours en dernier.** Les `Format-*` transforment les objets en instructions d'affichage. Après eux, `Export-Csv` ou `Select-Object` ne reçoivent plus des utilisateurs mais du texte mis en page. Pour exporter : `Select-Object` puis `Export-Csv`.
+- **`-Filter` : chaîne ou bloc `{ }`.** Les deux formes existent. Avec une variable simple, `{Department -eq $dept}` fonctionne ; avec une expression (`$user.Department`, `(Get-Date).AddDays(-30)`), le bloc échoue. La forme la plus fiable est la chaîne entre guillemets doubles : `-Filter "Department -eq '$dept'"`. Calculez les dates dans une variable avant le filtre.
+- **Erreurs terminantes et non terminantes.** Beaucoup d'erreurs PowerShell n'arrêtent pas le script : il continue à la ligne suivante, comme un `bash` sans `set -e`. Pour qu'un `try/catch` attrape l'erreur, ajoutez `-ErrorAction Stop` à la commande. À l'inverse, `Get-ADUser -Identity inconnu` lance une erreur terminante que `-ErrorAction SilentlyContinue` ne supprime pas : il faut un `try/catch`.
+
+---
+
+## 7. Fil rouge : Jour 1 chez Maxtec
 
 !!! info "Contexte"
     
@@ -279,6 +338,6 @@ Vous savez maintenant compter les objets AD, lire les propriétés du domaine, �
 
 ---
 
-**📚 Cours Active Directory - PowerShell | 👨‍💻 Pour débutants**
+**📚 Cours Active Directory - PowerShell**
 
 

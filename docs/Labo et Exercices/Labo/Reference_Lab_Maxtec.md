@@ -1,0 +1,146 @@
+# Référence du lab Maxtec
+
+Valeurs officielles du lab. Tous les chapitres et exercices s'y réfèrent : en cas de doute ou de contradiction, **cette page fait foi**.
+
+---
+
+## Réseau et machines
+
+| Élément | Valeur |
+|---------|--------|
+| Domaine DNS / AD | `maxtec.be` |
+| Nom NetBIOS | `MAXTEC` |
+| DN du domaine | `DC=maxtec,DC=be` |
+| Réseau du lab | `192.168.0.0/24` (VirtualBox : **Réseau interne**) |
+| Contrôleur de domaine | `dns1.maxtec.be` — `192.168.0.2` — DNS préféré : `192.168.0.2` |
+| Poste client 1 | `ws-IT-01` — `192.168.0.10` (ou DHCP) — DNS : `192.168.0.2` |
+| Poste client 2 (optionnel) | `ws-RH-01` — `192.168.0.11` (ou DHCP) — DNS : `192.168.0.2` |
+| Zone de recherche inverse | `0.168.192.in-addr.arpa` |
+
+| Logiciel | Recommandé | Accepté |
+|----------|-----------|---------|
+| Serveur | Windows Server 2025 (ISO d'évaluation 180 jours) | Windows Server 2022 |
+| Niveau fonctionnel forêt/domaine | Windows Server 2025 | Windows Server 2016 (niveau maximal avec un DC 2022) |
+| Client | Windows 11 Professionnel | — (Windows 10 n'est plus supporté depuis le 14/10/2025) |
+| Éditeur de scripts | Visual Studio Code + extension PowerShell | PowerShell ISE (n'évolue plus, reste présent sur le serveur) |
+
+!!! warning "Une seule carte réseau sur le DC"
+    Le DC n'a qu'une carte, sur le réseau interne. Un DC avec deux cartes (LAN + NAT) enregistre ses deux adresses dans DNS et les clients tombent au hasard sur la mauvaise. Si vous avez besoin d'Internet ponctuellement (mises à jour, téléchargement), ajoutez une carte NAT le temps de l'opération puis retirez-la.
+
+!!! note "Les postes clients doivent être dans leur OU"
+    Une machine qui rejoint le domaine arrive dans le conteneur `CN=Computers`, **où aucune GPO d'OU ne s'applique**. Après la jonction, déplacez-la :
+
+    - `ws-IT-01` → `OU=Computers,OU=IT,OU=EU,DC=maxtec,DC=be`
+    - `ws-RH-01` → `OU=Computers,OU=RH,OU=EU,DC=maxtec,DC=be`
+
+    ```powershell
+    Get-ADComputer ws-IT-01 | Move-ADObject -TargetPath "OU=Computers,OU=IT,OU=EU,DC=maxtec,DC=be"
+    ```
+
+---
+
+## Structure AD (créée par `creation_structure.ps1`)
+
+```
+maxtec.be
+└── EU
+    ├── Ventes        ├── Users  ├── Computers  └── Groups
+    ├── RH            ├── Users  ├── Computers  └── Groups
+    ├── Comptabilite  ├── Users  ├── Computers  └── Groups
+    └── IT            ├── Users  ├── Computers  └── Groups
+```
+
+Toutes les OUs sont créées **sans** protection contre la suppression accidentelle (lab). En production, on les protège.
+
+### Utilisateurs
+
+`SamAccountName` = prénom en minuscules, UPN = `prenom@maxtec.be`, mot de passe de lab `Azerty_1`.
+
+!!! note "Nom de l'objet = prénom"
+    Le `Name` des utilisateurs du lab est le **prénom** : c'est ce que vous voyez dans `dsa.msc` et ce qui forme le DN (`CN=Ivan,OU=Users,OU=IT,OU=EU,DC=maxtec,DC=be`). Le nom complet (« Ivan Istace ») est dans `DisplayName`.
+
+| Login | Nom affiché | OU / `Department` | `Title` | Groupe |
+|-------|-------------|-------------------|---------|--------|
+| `vanessa` | Vanessa Vermeulen | Ventes | Commerciale | GG-EU-Ventes-Users |
+| `valeria` | Valeria Verhoeven | Ventes | Commerciale | GG-EU-Ventes-Users |
+| `victor` | Victor Vandamme | Ventes | Commercial | GG-EU-Ventes-Users |
+| `valentin` | Valentin Vanderlinden | Ventes | Responsable Ventes | **GG-EU-Ventes-Admin** |
+| `richard` | Richard Renard | RH | Responsable RH | **GG-EU-RH-Admin** |
+| `rebecca` | Rebecca Rousseau | RH | Gestionnaire RH | GG-EU-RH-Users |
+| `rene` | Rene Remy | RH | Gestionnaire RH | GG-EU-RH-Users |
+| `charlotte` | Charlotte Claes | Comptabilite | Responsable Comptabilite | **GG-EU-Compta-Admin** |
+| `cindy` | Cindy Collard | Comptabilite | Comptable | GG-EU-Compta-Users |
+| `charles` | Charles Cornet | Comptabilite | Comptable | GG-EU-Compta-Users |
+| `ivan` | Ivan Istace | IT | Technicien | GG-EU-IT-Users |
+| `ines` | Ines Installe | IT | Technicienne | GG-EU-IT-Users |
+| `irene` | Irene Iserbyt | IT | Administratrice systeme | **GG-EU-IT-Admin** |
+
+!!! tip "Pièges de nommage fréquents"
+    - Le groupe est `GG-EU-Compta-…` mais l'OU et le `Department` sont `Comptabilite` (**sans accent**).
+    - Les groupes d'administration sont au **singulier** : `GG-EU-RH-Admin`, pas `…-Admins`.
+    - Les membres "Admin" (valentin, richard, charlotte, irene) ne sont **pas** membres du groupe `…-Users` de leur département. Pour tester un accès "utilisateur", prenez un membre de `…-Users`.
+
+### Groupes
+
+8 groupes globaux de sécurité, dans `OU=Groups,OU=<Dept>,OU=EU` :
+
+| Département | Groupe utilisateurs | Groupe responsables |
+|-------------|--------------------|--------------------|
+| Ventes | `GG-EU-Ventes-Users` | `GG-EU-Ventes-Admin` |
+| RH | `GG-EU-RH-Users` | `GG-EU-RH-Admin` |
+| Comptabilite | `GG-EU-Compta-Users` | `GG-EU-Compta-Admin` |
+| IT | `GG-EU-IT-Users` | `GG-EU-IT-Admin` |
+
+Conventions pour les groupes que vous créerez :
+
+| Type | Préfixe | Exemple |
+|------|---------|---------|
+| Global | `GG-` | `GG-EU-Ventes-Users` |
+| Domaine local | `DL-` | `DL-Ventes-Documents-Modification` |
+| Universel | `UG-` | `UG-Direction` |
+
+Les groupes domaine local suivent le format `DL-<Ressource>-<Niveau>`, avec trois niveaux dans tout le cours : `-Lecture`, `-Modification`, `-ControleTotal`.
+
+---
+
+## Partages
+
+Règle unique : le dossier `C:\Shares\<Nom>` sur le DC est partagé sous le nom `<Nom>`, donc accessible en `\\dns1\<Nom>`. Le chemin à mettre dans une GPO est **toujours** le chemin réseau (UNC), jamais `C:\…`.
+
+| Dossier local | Chemin réseau | Utilisé dans |
+|---------------|---------------|--------------|
+| `C:\Shares\IT-docs` | `\\dns1\IT-docs` | Chapitre 7 §5 (share vs NTFS) |
+| `C:\Shares\Ventes-Documents` | `\\dns1\Ventes-Documents` | AGDLP |
+| `C:\Shares\Factures` | `\\dns1\Factures` | AGDLP (extension) |
+| `C:\Shares\Software` | `\\dns1\Software` | GPO-1 (déploiement MSI) |
+| `C:\Shares\IT-Admin` | `\\dns1\IT-Admin` | GPO-1 (lecteur réseau) |
+| `C:\Shares\Compta-Docs` | `\\dns1\Compta-Docs` | GPO-3 (redirection de dossiers) |
+
+!!! note "Partages sur un DC"
+    En entreprise, les fichiers sont sur un serveur de fichiers membre, pas sur un DC. Ici on n'a qu'un serveur : c'est un compromis de lab.
+
+---
+
+## Objets créés pendant le cours
+
+Ces objets ne sont pas créés par `creation_structure.ps1` : ils apparaissent au fil des exercices. Ils sont listés ici pour éviter les collisions de noms et savoir d'où vient un objet inattendu.
+
+| Objet | Où | Créé dans |
+|-------|----|-----------|
+| OU `Resources` et sa sous-OU `Groups` (`OU=Groups,OU=Resources,OU=EU,DC=maxtec,DC=be`) | sous `OU=EU` | AGDLP |
+| `DL-Ventes-Documents-Lecture`, `-Modification`, `-ControleTotal` | `OU=Groups,OU=Resources,OU=EU` | AGDLP |
+| `DL-Factures-Lecture`, `DL-Factures-Modification` | `OU=Groups,OU=Resources,OU=EU` | AGDLP (extension) |
+| Partage `Profiles$` (`C:\Shares\Profiles` → `\\dns1\Profiles$`) | DC | Gestion des utilisateurs, Ex. 11 |
+| Partage `Logistique` (`C:\Shares\Logistique` → `\\dns1\Logistique`) | DC | Projet final |
+| Compte `chloe` (Chloé Dumont) | `OU=Users,OU=Comptabilite,OU=EU` | Gestion des utilisateurs, Ex. 1 |
+| Comptes `jean.dupont`, `sophie.dubois` | `OU=Users,OU=IT,OU=EU` et `OU=Users,OU=Ventes,OU=EU` | Chapitre 9.3 |
+| Compte `irene-adm` | `OU=Users,OU=IT,OU=EU` | Chapitre 11 |
+| OU `Logistique` (louis, lea, lucas, laura ; `GG-EU-Logistique-*`, `DL-Logistique-*`) | sous `OU=EU` | Projet final |
+| OU `Achats` (adrien, agathe ; `GG-EU-Achats-*`) et OU `Marketing` | sous `OU=EU` | Exercice en autonomie : OUs et départements complémentaires |
+
+---
+
+## Remise à zéro
+
+- Tout supprimer : [`suppression_structure.ps1`](PowerShell-scriptsStructure/suppression_structure.md)
+- Tout recréer : [`creation_structure.ps1`](PowerShell-scriptsStructure/creation_structure.md)

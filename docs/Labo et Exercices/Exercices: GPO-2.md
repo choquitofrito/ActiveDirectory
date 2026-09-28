@@ -1,13 +1,15 @@
+# Exercices : GPO — série 2
+
 ## Exercice 5: Restreindre la connexion aux ordinateurs d’un département
 
 
 L’entreprise veut renforcer la sécurité en empêchant les utilisateurs d’un département d’utiliser les ordinateurs d’un autre.
 
-**Dans ce laboratoire, tu dois configurer les ordinateurs de l’OU "IT\Computers"** pour qu’**uniquement les utilisateurs de IT\Users** puissent s’y connecter.
+**Configurez les ordinateurs de l’OU `IT\Computers`** pour que **seuls les membres du département IT** puissent s’y connecter.
 
-Pensez à comment faire ça. Astuce: on doit profiter des groupes existants dans IT et créer une GPO qui affecte les ordinateurs. 
+Piste : utilisez les groupes existants d'IT et une GPO qui s'applique aux ordinateurs.
 
-Vu que chercher dans les GPOs est une folie, voici la section de la GPO que tu dois configurer:
+Le paramètre à configurer :
 
 Configuration ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies locales > Attribution des droits utilisateur > Permettre l'ouverture de session locale
 
@@ -16,14 +18,11 @@ Configuration ordinateur > Stratégies > Paramètres Windows > Paramètres de s�
 
 !!! warning "Prérequis pour l'exercice"
 
-- Une OU principale : `EU`
-- Une sous-OU `IT`, contenant :
-  - `IT\Users` : utilisateurs du département IT
-  - `IT\Computers` : ordinateurs du département IT
+    - Structure du lab créée ([Référence du lab Maxtec](Labo/Reference_Lab_Maxtec.md)) : `ivan`, `ines` (`GG-EU-IT-Users`), `irene` (`GG-EU-IT-Admin`), `victor` (`EU\Ventes\Users`)
+    - `ws-IT-01` joint au domaine **et déplacé** dans `OU=Computers,OU=IT,OU=EU`
 
-- Trois utilisateurs créés dans `IT\Users` : `ines`, `irene`, `ivan`
-- Un utilisateur d'un autre département : `victor` dans `EU\Ventes\Users`
-- Un ordinateur joint au domaine dans `IT\Computers` : `ws-IT-01` (dans l'idéel deux ordinateurs si vous êtes à l'aise pour changer le nom d'un ordinateur ou pour créer une autre VM)
+!!! danger "Cette GPO bloque les autres exercices"
+    Tant qu'elle est active, seuls les membres d'IT peuvent ouvrir une session sur `ws-IT-01`. Or la plupart des exercices testent d'autres utilisateurs (vanessa, rebecca, valentin…) sur ce même poste. **À la fin de l'exercice, supprimez le lien** : GPMC > OU `EU\IT\Computers` > clic droit sur le lien `GPO-IT-LoginRestreint` > **Supprimer** (le lien seulement : la GPO reste dans `Objets de stratégie de groupe`), puis `gpupdate /force` et redémarrage du poste. Un simple lien désactivé ne suffit pas : l'exercice de dépannage D1 fait chercher les liens désactivés, et vous risqueriez de réactiver celui-ci.
 
 
 ??? success "Solution (cliquez pour afficher)"
@@ -41,28 +40,35 @@ Configuration ordinateur > Stratégies > Paramètres Windows > Paramètres de s�
     - Double-cliquer sur **`Permettre l'ouverture de session locale`**
     - Cocher `Définir ces paramètres de stratégie`
     - Ajouter **uniquement** :
-        - `GG-EU-IT-Users` (le groupe global des utilisateurs IT)
-        - `Administrators` (groupe local — **NE JAMAIS L'OUBLIER**, sinon plus aucun admin ne peut se connecter à la machine)
+        - `GG-EU-IT-Users` (techniciens IT)
+        - `GG-EU-IT-Admin` (Irene n'est **pas** membre de `GG-EU-IT-Users` : sans ce groupe, elle serait bloquée)
+        - `Administrateurs` (groupe local du poste — **à ne jamais oublier**, sinon plus aucun administrateur ne peut ouvrir de session sur la machine)
 
     !!! danger "Piège classique"
-        Si vous oubliez `Administrators` dans la liste, vous vous verrouillez vous-même hors des postes IT. Il faut alors passer par le mode sans échec ou révoquer la GPO depuis le DC. **Toujours inclure `Administrators` quand on configure "Permettre l'ouverture de session locale".**
+        Si vous oubliez `Administrateurs`, vous vous enfermez hors des postes IT. Il faut alors désactiver le lien de la GPO depuis le DC et attendre que le poste la retire. **Toujours inclure `Administrateurs` dans "Permettre l'ouverture de session locale".**
 
     **3. Tester**
 
     - Sur `ws-IT-01` : `gpupdate /force` puis redémarrer
-    - Se connecter avec `irene` (IT\Users) → ✅ doit fonctionner
-    - Se connecter avec `victor` (Ventes\Users) → ❌ message : *"La méthode d'ouverture de session que vous tentez d'utiliser n'est pas autorisée."*
+    - Se connecter avec `ivan` (`GG-EU-IT-Users`) → doit fonctionner ; idem avec `irene` (`GG-EU-IT-Admin`)
+    - Se connecter avec `victor` (Ventes) → refusé, avec un message du type *« La méthode de connexion que vous tentez d'utiliser n'est pas autorisée »* (en anglais : *The sign-in method you're trying to use isn't allowed* ; le libellé exact varie selon la version de Windows 11)
 
-    **Pourquoi ça marche ?** La GPO est liée à l'OU des **ordinateurs**, donc elle s'applique à `ws-IT-01`. Le droit "Permettre l'ouverture de session locale" est évalué côté machine : seuls les SIDs listés peuvent ouvrir une session interactive.
+    **Pourquoi ça marche ?** La GPO est liée à l'OU des **ordinateurs**, donc elle s'applique à `ws-IT-01`. Le droit "Permettre l'ouverture de session locale" est évalué côté machine : seuls les SID listés (directement ou via un groupe) peuvent ouvrir une session interactive. La GPO **remplace** la liste locale : par défaut, le groupe local `Utilisateurs` (qui contient `Utilisateurs du domaine`) y figurait, ce qui permettait à tout le monde de se connecter.
+
+    **N'oubliez pas de supprimer le lien de la GPO** (clic droit sur le lien sous `EU\IT\Computers` > **Supprimer**) avant de passer à la suite.
+
+    ```powershell
+    Remove-GPLink -Name "GPO-IT-LoginRestreint" -Target "OU=Computers,OU=IT,OU=EU,DC=maxtec,DC=be"
+    ```
 
 
-## Exercice 6: (Scripts) Nettoyage automatique du dossier Téléchargements à chaque démarrage
+## Exercice 6: (Scripts) Nettoyage automatique du dossier Téléchargements à l'ouverture de session
 
-Cette GPO va permettre de nettoyer le dossier Téléchargements de l'utilisateur à chaque démarrage de session, pour maintenir les postes propres. Apliquez la sur l'OU des utilisateurs de RH
+Cette GPO nettoie le dossier Téléchargements de l'utilisateur à chaque **ouverture de session**. Appliquez-la à l'OU des utilisateurs de RH.
 
-**Nom** de la GPO : Nettoyage-Telechargements-Demarrage
+**Nom** de la GPO : `Nettoyage-Telechargements-Ouverture`
 
-**Objectif** : Supprimer tous les fichiers du dossier Téléchargements de l'utilisateur à chaque démarrage de session, pour maintenir les postes propres.
+**Objectif** : Supprimer tous les fichiers du dossier Téléchargements de l'utilisateur à chaque ouverture de session.
 
 **Niveau ciblé** : Utilisateur, pas Ordinateur
 
@@ -79,13 +85,11 @@ $downloads = $shell.Namespace('shell:Downloads').Self.Path
 Remove-Item "$downloads\*" -Recurse -Force -ErrorAction SilentlyContinue
 ```
 
-On doit créer un GPO qui lance ce script au démarrage de session des utilisateurs ciblés.
+Créez une GPO qui lance ce script à l'ouverture de session des utilisateurs ciblés.
 
-**Setting**: Le paramètre à configurer est : `Configuration utilisateur > Stratégies > Paramètres Windows > Scripts (ouverture de session)
-Attention à rajouter le script dans la section des script PowerShell!
+**Paramètre** : `Configuration utilisateur > Stratégies > Paramètres Windows > Scripts (ouverture/fermeture de session) > Ouverture de session`, onglet **Scripts PowerShell**.
 
-Le script doit se lancer dans la fermeture de session. 
-Cliquez et chercher le script sur le disque dur mais **utilisez un chemin de réseau**  dans la configuration!`\\dns1\SYSVOL\maxtec.be\scripts`. ATTENTION AU CHEMIN!!! pas `C:\Windows\SYSVOL\domain\scripts`!
+Pour sélectionner le script, **utilisez le chemin réseau** `\\dns1\SYSVOL\maxtec.be\scripts`, pas `C:\Windows\SYSVOL\domain\scripts`.
 
 ??? success "Solution (cliquez pour afficher)"
 
@@ -101,13 +105,13 @@ Cliquez et chercher le script sur le disque dur mais **utilisez un chemin de ré
     **2. Créer et lier la GPO**
 
     - `gpmc.msc` → clic droit sur l'OU `EU\RH\Users` → `Créer un objet GPO dans ce domaine et le lier ici…`
-    - Nom : `Nettoyage-Telechargements-Demarrage`
+    - Nom : `Nettoyage-Telechargements-Ouverture`
 
-    **3. Configurer le script de fermeture de session**
+    **3. Configurer le script d'ouverture de session**
 
     - Clic droit sur la GPO → `Modifier`
     - Naviguer jusqu'à : `Configuration utilisateur > Stratégies > Paramètres Windows > Scripts (ouverture/fermeture de session)`
-    - Double-cliquer sur **`Fermeture de session`** (et **non** "Ouverture de session")
+    - Double-cliquer sur **`Ouverture de session`**
     - Onglet **`Scripts PowerShell`** (en haut de la boîte de dialogue — pas l'onglet par défaut !)
     - `Ajouter…` → `Parcourir…`
     - Dans la barre d'adresse, taper le **chemin réseau** : `\\dns1\SYSVOL\maxtec.be\scripts`
@@ -118,10 +122,12 @@ Cliquez et chercher le script sur le disque dur mais **utilisez un chemin de ré
 
     **4. Tester**
 
-    - Sur un poste de RH, se connecter avec un utilisateur RH
+    - Sur `ws-RH-01` (ou `ws-IT-01`, si le lien de la GPO de l'exercice 5 est supprimé), se connecter avec `rebecca`
     - Déposer quelques fichiers dans `Téléchargements`
-    - **Fermer la session** (pas redémarrer — c'est un script de logoff)
-    - Se reconnecter → le dossier `Téléchargements` doit être vide
+    - Fermer la session, puis se reconnecter → le dossier `Téléchargements` doit être vidé
+
+    !!! note "Délai des scripts d'ouverture de session"
+        Depuis Windows 8.1, les scripts d'ouverture de session sont lancés **5 minutes** après l'ouverture de session par défaut. Attendez, ou réglez le délai à 0 dans une GPO ordinateur : `Configuration ordinateur > Stratégies > Modèles d'administration > Système > Stratégie de groupe > Configurer le délai du script d'ouverture de session`.
 
     **Dépannage** : si rien ne se passe, vérifier dans `gpresult /h rapport.html` que la GPO est bien appliquée à l'utilisateur, et dans l'Observateur d'événements (`Journaux des applications et services > Microsoft > Windows > GroupPolicy > Operational`) qu'il n'y a pas d'erreur d'exécution du script.
 
@@ -135,35 +141,41 @@ Cliquez et chercher le script sur le disque dur mais **utilisez un chemin de ré
 
 #### Prérequis
 
-- La GPO `GPO-LinkBureau` existe et est liée à l'OU `Ventes` (créée dans GPO-1)
-- Les groupes `GG-EU-Ventes-Admins` (membre : Valentin) et `GG-EU-IT-Admins` (membre : Irene) existent
-- Session ouverte avec un compte Domain Admin (ex. : `maxtec\Administrateur`)
-- Console GPMC accessible (`gpmc.msc`)
+- La GPO `GPO-LinkBureau` existe et est liée à `EU\Ventes\Users` ([GPO-1, 3.1](./Exercices:%20GPO-1.md))
+- Les groupes `GG-EU-Ventes-Admin` (membre : Valentin) et `GG-EU-IT-Admin` (membre : Irene) existent
+- Session ouverte avec un compte membre de `Admins du domaine` (ex. : `maxtec\Administrateur`)
+- **RSAT installé sur `ws-IT-01`** (au moins les outils de gestion des stratégies de groupe et AD DS) : le test de l'étape 4 se fait depuis le poste client, pas depuis le DC. Procédure : [Gestion des utilisateurs, Ex. 12](./Exercices:%20Gestion_des_Utilisateurs.md). En résumé, sur le poste (accès Internet requis : carte NAT temporaire, voir la procédure) :
+
+    ```powershell
+    Add-WindowsCapability -Online -Name Rsat.GroupPolicy.Management.Tools~~~~0.0.1.0
+    Add-WindowsCapability -Online -Name Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0
+    ```
+
+- Le lien de la GPO de l'exercice 5 est supprimé (sinon Valentin ne peut pas ouvrir de session sur `ws-IT-01`)
 
 ---
 
 #### Étape 1 : Security Filtering — Restreindre à qui la GPO s'applique
 
-Le Security Filtering contrôle quels utilisateurs ou ordinateurs **reçoivent effectivement** les paramètres de la GPO. Par défaut, toutes les GPOs s'appliquent à `Authenticated Users`, ce qui signifie tout le monde dans l'OU ciblée.
+Le Security Filtering contrôle quels utilisateurs ou ordinateurs **reçoivent effectivement** les paramètres de la GPO. Par défaut, toutes les GPOs s'appliquent à `Utilisateurs authentifiés` (Authenticated Users), ce qui signifie tout le monde dans l'OU ciblée.
 
 1. Ouvrez **GPMC** (`gpmc.msc`)
 2. Dans l'arborescence, naviguez vers `Objets de stratégie de groupe` et cliquez sur **GPO-LinkBureau**
 3. Dans le volet de droite, cliquez sur l'onglet **Étendue** (Scope)
-4. Dans la section **Filtrage de sécurité**, vous voyez `Authenticated Users` par défaut
-5. Sélectionnez `Authenticated Users` et cliquez sur **Supprimer**
-6. Cliquez sur **Ajouter**, tapez `GG-EU-Ventes-Admins` et validez
+4. Dans la section **Filtrage de sécurité**, vous voyez `Utilisateurs authentifiés` par défaut
+5. Sélectionnez `Utilisateurs authentifiés` et cliquez sur **Supprimer**
+6. Cliquez sur **Ajouter**, tapez `GG-EU-Ventes-Admin` et validez
 
 !!! warning "Piège courant"
     
-    Quand vous retirez `Authenticated Users` du Security Filtering, les **comptes d'ordinateurs** n'ont plus la permission de **lire** la GPO. Windows en a besoin pour traiter les stratégies Ordinateur. Si votre GPO contient des paramètres Computer Configuration, vous devez rajouter `Authenticated Users` avec uniquement la permission **Lecture** (Read), sans cocher "Appliquer la stratégie de groupe" :
+    Quand vous retirez `Utilisateurs authentifiés` du filtrage de sécurité, les **comptes d'ordinateurs** n'ont plus le droit de **lire** la GPO. Depuis le correctif MS16-072 (2016), les GPO utilisateur sont lues avec le compte de l'ordinateur : sans ce droit, la GPO est ignorée **même si elle ne contient que des paramètres utilisateur**. Dès que vous retirez `Utilisateurs authentifiés`, rajoutez-le (ou `Ordinateurs du domaine`) avec uniquement la permission **Lecture**, sans "Appliquer la stratégie de groupe" :
     
-    1. Toujours dans l'onglet **Étendue**, cliquez sur **Ajouter** et ajoutez `Authenticated Users`
-    2. Passez à l'onglet **Délégation** et cliquez sur **Avancé...**
-    3. Sélectionnez `Authenticated Users` dans la liste
-    4. Vérifiez que **Lecture** est coché en "Autoriser", et que **Appliquer la stratégie de groupe** est bien **décoché**
-    5. Cliquez sur **OK**
+    1. Passez à l'onglet **Délégation** de la GPO et cliquez sur **Ajouter…**
+    2. Tapez `Utilisateurs authentifiés` et validez
+    3. Choisissez la permission **Lecture** et validez : l'onglet Délégation n'accorde que la lecture, sans "Appliquer la stratégie de groupe"
+    4. Vérification : **Avancé…** > `Utilisateurs authentifiés` : **Lecture** autorisé, **Appliquer la stratégie de groupe** non coché
 
-**Résultat attendu** : la GPO `GPO-LinkBureau` ne s'appliquera désormais qu'aux membres de `GG-EU-Ventes-Admins`.
+**Résultat attendu** : la GPO `GPO-LinkBureau` ne s'appliquera désormais qu'aux membres de `GG-EU-Ventes-Admin`.
 
 ---
 
@@ -175,17 +187,17 @@ L'onglet **Délégation** d'une GPO contrôle les droits d'administration sur la
 2. Cliquez sur l'onglet **Délégation**
 3. Vous voyez la liste des groupes/utilisateurs qui ont des droits sur cette GPO
 4. Cliquez sur **Ajouter...**
-5. Tapez `GG-EU-Ventes-Admins` et validez
+5. Tapez `GG-EU-Ventes-Admin` et validez
 6. Dans la boîte de dialogue des permissions, choisissez **Modifier les paramètres** (Edit settings)
 
 !!! info "Pourquoi 'Modifier les paramètres' et pas la version complète ?"
     
-    La version complète ("Modifier les paramètres, supprimer, modifier la sécurité") donnerait à `GG-EU-Ventes-Admins` la possibilité de **supprimer** la GPO ou de **modifier qui peut l'administrer**. Un chef de service n'a pas besoin de ça — et donner ce niveau de contrôle crée un risque. On revient sur ce point dans la question de réflexion.
+    La version complète ("Modifier les paramètres, supprimer, modifier la sécurité") donnerait à `GG-EU-Ventes-Admin` la possibilité de **supprimer** la GPO ou de **modifier qui peut l'administrer**. Un chef de service n'a pas besoin de ça — et donner ce niveau de contrôle crée un risque. On revient sur ce point dans la question de réflexion.
 
 7. Pour voir le détail des permissions accordées, cliquez sur **Avancé...**
-8. Sélectionnez `GG-EU-Ventes-Admins` dans la liste : vous verrez les ACE (Access Control Entries) fins — lecture, écriture des propriétés, etc. C'est la réalité derrière le bouton "Modifier les paramètres".
+8. Sélectionnez `GG-EU-Ventes-Admin` dans la liste : vous verrez les ACE (Access Control Entries) fins — lecture, écriture des propriétés, etc. C'est la réalité derrière le bouton "Modifier les paramètres".
 
-**Résultat attendu** : `GG-EU-Ventes-Admins` apparaît dans l'onglet Délégation avec la permission **Modifier les paramètres**.
+**Résultat attendu** : `GG-EU-Ventes-Admin` apparaît dans l'onglet Délégation avec la permission **Modifier les paramètres**.
 
 ---
 
@@ -197,27 +209,31 @@ Jusqu'ici, même avec les droits d'édition sur la GPO, Valentin ne peut pas **c
 2. Dans l'arborescence, développez `maxtec.be > EU`
 3. Faites un clic droit sur l'OU **Ventes** et choisissez **Délégation de contrôle...**
 4. L'assistant s'ouvre. Cliquez sur **Suivant**
-5. Cliquez sur **Ajouter...**, tapez `GG-EU-Ventes-Admins` et validez. Cliquez sur **Suivant**
-6. Choisissez **Créer une tâche personnalisée à déléguer**, puis **Suivant**
-7. Gardez **Ce dossier, les sous-dossiers existants et les nouveaux sous-dossiers** et cliquez sur **Suivant**
-8. Dans la liste des permissions, cochez **Gérer les liens de stratégies de groupe**
-9. Cliquez sur **Suivant** puis **Terminer**
+5. Cliquez sur **Ajouter...**, tapez `GG-EU-Ventes-Admin` et validez. Cliquez sur **Suivant**
+6. Laissez **Déléguer les tâches courantes suivantes** et cochez **Gérer les liens de stratégie de groupe** (c'est une tâche courante de l'assistant, pas besoin de tâche personnalisée)
+7. Cliquez sur **Suivant** puis **Terminer**
 
-**Résultat attendu** : `GG-EU-Ventes-Admins` peut désormais ajouter et supprimer des liens GPO sur l'OU `Ventes` et ses sous-OUs, sans être Domain Admin.
+Alternative dans GPMC : sélectionnez l'OU `Ventes` > onglet **Délégation** > **Ajouter…** > `GG-EU-Ventes-Admin`, permission **Lier les objets GPO**.
+
+**Résultat attendu** : `GG-EU-Ventes-Admin` peut désormais ajouter et supprimer des liens GPO sur l'OU `Ventes` et ses sous-OUs, sans être Domain Admin.
 
 ---
 
 #### Étape 4 : Tester avec le compte de Valentin
 
-Pour valider la délégation, utilisez le compte de Valentin, membre de `GG-EU-Ventes-Admins`.
+Pour valider la délégation, utilisez le compte de Valentin, membre de `GG-EU-Ventes-Admin`.
 
-**Option A** — Ouvrir une session complète avec Valentin sur un poste client joint au domaine.
+Le test se fait **depuis `ws-IT-01`** avec RSAT. Sur le DC, Valentin n'a pas le droit d'ouverture de session locale (réservé aux administrateurs) : `runas /user:maxtec\valentin` y échoue.
 
-**Option B** — Utiliser RunAs sur le DC pour lancer GPMC avec les credentials de Valentin :
+**Option A** — Ouvrir une session avec `valentin` sur `ws-IT-01` et lancer `gpmc.msc`.
+
+**Option B** — Depuis une session existante sur `ws-IT-01`, lancer GPMC avec les identifiants de Valentin :
 
 ```cmd
 runas /user:maxtec\valentin "mmc gpmc.msc"
 ```
+
+Si l'ouverture de session locale de Valentin est bloquée sur le poste, `runas /netonly /user:maxtec\valentin "mmc gpmc.msc"` utilise ses identifiants uniquement pour les accès réseau (LDAP, SYSVOL), ce qui suffit pour GPMC.
 
 Une fois GPMC ouvert avec le compte Valentin, vérifiez les quatre points suivants :
 
@@ -230,7 +246,7 @@ Une fois GPMC ouvert avec le compte Valentin, vérifiez les quatre points suivan
 
 #### Question de réflexion
 
-Pourquoi accorder uniquement **"Modifier les paramètres"** à `GG-EU-Ventes-Admins`, et non **"Modifier les paramètres, supprimer, modifier la sécurité"** ?
+Pourquoi accorder uniquement **"Modifier les paramètres"** à `GG-EU-Ventes-Admin`, et non **"Modifier les paramètres, supprimer, modifier la sécurité"** ?
 
 Réfléchissez aux conséquences si un chef de service avait le droit de modifier les permissions de la GPO : il pourrait s'accorder des droits supplémentaires, retirer l'accès à d'autres administrateurs, ou supprimer accidentellement une GPO de production. On délègue la capacité de **travailler dans le périmètre défini** — pas la capacité de **redéfinir ce périmètre**.
 
@@ -238,7 +254,7 @@ Réfléchissez aux conséquences si un chef de service avait le droit de modifie
 
 #### Pour aller plus loin
 
-Si vous souhaitez déléguer aussi la **création de nouvelles GPOs** (pas seulement l'édition de GPOs existantes), ajoutez le groupe `GG-EU-Ventes-Admins` au groupe intégré **Group Policy Creator Owners**. Les membres de ce groupe peuvent créer des GPOs dans le domaine — mais par défaut, ils n'ont les droits d'édition que sur les GPOs qu'ils ont eux-mêmes créées. C'est un niveau de délégation plus permissif, à réserver aux équipes IT de département matures.
+Si vous souhaitez déléguer aussi la **création de nouvelles GPOs** (pas seulement l'édition de GPOs existantes), ajoutez le groupe `GG-EU-Ventes-Admin` au groupe intégré **Propriétaires créateurs de la stratégie de groupe** (Group Policy Creator Owners). Les membres de ce groupe peuvent créer des GPOs dans le domaine — mais par défaut, ils n'ont les droits d'édition que sur les GPOs qu'ils ont eux-mêmes créées. C'est un niveau de délégation plus permissif, à réserver aux équipes IT de département matures.
 
 ---
 
@@ -249,13 +265,13 @@ Si vous souhaitez déléguer aussi la **création de nouvelles GPOs** (pas seule
 Get-GPPermission -Name "GPO-LinkBureau" -All | Select-Object Trustee, Permission
 
 # Ajouter la permission "Edit settings" à un groupe sur une GPO
-Set-GPPermission -Name "GPO-LinkBureau" -TargetName "GG-EU-Ventes-Admins" `
+Set-GPPermission -Name "GPO-LinkBureau" -TargetName "GG-EU-Ventes-Admin" `
     -TargetType Group -PermissionLevel GpoEdit
 
 # Vérifier les ACL de l'OU Ventes (confirmer la délégation du lien GPO)
 $ouDN = "OU=Ventes,OU=EU,DC=maxtec,DC=be"
 (Get-Acl -Path "AD:\$ouDN").Access |
-    Where-Object { $_.IdentityReference -like "*Ventes-Admins*" } |
+    Where-Object { $_.IdentityReference -like "*Ventes-Admin*" } |
     Select-Object IdentityReference, ActiveDirectoryRights
 
 # Voir les liens GPO actifs sur l'OU Ventes

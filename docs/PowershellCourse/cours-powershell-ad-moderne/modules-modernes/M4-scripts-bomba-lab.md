@@ -39,7 +39,7 @@ Le commentaire dit "validé". Le code dit "supprime tous les utilisateurs". Le c
 ```powershell
 $users = Get-ADUser -Filter {Department -eq "Stagiaires"}
 # … 50 lignes de code propre …
-$users | Set-ADUser -Enabled $fase  # $false écrit $fase → $null
+$users | Set-ADUser -Enabled $fase  # $false écrit $fase -> $null
 ```
 
 `$fase` est une variable inexistante, donc `$null`. PowerShell interprète `$null` comme `$false` dans ce contexte. Le script désactive silencieusement.
@@ -186,7 +186,7 @@ Pas de trace de ce qui a été supprimé. Rollback impossible.
 ### Version sécurisée
 
 ```powershell
-# Nettoyage des groupes vides — version sécurisée
+# Nettoyage des groupes vides - version sécurisée
 param(
     [switch]$WhatIf = $true,
     [switch]$IncludeBuiltIn = $false
@@ -195,7 +195,9 @@ param(
 Import-Module ActiveDirectory
 
 Write-Host "=== NETTOYAGE DES GROUPES VIDES ===" -ForegroundColor Cyan
-Write-Host "Mode: $($WhatIf ? 'SIMULATION' : 'RÉEL')" -ForegroundColor $(if ($WhatIf) { 'Yellow' } else { 'Red' })
+# if/else plutôt que l'opérateur ternaire ?: (PowerShell 7 uniquement, absent du DC en 5.1)
+if ($WhatIf) { $mode = 'SIMULATION'; $couleur = 'Yellow' } else { $mode = 'RÉEL'; $couleur = 'Red' }
+Write-Host "Mode: $mode" -ForegroundColor $couleur
 
 # Whitelist des groupes critiques à ne jamais supprimer
 $groupesCritiques = @(
@@ -291,16 +293,16 @@ try {
 # Script de migration utilisateurs suite à réorganisation
 # Auteur: Consultant Senior Migration AD
 # Date: 2024-12-01
-# Contexte: Fusion départements RH + Compta → "Administration"
+# Contexte: Fusion départements RH + Compta -> "Administration"
 
 Import-Module ActiveDirectory
 
 Write-Host "=== MIGRATION ORGANISATIONNELLE ===" -ForegroundColor Green
-Write-Host "Fusion RH + Compta → Administration" -ForegroundColor Yellow
+Write-Host "Fusion RH + Compta -> Administration" -ForegroundColor Yellow
 
 $sourceOUs = @(
     "OU=RH,OU=EU,DC=maxtec,DC=be",
-    "OU=Compta,OU=EU,DC=maxtec,DC=be"
+    "OU=Comptabilite,OU=EU,DC=maxtec,DC=be"
 )
 
 $destinationOU = "OU=Administration,OU=EU,DC=maxtec,DC=be"
@@ -491,7 +493,27 @@ Get-ADUser -Filter * -Properties PasswordLastSet, PasswordNeverExpires |
 
 ---
 
-## Récapitulatif — sept signaux d'alarme
+## Lab 4 — Le nettoyeur de comptes inactifs (fichier `.ps1`)
+
+Le fichier [`bomba1-remove-all-users.ps1`](../laboratoire-maxtec/scripts-bomba-maxtec/bomba1-remove-all-users.ps1) est un vrai script, avec ses propres commentaires. Sa première ligne est un `throw` qui l'empêche de s'exécuter : **ouvrez-le dans VS Code, ne le lancez pas.**
+
+### Exercice 4.4 — lecture (15 min)
+
+Les commentaires du script signalent déjà plusieurs problèmes (pas de `-WhatIf`, pas d'exclusions, suppression directe...). Trouvez **en plus** l'erreur que les commentaires ne mentionnent pas, et estimez combien de comptes Maxtec seraient supprimés.
+
+??? success "Erreur non signalée"
+    
+    ```powershell
+    Where-Object { $_.LastLogonDate -lt $dateLimite -and $_.Enabled -eq $true }
+    ```
+    
+    Un compte qui ne s'est **jamais** connecté a `LastLogonDate = $null`. Or en PowerShell, `$null -lt <date>` renvoie `$true`. Ces comptes sont donc classés « inactifs depuis 90 jours », même s'ils ont été créés la veille. Dans le lab, presque aucun compte ne s'est connecté : le script supprimerait la quasi-totalité des 13 utilisateurs Maxtec, plus les nouveaux arrivants du chapitre 9.3.
+    
+    Correction : traiter `$null` à part (`$_.LastLogonDate -and $_.LastLogonDate -lt $dateLimite`) et examiner les comptes jamais connectés séparément, par exemple avec `WhenCreated`. Et ne jamais oublier que `LastLogonDate` n'est répliqué qu'avec 9 à 14 jours de retard.
+
+---
+
+## Récapitulatif — huit signaux d'alarme
 
 1. Absence de `-WhatIf` sur une commande destructive.
 2. `-Recursive` sans vérification du contenu.
@@ -500,6 +522,7 @@ Get-ADUser -Filter * -Properties PasswordLastSet, PasswordNeverExpires |
 5. Hardcoding de chemins ou de valeurs spécifiques.
 6. Logique métier non validée.
 7. `TODO` dans un script censé être prêt pour production.
+8. Comparaison sur une propriété qui peut être vide (`$null -lt $date` est vrai).
 
 ## Checklist avant exécution
 

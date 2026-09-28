@@ -275,7 +275,7 @@ Write-Host "=== DIAGNOSTIC URGENCE AD ===" -ForegroundColor Red
 Write-Host "`n1. ÉTAT DOMAINE:" -ForegroundColor Yellow
 Get-ADDomain | Select-Object DNSRoot, DomainMode, InfrastructureMaster
 
-Write-Host "`n2. CONTRÔLEURS:" -ForegroundColor Yellow
+Write-Host "`n2. CONTROLEURS:" -ForegroundColor Yellow
 Get-ADDomainController -Filter * | Select-Object Name, IPv4Address, OperatingSystem
 
 Write-Host "`n3. ÉCHANTILLON UTILISATEURS:" -ForegroundColor Yellow

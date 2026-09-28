@@ -40,12 +40,16 @@ Risque : moyen. Validation obligatoire.
 ### Usage 2 — Comprendre du code existant
 
 Bon pour : expliquer un script complexe, identifier les risques.
-Risque : faible. Validation recommandée.
+Risque : faible pour l'annuaire (rien n'est exécuté), mais l'explication peut être fausse. Validation obligatoire.
 
 ### Usage 3 — Code review
 
 Bon pour : repérer les erreurs, suggérer des améliorations sécurité.
-Risque : très faible. Validation optionnelle.
+Risque : l'IA peut rater un vrai problème ou en inventer un, et ses « corrections » sont du nouveau code à vérifier. Validation obligatoire.
+
+!!! warning "La validation humaine est toujours obligatoire"
+    
+    Quel que soit l'usage, c'est vous qui signez le changement dans l'annuaire. Un script relu par une IA n'est pas un script relu.
 
 ### Usage 4 — Exécution directe sans relecture
 
@@ -91,8 +95,8 @@ STRUCTURE OU: OU=RH,OU=EU,DC=maxtec,DC=be
 ### Réponse IA type
 
 ```powershell
-# Script de recherche utilisateurs RH — Mots de passe anciens
-# Généré avec assistance IA — à valider avant usage
+# Script de recherche utilisateurs RH - Mots de passe anciens
+# Généré avec assistance IA - à valider avant usage
 # Domaine: maxtec.be
 
 Import-Module ActiveDirectory
@@ -100,7 +104,7 @@ Import-Module ActiveDirectory
 $dateLimit = (Get-Date).AddDays(-180)
 $searchBase = "OU=RH,OU=EU,DC=maxtec,DC=be"
 
-Write-Host "=== RECHERCHE UTILISATEURS RH — MOTS DE PASSE ANCIENS ===" -ForegroundColor Cyan
+Write-Host "=== RECHERCHE UTILISATEURS RH - MOTS DE PASSE ANCIENS ===" -ForegroundColor Cyan
 Write-Host "Date limite: $dateLimit" -ForegroundColor Yellow
 Write-Host "Search Base: $searchBase" -ForegroundColor Yellow
 
@@ -288,6 +292,19 @@ Get-ADUser -Filter {Department -eq "IT"} | Select-Object Name
 
 # Puis exécuter la vraie commande
 ```
+
+---
+
+## Protocole de vérification du code généré par une IA
+
+À appliquer à tout script produit ou corrigé par une IA, avant la première exécution :
+
+1. **Chaque cmdlet existe-t-elle ?** `Get-Command Nom-DeLaCmdlet`. Les IA inventent volontiers des cmdlets plausibles (`Get-ADUserLastLogon`, `Remove-ADInactiveUser`...).
+2. **Chaque paramètre existe-t-il et fait-il ce qu'on croit ?** `Get-Help Nom-DeLaCmdlet -Parameter NomDuParametre`. Vérifiez aussi qu'il accepte le pipeline si le script l'utilise ainsi.
+3. **Contrôle sur la documentation officielle** : la page de la cmdlet sur learn.microsoft.com (`Get-Help Nom-DeLaCmdlet -Online`), pas un forum ni une autre IA.
+4. **Syntaxe compatible 5.1** : le DC exécute Windows PowerShell 5.1. L'opérateur ternaire `a ? b : c`, `??`, `ForEach-Object -Parallel` ou `&&` sont des syntaxes PowerShell 7 qui échouent sur le DC.
+5. **Test en simulation sur une OU de test** : créez une OU de test avec deux ou trois comptes jetables, limitez le script avec `-SearchBase` sur cette OU, lancez-le avec `-WhatIf`, lisez chaque ligne de sortie. Seulement ensuite, élargissez la portée.
+6. **Aucune donnée réelle dans un service public** : pas de noms d'employés, de DN de production, d'adresses IP internes, ni évidemment de mots de passe dans un prompt ChatGPT ou équivalent. Remplacez par des valeurs fictives (`contoso.com`, `utilisateur1`) et réadaptez ensuite.
 
 ---
 

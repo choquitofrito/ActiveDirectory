@@ -1,4 +1,4 @@
-## Résolution des Problèmes de Permissions et Propriété de Dossiers dans Windows
+# Résolution des Problèmes de Permissions et Propriété de Dossiers dans Windows
 
 ## Introduction
 Lorsque vous rencontrez des problèmes de modification de permissions ou d'accès à un dossier créé par un utilisateur ou un groupe, cela est souvent dû à des conflits de **propriété** ou de **permissions**. Ce guide vous montre comment **prendre possession** d'un dossier et modifier les **permissions** de manière appropriée.
@@ -22,11 +22,11 @@ Si un dossier est créé par un utilisateur ou un groupe, il peut être difficil
 
 ### Étape 3 : Modifier les Permissions
 1. Dans la même fenêtre **Paramètres de sécurité avancés**, cliquez sur **Ajouter**.
-2. Ajoutez le groupe (**GG-EU-RH-Admins**) et attribuez-lui les permissions nécessaires (par exemple, **Contrôle total**).
+2. Ajoutez le groupe (**GG-EU-RH-Admin**) et attribuez-lui les permissions nécessaires (par exemple, **Contrôle total**).
 3. Cliquez sur **Appliquer** puis sur **OK** pour enregistrer les modifications.
 
 ### Étape 4 : Vérifier les Permissions
-1. Retournez dans l'onglet **Sécurité** et vérifiez que le groupe **GG-EU-RH-Admins** dispose des permissions souhaitées.
+1. Retournez dans l'onglet **Sécurité** et vérifiez que le groupe **GG-EU-RH-Admin** dispose des permissions souhaitées.
 2. Si nécessaire, ajustez ou supprimez des permissions non désirées.
 
 ## Notes Importantes
@@ -49,15 +49,25 @@ Voici un résumé des étapes pour prendre possession du dossier et corriger les
 - Cochez l'option **"Remplacer le propriétaire sur les sous-conteneurs et objets"** pour appliquer ce changement à tous les sous-dossiers et fichiers.
 
 #### 2. Activer l'Héritage
-- Dans les **Paramètres de sécurité avancés**, assurez-vous que **l'héritage** est activé. Cela permet aux sous-dossiers d'hériter des permissions du
+- Dans les **Paramètres de sécurité avancés**, assurez-vous que **l'héritage** est activé. Cela permet aux sous-dossiers d'hériter des permissions du dossier parent.
 
+#### 3. Réattribuer les permissions
+- Ajoutez le groupe concerné (par exemple **GG-EU-RH-Admin**) avec les permissions nécessaires, puis vérifiez le résultat dans l'onglet **Sécurité**.
 
+En ligne de commande (invite administrateur), l'équivalent de la prise de possession récursive :
+
+```powershell
+takeown /F "C:\Shares\IT-docs" /R /A /D O   # /A : propriétaire = Administrateurs ; /D O : répondre "Oui" (Y sur un Windows anglais)
+icacls "C:\Shares\IT-docs" /reset /T          # remet les ACL héritées du parent
+```
+
+---
 
 ## Annexe: configuration pour permettre une connexion locale au serveur
 
-Cette section concerne la configuration du droit "Se connecter localement" 
+Cette section concerne le droit "Permettre l'ouverture d'une session locale".
 
-## Description
+### Description
 
 Le paramètre "Permettre l'ouverture d'une session locale" contrôle quels utilisateurs ou groupes peuvent se connecter physiquement à un ordinateur du domaine.
 
@@ -70,7 +80,7 @@ Pour modifier ce comportement on doit créer une stratégie de groupe (GPO) et l
 5. Ajouter les utilisateurs ou groupes nécessaires
 6. Lier la GPO à l'OU appropriée
 
-## Groupes par défaut ayant ce droit
+### Groupes ayant ce droit par défaut sur un DC
 - Administrateurs
 - ENTERPRISE DOMAIN CONTROLLERS
 - Opérateurs de compte
@@ -78,11 +88,11 @@ Pour modifier ce comportement on doit créer une stratégie de groupe (GPO) et l
 - Opérateurs de sauvegarde
 - Opérateurs de serveur
 
-## Vérification
+### Vérification
 Pour vérifier l'application des paramètres :
 
 1. Exécuter : `gpupdate /force`
 2. Vérifier avec : `gpresult /r` ou `rsop.msc`
 
-## Note importante
+### Note importante
 La modification de ce paramètre peut affecter la compatibilité avec les clients, les services et les applications. Assurez-vous de tester les changements dans un environnement contrôlé avant de les appliquer en production.

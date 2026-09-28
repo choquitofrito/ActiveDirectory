@@ -44,7 +44,7 @@ Julien trouve ce script sur un forum PowerShell:
 ```powershell
 # Script trouvé sur reddit.com/r/PowerShell
 # Auteur: "ExpertAdmin2023"
-# Upvotes: 47 👍
+# Upvotes: 47 (+)
 
 # Désactiver utilisateurs par liste
 $stagiaires = @(

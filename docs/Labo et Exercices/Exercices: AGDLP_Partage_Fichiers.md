@@ -18,7 +18,7 @@
 
 ---
 
-## 1. 🔹 Rappel théorique — Pourquoi AGDLP ?
+## 1. Rappel théorique — Pourquoi AGDLP ?
 
 !!! abstract "À retenir"
 
@@ -32,11 +32,11 @@
 
 ---
 
-## 2. 🔹 Cahier des charges
+## 2. Cahier des charges
 
 !!! example "Spécifications fournies par la direction"
 
-    Le partage `\\<DC>\Ventes-Documents` doit offrir trois niveaux d'accès :
+    Le partage `\\dns1\Ventes-Documents` doit offrir trois niveaux d'accès :
 
     | Rôle d'accès | Qui doit l'avoir | Permissions NTFS attendues |
     |---|---|---|
@@ -46,14 +46,14 @@
 
     Contraintes techniques :
 
-    - Chemin physique : `C:\Partages\Ventes-Documents` (créer le dossier si besoin).
+    - Chemin physique : `C:\Shares\Ventes-Documents` (créer le dossier si besoin).
     - Nom de partage SMB : `Ventes-Documents`.
-    - Permissions de partage SMB : `Everyone = Modifier` (la sécurité réelle est portée par NTFS).
+    - Permissions de partage SMB : `Tout le monde` (Everyone) = `Modifier` (la sécurité réelle est portée par NTFS).
     - Aucun utilisateur ne doit être ajouté **nominativement** aux ACL ni aux groupes DL.
 
 ---
 
-## 3. 🔹 Identifier les groupes nécessaires
+## 3. Identifier les groupes nécessaires
 
 !!! example "Tâche à réaliser"
 
@@ -71,7 +71,7 @@
 
 ---
 
-## 4. 🔹 Créer l'OU et les groupes Domain Local
+## 4. Créer l'OU et les groupes Domain Local
 
 !!! example "Tâches à réaliser dans `dsa.msc`"
 
@@ -94,7 +94,7 @@
 
 ---
 
-## 5. 🔹 Imbriquer les groupes globaux dans les DL
+## 5. Imbriquer les groupes globaux dans les DL
 
 !!! example "Tâches à réaliser dans `dsa.msc`"
 
@@ -113,14 +113,14 @@
 
 ---
 
-## 6. 🔹 Créer le partage et appliquer les permissions NTFS
+## 6. Créer le partage et appliquer les permissions NTFS
 
 !!! example "Tâches à réaliser dans l'Explorateur de fichiers"
 
     **a) Créer le dossier**
 
     1. Ouvrir l'Explorateur de fichiers sur le DC, naviguer dans `C:\`.
-    2. Créer un dossier `Partages` (s'il n'existe pas), puis à l'intérieur un dossier `Ventes-Documents`.
+    2. Créer un dossier `Shares` (s'il n'existe pas), puis à l'intérieur un dossier `Ventes-Documents`.
 
     **b) Désactiver l'héritage et nettoyer les permissions**
 
@@ -131,7 +131,7 @@
         - `Utilisateurs (MAXTEC\Utilisateurs)`
         - `Utilisateurs authentifiés`
         - Toute autre entrée hors `SYSTEM` et `Administrateurs`.
-    5. Conserver `SYSTEM` (Contrôle total) et `Administrateurs` (Contrôle total) — ce sont les comptes locaux de la machine, indispensables au système.
+    5. Conserver `SYSTEM` (Contrôle total) et `Administrateurs` (Contrôle total). Sur un DC, `Administrateurs` n'est pas un groupe local de la machine (un DC n'a pas de comptes locaux) : c'est le groupe intégré (*builtin*) du domaine, qui contient notamment `Admins du domaine`.
     6. **OK** pour fermer la boîte Avancé, **OK** pour les Propriétés.
 
     **c) Ajouter les groupes DL avec les bonnes permissions**
@@ -152,50 +152,51 @@
     1. Toujours dans **Propriétés** → onglet **Partage** → bouton **Partage avancé…**.
     2. Cocher **Partager ce dossier**. Nom de partage : `Ventes-Documents`.
     3. Bouton **Autorisations** :
-        - Sélectionner `Everyone`.
+        - Sélectionner `Tout le monde`.
         - Cocher **Modifier** (la case Lecture se coche aussi).
     4. **OK** → **OK** → **Fermer**.
 
     !!! tip "Rappel — Permissions SMB vs NTFS"
 
-        Quand un utilisateur accède à un partage, c'est l'**intersection** des permissions SMB et NTFS qui s'applique (la plus restrictive gagne). En posant `Everyone = Modifier` côté SMB, on délègue toute la granularité à NTFS — c'est la pratique recommandée.
+        Quand un utilisateur accède à un partage, c'est l'**intersection** des permissions SMB et NTFS qui s'applique (la plus restrictive gagne). En posant `Tout le monde = Modifier` côté SMB, on délègue toute la granularité à NTFS — c'est la pratique recommandée.
 
 ---
 
-## 7. 🔹 Tester l'accès
+## 7. Tester l'accès
 
 !!! example "Tests à effectuer depuis un poste client joint au domaine"
 
-    Connectez-vous successivement avec **plusieurs utilisateurs** et vérifiez le comportement attendu. Depuis l'Explorateur de fichiers, saisir dans la barre d'adresse : `\\<nom-du-DC>\Ventes-Documents`.
+    Connectez-vous successivement avec **plusieurs utilisateurs** et vérifiez le comportement attendu. Depuis l'Explorateur de fichiers, saisir dans la barre d'adresse : `\\dns1\Ventes-Documents`. Poste de test : `ws-IT-01` (si la GPO de restriction d'ouverture de session de GPO-2 Ex. 5 est active, désactivez son lien).
 
     | Connexion en tant que | Action testée | Résultat attendu |
     |---|---|---|
-    | **sophie** (Ventes — Users) | Ouvrir un fichier du partage | OK |
-    | **sophie** | Créer un nouveau fichier | ❌ Refusé |
+    | **vanessa** (Ventes — Users) | Ouvrir un fichier du partage | OK |
+    | **vanessa** | Créer un nouveau fichier | ❌ Refusé |
     | **valentin** (Ventes — Admin) | Créer / modifier un fichier | OK |
     | **valentin** | Modifier les permissions du dossier | ❌ Refusé |
-    | **irene** (IT — Admin) | Modifier les permissions, supprimer le dossier | OK |
+    | **irene** (IT — Admin) | Créer, modifier, supprimer des fichiers via `\\dns1\Ventes-Documents` | OK |
+    | **irene** | Modifier les permissions du dossier | OK **sur le serveur** uniquement : via le partage, la permission SMB `Modifier` l'en empêche (il faudrait `Contrôle total` côté partage) |
     | **charlotte** (Comptabilité) | Ouvrir le partage | ❌ Refusé (aucun groupe d'accès) |
 
     !!! tip "Conseil pratique"
 
-        Entre deux tests, **fermez la session** Windows ou redémarrez la machine cliente — sinon l'ancien ticket Kerberos peut masquer l'effet d'un changement d'appartenance de groupe. Côté serveur, vous pouvez aussi rafraîchir les groupes avec un `gpupdate /force` dans une invite admin.
+        Les groupes d'un utilisateur sont inscrits dans son **jeton d'accès** et dans son **ticket Kerberos**, fabriqués à l'ouverture de session. Si vous modifiez une appartenance de groupe, l'utilisateur ne la voit qu'avec un nouveau ticket : **fermez la session et rouvrez-la** entre deux tests. `gpupdate /force` ne sert à rien ici : il réapplique les GPO, il ne recalcule pas les groupes. Alternative plus rapide mais moins fiable : `klist purge` sur le poste efface les tickets Kerberos ; une connexion SMB déjà ouverte vers le serveur peut toutefois garder l'ancien jeton quelques minutes.
 
 ---
 
-## 8. 🔹 Démontrer la valeur d'AGDLP
+## 8. Démontrer la valeur d'AGDLP
 
 !!! example "Scénario d'extension"
 
     La direction décide que le département **Comptabilité** doit avoir un accès en **lecture** au partage Ventes (pour vérifier les contrats facturés).
 
-    !!! question "À vous"
+    !!! question "Question"
 
-        **Sans ouvrir l'Explorateur de fichiers ni toucher au dossier `Ventes-Documents`**, quelle est la seule opération à effectuer dans `dsa.msc` ? Réalisez-la, puis re-testez avec **charlotte** : elle doit désormais pouvoir lire le partage (après fermeture / réouverture de session).
+        **Sans ouvrir l'Explorateur de fichiers ni toucher au dossier `Ventes-Documents`**, quelle est la seule opération à effectuer dans `dsa.msc` ? Réalisez-la, puis re-testez avec **charles** ou **cindy** (`GG-EU-Compta-Users`) : ils doivent désormais pouvoir lire le partage (après fermeture / réouverture de session). **charlotte**, membre de `GG-EU-Compta-Admin` et pas de `GG-EU-Compta-Users`, reste refusée : vérifiez-le.
 
 ---
 
-## 9. 🔹 Vérification finale (GUI)
+## 9. Vérification finale (GUI)
 
 !!! example "Contrôles à faire dans les consoles"
 
@@ -203,18 +204,18 @@
 
     1. Naviguer dans `EU > Resources > Groups` : les 3 groupes `DL-Ventes-Documents-*` doivent être présents.
     2. Double-clic sur chacun → onglet **Général** : vérifier **Étendue = Domaine local** et **Type = Sécurité**.
-    3. Onglet **Membres** de chaque DL : un seul membre, **avec une icône de groupe** (pas d'utilisateur).
+    3. Onglet **Membres** de chaque DL : uniquement des groupes (**icône de groupe**, pas d'utilisateur). Un membre par DL, deux pour `DL-Ventes-Documents-Lecture` après l'étape 8.
 
     **b) Dans l'Explorateur de fichiers** :
 
-    1. Clic droit sur `C:\Partages\Ventes-Documents` → **Propriétés** → **Sécurité** → **Avancé**.
+    1. Clic droit sur `C:\Shares\Ventes-Documents` → **Propriétés** → **Sécurité** → **Avancé**.
     2. La liste doit contenir uniquement : `SYSTEM`, `Administrateurs`, et les 3 `DL-Ventes-Documents-*`. Pas de `GG-`, pas d'utilisateurs nominatifs, pas de `Utilisateurs authentifiés`.
-    3. Onglet **Partage** : le partage `Ventes-Documents` est actif, autorisations SMB = `Everyone : Modifier`.
+    3. Onglet **Partage** : le partage `Ventes-Documents` est actif, autorisations SMB = `Tout le monde : Modifier`.
 
     **c) Onglet « Accès effectif » (vérification croisée)** :
 
     1. **Propriétés** du dossier → **Sécurité** → **Avancé** → onglet **Accès effectif**.
-    2. **Sélectionner un utilisateur** → taper `sophie` → **Afficher l'accès effectif**.
+    2. **Sélectionner un utilisateur** → taper `vanessa` → **Afficher l'accès effectif**.
     3. Vérifier : `Lecture` autorisée, `Écriture` non autorisée.
     4. Recommencer avec `valentin` (Écriture autorisée, Modification des autorisations non) et `irene` (tout autorisé).
 
@@ -223,7 +224,7 @@
     - [ ] L'OU `Resources/Groups` existe sous `OU=EU,...`
     - [ ] Les 3 groupes `DL-Ventes-Documents-*` existent avec scope **DomainLocal**, catégorie **Security**
     - [ ] Chaque DL ne contient **que des groupes globaux**, **aucun utilisateur direct**
-    - [ ] Le dossier `C:\Partages\Ventes-Documents` est partagé en SMB sous le nom `Ventes-Documents`
+    - [ ] Le dossier `C:\Shares\Ventes-Documents` est partagé en SMB sous le nom `Ventes-Documents`
     - [ ] Les ACL NTFS contiennent les 3 DL avec les bons droits, **et aucun GG- ni utilisateur direct**
     - [ ] Tous les tests utilisateurs de l'étape 7 donnent le résultat attendu
     - [ ] L'extension de l'étape 8 a été réalisée **sans toucher aux ACL**
@@ -267,7 +268,7 @@
 
     ### Étape 6 — Dossier, NTFS, partage (Explorateur)
 
-    **Création du dossier** : `C:\Partages\Ventes-Documents` (créer `Partages` d'abord si nécessaire).
+    **Création du dossier** : `C:\Shares\Ventes-Documents` (créer `Shares` d'abord si nécessaire).
 
     **Désactivation de l'héritage et nettoyage** :
 
@@ -288,28 +289,28 @@
 
     1. Propriétés du dossier → onglet **Partage** → bouton **Partage avancé…**.
     2. Cocher **Partager ce dossier**. Nom : `Ventes-Documents`.
-    3. **Autorisations** → sélectionner `Everyone` → cocher **Modifier** → **OK**.
+    3. **Autorisations** → sélectionner `Tout le monde` → cocher **Modifier** → **OK**.
     4. **OK** → **Fermer**.
 
     ### Étape 7 — Comportement attendu lors des tests
 
     Le piège classique : un utilisateur qui change de groupe ne voit pas le changement immédiatement parce qu'il garde son **ticket Kerberos** de la session en cours. Solution : fermer la session, ou redémarrer le poste client. Sur des labs, le plus simple est de toujours faire `Démarrer > Déconnecter` entre deux tests.
 
-    ### Étape 8 — Extension Comptabilité (la beauté d'AGDLP)
+    ### Étape 8 — Extension Comptabilité (l'intérêt d'AGDLP)
 
     **Une seule opération, dans `dsa.msc` seulement** :
 
     1. Naviguer dans `EU > Resources > Groups`.
     2. Double-clic sur `DL-Ventes-Documents-Lecture` → onglet **Membres** → **Ajouter…**.
-    3. Saisir `GG-EU-Comptabilite-Users` → **Vérifier les noms** → **OK** → **Appliquer**.
+    3. Saisir `GG-EU-Compta-Users` → **Vérifier les noms** → **OK** → **Appliquer**.
 
-    **C'est tout** : aucune ACL touchée, aucun passage par l'Explorateur de fichiers, aucun redémarrage du serveur de fichiers. Après reconnexion de **charlotte** sur le poste client, elle accède en lecture au partage.
+    **C'est tout** : aucune ACL touchée, aucun passage par l'Explorateur de fichiers, aucun redémarrage du serveur de fichiers. Après reconnexion de **charles** (ou **cindy**) sur le poste client, il accède en lecture au partage. **charlotte** reste refusée : elle est dans `GG-EU-Compta-Admin`, pas dans `GG-EU-Compta-Users`. Si la direction veut aussi l'accès pour l'encadrement, on ajoute `GG-EU-Compta-Admin` au même DL.
 
     **C'est tout le point d'AGDLP** : la ressource (NTFS) est figée, l'organisation (qui accède à quoi) vit dans l'annuaire.
 
 ---
 
-## 10. 🔹 Étude de cas complémentaire — Partage « Factures »
+## 10. Étude de cas complémentaire — Partage « Factures »
 
 !!! info "🎯 Nouveau scénario"
 
@@ -322,7 +323,7 @@
 
     Contraintes :
 
-    - Chemin : `C:\Partages\Factures`, nom de partage SMB : `Factures`, SMB = `Everyone : Modifier`.
+    - Chemin : `C:\Shares\Factures`, nom de partage SMB : `Factures`, SMB = `Tout le monde : Modifier`.
     - Les groupes DL doivent être créés dans l'OU `Resources/Groups` déjà en place.
     - Aucun utilisateur direct, aucun groupe global dans les ACL NTFS.
 
@@ -334,25 +335,25 @@
 
     **b)** Le niveau « Contrôle total » a-t-il sa place ici ? Si oui pour qui, si non pourquoi ?
 
-    **c)** Un comptable doit-il pouvoir modifier les permissions NTFS de la carpeta `Factures` ?
+    **c)** Un comptable doit-il pouvoir modifier les permissions NTFS du dossier `Factures` ?
 
 ### Tâches à réaliser
 
 !!! example "Mise en œuvre (réutiliser les conventions de l'exercice principal)"
 
-    1. Créer le dossier `C:\Partages\Factures` et le partager en SMB sous le nom `Factures` (`Everyone : Modifier`).
+    1. Créer le dossier `C:\Shares\Factures` et le partager en SMB sous le nom `Factures` (`Tout le monde : Modifier`).
     2. Dans `OU=Groups,OU=Resources,OU=EU,...`, créer deux groupes **Domain Local de sécurité** :
         - `DL-Factures-Lecture`
         - `DL-Factures-Modification`
     3. Imbriquer les groupes globaux :
         - `GG-EU-RH-Admin` → dans `DL-Factures-Lecture`
-        - `GG-EU-Comptabilite-Admin` **et** `GG-EU-Ventes-Admin` → tous les deux dans `DL-Factures-Modification`
-    4. Sur `C:\Partages\Factures`, désactiver l'héritage, nettoyer, et ajouter les deux DL avec respectivement **Lecture & exécution** et **Modification**.
+        - `GG-EU-Compta-Admin` **et** `GG-EU-Ventes-Admin` → tous les deux dans `DL-Factures-Modification`
+    4. Sur `C:\Shares\Factures`, désactiver l'héritage, nettoyer, et ajouter les deux DL avec respectivement **Lecture & exécution** et **Modification**.
     5. Tester depuis un poste client avec :
         - **richard** (RH-Admin) → doit lire mais pas écrire.
         - **charlotte** (Comptabilité-Admin) → doit lire et écrire.
         - **valentin** (Ventes-Admin) → doit lire et écrire.
-        - **sophie** (Ventes-Users, pas Admin) → ne doit **rien voir**.
+        - **victor** (Ventes-Users, pas Admin) → accès refusé.
 
 ??? success "💡 Solution & points pédagogiques"
 
@@ -362,7 +363,7 @@
 
     **b) Contrôle total ?** Non pour les départements métier. Le Contrôle total permet de modifier les ACL, prendre la propriété, supprimer la racine du dossier — ce sont des opérations d'administration de la ressource, pas de production de factures. Si un besoin de Contrôle total existe (sauvegarde, restauration, maintenance), on créerait un troisième DL `DL-Factures-ControleTotal` réservé à `GG-EU-IT-Admin`, comme dans l'exercice principal.
 
-    **c) Modifier les permissions ?** Non. Un comptable doit pouvoir écrire **dans** la carpeta, pas réécrire **les règles** de la carpeta. C'est exactement la différence entre `Modify` et `Full Control` côté NTFS.
+    **c) Modifier les permissions ?** Non. Un comptable doit pouvoir écrire **dans** le dossier, pas réécrire **les règles** du dossier. C'est exactement la différence entre `Modify` et `Full Control` côté NTFS.
 
     **Convention de nommage**
 
@@ -374,10 +375,10 @@
 
     - `dsa.msc` → créer les 2 DL dans `Resources/Groups` (étendue **Domaine local**, type **Sécurité**, description claire).
     - Onglet **Membres** du DL Lecture → ajouter `GG-EU-RH-Admin`.
-    - Onglet **Membres** du DL Modification → ajouter `GG-EU-Comptabilite-Admin`, puis cliquer à nouveau **Ajouter** et ajouter `GG-EU-Ventes-Admin`. Le DL doit contenir **les deux** GG.
-    - Explorateur → `C:\Partages\Factures` → Propriétés → Sécurité → Avancé → Désactiver héritage → Convertir → supprimer `Utilisateurs` et `Utilisateurs authentifiés`.
+    - Onglet **Membres** du DL Modification → ajouter `GG-EU-Compta-Admin`, puis cliquer à nouveau **Ajouter** et ajouter `GG-EU-Ventes-Admin`. Le DL doit contenir **les deux** GG.
+    - Explorateur → `C:\Shares\Factures` → Propriétés → Sécurité → Avancé → Désactiver héritage → Convertir → supprimer `Utilisateurs` et `Utilisateurs authentifiés`.
     - Onglet Sécurité → Modifier → Ajouter `DL-Factures-Lecture` (Lecture & exécution) puis `DL-Factures-Modification` (Modification).
-    - Onglet Partage → Partage avancé → cocher → nom `Factures` → Autorisations → `Everyone : Modifier`.
+    - Onglet Partage → Partage avancé → cocher → nom `Factures` → Autorisations → `Tout le monde : Modifier`.
 
     **Vérification par accès effectif** :
 
@@ -388,7 +389,7 @@
     | `richard` (RH-Admin) | ✅ | ❌ | ❌ |
     | `charlotte` (Compta-Admin) | ✅ | ✅ | ❌ |
     | `valentin` (Ventes-Admin) | ✅ | ✅ | ❌ |
-    | `sophie` (Ventes-Users) | ❌ | ❌ | ❌ |
+    | `victor` (Ventes-Users) | ❌ | ❌ | ❌ |
 
     **Ce que ce cas ajoute par rapport à l'exercice principal**
 
@@ -402,8 +403,10 @@
 
 !!! abstract "AGUDLP — version multi-domaines"
 
-    Si demain `maxtec.be` ouvre une filiale `US` dans la même forêt, et que le partage doit être accessible depuis les deux zones, on insère un **groupe Universel** entre les GG et les DL :
+    Dans un **domaine unique** comme `maxtec.be`, un groupe universel n'apporte rien : un DL contient directement les GG dont il a besoin, et AGDLP suffit.
+
+    Le groupe universel devient utile quand la forêt contient **plusieurs domaines** (par exemple un domaine `us.maxtec.be` pour une filiale) et qu'une même population, répartie dans plusieurs domaines, doit accéder à des ressources de plusieurs domaines :
 
     **A**ccount → **G**lobal → **U**niversal → **D**omain Local → **P**ermission
 
-    Exemple : `U-Marketing-Users` contiendrait `GG-EU-Marketing-Users` et `GG-US-Marketing-Users`, et c'est ce groupe Universel qu'on ajouterait au DL de la ressource partagée. Toute la mise en place se fait également depuis `dsa.msc`.
+    Exemple : `UG-Marketing-Users` contient `GG-EU-Marketing-Users` (domaine `maxtec.be`) et `GG-US-Marketing-Users` (domaine `us.maxtec.be`), et c'est ce groupe universel qu'on ajoute au DL de chaque ressource. On ajoute un nouveau domaine au groupe universel une seule fois, au lieu de toucher chaque DL.

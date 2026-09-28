@@ -66,7 +66,7 @@ Résultat : suppression de la production. `-WhatIf` aurait affiché le vrai cont
 
 ```powershell
 Get-ADUser -Filter {Department -eq "Dev"} | Move-ADObject -TargetPath $newOU
-# $newOU était null → tous les devs déplacés vers la racine du domaine
+# $newOU était null -> tous les devs déplacés vers la racine du domaine
 ```
 
 Permissions cassées, applications down. `-WhatIf` aurait affiché `TargetPath: DC=company,DC=com` immédiatement.
@@ -131,18 +131,23 @@ Le message final est vert, l'admin part en weekend.
 ### Ce que `-WhatIf` aurait montré
 
 ```powershell
-New-ADGroup -Name "GG-EU-Clients-Japon" -WhatIf
-# What if: Le groupe 'GG-EU-Clients-Japon' existe déjà et serait ignoré
+New-ADGroup -Name "GG-EU-Clients-Japon" -GroupScope Global -GroupCategory Security `
+    -Path "OU=Groups,OU=Ventes,OU=EU,DC=maxtec,DC=be" -WhatIf
+# What if: Performing the operation "New" on target "CN=GG-EU-Clients-Japon,OU=Groups,OU=Ventes,OU=EU,DC=maxtec,DC=be".
 
 Get-ADUser -Filter {Department -eq "Ventes"} | ForEach-Object {
     Add-ADGroupMember -Identity "GG-EU-Clients-Japon" -Members $_.SamAccountName -WhatIf
 }
-# What if: Ajout de 'Victor' au groupe 'GG-EU-Clients-Japon'
-# What if: Ajout de 'Vanessa' au groupe 'GG-EU-Clients-Japon'
-# What if: ERREUR - Groupe 'GG-EU-Clients-Japon' non trouvé
+# Add-ADGroupMember : Cannot find an object with identity: 'GG-EU-Clients-Japon' ...
+# (une erreur par utilisateur)
 ```
 
-L'incohérence (le groupe existe mais on ne peut pas y ajouter de membres) saute aux yeux. L'admin aurait creusé avant d'exécuter.
+Deux choses à lire dans cette sortie :
+
+- `-WhatIf` sur `New-ADGroup` annonce seulement l'opération et sa cible. Il **ne vérifie pas** si un groupe du même nom existe déjà : pour cela, un `Get-ADGroup -Filter "Name -eq 'GG-EU-Clients-Japon'"` avant la création.
+- `Add-ADGroupMember` doit trouver le groupe, même en simulation. Ici c'est attendu (la création n'a été que simulée), mais c'est aussi la preuve qu'un script qui enchaîne création puis utilisation se simule **par étapes** : simuler la création, créer, vérifier avec `Get-ADGroup`, puis simuler les ajouts.
+
+Avec cette méthode, l'admin aurait découvert dès la vérification que le groupe existait déjà, avant d'exécuter quoi que ce soit.
 
 ---
 
@@ -154,7 +159,7 @@ L'incohérence (le groupe existe mais on ne peut pas y ajouter de membres) saute
 Set-ADUser -Identity Richard -Title "Chef RH" -WhatIf
 Add-ADGroupMember -Identity "GG-EU-RH-Users" -Members Ines -WhatIf
 Remove-ADUser -Identity TestUser -WhatIf
-Move-ADObject -Identity "CN=Charles,OU=Users,OU=Compta,OU=EU,DC=maxtec,DC=be" `
+Move-ADObject -Identity "CN=Charles,OU=Users,OU=Comptabilite,OU=EU,DC=maxtec,DC=be" `
               -TargetPath "OU=Users,OU=IT,OU=EU,DC=maxtec,DC=be" -WhatIf
 ```
 

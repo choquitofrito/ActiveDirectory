@@ -5,9 +5,15 @@
 
 ---
 
-!!! info "📚 Dans ce chapitre"
+!!! info "Objectifs du chapitre"
     
-    Apprenez à extraire et analyser les informations de votre Active Directory avec PowerShell.
+    À la fin de ce chapitre, vous savez :
+    
+    - écrire des filtres `-Filter` avec `-eq`, `-like`, `-and`, `-or` et des dates ;
+    - lister les membres d'un groupe et les groupes d'un utilisateur ;
+    - limiter une recherche à une OU avec `-SearchBase` ;
+    - repérer des comptes à risque (désactivés encore membres de groupes, mots de passe anciens) ;
+    - exporter un rapport en CSV et en HTML dans `C:\Scripts`.
 
 ---
 
@@ -29,15 +35,13 @@ Les commandes PowerShell permettent d'extraire rapidement des informations sur l
 
 
 
-### Commandes de base
-
 ### Les filtres les plus courants dans PowerShell AD
 
 Voici les opérateurs de filtre les plus utilisés avec les commandes PowerShell pour Active Directory (`-Filter`), notamment pour `Get-ADUser`, `Get-ADGroup`, etc. :
 
 | Opérateur | Signification | Exemple d'utilisation |
 |-----------|--------------|----------------------|
-| `-eq`     | Égal à       | `{Department -eq "Comptabilité"}` |
+| `-eq`     | Égal à       | `{Department -eq "Comptabilite"}` |
 | `-ne`     | Différent de | `{Enabled -ne $true}` |
 | `-like`   | Correspondance avec joker (`*` ou `?`) | `{Name -like "Mar*"} ` |
 | `-notlike`| Ne correspond pas au motif | `{Name -notlike "*test*"}` |
@@ -46,13 +50,13 @@ Voici les opérateurs de filtre les plus utilisés avec les commandes PowerShell
 | `-lt`     | Inférieur à  | `{PasswordLastSet -lt $date}` |
 | `-le`     | Inférieur ou égal à | `{PasswordLastSet -le $date}` |
 | `-and`    | ET logique   | `{Enabled -eq $true -and Department -eq "RH"}` |
-| `-or`     | OU logique   | `{Department -eq "RH" -or Department -eq "Comptabilité"}` |
+| `-or`     | OU logique   | `{Department -eq "RH" -or Department -eq "Comptabilite"}` |
 | `-not`    | Négation     | `{ -not (Enabled -eq $true) }` |
 
 !!! tip "Astuce"
     - L'opérateur `-like` est très utile pour les recherches partielles avec des jokers (`*` pour plusieurs caractères, `?` pour un seul).
     - Les dates doivent être comparées avec des variables de type `[datetime]` (voir exemples plus bas).
-    - Les filtres sont sensibles à la casse des propriétés, mais pas des valeurs.
+    - Les filtres ne sont sensibles à la casse ni pour les noms de propriétés ni pour les valeurs : `{department -eq "it"}` trouve les comptes du service `IT`. En revanche, les accents comptent : `Comptabilité` ne trouve pas `Comptabilite`.
 
 **Exemples rapides :**
 
@@ -64,7 +68,7 @@ Get-ADUser -Filter * -ResultSetSize 10
 # Obtenir un utilisateur spécifique par son SamAccountName
 Get-ADUser -Filter {SamAccountName -eq "victor"}
 
-# Obtenir les utilisateurs dont le nom commence par V (il faut que le nom soit rempli!!)
+# Obtenir les utilisateurs dont le nom commence par V
 Get-ADUser -Filter {Name -like "V*"}
 
 # Obtenir un utilisateur avec des propriétés spécifiques
@@ -74,7 +78,7 @@ Get-ADUser -Filter {SamAccountName -eq "victor"} -Properties DisplayName, EmailA
 
 ### Exemple pratique : Recherche avancée d'utilisateurs
 
-Changez à la main le pays de quelques utilisateurs vers la Belgique.
+Le script du lab renseigne `Country = BE` pour tous les comptes. Pour que le filtre ait quelque chose à exclure, changez à la main le pays d'un ou deux utilisateurs (onglet **Adresse**, par exemple France).
 
 
 ```powershell
@@ -88,20 +92,35 @@ Get-ADUser -Filter {Country -eq "BE"} -Properties Country |
     Format-Table permet de formatter les résultats de manière lisible, c'est juste une option
 
 
-# Trouver les utilisateurs actifs
+#### Trouver les utilisateurs actifs
 
 ```powershell
 Get-ADUser -Filter {Enabled -eq $true} | Format-Table Name
 ```
 
-# Filtre avec AND : utilisateurs belges ET du service Ventes
+#### Filtre avec AND : utilisateurs belges ET du service Ventes
 
 ```powershell
 # Note: Dans PowerShell, la propriété s'appelle 'Department' (en anglais)
 # mais dans l'interface française d'AD, ce champ s'appelle 'Service'
-Get-ADUser -Filter {Country -eq "B" -and Department -eq "Ventes"} -Properties Country,Department |
+Get-ADUser -Filter {Country -eq "BE" -and Department -eq "Ventes"} -Properties Country,Department |
     Format-Table Name, SamAccountName, Country, Department
 ```
+
+#### Comptes inactifs ou verrouillés : `Search-ADAccount`
+
+Certaines questions ne se posent pas bien avec `-Filter` (l'inactivité, le verrouillage sont calculés). `Search-ADAccount` y répond directement :
+
+```powershell
+# Utilisateurs sans connexion depuis 90 jours
+Search-ADAccount -AccountInactive -TimeSpan 90.00:00:00 -UsersOnly |
+    Format-Table Name, SamAccountName, LastLogonDate
+
+# Comptes actuellement verrouillés
+Search-ADAccount -LockedOut | Format-Table Name, SamAccountName
+```
+
+Autres options utiles : `-AccountDisabled`, `-PasswordNeverExpires`, `-AccountExpired`. Le chapitre 9.3 s'en sert pour déverrouiller en masse.
 
 ### Mission 1.1 — Recherches de base
 
@@ -152,7 +171,7 @@ Get-ADUser -Filter {Country -eq "B" -and Department -eq "Ventes"} -Properties Co
         $groupes = Get-ADPrincipalGroupMembership -Identity $_.SamAccountName |
                        Where-Object { $_.Name -like "GG-EU*" }
         if ($groupes) {
-            Write-Host "$($_.Name) — désactivé mais membre de : $($groupes.Name -join ', ')" -ForegroundColor Yellow
+            Write-Host "$($_.Name) - désactivé mais membre de : $($groupes.Name -join ', ')" -ForegroundColor Yellow
         }
     }
     
@@ -221,8 +240,11 @@ Get-ADUser -Filter {SamAccountName -eq "victor"} | ForEach-Object {
     
     # 3. Groupes vides ou sans membres actifs
     Get-ADGroup -Filter {Name -like "GG-EU*"} | ForEach-Object {
-        $membres = Get-ADGroupMember -Identity $_.Name |
-                       Where-Object { (Get-ADUser -Identity $_.SamAccountName).Enabled }
+        # Un groupe peut contenir des groupes ou des ordinateurs : Get-ADUser échouerait
+        # sur ces membres, on ne garde donc que les objets de type 'user'.
+        $membres = @(Get-ADGroupMember -Identity $_.Name |
+                       Where-Object { $_.objectClass -eq 'user' } |
+                       Where-Object { (Get-ADUser -Identity $_.SamAccountName).Enabled })
         if ($membres.Count -eq 0) {
             Write-Host "Groupe sans membres actifs : $($_.Name)"
         }
@@ -231,12 +253,7 @@ Get-ADUser -Filter {SamAccountName -eq "victor"} | ForEach-Object {
 
 !!! tip "Le paramètre -Identity"
     
-    Ce paramètre permet de spécifier quel objet AD vous voulez manipuler. Il accepte plusieurs formats d'identification. Par exemple... si on a le groupe "GG-EU-IT-Users", on peut le trouver de plusieurs manières en utilisant le paramètre -Identity :
-    
-    - **Nom** : Simplement le nom du groupe (ex: -Identity "GG-EU-IT-Users")
-    - **SamAccountName** : L'identifiant unique du groupe dans le domaine (ex: -Identity "GG-EU-IT-Users")
-    - **DistinguishedName** : Le chemin complet dans l'AD (ex: -Identity "CN=GG-EU-IT-Users,OU=Groups,OU=EU,DC=maxtec,DC=be")
-    - **GUID** : L'identifiant unique global (ex: -Identity "123e4567-e89b-12d3-a456-426614174000")
+    `-Identity` accepte un nom, un SamAccountName, un DistinguishedName ou un GUID. Les formats sont détaillés au chapitre 9.1, section [Variables et commandes AD](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md#variables-et-commandes-ad).
 
 
 
@@ -255,22 +272,18 @@ Get-ADOrganizationalUnit -Filter *
 # Lister une OU spécifique
 Get-ADOrganizationalUnit -Filter { Name -eq "RH"}
 
-# Trouver un user spécifique par son nom
-Get-ADUser -Filter {Country -eq "BE"}
+# Lister uniquement les OUs situées directement sous EU (un seul niveau)
+Get-ADOrganizationalUnit -Filter * -SearchBase "OU=EU,DC=maxtec,DC=be" -SearchScope OneLevel
 ```
 
-!!! note "SearchBase obligatoire"
+!!! note "-SearchBase : limiter la recherche à une branche"
     
-    SearchBase est nécessaire car il définit le point de départ de la recherche
+    `-SearchBase` est facultatif. Sans lui, la recherche porte sur tout le domaine. Avec lui, elle démarre à l'OU indiquée (et descend dans ses sous-OUs, sauf si vous précisez `-SearchScope OneLevel`). Si l'OU indiquée n'existe pas, la commande lève une erreur : voir le `try / catch` du mini-projet du chapitre 9.1.
 
 ```powershell
 # Obtenir les objets dans une OU spécifique
 Get-ADObject -Filter * -SearchBase "OU=Users,OU=Comptabilite,OU=EU,DC=maxtec,DC=be"
 ```
-
-!!! note "Limitation de recherche"
-    
-    SearchBase est nécessaire pour limiter la recherche à une OU spécifique
 
 ```powershell
 # Compter les utilisateurs dans une OU
@@ -287,6 +300,10 @@ L'exportation des données est essentielle pour le reporting et l'analyse.
 !!! note "Sélection d'attributs"
     
     Select-Object permet de sélectionner les attributs que l'on souhaite exporter.
+
+!!! warning "Où écrire les fichiers"
+    
+    Les exemples écrivent dans `C:\Scripts` (créé au chapitre 9.0), pas à la racine `C:\` : écrire à la racine du disque système demande des droits d'administrateur et mélange vos rapports avec les fichiers du système. Si le dossier n'existe pas : `New-Item -Path C:\Scripts -ItemType Directory -Force`.
 
 !!! tip "Différence Pipeline vs ForEach-Object"
     
@@ -319,7 +336,7 @@ L'exportation des données est essentielle pour le reporting et l'analyse.
     2. `| ForEach-Object { ... }` : Pour chaque groupe trouvé, on exécute le bloc de code entre accolades
     3. `Get-ADGroupMember -Identity $_.Name` : Pour chaque groupe ($_ représente le groupe actuel), on récupère la liste de ses membres
     
-    **Pourquoi utiliser ForEach-Object ici ?** Parce que `Get-ADGroupMember` n'accepte pas directement des objets du pipeline. Il faut donc traiter chaque groupe individuellement et extraire son nom pour le passer à la commande.
+    **Pourquoi utiliser ForEach-Object ici ?** `Get-ADGroup ... | Get-ADGroupMember` fonctionne aussi : le paramètre `-Identity` accepte les groupes venant du pipeline. Mais on obtient alors une liste de membres en vrac, sans savoir de quel groupe vient chacun. Avec `ForEach-Object`, le groupe courant reste disponible dans `$_` : on peut afficher son nom, compter ses membres, etc.
 
 !!! info "Explication de `$_`"
     
@@ -331,7 +348,7 @@ L'exportation des données est essentielle pour le reporting et l'analyse.
 # Note: 'Department' (propriété PowerShell) = 'Service' (interface française d'AD)
 Get-ADUser -Filter * -Properties Department, Title, EmailAddress |
     Select-Object Name, SamAccountName, Department, Title, EmailAddress |
-    Export-Csv -Path "C:\utilisateurs.csv" -NoTypeInformation -Encoding UTF8
+    Export-Csv -Path "C:\Scripts\utilisateurs.csv" -NoTypeInformation -Encoding UTF8
 ```
 
 ### Exportation au format HTML (pour visualisation dans un navigateur)
@@ -341,11 +358,11 @@ Get-ADUser -Filter * -Properties Department, Title, EmailAddress |
 # Note: 'Department' (propriété PowerShell) = 'Service' (interface française d'AD)
 Get-ADUser -Filter * -Properties Department, Title | 
     Select-Object Name, SamAccountName, Department, Title |
-    ConvertTo-Html -Title "Liste des utilisateurs" -Property Name, SamAccountName, Country |
-    Out-File -FilePath "C:\utilisateurs.html" -Encoding UTF8
+    ConvertTo-Html -Title "Liste des utilisateurs" |
+    Out-File -FilePath "C:\Scripts\utilisateurs.html" -Encoding UTF8
 
 # Ouvrir le fichier HTML dans le navigateur par défaut
-Invoke-Item "C:\utilisateurs.html"
+Invoke-Item "C:\Scripts\utilisateurs.html"
 ```
 
 ### Mission 4.1 — Rapport d'audit CSV + HTML
@@ -365,15 +382,15 @@ Invoke-Item "C:\utilisateurs.html"
     Get-ADUser -Filter {Enabled -eq $true} `
                -Properties Department, EmailAddress, PasswordLastSet |
         Select-Object Name, SamAccountName, Department, EmailAddress, PasswordLastSet |
-        Export-Csv -Path "C:\audit_utilisateurs.csv" -NoTypeInformation -Encoding UTF8
+        Export-Csv -Path "C:\Scripts\audit_utilisateurs.csv" -NoTypeInformation -Encoding UTF8
     
     # 2. HTML
     Get-ADUser -Filter {Enabled -eq $true} `
                -Properties Department, EmailAddress, PasswordLastSet |
         Select-Object Name, SamAccountName, Department, EmailAddress, PasswordLastSet |
-        ConvertTo-Html -Title "Audit Maxtec — Utilisateurs actifs" |
-        Out-File -FilePath "C:\audit_utilisateurs.html" -Encoding UTF8
-    Invoke-Item "C:\audit_utilisateurs.html"
+        ConvertTo-Html -Title "Audit Maxtec - Utilisateurs actifs" |
+        Out-File -FilePath "C:\Scripts\audit_utilisateurs.html" -Encoding UTF8
+    Invoke-Item "C:\Scripts\audit_utilisateurs.html"
     
     # 3. Bonus : groupes + nb membres
     Get-ADGroup -Filter {Name -like "GG-EU*"} | ForEach-Object {
@@ -381,7 +398,7 @@ Invoke-Item "C:\utilisateurs.html"
             Groupe  = $_.Name
             Membres = (Get-ADGroupMember -Identity $_.Name).Count
         }
-    } | Export-Csv -Path "C:\audit_groupes.csv" -NoTypeInformation -Encoding UTF8
+    } | Export-Csv -Path "C:\Scripts\audit_groupes.csv" -NoTypeInformation -Encoding UTF8
     ```
 
 ---
@@ -391,4 +408,4 @@ Invoke-Item "C:\utilisateurs.html"
 
 ---
 
-**📚 Cours Active Directory - PowerShell | 👨‍💻 Pour débutants**
+**📚 Cours Active Directory - PowerShell**

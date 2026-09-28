@@ -2,19 +2,19 @@
 
 !!! info "🎯 Contexte"
 
-    Suite à l'expansion de l'entreprise **maxtec.be**, deux nouveaux départements sont créés : **Marketing** et **Logistique**. Vous êtes chargé(e) d'étendre la structure Active Directory existante (Ventes, RH, Comptabilite, IT) pour intégrer ces nouvelles équipes.
+    Suite à l'expansion de l'entreprise **maxtec.be**, deux nouveaux départements sont créés : **Marketing** et **Achats**. Vous êtes chargé(e) d'étendre la structure Active Directory existante (Ventes, RH, Comptabilite, IT) pour intégrer ces nouvelles équipes.
 
     **Prérequis** : Le script `creation_structure.ps1` du labo a été exécuté. Vous disposez donc déjà des départements Ventes, RH, Comptabilite et IT sous `OU=EU,DC=maxtec,DC=be`, avec leurs utilisateurs et groupes (`GG-EU-<Dept>-Users` / `GG-EU-<Dept>-Admin`).
 
 ---
 
-## 1. 🔹 Création de la Structure des Nouveaux Départements
+## 1. Création de la Structure des Nouveaux Départements
 
 !!! example "Tâches à réaliser"
 
     1. Sous `OU=EU,DC=maxtec,DC=be`, créer les deux nouvelles OUs départementales :
         - `OU=Marketing`
-        - `OU=Logistique`
+        - `OU=Achats`
 
     2. Sous chaque nouvelle OU départementale, créer les sous-OUs (mêmes noms que dans le reste du labo) :
         - `OU=Users`
@@ -23,9 +23,24 @@
 
     3. Vérifier que la nouvelle structure respecte la convention existante (par exemple : `OU=Users,OU=Marketing,OU=EU,DC=maxtec,DC=be`).
 
+    Dans le lab, décochez **Protéger le conteneur contre une suppression accidentelle** (sinon le script de suppression échouera sur ces OUs).
+
+??? success "Solution"
+
+    `dsa.msc` > clic droit sur `EU` > **Nouveau > Unité d'organisation** > `Marketing` (protection décochée), puis dans `Marketing` : `Users`, `Computers`, `Groups`. Idem pour `Achats`.
+
+    ```powershell
+    foreach ($d in "Marketing", "Achats") {
+        New-ADOrganizationalUnit -Name $d -Path "OU=EU,DC=maxtec,DC=be" -ProtectedFromAccidentalDeletion $false
+        foreach ($s in "Users", "Computers", "Groups") {
+            New-ADOrganizationalUnit -Name $s -Path "OU=$d,OU=EU,DC=maxtec,DC=be" -ProtectedFromAccidentalDeletion $false
+        }
+    }
+    ```
+
 ---
 
-## 2. 🔹 Création d'Utilisateurs pour les Nouveaux Départements
+## 2. Création d'Utilisateurs pour les Nouveaux Départements
 
 !!! example "Tâches à réaliser"
 
@@ -34,18 +49,32 @@
         - **marie** (Chargée de Communication)
         - **michel** (Designer Graphique)
 
-    2. Créer les utilisateurs suivants dans `OU=Users,OU=Logistique,OU=EU,DC=maxtec,DC=be` :
-        - **lucas** (Responsable Logistique)
-        - **lea** (Gestionnaire de Stock)
+    2. Créer les utilisateurs suivants dans `OU=Users,OU=Achats,OU=EU,DC=maxtec,DC=be` :
+        - **adrien** (Responsable Achats)
+        - **agathe** (Acheteuse)
 
     3. Pour chaque utilisateur :
         - Mot de passe standard : `Azerty_1`
         - Activer "L'utilisateur doit changer son mot de passe à la prochaine ouverture de session"
-        - Remplir les champs : Prénom, Nom, Titre, Département, E-mail (`prenom@maxtec.be`)
+        - Remplir les champs : Prénom, Nom (à vous de choisir), Titre, Service (`Department` = nom de l'OU : `Marketing` ou `Achats`), E-mail (`prenom@maxtec.be`)
+
+??? success "Solution"
+
+    GUI : `EU > Marketing > Users` > **Nouveau > Utilisateur**, login = prénom sans accent, mot de passe `Azerty_1`, case de changement à la prochaine ouverture cochée. Puis Propriétés : **Général** (E-mail), **Organisation** (Fonction, Service).
+
+    Exemple de noms : Marc Mertens, Marie Maes, Michel Michiels, Adrien Aerts, Agathe Albert. Comme dans le reste du lab, le nom de l'objet (`Name`, donc le `CN`) est le prénom ; le nom complet va dans `DisplayName`.
+
+    ```powershell
+    $mdp = ConvertTo-SecureString "Azerty_1" -AsPlainText -Force   # mot de passe de LAB
+    New-ADUser -Name Marc -DisplayName "Marc Mertens" -GivenName Marc -Surname Mertens -SamAccountName marc -UserPrincipalName marc@maxtec.be `
+        -EmailAddress marc@maxtec.be -Title "Directeur Marketing" -Department Marketing `
+        -Path "OU=Users,OU=Marketing,OU=EU,DC=maxtec,DC=be" -AccountPassword $mdp -ChangePasswordAtLogon $true -Enabled $true
+    # Meme commande pour marie, michel (Marketing), adrien, agathe (Achats)
+    ```
 
 ---
 
-## 3. 🔹 Création de Groupes Globaux pour les Nouveaux Départements
+## 3. Création de Groupes Globaux pour les Nouveaux Départements
 
 !!! example "Tâches à réaliser"
 
@@ -55,32 +84,64 @@
         |---|---|
         | `GG-EU-Marketing-Users` | `OU=Groups,OU=Marketing,OU=EU,...` |
         | `GG-EU-Marketing-Admin` | `OU=Groups,OU=Marketing,OU=EU,...` |
-        | `GG-EU-Logistique-Users` | `OU=Groups,OU=Logistique,OU=EU,...` |
-        | `GG-EU-Logistique-Admin` | `OU=Groups,OU=Logistique,OU=EU,...` |
+        | `GG-EU-Achats-Users` | `OU=Groups,OU=Achats,OU=EU,...` |
+        | `GG-EU-Achats-Admin` | `OU=Groups,OU=Achats,OU=EU,...` |
 
     2. Ajouter les utilisateurs appropriés à chaque groupe :
         - **marie** et **michel** dans `GG-EU-Marketing-Users`
         - **marc** dans `GG-EU-Marketing-Admin`
-        - **lea** dans `GG-EU-Logistique-Users`
-        - **lucas** dans `GG-EU-Logistique-Admin`
+        - **agathe** dans `GG-EU-Achats-Users`
+        - **adrien** dans `GG-EU-Achats-Admin`
+
+??? success "Solution"
+
+    GUI : `EU > Marketing > Groups` > **Nouveau > Groupe** > étendue **Globale**, type **Sécurité**. Puis double-clic sur le groupe > **Membres** > **Ajouter…**.
+
+    ```powershell
+    foreach ($d in "Marketing", "Achats") {
+        foreach ($r in "Users", "Admin") {
+            New-ADGroup -Name "GG-EU-$d-$r" -GroupScope Global -GroupCategory Security -Path "OU=Groups,OU=$d,OU=EU,DC=maxtec,DC=be"
+        }
+    }
+    Add-ADGroupMember GG-EU-Marketing-Users -Members marie, michel
+    Add-ADGroupMember GG-EU-Marketing-Admin -Members marc
+    Add-ADGroupMember GG-EU-Achats-Users -Members agathe
+    Add-ADGroupMember GG-EU-Achats-Admin -Members adrien
+    ```
 
 ---
 
-## 4. 🔹 Gestion des Comptes Utilisateurs Spéciaux
+## 4. Gestion des Comptes Utilisateurs Spéciaux
 
 !!! example "Tâches à réaliser"
 
-    1. **Compte d'administration** : ajouter **marc** au groupe `Administrateurs du domaine` (Domain Admins). Discutez ensuite : est-ce une bonne pratique pour un Directeur Marketing ? Pourquoi un groupe `GG-EU-Marketing-Admin` est plus approprié ?
+    1. **Compte d'administration** : ajouter **marc** au groupe `Admins du domaine` (Domain Admins). Discutez ensuite : est-ce une bonne pratique pour un Directeur Marketing ? Pourquoi un groupe `GG-EU-Marketing-Admin` avec une délégation (étape 7) est plus approprié ? **Retirez-le ensuite du groupe** : sinon le test de délégation de l'étape 7 ne prouve rien (un Admin du domaine peut tout faire partout).
 
     2. **Contrat à durée déterminée** : définir une date d'expiration dans **6 mois** pour le compte de **michel**.
 
-    3. **Restrictions horaires** : configurer pour **lea** un accès uniquement du **lundi au vendredi, de 7h à 19h**.
+    3. **Restrictions horaires** : configurer pour **agathe** un accès uniquement du **lundi au vendredi, de 7h à 19h**.
 
-    4. **Restriction de poste de travail** : configurer pour **michel** la connexion **uniquement sur `ws-Marketing-01`** (vous n'avez pas besoin que la machine existe pour cet exercice — il s'agit de configurer la restriction côté AD).
+    4. **Restriction de poste de travail** : configurer pour **michel** la connexion **uniquement sur `ws-Marketing-01`**. Pré-créez l'objet ordinateur dans `OU=Computers,OU=Marketing` : la restriction s'accepte même sans objet, mais un objet pré-créé est plus propre (le vrai poste le réutilisera à la jonction). Conséquence à noter : tant que ce poste n'existe pas, michel ne peut se connecter nulle part.
+
+??? success "Solution"
+
+    ```powershell
+    Add-ADGroupMember "Admins du domaine" -Members marc      # 4.1 (Domain Admins sur un serveur en anglais)
+    Remove-ADGroupMember "Admins du domaine" -Members marc -Confirm:$false
+
+    Set-ADAccountExpiration michel -DateTime (Get-Date).AddMonths(6)       # 4.2
+
+    New-ADComputer -Name ws-Marketing-01 -Path "OU=Computers,OU=Marketing,OU=EU,DC=maxtec,DC=be"
+    Set-ADUser michel -LogonWorkstations "ws-Marketing-01"                 # 4.4
+    ```
+
+    4.3 : propriétés de `agathe` > onglet **Compte** > **Horaires d'accès…** : autorisé lundi-vendredi 7h-19h, refusé le reste.
+
+    4.1, discussion : `Admins du domaine` donne le contrôle total du domaine (tous les comptes, tous les DC, toutes les GPO). Un directeur métier n'en a pas besoin, et son compte, utilisé tous les jours pour les mails et le web, serait une porte d'entrée pour un attaquant. On lui donne uniquement ce dont il a besoin, par délégation sur son OU.
 
 ---
 
-## 5. 🔹 Création d'une Structure de Projet Transverse
+## 5. Création d'une Structure de Projet Transverse
 
 !!! example "Contexte"
 
@@ -98,9 +159,22 @@
         - **ines** (IT — existante dans le labo)
         - **victor** (Ventes — existant dans le labo)
 
+??? success "Solution"
+
+    ```powershell
+    New-ADOrganizationalUnit -Name Projets -Path "OU=EU,DC=maxtec,DC=be" -ProtectedFromAccidentalDeletion $false
+    New-ADOrganizationalUnit -Name ProjetNouveauSite -Path "OU=Projets,OU=EU,DC=maxtec,DC=be" -ProtectedFromAccidentalDeletion $false
+    New-ADOrganizationalUnit -Name Groups -Path "OU=ProjetNouveauSite,OU=Projets,OU=EU,DC=maxtec,DC=be" -ProtectedFromAccidentalDeletion $false
+    New-ADGroup -Name GG-EU-ProjetSite-Membres -GroupScope Global -GroupCategory Security `
+        -Path "OU=Groups,OU=ProjetNouveauSite,OU=Projets,OU=EU,DC=maxtec,DC=be"
+    Add-ADGroupMember GG-EU-ProjetSite-Membres -Members marie, michel, ines, victor
+    ```
+
+    Un groupe peut contenir des utilisateurs de n'importe quelle OU du domaine : ines et victor restent dans leur OU d'origine. L'OU `Projets` sert à ranger le groupe, pas les personnes.
+
 ---
 
-## 6. 🔹 Recherche et Filtrage d'Objets AD
+## 6. Recherche et Filtrage d'Objets AD
 
 !!! example "Tâches à réaliser"
 
@@ -128,7 +202,8 @@
     - Ouvrir **Utilisateurs et ordinateurs Active Directory**
     - Localiser **ines** dans `EU > IT > Users`
     - Clic droit → **Propriétés** → onglet **Membre de**
-    - Tous les groupes dont l'utilisateur est membre seront affichés (au minimum `Domain Users` et `GG-EU-IT-Users`)
+    - Tous les groupes dont l'utilisateur est membre seront affichés (au minimum `Utilisateurs du domaine` et `GG-EU-IT-Users`, plus `GG-EU-ProjetSite-Membres` si vous avez fait l'étape 5)
+    - En PowerShell : `Get-ADPrincipalGroupMembership ines | Select-Object Name`
 
     ### 3. Utilisateurs avec « Responsable » ou « Directeur/Directrice » dans le titre
 
@@ -144,9 +219,9 @@
     ### 4. Requête LDAP : utilisateurs créés aujourd'hui
 
     - Ouvrir **Utilisateurs et ordinateurs Active Directory**
-    - `Affichage > Fonctionnalités avancées`
-    - `Affichage > Recherche avancée` (ou clic droit sur le domaine → Rechercher)
-    - Champ **Requête LDAP** :
+    - Clic droit sur le domaine → **Rechercher…**
+    - Liste **Rechercher** : **Recherche personnalisée** → onglet **Avancé**
+    - Champ **Entrer une requête LDAP** :
 
         ```
         (&(objectCategory=person)(objectClass=user)(whenCreated>=AAAAMMJJ000000.0Z))
@@ -160,29 +235,41 @@
 
 ---
 
-## 7. 🔹 Délégation de Contrôle pour les Nouveaux Départements
+## 7. Délégation de Contrôle pour les Nouveaux Départements
 
 !!! example "Contexte"
 
-    Vous voulez permettre aux responsables des nouveaux départements de gérer leurs propres utilisateurs sans les ajouter à `Domain Admins`.
+    Vous voulez permettre aux responsables des nouveaux départements de gérer leurs propres utilisateurs sans les ajouter à `Admins du domaine`.
 
 !!! example "Tâches à réaliser"
 
-    1. Déléguer à **marc** (Marketing) les droits suivants sur `OU=Marketing,OU=EU,DC=maxtec,DC=be` :
+    1. Déléguer à `GG-EU-Marketing-Admin` (qui contient **marc**) les droits suivants sur `OU=Marketing,OU=EU,DC=maxtec,DC=be` :
         - Créer, supprimer et gérer les comptes utilisateurs
         - Réinitialiser les mots de passe
 
-    2. Déléguer à **lucas** (Logistique) les mêmes droits sur `OU=Logistique,OU=EU,DC=maxtec,DC=be`.
+    2. Déléguer à `GG-EU-Achats-Admin` (qui contient **adrien**) les mêmes droits sur `OU=Achats,OU=EU,DC=maxtec,DC=be`.
 
-    3. **Test** : Connectez-vous (RDP ou changement d'utilisateur) avec le compte **marc** et vérifiez qu'il peut bien créer un utilisateur de test dans `OU=Users,OU=Marketing,...`, mais **pas** dans `OU=Users,OU=Logistique,...`.
+    3. **Test** : vérifiez que **marc** peut créer un utilisateur de test dans `OU=Users,OU=Marketing,...`, mais **pas** dans `OU=Users,OU=Achats,...`. Le test se fait **depuis `ws-IT-01` avec RSAT** ([installation : Gestion des utilisateurs, Ex. 12](./Exercices:%20Gestion_des_Utilisateurs.md#exercice-12-delegation-dadministration)) : marc n'a pas le droit d'ouvrir une session sur le DC, ni en local ni en RDP.
 
-    !!! tip "Rappel labo"
+    !!! tip "Déléguer au groupe"
 
-        Les utilisateurs **irene** (IT) et **valentin** (Ventes) existent déjà avec leurs groupes `GG-EU-IT-Admin` / `GG-EU-Ventes-Admin` créés par le script du labo. Une fois la délégation comprise, vous pouvez répéter l'opération en accordant les droits à ces groupes (et non aux utilisateurs individuellement) — c'est la pratique recommandée.
+        On délègue au groupe `GG-EU-Marketing-Admin` et non à marc directement : si le directeur change, on modifie l'appartenance au groupe, pas les ACL de l'OU. Vérifiez aussi que marc n'est plus dans `Admins du domaine` (étape 4.1).
+
+??? success "Solution"
+
+    1. `dsa.msc` > clic droit sur `EU > Marketing` > **Délégation de contrôle…** > **Ajouter** `GG-EU-Marketing-Admin` > tâches **Créer, supprimer et gérer les comptes d'utilisateurs** et **Réinitialiser les mots de passe utilisateur et forcer le changement de mot de passe à la prochaine ouverture de session** > **Terminer**
+    2. Idem sur `EU > Achats` avec `GG-EU-Achats-Admin`
+    3. Sur `ws-IT-01` (RSAT installé), depuis une session existante :
+
+        ```cmd
+        runas /user:maxtec\marc "mmc dsa.msc"
+        ```
+
+        (ou `runas /netonly /user:maxtec\marc "mmc dsa.msc"` si marc ne peut pas ouvrir de session locale sur le poste). **Nouveau > Utilisateur** dans `Marketing > Users` fonctionne ; dans `Achats > Users`, l'option est absente ou la création échoue. Marc devra changer son mot de passe `Azerty_1` à la première connexion : faites-le avant (session sur le poste, ou `Ctrl+Alt+Suppr` > Modifier un mot de passe).
 
 ---
 
-## 8. 🔹 Comité de Direction (Exercice Optionnel)
+## 8. Comité de Direction (Exercice Optionnel)
 
 !!! example "Contexte"
 
@@ -193,7 +280,7 @@
     1. Créer un groupe global `GG-EU-Comite-Direction` dans une OU `Groups` au niveau de `OU=EU` (créer l'OU si elle n'existe pas).
     2. Ajouter les responsables suivants au groupe :
         - **marc** (Marketing — créé à l'étape 2)
-        - **lucas** (Logistique — créé à l'étape 2)
+        - **adrien** (Achats — créé à l'étape 2)
         - **valentin** (Ventes — existant dans le labo)
         - **richard** (RH — existant dans le labo)
         - **charlotte** (Comptabilité — existante dans le labo)
@@ -201,9 +288,22 @@
 
     3. Discussion : quel **scope de groupe** (Global, DomainLocal, Universal) serait le plus approprié si demain une zone géographique `US` était ajoutée ? Pourquoi ?
 
+??? success "Solution"
+
+    ```powershell
+    New-ADOrganizationalUnit -Name Groups -Path "OU=EU,DC=maxtec,DC=be" -ProtectedFromAccidentalDeletion $false
+    New-ADGroup -Name GG-EU-Comite-Direction -GroupScope Global -GroupCategory Security -Path "OU=Groups,OU=EU,DC=maxtec,DC=be"
+    Add-ADGroupMember GG-EU-Comite-Direction -Members marc, adrien, valentin, richard, charlotte, irene
+    ```
+
+    Discussion : tout dépend de la forme que prend la zone `US`.
+
+    - **Une OU `US` dans le même domaine** `maxtec.be` : un groupe **global** suffit. Il peut contenir des utilisateurs de n'importe quelle OU du domaine. On le renommerait simplement sans `EU` (par exemple `GG-Comite-Direction`).
+    - **Un domaine séparé** dans la même forêt (par exemple `us.maxtec.be`) : un groupe global ne peut contenir que des comptes de son domaine. On crée alors un groupe **universel** (`UG-Comite-Direction`) qui contient les groupes globaux des deux domaines.
+
 ---
 
-## 9. 🔹 Vers une Structure Multi-Zones (Exercice Optionnel — Théorique)
+## 9. Vers une Structure Multi-Zones (Exercice Optionnel — Théorique)
 
 !!! warning "Note"
 
@@ -221,4 +321,6 @@
 
     1. `OU=US,DC=maxtec,DC=be`, avec la même structure interne (`Marketing/Users`, `Marketing/Computers`, `Marketing/Groups`, etc.)
     2. `GG-US-Marketing-Users`, `GG-US-Marketing-Admin`
-    3. Un **groupe Universel** (Universal), par exemple `U-Global-Marketing-Users`, qui contiendrait à la fois `GG-EU-Marketing-Users` et `GG-US-Marketing-Users`. C'est l'application classique du modèle **AGUDLP** (Account → Global → Universal → DomainLocal → Permission).
+    3. `US` est ici une **OU dans le même domaine** : pas besoin de groupe universel. On applique AGDLP : un groupe **domaine local** `DL-Marketing-Partage-Modification` qui contient `GG-EU-Marketing-Users` et `GG-US-Marketing-Users`, et c'est lui qui reçoit la permission sur le partage.
+
+        Le groupe **universel** (modèle **AGUDLP** : Account → Global → Universal → DomainLocal → Permission) ne devient utile que si `US` est un **domaine séparé** de la forêt (`us.maxtec.be`) : par exemple `UG-Marketing-Users`, qui contient les GG des deux domaines et qu'on place dans les DL des ressources.

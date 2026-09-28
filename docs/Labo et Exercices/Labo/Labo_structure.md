@@ -1,11 +1,15 @@
 # Configuration du Laboratoire GPO
 
+!!! info "Source de vérité"
+    Noms, adresses, utilisateurs, groupes et partages du lab : **[Référence du lab Maxtec](Reference_Lab_Maxtec.md)**. En cas de contradiction avec une autre page, c'est elle qui fait foi.
+
 ## Infrastructure du Laboratoire
 
 Pour réaliser les exercices de GPO, vous utiliserez un environnement de laboratoire simplifié comprenant :
 
-* Un contrôleur de domaine (dns1.maxtec.be, 192.168.0.2)
-* Une machine cliente avec Windows 10/11 Professionnel (qui deviendra, par exemple, `ws-IT-01.maxtec.be`)
+* Un contrôleur de domaine : `dns1.maxtec.be` (192.168.0.2)
+* Un poste client Windows 11 Professionnel **obligatoire** : `ws-IT-01.maxtec.be` (192.168.0.10)
+* Un second poste client **optionnel** : `ws-RH-01.maxtec.be` (192.168.0.11). Certains exercices (GPO appliquée à un département et pas à l'autre, profils itinérants) sont plus parlants avec deux postes ; sans lui, vous pouvez déplacer `ws-IT-01` d'une OU à l'autre.
 
 Cet environnement est une version simplifiée de l'infrastructure complète, qui dans un contexte d'entreprise inclurait des zones géographiques (eu/us) et des environnements (dev/prod).
 
@@ -13,19 +17,25 @@ Cet environnement est une version simplifiée de l'infrastructure complète, qui
 
 * Postes de travail : ws-[dept]-[##].maxtec.be
 * Groupes globaux : GG-[Nom]
-* Utilisateurs : prenom.nom
+* Utilisateurs : login = prénom en minuscules (`vanessa`, `irene`…), UPN `prenom@maxtec.be`
 
 ## Préparation de la VM
 
 ### Adaptateur réseau pour accéder à Internet (si besoin)
 
 1. Éteignez la machine
-2. Ajoutez un adaptateur réseau en mode `pont`
-3. Redémarrez la machine
+2. Ajoutez un deuxième adaptateur réseau en mode `NAT` (Configuration > Réseau > Carte 2)
+3. Redémarrez la machine, faites vos téléchargements
+4. Éteignez la machine, retirez la carte NAT, redémarrez
+
+!!! warning "Carte NAT temporaire, jamais en permanence sur le DC"
+    Le DC ne doit garder qu'une carte réseau, sur le réseau interne (voir la [référence du lab](Reference_Lab_Maxtec.md)) : avec deux cartes, il enregistre ses deux adresses dans DNS et les clients tombent au hasard sur la mauvaise. Retirez la carte NAT dès les téléchargements terminés.
+
+    N'utilisez pas le mode `pont` : il expose la VM directement sur le réseau de l'école, avec un DC et un serveur DNS qui répondent aux autres machines de la salle.
 
 ### Installation des VirtualBox Guest Additions
 
-Cette extension permet le copier-coller et le glisser-déposer entre la machine hôte et la VM. Nécessaire pour transférer le script PowerShell depuis votre poste vers le serveur.
+Permet le copier-coller et le glisser-déposer entre l'hôte et la VM, pratique pour transférer le script PowerShell vers le serveur.
 
 1. Démarrage :
     * Lancez VirtualBox
@@ -72,13 +82,13 @@ Le script est **idempotent** : il vérifie l'existence de chaque élément avant
 3. Dans l'Explorateur de fichiers, onglet `Affichage` > activez `Extensions des noms de fichiers`
 4. Créez un dossier `Scripts` dans `C:\` et accédez-y
 5. Clic droit > Nouveau > Document texte, nommez-le `creation_structure.ps1` et confirmez le changement d'extension
-6. Ouvrez Windows PowerShell ISE (en mode Administrateur)
-7. Fichier > Ouvrir > `C:\Scripts\creation_structure.ps1`
-8. Collez le contenu copié et enregistrez
+6. Ouvrez Visual Studio Code (extension PowerShell) ou, à défaut, Windows PowerShell ISE, **en tant qu'administrateur**
+7. Ouvrez `C:\Scripts\creation_structure.ps1`
+8. Collez le contenu copié et enregistrez (le fichier doit rester dans `C:\Scripts`)
 
 ### Exécuter le script
 
-Lancez le script depuis PowerShell ISE. Il vous demandera de confirmer chaque étape (OUs, utilisateurs, groupes).
+Lancez le script (F5 dans VS Code ou ISE). Il demande une confirmation à chaque étape (OUs, utilisateurs, groupes, membres).
 
 À la fin, vous disposerez de :
 
@@ -86,11 +96,29 @@ Lancez le script depuis PowerShell ISE. Il vous demandera de confirmer chaque é
 * Les utilisateurs répartis dans leurs OUs respectives
 * Les groupes globaux `GG-EU-[Dept]-Admin` et `GG-EU-[Dept]-Users`
 
-**Les membres des groupes ne sont pas ajoutés automatiquement** — c'est l'objet de la pratique ci-dessous.
+L'étape 5 du script (**ajout des membres aux groupes**) est optionnelle. Répondez `N` pour la faire à la main avec la pratique ci-dessous : c'est recommandé la première fois, c'est le geste que vous referez le plus souvent en exploitation. Répondez `O` si vous reconstruisez le lab et voulez aller vite.
+
+## Placer les postes dans leur OU
+
+Quand un poste rejoint le domaine, son objet ordinateur arrive dans le conteneur `CN=Computers`. Ce n'est pas une OU : **aucune GPO liée à une OU ne s'y applique**. Tant que vous n'avez pas déplacé les postes, aucune GPO de configuration ordinateur des exercices ne fonctionnera.
+
+Après la jonction au domaine :
+
+- `ws-IT-01` → `OU=Computers,OU=IT,OU=EU,DC=maxtec,DC=be`
+- `ws-RH-01` → `OU=Computers,OU=RH,OU=EU,DC=maxtec,DC=be`
+
+Dans `Utilisateurs et ordinateurs Active Directory` : conteneur `Computers` > clic droit sur le poste > `Déplacer…`. Ou en PowerShell sur le DC :
+
+```powershell
+Get-ADComputer ws-IT-01 | Move-ADObject -TargetPath "OU=Computers,OU=IT,OU=EU,DC=maxtec,DC=be"
+Get-ADComputer ws-RH-01 | Move-ADObject -TargetPath "OU=Computers,OU=RH,OU=EU,DC=maxtec,DC=be"
+```
+
+Redémarrez ensuite le poste (ou `gpupdate /force`) pour qu'il prenne en compte sa nouvelle position.
 
 ## Pratique : assigner les utilisateurs aux groupes
 
-- Assurez-vous d'avoir une VM cliente nommée `ws-IT-01` et une autre `ws-RH-01`. Si ce n'est pas le cas, renommez vos VMs et redémarrez-les.
+- Assurez-vous que votre VM cliente s'appelle `ws-IT-01` (et la seconde, si vous l'avez, `ws-RH-01`). Sinon, renommez-la et redémarrez-la.
 - Dans le serveur, ouvrez `Utilisateurs et ordinateurs Active Directory` et ajoutez les utilisateurs aux groupes correspondants :
     - `GG-EU-IT-Users` : Ivan, Ines
     - `GG-EU-IT-Admin` : Irene

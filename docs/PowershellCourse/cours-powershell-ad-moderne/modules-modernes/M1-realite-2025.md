@@ -44,8 +44,8 @@ LockedOut              : False
 BadPwdCount            : 0
 LastBadPasswordAttempt :
 Name                   : Richard
-SamAccountName         : Richard
-UserPrincipalName      : Richard@maxtec.be
+SamAccountName         : richard
+UserPrincipalName      : richard@maxtec.be
 ```
 
 **3. J'analyse.**
@@ -57,7 +57,7 @@ Get-ADPrincipalGroupMembership -Identity Richard | Select-Object Name
 Name
 ----
 Domain Users
-GG-EU-RH-Users
+GG-EU-RH-Admin
 ```
 
 **4. Je documente dans le ticket.**
@@ -65,7 +65,7 @@ GG-EU-RH-Users
 ```
 RÉSOLUTION TICKET #2847
 - Compte Richard: actif, non verrouillé
-- Membre de: Domain Users, GG-EU-RH-Users
+- Membre de: Domain Users, GG-EU-RH-Admin
 - Cause probable: réseau ou poste client
 - Escalade niveau 2 réseau
 ```
@@ -142,7 +142,7 @@ Crée un script PowerShell pour Active Directory qui:
 **Réponse type :**
 
 ```powershell
-# Script généré par IA — à valider avant usage
+# Script généré par IA - à valider avant usage
 Import-Module ActiveDirectory
 
 $dateLimit = (Get-Date).AddDays(-180)
@@ -261,10 +261,10 @@ Vous recevez ces 3 tickets simultanément lundi matin :
 Get-ADPrincipalGroupMembership -Identity Valeria | Select-Object Name
 
 # Vérifier qui est dans Ventes-Admins
-Get-ADGroupMember -Identity "GG-EU-Ventes-Admins" | Select-Object Name
+Get-ADGroupMember -Identity "GG-EU-Ventes-Admin" | Select-Object Name
 
 # Si nécessaire, ajouter (avec -WhatIf d'abord)
-Add-ADGroupMember -Identity "GG-EU-Ventes-Admins" -Members Valeria -WhatIf
+Add-ADGroupMember -Identity "GG-EU-Ventes-Admin" -Members Valeria -WhatIf
 ```
 
 **#2852 — Copier les droits de Charles vers Charles2**
@@ -277,7 +277,7 @@ try {
     Get-ADUser -Identity Charles2 -ErrorAction Stop
     Write-Host "Charles2 existe" -ForegroundColor Green
 } catch {
-    Write-Host "Charles2 n'existe pas — créer d'abord" -ForegroundColor Red
+    Write-Host "Charles2 n'existe pas - créer d'abord" -ForegroundColor Red
 }
 
 $groupesCharles | Where-Object { $_ -ne "Domain Users" } | ForEach-Object {

@@ -1,273 +1,199 @@
-# Chapitre 2: Installation de Windows Server 2022 sur VirtualBox
+# Chapitre 2: Installation de Windows Server sur VirtualBox
 
-## 🧭 Navigation du Cours
-[⏮️ Chapitre Précédent: Introduction](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre Suivant: DNS](Chapitre%203.DNS.md)
+## Navigation du cours
+[Chapitre précédent : Introduction](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md) | [Retour au Syllabus](index.md) | [Chapitre suivant : DNS](Chapitre%203.DNS.md)
 
+!!! info "Alternative au Chapitre 1"
+    Ce chapitre fait la même chose que le [Chapitre 1 §3.2](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md) (Hyper-V), mais avec **VirtualBox** (Linux, macOS, Windows Famille). Suivez l'un **ou** l'autre, pas les deux.
 
-!!! info "📚 Dans ce guide:"
-    1. 🛠️ [Prérequis](#1-️-prérequis)
-       - Installation de VirtualBox
-       - Téléchargement de Windows Server
-    
-    2. 🖥️ [Configuration de VirtualBox](#2-️-création-de-la-machine-virtuelle)
-       - Création de la VM
-       - Paramètres réseau
-    
-    3. 🔩 [Installation de Windows Server](#3--installation-de-windows-server-2022)
-       - Étapes d'installation
-       - Configuration initiale
+    Parcours le plus court : le [Guide rapide (Annexe 1)](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md), qui va de la VM jusqu'au poste client joint au domaine. Les valeurs officielles du lab sont dans la [Référence du lab Maxtec](Labo%20et%20Exercices/Labo/Reference_Lab_Maxtec.md).
+
+!!! info "Dans ce guide"
+    1. [Prérequis](#1-prerequis) : installation de VirtualBox, téléchargement de Windows Server
+    2. [Création de la machine virtuelle](#2-creation-de-la-machine-virtuelle) : VM et réseau
+    3. [Installation de Windows Server](#3-installation-de-windows-server) : installation et configuration initiale
+    4. [Postes clients Windows 11](#4-postes-clients-windows-11)
 
 ---
 
-## 🏑 Objectifs
+## Objectifs
 
-À la fin de ce guide, vous aurez :
+À la fin de ce guide, vous avez :
 
-1. Une machine virtuelle VirtualBox fonctionnelle
-2. Windows Server 2022 installé et configuré
+1. Une machine virtuelle VirtualBox avec Windows Server 2025 (2022 accepté), nommée `dns1`, IP `192.168.0.2`
+2. Une VM cliente Windows 11 Pro (`ws-IT-01`) sur le même réseau interne
 3. Un environnement prêt pour l'installation d'Active Directory
 
 ---
 
-## 1. 🛠️ Prérequis
+## 1. Prérequis
 
-### 💾 Installation de VirtualBox
+### Installation de VirtualBox
 
-!!! warning "Important"
-    
-    Si VirtualBox est déjà installé, passez à la section suivante
+Si VirtualBox 7 est déjà installé, passez à la section suivante.
 
-Telechargez VirtualBox sur le site officiel : https://www.virtualbox.org/wiki/Downloads et suivez les instructions d'installation.
-
-
-1. ✅ Acceptez les termes de la licence lors de l'installation.
-
+Téléchargez VirtualBox (version 7.x) sur le site officiel : <https://www.virtualbox.org/wiki/Downloads> et suivez les instructions d'installation.
 
 !!! warning "Problème potentiel sur Linux"
-    
-    Dans certaines configurations on peut avoir de problèmes pendant l'installation des machines virtuelles Windows.
-    
-    Source : https://askubuntu.com/questions/705720/virtualbox-kernel-driver-not-installed-error-despite-running-sbin-vboxconfig 
 
-```bash  
-sudo /usr/lib/virtualbox/vboxdrv.sh setup
-```
+    Sur certaines distributions, le module noyau de VirtualBox n'est pas chargé et les VMs refusent de démarrer (« Kernel driver not installed »). Reconstruisez le module :
 
-!!! tip "Solution alternative"
-    
-    Si la commande ne fonctionne pas, on doit installer gcc-12
+    ```bash
+    sudo /sbin/vboxconfig
+    ```
 
-### 💾 Téléchargement de Windows Server 2022
+    Si la commande échoue, installez d'abord les en-têtes du noyau et le compilateur (`linux-headers-$(uname -r)`, `gcc`, `make`), puis relancez-la. Si le démarrage sécurisé (Secure Boot) est actif sur l'hôte, le module doit être signé. Référence : <https://askubuntu.com/questions/705720/virtualbox-kernel-driver-not-installed-error-despite-running-sbin-vboxconfig>
 
-!!! warning "Important"
-    
-    Si les images sont déjà téléchargées, passez à la section suivante
-    
-    💡 **Pour débutants:** Même processus que dans le Chapitre 1, mais cette fois pour VirtualBox !
+### Téléchargement de Windows Server
 
-1. Visitez le [Centre d'évaluation Microsoft](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022)
-2. Téléchargez le fichier ISO de Windows Server 2022 (version d'évaluation 180 jours)
-3. Enregistrez le fichier ISO dans un emplacement facilement accessible
+Si l'ISO est déjà téléchargée, passez à la section suivante.
 
-## 2. 🖥️ Création de la Machine Virtuelle
+1. Visitez le [Centre d'évaluation Microsoft](https://www.microsoft.com/fr-fr/evalcenter/download-windows-server-2025)
+2. Téléchargez l'ISO de Windows Server 2025 (évaluation 180 jours), en français
+3. Enregistrez le fichier dans un emplacement facilement accessible
 
-### ⚙️ Configuration de Base
+Pour le client, téléchargez l'ISO de Windows 11 sur <https://www.microsoft.com/fr-fr/software-download/windows11> (l'édition Professionnel se choisit pendant l'installation).
 
-!!! example "Configuration de la machine virtuelle"
-    
-    1. **Ouvrez VirtualBox**
-    2. **Cliquez sur "Nouvelle"**
-    3. **Configurez les paramètres de base :**
-    
+## 2. Création de la machine virtuelle
+
+### Configuration de base
+
+1. **Ouvrez VirtualBox** et cliquez sur **Nouvelle**
+2. Configurez :
+
     | Paramètre | Valeur |
     |-----------|--------|
-    | **Nom** | `Serveur1` (par exemple) |
-    | **Type de disque** | VDI (Image disque VirtualBox) |
+    | **Nom** | `dns1` (étiquette de la VM ; le nom Windows se règle après l'installation) |
     | **Image ISO** | Fichier Windows Server |
-    | **Type** | Microsoft Windows |
-    | **Installation** | ⚠️ **Cochez Skip Unattended Installation** |
-    
-    **Configuration matérielle :**
-    
+    | **Type / Version** | Microsoft Windows / Windows Server 2025 (64-bit) ou 2022 |
+    | **Installation** | Cochez **Skip Unattended Installation** (installation manuelle) |
+
+3. Matériel :
+
     | Composant | Spécification |
     |-----------|---------------|
-    | **RAM** | 4096 Mo (4 Go) |
-    | **Processeurs** | 2 processeurs |
-    | **Disque dur** | 50 Go |
-    
-    ✅ **Appuyez sur Finish !**
+    | **RAM** | 4096 Mo |
+    | **Processeurs** | 2 |
+    | **Disque dur** | 50 Go, VDI, alloué dynamiquement |
 
-!!! tip "Convention de nommage"
-    
-    M1 = Machine 1 (si vous créez plus tard M2, M3...)
+4. Cliquez sur **Finish**
 
-### ⚙️ Paramètres Additionnels
+### Paramètres additionnels
 
-!!! info "Paramètres additionnels"
-    
-    1. **Sélectionnez la VM et cliquez sur "Paramètres"**
-    
-    2. **Système :**
-       - Onglet Processeur : 2 processeurs minimum
-    
-    3. **Affichage :**
-       - Mémoire vidéo : 128 Mo
-       - Activer l'Accélération 3D
-    
-    4. **Réseau :**
-       - Adaptateur 1 (par défaut) : Changer **NAT** par **réseau interne** (nécessaire pour AD)
-       - Ajoutez un deuxième adaptateur de réseau (éteindre la machine) et choisissez **accès pont** pour l'accès Internet
+VM éteinte, sélectionnez-la et cliquez sur **Paramètres** :
 
-## 3. 💻 Installation de Windows Server 2022
+1. **Affichage** : mémoire vidéo 128 Mo
+2. **Réseau** : Adaptateur 1, remplacez **NAT** par **Réseau interne** (nom par défaut : `intnet`). Toutes les VMs du lab doivent utiliser **le même nom** de réseau interne.
 
-!!! example "Installation de Windows Server 2022"
-    
-    1. **Démarrez la machine virtuelle**
-    
-    2. **Configuration initiale :**
-       - Sélectionnez la langue (Français, clavier Belge)
-       - Cliquez sur **Installer maintenant**
-    
-    3. **Sélection de l'édition :**
-       - **Windows Server 2022 Standard (Expérience Desktop)**
-       - Cliquez sur "Suivant"
-    
-    4. **Acceptez les termes de la licence**
-    
-    5. **Choisissez "Personnalisé : Installer Windows uniquement (avancé)"**
-    
-    6. **Sélectionnez l'espace non alloué et cliquez sur "Suivant"**
-    
-    7. **Attendez que l'installation se termine**
-    
-    8. **Configuration administrateur :**
-       - Mot de passe : **Password1!** (standard pour nos labos)
-       - ⚠️ Notez ce mot de passe quelque part
-    
-    9. **Attendez l'écran de login administrateur**
-    
-    10. **Utilisez l'option Ctrl + Alt + Suppr** via la barre de menu de la fenêtre de la machine virtuelle dans VirtualBox (pas la barre de VirtualBox)
+!!! warning "Une seule carte réseau sur le DC"
+    Ne gardez qu'un adaptateur, en réseau interne. Un DC avec deux cartes (LAN + NAT/pont) enregistre ses deux adresses dans DNS et les clients tombent au hasard sur la mauvaise.
 
-### ⚙️ Post-Installation
+    Besoin d'Internet ponctuellement (mises à jour, téléchargement) ? Activez un **Adaptateur 2 en NAT** le temps de l'opération, puis désactivez-le.
 
-Configuration initiale requise :
+## 3. Installation de Windows Server
 
-- 🔄 Installation des mises à jour Windows
-- 🔁 Redémarrage si nécessaire
+1. **Démarrez la machine virtuelle** (appuyez sur une touche pour démarrer sur l'ISO si demandé)
+2. **Langue et clavier** : Français, clavier Belge (point) ou celui de votre ordinateur
+3. **Édition** : **Windows Server 2025 Standard Evaluation (Expérience de bureau)**
 
-### 💻 Console de Gestion
+    !!! tip "Pourquoi « Expérience de bureau » ?"
+        L'option sans cette mention installe Server Core (sans interface graphique).
 
-🖥️ Console de configuration des rôles et caractéristiques :
+4. Acceptez les termes de la licence
+5. Choisissez l'installation **Personnalisée**
+6. Sélectionnez l'espace non alloué et lancez l'installation
+7. **Mot de passe administrateur** : `Password1!`
 
-Nous travaillerons sur un sous-ensemble de cette structure de réseau:
+    !!! warning "Mot de passe de lab"
+        Acceptable dans un lab isolé. En production, jamais de mot de passe partagé ni prévisible pour un compte administrateur.
 
-!!! info "Schéma de l'infrastructure"
+8. À l'écran de connexion, envoyez **Ctrl+Alt+Suppr** via le menu de la fenêtre de la VM (**Entrée > Clavier > Insérer Ctrl-Alt-Suppr**, ou `Host+Suppr`)
+
+### Post-installation
+
+Nous travaillerons sur un sous-ensemble de cette infrastructure :
 
 ![Infrastructure](diagrams/images/structure_reseau_geographic_zones.png)
 
-!!! info "Configuration du nom du serveur"
-    
-    1. **Ouvrez le Gestionnaire de serveur** > **Serveur local**
-    2. **Sélectionnez le nom actuel**
-    3. **Cliquez sur "Modifier"**
-    4. **Nom :** `dns1`
-    5. **Suffixe DNS :** `maxtec.be`
-    
-    !!! tip "Pourquoi maxtec.be ?"
-        
-        C'est notre entreprise fictive d'exemple
-    
-    6. **Cliquez sur "OK"**
-    7. **Redémarrez le serveur**
+**Nom du serveur**
 
+1. **Gestionnaire de serveur** > **Serveur local** > cliquez sur le nom actuel (`WIN-XXXXXXX`)
+2. **Modifier** :
+    - Nom de l'ordinateur : `dns1`
+    - **Autres...** → Suffixe DNS principal : `maxtec.be` (le domaine de notre entreprise fictive)
+3. **OK** → redémarrez le serveur
 
+Le serveur a maintenant le nom complet (FQDN) `dns1.maxtec.be`. La même fenêtre s'ouvre aussi avec `sysdm.cpl`.
 
-Le serveur aura maintenant le nom complet (FQDN) : `dns1.maxtec.be`
+**Adresse IP**
 
-!!! note "Note"
+1. `ncpa.cpl` → clic droit sur la carte → **Propriétés** → **Protocole Internet version 4 (TCP/IPv4)**
+2. Configurez :
 
-    Vous pouvez aussi accéder au nom via **sysdm.cpl**
-
-!!! tip "Guide rapide disponible"
-
-    Un guide pas à pas couvrant **toute l'installation** (nom du serveur, IP, rôle AD DS, promotion en DC et intégration du poste client) est disponible :
-    **[⚡ Guide Rapide - Installation AD-DS](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md)**
-
-## 4. 💻 Machines Clientes Windows 10
-
-### 🖥️ Vue d'ensemble
-
-Nous devons créer des machines virtuelles clientes pour simuler notre environnement d'entreprise.
-
-### 📁 Objectif des VM Clientes
-
-Chaque département a des besoins spécifiques :
-
-- La Comptabilité a besoin d'accéder aux logiciels financiers
-- Les RH doivent gérer les dossiers du personnel
-- Les Ventes utilisent des applications commerciales
-
-!!! info "Objectif"
-    
-    Nous allons créer deux machines virtuelles Windows 10 pour simuler :
-
-Supossons qu'on a deux départements pour le moment:
-
-   - 💰 Comptabilité : accès aux dossiers financiers
-   - 👥 RH : accès aux dossiers du personnel
-
-!!! note "Note importante"
-    
-    Le but est de simuler qu'on a une machine pour chaque département. On peut créer autant de machines qu'on veut (bien qu'on ne pourra pas lancer toutes au même temps !)
-
-### 💻 Installation de Windows 10
-
-!!! info "Paramètres de la machine virtuelle"
-    
     | Paramètre | Valeur |
     |-----------|--------|
-    | **Nom** | `Client1` (pour le premier client) |
-    | **Génération** | 2 (64 bits) |
-    | **Mémoire** | 4 GB |
-    | **Réseau** | Adaptateur 1 : réseau interne<br>Adaptateur 2 : accès pont (Internet) |
-    | **Disque** | 30 GB |
-    | **ISO** | Windows 10 |
+    | Adresse IP | `192.168.0.2` |
+    | Masque | `255.255.255.0` |
+    | Passerelle | *(vide)* |
+    | Serveur DNS préféré | `192.168.0.2` |
 
-!!! example "Installation initiale"
-    
-    1. **Langue :** Français (Belge)
-    2. **Version :** Windows 10 Pro
-    3. **Mode :** Installation personnalisée
-    4. **Compte :** `clark.kent` / `Password1!`
+**Vérification** : `hostname` renvoie `dns1`, et `ipconfig /all` montre `192.168.0.2` comme adresse et comme serveur DNS.
 
-!!! info "Configuration post-installation"
-    
-    - Mises à jour Windows
-    - Nom standardisé pour l'ordinateur
+!!! tip "Suite"
+    Le serveur est prêt pour la promotion en contrôleur de domaine : [Chapitre 4](Chapitre%204.Active%20Directory%20Domain%20Services%20(AD%20DS).md) ou [Annexe 1, Partie A](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md#partie-a-installation-du-serveur-ad-ds).
 
-### 💻 Exercice 1 : Deuxième Machine Cliente
+## 4. Postes clients Windows 11
 
-!!! example "Exercice 1"
+### Vue d'ensemble
 
-    Créez une nouvelle VM Windows 10 avec :
-    
-    - 🎮 Nom VM : `Client2`
-    - 👤 Compte : **peter.parker** / **Password1!**
-    - 💽 Hardware identique à la première machine
+Les postes clients simulent les ordinateurs des employés. Dans le lab, un poste par département testé :
 
-### 🖥️ Exercice 2 : Serveur Secondaire
+| VM | Nom Windows | IP | Département |
+|----|-------------|----|-------------|
+| Client 1 | `ws-IT-01` | `192.168.0.10` | IT |
+| Client 2 (optionnel) | `ws-RH-01` | `192.168.0.11` | RH |
 
-!!! example "Exercice 2"
+Vous pouvez créer d'autres postes, mais la RAM de votre ordinateur limite le nombre de VMs allumées en même temps.
 
-    Créez un nouveau serveur Windows Server 2022 :
-    
-    - 🌐 Nom du serveur (FQDN) : `dns2.maxtec.be`
-    - 💻 Suivez la même procédure que pour le premier serveur
+### Création de la VM Windows 11
+
+!!! info "TPM et démarrage sécurisé"
+    Windows 11 exige TPM 2.0 et le démarrage sécurisé (UEFI). VirtualBox 7 les émule : choisissez **Version : Windows 11 (64-bit)** et VirtualBox active EFI, Secure Boot et TPM 2.0 automatiquement (vérifiable dans **Paramètres > Système**).
+
+| Paramètre | Valeur |
+|-----------|--------|
+| **Nom de la VM** | `ws-IT-01` |
+| **Type / Version** | Microsoft Windows / Windows 11 (64-bit) |
+| **Mémoire** | 4096 Mo |
+| **Processeurs** | 2 |
+| **Réseau** | Adaptateur 1 : **Réseau interne** (même nom que le serveur) |
+| **Disque** | 64 Go (minimum exigé par Windows 11) |
+| **ISO** | Windows 11 |
+
+**Installation**
+
+1. Langue : Français (Belgique)
+2. Édition : **Windows 11 Professionnel** (l'édition Famille ne peut pas rejoindre un domaine)
+3. Installation personnalisée
+4. Compte local : sans Internet, l'assistant propose de configurer l'appareil pour le travail ; choisissez **Options de connexion > Joindre un domaine à la place** pour créer un compte local (`admin-local` / `Password1!`). Si l'option n'apparaît pas dans votre version, recommencez la création de la VM **sans** cocher *Skip Unattended Installation* : l'installation automatique de VirtualBox crée le compte local pour vous.
+
+**Configuration** : nom `ws-IT-01`, IP `192.168.0.10`, DNS `192.168.0.2`, puis jonction au domaine : voir [Annexe 1, Partie B](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md#partie-b-joindre-un-poste-client-au-domaine), une fois le contrôleur de domaine promu.
+
+### Exercice 1 : deuxième poste client (optionnel)
+
+Créez une deuxième VM Windows 11 Pro :
+
+- Nom : `ws-RH-01`
+- IP : `192.168.0.11`, DNS `192.168.0.2`
+- Matériel identique au premier poste
+
+### Exercice 2 : serveur secondaire (optionnel, hors labs)
+
+Pour aller plus loin, vous pouvez installer un deuxième Windows Server, `dns2.maxtec.be` (`192.168.0.3`), avec la même procédure. Les labs du cours n'utilisent qu'un seul contrôleur de domaine.
 
 
-### 🚀 Prochaine étape:
-Vous êtes maintenant prêt(e) pour le **Chapitre 3: Configuration DNS**
+### Prochaine étape
+[Chapitre 3 : DNS](Chapitre%203.DNS.md)
 
-## 🧭 Navigation
-[⏮️ Chapitre Précédent: Introduction](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md) | [🏠 Retour au Syllabus](index.md) | [⏭️ Chapitre 3: DNS](Chapitre%203.DNS.md)
-
+## Navigation
+[Chapitre précédent : Introduction](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md) | [Retour au Syllabus](index.md) | [Chapitre 3 : DNS](Chapitre%203.DNS.md)
