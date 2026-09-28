@@ -55,7 +55,7 @@ Démo en fin de journée : 5 à 10 min par binôme.
 
     1. `OU=Logistique` sous `OU=EU`, et ses trois sous-OUs `Users`, `Computers`, `Groups`. **Toutes** avec `-ProtectedFromAccidentalDeletion $false`.
     2. Les deux groupes globaux de sécurité, dans `OU=Groups,OU=Logistique`.
-    3. Les quatre utilisateurs du fichier CSV ci-dessous, dans `OU=Users,OU=Logistique`, avec : `SamAccountName` = login, UPN `login@maxtec.be`, `GivenName`, `Surname`, `DisplayName`, `Title`, `Department = Logistique`, `Company = Maxtec`, mot de passe de lab `Azerty_1`, compte activé.
+    3. Les quatre utilisateurs du fichier CSV ci-dessous, dans `OU=Users,OU=Logistique`, avec : `SamAccountName` = login, UPN `login@maxtec.be`, `GivenName`, `Surname`, `DisplayName`, `Title`, `Department = Logistique`, `Company = Maxtec`, mot de passe de lab `Password1!`, compte activé.
     4. Les appartenances : `louis` dans `GG-EU-Logistique-Admin` ; `lea`, `lucas`, `laura` dans `GG-EU-Logistique-Users` (même règle que les autres départements : le responsable n'est pas dans le groupe `-Users`).
 
     Enregistrez ce fichier sous `C:\Scripts\logistique.csv` (encodage UTF-8) :
@@ -246,7 +246,7 @@ Démo en fin de journée : 5 à 10 min par binôme.
 
     Via le **Centre d'administration Active Directory** (`dsac.exe` → `maxtec (local)` → `System` → `Password Settings Container`) ou `New-ADFineGrainedPasswordPolicy` + `Add-ADFineGrainedPasswordPolicySubject`. Preuve : `Get-ADUserResultantPasswordPolicy louis`.
 
-    Question pour la documentation : que devient le mot de passe actuel de `louis` (`Azerty_1`, 8 caractères) ? Est-il refusé immédiatement ou au prochain changement ?
+    Question pour la documentation : que devient le mot de passe actuel de `louis` (`Password1!`, 10 caractères) ? Est-il refusé immédiatement ou au prochain changement ?
 
 !!! example "b) Rapport pour l'audit"
 

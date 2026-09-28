@@ -31,7 +31,7 @@ Les jours 2 à 4 se terminent par un **ticket de dépannage** ([Dépannage](Labo
 |----------|---------|
 | [Ch1 - Introduction et Windows Server](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md) | Pourquoi centraliser, rôle de Windows Server (installation Hyper-V pour la maison en option) |
 | [Ch2 - Installation des VMs (VirtualBox)](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md) | Installation du cours : serveur et poste client Windows 10 sous VirtualBox |
-| [Ch3 - DNS pour AD](Chapitre%203.DNS.md) | Zones, enregistrements, SRV, redirecteurs |
+| [Ch3 - DNS pour AD](Chapitre%203.DNS.md) | Zones, enregistrements, SRV |
 | [Ch4 - AD DS](Chapitre%204.Active%20Directory%20Domain%20Services%20%28AD%20DS%29.md) | Forêt, domaine, promotion du DC, partitions, catalogue global, FSMO |
 | [Ch5 - DNS pratique avec AD](Chapitre%205.DNS-Pratique-avec-AD.md) | Labs DNS et dépannage |
 | [Ch6 - Unités d'organisation](Chapitre%206.Unites_Organisation.md) | Conception des OUs, délégation |

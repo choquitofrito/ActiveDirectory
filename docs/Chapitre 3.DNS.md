@@ -9,7 +9,7 @@
     - expliquer pourquoi un poste ne trouve pas le contrôleur de domaine sans DNS (enregistrements SRV) ;
     - configurer le DNS du serveur sur `192.168.0.2` et le vérifier avec `ipconfig /all` ;
     - dire ce que la promotion en DC crée automatiquement dans le DNS, et ce qu'elle ne crée pas (zone inverse) ;
-    - retrouver les enregistrements SRV dans le Gestionnaire DNS et les interroger avec `nslookup -type=SRV`, et configurer un redirecteur.
+    - retrouver les enregistrements SRV dans le Gestionnaire DNS et les interroger avec `nslookup -type=SRV`.
 
 !!! tip "Pratique DNS"
     Ce chapitre couvre l'essentiel (15 min de lecture). La pratique (créer des enregistrements, zone inverse, dépannage) est au **[Chapitre 5 - DNS Pratique avec AD](Chapitre%205.DNS-Pratique-avec-AD.md)**, après l'installation d'AD. La théorie approfondie est dans la [référence DNS](Théorie%20DNS-%20DNS%20Concepts%20Avances%20(Reference).md).
@@ -128,12 +128,17 @@ Un enregistrement **SRV** répond à la question « quel serveur fournit tel ser
 
 Le nom d'un SRV se lit de gauche à droite : **le service**, puis **le protocole**, puis **le domaine**. `_kerberos._tcp.maxtec.be` veut dire « le service Kerberos, en TCP, pour `maxtec.be` ». La réponse contient le nom du serveur et le port à contacter.
 
-| Enregistrement | En clair | Quand le poste s'en sert | Port |
-|----------------|----------|--------------------------|------|
-| `_ldap._tcp.dc._msdcs.maxtec.be` | « Liste des contrôleurs de domaine de `maxtec.be` » | Au démarrage de `ws-IT-01`, à la jonction au domaine, et chaque fois qu'il doit retrouver un DC. **C'est le plus important** : s'il manque, rien d'autre ne fonctionne. | 389 |
-| `_kerberos._tcp.maxtec.be` | « Qui vérifie les mots de passe » | Quand Ivan tape son mot de passe à l'ouverture de session, puis quand il ouvre un partage réseau (le poste demande un ticket Kerberos). | 88 |
-| `_gc._tcp.maxtec.be` | « Qui a l'annuaire de toute la forêt » (catalogue global) | Pour les recherches dans l'annuaire (par exemple chercher un collègue dans Outlook). À l'ouverture de session, c'est le DC lui-même qui le consulte pour compléter la liste des groupes d'Ivan. Avec un seul domaine comme Maxtec, c'est simplement `dns1` ; il devient utile quand une entreprise a plusieurs domaines. | 3268 |
-| `_kpasswd._tcp.maxtec.be` | « Qui accepte les changements de mot de passe » | Quand Ivan change son mot de passe : Ctrl+Alt+Suppr → **Modifier un mot de passe**, ou à la première connexion si « L'utilisateur doit changer le mot de passe » est coché. | 464 |
+| Enregistrement | En clair | Port |
+|----------------|----------|------|
+| `_ldap._tcp.dc._msdcs.maxtec.be` | « Où est un contrôleur de domaine ? » : la première question d'Ivan à la [section 1](#pourquoi-active-directory-a-besoin-du-dns). **C'est le plus important** : s'il manque dans la zone DNS de `dns1`, aucun poste ne trouve le domaine. | 389 |
+| `_kerberos._tcp.maxtec.be` | « Qui vérifie les mots de passe ? » : la deuxième question d'Ivan. | 88 |
+| `_gc._tcp.maxtec.be` | « Qui a l'annuaire de toute la forêt ? » (catalogue global) | 3268 |
+| `_kpasswd._tcp.maxtec.be` | « Qui accepte les changements de mot de passe ? » | 464 |
+
+Les deux derniers n'apparaissent pas dans la scène d'Ivan :
+
+- **`_kpasswd`** sert quand un utilisateur change son mot de passe : Ctrl+Alt+Suppr → **Modifier un mot de passe**, ou à la première connexion si « L'utilisateur doit changer le mot de passe » est coché.
+- **`_gc`** désigne le catalogue global, un résumé de tous les domaines de la forêt, utilisé pour les recherches dans l'annuaire. Avec un seul domaine comme Maxtec, c'est simplement `dns1` ; il ne devient important que dans une entreprise à plusieurs domaines.
 
 Dans le lab, les quatre réponses désignent le même serveur : `dns1`. Dans une entreprise avec plusieurs DC, chaque SRV en liste plusieurs, et le poste choisit de préférence un DC proche (même site).
 
@@ -146,25 +151,51 @@ Après la promotion, vérifiez-les de deux façons.
 3. Vous devez voir l'enregistrement **_ldap** de type **Emplacement du service (SRV)** pointant vers `dns1.maxtec.be`, port 389.
 4. Pour Kerberos : **Zones de recherche directes** → **maxtec.be** → **_tcp** → enregistrement **_kerberos** (port 88).
 
-**Avec `nslookup`** (invite de commandes, sur le serveur ou un poste client) :
+**Avec `nslookup`**, pour poser au DNS la même question qu'un poste :
+
+1. Ouvrez une invite de commandes (Win+R → `cmd`), sur le serveur ou sur `ws-IT-01`.
+2. Tapez la question « où est un contrôleur de domaine pour `maxtec.be` ? ». `-type=SRV` précise qu'on cherche une fiche SRV, pas une simple adresse :
+
+    ```cmd
+    nslookup -type=SRV _ldap._tcp.dc._msdcs.maxtec.be
+    ```
+
+3. Lisez la réponse. Seules trois lignes comptent :
+
+    ```
+    Serveur :   UnKnown                                 ← (1) qui a répondu
+    Address:  192.168.0.2                               ← (1)
+
+    _ldap._tcp.dc._msdcs.maxtec.be  SRV service location:
+              priority       = 0
+              weight         = 100
+              port           = 389                      ← (2) le port du service
+              svr hostname   = dns1.maxtec.be           ← (3) la réponse : le DC
+    ```
+
+    1. **Qui a répondu** : ce doit être `192.168.0.2`, votre DC. « UnKnown » est normal à ce stade : le DNS ne connaît pas encore le nom de sa propre adresse (la zone inverse, créée au Chapitre 5).
+    2. **Le port** : 389, celui de l'annuaire (LDAP).
+    3. **La réponse** : `dns1.maxtec.be`. Le poste sait maintenant à quel serveur s'adresser.
+
+    Les lignes `priority` et `weight` servent à choisir entre plusieurs DC ; avec un seul DC, ignorez-les.
+
+Pour Kerberos, même principe : `nslookup -type=SRV _kerberos._tcp.maxtec.be`, avec le port 88 dans la réponse.
+
+**Vérifier que le DNS connaît la réponse**
+
+Sans autre indication, `nslookup` interroge le serveur DNS configuré sur la machine. Pour savoir si c'est le DNS lui-même qui connaît la réponse, indépendamment du réglage de la machine, ajoutez **l'adresse du serveur à interroger à la fin** de la commande :
 
 ```cmd
-nslookup -type=SRV _ldap._tcp.dc._msdcs.maxtec.be
-nslookup -type=SRV _kerberos._tcp.maxtec.be
-
-rem Demander à Windows quel DC il utiliserait
-nltest /dsgetdc:maxtec.be
+nslookup -type=SRV _ldap._tcp.dc._msdcs.maxtec.be 192.168.0.2
 ```
 
-Résultat attendu (extrait) :
+La ligne `Address` affiche alors toujours `192.168.0.2` : c'est bien le DC qui répond. En comparant les deux commandes, vous savez où chercher la panne :
 
-```
-_ldap._tcp.dc._msdcs.maxtec.be   SRV service location:
-          priority       = 0
-          weight         = 100
-          port           = 389
-          svr hostname   = dns1.maxtec.be
-```
+| `nslookup … 192.168.0.2` (le DC) | `nslookup …` (sans adresse) | Diagnostic |
+|----------------------------------|-----------------------------|------------|
+| Répond `dns1.maxtec.be` | Répond `dns1.maxtec.be` | Tout va bien |
+| Répond `dns1.maxtec.be` | « Non-existent domain » | Le DNS connaît la réponse, mais **la machine interroge un autre serveur** : corrigez son DNS préféré (`192.168.0.2`) |
+| « Non-existent domain » | « Non-existent domain » | **Le DNS ne connaît pas la réponse** : l'enregistrement manque sur le DC (voir ci-dessous) |
 
 **En PowerShell** (aperçu, vu au chapitre 9) :
 
@@ -173,34 +204,3 @@ Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.maxtec.be
 ```
 
 Si ces enregistrements manquent, redémarrez le service **Netlogon** sur le DC : il les réenregistre. Win+R → `services.msc` → clic droit sur **Netlogon** → **Redémarrer**. En invite de commandes : `net stop netlogon` puis `net start netlogon`.
-
-## 5. Les redirecteurs (forwarders)
-
-`dns1` a l'autorité sur `maxtec.be`. Pour les autres noms (`www.google.com`), il doit demander ailleurs :
-
-- **Sans redirecteur**, il interroge lui-même les serveurs racine d'Internet (« indications de racine »).
-- **Avec un redirecteur**, il transmet la question à un autre résolveur (celui du fournisseur d'accès, `1.1.1.1`, `8.8.8.8`…) qui fait le travail.
-
-La règle en entreprise : **les postes interrogent uniquement le DC**, et c'est le DC qui redirige vers l'extérieur. On ne met jamais `8.8.8.8` comme DNS d'un poste du domaine.
-
-**Configuration dans le Gestionnaire DNS** (sur `dns1`) :
-
-1. Gestionnaire de serveur → **Outils** → **DNS** (ou `dnsmgmt.msc`).
-2. Clic droit sur **DNS1** → **Propriétés** → onglet **Redirecteurs**.
-3. Cliquez sur **Modifier…**, saisissez l'adresse (par exemple `1.1.1.1`) puis **Entrée**. La validation affichée à côté peut échouer si le lab n'a pas d'accès Internet : ce n'est pas bloquant.
-4. **OK**, puis **Appliquer** / **OK**.
-
-**Vérification** : rouvrez l'onglet **Redirecteurs**, l'adresse doit être listée. Si une carte NAT est branchée, testez depuis le serveur : `nslookup www.google.com 192.168.0.2` doit renvoyer une adresse.
-
-**En PowerShell** (aperçu, vu au chapitre 9) :
-
-```powershell
-Add-DnsServerForwarder -IPAddress 1.1.1.1
-Get-DnsServerForwarder
-```
-
-!!! note "Dans le lab"
-    Le réseau interne n'a pas d'accès Internet : un redirecteur n'y sert à rien, sauf pendant qu'une carte NAT temporaire est branchée. Retenez surtout le principe et l'emplacement du réglage.
-
-
----

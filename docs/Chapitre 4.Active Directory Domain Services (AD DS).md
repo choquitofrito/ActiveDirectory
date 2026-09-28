@@ -24,13 +24,13 @@ Active Directory Domain Services (AD DS) est le service principal d'Active Direc
 
 On le confond souvent avec l'ensemble d'Active Directory, mais AD DS n'est qu'un service parmi d'autres :
 
-| Service | Description |
-|---------|-------------|
-| **AD DS** | Service principal gérant l'authentification et l'autorisation des ressources |
-| **AD LDS** | Version allégée d'AD DS fonctionnant sans domaine AD |
-| **AD CS** | Gestion des certificats numériques et de l'infrastructure à clé publique (PKI) |
-| **AD RMS** | Protection et contrôle des droits d'accès aux documents |
-| **AD FS** | Authentification unique (SSO) et fédération d'identités entre organisations |
+| Service | Description | Exemple d'utilisation |
+|---------|-------------|-----------------------|
+| **AD DS** | Service principal gérant l'authentification et l'autorisation des ressources | Ivan ouvre une session sur `ws-IT-01` avec son compte `maxtec\ivan`, reçoit le lecteur réseau de son service et n'accède qu'aux dossiers autorisés. **C'est le seul service étudié dans ce cours.** |
+| **AD LDS** | L'annuaire seul, sans le domaine : on peut y ranger des comptes, mais pas ouvrir de session sur un PC ni appliquer de GPO. Il sert de base de comptes à **une application** | Maxtec ouvre un site web où ses 500 clients consultent leurs factures. Il faut bien stocker leurs identifiants quelque part, mais pas dans `maxtec.be` : ils deviendraient des comptes de l'entreprise, au même titre qu'Ivan. Avec AD LDS, le site a son propre annuaire, à part : un client peut se connecter au site, et à rien d'autre. |
+| **AD CS** | Gestion des certificats numériques et de l'infrastructure à clé publique (PKI) | Maxtec délivre un certificat à chaque poste du domaine : seuls les PC de l'entreprise se connectent au Wi-Fi interne, et l'intranet s'affiche en HTTPS sans avertissement du navigateur. |
+| **AD RMS** | Protection et contrôle des droits d'accès aux documents | La comptabilité envoie un fichier de salaires : il ne s'ouvre que pour les destinataires prévus, ne peut pas être imprimé, et reste illisible s'il est transféré à quelqu'un d'autre. Service ancien : Microsoft le remplace aujourd'hui par une solution cloud (Purview Information Protection). |
+| **AD FS** | Authentification unique (SSO) et fédération d'identités entre organisations | Un employé de Maxtec se connecte au site d'un fournisseur ou à une application en ligne avec son compte Maxtec habituel, sans créer de nouveau mot de passe. Aujourd'hui, Microsoft recommande plutôt Entra ID (l'annuaire cloud de Microsoft 365) pour cet usage. |
 
 **La force d'Active Directory** est de **centraliser l'administration** : au lieu de gérer chaque ordinateur individuellement, les administrateurs appliquent des politiques et des configurations depuis un point central. C'est la réponse au problème posé au Chapitre 1 pour Maxtec.
 

@@ -29,7 +29,7 @@ Les jours 2, 3 et 4 se terminent par un **ticket de dépannage** (`Exercices: De
 | 0:30 | Pourquoi un annuaire centralisé ; où on trouve AD en 2026 (PME, écoles, hôpitaux, administrations belges ; NIS2 en une phrase) | Ch1 §1-2 |
 | 1:30 | Mise en place des VMs : serveur (1 carte réseau interne, IP fixe, nom `dns1`) et client `ws-IT-01` | Ch2 (VirtualBox) ou Annexe 1 partie A (version courte) |
 | 1:15 | Promotion du DC + vérifications (SRV, SYSVOL/NETLOGON, services) | Ch4 §6, Annexe 1 A3-A4 |
-| 0:45 | DNS pour AD : zones, enregistrements A/PTR/SRV, redirecteurs, pourquoi le DC est son propre DNS (le rôle DNS existe maintenant) | Ch3 |
+| 0:45 | DNS pour AD : zones, enregistrements A/PTR/SRV, pourquoi le DC est son propre DNS (le rôle DNS existe maintenant) | Ch3 |
 | 0:45 | Jonction de `ws-IT-01` au domaine | Annexe 1 partie B, Ch4 §10 |
 | 1:00 | Concepts : forêt, domaine, partitions, catalogue global, FSMO, heure | Ch4 §7-9 (condensé) |
 | 1:15 | DNS pratique : labs 1 et 2 | Ch5 |

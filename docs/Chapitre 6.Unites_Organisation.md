@@ -449,9 +449,9 @@ On teste **depuis `ws-IT-01` (ou `ws-RH-01`)**, pas en ouvrant une session sur l
 ```powershell
 $cred = Get-Credential MAXTEC\charlotte
 Set-ADAccountPassword -Identity cindy -Reset `
-    -NewPassword (ConvertTo-SecureString "Azerty_2" -AsPlainText -Force) -Credential $cred   # OK
+    -NewPassword (ConvertTo-SecureString "Password1!" -AsPlainText -Force) -Credential $cred   # OK
 Set-ADAccountPassword -Identity rebecca -Reset `
-    -NewPassword (ConvertTo-SecureString "Azerty_2" -AsPlainText -Force) -Credential $cred   # Accès refusé
+    -NewPassword (ConvertTo-SecureString "Password1!" -AsPlainText -Force) -Credential $cred   # Accès refusé
 ```
 
 ### 9.4 Ce que la délégation donne… et ce qu'elle ne donne pas

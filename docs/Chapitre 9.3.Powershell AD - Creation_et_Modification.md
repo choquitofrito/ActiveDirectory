@@ -80,11 +80,11 @@ Les nouveaux comptes de ce chapitre suivent la convention `prenom.nom` (la plus 
 
 !!! note "Mot de passe en clair : seulement en lab"
     
-    Le script du lab et certains exemples utilisent `ConvertTo-SecureString "Azerty_1" -AsPlainText -Force`. C'est pratique pour un lab qu'on reconstruit souvent, mais le mot de passe est alors lisible par quiconque ouvre le script, et reste dans l'historique PowerShell. En production : `Read-Host -AsSecureString`, un mot de passe différent par compte et `-ChangePasswordAtLogon $true`.
+    Le script du lab et certains exemples utilisent `ConvertTo-SecureString "Password1!" -AsPlainText -Force`. C'est pratique pour un lab qu'on reconstruit souvent, mais le mot de passe est alors lisible par quiconque ouvre le script, et reste dans l'historique PowerShell. En production : `Read-Host -AsSecureString`, un mot de passe différent par compte et `-ChangePasswordAtLogon $true`.
 
 !!! tip "Pourquoi `Description = Nouvel arrivant` ?"
     
-    Ce marqueur permet de cibler **uniquement** les nouveaux comptes dans les opérations en masse de ce chapitre (réinitialisation de mot de passe, etc.) sans toucher aux 13 comptes du lab, dont les autres chapitres ont besoin avec leur mot de passe `Azerty_1`.
+    Ce marqueur permet de cibler **uniquement** les nouveaux comptes dans les opérations en masse de ce chapitre (réinitialisation de mot de passe, etc.) sans toucher aux 13 comptes du lab, dont les autres chapitres ont besoin avec leur mot de passe `Password1!`.
 
 ### Mission 1.1 — Créer les deux nouveaux arrivants
 
@@ -185,7 +185,7 @@ Get-ADUser -Filter "SamAccountName -eq 'victor'" | Set-ADUser `
 
 !!! warning "Sécurité critique"
     
-    La gestion des mots de passe est une tâche critique pour la sécurité. Ne réinitialisez **jamais** en masse les comptes du lab (`richard`, `ivan`...) : les autres chapitres supposent qu'ils ont toujours `Azerty_1`.
+    La gestion des mots de passe est une tâche critique pour la sécurité. Ne réinitialisez **jamais** en masse les comptes du lab (`richard`, `ivan`...) : les autres chapitres supposent qu'ils ont toujours `Password1!`.
 
 ### Réinitialisation de mot de passe
 

@@ -59,7 +59,7 @@
         - **agathe** (Acheteuse)
 
     3. Pour chaque utilisateur :
-        - Mot de passe standard : `Azerty_1`
+        - Mot de passe standard : `Password1!`
         - Activer "L'utilisateur doit changer son mot de passe à la prochaine ouverture de session"
         - Remplir les champs : Prénom, Nom (à vous de choisir), Titre, Service (`Department` = nom de l'OU : `Marketing` ou `Achats`), E-mail (`prenom@maxtec.be`)
 
@@ -67,7 +67,7 @@
 
     1. `dsa.msc` > `EU > Marketing` > clic droit sur `Users` > **Nouveau > Utilisateur**
     2. Prénom, Nom, **Nom complet** : le prénom seul (`Marc`, voir ci-dessous) ; nom d'ouverture de session `marc` > **Suivant**
-    3. Mot de passe `Azerty_1` (deux fois), cochez **L'utilisateur doit changer le mot de passe à la prochaine ouverture de session** > **Suivant** > **Terminer**
+    3. Mot de passe `Password1!` (deux fois), cochez **L'utilisateur doit changer le mot de passe à la prochaine ouverture de session** > **Suivant** > **Terminer**
     4. Propriétés du compte : onglet **Général** (**Nom complet** `Marc Mertens`, **Adresse de messagerie** `marc@maxtec.be`), onglet **Organisation** (**Fonction** `Directeur Marketing`, **Service** `Marketing`)
     5. Recommencez pour marie, michel, puis adrien et agathe dans `EU > Achats > Users`. Astuce : clic droit sur un compte terminé > **Copier…** reprend le service et les groupes ; il reste à changer nom, login et fonction.
 
@@ -76,7 +76,7 @@
     **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
-    $mdp = ConvertTo-SecureString "Azerty_1" -AsPlainText -Force   # mot de passe de LAB
+    $mdp = ConvertTo-SecureString "Password1!" -AsPlainText -Force   # mot de passe de LAB
     New-ADUser -Name Marc -DisplayName "Marc Mertens" -GivenName Marc -Surname Mertens -SamAccountName marc -UserPrincipalName marc@maxtec.be `
         -EmailAddress marc@maxtec.be -Title "Directeur Marketing" -Department Marketing `
         -Path "OU=Users,OU=Marketing,OU=EU,DC=maxtec,DC=be" -AccountPassword $mdp -ChangePasswordAtLogon $true -Enabled $true
@@ -297,7 +297,7 @@
         runas /user:maxtec\marc "mmc dsa.msc"
         ```
 
-        (ou `runas /netonly /user:maxtec\marc "mmc dsa.msc"` si marc ne peut pas ouvrir de session locale sur le poste). **Nouveau > Utilisateur** dans `Marketing > Users` fonctionne ; dans `Achats > Users`, l'option est absente ou la création échoue. Marc devra changer son mot de passe `Azerty_1` à la première connexion : faites-le avant (session sur le poste, ou `Ctrl+Alt+Suppr` > Modifier un mot de passe).
+        (ou `runas /netonly /user:maxtec\marc "mmc dsa.msc"` si marc ne peut pas ouvrir de session locale sur le poste). **Nouveau > Utilisateur** dans `Marketing > Users` fonctionne ; dans `Achats > Users`, l'option est absente ou la création échoue. Marc devra changer son mot de passe `Password1!` à la première connexion : faites-le avant (session sur le poste, ou `Ctrl+Alt+Suppr` > Modifier un mot de passe).
 
 ---
 
