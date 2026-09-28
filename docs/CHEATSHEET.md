@@ -7,6 +7,8 @@
 
 Les exemples utilisent le lab Maxtec (`maxtec.be`, comptes `richard`, `ivan`..., OU `Comptabilite` sans accent). `marie.martin` est un compte de test créé dans la section 2.
 
+Mots de passe du lab : **`Password1!`** pour les comptes d'administration (`MAXTEC\Administrateur`, DSRM, `.\admin-local` sur le poste), **`Azerty_1`** pour les utilisateurs (`ivan`, `irene`…). Détail : [Référence du lab](Labo%20et%20Exercices/Labo/Reference_Lab_Maxtec.md#comptes-et-mots-de-passe-du-lab).
+
 ## 1. 🔹 Commandes de Base PowerShell
 
 ### Variables
