@@ -38,6 +38,8 @@ exclude_docs: |
   instructeur/
   # Projet final masqué en attendant relecture
   Labo et Exercices/Projet_Final.md
+  # Anatomie d'une ouverture de session masquée
+  Labo et Exercices/Exercices: Anatomie_Logon_Reseau.md
   PowershellCourse/*prompt*.md
   PowershellCourse/cours-powershell-ad-moderne/README-*.md
   TODO.txt
@@ -82,14 +84,14 @@ nav:
       - Cheatsheet: CHEATSHEET.md
       - Compléments (lecture):
           - M1 - Comment on travaille vraiment: PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M1-realite-2026.md
-          - M2 - Tickets courants: PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M2-survie-tickets.md
+          - M2 - Tickets courants: PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M2-tickets-courants.md
           - M3 - L'IA comme copilote: PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M3-ia-comme-copilote.md
-          - M4 - Lire un script dangereux: PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M4-scripts-bomba-lab.md
-          - M5 - -WhatIf avant tout: PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M5-whatif-religieux.md
-          - M6 - One-liners d'urgence: PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M6-kit-urgence.md
-          - "M7 - IDE avec assistant IA ⚗️": PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M7-windsurf-copilote.md
-          - Cas réel - Vendredi 17h sans -WhatIf: PowershellCourse/cours-powershell-ad-moderne/cas-horreur-reels/vendredi-17h-sans-whatif.md
-          - Carte de survie Maxtec: PowershellCourse/cours-powershell-ad-moderne/materiels-poche/carte-survie-maxtec.md
+          - M4 - Lire un script dangereux: PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M4-lire-script-dangereux.md
+          - M5 - -WhatIf avant tout: PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M5-whatif-avant-tout.md
+          - M6 - Kit d'urgence: PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M6-kit-urgence.md
+          - "M7 - IDE avec assistant IA ⚗️": PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M7-ide-assistant-ia.md
+          - Cas d'école - Vendredi 17h sans -WhatIf: PowershellCourse/cours-powershell-ad-moderne/cas-ecole/vendredi-17h-sans-whatif.md
+          - Carte de référence Maxtec: PowershellCourse/cours-powershell-ad-moderne/materiels-poche/carte-reference-maxtec.md
           - Checklist validation de scripts: PowershellCourse/cours-powershell-ad-moderne/materiels-poche/checklist-validation-scripts.md
 
   - 🛡️ Exploitation & Sécurité:
@@ -105,7 +107,7 @@ nav:
           - Script de suppression: Labo et Exercices/Labo/PowerShell-scriptsStructure/suppression_structure.md
       - Exercices:
           - Questions de Base: "Labo et Exercices/Exercices: Questions Base.md"
-          - Anatomie d'une ouverture de session: "Labo et Exercices/Exercices: Anatomie_Logon_Reseau.md"
+          # - Anatomie d'une ouverture de session: "Labo et Exercices/Exercices: Anatomie_Logon_Reseau.md"  # masqué
           - Gestion Utilisateurs: "Labo et Exercices/Exercices: Gestion_des_Utilisateurs.md"
           - OUs Départements: "Labo et Exercices/Exercices: OUs_Departements_Complementaires.md"
           - AGDLP - Partage Fichiers: "Labo et Exercices/Exercices: AGDLP_Partage_Fichiers.md"

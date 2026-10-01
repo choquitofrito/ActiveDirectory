@@ -1,29 +1,29 @@
-# Module 6 — Gérer un incident AD : procédures "break-glass"
+# Module 6 — Kit d'urgence : réagir à un incident AD
 *Durée: 1h00 | Prérequis: Modules 1-5 complétés*
 
 ## Objectif
 
-À la fin de ce module, vous saurez réagir de façon structurée à un incident PowerShell AD qui part en vrille — sans aggraver la situation.
+À la fin de ce module, vous saurez réagir de façon structurée à un incident AD causé par un script — sans aggraver la situation.
 
 ---
 
 ## Quand un script se passe mal
 
-Les incidents critiques arrivent rarement à un moment pratique. Statistiquement, ils surviennent en fin de journée, en fin de semaine, ou pendant l'absence du responsable. La cause principale est rarement matérielle : c'est presque toujours un script PowerShell mal validé.
+Les incidents arrivent rarement à un moment pratique : fin de journée, fin de semaine, responsable absent. Quand un script est en cause, le premier réflexe — corriger tout de suite avec un autre script — est souvent ce qui étend les dégâts.
 
 Trois règles pour éviter d'empirer les choses :
 
-- La panique est plus dangereuse que l'incident lui-même.
-- La mémoire défaille sous stress, donc on documente immédiatement.
-- Tenter de réparer seul à chaud est la deuxième cause d'aggravation.
+- Agir dans la précipitation coûte plus cher que les quelques minutes prises pour comprendre.
+- Sous pression, on oublie vite ce qu'on a tapé : on documente immédiatement.
+- Réparer seul, à chaud, sans prévenir personne est la façon la plus courante d'aggraver un incident.
 
 ---
 
 ## Les 10 étapes d'une procédure structurée
 
-### 1. Arrêter et respirer (30 secondes)
+### 1. Arrêter (30 secondes)
 
-Arrêt total de l'activité. Mettre les notifications en sourdine. Prendre quelques secondes pour redescendre. La panique mène aux mauvaises décisions, qui mènent à des dégâts plus larges.
+Ne plus rien exécuter. Fermer ou mettre de côté la console où le script a tourné, sans la vider : son historique servira. Une décision prise dans la précipitation à ce stade est celle qui élargit les dégâts.
 
 ### 2. Évaluer l'impact (2 minutes)
 
@@ -44,14 +44,18 @@ Get-ADGroup -Filter {Name -like "GG-*"} -ResultSetSize 5         # groupes OK ?
 
 ### 3. Documenter immédiatement (1 minute)
 
-```bash
-echo "INCIDENT $(date): $(whoami) sur $(hostname)" > incident.log
-echo "Commande exécutée: [copier exactement]" >> incident.log
-echo "Erreur obtenue: [copier exactement]" >> incident.log
-echo "Impact observé: [décrire]" >> incident.log
+```powershell
+$log = "C:\Scripts\incident.log"
+"INCIDENT $(Get-Date): $(whoami) sur $env:COMPUTERNAME" | Out-File $log
+"Commande exécutée: [copier exactement]"                 | Add-Content $log
+"Erreur obtenue: [copier exactement]"                    | Add-Content $log
+"Impact observé: [décrire]"                              | Add-Content $log
+
+# L'historique de la session contient la commande exacte
+Get-History | Add-Content $log
 ```
 
-La mémoire défaille sous stress. Le document est la seule source fiable une heure plus tard.
+Une heure plus tard, ce fichier sera plus fiable que vos souvenirs.
 
 ### 4. Ne pas réparer seul (30 secondes)
 
@@ -102,11 +106,11 @@ Get-ADUser -Filter * -SearchBase "OU=IT,OU=EU,DC=maxtec,DC=be" -Properties Enabl
 
 ```
 À: superviseur@maxtec.be, equipe-it@maxtec.be
-Sujet: INCIDENT AD - $(date)
+Sujet: INCIDENT AD - [date et heure]
 
 RÉSUMÉ
-- Heure: $(Get-Date)
-- Admin: $(whoami)
+- Heure: [heure de l'incident]
+- Admin: [votre nom]
 - Impact: [X utilisateurs / Y services]
 - Cause: Script PowerShell [nom]
 
@@ -169,10 +173,10 @@ foreach ($user in ($affectedUsers | Select-Object -First 5)) {
 
 ### 10. Post-mortem (15 minutes)
 
-Pas pour blâmer — pour apprendre.
+L'objectif est de comprendre et d'éviter la récidive, pas de désigner un coupable.
 
 ```markdown
-## INCIDENT REPORT - $(date)
+## INCIDENT REPORT - [date]
 
 ### Timeline
 - 17:02: Script exécuté
@@ -215,20 +219,20 @@ De: marie.dubois@maxtec.be
 À: admin@maxtec.be
 Sujet: URGENT - Plus personne ne peut se connecter Ventes
 
-Toute l'équipe Ventes est bloquée !
-Réunion client dans 30 minutes !
+Toute l'équipe Ventes est bloquée.
+Réunion client dans 30 minutes.
 ```
 
 ### Jeu de rôle
 
-**Instructeur** : admin en panique.
-**Étudiants** : équipe d'urgence appelée.
+**Instructeur** : l'admin qui vient de lancer le script.
+**Étudiants** : l'équipe appelée en renfort.
 
-**Phase 1 — Calme initial (2 min)**
+**Phase 1 — Arrêter et faire le point (2 min)**
 
 ```
 Admin   : "J'ai exécuté un script et maintenant..."
-Équipe  : [Étape 1] "Stop. Respirer. Que s'est-il passé exactement ?"
+Équipe  : [Étape 1] "On n'exécute plus rien. Que s'est-il passé exactement ?"
 ```
 
 **Phase 2 — Investigation (5 min)**
@@ -238,7 +242,7 @@ Admin   : "J'ai exécuté un script et maintenant..."
 Admin   : "Je voulais ajouter un utilisateur à un groupe..."
 ```
 
-Script du désastre :
+Le script en cause :
 
 ```powershell
 # Intention
@@ -254,7 +258,7 @@ Remove-ADGroupMember -Identity "GG-EU-Ventes-Users" `
 
 ```
 Équipe : [Étapes 4-8]
-- "Pas de panique : le groupe est vidé, mais les utilisateurs existent toujours."
+- "Le groupe est vidé, mais les comptes existent toujours : rien n'est supprimé."
 - "Backup AD de ce matin disponible ?"
 - "Liste des membres disponible ailleurs (export précédent) ?"
 - "On commence par identifier qui était dans le groupe."
@@ -314,7 +318,9 @@ param(
 
 Write-Host "=== RÉCUPÉRATION GROUPE VIDÉ ===" -ForegroundColor Cyan
 Write-Host "Groupe: $GroupName" -ForegroundColor Yellow
-Write-Host "Mode: $($WhatIf ? 'SIMULATION' : 'RÉEL')" -ForegroundColor $(if ($WhatIf) { 'Yellow' } else { 'Red' })
+# Pas d'opérateur ternaire ? : en PowerShell 5.1
+$mode = if ($WhatIf) { 'SIMULATION' } else { 'RÉEL' }
+Write-Host "Mode: $mode" -ForegroundColor $(if ($WhatIf) { 'Yellow' } else { 'Red' })
 
 # 1. Vérifier l'état actuel du groupe
 try {
@@ -367,15 +373,15 @@ Niveau 1 — Support local
 
 Niveau 2 — Management IT
   Responsable IT: responsable.it@maxtec.be
-  Astreinte: +33 6 XX XX XX XX
+  Astreinte: +32 4XX XX XX XX
 
 Niveau 3 — Direction (impact business critique uniquement)
   DG: directeur.general@maxtec.be
   DRH: marie.dubois@maxtec.be
 
 Services externes
-  Consultant AD urgence: SociétéX (+33 1 AA AA AA AA, 200€/h, intervention 2h)
-  Service backup: BackupCorp (+33 8 BB BB BB BB, SLA 4h)
+  Consultant AD urgence: SociétéX (+32 2 AAA AA AA, 200€/h, intervention 2h)
+  Service backup: BackupCorp (+32 2 BBB BB BB, SLA 4h)
 ```
 
 ---
@@ -384,7 +390,7 @@ Services externes
 
 **Phase critique (5 premières minutes)**
 
-- [ ] Stop. Respirer 30 secondes.
+- [ ] Ne plus rien exécuter.
 - [ ] Noter l'heure exacte de l'incident.
 - [ ] Copier la commande qui a causé le problème.
 - [ ] Copier le message d'erreur exact.
@@ -407,13 +413,13 @@ Services externes
 
 Cinq principes :
 
-1. **Panique = ennemi principal** — elle aggrave systématiquement la situation.
-2. **Documentation = survie** — la mémoire défaille sous stress.
-3. **L'équipe est une ressource** — l'ego individuel est une faiblesse.
+1. **Arrêter avant de corriger** — la précipitation élargit les dégâts.
+2. **Documenter tout de suite** — sous pression, la mémoire n'est pas fiable.
+3. **Prévenir et demander de l'aide** — un incident caché est un incident qui grossit.
 4. **Valider même en urgence** — pas d'exception.
 5. **Post-mortem pour apprendre**, pas pour blâmer.
 
-Mantra : *stop — respirer — documenter — demander de l'aide — valider — agir.*
+En résumé : *arrêter — documenter — prévenir — valider — agir.*
 
 ---
 

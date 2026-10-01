@@ -223,8 +223,6 @@ Kerberos est le protocole d'authentification par défaut d'AD. Le principe : on 
 - **Horloge** : les tickets sont horodatés. Au-delà de **5 minutes** d'écart entre client et DC, l'authentification échoue. C'est pour ça que la synchronisation horaire est critique dans un domaine.
 - **`klist`** sur un poste affiche les tickets en cache ; `klist purge` les supprime.
 
-Vous manipulerez tout cela en pratique dans le lab [Anatomie d'une ouverture de session](Labo%20et%20Exercices/Exercices:%20Anatomie_Logon_Reseau.md).
-
 ### NTLM
 
 NTLM est l'ancien protocole (années 1990), toujours utilisé en repli quand Kerberos n'est pas possible (accès par adresse IP, machine hors domaine, vieille application). Ses défauts :

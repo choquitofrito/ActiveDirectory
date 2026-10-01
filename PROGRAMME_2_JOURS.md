@@ -43,9 +43,9 @@ Principe directeur : alterner blocs GPO et changements de tempo pour éviter 3 h
 | 2 | 1 h 30 | **Pratique guidée**<br>Refaire en PowerShell ce qu'ils ont fait à la GUI : créer un utilisateur, le bouger entre OUs, l'ajouter à un groupe, le désactiver. Sur Maxtec. | `CHEATSHEET.md` §2-§3 |
 | 🍴 | 1 h | **Pause déjeuner** | |
 | 3 | 1 h | **Chap. 9.2 — Requêtes**<br>`-Filter`, `-LDAPFilter`. Cas concrets : utilisateurs inactifs depuis 90 j, mots de passe non changés, hors-groupes attendus. | `Chapitre 9.2` |
-| 4 | 30 min | **M5 — `-WhatIf` religieusement**<br>Cultiver le réflexe sécurité avant la création/suppression en masse. | `cours-powershell-ad-moderne/modules-modernes/M5-whatif-religieux.md` |
+| 4 | 30 min | **M5 — `-WhatIf` religieusement**<br>Cultiver le réflexe sécurité avant la création/suppression en masse. | `cours-powershell-ad-moderne/modules-modernes/M5-whatif-avant-tout.md` |
 | 5 | 1 h 30 | **Chap. 9.3 — Création / modification + CSV**<br>`Import-Csv` + `foreach` + `New-ADUser`. Exercice : onboarding de 10 utilisateurs depuis un CSV fourni. | `Chapitre 9.3` |
-| 6 | 1 h | **M2 — 10 commandes de survie**<br>Carte de poche : les 10 commandes qui ferment 90 % des tickets. Clôture du cours. | `cours-powershell-ad-moderne/modules-modernes/M2-survie-tickets.md` |
+| 6 | 1 h | **M2 — 10 commandes de survie**<br>Carte de poche : les 10 commandes qui ferment 90 % des tickets. Clôture du cours. | `cours-powershell-ad-moderne/modules-modernes/M2-tickets-courants.md` |
 
 ---
 

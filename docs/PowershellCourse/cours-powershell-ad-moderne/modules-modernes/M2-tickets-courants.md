@@ -1,4 +1,4 @@
-# Module 2 — Les 10 commandes essentielles pour le support
+# Module 2 — Tickets courants : les 10 commandes du support
 *Durée: 2h00 | Prérequis: Module 1 complété*
 
 ## Objectif
@@ -21,16 +21,16 @@ Cette structure se retrouve dans chacun des 10 cas qui suivent.
 
 ## 1. "L'utilisateur ne peut pas se connecter"
 
-Le ticket le plus fréquent. À maîtriser parfaitement.
+C'est le ticket le plus fréquent.
 
 ### Version recommandée
 
 ```powershell
-# Diagnostic complet d'un utilisateur
-Get-ADUser -Identity Richard -Properties * | Select-Object `
-    Name, SamAccountName, Enabled, LockedOut,
-    PasswordExpired, PasswordNeverExpires,
-    LastLogonDate, BadPwdCount, AccountExpirationDate
+# Diagnostic complet d'un utilisateur (seulement les propriétés utiles)
+Get-ADUser -Identity Richard -Properties LockedOut, PasswordExpired, PasswordNeverExpires, LastLogonDate, BadPwdCount, AccountExpirationDate |
+    Select-Object Name, SamAccountName, Enabled, LockedOut,
+        PasswordExpired, PasswordNeverExpires,
+        LastLogonDate, BadPwdCount, AccountExpirationDate
 
 # Résultat type:
 Name                    : Richard
@@ -54,7 +54,7 @@ Get-ADUser -Identity Richard -Properties *
 ### À ne pas faire
 
 ```powershell
-# Charge TOUS les utilisateurs avec TOUTES les propriétés - crash potentiel
+# Charge tous les utilisateurs avec toutes les propriétés - très lourd sur un gros annuaire
 Get-ADUser -Filter * -Properties *
 ```
 
@@ -476,7 +476,7 @@ foreach ($groupe in $groupesPrivileges) {
 
 ## Récapitulatif — les 10 commandes
 
-1. **Diagnostic utilisateur** : `Get-ADUser -Identity X -Properties *`
+1. **Diagnostic utilisateur** : `Get-ADUser -Identity X -Properties LockedOut, LastLogonDate, BadPwdCount`
 2. **Recherche partielle** : `Get-ADUser -Filter {Name -like "*X*"}`
 3. **Ajouter au groupe** : `Add-ADGroupMember -Identity Y -Members X -WhatIf`
 4. **Voir les groupes** : `Get-ADPrincipalGroupMembership -Identity X`
@@ -493,7 +493,7 @@ Pour chaque commande, gardez en tête la séquence : **diagnostic → action →
 
 ## Quiz — réflexes de support (10 min)
 
-Lundi 8h, cinq tickets urgents :
+Lundi 8h, cinq tickets en attente :
 
 1. Charles ne peut plus se connecter depuis vendredi.
 2. Nouvelle stagiaire Sophie doit accéder aux dossiers Ventes.

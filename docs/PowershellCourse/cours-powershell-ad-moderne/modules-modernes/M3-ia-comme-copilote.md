@@ -1,4 +1,4 @@
-# Module 3 — L'IA comme copilote : prompts efficaces et validation critique
+# Module 3 — L'IA comme copilote : prompts et validation
 *Durée: 1h30 | Prérequis: Modules 1-2 complétés*
 
 ## Objectif
@@ -15,7 +15,7 @@ L'approche à éviter :
 "ChatGPT, écris-moi un script pour nettoyer AD"
 → Copier-coller direct
 → Exécution sans relecture
-→ Désastre presque garanti
+→ Incident probable
 ```
 
 L'approche professionnelle :
@@ -199,9 +199,9 @@ $utilisateursMotDePasseAncien = $utilisateursRH | Where-Object {
 
 ---
 
-## Exercice 3.1 — votre premier prompt structuré
+## Exercice 3.1 — rédiger un prompt structuré
 
-**Mission** : créer un prompt pour générer un script qui trouve tous les utilisateurs IT de maxtec.be verrouillés.
+**Consigne** : rédiger un prompt pour générer un script qui trouve tous les utilisateurs IT de maxtec.be verrouillés.
 
 ### Template à compléter
 

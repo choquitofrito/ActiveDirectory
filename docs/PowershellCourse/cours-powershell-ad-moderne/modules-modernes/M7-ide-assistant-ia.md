@@ -1,4 +1,4 @@
-# Module 7 — Windsurf comme copilote : écrire des scripts avec une IA
+# Module 7 — IDE avec assistant IA : écrire des scripts avec Windsurf
 
 > **Module expérimental** — Ce module utilise Windsurf IDE (gratuit) comme assistant de codage.
 > Les quotas et modèles disponibles peuvent changer. Si le chat IA n'est plus disponible,
@@ -21,7 +21,7 @@
 À faire   : comprendre chaque ligne avant d'exécuter
 ```
 
-L'IA est un pair de programmation, pas un secrétaire.
+L'IA propose, vous validez. C'est vous qui signez l'exécution.
 
 ---
 
@@ -53,7 +53,7 @@ Trois éléments à toujours fournir : contexte (maxtec.be), objectif précis, d
 
 ### Situation
 
-Vous êtes nouvel admin chez Maxtec. Votre responsable vous demande :
+Votre responsable chez Maxtec vous demande :
 
 > *"Envoie-moi la liste des comptes RH — je veux savoir lesquels sont actifs."*
 
@@ -164,7 +164,7 @@ Explique pourquoi LastLogonDate peut être vide ou incorrect.
 
 **Étape 2 — comprendre la réponse**
 
-L'IA expliquera probablement pourquoi `LastLogonDate` est peu fiable (ne se réplique pas entre DCs en temps réel). Demandez ensuite :
+L'IA expliquera probablement pourquoi `LastLogonDate` est approximatif : il est calculé à partir de `lastLogonTimestamp`, qui n'est mis à jour qu'avec un décalage pouvant atteindre 14 jours. Demandez ensuite :
 
 ```
 Quelle propriété est plus fiable que LastLogonDate pour savoir
@@ -177,7 +177,7 @@ Adaptez-le pour utiliser la propriété recommandée.
 
 ### Ce qu'on apprend ici
 
-L'IA peut expliquer des nuances que la documentation officielle noie dans du jargon. C'est un usage de l'IA particulièrement intéressant : poser des questions précises et obtenir des réponses ciblées.
+L'IA est utile pour expliquer des nuances que la documentation noie dans le détail — à condition de vérifier ensuite l'explication sur learn.microsoft.com. Une IA peut se tromper avec beaucoup d'assurance.
 
 ---
 
@@ -272,7 +272,7 @@ de cet audit ? Comment les identifier dans AD ?
 
 Comparez le script final avec celui généré au départ. Combien d'améliorations avez-vous obtenues en posant des questions de suivi ?
 
-C'est exactement comme ça que les admins expérimentés travaillent : ils savent quoi demander, pas forcément comment l'écrire.
+Les admins expérimentés travaillent souvent ainsi : ils savent quoi demander et comment vérifier la réponse, pas forcément écrire tout le script de mémoire.
 
 ---
 
@@ -296,7 +296,7 @@ Si oui, ce module a atteint son objectif.
 
 ## Si le chat IA ne répond plus (quota épuisé)
 
-Le tier gratuit de Windsurf a une quota journalière. Si vous l'atteignez :
+L'offre gratuite de Windsurf a un quota d'utilisation. Si vous l'atteignez :
 
 1. **L'autocomplétion Tab reste disponible** — tapez les premières lettres d'un cmdlet, Windsurf complète.
 2. **Utilisez ChatGPT ou Claude** avec les mêmes prompts — la logique est identique.

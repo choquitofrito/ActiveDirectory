@@ -49,7 +49,7 @@ Get-ADUser -Filter "Department -eq 'Ventes'" | Set-ADUser -Company "Maxtec" -Wha
 
 !!! warning "Le `-WhatIf` va sur la commande qui modifie"
     
-    `Get-ADUser` ne modifie rien et n'a pas de `-WhatIf`. C'est `Set-ADUser` (ou `Remove-...`, `Add-...`) qui doit le porter. Le module [M5 — `-WhatIf`, pourquoi c'est non négociable](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M5-whatif-religieux.md) détaille les incidents typiques et les pièges.
+    `Get-ADUser` ne modifie rien et n'a pas de `-WhatIf`. C'est `Set-ADUser` (ou `Remove-...`, `Add-...`) qui doit le porter. Le module [M5 — `-WhatIf`, pourquoi c'est non négociable](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M5-whatif-avant-tout.md) détaille les incidents typiques et les pièges.
 
 ---
 

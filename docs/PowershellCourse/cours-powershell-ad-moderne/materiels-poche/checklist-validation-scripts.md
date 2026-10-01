@@ -1,152 +1,145 @@
-# ✅ Checklist Validation Scripts PowerShell AD
-*À imprimer et plastifier - Format A4*
+# Checklist de validation des scripts PowerShell AD
+*Format A4, à imprimer*
 
 ---
 
-## 🔒 SÉCURITÉ CRITIQUE (Obligatoires)
+## Sécurité (obligatoire)
 
-### Avant d'Exécuter TOUT Script
-- [ ] **Source fiable ?** (Microsoft docs > Stack Overflow > Forums)
-- [ ] **-WhatIf ajouté** sur toutes commandes destructives ?
-- [ ] **Scope limité** avec -SearchBase ou -Filter précis ?
-- [ ] **Gestion d'erreurs** try-catch présente ?
-- [ ] **Variables vérifiées** (pas de $null, pas de typos) ?
+### Avant d'exécuter un script
+- [ ] **Source fiable ?** (documentation Microsoft > Stack Overflow > forums)
+- [ ] **`-WhatIf`** présent sur toutes les commandes qui modifient ?
+- [ ] **Portée limitée** avec `-SearchBase` ou un `-Filter` précis ?
+- [ ] **Gestion d'erreurs** (`try/catch` avec `-ErrorAction Stop`) ?
+- [ ] **Variables vérifiées** (pas de `$null`, pas de faute de frappe) ?
 
-### Commandes à Haut Risque
-- [ ] **Remove-*** : -WhatIf + vérification scope + exclusions critiques
-- [ ] **Set-*** massif : -WhatIf + limitation nombre d'objets
-- [ ] **Move-ADObject** : Vérification chemin destination
-- [ ] **-Recursive** : Double vérification du contenu
-- [ ] **-Filter \*** : Limitation avec -ResultSetSize ou -SearchBase
-
----
-
-## ⚠️ VALIDATION ENVIRONNEMENT
-
-### Adaptation maxtec.be
-- [ ] **Domaine correct ?** DC=maxtec,DC=be (pas contoso.com)
-- [ ] **Structure OU ?** OU=EU,DC=maxtec,DC=be
-- [ ] **Noms groupes ?** GG-EU-* (pas format générique)
-- [ ] **Utilisateurs test ?** Richard, Irene, Ivan... (pas John, Jane)
-
-### Variables d'Environnement
-- [ ] **Paths hardcodés** remplacés par variables ?
-- [ ] **Credentials** sécurisées (pas en clair) ?
-- [ ] **Dates** relatives (pas absolues) ?
-- [ ] **Logs** dirigés vers bon répertoire ?
+### Commandes à haut risque
+- [ ] **`Remove-*`** : `-WhatIf` + vérification de la portée + exclusion des comptes critiques
+- [ ] **`Set-*` en masse** : `-WhatIf` + nombre d'objets limité
+- [ ] **`Move-ADObject`** : chemin de destination vérifié
+- [ ] **`-Recursive`** : contenu vérifié deux fois
+- [ ] **`-Filter *`** : limité avec `-ResultSetSize` ou `-SearchBase`
 
 ---
 
-## 🔍 LOGIQUE MÉTIER
+## Adaptation à l'environnement
 
-### Validation Business
-- [ ] **Compréhension** : Comprendre chaque ligne du script ?
-- [ ] **Objectif clair** : Que fait le script exactement ?
-- [ ] **Edge cases** : Que si utilisateur n'existe pas / groupe vide ?
-- [ ] **Rollback plan** : Comment annuler si erreur ?
+### maxtec.be
+- [ ] **Domaine correct ?** `DC=maxtec,DC=be` (pas `contoso.com`)
+- [ ] **Structure des OUs ?** `OU=EU,DC=maxtec,DC=be`
+- [ ] **Noms de groupes ?** `GG-EU-*`
+- [ ] **Utilisateurs de test ?** Richard, Irene, Ivan… (pas John, Jane)
 
-### Tests Progressifs
-- [ ] **1 objet test** d'abord (avec -WhatIf) ?
-- [ ] **5 objets test** ensuite ?
-- [ ] **Validation résultat** avant continuer ?
-- [ ] **Logs vérifiés** après chaque lot ?
-
----
-
-## 🚨 RED FLAGS - ARRÊT IMMÉDIAT
-
-### Dans le Code
-- [ ] ⛔ **Pas de -WhatIf** sur Remove-*, Set-* massif
-- [ ] ⛔ **-Confirm:$false** sans validation préalable
-- [ ] ⛔ **Get-ADUser -Filter \*** sans limitation
-- [ ] ⛔ **Mots de passe** en clair dans script
-- [ ] ⛔ **try-catch vide** qui masque erreurs
-
-### Dans les Commentaires
-- [ ] ⛔ **"TODO: tester"** dans script "prêt"
-- [ ] ⛔ **"Temporaire"** dans script permanent
-- [ ] ⛔ **Pas de gestion d'erreur** mentionnée
-- [ ] ⛔ **Source inconnue** ou douteuse
-- [ ] ⛔ **Dernière modif** > 6 mois sans validation
+### Paramètres
+- [ ] **Chemins en dur** remplacés par des variables ?
+- [ ] **Identifiants** protégés (pas de mot de passe en clair) ?
+- [ ] **Dates** relatives plutôt qu'absolues ?
+- [ ] **Logs** écrits dans le bon répertoire ?
 
 ---
 
-## 🎯 TESTS OBLIGATOIRES
+## Logique métier
 
-### Phase 1: Simulation
+### Compréhension
+- [ ] Chaque ligne du script est comprise ?
+- [ ] L'objectif du script est clair ?
+- [ ] **Cas limites** : que se passe-t-il si l'utilisateur n'existe pas, si le groupe est vide ?
+- [ ] **Retour arrière** : comment annuler en cas d'erreur ?
+
+### Tests progressifs
+- [ ] **1 objet** d'abord (avec `-WhatIf`)
+- [ ] **5 objets** ensuite
+- [ ] **Résultat vérifié** avant de continuer
+- [ ] **Logs relus** après chaque lot
+
+---
+
+## Signaux d'arrêt
+
+Si l'un de ces points est présent, on n'exécute pas tant qu'il n'est pas corrigé.
+
+### Dans le code
+- [ ] Pas de `-WhatIf` sur un `Remove-*` ou un `Set-*` en masse
+- [ ] `-Confirm:$false` sans validation préalable
+- [ ] `Get-ADUser -Filter *` sans limitation
+- [ ] Mot de passe en clair dans le script
+- [ ] `catch` vide qui masque les erreurs
+
+### Dans les commentaires et l'historique
+- [ ] « TODO : tester » dans un script présenté comme prêt
+- [ ] « Temporaire » dans un script utilisé en permanence
+- [ ] Aucune gestion d'erreur prévue
+- [ ] Source inconnue ou douteuse
+- [ ] Dernière modification il y a plus de 6 mois, sans revalidation
+
+---
+
+## Tests à faire
+
+### Phase 1 : simulation
 ```powershell
-# Toujours commencer par:
+# Toujours commencer par :
 [COMMANDE] -WhatIf
-# Analyser l'output ligne par ligne
+# Lire la sortie ligne par ligne
 ```
 
-### Phase 2: Test Réduit
+### Phase 2 : test réduit
 ```powershell
-# Puis tester sur 1-3 objets maximum:
+# Puis sur 1 à 3 objets maximum :
 [COMMANDE] -ResultSetSize 3
-# Vérifier résultat avant continuer
+# Vérifier le résultat avant de continuer
 ```
 
-### Phase 3: Production Contrôlée
+### Phase 3 : production par lots
 ```powershell
-# Ensuite par lots de 10 maximum:
+# Ensuite par lots de 10 maximum :
 [COMMANDE] | Select-Object -First 10
-# Validation après chaque lot
+# Vérifier après chaque lot
 ```
 
 ---
 
-## 📋 DOCUMENTATION OBLIGATOIRE
+## Documentation
 
-### Avant Exécution
-- [ ] **Date/heure** de prévue
-- [ ] **Objectif** business du script
-- [ ] **Nombre objets** estimés affectés
-- [ ] **Plan de rollback** si problème
+### Avant l'exécution
+- [ ] Date et heure prévues
+- [ ] Objectif métier du script
+- [ ] Nombre estimé d'objets affectés
+- [ ] Plan de retour arrière
 
-### Pendant Exécution
-- [ ] **Logs activés** et dirigés vers fichier
-- [ ] **Progression** documentée par lot
-- [ ] **Erreurs** capturées et analysées
-- [ ] **Résultats intermédiaires** vérifiés
+### Pendant l'exécution
+- [ ] Logs activés et écrits dans un fichier
+- [ ] Progression notée par lot
+- [ ] Erreurs capturées et analysées
+- [ ] Résultats intermédiaires vérifiés
 
-### Après Exécution
-- [ ] **Résultat final** documenté
-- [ ] **Objets traités** comptés et vérifiés
-- [ ] **Problèmes rencontrés** listés
-- [ ] **Actions correctives** appliquées
-
----
-
-## 🆘 PROCÉDURE D'URGENCE
-
-### Si Erreur Critique
-1. **STOP immédiatement** - ne pas continuer
-2. **Documenter** erreur exacte + commande
-3. **Évaluer impact** (combien d'objets affectés)
-4. **Alerter superviseur** si > 10 objets
-5. **NE PAS essayer** de réparer seul
-6. **Attendre validation** équipe avant action
-
-### Contacts Urgence maxtec.be
-- **Admin Principal**: richard@maxtec.be
-- **Superviseur IT**: responsable.it@maxtec.be
-- **Urgence**: +33 6 XX XX XX XX
+### Après l'exécution
+- [ ] Résultat final documenté
+- [ ] Objets traités comptés et vérifiés
+- [ ] Problèmes rencontrés listés
+- [ ] Actions correctives appliquées
 
 ---
 
-## 🎓 RAPPELS ESSENTIELS
+## En cas d'erreur grave
 
-### Les 3 Règles d'Or
-1. **-WhatIf n'est jamais optionnel** pour commandes destructives
-2. **Si doute = STOP et demander** aide
-3. **Mieux vaut 5 min de vérification** que 5h de récupération
+1. **Arrêter** — ne pas relancer ni « corriger » dans la foulée.
+2. **Documenter** l'erreur exacte et la commande.
+3. **Évaluer l'impact** (combien d'objets affectés ?).
+4. **Prévenir le superviseur** si plus de 10 objets sont touchés.
+5. **Ne pas réparer seul.**
+6. **Attendre la validation** de l'équipe avant d'agir.
 
-### Mantra à Réciter
-*"Je lis, Comprendre, je teste avec -WhatIf, je valide le scope, puis j'exécute par petits lots en documentant chaque étape."*
+### Contacts maxtec.be
+- **Admin principal** : richard@maxtec.be
+- **Superviseur IT** : responsable.it@maxtec.be
+- **Astreinte** : +32 4XX XX XX XX
 
 ---
 
-**✅ VALIDATION FINALE**: Cochez toutes les cases avant d'exécuter votre script !
+## À retenir
 
-**🛡️ REMEMBER**: Cette checklist peut sauver votre carrière.
+1. `-WhatIf` n'est jamais optionnel pour une commande qui modifie.
+2. En cas de doute, on s'arrête et on demande.
+3. Cinq minutes de vérification coûtent moins cher que cinq heures de récupération.
+
+L'ordre de travail : **lire, comprendre, simuler avec `-WhatIf`, vérifier la portée, exécuter par petits lots en documentant chaque étape.**

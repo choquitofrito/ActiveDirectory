@@ -15,7 +15,7 @@
     - parcourir une collection avec `foreach` et `ForEach-Object` ;
     - écrire des conditions `if / elseif / else` ;
     - protéger un script contre une OU ou un compte inexistant avec `try / catch` ;
-    - produire un petit rapport d'audit par OU.
+    - produire un rapport d'audit par OU.
     
     Si vous venez de bash, relisez d'abord la section [Si vous venez de Linux / bash](Chapitre%209.0.Powershell%20AD%20-%20Introduction.md#6-si-vous-venez-de-linux-bash) du chapitre 9.0.
 
@@ -27,9 +27,9 @@
 
 ---
 
-## 1. 🔹 Les variables : des boîtes de rangement
+## 1. 🔹 Les variables
 
-Une variable est une boîte étiquetée où l'on range temporairement une valeur : un texte, un nombre, ou un objet AD complet. Son nom commence toujours par `$`, y compris au moment de l'affectation (contrairement à bash).
+Une variable stocke temporairement une valeur : un texte, un nombre, ou un objet AD complet. Son nom commence toujours par `$`, y compris au moment de l'affectation (contrairement à bash).
 
 ```powershell
 $nomUtilisateur = "richard"
@@ -176,11 +176,9 @@ Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated | Select-Obje
 ```
 
 
-## 2. 🔹 Les tableaux : vos collections d'objets
+## 2. 🔹 Les tableaux : collections d'objets
 
-!!! tip "Concept simple"
-    
-    Un tableau est une collection d'éléments. Imaginez un classeur avec plusieurs tiroirs numérotés.
+Un tableau est une collection ordonnée d'éléments, chacun accessible par son indice.
 
 ### Création d'un tableau simple
 
@@ -284,9 +282,7 @@ Write-Host $utilisateursComptabilite[0].Name
 
 ## 3. 🔹 Les boucles : répéter des actions
 
-!!! tip "Concept simple"
-    
-    Les boucles permettent de répéter une action pour chaque élément d'une collection. C'est comme traiter un dossier de documents un par un.
+Une boucle répète une action pour chaque élément d'une collection.
 
 ### La boucle ForEach
 
@@ -368,11 +364,9 @@ $utilisateurs | ForEach-Object { Write-Host $_.Name }
 
 ## 4. 🔹 Les conditions : prendre des décisions
 
-Les conditions permettent d'exécuter du code uniquement si certains critères sont remplis. C'est comme suivre un arbre de décision.
-
 ### Structure If-Else
 
-Les conditions `if` permettent d'exécuter du code uniquement si une condition est vraie. Voici quelques exemples simples :
+Une condition `if` exécute un bloc de code uniquement si une expression est vraie :
 
 ```powershell
 # Exemple 1: Condition simple

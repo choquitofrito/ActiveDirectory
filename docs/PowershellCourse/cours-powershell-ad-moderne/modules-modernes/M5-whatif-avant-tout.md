@@ -1,4 +1,4 @@
-# Module 5 — `-WhatIf`, pourquoi c'est non négociable
+# Module 5 — `-WhatIf` avant tout
 *Durée: 1h30 | Prérequis: Modules 1-4 complétés*
 
 ## Objectif
@@ -20,9 +20,9 @@ Dix points à intégrer comme réflexes :
 5. Jamais de `Remove-*` sans `-WhatIf` d'abord.
 6. Garder son sang-froid sous pression.
 7. Partager le réflexe avec les collègues.
-8. Pas honte de double-vérifier.
+8. Vérifier deux fois n'a rien de honteux.
 9. `-WhatIf` est un gain de temps net, pas une perte.
-10. Vendredi 17h est le moment statistiquement le plus risqué.
+10. Les changements de fin de semaine, faits à la hâte, sont ceux qu'on regrette le plus.
 
 ---
 
@@ -75,8 +75,6 @@ Permissions cassées, applications down. `-WhatIf` aurait affiché `TargetPath: 
 
 ## Mise en situation — vendredi 16h58
 
-*L'instructeur joue le rôle de l'admin sous pression.*
-
 **Email reçu à 16h55 :**
 
 ```
@@ -111,22 +109,19 @@ Write-Host "Groupe créé et membres ajoutés" -ForegroundColor Green
 
 ```powershell
 PS C:\> .\create-japan-group.ps1
-New-ADGroup : The specified group already exists
-Add-ADGroupMember : Cannot find an object with identity: 'GG-EU-Clients-Japon'
-Add-ADGroupMember : Cannot find an object with identity: 'GG-EU-Clients-Japon'
-Add-ADGroupMember : Cannot find an object with identity: 'GG-EU-Clients-Japon'
 Groupe créé et membres ajoutés
 ```
 
-Le message final est vert, l'admin part en weekend.
+Aucune erreur, message vert, l'admin part en weekend.
 
 ### Lundi matin
 
 ```
-- Personne de l'équipe Ventes ne peut accéder aux dossiers clients
-- Les groupes Ventes ont disparu
-- Tentatives de connexion échouées en masse
+- Le groupe GG-EU-Clients-Japon existe, mais il est vide
+- Personne de l'équipe Ventes n'a accès au dossier de la réunion
 ```
+
+Cause : l'attribut `Department` n'est pas renseigné sur les comptes Ventes. Le filtre `{Department -eq "Ventes"}` ne renvoie aucun utilisateur, la boucle ne tourne pas une seule fois, et le `Write-Host` affiche son message quoi qu'il arrive.
 
 ### Ce que `-WhatIf` aurait montré
 
@@ -138,16 +133,16 @@ New-ADGroup -Name "GG-EU-Clients-Japon" -GroupScope Global -GroupCategory Securi
 Get-ADUser -Filter {Department -eq "Ventes"} | ForEach-Object {
     Add-ADGroupMember -Identity "GG-EU-Clients-Japon" -Members $_.SamAccountName -WhatIf
 }
-# Add-ADGroupMember : Cannot find an object with identity: 'GG-EU-Clients-Japon' ...
-# (une erreur par utilisateur)
+# (aucune ligne "What if" : aucun utilisateur ne correspond au filtre)
 ```
 
-Deux choses à lire dans cette sortie :
+Trois choses à lire dans cette sortie :
 
+- **Ce qui manque compte autant que ce qui s'affiche.** Une ligne `What if` par commercial était attendue ; il n'y en a aucune. C'est le signal que le filtre ne trouve personne.
 - `-WhatIf` sur `New-ADGroup` annonce seulement l'opération et sa cible. Il **ne vérifie pas** si un groupe du même nom existe déjà : pour cela, un `Get-ADGroup -Filter "Name -eq 'GG-EU-Clients-Japon'"` avant la création.
-- `Add-ADGroupMember` doit trouver le groupe, même en simulation. Ici c'est attendu (la création n'a été que simulée), mais c'est aussi la preuve qu'un script qui enchaîne création puis utilisation se simule **par étapes** : simuler la création, créer, vérifier avec `Get-ADGroup`, puis simuler les ajouts.
+- `Add-ADGroupMember` doit trouver le groupe, même en simulation. Si la création n'a été que simulée, les ajouts simulés échouent avec `Cannot find an object with identity`. Un script qui enchaîne création puis utilisation se simule donc **par étapes** : simuler la création, créer, vérifier avec `Get-ADGroup`, puis simuler les ajouts.
 
-Avec cette méthode, l'admin aurait découvert dès la vérification que le groupe existait déjà, avant d'exécuter quoi que ce soit.
+Avec cette méthode, l'admin aurait vu le groupe vide avant de partir, et vérifié l'attribut `Department` (ou filtré par OU avec `-SearchBase`).
 
 ---
 
@@ -214,17 +209,17 @@ Add-ADGroupMember -Identity "GG-EU-IT-Users" -Members @("Ivan", "Ines") -WhatIf
 
 ### Le boss impatient
 
-Réponse : *"Trois secondes pour `-WhatIf` peuvent éviter trois jours de récupération."* En général, ça passe.
+Réponse : *"Trois secondes pour `-WhatIf` peuvent éviter trois jours de récupération."* L'argument est difficile à contester.
 
 Pendant que vous expliquez, exécutez le `-WhatIf` :
 
 ```powershell
 Get-ADUser -Filter {Department -eq "Stagiaires"} | Remove-ADUser -WhatIf
 
-# What if: Remove CN=Alexandre.Martin,OU=Users,OU=Direction... ← STOP
+# What if: Remove CN=Alexandre.Martin,OU=Users,OU=Direction...   <- ce compte n'est pas un stagiaire
 ```
 
-Une mauvaise sortie justifie immédiatement le délai.
+Une sortie inattendue justifie le délai à elle seule.
 
 ### "Je l'ai testé 100 fois en dev"
 
@@ -260,7 +255,7 @@ Nécessaire — modification.
 Get-ADUser -Filter {Name -like "Test*"} | Remove-ADUser
 ```
 
-Obligatoire — suppression avec filtre = danger maximal.
+Obligatoire — une suppression basée sur un filtre est le cas le plus risqué.
 
 ### D.
 
@@ -333,7 +328,7 @@ Aucune. Ni "testé en dev", ni "script simple", ni "urgence", ni "confiance coll
 - Permet de relire l'intention avant l'action.
 - Marche y compris sur vos propres scripts.
 
-À retenir : **mieux vaut un `-WhatIf` de trop qu'un désastre de trop peu.**
+À retenir : **un `-WhatIf` de trop ne coûte rien ; un de moins peut coûter un week-end.**
 
 ---
 

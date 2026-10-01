@@ -293,7 +293,7 @@ Import-Csv "C:\Scripts\nouveaux_users.csv" -Encoding UTF8 | ForEach-Object {
 # -Confirm : demande validation interactive avant chaque action
 Disable-ADAccount -Identity "marie.martin" -Confirm
 ```
-**Règle d'or** : tout `Remove-*`, `Set-*` ou `Move-*` sur plusieurs objets se teste d'abord avec `-WhatIf`. `-Confirm:$false` (qui supprime la question) ne s'ajoute qu'après, sur une commande déjà vérifiée. Voir [M5 — `-WhatIf`](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M5-whatif-religieux.md).
+**Règle d'or** : tout `Remove-*`, `Set-*` ou `Move-*` sur plusieurs objets se teste d'abord avec `-WhatIf`. `-Confirm:$false` (qui supprime la question) ne s'ajoute qu'après, sur une commande déjà vérifiée. Voir [M5 — `-WhatIf`](PowershellCourse/cours-powershell-ad-moderne/modules-modernes/M5-whatif-avant-tout.md).
 
 ### Filtres avancés
 ```powershell

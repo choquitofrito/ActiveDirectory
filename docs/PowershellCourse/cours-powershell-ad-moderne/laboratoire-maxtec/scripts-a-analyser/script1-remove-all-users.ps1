@@ -16,7 +16,7 @@
 # Date: 2024-12-15
 # Description: Supprime les comptes d'utilisateurs qui n'ont pas été utilisés depuis plus de 90 jours
 #
-# ⚠️  SCRIPT BOMBE ÉDUCATIF - NE PAS EXÉCUTER EN PRODUCTION ⚠️
+# ⚠️  SCRIPT PÉDAGOGIQUE - NE PAS EXÉCUTER EN PRODUCTION ⚠️
 # Ce script contient des erreurs volontaires à des fins pédagogiques
 
 Import-Module ActiveDirectory

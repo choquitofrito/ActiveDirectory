@@ -148,7 +148,7 @@ Get-ADUser -Filter {PasswordLastSet -lt $date -and Enabled -eq $true} -Propertie
 
 !!! question "Réflexion"
     
-    Exécutez cette commande et discutez de la façon dont vous pourriez accomplir la même tâche avec l'interface graphique (spoiler: c'est très difficile).
+    Exécutez cette commande, puis cherchez comment obtenir la même liste dans l'interface graphique. La console n'affiche pas `PasswordLastSet` dans ses colonnes : il faut ouvrir l'éditeur d'attributs de chaque compte.
 
 ## 4. 🔹 Configuration de l'environnement PowerShell
 
@@ -285,7 +285,7 @@ Les pièges classiques quand on arrive de bash :
 
 !!! example "Objectif"
     
-    Un audit rapide avant le café :
+    Premier contrôle de sécurité :
     
     1. Listez les comptes utilisateurs **désactivés** du domaine
     2. Donnez leur nombre exact

@@ -400,7 +400,7 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
 ??? tip "Indice 3"
 
-    Testez aussi la résolution **inverse** du poste. Ne supposez pas `192.168.0.10` : si le poste est passé en DHCP (lab Anatomie), il a une adresse de l'étendue. Prenez l'adresse IPv4 de `ws-IT-01` affichée par `ipconfig` (ou `nslookup ws-IT-01.maxtec.be`), puis :
+    Testez aussi la résolution **inverse** du poste. Ne supposez pas `192.168.0.10` : si le poste est passé en DHCP, il a une adresse de l'étendue. Prenez l'adresse IPv4 de `ws-IT-01` affichée par `ipconfig` (ou `nslookup ws-IT-01.maxtec.be`), puis :
 
     ```cmd
     nslookup <adresse de ws-IT-01>
@@ -428,7 +428,7 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
     1. **Win+R** → `ncpa.cpl` → clic droit sur la carte `Ethernet` → **Propriétés**
     2. **Protocole Internet version 4 (TCP/IPv4)** → **Propriétés**
-    3. **Utiliser l'adresse de serveur DNS suivante** : Serveur DNS préféré `192.168.0.2`, serveur auxiliaire vide → **OK** → **Fermer**. Si le poste est en DHCP (lab Anatomie), cochez plutôt **Obtenir les adresses des serveurs DNS automatiquement** : le DHCP distribue `192.168.0.2` (option 006)
+    3. **Utiliser l'adresse de serveur DNS suivante** : Serveur DNS préféré `192.168.0.2`, serveur auxiliaire vide → **OK** → **Fermer**. Si le poste est en DHCP, cochez plutôt **Obtenir les adresses des serveurs DNS automatiquement** : le DHCP distribue `192.168.0.2` (option 006)
     4. Invite de commandes : `ipconfig /flushdns` (en DHCP : `ipconfig /renew` avant), puis `nltest /dsgetdc:maxtec.be`, qui doit renvoyer `dns1.maxtec.be`
 
     **En PowerShell** (aperçu, vu au chapitre 9) :
@@ -440,7 +440,7 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
     nltest /dsgetdc:maxtec.be          # doit renvoyer dns1.maxtec.be
     ```
 
-    Si le poste est en DHCP (lab Anatomie), ne fixez pas d'adresse : rendez la main au DHCP, qui distribue `192.168.0.2` (option 006).
+    Si le poste est en DHCP, ne fixez pas d'adresse : rendez la main au DHCP, qui distribue `192.168.0.2` (option 006).
 
     ```powershell
     Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ResetServerAddresses

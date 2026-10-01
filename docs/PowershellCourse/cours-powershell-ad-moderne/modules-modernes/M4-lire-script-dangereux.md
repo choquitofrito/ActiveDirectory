@@ -1,4 +1,4 @@
-# Module 4 — Détecter les scripts dangereux
+# Module 4 — Lire un script dangereux
 
 ## Objectif
 
@@ -368,7 +368,7 @@ Migration et suppressions exécutées directement.
 Remove-ADOrganizationalUnit -Identity $oldOU -Recursive -Confirm:$false
 ```
 
-Supprime tout le contenu des OUs : groupes, GPOs, sous-OUs.
+Supprime tout le contenu des OUs : utilisateurs restants, groupes, ordinateurs, sous-OUs, ainsi que les liens de GPO (les GPO elles-mêmes restent dans le domaine, mais ne s'appliquent plus).
 
 **3. Logique de nettoyage défaillante (grave)**
 
@@ -386,13 +386,13 @@ Set-ADUser -Identity $user.SamAccountName -Department "Administration"
 
 Écrase la granularité d'origine.
 
-### Scénario de désastre
+### Ce qui se passe
 
 Vendredi 17h, exécution :
 
 - Utilisateurs RH et Compta déplacés vers Administration.
 - Groupes `GG-EU-RH-*` et `GG-EU-Compta-*` supprimés avec leurs OUs.
-- GPOs liées aux OUs supprimées.
+- Liens des GPO sur ces OUs supprimés.
 
 Lundi 8h :
 
@@ -486,16 +486,15 @@ Get-ADUser -Filter * -Properties PasswordLastSet, PasswordNeverExpires |
         $_.PasswordLastSet -lt (Get-Date).AddDays(-90)
     }
 
-# 2. Imposer la complexité via Group Policy (configuration manuelle)
-# 3. Activer Azure AD Password Protection
-# 4. Sensibiliser les utilisateurs
+# 2. Imposer longueur et complexité via la stratégie de mot de passe du domaine ou une PSO
+# 3. Sensibiliser les utilisateurs
 ```
 
 ---
 
 ## Lab 4 — Le nettoyeur de comptes inactifs (fichier `.ps1`)
 
-Le fichier [`bomba1-remove-all-users.ps1`](../laboratoire-maxtec/scripts-bomba-maxtec/bomba1-remove-all-users.ps1) est un vrai script, avec ses propres commentaires. Sa première ligne est un `throw` qui l'empêche de s'exécuter : **ouvrez-le dans VS Code, ne le lancez pas.**
+Le fichier [`script1-remove-all-users.ps1`](../laboratoire-maxtec/scripts-a-analyser/script1-remove-all-users.ps1) est un vrai script, avec ses propres commentaires. Sa première ligne est un `throw` qui l'empêche de s'exécuter : **ouvrez-le dans VS Code, ne le lancez pas.**
 
 ### Exercice 4.4 — lecture (15 min)
 
