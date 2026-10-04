@@ -379,10 +379,11 @@ echo "Bonjour" | Out-File -FilePath "salutation.txt"
 ## 🚀 Conseils Pratiques
 
 1. **Filtrez côté serveur** : `-Filter "Department -eq 'IT'"` plutôt que `-Filter * | Where-Object ...`. Dans le lab (13 comptes) ça ne change rien ; sur un annuaire de 50 000 comptes, `-Filter *` rapatrie tout.
-2. **Demandez les propriétés dont vous avez besoin** : `-Properties Department, Title`. Gardez `-Properties *` pour explorer un seul objet (`Get-ADUser richard -Properties *`), pas pour tout l'annuaire.
-3. **Testez vos commandes** avec un seul objet, puis avec `-WhatIf`, avant de les appliquer à tous
-4. **Sauvegardez vos scripts** dans des fichiers `.ps1` (dans `C:\Scripts`)
-5. **Utilisez les commentaires** (`#`) pour expliquer vos scripts
+2. **Demandez les propriétés dont vous avez besoin** : `-Properties Department, Title`. Gardez `-Properties *` pour explorer un seul objet (`Get-ADUser richard -Properties *`), pas pour tout l'annuaire. `Select-Object` et `Where-Object` ne voient que ce que AD a envoyé : un attribut non demandé donne une colonne vide.
+3. **`Format-Table` pour l'écran, `Select-Object` pour exporter** : `Format-*` toujours en dernier, jamais avant `Export-Csv`.
+4. **Testez vos commandes** avec un seul objet, puis avec `-WhatIf`, avant de les appliquer à tous.
+5. **Sauvegardez vos scripts** dans des fichiers `.ps1` (dans `C:\Scripts`).
+6. **Utilisez les commentaires** (`#`) pour expliquer vos scripts.
 
 ## 🌐 Diagnostic réseau et AD
 
@@ -413,7 +414,3 @@ nltest /dsgetdc:maxtec.be           # quel DC le poste utilise-t-il ?
 - [Documentation Microsoft PowerShell](https://learn.microsoft.com/fr-fr/powershell/)
 - [Module Active Directory PowerShell](https://learn.microsoft.com/fr-fr/powershell/module/activedirectory/)
 - [Get-Help](https://learn.microsoft.com/fr-fr/powershell/module/microsoft.powershell.core/get-help)
-
----
-
-*Ce cheat sheet couvre les commandes essentielles pour démarrer avec PowerShell et Active Directory. Pour des besoins plus avancés, consultez la documentation complète.*

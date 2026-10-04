@@ -1,5 +1,5 @@
 # Module 2 — Tickets courants : les 10 commandes du support
-*Durée: 2h00 | Prérequis: Module 1 complété*
+*Prérequis: Module 1 complété*
 
 ## Objectif
 
@@ -34,11 +34,11 @@ Get-ADUser -Identity Richard -Properties LockedOut, PasswordExpired, PasswordNev
 
 # Résultat type:
 Name                    : Richard
-SamAccountName          : Richard
+SamAccountName          : richard
 Enabled                 : True
 LockedOut               : False
 PasswordExpired         : False
-PasswordNeverExpires    : True
+PasswordNeverExpires    : False
 LastLogonDate           : 28/09/2026 14:30:15
 BadPwdCount             : 0
 AccountExpirationDate   :
@@ -69,7 +69,7 @@ Get-ADUser -Filter * -Properties *
 Diagnostiquer pourquoi Valeria ne peut pas se connecter.
 
 ```powershell
-Get-ADUser -Identity Valeria -Properties Enabled, LockedOut, PasswordExpired, LastLogonDate
+Get-ADUser -Identity valeria -Properties LockedOut, PasswordExpired, LastLogonDate
 ```
 
 ---
@@ -88,8 +88,8 @@ Get-ADUser -Filter {GivenName -like "Val*"} -SearchBase "OU=EU,DC=maxtec,DC=be" 
 # Résultat:
 Name        SamAccountName  Department  Enabled
 ----        --------------  ----------  -------
-Valentin    Valentin        Ventes      True
-Valeria     Valeria         Ventes      True
+Valentin    valentin        Ventes      True
+Valeria     valeria         Ventes      True
 ```
 
 ### Variante plus large
@@ -114,10 +114,11 @@ Get-ADUser -Filter * | Where-Object { $_.Name -match ".*Val.*" }
 
 ### Exercice 2.2
 
-Trouver tous les utilisateurs dont le nom de famille commence par "Ch".
+Trouver tous les utilisateurs dont le nom de famille commence par "Co" (dans le lab : Collard et Cornet).
 
 ```powershell
-Get-ADUser -Filter {Surname -like "Ch*"} -SearchBase "OU=EU,DC=maxtec,DC=be"
+Get-ADUser -Filter {Surname -like "Co*"} -SearchBase "OU=EU,DC=maxtec,DC=be" |
+    Format-Table Name, Surname, SamAccountName
 ```
 
 ---
@@ -193,11 +194,10 @@ Get-ADPrincipalGroupMembership -Identity Richard |
     Sort-Object Name
 
 # Résultat:
-Name              GroupScope  GroupCategory
-----              ----------  -------------
-Domain Users      Global      Security
-GG-EU-RH-Admin   Global      Security
-GG-EU-RH-Users    Global      Security
+Name                     GroupScope  GroupCategory
+----                     ----------  -------------
+GG-EU-RH-Admin           Global      Security
+Utilisateurs du domaine  Global      Security
 ```
 
 ### Variante via MemberOf
@@ -241,10 +241,12 @@ Get-ADPrincipalGroupMembership -Identity Irene | Select-Object Name | Sort-Objec
 
 *"Marie quitte la société vendredi, désactiver son compte."*
 
+`marie.martin` n'existe pas dans le lab : créez-la comme dans la [Cheatsheet](../../../CHEATSHEET.md), section 2, pour tester.
+
 ### Version recommandée
 
 ```powershell
-$utilisateur = "Marie"
+$utilisateur = "marie.martin"
 $raisonDepart = "Fin de contrat - $(Get-Date -Format 'dd/MM/yyyy')"
 
 # 1. Vérifier l'état actuel
@@ -263,9 +265,10 @@ Get-ADUser -Identity $utilisateur -Properties Description | Select-Object Name, 
 ### Variante avec retrait des groupes
 
 ```powershell
-# Désactivation + retrait de tous les groupes sauf Domain Users
+# Désactivation + retrait des groupes GG- (le groupe principal « Utilisateurs du domaine »
+# ne peut pas être retiré)
 $groupes = Get-ADPrincipalGroupMembership -Identity $utilisateur |
-    Where-Object { $_.Name -ne "Domain Users" }
+    Where-Object { $_.Name -like "GG-*" }
 
 $groupes | ForEach-Object {
     Remove-ADGroupMember -Identity $_.Name -Members $utilisateur -WhatIf
@@ -276,7 +279,7 @@ $groupes | ForEach-Object {
 
 ```powershell
 # Suppression directe - perte de données, problèmes d'audit
-Remove-ADUser -Identity Marie -Confirm:$false
+Remove-ADUser -Identity marie.martin -Confirm:$false
 ```
 
 ### Points clés
@@ -304,8 +307,9 @@ Get-ADUser -Identity Charles | Select-Object Name, Enabled
 Set-ADAccountPassword -Identity Charles -Reset -NewPassword (ConvertTo-SecureString $motDePasseTemp -AsPlainText -Force)
 Set-ADUser -Identity Charles -ChangePasswordAtLogon $true
 
-# 3. Communiquer par canal sécurisé (téléphone, en personne - pas email/chat)
-Write-Host "Mot de passe temporaire généré pour Charles" -ForegroundColor Green
+# 3. Afficher le mot de passe pour le transmettre par canal sécurisé
+#    (téléphone, en personne - pas email/chat)
+Write-Host "Mot de passe temporaire de charles : $motDePasseTemp" -ForegroundColor Green
 ```
 
 ### Variante interactive
@@ -319,14 +323,15 @@ Set-ADAccountPassword -Identity Charles -Reset -NewPassword $nouveauMDP
 ### À ne pas faire
 
 ```powershell
-# Mot de passe en clair dans le script - visible dans l'historique
-Set-ADAccountPassword -Identity Charles -NewPassword "Password123"
+# Mot de passe fixe écrit dans le script : lisible par quiconque ouvre le fichier,
+# et le même pour tout le monde. Acceptable dans le lab (Password1!), jamais en production.
+Set-ADAccountPassword -Identity charles -Reset -NewPassword (ConvertTo-SecureString "Password1!" -AsPlainText -Force)
 ```
 
 ### Points clés
 
 - Toujours forcer le changement au prochain logon.
-- Jamais de mot de passe en clair dans un script.
+- Jamais de mot de passe fixe écrit dans un script de production.
 - Transmettre par canal sécurisé.
 
 ---
@@ -337,29 +342,26 @@ Set-ADAccountPassword -Identity Charles -NewPassword "Password123"
 
 ### Version recommandée
 
+`LockedOut` est une propriété calculée : `-Filter` ne sait pas l'utiliser. `Search-ADAccount` est fait pour ça (voir chapitre 9.2).
+
 ```powershell
-# Liste des comptes verrouillés sous OU=EU
-Get-ADUser -Filter {LockedOut -eq $true} -SearchBase "OU=EU,DC=maxtec,DC=be" -Properties LockedOut, LastBadPasswordAttempt, BadPwdCount |
-    Select-Object Name, SamAccountName, LastBadPasswordAttempt, BadPwdCount |
-    Format-Table -AutoSize
+# Liste des comptes verrouillés sous OU=EU, avec les détails des échecs
+Search-ADAccount -LockedOut -UsersOnly -SearchBase "OU=EU,DC=maxtec,DC=be" |
+    ForEach-Object {
+        Get-ADUser -Identity $_.SamAccountName -Properties LastBadPasswordAttempt, BadPwdCount
+    } |
+    Format-Table Name, SamAccountName, LastBadPasswordAttempt, BadPwdCount
 
 # Déverrouiller en simulation d'abord
-Get-ADUser -Filter {LockedOut -eq $true} -SearchBase "OU=EU,DC=maxtec,DC=be" |
+Search-ADAccount -LockedOut -UsersOnly -SearchBase "OU=EU,DC=maxtec,DC=be" |
     Unlock-ADAccount -WhatIf
-```
-
-### Variante avec Search-ADAccount
-
-```powershell
-Search-ADAccount -LockedOut -SearchBase "OU=EU,DC=maxtec,DC=be" |
-    Get-ADUser -Properties LastBadPasswordAttempt, BadPwdCount, LastLogonDate
 ```
 
 ### À ne pas faire
 
 ```powershell
 # Déverrouillage en masse sans diagnostic - masque les tentatives d'intrusion
-Get-ADUser -Filter {LockedOut -eq $true} | Unlock-ADAccount
+Search-ADAccount -LockedOut | Unlock-ADAccount
 ```
 
 ### Points clés
@@ -389,11 +391,11 @@ $ouPath = "OU=Users,OU=$department,OU=EU,DC=maxtec,DC=be"
 
 # Vérifier que l'OU existe
 try {
-    Get-ADOrganizationalUnit -Identity $ouPath -ErrorAction Stop
+    $ou = Get-ADOrganizationalUnit -Identity $ouPath -ErrorAction Stop
     Write-Host "OU trouvée: $ouPath" -ForegroundColor Green
 } catch {
-    Write-Error "OU non trouvée: $ouPath"
-    break
+    Write-Host "OU non trouvée: $ouPath" -ForegroundColor Red
+    return    # arrête le script
 }
 
 # Création - simuler d'abord
@@ -412,6 +414,9 @@ $parametres = @{
 }
 
 New-ADUser @parametres -WhatIf
+
+# Après exécution sans -WhatIf : afficher le mot de passe à transmettre
+Write-Host "Mot de passe temporaire de $samAccountName : $motDePasseTemp"
 ```
 
 ### Exercice 2.8
@@ -424,24 +429,26 @@ Créer l'utilisateur Sophie Martin pour le département IT en adaptant le script
 
 *"Les changements ne se propagent pas entre serveurs."*
 
+La réplication ne concerne qu'un domaine à **plusieurs** DC. Le lab n'en a qu'un (`dns1`), sauf si vous avez suivi l'ajout d'un deuxième DC.
+
 ### Version recommandée
 
 ```powershell
 # État du domaine
-Get-ADDomain | Select-Object DNSRoot, DomainMode, PDCEmulator
+Get-ADDomain | Format-List DNSRoot, DomainMode, PDCEmulator
 
 # Contrôleurs de domaine
-Get-ADDomainController -Filter * | Select-Object Name, IPv4Address, OperatingSystem
+Get-ADDomainController -Filter * | Format-Table Name, IPv4Address, OperatingSystem
 
-# Test rapide via création d'objet (simulation)
-New-ADOrganizationalUnit -Name "Test-Replication" -Path "DC=maxtec,DC=be" -WhatIf
+# Résumé de la réplication entre DC (outil en ligne de commande, sur un DC)
+repadmin /replsummary
 ```
 
 ### Points clés
 
 - Tester avant de blâmer la réplication.
-- Vérifier que les services AD tournent sur le DC.
-- Laisser 15 minutes avant de conclure à un problème.
+- Vérifier que les services AD tournent sur le DC (`dcdiag`).
+- Entre DC d'un même site, un changement se réplique en quelques secondes. Entre sites, jusqu'à 3 h avec la planification par défaut.
 
 ---
 
@@ -452,25 +459,26 @@ New-ADOrganizationalUnit -Name "Test-Replication" -Path "DC=maxtec,DC=be" -WhatI
 ### Version recommandée
 
 ```powershell
+# Noms d'un DC installé en français (sur un DC anglais : Domain Admins, Enterprise Admins...)
 $groupesPrivileges = @(
     "Admins du domaine",
-    "Enterprise Admins",
-    "Schema Admins",
-    "Account Operators",
-    "Server Operators"
+    "Administrateurs",
+    "Opérateurs de compte",
+    "Opérateurs de serveur"
 )
 
 foreach ($groupe in $groupesPrivileges) {
     try {
         Write-Host "=== $groupe ===" -ForegroundColor Cyan
         Get-ADGroupMember -Identity $groupe -ErrorAction Stop |
-            Select-Object Name, SamAccountName, ObjectClass |
-            Format-Table -AutoSize
+            Format-Table Name, SamAccountName, ObjectClass
     } catch {
         Write-Host "Groupe $groupe non trouvé ou inaccessible" -ForegroundColor Yellow
     }
 }
 ```
+
+AD marque aussi ses groupes protégés avec `adminCount = 1`, quelle que soit la langue : `Get-ADGroup -Filter "adminCount -eq 1"` en donne la liste complète.
 
 ---
 
@@ -482,7 +490,7 @@ foreach ($groupe in $groupesPrivileges) {
 4. **Voir les groupes** : `Get-ADPrincipalGroupMembership -Identity X`
 5. **Désactiver un compte** : `Set-ADUser -Identity X -Enabled $false -WhatIf`
 6. **Reset password** : `Set-ADAccountPassword -Identity X -Reset`
-7. **Comptes verrouillés** : `Get-ADUser -Filter {LockedOut -eq $true}`
+7. **Comptes verrouillés** : `Search-ADAccount -LockedOut -UsersOnly`
 8. **Créer un utilisateur** : `New-ADUser @parametres -WhatIf`
 9. **Vérifier le domaine** : `Get-ADDomain`
 10. **Audit admins** : `Get-ADGroupMember -Identity "Admins du domaine"`
@@ -491,14 +499,14 @@ Pour chaque commande, gardez en tête la séquence : **diagnostic → action →
 
 ---
 
-## Quiz — réflexes de support (10 min)
+## Quiz — réflexes de support
 
 Lundi 8h, cinq tickets en attente :
 
 1. Charles ne peut plus se connecter depuis vendredi.
-2. Nouvelle stagiaire Sophie doit accéder aux dossiers Ventes.
+2. Sophie Dubois (`sophie.dubois`, créée au chapitre 9.3) doit accéder aux dossiers Ventes.
 3. Liste des utilisateurs qui n'ont jamais changé leur mot de passe.
-4. Marie part aujourd'hui, désactiver son compte.
+4. Marie Martin (`marie.martin`) part aujourd'hui, désactiver son compte.
 5. Vérifier qui a les droits Domain Admin.
 
 Écrivez la commande PowerShell correspondante (une ligne par ticket).
@@ -510,13 +518,14 @@ Lundi 8h, cinq tickets en attente :
 Get-ADUser -Identity Charles -Properties Enabled, LockedOut, LastLogonDate
 
 # 2
-Add-ADGroupMember -Identity "GG-EU-Ventes-Users" -Members Sophie -WhatIf
+Add-ADGroupMember -Identity "GG-EU-Ventes-Users" -Members sophie.dubois -WhatIf
 
-# 3
-Get-ADUser -Filter * -Properties PasswordLastSet | Where-Object { $_.PasswordLastSet -eq $null }
+# 3 (même logique que le ticket #2853 du module 1)
+Get-ADUser -Filter * -Properties PasswordLastSet, WhenCreated |
+    Where-Object { $null -eq $_.PasswordLastSet -or $_.PasswordLastSet -lt $_.WhenCreated.AddMinutes(5) }
 
 # 4
-Set-ADUser -Identity Marie -Enabled $false -WhatIf
+Set-ADUser -Identity marie.martin -Enabled $false -WhatIf
 
 # 5
 Get-ADGroupMember -Identity "Admins du domaine"

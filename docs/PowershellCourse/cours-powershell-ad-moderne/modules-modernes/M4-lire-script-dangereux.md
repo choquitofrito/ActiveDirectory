@@ -37,19 +37,20 @@ Le commentaire dit "validé". Le code dit "supprime tous les utilisateurs". Le c
 ### 2. Erreur subtile dans une ligne banale
 
 ```powershell
-$users = Get-ADUser -Filter {Department -eq "Stagiaires"}
+# Désactiver les comptes des stagiaires
+$users = Get-ADUser -Filter "Department -ne 'Stagiaires'"
 # … 50 lignes de code propre …
-$users | Set-ADUser -Enabled $fase  # $false écrit $fase -> $null
+$users | Disable-ADAccount
 ```
 
-`$fase` est une variable inexistante, donc `$null`. PowerShell interprète `$null` comme `$false` dans ce contexte. Le script désactive silencieusement.
+`-ne` au lieu de `-eq` : deux lettres. Le filtre sélectionne tout le monde **sauf** les stagiaires, et le script désactive tous les autres comptes. Le commentaire, lui, décrit l'intention, pas le code.
 
 ### 3. TODO rassurant
 
 ```powershell
 # TODO: Tester sur environnement de dev d'abord
 # TODO: Valider avec l'équipe avant prod
-Remove-ADUser -Identity * -Confirm:$false
+Get-ADUser -Filter * -SearchBase "OU=EU,DC=maxtec,DC=be" | Remove-ADUser -Confirm:$false
 ```
 
 Les TODO ne bloquent pas l'exécution. Le script tourne quand même.
@@ -134,7 +135,7 @@ if ($groupesVides.Count -gt 0) {
 }
 ```
 
-### Exercice 4.1 — détecter les problèmes (10 min)
+### Exercice 4.1 — détecter les problèmes
 
 1. Lisez le script ligne par ligne.
 2. Identifiez tous les problèmes (au moins 5).
@@ -199,18 +200,17 @@ Write-Host "=== NETTOYAGE DES GROUPES VIDES ===" -ForegroundColor Cyan
 if ($WhatIf) { $mode = 'SIMULATION'; $couleur = 'Yellow' } else { $mode = 'RÉEL'; $couleur = 'Red' }
 Write-Host "Mode: $mode" -ForegroundColor $couleur
 
-# Whitelist des groupes critiques à ne jamais supprimer
-$groupesCritiques = @(
-    "Admins du domaine", "Enterprise Admins", "Schema Admins",
-    "Account Operators", "Backup Operators", "Server Operators",
-    "Print Operators", "Replicator", "Domain Users", "Domain Computers",
-    "Domain Controllers", "Cert Publishers", "Domain Guests"
-)
-
+# Groupes critiques : plutôt qu'une liste de noms (qui changent avec la langue du DC),
+# on lit deux attributs posés par AD lui-même :
+# isCriticalSystemObject (groupes créés à l'installation) et adminCount = 1 (groupes protégés)
 $searchBase = if ($IncludeBuiltIn) { "DC=maxtec,DC=be" } else { "OU=EU,DC=maxtec,DC=be" }
 
+# Dossier de log (Add-Content ne le crée pas)
+if (-not $WhatIf) { New-Item -Path "C:\Scripts\Logs" -ItemType Directory -Force | Out-Null }
+
 try {
-    $tousLesGroupes = Get-ADGroup -Filter * -SearchBase $searchBase -Properties GroupCategory, GroupScope
+    $tousLesGroupes = Get-ADGroup -Filter * -SearchBase $searchBase `
+                          -Properties isCriticalSystemObject, adminCount
 
     Write-Host "Groupes analysés dans: $searchBase" -ForegroundColor Cyan
     Write-Host "Total groupes trouvés: $($tousLesGroupes.Count)" -ForegroundColor Cyan
@@ -218,7 +218,7 @@ try {
     $groupesCandidats = @()
 
     foreach ($groupe in $tousLesGroupes) {
-        if ($groupe.Name -in $groupesCritiques) {
+        if ($groupe.isCriticalSystemObject -or $groupe.adminCount -eq 1) {
             Write-Host "Ignoré (groupe critique): $($groupe.Name)" -ForegroundColor Green
             continue
         }
@@ -352,7 +352,7 @@ foreach ($oldOU in $sourceOUs) {
 Write-Host "Migration organisationnelle complète" -ForegroundColor Green
 ```
 
-### Exercice 4.2 — analyse (15 min)
+### Exercice 4.2 — analyse
 
 **Question** : si j'exécute ce script sur maxtec.be vendredi 17h, que se passe-t-il lundi matin ?
 
@@ -496,7 +496,7 @@ Get-ADUser -Filter * -Properties PasswordLastSet, PasswordNeverExpires |
 
 Le fichier [`script1-remove-all-users.ps1`](../laboratoire-maxtec/scripts-a-analyser/script1-remove-all-users.ps1) est un vrai script, avec ses propres commentaires. Sa première ligne est un `throw` qui l'empêche de s'exécuter : **ouvrez-le dans VS Code, ne le lancez pas.**
 
-### Exercice 4.4 — lecture (15 min)
+### Exercice 4.4 — lecture
 
 Les commentaires du script signalent déjà plusieurs problèmes (pas de `-WhatIf`, pas d'exclusions, suppression directe...). Trouvez **en plus** l'erreur que les commentaires ne mentionnent pas, et estimez combien de comptes Maxtec seraient supprimés.
 

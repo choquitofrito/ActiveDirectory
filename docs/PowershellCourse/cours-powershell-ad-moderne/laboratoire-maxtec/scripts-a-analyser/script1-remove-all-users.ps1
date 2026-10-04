@@ -1,16 +1,4 @@
 ﻿throw "SCRIPT PÉDAGOGIQUE - ne pas exécuter. Lisez-le pour trouver les erreurs (module M4)."
-# ------------------------------------------------------------------------------
-# NOTE INSTRUCTEUR - bug non signalé dans les commentaires ci-dessous :
-# le filtre "$_.LastLogonDate -lt $dateLimite" est VRAI quand LastLogonDate vaut $null
-# (en PowerShell, $null -lt <date> renvoie $True). Un compte qui ne s'est JAMAIS
-# connecté est donc compté comme "inactif depuis 90 jours". Dans le lab Maxtec,
-# presque aucun compte ne s'est connecté : ce script supprimerait quasiment tous
-# les utilisateurs, y compris des comptes créés la veille.
-# Correction : traiter $null à part, par exemple
-#   Where-Object { $_.LastLogonDate -and $_.LastLogonDate -lt $dateLimite }
-# et examiner les comptes jamais connectés séparément (WhenCreated).
-# ------------------------------------------------------------------------------
-
 # Script de nettoyage des comptes utilisateurs inactifs
 # Auteur: Admin Senior (source fiable)
 # Date: 2024-12-15

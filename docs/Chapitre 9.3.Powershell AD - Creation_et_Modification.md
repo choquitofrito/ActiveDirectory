@@ -59,6 +59,7 @@ Get-ADUser -Filter "Department -eq 'Ventes'" | Set-ADUser -Company "Maxtec" -Wha
 
 ```powershell
 # Mot de passe saisi au clavier, masqué, jamais écrit dans le script
+# (en lab, tapez Password1!, le mot de passe unique du lab)
 $mdp = Read-Host "Mot de passe initial" -AsSecureString
 
 # Simulation
@@ -97,7 +98,7 @@ Les nouveaux comptes de ce chapitre suivent la convention `prenom.nom` (la plus 
 ??? success "Solution"
     
     ```powershell
-    $mdp = Read-Host "Mot de passe initial" -AsSecureString
+    $mdp = Read-Host "Mot de passe initial" -AsSecureString     # en lab : Password1!
     
     # Pour chaque compte : lancez d'abord la commande avec -WhatIf ajouté à la fin,
     # vérifiez la cible affichée, puis relancez-la telle quelle (sans -WhatIf).
@@ -211,12 +212,11 @@ Ces trois comptes servent aux entraînements suivants jusqu'à la section 3, où
 ### Modification d'attributs simples
 
 ```powershell
-# Modifier le titre et la description d'un utilisateur
-Get-ADUser -Filter "SamAccountName -eq 'victor'" | Set-ADUser `
-    -Title "Commercial Senior" `
-    -Description "Commercial senior pour les clients européens" `
-    -WhatIf
-# Puis la même commande sans -WhatIf
+# Modifier le bureau et le téléphone d'un utilisateur
+Set-ADUser -Identity "victor" -Office "V12" -OfficePhone "+32 2 123 45 70" -WhatIf
+# Puis la même commande sans -WhatIf, et relecture
+Get-ADUser -Identity "victor" -Properties Office, OfficePhone |
+    Format-Table Name, Office, OfficePhone
 ```
 
 !!! warning "Ne changez pas le `Department` des comptes du lab"
@@ -245,7 +245,8 @@ Get-ADUser -Filter "SamAccountName -eq 'victor'" | Set-ADUser `
         Select-Object Name, Title, Department
     
     # 2. Modification en masse pour la Comptabilite
-    # Simulation : doit lister charlotte, cindy et charles (+ chloe si vous avez fait Gestion Ex. 1)
+    # Simulation : doit lister charlotte, cindy et charles
+    # (+ chloe si vous avez fait l'exercice 1 de « Gestion des utilisateurs »)
     Get-ADUser -Filter "Department -eq 'Comptabilite'" |
         Set-ADUser -Description "Equipe Comptabilite EU" -WhatIf
     
@@ -358,7 +359,6 @@ Get-ADUser -Filter "Description -eq 'Nouvel arrivant'" | ForEach-Object {
         Format-Table Name, SamAccountName, LockedOut
     ```
 
-
 ### Entraînement 2.1 — Réinitialiser et forcer le changement
 
 Deux commandes vont toujours ensemble : **`Set-ADAccountPassword -Reset`** puis **`Set-ADUser -ChangePasswordAtLogon $true`**. On ne touche qu'aux comptes `test.*`.
@@ -420,7 +420,6 @@ Search-ADAccount -LockedOut | Unlock-ADAccount
     
     Si le seuil de verrouillage du domaine est à 0 (valeur historique de la Default Domain Policy), aucun compte ne se verrouille jamais. Vérifiez avec `Get-ADDefaultDomainPasswordPolicy | Select-Object LockoutThreshold`. Avec un seuil défini, ratez volontairement plusieurs connexions avec `rebecca` sur `ws-IT-01`, puis déverrouillez.
 
-
 ### Entraînement 2.2 — État du compte : verrouillé, désactivé
 
 Le schéma : **lire l'état avec `-Properties` (ou `Search-ADAccount`) → agir → relire**. Toujours sur les comptes `test.*`.
@@ -457,10 +456,6 @@ Le schéma : **lire l'état avec `-Properties` (ou `Search-ADAccount`) → agir 
 
 ## 3. 🔹 Gestion des appartenances aux groupes
 
-!!! info "Gestion des accès"
-    
-    La gestion des appartenances aux groupes est essentielle pour contrôler les accès.
-
 ### Ajouter un utilisateur à un groupe
 
 ```powershell
@@ -487,7 +482,9 @@ Get-ADUser -Filter "Department -eq 'Ventes' -and Title -like 'Commercial*'" |
 ### Retirer un utilisateur d'un groupe
 
 ```powershell
-# Retirer des utilisateurs d'un groupe (fin de la délégation temporaire)
+# Retirer des utilisateurs d'un groupe (fin de la délégation temporaire).
+# Si l'ajout ci-dessus n'a été fait qu'en -WhatIf, victor et valeria ne sont pas membres :
+# la commande réelle afficherait une erreur. Restez alors en -WhatIf.
 Remove-ADGroupMember -Identity "GG-EU-Ventes-Admin" -Members victor, valeria -WhatIf
 
 # Remove-ADGroupMember demande confirmation par défaut.
@@ -595,7 +592,7 @@ Ce mini-projet vous permettra de créer automatiquement plusieurs utilisateurs �
 
 ### Étape 1 : Créer le fichier CSV
 
-Créez un fichier `C:\Scripts\utilisateurs.csv` avec le contenu suivant :
+Créez un fichier `C:\Scripts\nouveaux_arrivants.csv` avec le contenu suivant :
 
 ```
 Prenom,Nom,Departement,Titre,OU
@@ -608,19 +605,19 @@ Marc,Leroy,RH,Assistant RH,"OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be"
     
     Enregistrez le CSV en **UTF-8** (VS Code le fait par défaut, le Bloc-notes récent aussi). En Windows PowerShell 5.1, `Import-Csv` ne suppose pas l'UTF-8 : sans `-Encoding UTF8`, un nom comme `Liège` devient `LiÃ¨ge`. Les scripts ci-dessous précisent donc toujours `-Encoding UTF8`.
 
-### Étape 2 : Script d'importation (à corriger et adapter)
+### Étape 2 : Script d'importation
 
 ```powershell
 # Mode simulation : $true = -WhatIf partout. Passez à $false après avoir lu la sortie.
 $simulation = $true
 
 # Importer le fichier CSV
-$utilisateurs = Import-Csv -Path "C:\Scripts\utilisateurs.csv" -Delimiter "," -Encoding UTF8
+$utilisateurs = Import-Csv -Path "C:\Scripts\nouveaux_arrivants.csv" -Delimiter "," -Encoding UTF8
 # Pour déboguer, afficher le contenu de $utilisateurs
 Write-Host "`nContenu de `$utilisateurs`:" -ForegroundColor Yellow
 $utilisateurs | Format-List
 
-# Mot de passe initial commun, saisi une fois, masqué.
+# Mot de passe initial commun, saisi une fois, masqué (en lab : Password1!).
 # Acceptable pour un premier accès si -ChangePasswordAtLogon est activé.
 $mdp = Read-Host "Mot de passe initial" -AsSecureString
 
@@ -700,7 +697,7 @@ foreach ($user in $utilisateurs) {
 
 ??? success "Solution"
     
-    **CSV étendu (`C:\Scripts\utilisateurs.csv`, en UTF-8)** :
+    **CSV étendu (`C:\Scripts\nouveaux_arrivants.csv`, en UTF-8)** :
     ```
     Prenom,Nom,Departement,Titre,OU,Bureau,Telephone,Ville
     Thomas,Leclerc,Comptabilite,Comptable,"OU=Users,OU=Comptabilite,OU=EU,DC=maxtec,DC=be",B201,+32489001122,Bruxelles
@@ -723,7 +720,7 @@ Le schéma : **`Import-Csv` → `foreach ($ligne in ...)` → `$ligne.<NomDeColo
 
 !!! example "Exercices"
     
-    1. **Afficher** : pour chaque ligne de `C:\Scripts\utilisateurs.csv`, affichez `Thomas Leclerc : Comptable (Comptabilite)`.
+    1. **Afficher** : pour chaque ligne de `C:\Scripts\nouveaux_arrivants.csv`, affichez `Thomas Leclerc : Comptable (Comptabilite)`.
        *Indice : `$user.Prenom`, `$user.Nom`, `$user.Titre`, `$user.Departement` ; chacun entre `$( )` dans le texte.*
     2. **Calculer** : pour chaque ligne, affichez le login et l'UPN que le script créerait : `thomas.leclerc / thomas.leclerc@maxtec.be`.
        *Indice : la même construction que dans le script de l'étape 2, avec `.ToLower()`.*
@@ -733,7 +730,7 @@ Le schéma : **`Import-Csv` → `foreach ($ligne in ...)` → `$ligne.<NomDeColo
 ??? success "Solutions"
     
     ```powershell
-    $utilisateurs = Import-Csv -Path "C:\Scripts\utilisateurs.csv" -Delimiter "," -Encoding UTF8
+    $utilisateurs = Import-Csv -Path "C:\Scripts\nouveaux_arrivants.csv" -Delimiter "," -Encoding UTF8
     
     # 1. Afficher chaque ligne
     foreach ($user in $utilisateurs) {
@@ -771,7 +768,7 @@ Le schéma : **`Import-Csv` → `foreach ($ligne in ...)` → `$ligne.<NomDeColo
     ```powershell
     $simulation = $true     # $false pour exécuter réellement
     
-    $utilisateurs = Import-Csv -Path "C:\Scripts\utilisateurs.csv" -Delimiter "," -Encoding UTF8
+    $utilisateurs = Import-Csv -Path "C:\Scripts\nouveaux_arrivants.csv" -Delimiter "," -Encoding UTF8
     $mdp = Read-Host "Mot de passe initial" -AsSecureString
     
     foreach ($user in $utilisateurs) {
@@ -834,7 +831,7 @@ Le schéma : **pour chaque ligne du CSV, un `if / else` ou un `try / catch` → 
 ??? success "Solutions"
     
     ```powershell
-    $utilisateurs = Import-Csv -Path "C:\Scripts\utilisateurs.csv" -Delimiter "," -Encoding UTF8
+    $utilisateurs = Import-Csv -Path "C:\Scripts\nouveaux_arrivants.csv" -Delimiter "," -Encoding UTF8
     
     foreach ($user in $utilisateurs) {
         $nom = "$($user.Prenom) $($user.Nom)"
@@ -875,7 +872,17 @@ Le schéma : **pour chaque ligne du CSV, un `if / else` ou un `try / catch` → 
     
     Vous savez créer, modifier et affecter des comptes AD en PowerShell, seuls ou en masse, et surtout vérifier la portée d'une commande avec `-WhatIf` avant de l'exécuter.
     
-    Vous avez terminé le module PowerShell AD. Pour nettoyer le lab : `Get-ADUser -Filter "Description -eq 'Nouvel arrivant'" | Remove-ADUser -WhatIf`, puis la même chose pour les comptes du CSV. Si des comptes `test.*` des entraînements existent encore : `Get-ADUser -Filter "SamAccountName -like 'test.*'" | Remove-ADUser -WhatIf`.
+    Vous avez terminé le module PowerShell AD. **Gardez `jean.dupont` et `sophie.dubois`** : la suite du cours s'en sert (module M2, référence du lab). Supprimez en revanche les comptes d'entraînement (`-WhatIf` d'abord, puis la même commande avec `-Confirm:$false`) :
+    
+    ```powershell
+    # Les comptes du CSV
+    foreach ($sam in @("thomas.leclerc", "sarah.lemaire", "marc.leroy")) {
+        Remove-ADUser -Identity $sam -WhatIf
+    }
+    
+    # Les comptes test.* s'il en reste
+    Get-ADUser -Filter "SamAccountName -like 'test.*'" | Remove-ADUser -WhatIf
+    ```
 
 ---
 

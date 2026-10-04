@@ -84,15 +84,15 @@ Si l'un de ces points est présent, on n'exécute pas tant qu'il n'est pas corri
 
 ### Phase 2 : test réduit
 ```powershell
-# Puis sur 1 à 3 objets maximum :
-[COMMANDE] -ResultSetSize 3
+# Puis sur 1 à 3 objets maximum (-ResultSetSize existe sur les Get-AD*) :
+Get-ADUser [FILTRE] -ResultSetSize 3 | [COMMANDE QUI MODIFIE]
 # Vérifier le résultat avant de continuer
 ```
 
 ### Phase 3 : production par lots
 ```powershell
 # Ensuite par lots de 10 maximum :
-[COMMANDE] | Select-Object -First 10
+Get-ADUser [FILTRE] | Select-Object -First 10 | [COMMANDE QUI MODIFIE]
 # Vérifier après chaque lot
 ```
 
@@ -130,7 +130,7 @@ Si l'un de ces points est présent, on n'exécute pas tant qu'il n'est pas corri
 6. **Attendre la validation** de l'équipe avant d'agir.
 
 ### Contacts maxtec.be
-- **Admin principal** : richard@maxtec.be
+- **Admin principal** : irene@maxtec.be
 - **Superviseur IT** : responsable.it@maxtec.be
 - **Astreinte** : +32 4XX XX XX XX
 

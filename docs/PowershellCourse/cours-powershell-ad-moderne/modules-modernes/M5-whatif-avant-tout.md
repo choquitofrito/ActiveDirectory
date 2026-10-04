@@ -1,5 +1,5 @@
 # Module 5 — `-WhatIf` avant tout
-*Durée: 1h30 | Prérequis: Modules 1-4 complétés*
+*Prérequis: Modules 1-4 complétés*
 
 ## Objectif
 
@@ -31,32 +31,32 @@ Dix points à intégrer comme réflexes :
 ### Cas 1 — Suppression en masse non intentionnelle
 
 ```powershell
-# Intention:
-Get-Mailbox -ResultSize 10 | Remove-Mailbox
+# Intention : supprimer les comptes de test
+Get-ADUser -Filter "Name -like 'Test*'" | Remove-ADUser -Confirm:$false
 
-# Exécuté en réalité (oubli de filtre):
-Get-Mailbox -ResultSize Unlimited | Remove-Mailbox
+# Exécuté en réalité (filtre remplacé par * pendant un essai, jamais remis) :
+Get-ADUser -Filter * | Remove-ADUser -Confirm:$false
 ```
 
-Résultat : milliers de boîtes mail supprimées. Restauration : plusieurs jours.
+Résultat : tous les comptes du domaine supprimés. Restauration : plusieurs heures au mieux.
 
 Ce que `-WhatIf` aurait montré :
 
 ```
-What if: Performing operation "Remove" on target "user1@..."
-What if: Performing operation "Remove" on target "user2@..."
-... (plusieurs milliers de lignes)
+What if: Performing the operation "Remove" on target "CN=Administrateur,CN=Users,DC=maxtec,DC=be".
+What if: Performing the operation "Remove" on target "CN=Vanessa,OU=Users,OU=Ventes,OU=EU,DC=maxtec,DC=be".
+... (une ligne par compte du domaine)
 ```
 
-Le scroll seul aurait alerté l'admin.
+Le nombre de lignes, et `Administrateur` en tête, auraient suffi à alerter l'admin.
 
 ### Cas 2 — Variable mal initialisée
 
 ```powershell
-# Intention: nettoyer une OU de test
-Remove-ADOrganizationalUnit -Identity "OU=Test,DC=company,DC=com" -Recursive
+# Intention : nettoyer une OU de test
+Remove-ADOrganizationalUnit -Identity "OU=Test,OU=EU,DC=maxtec,DC=be" -Recursive
 
-# Réalité: $ouToDelete pointait vers OU=Users
+# Réalité : $ouToDelete, réutilisée d'un script précédent, valait "OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be"
 Remove-ADOrganizationalUnit -Identity $ouToDelete -Recursive
 ```
 
@@ -65,11 +65,12 @@ Résultat : suppression de la production. `-WhatIf` aurait affiché le vrai cont
 ### Cas 3 — TargetPath vide
 
 ```powershell
-Get-ADUser -Filter {Department -eq "Dev"} | Move-ADObject -TargetPath $newOU
-# $newOU était null -> tous les devs déplacés vers la racine du domaine
+# Intention : OU=Users,OU=IT,OU=EU,DC=maxtec,DC=be
+$newOU = "OU=IT,OU=EU,DC=maxtec,DC=be"     # niveau oublié : pas dans la sous-OU Users
+Get-ADUser -Filter "Department -eq 'IT'" | Move-ADObject -TargetPath $newOU
 ```
 
-Permissions cassées, applications down. `-WhatIf` aurait affiché `TargetPath: DC=company,DC=com` immédiatement.
+La commande réussit : les comptes IT atterrissent à côté de la sous-OU `Users`, là où les GPO liées à `Users` ne s'appliquent plus. `-WhatIf` aurait affiché la cible de chaque déplacement.
 
 ---
 
@@ -121,7 +122,7 @@ Aucune erreur, message vert, l'admin part en weekend.
 - Personne de l'équipe Ventes n'a accès au dossier de la réunion
 ```
 
-Cause : l'attribut `Department` n'est pas renseigné sur les comptes Ventes. Le filtre `{Department -eq "Ventes"}` ne renvoie aucun utilisateur, la boucle ne tourne pas une seule fois, et le `Write-Host` affiche son message quoi qu'il arrive.
+Cause : dans cette entreprise, l'attribut `Department` n'est pas renseigné sur les comptes Ventes (dans votre lab, le script le remplit : le filtre y trouverait les quatre commerciaux). Le filtre `{Department -eq "Ventes"}` ne renvoie aucun utilisateur, la boucle ne tourne pas une seule fois, et le `Write-Host` affiche son message quoi qu'il arrive.
 
 ### Ce que `-WhatIf` aurait montré
 
@@ -195,13 +196,14 @@ Remove-ADUser -Identity "CN=TestUser,OU=Users,OU=IT,OU=EU,DC=maxtec,DC=be" -What
 # What if: Performing the operation "Remove" on target "CN=TestUser,OU=Users,OU=IT,OU=EU,DC=maxtec,DC=be"
 ```
 
-**Cas avec détails :**
+**Cas où la sortie en dit peu :**
 
 ```powershell
-Add-ADGroupMember -Identity "GG-EU-IT-Users" -Members @("Ivan", "Ines") -WhatIf
-# What if: Performing operation "Add" on target "CN=GG-EU-IT-Users,..." to add member "CN=Ivan,..."
-# What if: Performing operation "Add" on target "CN=GG-EU-IT-Users,..." to add member "CN=Ines,..."
+Add-ADGroupMember -Identity "GG-EU-IT-Users" -Members ivan, ines -WhatIf
+# What if: Performing the operation "Set" on target "CN=GG-EU-IT-Users,OU=Groups,OU=IT,OU=EU,DC=maxtec,DC=be".
 ```
+
+Une seule ligne : le groupe modifié, pas la liste des membres ajoutés. Pour un ajout en masse, affichez d'abord vous-même la liste (`Get-ADUser -Filter ... | Format-Table Name`) avant de lancer la commande.
 
 ---
 
@@ -273,8 +275,8 @@ Obligatoire — vous ne savez pas ce que le script contient tant que vous ne l'a
 
 Vous devez désactiver le compte de Marie qui part demain. Première action ?
 
-- A) `Set-ADUser -Identity Marie -Enabled $false`
-- B) `Set-ADUser -Identity Marie -Enabled $false -WhatIf`
+- A) `Set-ADUser -Identity marie.martin -Enabled $false`
+- B) `Set-ADUser -Identity marie.martin -Enabled $false -WhatIf`
 - C) Demander confirmation au manager d'abord
 
 **Réponse : B**, puis C avant exécution réelle.
@@ -332,4 +334,4 @@ Aucune. Ni "testé en dev", ni "script simple", ni "urgence", ni "confiance coll
 
 ---
 
-**Suite** : Module 6 — Gérer un incident AD (procédures break-glass).
+**Suite** : Module 6 — Kit d'urgence : réagir à un incident AD.

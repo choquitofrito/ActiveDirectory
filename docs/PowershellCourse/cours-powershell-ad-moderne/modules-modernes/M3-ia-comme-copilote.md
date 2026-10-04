@@ -1,5 +1,5 @@
 # Module 3 — L'IA comme copilote : prompts et validation
-*Durée: 1h30 | Prérequis: Modules 1-2 complétés*
+*Prérequis: Modules 1-2 complétés*
 
 ## Objectif
 
@@ -168,8 +168,9 @@ try {
 ### Ce qui mérite attention
 
 1. **SearchBase codée en dur** — et si la structure change ?
-2. **Filtre Department** non utilisé — redondance avec SearchBase.
-3. **Null check** — `PasswordLastSet` peut être `$null` pour certains comptes.
+2. **Propriétés inutiles** — `Department` et `LastLogonDate` sont demandées mais jamais utilisées ; `Enabled` est déjà renvoyée par défaut.
+3. **Comptes écartés en silence** — `PasswordLastSet -ne $null` exclut les comptes dont le mot de passe doit être changé à la prochaine connexion. Ce sont pourtant des comptes à surveiller.
+4. **Le prompt se contredit** — il demande `-WhatIf` **et** la lecture seule. Un script qui ne modifie rien n'a pas besoin de `-WhatIf` : l'IA l'a ignoré, à juste titre. Relisez vos prompts.
 
 ### Améliorations possibles
 
@@ -180,20 +181,11 @@ param(
     [int]$JoursLimite = 180
 )
 
-# 2. Filtre plus robuste
+# 2. Inclure les comptes sans date, et exclure les comptes de service
 $utilisateursMotDePasseAncien = $utilisateursRH | Where-Object {
-    $_.PasswordLastSet -ne $null -and
-    $_.PasswordLastSet -lt $dateLimit -and
-    $_.Enabled -eq $true
-}
-
-# 3. Exclusion des comptes de service
-$utilisateursMotDePasseAncien = $utilisateursRH | Where-Object {
-    $_.PasswordLastSet -ne $null -and
-    $_.PasswordLastSet -lt $dateLimit -and
+    ($null -eq $_.PasswordLastSet -or $_.PasswordLastSet -lt $dateLimit) -and
     $_.Enabled -eq $true -and
-    $_.SamAccountName -notlike "*svc*" -and
-    $_.SamAccountName -notlike "*service*"
+    $_.SamAccountName -notlike "*svc*"
 }
 ```
 
@@ -353,6 +345,14 @@ Corrections nécessaires:
 3. Vérifier le département avant modification
 4. Ajouter try/catch
 ```
+
+Ce que cette réponse a raté : `Department` n'est pas demandé avec `-Properties`. Il est vide pour tous les comptes, `Where-Object` ne laisse rien passer et le script ne modifie **rien**. Le vrai correctif est un filtre côté serveur qui lit l'attribut directement :
+
+```powershell
+Get-ADUser -Filter "Department -eq 'IT'" | Set-ADUser -Title "Informaticien" -WhatIf
+```
+
+C'est le risque de l'usage 3 : la revue paraît sérieuse et passe à côté de l'essentiel.
 
 ---
 

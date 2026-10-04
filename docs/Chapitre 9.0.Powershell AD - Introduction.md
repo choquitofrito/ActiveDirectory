@@ -82,8 +82,7 @@ Get-Module -Name ActiveDirectory
 
 !!! example "Commandes de découverte"
     
-    Exécutez ces commandes sur votre contrôleur de domaine `dns1.maxtec.be` et observez les résultats. 
-
+    Exécutez ces commandes sur votre contrôleur de domaine `dns1.maxtec.be` et observez les résultats.
 
 ```powershell
 # Obtenir des informations sur le domaine
@@ -95,16 +94,12 @@ Get-ADDomainController -Filter *
 # Afficher tous les utilisateurs du domaine
 Get-ADUser -Filter *
 
-
-
 # Par défaut, Get-ADUser ne renvoie qu'une dizaine de propriétés
 # (Name, SamAccountName, Enabled, DistinguishedName, UserPrincipalName...).
 # Department et LastLogonDate n'en font pas partie : il faut les demander avec -Properties.
 # Format-Table affiche le résultat en tableau.
 Get-ADUser -Filter * -Properties Department, LastLogonDate |
     Format-Table Name, SamAccountName, Department, LastLogonDate
-
-# Obtenir d'autres types d'objets AD
 
 # Afficher tous les groupes du domaine
 Get-ADGroup -Filter *
@@ -114,13 +109,11 @@ Get-ADComputer -Filter *
 
 # Afficher toutes les unités d'organisation (OUs)
 Get-ADOrganizationalUnit -Filter *
-
 ```
 
-!!! note "Filtres avancés"
+!!! note "Le paramètre `-Filter`"
     
-    (On verra les filtres plus tard)
-
+    `-Filter *` signifie « tous les objets ». À la place de `*`, on peut écrire une condition sur une propriété : `-Filter {Enabled -eq $false}` ne renvoie que les comptes désactivés (`-eq` = égal à). Les filtres sont détaillés aux chapitres 9.1 et 9.2.
 
 !!! info "Comparaison GUI vs PowerShell"
     
@@ -140,11 +133,17 @@ Get-ADOrganizationalUnit -Filter *
     Trouvez tous les utilisateurs qui n'ont pas changé leur mot de passe depuis plus de 4 jours :
 
 ```powershell
+# La date d'il y a 4 jours
 $date = (Get-Date).AddDays(-4)
+
+# Comptes actifs (-and = ET) dont le mot de passe date d'avant cette date (-lt = plus petit que),
+# en ne gardant que deux colonnes (Select-Object), du plus ancien au plus récent (Sort-Object)
 Get-ADUser -Filter {PasswordLastSet -lt $date -and Enabled -eq $true} -Properties PasswordLastSet |
     Select-Object Name, PasswordLastSet |
     Sort-Object PasswordLastSet
 ```
+
+Pas besoin de tout comprendre ici : chaque élément (`-Filter`, `Select-Object`, `Sort-Object`) est repris au chapitre 9.1.
 
 !!! question "Réflexion"
     
@@ -163,7 +162,6 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 # Créer un dossier pour vos scripts (vous pourriez le faire à la main aussi)
 New-Item -Path "C:\Scripts" -ItemType Directory -Force
 ```
-
 
 ## 5. 🔹 Aide et documentation
 
@@ -191,7 +189,7 @@ Get-Help Get-ADUser -Online
 
 !!! example "Exercice d'exploration"
     
-    Utilisez l'internet, IA ou le système d'aide pour explorer la commande `New-ADUser`. Identifiez les paramètres obligatoires et facultatifs pour créer un nouvel utilisateur.
+    Utilisez le système d'aide, la documentation en ligne ou une IA pour explorer la commande `New-ADUser`. Identifiez les paramètres obligatoires et facultatifs pour créer un nouvel utilisateur.
 
 ---
 
@@ -254,7 +252,7 @@ Les pièges classiques quand on arrive de bash :
     (Get-ADComputer -Filter *).Count
     ```
     
-    Le chapitre 9.1 explique pourquoi cela fonctionne (tableaux et propriétés).
+    Le nombre d'utilisateurs dépasse les 13 comptes du lab : AD contient aussi des comptes intégrés (`Administrateur`, `Invité`, `krbtgt`...). Le chapitre 9.1 explique pourquoi `.Count` fonctionne (tableaux et propriétés).
 
 ### Mission 1.2 — Carte d'identité du domaine
 
@@ -307,7 +305,7 @@ Les pièges classiques quand on arrive de bash :
         Format-Table Name, SamAccountName
     ```
     
-    Le filtre `{Enabled -eq $false}` est l'équivalent en une ligne d'une recherche filtrée dans la console graphique.
+    Le filtre `{Enabled -eq $false}` est l'équivalent en une ligne d'une recherche filtrée dans la console graphique. Dans le lab, seuls des comptes intégrés apparaissent (`Invité`, `krbtgt`, `DefaultAccount`) : ils sont désactivés par défaut. Les 13 comptes du lab sont actifs.
 
 ### Mission 1.4 — GUI vs PowerShell, en temps réel
 

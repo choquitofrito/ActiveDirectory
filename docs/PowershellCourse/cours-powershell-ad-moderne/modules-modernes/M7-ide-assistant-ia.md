@@ -4,7 +4,7 @@
 > Les quotas et modèles disponibles peuvent changer. Si le chat IA n'est plus disponible,
 > les exercices restent valables avec Google, ChatGPT ou Claude comme alternative.
 
-*Durée: 1h30 | Prérequis: Modules 1-6 complétés | Lab Maxtec installé et `Patch-UserDepartments.ps1` exécuté*
+*Prérequis: Modules 1-6 complétés | Lab Maxtec installé (`creation_structure.ps1`)*
 
 ---
 
@@ -49,7 +49,7 @@ Trois éléments à toujours fournir : contexte (maxtec.be), objectif précis, d
 
 ## Exercice 7.1 — Premiers pas : qui est dans RH ?
 
-**Niveau** : débutant | **Durée** : 15 min
+**Niveau** : débutant
 
 ### Situation
 
@@ -96,7 +96,7 @@ Le script utilise `-Filter {Department -eq "RH"}` ou `-SearchBase` ? Demandez à
 
 ## Exercice 7.2 — Ticket réel : compte bloqué
 
-**Niveau** : débutant-intermédiaire | **Durée** : 20 min
+**Niveau** : débutant-intermédiaire
 
 ### Situation
 
@@ -141,7 +141,7 @@ L'IA a-t-elle proposé `-WhatIf` spontanément ? Si non, demandez : *"Comment te
 
 ## Exercice 7.3 — Rapport de département
 
-**Niveau** : intermédiaire | **Durée** : 25 min
+**Niveau** : intermédiaire
 
 ### Situation
 
@@ -158,7 +158,7 @@ Sur maxtec.be, je veux un script qui génère un rapport par département
 (RH, Ventes, Comptabilite, IT). Pour chaque département: nombre
 d'utilisateurs actifs, nombre désactivés, et date LastLogonDate la plus
 récente. Les utilisateurs sont dans OU=EU,DC=maxtec,DC=be.
-Utilise -Properties Department, Enabled, LastLogonDate.
+Utilise -Properties Department, LastLogonDate.
 Explique pourquoi LastLogonDate peut être vide ou incorrect.
 ```
 
@@ -183,7 +183,7 @@ L'IA est utile pour expliquer des nuances que la documentation noie dans le dét
 
 ## Exercice 7.4 — Onboarding : nouveau collègue
 
-**Niveau** : intermédiaire-avancé | **Durée** : 25 min
+**Niveau** : intermédiaire-avancé
 
 ### Situation
 
@@ -215,10 +215,12 @@ Comment le rendre idempotent ?
 
 ```powershell
 # Phase 1: simulation
+# (un script n'accepte -WhatIf que s'il commence par [CmdletBinding(SupportsShouldProcess)] :
+#  vérifiez que l'IA l'a mis, sinon demandez-le)
 .\onboarding-sophie.ps1 -WhatIf
 
-# Phase 2: vérification manuelle
-Get-ADUser -Filter "SamAccountName -eq 'sophie.renard'" -ErrorAction SilentlyContinue
+# Phase 2: vérification manuelle (le compte ne doit pas encore exister)
+Get-ADUser -Filter "SamAccountName -eq 'sophie.renard'"
 
 # Phase 3: exécution réelle seulement si Phase 1 et 2 OK
 ```
@@ -226,15 +228,15 @@ Get-ADUser -Filter "SamAccountName -eq 'sophie.renard'" -ErrorAction SilentlyCon
 ### Critère de réussite
 
 ```powershell
-Get-ADUser -Identity "sophie.renard" -Properties Department, MemberOf |
-    Select-Object Name, Department, @{N="Groupes"; E={($_.MemberOf | Get-ADGroup).Name}}
+Get-ADUser -Identity "sophie.renard" -Properties Department | Format-List Name, Department
+Get-ADPrincipalGroupMembership -Identity "sophie.renard" | Format-Table Name
 ```
 
 ---
 
 ## Exercice 7.5 — Audit de sécurité : mots de passe
 
-**Niveau** : avancé | **Durée** : 20 min
+**Niveau** : avancé
 
 ### Situation
 
@@ -300,7 +302,7 @@ L'offre gratuite de Windsurf a un quota d'utilisation. Si vous l'atteignez :
 
 1. **L'autocomplétion Tab reste disponible** — tapez les premières lettres d'un cmdlet, Windsurf complète.
 2. **Utilisez ChatGPT ou Claude** avec les mêmes prompts — la logique est identique.
-3. **Référence rapide** : `scripts/Patch-UserDepartments.ps1` montre la structure type d'un script Maxtec.
+3. **Référence rapide** : la [Cheatsheet](../../../CHEATSHEET.md) et le script du lab `creation_structure.ps1` montrent la structure type d'un script Maxtec.
 
 ---
 

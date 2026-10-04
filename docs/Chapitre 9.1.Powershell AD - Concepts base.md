@@ -71,7 +71,7 @@ $message = "Bonjour $nomUtilisateur"   # Bonjour richard
     Write-Host "$prenom $nom - login : $login - email : $email"
     ```
     
-    À noter : dans une chaîne entre guillemets `"..."`, PowerShell évalue les variables directement (`"$login@$domaine"`). Pas besoin de concaténation.
+    Deux façons d'assembler du texte : l'opérateur `+` (pour le login) ou une chaîne entre guillemets doubles, où PowerShell remplace chaque variable par sa valeur (pour l'email : `"$login@$domaine"`).
 
 ### Entraînement 1.1 — Variables et texte
 
@@ -120,18 +120,15 @@ $utilisateur = Get-ADUser -Identity "richard" -Properties *
 $groupe = Get-ADGroup -Identity "CN=GG-EU-RH-Admin,OU=Groups,OU=RH,OU=EU,DC=maxtec,DC=be" -Properties *
 ```
 
-!!! note "Recherche par identifiant"
-    
-    Ceci était une recherche par **identifiant**.
-
 !!! tip "Le paramètre -Identity"
     
-    Ce paramètre permet de spécifier quel objet AD vous voulez obtenir/modifier. Il accepte plusieurs formats d'identification. Par exemple... si on a le groupe "GG-EU-IT-Users", on peut le trouver de plusieurs manières en utilisant le paramètre -Identity :
+    `-Identity` désigne **un** objet précis. Il accepte plusieurs formats, par exemple pour le groupe `GG-EU-IT-Users` :
     
-    - **Nom** : Simplement le nom du groupe (ex: -Identity "GG-EU-IT-Users")
-    - **SamAccountName** : L'identifiant unique du groupe dans le domaine (ex: -Identity "GG-EU-IT-Users")
-    - **DistinguishedName** : Le chemin complet dans l'AD (ex: -Identity "CN=GG-EU-IT-Users,OU=Groups,OU=IT,OU=EU,DC=maxtec,DC=be")
-    - **GUID** : L'identifiant unique global (ex: -Identity "123e4567-e89b-12d3-a456-426614174000")
+    - **SamAccountName** : l'identifiant de connexion (`-Identity "GG-EU-IT-Users"`, ou `-Identity richard` pour un utilisateur) ;
+    - **DistinguishedName** : le chemin complet dans AD (`-Identity "CN=GG-EU-IT-Users,OU=Groups,OU=IT,OU=EU,DC=maxtec,DC=be"`) ;
+    - **GUID** ou **SID** : les identifiants uniques internes de l'objet.
+    
+    Dans le lab, le nom d'un groupe et son SamAccountName sont identiques : on peut donc écrire simplement son nom.
 
 ```powershell
 # Maintenant on peut accéder facilement à ses propriétés
@@ -144,7 +141,6 @@ Write-Host $utilisateur.EmailAddress   # le nom PowerShell est EmailAddress (att
 !!! warning "Note sur la langue"
     
     Même si votre interface AD est en français, les noms des propriétés dans PowerShell sont toujours en anglais. Utilisez donc `GivenName` (prénom), `Surname` (nom de famille), `Title` (titre), etc. Ces noms sont standardisés et ne changent pas avec la langue de l'interface.
-
 
 ### Mission 1.2 — Stocker un résultat AD dans une variable
 
@@ -224,8 +220,6 @@ Get-ADUser richard -Properties * | Get-Member -MemberType Property
 
 Sans `-Properties *`, `Get-Member` ne liste que la dizaine de propriétés renvoyées par défaut : il décrit l'objet reçu, pas tout ce qui existe dans AD.
 
-
-
 ### `-Properties`, `Select-Object`, `Format-Table` : qui fait quoi ?
 
 Ces trois éléments se ressemblent (on leur donne tous des noms de propriétés), mais ils interviennent à trois moments différents :
@@ -277,9 +271,20 @@ Get-ADUser -Filter * -Properties Department, Title |
 
 ### Recherche avec `-Filter`
 
-!!! tip "Recherche avec Filter"
-    
-    Avec **Filter** on peut rechercher des éléments à partir des valeurs de leurs propriétés. Par **exemple, on peut rechercher des utilisateurs par leur nom, leur titre, leur service** ('department' en anglais. La propriété est dans l'onglet `Organisation` dans les propriétés des utilisateurs), etc.
+`-Filter` demande au DC de ne renvoyer que les objets dont une propriété remplit une condition : un nom, un titre, un service (`Department`, champ « Service » de l'onglet `Organisation`)... `-Filter *` renvoie tout. Les opérateurs (`-eq`, `-like`, `-and`...) sont détaillés au chapitre 9.2.
+
+La condition s'écrit de préférence **entre guillemets doubles**, avec la valeur entre apostrophes :
+
+```powershell
+# Les comptes du service Ventes
+Get-ADUser -Filter "Department -eq 'Ventes'"
+
+# Avec une variable : les guillemets doubles remplacent $service par sa valeur
+$service = "RH"
+Get-ADUser -Filter "Department -eq '$service'"
+```
+
+Pour une date, on prépare la valeur dans une variable `[datetime]`. Cette forme entre accolades `{ }` fonctionne aussi avec une variable simple :
 
 ```powershell
 # Rechercher les utilisateurs créés après le 1er janvier 2023
@@ -293,7 +298,6 @@ Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated
 Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated |
     Select-Object Name, SamAccountName, WhenCreated
 ```
-
 
 ### Entraînement 1.3 — Demander, garder, afficher
 
@@ -319,6 +323,8 @@ Le schéma : **`-Properties` pour ce qui n'est pas renvoyé par défaut → `For
         Format-Table Name, EmailAddress
     
     # 3. Select-Object garde des objets : Export-Csv peut les écrire
+    # -NoTypeInformation : pas de ligne technique #TYPE en tête du fichier
+    # -Encoding UTF8 : les accents restent lisibles
     Get-ADUser -Filter "Department -eq 'IT'" -Properties Department |
         Select-Object Name, SamAccountName, Department |
         Export-Csv -Path "C:\Scripts\it.csv" -NoTypeInformation -Encoding UTF8
@@ -341,7 +347,7 @@ $utilisateurs[0]
 $utilisateurs[-1]
 ```
 
-Vous pouvez rajouter, effacer, modifier et obtenir un élément d'un tableau :
+Vous pouvez lire, ajouter et modifier un élément d'un tableau :
 
 ```powershell
 # Obtenir un élément (par exemple, le deuxième utilisateur)
@@ -351,16 +357,11 @@ Write-Host "Deuxième utilisateur : $deuxiemeUtilisateur"
 # Ajouter un élément à un tableau existant
 $utilisateurs += "ivan"
 
-# Modifier un élément (remplacer "rebecca" par "rene")
-$index = $utilisateurs.IndexOf("rebecca")
-if ($index -ge 0) {
-    $utilisateurs[$index] = "rene"
-}
+# Modifier un élément : "rebecca" est à l'indice 2, on la remplace par "rene"
+$utilisateurs[2] = "rene"
 ```
 
-!!! note "Note sur la suppression"
-    Pour la suppression, il faut faire attention à la taille fixe du tableau. Nous n'aborderons pas cette opération ici, mais vous pouvez la rechercher dans la documentation PowerShell si nécessaire.
-
+Supprimer un élément d'un tableau n'est pas direct en PowerShell : ce chapitre n'en a pas besoin.
 
 ### Mission 2.1 — Tableau des départements
 
@@ -390,8 +391,6 @@ if ($index -ge 0) {
     ```
     
     `[0]` = premier élément, `[-1]` = dernier.
-
-
 
 ### Entraînement 2.1 — Tableaux simples
 
@@ -423,7 +422,7 @@ Le schéma : **`@(...)` pour créer, `[i]` pour lire, `+=` pour ajouter, `.Count
 
 ### Tableaux d'objets AD
 
-En PowerShell, les résultats de nombreuses commandes sont automatiquement des tableaux, et la plupart de fois ils contiendront des objets :
+En PowerShell, les résultats de nombreuses commandes sont automatiquement des tableaux, et la plupart du temps ils contiennent des objets :
 
 ```powershell
 # Récupérer tous les utilisateurs du service Comptabilite : tableau d'objets ADUser
@@ -490,7 +489,6 @@ Une boucle répète une action pour chaque élément d'une collection.
 
 ### La boucle ForEach
 
-
 ```powershell
 # Obtenir tous les utilisateurs
 $utilisateurs = Get-ADUser -Filter *
@@ -512,9 +510,9 @@ foreach ($utilisateur in $utilisateurs) {
     Le symbole `$_` représente l'élément actuel dans la boucle.
 
 ```powershell
-$utilisateurs | ForEach-Object { Write-Host $_ }  
-# $_ est juste un alias pour l'élément actuel dans la boucle. On peut en plus accéder aux propriétés de l'élément, par exemple: $_.Name, $_.SamAccountName, $_.Title, etc.
-$utilisateurs | ForEach-Object { Write-Host $_.Name }  
+$utilisateurs | ForEach-Object { Write-Host $_ }
+# $_ = l'élément en cours. On lit ses propriétés comme avec une variable : $_.Name, $_.SamAccountName...
+$utilisateurs | ForEach-Object { Write-Host $_.Name }
 ```
 
 !!! tip "ForEach-Object ou Select-Object ?"
@@ -533,12 +531,15 @@ $utilisateurs | ForEach-Object { Write-Host $_.Name }
     
     ```powershell
     # Les 3 comptes les plus récents
+    # Sort-Object trie (détaillé plus bas) ; -Descending = du plus récent au plus ancien
+    # Select-Object -First 3 : ne garde que les 3 premiers objets (des lignes, pas des colonnes)
     Get-ADUser -Filter * -Properties WhenCreated |
         Sort-Object WhenCreated -Descending |
         Select-Object -First 3 |
         ForEach-Object { Write-Host "$($_.Name) créé le $($_.WhenCreated)" }
     
     # Une ligne par service distinct : ici $_ est le texte du service, pas un utilisateur
+    # -ExpandProperty : la valeur seule, sans l'objet ; -Unique : sans doublons
     Get-ADUser -Filter * -Properties Department |
         Select-Object -ExpandProperty Department -Unique |
         ForEach-Object { Write-Host "Service : $_" }
@@ -552,7 +553,7 @@ $utilisateurs | ForEach-Object { Write-Host $_.Name }
     
     1. Bouclez sur `$departements`
     2. Pour chaque département, comptez les utilisateurs actifs (`Enabled -eq $true`) filtrés par `Department`
-    3. Affichez une ligne par département : `"IT : 5 utilisateurs actifs"`
+    3. Affichez une ligne par département : `"IT : 3 utilisateurs actifs"`
     
     *Indice : avec une variable, écrivez le filtre comme une chaîne entre guillemets doubles : `"Department -eq '$dept'"`. Pour ajouter une deuxième condition, reliez-la par `-and` : `"Department -eq '$dept' -and Enabled -eq 'True'"`.*
 
@@ -567,7 +568,7 @@ $utilisateurs | ForEach-Object { Write-Host $_.Name }
     }
     ```
     
-    Le filtre en chaîne `"Department -eq '$dept' -and Enabled -eq 'True'"` permet d'injecter une variable directement. `Marketing` n'existe pas chez Maxtec : le résultat attendu est `0`, pas une erreur.
+    Le filtre en chaîne `"Department -eq '$dept' -and Enabled -eq 'True'"` permet d'injecter une variable directement. Dans un filtre entre guillemets doubles, la valeur « vrai » s'écrit `'True'` : `$true` y serait remplacé par le texte `True` sans guillemets, ce que le filtre AD n'interprète pas de façon fiable. Dans un filtre en bloc `{ }`, on garde `$true`. `Marketing` n'existe pas chez Maxtec : le résultat attendu est `0`, pas une erreur.
 
 ### Entraînement 3.1 — `foreach`
 
@@ -621,7 +622,7 @@ Get-ADUser -Filter * -Properties WhenCreated |
     Sophie veut connaître la taille des groupes `GG-EU`. Pour chaque groupe dont le nom commence par `GG-EU`, affichez une ligne de texte :
     
     ```
-    GG-EU-RH-Users : 3 membre(s)
+    GG-EU-RH-Users : 2 membre(s)
     ```
     
     Étapes :
@@ -655,7 +656,7 @@ Le schéma est toujours le même : **une collection → `ForEach-Object` → un 
 !!! example "Exercices"
     
     1. **Utilisateurs par service.** Pour chaque OU située directement sous `OU=EU,DC=maxtec,DC=be`, affichez `RH : 3 utilisateur(s)`.
-       *Indice : `Get-ADOrganizationalUnit ... -SearchScope OneLevel` donne les OUs ; `-SearchBase $_.DistinguishedName` limite `Get-ADUser` à l'OU en cours.*
+       *Indice : `Get-ADOrganizationalUnit -Filter * -SearchBase "OU=EU,DC=maxtec,DC=be" -SearchScope OneLevel` donne les OUs situées juste sous EU (`-SearchBase` = où commencer, `-SearchScope OneLevel` = un seul niveau). Ensuite, `Get-ADUser -Filter * -SearchBase $_.DistinguishedName` cherche dans l'OU en cours.*
     2. **Groupes par utilisateur.** Pour chaque utilisateur du service `Ventes`, affichez `Victor : 2 groupe(s)`.
        *Indice : `Get-ADPrincipalGroupMembership -Identity $_.SamAccountName` donne les groupes du compte.*
     3. **Comptes par service, à partir d'un tableau.** Partez de `@("Ventes", "RH", "Comptabilite", "IT")` et affichez `IT : 3 compte(s)` pour chacun.
@@ -672,8 +673,8 @@ Le schéma est toujours le même : **une collection → `ForEach-Object` → un 
             Write-Host "$($_.Name) : $nb utilisateur(s)"
         }
     
-    # 2. Groupes par utilisateur
-    Get-ADUser -Filter {Department -eq "Ventes"} -Properties Department | ForEach-Object {
+    # 2. Groupes par utilisateur (-Filter n'a pas besoin de -Properties pour filtrer)
+    Get-ADUser -Filter "Department -eq 'Ventes'" | ForEach-Object {
         # $_ = l'utilisateur en cours
         $nb = (Get-ADPrincipalGroupMembership -Identity $_.SamAccountName).Count
         Write-Host "$($_.Name) : $nb groupe(s)"
@@ -710,9 +711,10 @@ Get-ADUser -Filter * | ForEach-Object {
 ```
 
 ```
-Utilisateur      Groupes
------------      -------
-Richard Renard         4
+Utilisateur    Groupes
+-----------    -------
+Administrateur       6
+Richard              2
 ...
 ```
 
@@ -735,7 +737,7 @@ Le nombre de groupes n'existe pas dans AD : il est calculé dans la boucle, puis
             Groupe  = $_.Name
             Membres = $nbMembres
         }
-    } | Sort-Object Membres -Descending | Format-Table -AutoSize
+    } | Sort-Object Membres -Descending | Format-Table -AutoSize    # -AutoSize : colonnes ajustées au contenu
     ```
     
     Autre façon de compter : `$_.Members.Count`, à condition d'avoir demandé l'attribut avec `Get-ADGroup ... -Properties Members` (il n'est pas renvoyé par défaut).
@@ -764,7 +766,7 @@ Même transformation à chaque fois : **`Write-Host` → `[PSCustomObject]`**, p
         } | Sort-Object Utilisateurs -Descending | Format-Table -AutoSize
     
     # 2. Les 2 utilisateurs de Ventes qui ont le plus de groupes
-    Get-ADUser -Filter {Department -eq "Ventes"} -Properties Department | ForEach-Object {
+    Get-ADUser -Filter "Department -eq 'Ventes'" | ForEach-Object {
         [PSCustomObject]@{
             Utilisateur = $_.Name
             Groupes     = (Get-ADPrincipalGroupMembership -Identity $_.SamAccountName).Count
@@ -813,6 +815,7 @@ if (Get-ADUser -Filter "SamAccountName -eq '$nomUtilisateur'") {
 }
 
 # Exemple 4: Vérifier si une valeur est vide
+# [string]::IsNullOrEmpty(...) vaut $true si la valeur est vide ("") ou absente ($null)
 $description = ""
 if ([string]::IsNullOrEmpty($description)) {
     Write-Host "La description est vide"
@@ -839,7 +842,7 @@ Write-Host "richard : $statut"
     2. Si son compte est actif ou désactivé (`Enabled`)
     3. Affichez un message différent selon chaque cas
     
-    *Tous les comptes créés par le script du lab ont un email. Pour voir l'autre branche, testez aussi avec le compte `Administrator`, qui n'en a pas.*
+    *Tous les comptes créés par le script du lab ont un email. Pour voir l'autre branche, testez aussi avec le compte `Administrateur`, qui n'en a pas.*
 
 ??? success "Solution"
     
@@ -847,7 +850,7 @@ Write-Host "richard : $statut"
     $user = Get-ADUser -Identity "cindy" -Properties EmailAddress, Enabled
     
     if ([string]::IsNullOrEmpty($user.EmailAddress)) {
-        Write-Host "Pas d'email renseigné" -ForegroundColor Yellow
+        Write-Host "Pas d'email renseigné" -ForegroundColor Yellow   # -ForegroundColor : couleur du texte
     } else {
         Write-Host "Email : $($user.EmailAddress)" -ForegroundColor Green
     }
@@ -863,7 +866,7 @@ Write-Host "richard : $statut"
 
 ```powershell
 # Vérifier le statut d'un utilisateur
-$user = Get-ADUser -Identity "Richard" -Properties Enabled, LockedOut
+$user = Get-ADUser -Identity "richard" -Properties LockedOut   # Enabled est déjà renvoyé par défaut
 
 if ($user.Enabled -eq $false) {
     Write-Host "Le compte est désactivé"
@@ -1028,11 +1031,11 @@ Voici un exemple de script qui combine variables, conditions et propriétés AD 
 $nomUtilisateurRecherche = Read-Host "Entrez le SamAccountName de l'utilisateur à rechercher"
 
 # Récupérer l'utilisateur Active Directory
-$utilisateurTrouve = Get-ADUser -Filter "SamAccountName -eq '$nomUtilisateurRecherche'" -Properties GivenName, Surname, Title, Department, WhenCreated
+# GivenName et Surname sont renvoyés par défaut : -Properties ne demande que le reste
+$utilisateurTrouve = Get-ADUser -Filter "SamAccountName -eq '$nomUtilisateurRecherche'" -Properties Title, Department, WhenCreated
 
 # Vérifier si l'utilisateur existe
 if ($utilisateurTrouve) {
-   
     Write-Host "Utilisateur trouvé !" -ForegroundColor Green
     Write-Host "Prénom           : $($utilisateurTrouve.GivenName)"
     Write-Host "Nom              : $($utilisateurTrouve.Surname)"
@@ -1056,7 +1059,7 @@ if ($utilisateurTrouve) {
 ```
 
 !!! warning "Important"
-    Modifier les valeurs dans une variable n'a aucun effet sur l'objet réel dans Active Directory. Par exemple, si vous faites `$utilisateurTrouve.Title = "Nouveau Titre"`, cela change uniquement la valeur dans votre variable locale, pas dans AD. Pour modifier réellement un objet AD, vous devez utiliser des commandes spécifiques comme `Set-ADUser` que nous verrons plus tard.
+    Modifier les valeurs dans une variable n'a aucun effet sur l'objet réel dans Active Directory. Par exemple, si vous faites `$utilisateurTrouve.Title = "Nouveau Titre"`, cela change uniquement la valeur dans votre variable locale, pas dans AD. Pour modifier réellement un objet AD, vous devez utiliser des commandes spécifiques comme `Set-ADUser`, vue au chapitre 9.3.
 
 ### Mission 4.2 — Script de diagnostic utilisateur
 
@@ -1074,7 +1077,7 @@ if ($utilisateurTrouve) {
     
     ```powershell
     $login = Read-Host "SamAccountName"
-    $user  = Get-ADUser -Identity $login -Properties Enabled, PasswordNeverExpires
+    $user  = Get-ADUser -Identity $login -Properties PasswordNeverExpires
     
     if ($user.Enabled) {
         Write-Host "Statut        : Actif"
@@ -1113,7 +1116,7 @@ if ($utilisateurTrouve) {
     
     ```powershell
     $nomUtilisateurRecherche = Read-Host "Entrez le SamAccountName de l'utilisateur à rechercher"
-    $utilisateurTrouve = Get-ADUser -Filter "SamAccountName -eq '$nomUtilisateurRecherche'" -Properties GivenName, Surname, Title, Department, WhenCreated, Enabled
+    $utilisateurTrouve = Get-ADUser -Filter "SamAccountName -eq '$nomUtilisateurRecherche'" -Properties Title, Department, WhenCreated
     
     if ($utilisateurTrouve) {
         Write-Host "Utilisateur trouvé !" -ForegroundColor Green
@@ -1292,7 +1295,7 @@ UTILISATEUR : Valeria - ACTIF
     
     foreach ($user in $users) {
         $statut  = if ($user.Enabled) { "ACTIF" } else { "DÉSACTIVÉ" }
-        $couleur = if ($user.Enabled) { "Green"  } else { "Red" }
+        $couleur = if ($user.Enabled) { "Green" } else { "Red" }
     
         # LastLogonDate vaut $null si le compte ne s'est JAMAIS connecté :
         # on traite ce cas en premier, sinon il passerait inaperçu.
@@ -1324,7 +1327,7 @@ UTILISATEUR : Valeria - ACTIF
         
         `LastLogonDate` est calculé à partir de l'attribut `lastLogonTimestamp`, qui n'est répliqué entre DC qu'avec un décalage volontaire de **9 à 14 jours**. Il suffit pour repérer des comptes inactifs depuis 30, 60 ou 90 jours, pas pour savoir si quelqu'un s'est connecté hier. Dans le lab, la plupart des comptes ne se sont jamais connectés : ils apparaîtront tous en rouge, c'est attendu.
 
-### Mission 5.2 — Bilan du Jour 2
+### Bilan du Jour 2
 
 Vous savez maintenant combiner variables, tableaux, boucles et conditions pour automatiser des tâches réelles. Le chapitre 9.2 va plus loin sur les **requêtes et filtres**, et 9.3 passe à la **création et modification** d'objets AD.
 

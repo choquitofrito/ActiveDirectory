@@ -1,5 +1,5 @@
 # Module 1 — Comment travaillent les admins en 2026
-*Durée: 2h00 | Prérequis: Chapitres 9.0-9.3 complétés*
+*Prérequis: Chapitres 9.0-9.3 complétés*
 
 ## Objectif
 
@@ -19,7 +19,7 @@ Ce module est construit autour de cette réalité.
 
 ---
 
-## Démo en direct — un lundi typique (30 min)
+## Démo en direct — un lundi typique
 
 *L'instructeur travaille en temps réel devant la classe.*
 
@@ -56,7 +56,7 @@ Get-ADPrincipalGroupMembership -Identity Richard | Select-Object Name
 
 Name
 ----
-Domain Users
+Utilisateurs du domaine
 GG-EU-RH-Admin
 ```
 
@@ -65,7 +65,7 @@ GG-EU-RH-Admin
 ```
 RÉSOLUTION TICKET #2847
 - Compte Richard: actif, non verrouillé
-- Membre de: Domain Users, GG-EU-RH-Admin
+- Membre de: Utilisateurs du domaine, GG-EU-RH-Admin
 - Cause probable: réseau ou poste client
 - Escalade niveau 2 réseau
 ```
@@ -98,6 +98,8 @@ Avant de toucher à ça, quatre questions :
 3. **Validation** — comment je vérifie avant d'exécuter ?
 4. **Rollback** — comment j'annule si erreur ?
 
+Et un bug caché : `LastLogonDate` n'est pas demandé avec `-Properties`. Il est donc vide pour tous les comptes, un vide est considéré comme « plus ancien » que n'importe quelle date, et le script désactive **tous** les comptes actifs du domaine.
+
 Version adaptée pour maxtec.be :
 
 ```powershell
@@ -111,8 +113,10 @@ Get-ADUser -Filter * -SearchBase $searchBase -Properties LastLogonDate |
         $_.Enabled -eq $true -and
         $_.SamAccountName -notlike "*admin*"
     } |
-    Select-Object Name, LastLogonDate, Department |
-    Format-Table -AutoSize
+    Format-Table Name, LastLogonDate
+
+# Attention : un compte qui ne s'est jamais connecté a un LastLogonDate vide.
+# Il apparaît dans la liste. Dans le lab, c'est le cas de presque tous les comptes.
 
 # 2. Ensuite, simuler avec -WhatIf
 Get-ADUser -Filter * -SearchBase $searchBase -Properties LastLogonDate |
@@ -164,7 +168,7 @@ try {
         Write-Host "Aucun utilisateur RH avec mot de passe ancien trouvé." -ForegroundColor Green
     } else {
         Write-Host "Utilisateurs RH avec mot de passe > 6 mois:" -ForegroundColor Yellow
-        $utilisateursMotDePasseAncien | Select-Object Name, PasswordLastSet | Format-Table -AutoSize
+        $utilisateursMotDePasseAncien | Format-Table Name, PasswordLastSet -AutoSize
     }
 }
 catch {
@@ -175,10 +179,11 @@ catch {
 **Analyse critique :**
 
 - Bon : gestion d'erreurs, SearchBase ciblée, lecture seule.
-- À surveiller : le filtre `Department -eq "RH"` ne marche que si la propriété `Department` est renseignée. Vérifiez dans *Utilisateurs et ordinateurs Active Directory*. Si elle est vide sur votre lab, exécutez `scripts/Patch-UserDepartments.ps1` sur le DC.
+- À surveiller : le filtre `Department -eq "RH"` ne marche que si la propriété `Department` est renseignée. Le script du lab la remplit ; sur un autre annuaire, vérifiez-la dans *Utilisateurs et ordinateurs Active Directory* (onglet **Organisation**, champ **Service**).
+- Redondant : `-SearchBase` sur l'OU RH **et** le filtre `Department -eq "RH"`. L'un des deux suffit.
 - À améliorer : ajouter exclusion des comptes de service.
 
-### Exercice 1.1 (15 min)
+### Exercice 1.1
 
 **Mission** : Trouver tous les utilisateurs du département IT de maxtec.be.
 
@@ -203,7 +208,7 @@ Get-ADUser -Filter {Department -eq "IT"} -Properties Department |
 
 ---
 
-## Chercher efficacement (20 min)
+## Chercher efficacement
 
 ### Templates de recherche qui fonctionnent
 
@@ -222,10 +227,10 @@ Exemples concrets :
 
 ### Sources fiables (par ordre)
 
-1. **docs.microsoft.com** — documentation officielle
+1. **learn.microsoft.com** — documentation officielle
 2. **Stack Overflow** — à valider avant utilisation
 3. **Reddit r/PowerShell** — cas réels, toujours à adapter
-4. **TechNet / Spiceworks** — à comprendre avant d'exécuter
+4. **Blogs techniques, Spiceworks** — à comprendre avant d'exécuter
 
 ### Signaux d'alarme à éviter
 
@@ -242,7 +247,7 @@ Exemples concrets :
 Vous recevez ces 3 tickets simultanément lundi matin :
 
 1. **Ticket #2851** — Valeria ne peut pas accéder au dossier Ventes.
-2. **Ticket #2852** — Nouveau stagiaire Charles2 doit avoir les mêmes droits que Charles.
+2. **Ticket #2852** — Un nouveau stagiaire, `charles2` (compte hypothétique, à créer pour tester), doit avoir les mêmes droits que Charles.
 3. **Ticket #2853** — Liste des utilisateurs qui n'ont jamais changé leur mot de passe.
 
 ### Mission
@@ -257,45 +262,47 @@ Vous recevez ces 3 tickets simultanément lundi matin :
 **#2851 — Droits de Valeria**
 
 ```powershell
-# Vérifier les groupes actuels
-Get-ADPrincipalGroupMembership -Identity Valeria | Select-Object Name
+# 1. Ses groupes : GG-EU-Ventes-Users doit y être
+Get-ADPrincipalGroupMembership -Identity valeria | Select-Object Name
 
-# Vérifier qui est dans Ventes-Admins
-Get-ADGroupMember -Identity "GG-EU-Ventes-Admin" | Select-Object Name
-
-# Si nécessaire, ajouter (avec -WhatIf d'abord)
-Add-ADGroupMember -Identity "GG-EU-Ventes-Admin" -Members Valeria -WhatIf
+# 2. S'il manque, l'ajouter (avec -WhatIf d'abord). Pas Ventes-Admin : le besoin
+#    est un accès utilisateur, on ne donne pas plus de droits que nécessaire.
+Add-ADGroupMember -Identity "GG-EU-Ventes-Users" -Members valeria -WhatIf
 ```
+
+Si elle est déjà membre, le problème est ailleurs : droits du partage, ou ajout récent au groupe (le jeton n'est mis à jour qu'à la prochaine ouverture de session, voir `klist purge` dans la Cheatsheet).
 
 **#2852 — Copier les droits de Charles vers Charles2**
 
 ```powershell
-$groupesCharles = Get-ADPrincipalGroupMembership -Identity Charles |
-    Select-Object -ExpandProperty Name
+# Les groupes GG- de charles (le groupe principal « Utilisateurs du domaine » est exclu)
+$groupesCharles = Get-ADPrincipalGroupMembership -Identity charles |
+    Where-Object { $_.Name -like "GG-*" }
 
-try {
-    Get-ADUser -Identity Charles2 -ErrorAction Stop
-    Write-Host "Charles2 existe" -ForegroundColor Green
-} catch {
-    Write-Host "Charles2 n'existe pas - créer d'abord" -ForegroundColor Red
-}
-
-$groupesCharles | Where-Object { $_ -ne "Domain Users" } | ForEach-Object {
-    Add-ADGroupMember -Identity $_ -Members Charles2 -WhatIf
+if (Get-ADUser -Filter "SamAccountName -eq 'charles2'") {
+    foreach ($groupe in $groupesCharles) {
+        Add-ADGroupMember -Identity $groupe -Members charles2 -WhatIf
+    }
+} else {
+    Write-Host "charles2 n'existe pas : créez le compte d'abord" -ForegroundColor Red
 }
 ```
 
 **#2853 — Utilisateurs sans changement de mot de passe**
 
 ```powershell
-Get-ADUser -Filter * -SearchBase "OU=EU,DC=maxtec,DC=be" -Properties PasswordLastSet, PasswordNeverExpires |
+# Le mot de passe est défini à la création, quelques secondes après WhenCreated.
+# « Jamais changé » = PasswordLastSet encore à cette date (ou vide : changement exigé).
+Get-ADUser -Filter "Enabled -eq 'True'" -SearchBase "OU=EU,DC=maxtec,DC=be" `
+           -Properties PasswordLastSet, WhenCreated |
     Where-Object {
-        ($_.PasswordLastSet -eq $null -or $_.PasswordLastSet -lt (Get-Date "2020-01-01")) -and
-        $_.Enabled -eq $true
+        $null -eq $_.PasswordLastSet -or
+        $_.PasswordLastSet -lt $_.WhenCreated.AddMinutes(5)
     } |
-    Select-Object Name, SamAccountName, PasswordLastSet, PasswordNeverExpires |
-    Format-Table -AutoSize
+    Format-Table Name, SamAccountName, WhenCreated, PasswordLastSet
 ```
+
+Dans le lab, personne n'a encore changé son mot de passe : tous les comptes sortent. La comparaison entre deux propriétés du même compte se fait avec `Where-Object` : `-Filter` ne sait pas le faire.
 
 ---
 

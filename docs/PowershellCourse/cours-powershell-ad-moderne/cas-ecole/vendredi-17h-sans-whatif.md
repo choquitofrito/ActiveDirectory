@@ -181,7 +181,7 @@ Dans ce scénario : une réunion de direction reportée, la paie en retard d'une
 ```powershell
 # Qui correspond réellement au filtre ?
 Get-ADUser -Filter {Name -like "Alexandre*"} -Properties Title, Department |
-    Select-Object Name, SamAccountName, Title, Department
+    Format-Table Name, SamAccountName, Title, Department
 ```
 
 Dix secondes, et le problème est visible avant toute modification.

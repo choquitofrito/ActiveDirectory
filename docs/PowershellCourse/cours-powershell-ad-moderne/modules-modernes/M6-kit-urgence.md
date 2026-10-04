@@ -1,5 +1,5 @@
 # Module 6 — Kit d'urgence : réagir à un incident AD
-*Durée: 1h00 | Prérequis: Modules 1-5 complétés*
+*Prérequis: Modules 1-5 complétés*
 
 ## Objectif
 
@@ -78,7 +78,9 @@ Une heure plus tard, ce fichier sera plus fiable que vos souvenirs.
 # Quoi vérifier:
 # - Sauvegarde AD récente ?
 # - System State backup ?
-# - Snapshots VMware ?
+# - Instantané de la VM du DC ? (lab : instantané VirtualBox)
+#   Attention : avec plusieurs DC, restaurer l'instantané d'un seul DC
+#   désynchronise l'annuaire. Ne le faire qu'avec l'équipe.
 # - Réplication fonctionnelle ?
 
 Get-WinEvent -LogName "Directory Service" -MaxEvents 10
@@ -92,12 +94,12 @@ Identifier précisément le périmètre affecté.
 $impactedOU = "OU=RH,OU=EU,DC=maxtec,DC=be"
 
 # État actuel
-Get-ADUser -Filter * -SearchBase $impactedOU -Properties Enabled |
+Get-ADUser -Filter * -SearchBase $impactedOU |
     Group-Object Enabled |
     Select-Object Name, Count
 
 # Comparaison avec une OU non affectée
-Get-ADUser -Filter * -SearchBase "OU=IT,OU=EU,DC=maxtec,DC=be" -Properties Enabled |
+Get-ADUser -Filter * -SearchBase "OU=IT,OU=EU,DC=maxtec,DC=be" |
     Group-Object Enabled |
     Select-Object Name, Count
 ```
@@ -228,14 +230,14 @@ Réunion client dans 30 minutes.
 **Instructeur** : l'admin qui vient de lancer le script.
 **Étudiants** : l'équipe appelée en renfort.
 
-**Phase 1 — Arrêter et faire le point (2 min)**
+**Phase 1 — Arrêter et faire le point**
 
 ```
 Admin   : "J'ai exécuté un script et maintenant..."
 Équipe  : [Étape 1] "On n'exécute plus rien. Que s'est-il passé exactement ?"
 ```
 
-**Phase 2 — Investigation (5 min)**
+**Phase 2 — Investigation**
 
 ```
 Équipe  : [Étapes 2-3] "Montrez le script et l'erreur."
@@ -254,7 +256,7 @@ Remove-ADGroupMember -Identity "GG-EU-Ventes-Users" `
 # Remove au lieu de Add, et on retire tous les membres existants
 ```
 
-**Phase 3 — Plan d'action (3 min)**
+**Phase 3 — Plan d'action**
 
 ```
 Équipe : [Étapes 4-8]
@@ -284,8 +286,7 @@ Get-ADDomainController -Filter * | Select-Object Name, IPv4Address, OperatingSys
 
 Write-Host "`n3. ÉCHANTILLON UTILISATEURS:" -ForegroundColor Yellow
 Get-ADUser -Filter * -SearchBase $SearchBase -ResultSetSize 10 -Properties LastLogonDate |
-    Select-Object Name, Enabled, LastLogonDate |
-    Format-Table -AutoSize
+    Format-Table Name, Enabled, LastLogonDate
 
 Write-Host "`n4. GROUPES CRITIQUES:" -ForegroundColor Yellow
 $groupesCritiques = @("Admins du domaine", "GG-EU-IT-Admin", "GG-EU-Ventes-Users")
@@ -298,55 +299,42 @@ foreach ($groupe in $groupesCritiques) {
     }
 }
 
-Write-Host "`n5. ÉVÉNEMENTS RÉCENTS:" -ForegroundColor Yellow
-Get-WinEvent -LogName Security -MaxEvents 5 |
-    Where-Object { $_.Id -in @(4728, 4729, 4756, 4757) } |
-    Select-Object TimeCreated, Id, LevelDisplayName, Message |
-    Format-Table -Wrap
+Write-Host "`n5. CHANGEMENTS RÉCENTS DE MEMBRES DE GROUPES:" -ForegroundColor Yellow
+# 4728/4729 : membre ajouté/retiré d'un groupe global ; 4756/4757 : groupe universel.
+# -FilterHashtable filtre dans le journal : -MaxEvents porte sur les événements déjà filtrés.
+Get-WinEvent -FilterHashtable @{ LogName = 'Security'; Id = 4728, 4729, 4756, 4757 } -MaxEvents 5 |
+    Format-Table TimeCreated, Id, Message -Wrap
 ```
 
-### Récupération d'un groupe vidé
+### Retrouver les anciens membres d'un groupe vidé
+
+Ce script ne répare rien : il retrouve dans le journal de sécurité du DC **qui** a été retiré du groupe, pour préparer la réparation. Il suppose l'audit « Gestion des groupes de sécurité » actif, ce qui est le cas par défaut sur un DC, et doit tourner sur le DC (ou avec `-ComputerName`).
 
 ```powershell
-# recuperation-groupe-vide.ps1
+# anciens-membres-groupe.ps1
 param(
     [Parameter(Mandatory)]
-    [string]$GroupName,
-
-    [switch]$WhatIf = $true
+    [string]$GroupName
 )
 
-Write-Host "=== RÉCUPÉRATION GROUPE VIDÉ ===" -ForegroundColor Cyan
-Write-Host "Groupe: $GroupName" -ForegroundColor Yellow
-# Pas d'opérateur ternaire ? : en PowerShell 5.1
-$mode = if ($WhatIf) { 'SIMULATION' } else { 'RÉEL' }
-Write-Host "Mode: $mode" -ForegroundColor $(if ($WhatIf) { 'Yellow' } else { 'Red' })
+Write-Host "=== ANCIENS MEMBRES DE $GroupName ===" -ForegroundColor Cyan
 
-# 1. Vérifier l'état actuel du groupe
+# 1. Vérifier que le groupe existe et afficher ses membres actuels
 try {
-    $groupe = Get-ADGroup -Identity $GroupName -ErrorAction Stop
     $membres = Get-ADGroupMember -Identity $GroupName -ErrorAction Stop
-
-    if ($membres.Count -gt 0) {
-        Write-Host "Attention: le groupe n'est pas vide ($($membres.Count) membres)" -ForegroundColor Yellow
-        $membres | Select-Object Name | Format-Table
-        $continuer = Read-Host "Continuer ? (oui/non)"
-        if ($continuer -ne "oui") { exit }
-    }
+    Write-Host "Membres actuels : $($membres.Count)" -ForegroundColor Yellow
 } catch {
-    Write-Error "Groupe $GroupName introuvable: $($_.Exception.Message)"
-    exit
+    Write-Host "Groupe $GroupName introuvable : $($_.Exception.Message)" -ForegroundColor Red
+    return
 }
 
-# 2. Chercher dans les logs récents les anciens membres
-Write-Host "`nRecherche dans les logs..." -ForegroundColor Yellow
+# 2. Événements 4729 (membre retiré d'un groupe global) des 2 dernières heures
+Write-Host "`nRecherche dans le journal de sécurité..." -ForegroundColor Yellow
 
-$evenements = Get-WinEvent -LogName Security -MaxEvents 100 |
-    Where-Object {
-        $_.Id -eq 4729 -and
-        $_.Message -match $GroupName -and
-        $_.TimeCreated -gt (Get-Date).AddHours(-2)
-    }
+$depuis = (Get-Date).AddHours(-2)
+$evenements = Get-WinEvent -FilterHashtable @{ LogName = 'Security'; Id = 4729; StartTime = $depuis } `
+                           -ErrorAction SilentlyContinue |
+    Where-Object { $_.Message -match $GroupName }
 
 if ($evenements) {
     Write-Host "Événements de suppression trouvés:" -ForegroundColor Green
@@ -368,8 +356,8 @@ if ($evenements) {
 
 ```
 Niveau 1 — Support local
-  Admin principal: richard@maxtec.be
-  Backup: irene@maxtec.be
+  Admin principal: irene@maxtec.be
+  Backup: ivan@maxtec.be
 
 Niveau 2 — Management IT
   Responsable IT: responsable.it@maxtec.be
@@ -423,7 +411,9 @@ En résumé : *arrêter — documenter — prévenir — valider — agir.*
 
 ---
 
-## Fin du cours
+## Bilan des modules 1 à 6
+
+Le module 7 (optionnel) reprend ces réflexes dans un éditeur avec assistant IA.
 
 Ce que vous maîtrisez maintenant :
 

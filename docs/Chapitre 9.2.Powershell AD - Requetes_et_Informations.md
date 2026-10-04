@@ -54,7 +54,6 @@ Voici les opérateurs de filtre les plus utilisés avec les commandes PowerShell
 
 **Exemples rapides :**
 
-
 ```powershell
 # Lister tous les utilisateurs (limité aux 10 premiers pour l'exemple)
 Get-ADUser -Filter * -ResultSetSize 10
@@ -80,10 +79,9 @@ Get-ADUser -Identity victor -Properties DisplayName, EmailAddress, Department
 
 Le script du lab renseigne `Country = BE` pour tous les comptes. Pour que le filtre ait quelque chose à exclure, changez à la main le pays d'un ou deux utilisateurs (onglet **Adresse**, par exemple France).
 
-
 ```powershell
-# Trouver tous les utilisateurs de la Belgique 
-Get-ADUser -Filter {Country -eq "BE"} -Properties Country | 
+# Trouver tous les utilisateurs de la Belgique
+Get-ADUser -Filter {Country -eq "BE"} -Properties Country |
     Format-Table Name, SamAccountName, Country
 ```
 
@@ -132,8 +130,8 @@ Autres options utiles : `-AccountDisabled`, `-PasswordNeverExpires`, `-AccountEx
     Get-ADUser -Filter {Name -like "*va*"} |
         Format-Table Name, SamAccountName
     
-    # 2. Département IT
-    Get-ADUser -Filter {Department -eq "IT"} -Properties Department |
+    # 2. Département IT (-Filter n'a pas besoin de -Properties pour filtrer)
+    Get-ADUser -Filter {Department -eq "IT"} |
         Format-Table Name, SamAccountName
     
     # 3. Actifs créés après le 1er janvier 2024
@@ -145,7 +143,7 @@ Autres options utiles : `-AccountDisabled`, `-PasswordNeverExpires`, `-AccountEx
 
 ### Entraînement 1.1 — Filtres
 
-Toujours le même schéma : **`Get-ADUser -Filter {...}` → `-Properties` pour chaque attribut non renvoyé par défaut → `Format-Table`**. Seuls changent l'attribut et l'opérateur.
+Toujours le même schéma : **`Get-ADUser -Filter {...}` → `-Properties` pour chaque attribut à afficher qui n'est pas renvoyé par défaut → `Format-Table`**. Seuls changent l'attribut et l'opérateur.
 
 !!! example "Exercices"
     
@@ -170,7 +168,7 @@ Toujours le même schéma : **`Get-ADUser -Filter {...}` → `-Properties` pour 
     # 3. Ventes, créés ces 30 derniers jours
     $limite = (Get-Date).AddDays(-30)
     Get-ADUser -Filter {Department -eq "Ventes" -and WhenCreated -ge $limite} `
-               -Properties Department, WhenCreated |
+               -Properties WhenCreated |
         Format-Table Name, WhenCreated
     ```
     
@@ -186,9 +184,9 @@ Toujours le même schéma : **`Get-ADUser -Filter {...}` → `-Properties` pour 
     2. Les utilisateurs actifs dont le **mot de passe n'a pas changé depuis 90 jours** (`PasswordLastSet`)
     3. Les utilisateurs sans adresse email (`EmailAddress` vide ou null)
     
-    *Pour (1) : bouclez sur les comptes désactivés avec `foreach ($user in ...)`, récupérez les groupes de chacun avec `Get-ADPrincipalGroupMembership` (vu en 9.1) et gardez ceux qui commencent par `GG-EU` avec `Where-Object { $_.Name -like "GG-EU*" }`. Dans le `Where-Object`, `$_` est le groupe testé ; l'utilisateur, lui, reste dans `$user`.*
+    *Pour (1) : si aucun compte du lab n'est désactivé, désactivez d'abord `rene` dans la GUI (clic droit > **Désactiver le compte**). Ensuite, bouclez sur les comptes désactivés avec `foreach ($user in ...)`, récupérez les groupes de chacun avec `Get-ADPrincipalGroupMembership` (vu en 9.1) et gardez ceux qui commencent par `GG-EU` avec `Where-Object { $_.Name -like "GG-EU*" }`. Dans le `Where-Object`, `$_` est le groupe testé ; l'utilisateur, lui, reste dans `$user`.*
     
-    *Pour (2) : `(Get-Date).AddDays(-90)` donne la date limite.*
+    *Pour (2) : `(Get-Date).AddDays(-90)` donne la date limite. Dans un lab installé récemment, la liste est vide : pour vérifier la requête, remplacez `-90` par `0`.*
     
     *Pour (3) : un attribut vide ne correspond même pas au joker `*`.*
 
@@ -220,8 +218,9 @@ Toujours le même schéma : **`Get-ADUser -Filter {...}` → `-Properties` pour 
         Format-Table Name, SamAccountName
     ```
     
+    Au (3), les 13 comptes du script du lab n'apparaissent pas : ils ont tous un email. Apparaissent les comptes intégrés (`Administrateur`, `Invité`, `krbtgt`...) et les comptes créés à la main sans email au fil des exercices (`chloe`, par exemple).
+    
     Variante pour (3), filtrée côté client : `Get-ADUser -Filter * -Properties EmailAddress | Where-Object { [string]::IsNullOrEmpty($_.EmailAddress) }`. Même résultat, mais tout l'annuaire est rapatrié avant d'être filtré.
-
 
 ### Entraînement 1.2 — Comptes à risque
 
@@ -230,7 +229,7 @@ Même démarche à chaque question : **une question de sécurité → `Search-AD
 !!! example "Exercices"
     
     1. Les comptes utilisateurs **désactivés**. Affichez `Name` et `SamAccountName`.
-       *Indice : `Search-ADAccount -AccountDisabled -UsersOnly`. Pour tester, désactivez d'abord `rene` dans la GUI.*
+       *Indice : `Search-ADAccount -AccountDisabled -UsersOnly`. `rene`, désactivé pour la mission 1.2, doit apparaître.*
     2. Les comptes dont le mot de passe **n'expire jamais**, de deux façons : avec `Search-ADAccount`, puis avec `-Filter`.
        *Indice : l'option s'appelle `-PasswordNeverExpires` dans `Search-ADAccount`, et l'attribut `PasswordNeverExpires` dans le filtre (à demander avec `-Properties`).*
     3. Les comptes **actifs** sans **titre** (`Title` vide).
@@ -256,7 +255,9 @@ Même démarche à chaque question : **une question de sécurité → `Search-AD
         Format-Table Name, SamAccountName
     ```
     
-    Au (3), `Administrateur` apparaît : les comptes intégrés n'ont pas de titre. C'est attendu.
+    Au (1), `Invité`, `krbtgt` et `DefaultAccount` apparaissent aussi : ces comptes intégrés sont désactivés par défaut. Au (3), `Administrateur` apparaît (les comptes intégrés n'ont pas de titre), ainsi que les comptes créés à la main sans fonction (`chloe`, par exemple). C'est attendu.
+    
+    Réactivez `rene` dans la GUI avant de continuer.
 
 ## 2. 🔹 Obtenir des informations sur les groupes
 
@@ -287,12 +288,14 @@ Get-ADGroup -Filter {Name -like "GG-EU-RH*"} | ForEach-Object {
 
 !!! example "Objectif"
     
-    1. Listez tous les groupes dont le nom contient `"IT"`, avec leur description
+    1. Listez tous les groupes dont le nom contient `-IT-`, avec leur description
     2. Affichez les membres du groupe `GG-EU-IT-Users` (nom + SamAccountName)
     3. Listez les groupes `GG-EU` **vides**
     4. *Bonus* : listez les groupes `GG-EU` dont **aucun membre n'est actif** (vides, ou uniquement des comptes désactivés)
     
     *Note : `Get-ADGroupMember` n'accepte pas `-Filter`, utilisez `-Identity`.*
+    
+    *Pour (1) : `-like` ne distingue pas les majuscules. `"*IT*"` trouverait aussi `Invités` ou `Éditeurs de certificats` ; `"*-IT-*"` ne garde que les groupes du service.*
     
     *Pour (3) : même méthode que la mission 3.2a du chapitre 9.1, `(Get-ADGroupMember -Identity ...).Count`.*
     
@@ -301,8 +304,8 @@ Get-ADGroup -Filter {Name -like "GG-EU-RH*"} | ForEach-Object {
 ??? success "Solution"
     
     ```powershell
-    # 1. Groupes contenant "IT"
-    Get-ADGroup -Filter {Name -like "*IT*"} -Properties Description |
+    # 1. Groupes contenant -IT- (Description n'est pas renvoyée par défaut)
+    Get-ADGroup -Filter {Name -like "*-IT-*"} -Properties Description |
         Format-Table Name, Description
     
     # 2. Membres de GG-EU-IT-Users
@@ -335,6 +338,8 @@ Get-ADGroup -Filter {Name -like "GG-EU-RH*"} | ForEach-Object {
         }
     }
     ```
+    
+    Si tous les groupes `GG-EU` ont au moins un membre actif (c'est le cas après le script du lab), (3) et (4) n'affichent rien : c'est le résultat attendu.
 
 ### Entraînement 2.1 — Membres et appartenances
 
@@ -373,9 +378,7 @@ Deux commandes, une seule logique : **`-Identity` désigne l'objet de départ**.
 
 !!! tip "Le paramètre -Identity"
     
-    `-Identity` accepte un nom, un SamAccountName, un DistinguishedName ou un GUID. Les formats sont détaillés au chapitre 9.1, section [Variables et commandes AD](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md#variables-et-commandes-ad).
-
-
+    `-Identity` désigne un objet précis : SamAccountName, DistinguishedName, GUID ou SID. Les formats sont détaillés au chapitre 9.1, section [Variables et commandes AD](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md#variables-et-commandes-ad).
 
 ## 3. 🔹 Explorer les Unités d'Organisation (OUs)
 
@@ -383,14 +386,12 @@ Les OUs structurent votre Active Directory. PowerShell permet de les explorer et
 
 ### Commandes de base
 
-
-
 ```powershell
 # Lister toutes les OUs
 Get-ADOrganizationalUnit -Filter *
 
 # Lister une OU spécifique
-Get-ADOrganizationalUnit -Filter { Name -eq "RH"}
+Get-ADOrganizationalUnit -Filter {Name -eq "RH"}
 
 # Lister uniquement les OUs situées directement sous EU (un seul niveau)
 Get-ADOrganizationalUnit -Filter * -SearchBase "OU=EU,DC=maxtec,DC=be" -SearchScope OneLevel
@@ -401,15 +402,12 @@ Get-ADOrganizationalUnit -Filter * -SearchBase "OU=EU,DC=maxtec,DC=be" -SearchSc
     `-SearchBase` est facultatif. Sans lui, la recherche porte sur tout le domaine. Avec lui, elle démarre à l'OU indiquée (et descend dans ses sous-OUs, sauf si vous précisez `-SearchScope OneLevel`). Si l'OU indiquée n'existe pas, la commande lève une erreur : voir le `try / catch` du mini-projet du chapitre 9.1.
 
 ```powershell
-# Obtenir les objets dans une OU spécifique
+# Tous les objets d'une OU, quel que soit leur type (utilisateurs, groupes, ordinateurs...)
 Get-ADObject -Filter * -SearchBase "OU=Users,OU=Comptabilite,OU=EU,DC=maxtec,DC=be"
-```
 
-```powershell
 # Compter les utilisateurs dans une OU
 (Get-ADUser -Filter * -SearchBase "OU=Users,OU=Comptabilite,OU=EU,DC=maxtec,DC=be").Count
 ```
-
 
 ### Entraînement 3.1 — Chercher dans une branche
 
@@ -441,7 +439,7 @@ Le schéma : **`-SearchBase "<DN de l'OU>"` pour choisir le point de départ**, 
     (Get-ADUser -Filter * -SearchBase "OU=EU,DC=maxtec,DC=be" -SearchScope OneLevel).Count
     ```
     
-    Au (3), la première commande compte les 13 comptes du lab ; la seconde renvoie 0, car tous les comptes sont dans les OUs `Users` des services, pas directement dans `EU`.
+    Au (3), la première commande compte tous les comptes de la branche (les 13 du script du lab, plus ceux créés dans les exercices précédents) ; la seconde renvoie 0, car tous les comptes sont dans les OUs `Users` des services, pas directement dans `EU`.
 
 ## 4. 🔹 Exportation des données
 
@@ -468,7 +466,7 @@ Get-ADUser -Filter * -Properties Department, Title, EmailAddress |
 
 ```powershell
 # Exporter vers un fichier HTML (plus visuel qu'un CSV)
-Get-ADUser -Filter * -Properties Department, Title | 
+Get-ADUser -Filter * -Properties Department, Title |
     Select-Object Name, SamAccountName, Department, Title |
     ConvertTo-Html -Title "Liste des utilisateurs" |
     Out-File -FilePath "C:\Scripts\utilisateurs.html" -Encoding UTF8
@@ -535,7 +533,7 @@ Toujours la même chaîne : **`Get-AD...` avec `-Properties` → `Select-Object`
         Export-Csv -Path "C:\Scripts\membres_rh.csv" -NoTypeInformation -Encoding UTF8
     
     # 2. Équipe IT en HTML
-    Get-ADUser -Filter {Department -eq "IT"} -Properties Department, Title, EmailAddress |
+    Get-ADUser -Filter {Department -eq "IT"} -Properties Title, EmailAddress |
         Select-Object Name, Title, EmailAddress |
         ConvertTo-Html -Title "Equipe IT" |
         Out-File -FilePath "C:\Scripts\equipe_it.html" -Encoding UTF8

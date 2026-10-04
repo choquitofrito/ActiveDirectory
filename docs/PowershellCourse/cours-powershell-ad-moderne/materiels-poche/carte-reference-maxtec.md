@@ -8,7 +8,7 @@
 ### Diagnostic
 ```powershell
 # Compte désactivé ou verrouillé ?
-Get-ADUser -Identity [nom] -Properties Enabled,LockedOut,LastLogonDate
+Get-ADUser -Identity [nom] -Properties LockedOut,LastLogonDate   # Enabled est renvoyé par défaut
 
 # Groupes d'un utilisateur
 Get-ADPrincipalGroupMembership -Identity [nom]
@@ -52,6 +52,10 @@ OU=EU,DC=maxtec,DC=be
 ├── OU=Ventes        (Victor, Vanessa, Valeria, Valentin)
 ├── OU=RH            (Rene, Rebecca, Richard)
 └── OU=Comptabilite  (Charles, Cindy, Charlotte)
+
+Dans chaque service : OU=Users (comptes), OU=Groups (GG-EU-<service>-Users / -Admin),
+OU=Computers. Exemple : OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be
+Login = prénom en minuscules (richard). Mot de passe du lab : Password1!
 ```
 
 ### Syntaxe des filtres
@@ -64,11 +68,14 @@ OU=EU,DC=maxtec,DC=be
 
 # Différent
 -Filter {Propriété -ne "Valeur"}
+
+# Avec une variable : chaîne entre guillemets doubles (forme la plus fiable)
+-Filter "Department -eq '$service'"
 ```
 
 ### Contacts
 - **Support** : admin@maxtec.be
-- **Admin de secours** : richard@maxtec.be
+- **Admin de secours** : irene@maxtec.be
 - **Incident** : arrêter, documenter, prévenir (voir Module 6)
 
 ### À ne pas faire
