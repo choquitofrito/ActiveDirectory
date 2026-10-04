@@ -16,7 +16,7 @@ Les horaires ne comptent pas les pauses (déjeuner + 2 × 15 min à ajouter).
 | 2 | Le réseau au service de l'AD, puis les identités | Que se passe-t-il sur le réseau quand quelqu'un ouvre une session ? Comment organiser 13 personnes et 4 services ? |
 | 3 | Permissions et GPO | Qui a accès à quoi, et comment on configure 100 postes sans y toucher ? |
 | 4 | PowerShell et observation | Comment faire en 1 ligne ce qu'on a fait en 20 clics — et comment savoir ce qui s'est passé ? |
-| 5 | Sécurité et projet | Comment protéger un AD, et savez-vous tout remonter seuls ? |
+| 5 | Projet final | Savez-vous tout remonter seuls ? |
 
 Les jours 2, 3 et 4 se terminent par un **ticket de dépannage** (`Exercices: Depannage.md`) : chaque étudiant installe la panne sur son propre lab avec `docs/Labo et Exercices/scripts/Depannage.ps1` (téléchargeable depuis la page Dépannage), **sans lire le script**, après un instantané des VMs. Ils n'ont que le symptôme. Règle annoncée dans le syllabus (`index.md`) : on joue le jeu, personne ne contrôle. Retour arrière : instantané ou `-Restaurer`.
 
@@ -73,19 +73,19 @@ Les jours 2, 3 et 4 se terminent par un **ticket de dépannage** (`Exercices: De
 | 1:30 | Requêtes : `-Filter`, dates, groupes, exports CSV/HTML, `Search-ADAccount` | Ch9.2 |
 | 1:45 | Créer et modifier : `-WhatIf` d'abord, onboarding depuis CSV | Ch9.3 (+ M5 en lecture) |
 | 1:15 | **De l'action à l'événement** : activer l'audit, provoquer, retrouver avec l'Observateur et `Get-WinEvent` | Ch10 |
-| 0:45 | Ticket **D2** — "Ines ne peut plus se connecter" (utilise `Search-ADAccount` et l'événement 4740, vus ce jour-là ; la PSO est découverte dans le ticket et approfondie au Ch11) | `Exercices: Depannage.md` |
+| 0:45 | Ticket **D2** — "Ines ne peut plus se connecter" (utilise `Search-ADAccount` et l'événement 4740, vus ce jour-là ; la PSO est découverte dans le ticket) | `Exercices: Depannage.md` |
 
 ---
 
-## Jour 5 — Sécurité et projet final
+## Jour 5 — Projet final
 
 | Durée | Bloc | Matériel |
 |------:|------|----------|
-| 2:00 | Sécurité AD : tiers, groupes privilégiés, Kerberos/NTLM ; pratiques 1 (audit), 2 (FGPP), 4 (LAPS), 5 (corbeille) ; pratiques 3 (Protected Users) et 6 (PingCastle) en démo formateur | Ch11 |
-| 4:15 | **Projet final** en binômes : département Logistique (structure, AGDLP, GPO, délégation, sécurité, incident surprise) | `Projet_Final.md` |
+| 1:15 | Rattrapage selon le groupe : ticket D3 ou un bloc de la réserve | Voir « Réserve » |
+| 5:00 | **Projet final** en binômes : département Logistique (structure, AGDLP, GPO, délégation, sécurité, incident surprise) | `Projet_Final.md` |
 | 0:45 | Démos (5 min par binôme) + vérification automatique + débriefing — chaque binôme lance `Depannage.ps1 -Ticket Incident -Restaurer` **avant** les démos | `Projet_Final.md` — grille /20 |
 
-Le projet est conçu pour ~5 h : sur 4 h 15, la partie 5 (sécurité et reporting) peut être réduite au seul rapport CSV. Si le jour 4 a pris de l'avance, démarrer la partie 1 du projet en fin de jour 4.
+Le projet est conçu pour ~5 h. Si le groupe est en retard, la partie 5 (sécurité et reporting) peut être réduite au seul rapport CSV et le bloc de rattrapage raccourci. Si le jour 4 a pris de l'avance, démarrer la partie 1 du projet en fin de jour 4.
 
 ---
 
@@ -99,7 +99,6 @@ Le projet est conçu pour ~5 h : sur 4 h 15, la partie 5 (sécurité et reportin
 | 1:00 | GPO-1 1.2 (invite de commandes) et 2.3 (déploiement de Chrome) | `Exercices: GPO-1.md` |
 | 0:45 | GPO-2 Ex. 5-6 (restriction de logon, script de logon) | `Exercices: GPO-2.md` |
 | 1:30 | GPO-3 (redirection de dossiers, ciblage) | `Exercices: GPO-3.md` |
-| 0:30 | Ch11 pratiques 3 et 6 faites par les étudiants | Ch11 |
 
 ---
 
@@ -130,8 +129,6 @@ Le projet est conçu pour ~5 h : sur 4 h 15, la partie 5 (sécurité et reportin
 - [ ] VirtualBox 7.x sur les postes.
 - [ ] Vérifier que les scripts `creation_structure` / `suppression_structure` passent sur un lab vierge.
 - [ ] Tester chaque ticket de `Depannage.ps1` (panne, puis `-Restaurer`) sur un lab complet, avec `docs/instructeur/Verify-Depannage.ps1` pour contrôler les corrections.
-- [ ] Télécharger PingCastle (édition gratuite) pour la démo du jour 5.
 - [ ] **RSAT sur le client** : le poste du lab n'a pas Internet. Installez « RSAT : Services AD DS » et « RSAT : Gestion des stratégies de groupe » dans l'image cliente avant le cours (ou, le jour 3, carte NAT temporaire sur le client → `Add-WindowsCapability` → retirer la carte → `ipconfig /flushdns`).
-- [ ] DC 2022 et client Windows 10 : appliquer au moins la mise à jour cumulative d'avril 2023 avant le cours (sinon pas de Windows LAPS intégré, Ch11).
 - [ ] Imprimer `CHEATSHEET.md` (dont la section diagnostic réseau).
 - [ ] Préparer le CSV du jour 4 (Ch9.3) et celui du projet (dans `Projet_Final.md`).

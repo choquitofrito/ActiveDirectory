@@ -68,7 +68,7 @@ C'est un choix pédagogique, et une mauvaise pratique volontaire : un mot de pas
     En entreprise : un mot de passe différent par compte, long (phrase de passe), changé à la première connexion ; un coffre pour les comptes d'administration et le DSRM ; LAPS pour les comptes locaux des postes.
 
 !!! note "Les seules exceptions, volontaires"
-    Le Ch11 (stratégie `PSO-IT-Admin`) et le projet final appliquent une stratégie de mot de passe de 14 caractères aux administrateurs. `Password1!` n'en fait que 10 : c'est le but de l'exercice de le voir refusé. Le Ch11 change donc le mot de passe d'`irene` (`Court_1234` refusé, puis `Maxtec_Admin_26!` accepté) et crée un compte d'administration séparé avec `Tier1_Maxtec_2026!`. Ces mots de passe sont indiqués dans l'exercice concerné.
+    Le projet final crée une stratégie de mot de passe de 14 caractères pour les administrateurs de la Logistique. `Password1!` n'en fait que 10 : c'est voulu, le projet demande d'en mesurer les conséquences.
 
 ---
 
@@ -167,7 +167,6 @@ Ces objets ne sont pas créés par `creation_structure.ps1` : ils apparaissent a
 | Partage `Logistique` (`C:\Shares\Logistique` → `\\dns1\Logistique`) | DC | Projet final |
 | Compte `chloe` (Chloé Dumont) | `OU=Users,OU=Comptabilite,OU=EU` | Gestion des utilisateurs, Ex. 1 |
 | Comptes `jean.dupont`, `sophie.dubois` | `OU=Users,OU=IT,OU=EU` et `OU=Users,OU=Ventes,OU=EU` | Chapitre 9.3 |
-| Compte `irene-adm` | `OU=Users,OU=IT,OU=EU` | Chapitre 11 |
 | OU `Logistique` (louis, lea, lucas, laura ; `GG-EU-Logistique-*`, `DL-Logistique-*`) | sous `OU=EU` | Projet final |
 | OU `Achats` (adrien, agathe ; `GG-EU-Achats-*`) et OU `Marketing` | sous `OU=EU` | Exercice en autonomie : OUs et départements complémentaires |
 
