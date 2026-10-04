@@ -27,13 +27,7 @@
 
 Les commandes PowerShell permettent d'extraire rapidement des informations sur les utilisateurs avec différents niveaux de détail.
 
-### Découvrir les attributs disponibles
-
-!!! info "Découvrir les propriétés"
-    
-    Avant de pouvoir rechercher des informations spécifiques, il est important de connaître les propriétés disponibles. Ces propriétés sont disponibles dans l'interface graphique via le menu `Propriétés` > `Editeur d'attributs` dans `Utilisateurs et groupes d'AD` (il faut d'abord activer l'option `Fonctionnalités avancées` dans le menu principal de `Utilisateurs et groupes d'AD`).
-
-
+Pour retrouver le nom exact d'une propriété (GUI : `Éditeur d'attributs` ; PowerShell : `Get-Member`), voir le chapitre 9.1, section [Quelles propriétés sont disponibles ?](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md#quelles-proprietes-sont-disponibles).
 
 ### Les filtres les plus courants dans PowerShell AD
 
@@ -43,7 +37,7 @@ Voici les opérateurs de filtre les plus utilisés avec les commandes PowerShell
 |-----------|--------------|----------------------|
 | `-eq`     | Égal à       | `{Department -eq "Comptabilite"}` |
 | `-ne`     | Différent de | `{Enabled -ne $true}` |
-| `-like`   | Correspondance avec joker (`*` ou `?`) | `{Name -like "Mar*"} ` |
+| `-like`   | Correspondance avec joker (`*` ou `?`) | `{Name -like "Mar*"}` |
 | `-notlike`| Ne correspond pas au motif | `{Name -notlike "*test*"}` |
 | `-gt`     | Supérieur à  | `{WhenCreated -gt $date}` |
 | `-ge`     | Supérieur ou égal à | `{WhenCreated -ge $date}` |
@@ -71,8 +65,12 @@ Get-ADUser -Filter {SamAccountName -eq "victor"}
 # Obtenir les utilisateurs dont le nom commence par V
 Get-ADUser -Filter {Name -like "V*"}
 
+# Comparer une date : on la prépare d'abord dans une variable [datetime]
+$date = [datetime]'2024-01-01'
+Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated
+
 # Obtenir un utilisateur avec des propriétés spécifiques
-# La propriété 'Department' en PowerShell correspond au champ 'Service' dans l'interface française d'AD
+# Department (PowerShell) = champ « Service » de l'onglet Organisation dans la GUI
 Get-ADUser -Filter {SamAccountName -eq "victor"} -Properties DisplayName, EmailAddress, Department
 ```
 
@@ -87,11 +85,6 @@ Get-ADUser -Filter {Country -eq "BE"} -Properties Country |
     Format-Table Name, SamAccountName, Country
 ```
 
-!!! note "Formatage des résultats"
-    
-    Format-Table permet de formatter les résultats de manière lisible, c'est juste une option
-
-
 #### Trouver les utilisateurs actifs
 
 ```powershell
@@ -101,8 +94,6 @@ Get-ADUser -Filter {Enabled -eq $true} | Format-Table Name
 #### Filtre avec AND : utilisateurs belges ET du service Ventes
 
 ```powershell
-# Note: Dans PowerShell, la propriété s'appelle 'Department' (en anglais)
-# mais dans l'interface française d'AD, ce champ s'appelle 'Service'
 Get-ADUser -Filter {Country -eq "BE" -and Department -eq "Ventes"} -Properties Country,Department |
     Format-Table Name, SamAccountName, Country, Department
 ```
@@ -144,11 +135,10 @@ Autres options utiles : `-AccountDisabled`, `-PasswordNeverExpires`, `-AccountEx
         Format-Table Name, SamAccountName
     
     # 3. Actifs créés après le 1er janvier 2024
-    $depuis = Get-Date "2024-01-01"
+    $depuis = [datetime]'2024-01-01'
     Get-ADUser -Filter {Enabled -eq $true -and WhenCreated -ge $depuis} `
                -Properties WhenCreated |
-        Select-Object Name, SamAccountName, WhenCreated |
-        Format-Table
+        Format-Table Name, SamAccountName, WhenCreated
     ```
 
 ### Mission 1.2 — Audit : comptes à risque
@@ -161,17 +151,25 @@ Autres options utiles : `-AccountDisabled`, `-PasswordNeverExpires`, `-AccountEx
     2. Les utilisateurs actifs dont le **mot de passe n'a pas changé depuis 90 jours** (`PasswordLastSet`)
     3. Les utilisateurs sans adresse email (`EmailAddress` vide ou null)
     
+    *Pour (1) : bouclez sur les comptes désactivés avec `foreach ($user in ...)`, récupérez les groupes de chacun avec `Get-ADPrincipalGroupMembership` (vu en 9.1) et gardez ceux qui commencent par `GG-EU` avec `Where-Object { $_.Name -like "GG-EU*" }`. Dans le `Where-Object`, `$_` est le groupe testé ; l'utilisateur, lui, reste dans `$user`.*
+    
     *Pour (2) : `(Get-Date).AddDays(-90)` donne la date limite.*
+    
+    *Pour (3) : un attribut vide ne correspond même pas au joker `*`.*
 
 ??? success "Solution"
     
     ```powershell
     # 1. Désactivés membres d'un groupe GG-EU
-    Get-ADUser -Filter {Enabled -eq $false} | ForEach-Object {
-        $groupes = Get-ADPrincipalGroupMembership -Identity $_.SamAccountName |
+    $desactives = Get-ADUser -Filter {Enabled -eq $false}
+    foreach ($user in $desactives) {
+        $groupes = Get-ADPrincipalGroupMembership -Identity $user.SamAccountName |
                        Where-Object { $_.Name -like "GG-EU*" }
         if ($groupes) {
-            Write-Host "$($_.Name) - désactivé mais membre de : $($groupes.Name -join ', ')" -ForegroundColor Yellow
+            Write-Host "$($user.Name) - désactivé mais membre de :" -ForegroundColor Yellow
+            foreach ($groupe in $groupes) {
+                Write-Host "  - $($groupe.Name)"
+            }
         }
     }
     
@@ -179,14 +177,15 @@ Autres options utiles : `-AccountDisabled`, `-PasswordNeverExpires`, `-AccountEx
     $limite = (Get-Date).AddDays(-90)
     Get-ADUser -Filter {Enabled -eq $true -and PasswordLastSet -lt $limite} `
                -Properties PasswordLastSet |
-        Select-Object Name, SamAccountName, PasswordLastSet |
-        Sort-Object PasswordLastSet | Format-Table
+        Sort-Object PasswordLastSet |
+        Format-Table Name, SamAccountName, PasswordLastSet
     
     # 3. Sans email
-    Get-ADUser -Filter {Enabled -eq $true} -Properties EmailAddress |
-        Where-Object { [string]::IsNullOrEmpty($_.EmailAddress) } |
+    Get-ADUser -Filter {EmailAddress -notlike "*"} |
         Format-Table Name, SamAccountName
     ```
+    
+    Variante pour (3), filtrée côté client : `Get-ADUser -Filter * -Properties EmailAddress | Where-Object { [string]::IsNullOrEmpty($_.EmailAddress) }`. Même résultat, mais tout l'annuaire est rapatrié avant d'être filtré.
 
 
 ## 2. 🔹 Obtenir des informations sur les groupes
@@ -200,22 +199,19 @@ Les groupes sont essentiels dans AD pour gérer les permissions. PowerShell perm
 Get-ADGroup -Filter *
 
 # Obtenir les membres d'un groupe
-Get-ADGroup -Filter {Name -eq "GG-EU-RH-Users"} | ForEach-Object {
-    Get-ADGroupMember -Identity $_.DistinguishedName
-}
-```
+Get-ADGroupMember -Identity "GG-EU-RH-Users"
 
-!!! info "ForEach-Object"
-    
-    ForEach-Object permet de parcourir chaque objet retourné par Get-ADGroup. Le `$_` représente l'objet actuel utilisé dans la boucle
-
-
-```powershell
 # Obtenir les groupes d'un utilisateur
-Get-ADUser -Filter {SamAccountName -eq "victor"} | ForEach-Object {
-    Get-ADPrincipalGroupMembership -Identity $_.DistinguishedName
+Get-ADPrincipalGroupMembership -Identity victor
+
+# Les membres de plusieurs groupes : ForEach-Object garde le groupe courant dans $_
+Get-ADGroup -Filter {Name -like "GG-EU-RH*"} | ForEach-Object {
+    Write-Host "== $($_.Name)"
+    Get-ADGroupMember -Identity $_.Name | Format-Table Name, SamAccountName
 }
 ```
+
+`Get-ADGroup ... | Get-ADGroupMember` fonctionne aussi, mais donne les membres en vrac, sans savoir de quel groupe vient chacun. Avec `ForEach-Object`, le groupe courant reste disponible dans `$_` (voir les boucles au chapitre 9.1).
 
 ### Mission 2.1 — Exploration des groupes
 
@@ -223,9 +219,14 @@ Get-ADUser -Filter {SamAccountName -eq "victor"} | ForEach-Object {
     
     1. Listez tous les groupes dont le nom contient `"IT"`, avec leur description
     2. Affichez les membres du groupe `GG-EU-IT-Users` (nom + SamAccountName)
-    3. Listez tous les groupes dont **aucun membre n'est actif** (groupes vides ou uniquement désactivés)
+    3. Listez les groupes `GG-EU` **vides**
+    4. *Bonus* : listez les groupes `GG-EU` dont **aucun membre n'est actif** (vides, ou uniquement des comptes désactivés)
     
     *Note : `Get-ADGroupMember` n'accepte pas `-Filter`, utilisez `-Identity`.*
+    
+    *Pour (3) : même méthode que la mission 3.2 du chapitre 9.1, `(Get-ADGroupMember -Identity ...).Count`.*
+    
+    *Pour (4) : bouclez sur les groupes, puis sur leurs membres. Pour chaque membre de type utilisateur (`objectClass` vaut `user`), lisez `Enabled` avec `Get-ADUser`. Un compteur `$actifs` qui part de 0 et augmente de 1 (`$actifs++`) à chaque compte actif vous dit, en fin de groupe, s'il faut l'afficher.*
 
 ??? success "Solution"
     
@@ -238,15 +239,29 @@ Get-ADUser -Filter {SamAccountName -eq "victor"} | ForEach-Object {
     Get-ADGroupMember -Identity "GG-EU-IT-Users" |
         Format-Table Name, SamAccountName
     
-    # 3. Groupes vides ou sans membres actifs
+    # 3. Groupes GG-EU vides
     Get-ADGroup -Filter {Name -like "GG-EU*"} | ForEach-Object {
-        # Un groupe peut contenir des groupes ou des ordinateurs : Get-ADUser échouerait
-        # sur ces membres, on ne garde donc que les objets de type 'user'.
-        $membres = @(Get-ADGroupMember -Identity $_.Name |
-                       Where-Object { $_.objectClass -eq 'user' } |
-                       Where-Object { (Get-ADUser -Identity $_.SamAccountName).Enabled })
-        if ($membres.Count -eq 0) {
-            Write-Host "Groupe sans membres actifs : $($_.Name)"
+        if ((Get-ADGroupMember -Identity $_.Name).Count -eq 0) {
+            Write-Host "Groupe vide : $($_.Name)"
+        }
+    }
+    
+    # 4. Bonus : groupes GG-EU sans membre actif
+    $groupes = Get-ADGroup -Filter {Name -like "GG-EU*"}
+    foreach ($groupe in $groupes) {
+        $actifs = 0
+        $membres = Get-ADGroupMember -Identity $groupe.Name
+        foreach ($membre in $membres) {
+            # Un groupe peut contenir des groupes ou des ordinateurs :
+            # Get-ADUser échouerait sur eux, on ne teste que les utilisateurs.
+            if ($membre.objectClass -eq 'user') {
+                if ((Get-ADUser -Identity $membre.SamAccountName).Enabled) {
+                    $actifs++
+                }
+            }
+        }
+        if ($actifs -eq 0) {
+            Write-Host "Groupe sans membre actif : $($groupe.Name)"
         }
     }
     ```
@@ -297,55 +312,16 @@ L'exportation des données est essentielle pour le reporting et l'analyse.
 
 ### Exportation vers CSV
 
-!!! note "Sélection d'attributs"
+!!! note "Select-Object, pas Format-*"
     
-    Select-Object permet de sélectionner les attributs que l'on souhaite exporter.
+    Pour exporter, on choisit les colonnes avec `Select-Object` : il garde des objets, que `Export-Csv` sait écrire. `Format-Table` ne laisse que de la mise en page (voir chapitre 9.1).
 
 !!! warning "Où écrire les fichiers"
     
     Les exemples écrivent dans `C:\Scripts` (créé au chapitre 9.0), pas à la racine `C:\` : écrire à la racine du disque système demande des droits d'administrateur et mélange vos rapports avec les fichiers du système. Si le dossier n'existe pas : `New-Item -Path C:\Scripts -ItemType Directory -Force`.
 
-!!! tip "Différence Pipeline vs ForEach-Object"
-    
-    Dans PowerShell, il existe deux façons principales de traiter plusieurs objets :
-    
-    **1. Le pipeline (|)** : Utilisé pour passer les résultats d'une commande à une autre. Idéal quand la commande suivante accepte des objets en entrée via le pipeline.
-    
-    **2. ForEach-Object** : Utilisé quand vous devez exécuter **un bloc de code plus complexe** pour chaque objet ou quand la commande suivante n'accepte pas d'entrée via le pipeline.
-
-!!! example "Exemple avec pipeline"
-    
-    ```powershell
-    # Exemple avec pipeline
-    Get-ADUser -Filter {Country -eq "BE"} | Select-Object Name, SamAccountName
-    ```
-
-!!! example "Exemple avec ForEach-Object"
-    
-    ```powershell
-    # Exemple avec ForEach-Object
-    Get-ADGroup -Filter {Name -like "GG-*"} | ForEach-Object {
-        # Bloc de code exécuté pour chaque groupe
-        Get-ADGroupMember -Identity $_.Name
-    }
-    ```
-    
-    **Explication de cet exemple** :
-    
-    1. `Get-ADGroup -Filter {Name -like "GG-*"}` : Cette commande recherche tous les groupes AD dont le nom commence par "GG-"
-    2. `| ForEach-Object { ... }` : Pour chaque groupe trouvé, on exécute le bloc de code entre accolades
-    3. `Get-ADGroupMember -Identity $_.Name` : Pour chaque groupe ($_ représente le groupe actuel), on récupère la liste de ses membres
-    
-    **Pourquoi utiliser ForEach-Object ici ?** `Get-ADGroup ... | Get-ADGroupMember` fonctionne aussi : le paramètre `-Identity` accepte les groupes venant du pipeline. Mais on obtient alors une liste de membres en vrac, sans savoir de quel groupe vient chacun. Avec `ForEach-Object`, le groupe courant reste disponible dans `$_` : on peut afficher son nom, compter ses membres, etc.
-
-!!! info "Explication de `$_`"
-    
-    Dans PowerShell, `$_` est une variable spéciale qui représente l'objet actuel dans le pipeline. Quand vous utilisez ForEach-Object, `$_` fait référence à chaque objet qui est traité un par un. Par exemple, dans `$_.Name`, le `$_` représente un groupe AD et `.Name` accède à la propriété "Name" de ce groupe.
-
 ```powershell
-# Exemple d'exportation avec pipeline
 # Exporter la liste des utilisateurs vers un fichier CSV
-# Note: 'Department' (propriété PowerShell) = 'Service' (interface française d'AD)
 Get-ADUser -Filter * -Properties Department, Title, EmailAddress |
     Select-Object Name, SamAccountName, Department, Title, EmailAddress |
     Export-Csv -Path "C:\Scripts\utilisateurs.csv" -NoTypeInformation -Encoding UTF8
@@ -355,7 +331,6 @@ Get-ADUser -Filter * -Properties Department, Title, EmailAddress |
 
 ```powershell
 # Exporter vers un fichier HTML (plus visuel qu'un CSV)
-# Note: 'Department' (propriété PowerShell) = 'Service' (interface française d'AD)
 Get-ADUser -Filter * -Properties Department, Title | 
     Select-Object Name, SamAccountName, Department, Title |
     ConvertTo-Html -Title "Liste des utilisateurs" |
@@ -372,7 +347,7 @@ Invoke-Item "C:\Scripts\utilisateurs.html"
     Produisez deux fichiers de rapport pour Sophie :
     
     1. **CSV** : tous les utilisateurs actifs avec `Name`, `SamAccountName`, `Department`, `EmailAddress`, `PasswordLastSet`
-    2. **HTML** : le même rapport, à ouvrir dans un navigateur, avec un titre `"Audit Maxtec — Utilisateurs actifs"`
+    2. **HTML** : le même rapport, à ouvrir dans un navigateur, avec un titre `"Audit Maxtec - Utilisateurs actifs"`
     3. **Bonus** : un second CSV listant chaque groupe `GG-EU` avec le nombre de membres
 
 ??? success "Solution"
