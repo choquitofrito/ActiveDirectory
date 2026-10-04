@@ -336,6 +336,28 @@ $utilisateurs | ForEach-Object { Write-Host $_.Name }
     
     Le filtre en chaîne `"Department -eq '$dept' -and Enabled -eq 'True'"` permet d'injecter une variable directement. `Marketing` n'existe pas chez Maxtec : le résultat attendu est `0`, pas une erreur.
 
+### Trier et construire ses propres lignes de résultat
+
+`Sort-Object` trie les objets qui passent dans le pipeline selon une propriété (l'équivalent de `sort` en bash). Par défaut l'ordre est croissant ; `-Descending` l'inverse.
+
+```powershell
+# Les utilisateurs du plus récent au plus ancien
+Get-ADUser -Filter * -Properties WhenCreated |
+    Sort-Object WhenCreated -Descending |
+    Format-Table Name, WhenCreated
+```
+
+Quand l'information à trier n'existe pas telle quelle dans AD (un nombre de membres, par exemple), on la calcule dans une boucle et on fabrique un objet avec `[PSCustomObject]`. On choisit soi-même les noms des propriétés, et `Sort-Object` ou `Format-Table` peuvent ensuite les utiliser comme n'importe quelle propriété AD.
+
+```powershell
+Get-ADUser -Filter * -Properties Department | ForEach-Object {
+    [PSCustomObject]@{
+        Utilisateur = $_.Name
+        Service     = $_.Department
+    }
+} | Sort-Object Service | Format-Table
+```
+
 ### Mission 3.2 — Membres par groupe (pipeline)
 
 !!! example "Objectif"
@@ -346,7 +368,7 @@ $utilisateurs | ForEach-Object { Write-Host $_.Name }
     2. Pour chaque groupe, récupérez le nombre de membres avec `Get-ADGroupMember`
     3. Affichez `Nom du groupe — X membre(s)`, trié du plus grand au plus petit
     
-    *Indice : `Sort-Object -Descending` et `(Get-ADGroupMember -Identity $_.Name).Count`. Autre piste : `$_.Members.Count`, mais `Members` n'est pas renvoyé par défaut, il faut `Get-ADGroup ... -Properties Members`.*
+    *Indice : dans un `ForEach-Object`, comptez les membres avec `(Get-ADGroupMember -Identity $_.Name).Count`, construisez un `[PSCustomObject]` avec le nom et ce nombre, puis triez avec `Sort-Object -Descending`. Autre piste : `$_.Members.Count`, mais `Members` n'est pas renvoyé par défaut, il faut `Get-ADGroup ... -Properties Members`.*
 
 ??? success "Solution"
     

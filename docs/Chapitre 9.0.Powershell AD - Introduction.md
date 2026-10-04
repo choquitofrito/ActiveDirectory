@@ -243,18 +243,18 @@ Les pièges classiques quand on arrive de bash :
     3. Nombre total d'**unités d'organisation**
     4. Nombre total d'**ordinateurs**
     
-    *Indice : `(...).Count` autour d'une commande `Get-AD...`*
+    *Indice : envoyez une commande `Get-AD...` dans `Measure-Object` avec le pipeline `|` (l'équivalent de `wc -l`, voir le tableau bash ci-dessus).*
 
 ??? success "Solution"
     
     ```powershell
-    (Get-ADUser -Filter *).Count
-    (Get-ADGroup -Filter *).Count
-    (Get-ADOrganizationalUnit -Filter *).Count
-    (Get-ADComputer -Filter *).Count
+    Get-ADUser -Filter * | Measure-Object
+    Get-ADGroup -Filter * | Measure-Object
+    Get-ADOrganizationalUnit -Filter * | Measure-Object
+    Get-ADComputer -Filter * | Measure-Object
     ```
     
-    Les parenthèses forcent PowerShell à exécuter la commande d'abord, puis à appliquer `.Count` au tableau résultat.
+    Le chiffre recherché est sur la ligne `Count`. Le chapitre 9.1 montre une écriture plus courte, `(...).Count`, une fois les tableaux introduits.
 
 ### Mission 1.2 — Carte d'identité du domaine
 
@@ -266,20 +266,23 @@ Les pièges classiques quand on arrive de bash :
     2. Le `DomainMode` (niveau fonctionnel)
     3. Le nom NetBIOS
     4. Le ou les contrôleurs de domaine avec leur IP
+    
+    *Indice : `Get-ADDomain` affiche tout ; pour ne garder que certaines propriétés, passez le résultat à `Format-List` ou `Format-Table` suivi des noms de propriétés.*
 
 ??? success "Solution"
     
     ```powershell
-    # Vue d'ensemble
+    # Vue d'ensemble : cherchez DNSRoot, DomainMode et NetBIOSName dans la sortie
     Get-ADDomain
     
-    # Propriétés ciblées
-    (Get-ADDomain).DNSRoot
-    (Get-ADDomain).DomainMode
-    (Get-ADDomain).NetBIOSName
+    # Seulement les propriétés utiles, une par ligne
+    Get-ADDomain | Format-List DNSRoot, DomainMode, NetBIOSName
     
-    Get-ADDomainController -Filter * | Select-Object Name, IPv4Address
+    # Les contrôleurs de domaine et leur IP, en tableau
+    Get-ADDomainController -Filter * | Format-Table Name, IPv4Address
     ```
+    
+    `Format-List` affiche une propriété par ligne, `Format-Table` en colonnes. Les deux s'utilisent en fin de commande.
 
 ### Mission 1.3 — Comptes désactivés
 
@@ -298,7 +301,7 @@ Les pièges classiques quand on arrive de bash :
     ```powershell
     Get-ADUser -Filter {Enabled -eq $false}
     
-    (Get-ADUser -Filter {Enabled -eq $false}).Count
+    Get-ADUser -Filter {Enabled -eq $false} | Measure-Object
     
     Get-ADUser -Filter {Enabled -eq $false} |
         Format-Table Name, SamAccountName
@@ -310,26 +313,26 @@ Les pièges classiques quand on arrive de bash :
 
 !!! example "Objectif"
     
-    Comparaison empirique. Tâche : *« Trouver les utilisateurs créés ces 30 derniers jours. »*
+    Comparaison empirique. Tâche : *« Donner, pour chaque utilisateur, son service et sa date de dernière connexion. »*
     
     1. Faites-le **d'abord dans la GUI** (`Utilisateurs et ordinateurs Active Directory`). Chronométrez.
-    2. Faites-le ensuite **en PowerShell** avec la commande ci-dessous. Chronométrez.
-    3. Comparez les deux temps — et surtout, demandez-vous lequel est reproductible la semaine prochaine.
+    2. Faites-le ensuite **en PowerShell**. Chronométrez.
+    3. Comparez les deux temps, et demandez-vous lequel vous pourrez refaire à l'identique la semaine prochaine.
+    
+    *Indice : la commande est dans la section 3. `Department` et `LastLogonDate` ne sont pas renvoyées par défaut.*
 
-??? success "La commande"
+??? success "Solution"
     
     ```powershell
-    $ilYaUnMois = (Get-Date).AddDays(-30)
-    Get-ADUser -Filter {WhenCreated -ge $ilYaUnMois} -Properties WhenCreated |
-        Select-Object Name, SamAccountName, WhenCreated |
-        Sort-Object WhenCreated
+    Get-ADUser -Filter * -Properties Department, LastLogonDate |
+        Format-Table Name, SamAccountName, Department, LastLogonDate
     ```
     
-    Au-delà du temps gagné, la vraie valeur est que la commande se sauvegarde dans un `.ps1` et se rejoue à l'identique chaque semaine.
+    Dans la GUI, le service se lit dans l'onglet `Organisation` et la dernière connexion dans l'éditeur d'attributs, compte par compte. En PowerShell, une commande, que l'on sauvegarde dans un `.ps1` et que l'on rejoue chaque semaine.
 
 ### Bilan du jour
 
-Vous savez maintenant compter les objets AD, lire les propriétés du domaine, écrire un filtre simple, et arbitrer entre GUI et PowerShell. Le chapitre 9.1 introduit les variables, tableaux, boucles et conditions pour transformer ces commandes ponctuelles en scripts réutilisables.
+Vous savez maintenant compter les objets AD, lire les propriétés du domaine, demander des propriétés supplémentaires, écrire un filtre simple, et arbitrer entre GUI et PowerShell. Le chapitre 9.1 introduit les variables, tableaux, boucles et conditions pour transformer ces commandes ponctuelles en scripts réutilisables.
 
 ---
 
