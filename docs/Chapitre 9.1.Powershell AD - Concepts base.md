@@ -369,6 +369,33 @@ $utilisateurs | ForEach-Object { Write-Host $_ }
 $utilisateurs | ForEach-Object { Write-Host $_.Name }  
 ```
 
+!!! tip "ForEach-Object ou Select-Object ?"
+    
+    - **Extraire une propriété** : `Select-Object`. Le résultat reste des objets, réutilisables (tri, variable, `Export-Csv`).
+    - **Agir sur chaque élément** (composer un texte, modifier le compte, calculer) : `ForEach-Object`. `Write-Host` écrit à l'écran et ne laisse rien dans le pipeline.
+    
+    ```powershell
+    $utilisateurs | Select-Object Name                                   # objets : exportables
+    $utilisateurs | ForEach-Object { Write-Host "$($_.Name) ($($_.SamAccountName))" }   # texte à l'écran
+    ```
+    
+    `Write-Host $_` seul affiche le DistinguishedName du compte : c'est ainsi qu'un objet AD s'écrit dans un texte.
+    
+    **Les deux ensemble ?** `Select-Object Name, ...` avant un `ForEach-Object` est inutile : la boucle lit déjà `$_.Name` sur l'objet complet, et on se prive des autres propriétés. En revanche, `Select-Object` pour choisir des **lignes** ou des **valeurs** avant la boucle a du sens :
+    
+    ```powershell
+    # Les 3 comptes les plus récents
+    Get-ADUser -Filter * -Properties WhenCreated |
+        Sort-Object WhenCreated -Descending |
+        Select-Object -First 3 |
+        ForEach-Object { Write-Host "$($_.Name) créé le $($_.WhenCreated)" }
+    
+    # Une ligne par service distinct : ici $_ est le texte du service, pas un utilisateur
+    Get-ADUser -Filter * -Properties Department |
+        Select-Object -ExpandProperty Department -Unique |
+        ForEach-Object { Write-Host "Service : $_" }
+    ```
+
 ### Mission 3.1 — Boucle sur les départements
 
 !!! example "Objectif"
@@ -405,28 +432,117 @@ Get-ADUser -Filter * -Properties WhenCreated |
     Format-Table Name, WhenCreated
 ```
 
-Quand l'information à trier n'existe pas telle quelle dans AD (un nombre de membres, par exemple), on la calcule dans une boucle et on fabrique un objet avec `[PSCustomObject]`. On choisit soi-même les noms des propriétés, et `Sort-Object` ou `Format-Table` peuvent ensuite les utiliser comme n'importe quelle propriété AD.
-
-```powershell
-Get-ADUser -Filter * -Properties Department | ForEach-Object {
-    [PSCustomObject]@{
-        Utilisateur = $_.Name
-        Service     = $_.Department
-    }
-} | Sort-Object Service | Format-Table
-```
-
-### Mission 3.2 — Membres par groupe (pipeline)
+### Mission 3.2a — Nombre de membres par groupe
 
 !!! example "Objectif"
     
-    Sophie veut savoir quels groupes `GG-EU` ont le plus de membres. Utilisez le pipeline :
+    Sophie veut connaître la taille des groupes `GG-EU`. Pour chaque groupe dont le nom commence par `GG-EU`, affichez une ligne de texte :
     
-    1. Récupérez tous les groupes dont le nom commence par `"GG-EU"`
-    2. Pour chaque groupe, récupérez le nombre de membres avec `Get-ADGroupMember`
-    3. Affichez `Nom du groupe — X membre(s)`, trié du plus grand au plus petit
+    ```
+    GG-EU-RH-Users : 3 membre(s)
+    ```
     
-    *Indice : dans un `ForEach-Object`, comptez les membres avec `(Get-ADGroupMember -Identity $_.Name).Count`, construisez un `[PSCustomObject]` avec le nom et ce nombre, puis triez avec `Sort-Object -Descending`. Autre piste : `$_.Members.Count`, mais `Members` n'est pas renvoyé par défaut, il faut `Get-ADGroup ... -Properties Members`.*
+    Étapes :
+    
+    1. Récupérez les groupes avec `Get-ADGroup -Filter {Name -like "GG-EU*"}`
+    2. Envoyez-les dans un `ForEach-Object` : à l'intérieur, `$_` est le groupe en cours
+    3. Comptez ses membres : `Get-ADGroupMember -Identity $_.Name` renvoie la liste des membres, et `( ... ).Count` compte les éléments de cette liste
+    4. Affichez la ligne avec `Write-Host`
+    
+    *Indice : stockez le nombre dans une variable (`$nbMembres = ...`) avant le `Write-Host`. La ligne d'affichage reste lisible.*
+
+??? success "Solution"
+    
+    ```powershell
+    # 1. Les groupes dont le nom commence par GG-EU
+    Get-ADGroup -Filter {Name -like "GG-EU*"} | ForEach-Object {
+    
+        # 2. $_ = le groupe en cours de traitement
+        # 3. Get-ADGroupMember renvoie la liste de ses membres ; .Count compte les éléments
+        $nbMembres = (Get-ADGroupMember -Identity $_.Name).Count
+    
+        # 4. Une ligne de texte par groupe
+        Write-Host "$($_.Name) : $nbMembres membre(s)"
+    }
+    ```
+
+### Entraînement 3.2a — Même schéma, autres objets
+
+Le schéma est toujours le même : **une collection → `ForEach-Object` → un calcul sur `$_` → une ligne de texte**. Seuls changent les objets parcourus et ce que l'on compte.
+
+!!! example "Exercices"
+    
+    1. **Utilisateurs par service.** Pour chaque OU située directement sous `OU=EU,DC=maxtec,DC=be`, affichez `RH : 3 utilisateur(s)`.
+       *Indice : `Get-ADOrganizationalUnit ... -SearchScope OneLevel` donne les OUs ; `-SearchBase $_.DistinguishedName` limite `Get-ADUser` à l'OU en cours.*
+    2. **Groupes par utilisateur.** Pour chaque utilisateur du service `Ventes`, affichez `Victor : 2 groupe(s)`.
+       *Indice : `Get-ADPrincipalGroupMembership -Identity $_.SamAccountName` donne les groupes du compte.*
+    3. **Comptes par service, à partir d'un tableau.** Partez de `@("Ventes", "RH", "Comptabilite", "IT")` et affichez `IT : 3 compte(s)` pour chacun.
+       *Indice : ici `$_` est un texte, pas un objet AD. Utilisez-le dans un filtre entre guillemets doubles : `-Filter "Department -eq '$_'"`.*
+
+??? success "Solutions"
+    
+    ```powershell
+    # 1. Utilisateurs par service
+    Get-ADOrganizationalUnit -Filter * -SearchBase "OU=EU,DC=maxtec,DC=be" -SearchScope OneLevel |
+        ForEach-Object {
+            # $_ = l'OU en cours ; la recherche descend dans ses sous-OUs (Users...)
+            $nb = (Get-ADUser -Filter * -SearchBase $_.DistinguishedName).Count
+            Write-Host "$($_.Name) : $nb utilisateur(s)"
+        }
+    
+    # 2. Groupes par utilisateur
+    Get-ADUser -Filter {Department -eq "Ventes"} -Properties Department | ForEach-Object {
+        # $_ = l'utilisateur en cours
+        $nb = (Get-ADPrincipalGroupMembership -Identity $_.SamAccountName).Count
+        Write-Host "$($_.Name) : $nb groupe(s)"
+    }
+    
+    # 3. Comptes par service, à partir d'un tableau
+    @("Ventes", "RH", "Comptabilite", "IT") | ForEach-Object {
+        # $_ = le nom du service (du texte)
+        $nb = (Get-ADUser -Filter "Department -eq '$_'").Count
+        Write-Host "$_ : $nb compte(s)"
+    }
+    ```
+    
+    `Get-ADPrincipalGroupMembership` compte aussi `Utilisateurs du domaine`, le groupe par défaut de chaque compte.
+
+### Trier un résultat calculé : `[PSCustomObject]`
+
+Pour voir d'abord les groupes les plus grands, il faudrait trier. Ajouter `| Sort-Object` après la boucle de la mission 3.2a ne trie rien : `Write-Host` écrit directement à l'écran et ne laisse rien dans le pipeline (voir la note « ForEach-Object ou Select-Object ? »). `Sort-Object` ne reçoit aucun objet.
+
+Il faut donc que la boucle **produise des objets** au lieu d'écrire du texte. `[PSCustomObject]@{ ... }` fabrique un objet dont on choisit soi-même les propriétés, sous la forme `Nom = valeur`, une par ligne. `Sort-Object` et `Format-Table` les utilisent ensuite comme n'importe quelle propriété AD.
+
+Exemple avec les utilisateurs et leur nombre de groupes :
+
+```powershell
+Get-ADUser -Filter * | ForEach-Object {
+    $nbGroupes = (Get-ADPrincipalGroupMembership -Identity $_.SamAccountName).Count
+
+    # Un objet par utilisateur, avec deux propriétés : Utilisateur et Groupes
+    [PSCustomObject]@{
+        Utilisateur = $_.Name
+        Groupes     = $nbGroupes
+    }
+} | Sort-Object Groupes -Descending | Format-Table      # le | après } reçoit les objets de la boucle
+```
+
+```
+Utilisateur      Groupes
+-----------      -------
+Richard Renard         4
+...
+```
+
+Le nombre de groupes n'existe pas dans AD : il est calculé dans la boucle, puis rangé dans l'objet pour pouvoir être trié.
+
+### Mission 3.2b — Groupes triés par taille
+
+!!! example "Objectif"
+    
+    Reprenez la mission 3.2a, mais affichez un **tableau** `Groupe` / `Membres`, trié du groupe le plus grand au plus petit.
+    
+    *Indice : remplacez le `Write-Host` par un `[PSCustomObject]` (comme dans l'exemple ci-dessus), puis ajoutez `Sort-Object ... -Descending` après la boucle.*
 
 ??? success "Solution"
     
@@ -440,7 +556,49 @@ Get-ADUser -Filter * -Properties Department | ForEach-Object {
     } | Sort-Object Membres -Descending | Format-Table -AutoSize
     ```
     
-    `[PSCustomObject]` crée un objet temporaire avec les champs qu'on veut afficher — plus propre que de concaténer des chaînes.
+    Autre façon de compter : `$_.Members.Count`, à condition d'avoir demandé l'attribut avec `Get-ADGroup ... -Properties Members` (il n'est pas renvoyé par défaut).
+
+### Entraînement 3.2b — Du texte aux objets
+
+Même transformation à chaque fois : **`Write-Host` → `[PSCustomObject]`**, puis `Sort-Object` après la boucle. Repartez de vos solutions de l'entraînement 3.2a.
+
+!!! example "Exercices"
+    
+    1. **Utilisateurs par service**, en tableau `Service` / `Utilisateurs`, du plus grand au plus petit.
+    2. **Groupes par utilisateur** du service `Ventes`, en tableau `Utilisateur` / `Groupes`. Ne gardez que les **2 premiers** après le tri.
+       *Indice : `Select-Object -First 2` après `Sort-Object` (voir la note « ForEach-Object ou Select-Object ? »).*
+    3. **Comptes par service** à partir du tableau de services, en tableau `Service` / `Comptes`, trié par **nom de service** (ordre alphabétique).
+
+??? success "Solutions"
+    
+    ```powershell
+    # 1. Utilisateurs par service, du plus grand au plus petit
+    Get-ADOrganizationalUnit -Filter * -SearchBase "OU=EU,DC=maxtec,DC=be" -SearchScope OneLevel |
+        ForEach-Object {
+            [PSCustomObject]@{
+                Service      = $_.Name
+                Utilisateurs = (Get-ADUser -Filter * -SearchBase $_.DistinguishedName).Count
+            }
+        } | Sort-Object Utilisateurs -Descending | Format-Table -AutoSize
+    
+    # 2. Les 2 utilisateurs de Ventes qui ont le plus de groupes
+    Get-ADUser -Filter {Department -eq "Ventes"} -Properties Department | ForEach-Object {
+        [PSCustomObject]@{
+            Utilisateur = $_.Name
+            Groupes     = (Get-ADPrincipalGroupMembership -Identity $_.SamAccountName).Count
+        }
+    } | Sort-Object Groupes -Descending | Select-Object -First 2 | Format-Table -AutoSize
+    
+    # 3. Comptes par service, ordre alphabétique
+    @("Ventes", "RH", "Comptabilite", "IT") | ForEach-Object {
+        [PSCustomObject]@{
+            Service = $_
+            Comptes = (Get-ADUser -Filter "Department -eq '$_'").Count
+        }
+    } | Sort-Object Service | Format-Table -AutoSize
+    ```
+    
+    Le calcul peut aussi se faire directement dans l'objet (`Comptes = (...).Count`), sans variable intermédiaire. Les deux formes sont correctes.
 
 ## 4. 🔹 Les conditions : prendre des décisions
 

@@ -224,7 +224,7 @@ Get-ADGroup -Filter {Name -like "GG-EU-RH*"} | ForEach-Object {
     
     *Note : `Get-ADGroupMember` n'accepte pas `-Filter`, utilisez `-Identity`.*
     
-    *Pour (3) : même méthode que la mission 3.2 du chapitre 9.1, `(Get-ADGroupMember -Identity ...).Count`.*
+    *Pour (3) : même méthode que la mission 3.2a du chapitre 9.1, `(Get-ADGroupMember -Identity ...).Count`.*
     
     *Pour (4) : bouclez sur les groupes, puis sur leurs membres. Pour chaque membre de type utilisateur (`objectClass` vaut `user`), lisez `Enabled` avec `Get-ADUser`. Un compteur `$actifs` qui part de 0 et augmente de 1 (`$actifs++`) à chaque compte actif vous dit, en fin de groupe, s'il faut l'afficher.*
 
