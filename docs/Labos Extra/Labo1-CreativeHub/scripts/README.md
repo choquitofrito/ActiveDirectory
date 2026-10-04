@@ -82,7 +82,7 @@ Get-ADOrganizationalUnit -Filter * |
     Select-Object Name, DistinguishedName
 
 # Lister tous les utilisateurs
-Get-ADUser -Filter * -SearchBase "OU=CreativeHub,DC=maxtec,DC=be" |
+Get-ADUser -Filter * -SearchBase "OU=CreativeHub,DC=maxtec,DC=be" -Properties EmailAddress |
     Select-Object Name, SamAccountName, EmailAddress, Enabled
 
 # Lister tous les groupes

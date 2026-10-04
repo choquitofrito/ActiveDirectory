@@ -283,7 +283,7 @@ Write-Host "`n2. CONTROLEURS:" -ForegroundColor Yellow
 Get-ADDomainController -Filter * | Select-Object Name, IPv4Address, OperatingSystem
 
 Write-Host "`n3. ÉCHANTILLON UTILISATEURS:" -ForegroundColor Yellow
-Get-ADUser -Filter * -SearchBase $SearchBase -ResultSetSize 10 |
+Get-ADUser -Filter * -SearchBase $SearchBase -ResultSetSize 10 -Properties LastLogonDate |
     Select-Object Name, Enabled, LastLogonDate |
     Format-Table -AutoSize
 

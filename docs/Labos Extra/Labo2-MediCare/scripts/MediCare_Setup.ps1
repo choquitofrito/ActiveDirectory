@@ -732,7 +732,7 @@ try {
 
         # Export OUs
         $ousCSVPath = "$exportPath\medicare_ous.csv"
-        Get-ADOrganizationalUnit -Filter * -SearchBase $rootOU |
+        Get-ADOrganizationalUnit -Filter * -SearchBase $rootOU -Properties ProtectedFromAccidentalDeletion |
             Select-Object Name, DistinguishedName, ProtectedFromAccidentalDeletion |
             Export-Csv -Path $ousCSVPath -NoTypeInformation -Encoding UTF8
         Write-Host "  ✅ OUs exportées vers: $ousCSVPath" -ForegroundColor Green

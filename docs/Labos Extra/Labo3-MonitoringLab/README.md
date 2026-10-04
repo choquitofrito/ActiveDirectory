@@ -507,7 +507,7 @@ OU=MONITORING,DC=maxtec,DC=be
 !!! info "Vérifier les groupes et leurs membres"
     ```powershell
     # Lister tous les groupes avec préfixe GG-MONITORING
-    Get-ADGroup -Filter 'Name -like "GG-MONITORING*"' |
+    Get-ADGroup -Filter 'Name -like "GG-MONITORING*"' -Properties Description |
         Select-Object Name, GroupScope, GroupCategory, Description |
         Format-Table -AutoSize
     

@@ -313,7 +313,7 @@ Les pièges classiques quand on arrive de bash :
 
 !!! example "Objectif"
     
-    Comparaison empirique. Tâche : *« Donner, pour chaque utilisateur, son service et sa date de dernière connexion. »*
+    Comparaison empirique. Tâche : *« Donner, pour chaque utilisateur, son service (`Department`) et sa date de dernière connexion (`LastLogonDate`). »*
     
     1. Faites-le **d'abord dans la GUI** (`Utilisateurs et ordinateurs Active Directory`). Chronométrez.
     2. Faites-le ensuite **en PowerShell**. Chronométrez.

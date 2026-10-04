@@ -184,7 +184,7 @@ Set-Acl $vipPath $acl
 
 ```powershell
 # Vérifier toutes les OUs MediCare
-Get-ADOrganizationalUnit -Filter * |
+Get-ADOrganizationalUnit -Filter * -Properties ProtectedFromAccidentalDeletion |
     Where {$_.DistinguishedName -like "*MediCare*"} |
     Select Name, ProtectedFromAccidentalDeletion
 

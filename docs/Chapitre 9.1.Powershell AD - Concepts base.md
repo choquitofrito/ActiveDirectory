@@ -37,6 +37,9 @@ $nomUtilisateur = "richard"
 $nomUtilisateur                  # Afficher : taper simplement le nom suffit
 Write-Host $nomUtilisateur       # Affichage à l'écran uniquement (couleurs possibles)
 Write-Output $nomUtilisateur     # Envoie la valeur dans le pipeline (alias : echo)
+
+# Entre guillemets doubles, une variable est remplacée par sa valeur
+$message = "Bonjour $nomUtilisateur"   # Bonjour richard
 ```
 
 ### Mission 1.1 — Variable de contexte
@@ -51,7 +54,7 @@ Write-Output $nomUtilisateur     # Envoie la valeur dans le pipeline (alias : ec
     4. Déduisez `$email` au format `login@maxtec.be`
     5. Affichez un résumé : nom complet, login, email
     
-    *Indice : `.ToLower()` convertit une chaîne en minuscules.*
+    *Indice : `"$prenom.$nom"` donne `Jean.Dupont`. `.ToLower()` convertit une chaîne en minuscules : `("$prenom.$nom").ToLower()`.*
 
 ??? success "Solution"
     
@@ -68,34 +71,6 @@ Write-Output $nomUtilisateur     # Envoie la valeur dans le pipeline (alias : ec
     
     À noter : dans une chaîne entre guillemets `"..."`, PowerShell évalue les variables directement (`"$login@$domaine"`). Pas besoin de concaténation.
 
-### Mission 1.2 — Stocker un résultat AD dans une variable
-
-!!! example "Objectif"
-    
-    Récupérez le compte de Richard Renard (responsable RH) et explorez ses propriétés via la variable :
-    
-    1. Stockez le résultat de `Get-ADUser -Identity richard -Properties *` dans `$monCompte`
-    2. Affichez le `GivenName`, `Surname`, `Title` et `Department`
-    3. Affichez la date de création (`WhenCreated`)
-    4. Vérifiez si le compte est activé (`Enabled`)
-
-??? success "Solution"
-    
-    ```powershell
-    $login     = "richard"
-    $monCompte = Get-ADUser -Identity $login -Properties *
-    
-    Write-Host "Prénom    : $($monCompte.GivenName)"
-    Write-Host "Nom       : $($monCompte.Surname)"
-    Write-Host "Titre     : $($monCompte.Title)"
-    Write-Host "Service   : $($monCompte.Department)"
-    Write-Host "Créé le   : $($monCompte.WhenCreated)"
-    Write-Host "Activé    : $($monCompte.Enabled)"
-    ```
-    
-    La syntaxe `$($variable.Propriete)` est nécessaire à l'intérieur d'une chaîne pour évaluer une propriété.
-
-
 ### Variables et commandes AD
 
 !!! info "Utilisation pratique"
@@ -104,6 +79,9 @@ Write-Output $nomUtilisateur     # Envoie la valeur dans le pipeline (alias : ec
 
 ```powershell
 # Stocker un utilisateur dans une variable avec toutes ses propriétés
+# -Properties * demande à AD tous les attributs : la variable les contient tous.
+# Select-Object ne conviendrait pas : il ne va rien chercher dans AD et retire les propriétés non choisies.
+# (Voir plus bas : « -Properties, Select-Object, Format-Table : qui fait quoi ? »)
 $utilisateur = Get-ADUser -Identity "richard" -Properties *
 $groupe = Get-ADGroup -Identity "CN=GG-EU-RH-Admin,OU=Groups,OU=RH,OU=EU,DC=maxtec,DC=be" -Properties *
 ```
@@ -134,6 +112,35 @@ Write-Host $utilisateur.EmailAddress   # le nom PowerShell est EmailAddress (att
     Même si votre interface AD est en français, les noms des propriétés dans PowerShell sont toujours en anglais. Utilisez donc `GivenName` (prénom), `Surname` (nom de famille), `Title` (titre), etc. Ces noms sont standardisés et ne changent pas avec la langue de l'interface.
 
 
+### Mission 1.2 — Stocker un résultat AD dans une variable
+
+!!! example "Objectif"
+    
+    Récupérez le compte de Richard Renard (responsable RH) et explorez ses propriétés via la variable :
+    
+    1. Stockez le résultat de `Get-ADUser -Identity richard -Properties *` dans `$monCompte`
+    2. Affichez le `GivenName`, `Surname`, `Title` et `Department`
+    3. Affichez la date de création (`WhenCreated`)
+    4. Vérifiez si le compte est activé (`Enabled`)
+    
+    *Indice : `$monCompte.GivenName` affiche une propriété. Pour l'insérer dans un texte, entourez-la de `$( )` : `"Prénom : $($monCompte.GivenName)"`. Sans `$( )`, PowerShell remplace seulement `$monCompte` et laisse `.GivenName` tel quel.*
+
+??? success "Solution"
+    
+    ```powershell
+    $login     = "richard"
+    $monCompte = Get-ADUser -Identity $login -Properties *
+    
+    Write-Host "Prénom    : $($monCompte.GivenName)"
+    Write-Host "Nom       : $($monCompte.Surname)"
+    Write-Host "Titre     : $($monCompte.Title)"
+    Write-Host "Service   : $($monCompte.Department)"
+    Write-Host "Créé le   : $($monCompte.WhenCreated)"
+    Write-Host "Activé    : $($monCompte.Enabled)"
+    ```
+    
+    La syntaxe `$($variable.Propriete)` est nécessaire à l'intérieur d'une chaîne pour évaluer une propriété.
+
 ### Quelles propriétés sont disponibles ?
 
 !!! info "Découvrir les propriétés"
@@ -148,31 +155,76 @@ Get-ADUser richard -Properties * | Get-Member -MemberType Property
 
 
 
+### `-Properties`, `Select-Object`, `Format-Table` : qui fait quoi ?
+
+Ces trois éléments se ressemblent (on leur donne tous des noms de propriétés), mais ils interviennent à trois moments différents :
+
+| Étape | Outil | Où ça se passe | Rôle |
+|-------|-------|----------------|------|
+| 1. Demander | `-Properties` | Sur le contrôleur de domaine | Choisir les attributs que AD **envoie** |
+| 2. Garder | `Select-Object` | Dans votre session PowerShell | Choisir les propriétés que l'on **conserve** (on a toujours des objets) |
+| 3. Afficher | `Format-Table` / `Format-List` | À l'écran | Choisir la **mise en page** (colonnes ou liste) |
+
+**Étape 1 : `-Properties` ajoute des attributs à ce que AD renvoie.** Par défaut, `Get-ADUser` ne renvoie qu'une dizaine de propriétés : `DistinguishedName`, `Enabled`, `GivenName`, `Name`, `ObjectClass`, `ObjectGUID`, `SamAccountName`, `SID`, `Surname`, `UserPrincipalName`. Tout le reste (`Department`, `Title`, `WhenCreated`, `LastLogonDate`...) doit être demandé. `-Properties` **ajoute** ces attributs au jeu par défaut, il ne le remplace pas.
+
+**Étape 2 : `Select-Object` ne fait que trier ce qui est déjà arrivé.** Il ne peut pas aller chercher dans AD un attribut qui n'a pas été demandé : il crée la colonne, mais elle reste vide.
+
+```powershell
+# ❌ La colonne Department est vide : AD ne l'a pas envoyée
+Get-ADUser richard | Select-Object Name, Department
+
+# Department est ajouté aux ~10 propriétés par défaut : la sortie est longue
+Get-ADUser richard -Properties Department
+
+# ✅ On demande Department à AD, puis on ne garde que ce qui nous intéresse
+Get-ADUser richard -Properties Department | Select-Object Name, Department
+```
+
+**Étape 3 : l'affichage en tableau ou en liste.** Quand aucune mise en page n'est imposée, PowerShell choisit seul :
+
+- certains types d'objets ont une présentation prévue par Microsoft (`Get-Process`, `Get-Service` s'affichent en tableau) ;
+- les objets AD n'en ont pas. PowerShell compte alors les propriétés : **4 ou moins → tableau, 5 ou plus → liste**.
+
+C'est pour cela que `Get-ADUser` seul s'affiche en liste (10 propriétés), et que la dernière commande ci-dessus s'affiche en tableau (2 propriétés). `Format-Table` et `Format-List` servent à imposer la mise en page quand le choix automatique ne convient pas :
+
+```powershell
+# 5 propriétés : PowerShell choisirait une liste. Format-Table force le tableau.
+Get-ADUser -Filter * -Properties Department, Title |
+    Select-Object Name, SamAccountName, Department, Title, Enabled |
+    Format-Table
+```
+
+`Format-Table` accepte aussi directement des noms de propriétés : `Format-Table Name, Department` sélectionne et met en page en une seule étape. C'est le raccourci habituel pour un affichage à l'écran. Il ne dispense pas de `-Properties` : un attribut non demandé à AD donne une colonne vide, exactement comme avec `Select-Object`.
+
+!!! warning "Select-Object pour les données, Format-* pour l'écran"
+    
+    Après `Select-Object`, on a toujours des objets : on peut trier, filtrer, exporter (`Export-Csv`). Après `Format-Table` ou `Format-List`, on n'a plus que des instructions de mise en page. Ces commandes se placent donc **toujours en dernier**, et jamais avant `Export-Csv`.
+
+!!! tip "Évitez `-Properties *` sur beaucoup de comptes"
+    
+    `-Properties *` demande au DC tous les attributs de chaque objet. Pratique pour explorer **un** compte (comme `richard` ci-dessus), lent sur tout l'annuaire. Pour une requête large, nommez les attributs dont vous avez besoin.
+
+### Recherche avec `-Filter`
+
 !!! tip "Recherche avec Filter"
     
     Avec **Filter** on peut rechercher des éléments à partir des valeurs de leurs propriétés. Par **exemple, on peut rechercher des utilisateurs par leur nom, leur titre, leur service** ('department' en anglais. La propriété est dans l'onglet `Organisation` dans les propriétés des utilisateurs), etc.
 
 ```powershell
-# Exemple 1:  Rechercher les utilisateurs créés après le 1er janvier 2023
-# La commande Select-Object permet de filtrer les propriétés d'un objet que l'on souhaite afficher. Dans ce cas, on ne veut afficher que le nom, le nom d'utilisateur et la date de création.
+# Rechercher les utilisateurs créés après le 1er janvier 2023
 $date = [datetime]'2023-01-01'   # format ISO : indépendant de la langue du système
-# Sans Select-Object, PowerShell retourne TOUTES les propriétés disponibles (plus d'une quinzaine), ce qui rend la sortie verbeuse et moins ciblée. Comparez avec l'exemple 2 pour voir la différence.
+
+# Exemple 1 : WhenCreated ne fait pas partie des propriétés par défaut, on la demande avec -Properties.
+# Résultat : les ~10 propriétés par défaut + WhenCreated, affichées en liste.
 Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated
 
+# Exemple 2 : Select-Object ne garde que 3 propriétés. 4 ou moins : affichage en tableau.
+Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated |
+    Select-Object Name, SamAccountName, WhenCreated
 
-# Exemple 2: Même requête que l'exemple 1, mais avec Select-Object pour filtrer les propriétés
-# Ici, on utilise le même filtre de date, mais Select-Object limite l'affichage à Name, SamAccountName et WhenCreated pour une sortie ciblée et efficace.
-$date = [datetime]'2023-01-01'
-Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated | Select-Object Name, SamAccountName, WhenCreated
-
-# Exemple 3: Même requête avec Format-Table . Select-Object afficher comme liste s'il y a plus de 4 propriétés. Si on veut un tableau, utilisez Format-Table
-$date = [datetime]'2023-01-01'
-Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated | Select-Object Name, SamAccountName, WhenCreated | Format-Table 
-
-
-
-
-
+# Exemple 3 : même affichage, en une étape, avec Format-Table (pour l'écran uniquement).
+Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated |
+    Format-Table Name, SamAccountName, WhenCreated
 ```
 
 
@@ -231,19 +283,17 @@ if ($index -ge 0) {
     ```powershell
     $departements = @("RH", "IT", "Ventes", "Comptabilite", "Marketing")
     
-    Write-Host "Premier : $($departements[0])"
-    Write-Host "Dernier : $($departements[-1])"
+    $departements[0]
+    $departements[-1]
     
     $departements += "Logistique"
     
-    Write-Host "Total : $($departements.Count)"
+    $departements.Count
     
-    if ($departements.Contains("RH")) {
-        Write-Host "RH est dans la liste"
-    }
+    $departements.Contains("RH")   # True ou False
     ```
     
-    `[0]` = premier élément, `[-1]` = dernier. `$()` évalue une expression à l'intérieur d'une chaîne.
+    `[0]` = premier élément, `[-1]` = dernier.
 
 
 
@@ -269,6 +319,8 @@ Write-Host $utilisateursComptabilite[0].Name
     1. Récupérez tous les groupes dont le nom contient `"GG-EU"` dans une variable `$groupesEU`
     2. Affichez leur nombre
     3. Affichez le nom du premier et du dernier groupe du tableau
+    
+    *Indice : pour une recherche partielle, `-Filter {Name -like "*GG-EU*"}`. `*` remplace n'importe quelle suite de caractères, comme dans l'Explorateur Windows. `-like` est détaillé au chapitre 9.2.*
 
 ??? success "Solution"
     
@@ -322,6 +374,8 @@ $utilisateurs | ForEach-Object { Write-Host $_.Name }
     1. Bouclez sur `$departements`
     2. Pour chaque département, comptez les utilisateurs actifs (`Enabled -eq $true`) filtrés par `Department`
     3. Affichez une ligne par département : `"IT : 5 utilisateurs actifs"`
+    
+    *Indice : avec une variable, écrivez le filtre comme une chaîne entre guillemets doubles : `"Department -eq '$dept'"`. Pour ajouter une deuxième condition, reliez-la par `-and` : `"Department -eq '$dept' -and Enabled -eq 'True'"`.*
 
 ??? success "Solution"
     
@@ -470,31 +524,6 @@ if ($user.Enabled -eq $false) {
 }
 ```
 
-### Mission 4.2 — Script de diagnostic utilisateur
-
-!!! example "Objectif"
-    
-    Écrivez un script qui demande un `SamAccountName` et affiche :
-    
-    - Compte activé ou désactivé
-    - Membre du groupe `GG-EU-IT-Admin` : oui ou non
-    - Mot de passe configuré pour ne jamais expirer : oui ou non (`PasswordNeverExpires`)
-
-??? success "Solution"
-    
-    ```powershell
-    $login = Read-Host "SamAccountName"
-    $user  = Get-ADUser -Identity $login -Properties Enabled, PasswordNeverExpires
-    
-    Write-Host "Statut     : $(if ($user.Enabled) {'Actif'} else {'Désactivé'})"
-    
-    $estAdmin = Get-ADGroupMember -Identity "GG-EU-IT-Admin" |
-                    Where-Object { $_.SamAccountName -eq $login }
-    Write-Host "IT-Admin   : $(if ($estAdmin) {'Oui'} else {'Non'})"
-    
-    Write-Host "MDP permanent : $(if ($user.PasswordNeverExpires) {'Oui'} else {'Non'})"
-    ```
-
 ### Exemple pratique : Rechercher un utilisateur
 
 Voici un exemple de script qui combine variables, conditions et propriétés AD pour rechercher un utilisateur et afficher ses informations. Le script demande à l'utilisateur un SamAccountName et le cherche dans le domaine AD. Si l'utilisateur est trouvé, le script affiche ses informations. Si l'utilisateur appartient au groupe "GG-EU-Ventes-Users", le script affiche un message approprié.
@@ -534,6 +563,45 @@ if ($utilisateurTrouve) {
 !!! warning "Important"
     Modifier les valeurs dans une variable n'a aucun effet sur l'objet réel dans Active Directory. Par exemple, si vous faites `$utilisateurTrouve.Title = "Nouveau Titre"`, cela change uniquement la valeur dans votre variable locale, pas dans AD. Pour modifier réellement un objet AD, vous devez utiliser des commandes spécifiques comme `Set-ADUser` que nous verrons plus tard.
 
+### Mission 4.2 — Script de diagnostic utilisateur
+
+!!! example "Objectif"
+    
+    Écrivez un script qui demande un `SamAccountName` et affiche :
+    
+    - Compte activé ou désactivé
+    - Membre du groupe `GG-EU-IT-Admin` : oui ou non
+    - Mot de passe configuré pour ne jamais expirer : oui ou non (`PasswordNeverExpires`)
+    
+    *Indice : même méthode que l'exemple ci-dessus. `Read-Host` pour la saisie ; `Get-ADPrincipalGroupMembership -Identity $login | Where-Object { $_.Name -eq "GG-EU-IT-Admin" }` renvoie le groupe si l'utilisateur en est membre, rien sinon : mettez le résultat dans une variable et testez-la avec `if`.*
+
+??? success "Solution"
+    
+    ```powershell
+    $login = Read-Host "SamAccountName"
+    $user  = Get-ADUser -Identity $login -Properties Enabled, PasswordNeverExpires
+    
+    if ($user.Enabled) {
+        Write-Host "Statut        : Actif"
+    } else {
+        Write-Host "Statut        : Désactivé"
+    }
+    
+    $estAdmin = Get-ADPrincipalGroupMembership -Identity $login |
+                    Where-Object { $_.Name -eq "GG-EU-IT-Admin" }
+    if ($estAdmin) {
+        Write-Host "IT-Admin      : Oui"
+    } else {
+        Write-Host "IT-Admin      : Non"
+    }
+    
+    if ($user.PasswordNeverExpires) {
+        Write-Host "MDP permanent : Oui"
+    } else {
+        Write-Host "MDP permanent : Non"
+    }
+    ```
+
 ### Mission 4.3 — Enrichir le script de recherche
 
 !!! example "Objectif"
@@ -543,34 +611,44 @@ if ($utilisateurTrouve) {
     1. L'affichage du statut activé/désactivé
     2. Un message différent si l'utilisateur appartient au service `Comptabilite`
     3. Les 3 premiers groupes dont l'utilisateur est membre
+    
+    *Indice : `... | Select-Object -First 3` ne garde que les 3 premiers objets (l'équivalent de `head -3`).*
 
 ??? success "Solution"
     
     ```powershell
-    $login = Read-Host "SamAccountName"
-    $user  = Get-ADUser -Filter "SamAccountName -eq '$login'" `
-                 -Properties GivenName, Surname, Title, Department, WhenCreated, Enabled
+    $nomUtilisateurRecherche = Read-Host "Entrez le SamAccountName de l'utilisateur à rechercher"
+    $utilisateurTrouve = Get-ADUser -Filter "SamAccountName -eq '$nomUtilisateurRecherche'" -Properties GivenName, Surname, Title, Department, WhenCreated, Enabled
     
-    if (-not $user) {
-        Write-Host "Utilisateur introuvable." -ForegroundColor Red
-        return
+    if ($utilisateurTrouve) {
+        Write-Host "Utilisateur trouvé !" -ForegroundColor Green
+        Write-Host "Prénom           : $($utilisateurTrouve.GivenName)"
+        Write-Host "Nom              : $($utilisateurTrouve.Surname)"
+        Write-Host "Titre            : $($utilisateurTrouve.Title)"
+        Write-Host "Service          : $($utilisateurTrouve.Department)"
+        Write-Host "Date de création : $($utilisateurTrouve.WhenCreated)"
+    
+        # 1. Statut
+        if ($utilisateurTrouve.Enabled) {
+            Write-Host "Statut           : Actif" -ForegroundColor Green
+        } else {
+            Write-Host "Statut           : Désactivé" -ForegroundColor Red
+        }
+    
+        # 2. Message pour la Comptabilité
+        if ($utilisateurTrouve.Department -eq "Comptabilite") {
+            Write-Host "Compte Comptabilité : accès aux partages financiers à vérifier." -ForegroundColor Yellow
+        }
+    
+        # 3. Les 3 premiers groupes
+        $groupes = Get-ADPrincipalGroupMembership -Identity $utilisateurTrouve | Select-Object -First 3
+        Write-Host "Groupes (3 premiers) :"
+        foreach ($groupe in $groupes) {
+            Write-Host "  - $($groupe.Name)"
+        }
+    } else {
+        Write-Host "Aucun utilisateur trouvé avec ce nom." -ForegroundColor Red
     }
-    
-    Write-Host "Prénom    : $($user.GivenName)"
-    Write-Host "Nom       : $($user.Surname)"
-    Write-Host "Titre     : $($user.Title)"
-    Write-Host "Service   : $($user.Department)"
-    Write-Host "Créé le   : $($user.WhenCreated)"
-    Write-Host "Statut    : $(if ($user.Enabled) {'Actif'} else {'Désactivé'})"
-    
-    if ($user.Department -eq "Comptabilite") {
-        Write-Host "-> Compte Comptabilité : accès aux partages financiers à vérifier." -ForegroundColor Yellow
-    }
-    
-    $groupes = Get-ADPrincipalGroupMembership -Identity $user.SamAccountName |
-                   Select-Object -First 3
-    Write-Host "Groupes (3 premiers) :"
-    $groupes | ForEach-Object { Write-Host "  - $($_.Name)" }
     ```
 
 ## 5. 🔹 Mini-projet : Rapport d'audit par OU
@@ -634,6 +712,8 @@ if ($users.Count -eq 0) {
     1. La date de dernière connexion (`LastLogonDate`)
     2. Si le mot de passe expire ou non (`PasswordNeverExpires`)
     3. Marquez en rouge les comptes inactifs depuis plus de 30 jours
+    
+    *Indice : `$limite = (Get-Date).AddDays(-30)` donne la date d'il y a 30 jours, et `$user.LastLogonDate -lt $limite` compare deux dates. Attention : un compte qui ne s'est jamais connecté a un `LastLogonDate` vide (`$null`). Testez ce cas en premier avec `if ($null -eq $user.LastLogonDate)` : il compte aussi comme inactif.*
 
 ??? success "Solution"
     
@@ -662,25 +742,27 @@ if ($users.Count -eq 0) {
         $couleur = if ($user.Enabled) { "Green"  } else { "Red" }
     
         # LastLogonDate vaut $null si le compte ne s'est JAMAIS connecté :
-        # on traite ce cas à part, sinon il passerait inaperçu.
+        # on traite ce cas en premier, sinon il passerait inaperçu.
         if ($null -eq $user.LastLogonDate) {
-            $inactif   = $true
-            $motif     = ' - JAMAIS CONNECTÉ'
-            $derniere  = 'jamais'
+            $couleur  = "Red"
+            $derniere = "jamais"
+        } elseif ($user.LastLogonDate -lt $limite) {
+            $couleur  = "Red"
+            $derniere = $user.LastLogonDate
         } else {
-            $inactif   = $user.LastLogonDate -lt $limite
-            $motif     = if ($inactif) { ' - INACTIF +30j' } else { '' }
-            $derniere  = $user.LastLogonDate
+            $derniere = $user.LastLogonDate
         }
-        if ($inactif) { $couleur = "Red" }
     
-        Write-Host "$($user.Name) - $statut$motif" -ForegroundColor $couleur
+        Write-Host "$($user.Name) - $statut" -ForegroundColor $couleur
         Write-Host "  Dernière connexion : $derniere"
         Write-Host "  MDP permanent      : $($user.PasswordNeverExpires)"
     
         $groupes = Get-ADPrincipalGroupMembership -Identity $user.SamAccountName |
                        Select-Object -First 3
-        Write-Host "  Groupes : $($groupes.Name -join ', ')"
+        Write-Host "  Groupes principaux :"
+        foreach ($groupe in $groupes) {
+            Write-Host "    - $($groupe.Name)"
+        }
         Write-Host ""
     }
     ```

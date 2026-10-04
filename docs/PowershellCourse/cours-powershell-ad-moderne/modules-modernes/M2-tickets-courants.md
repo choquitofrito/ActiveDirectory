@@ -82,7 +82,7 @@ Get-ADUser -Identity Valeria -Properties Enabled, LockedOut, PasswordExpired, La
 
 ```powershell
 # Recherche par prénom approximatif
-Get-ADUser -Filter {GivenName -like "Val*"} -SearchBase "OU=EU,DC=maxtec,DC=be" |
+Get-ADUser -Filter {GivenName -like "Val*"} -SearchBase "OU=EU,DC=maxtec,DC=be" -Properties Department |
     Select-Object Name, SamAccountName, Department, Enabled
 
 # Résultat:
@@ -248,7 +248,7 @@ $utilisateur = "Marie"
 $raisonDepart = "Fin de contrat - $(Get-Date -Format 'dd/MM/yyyy')"
 
 # 1. Vérifier l'état actuel
-Get-ADUser -Identity $utilisateur | Select-Object Name, Enabled, LastLogonDate
+Get-ADUser -Identity $utilisateur -Properties LastLogonDate | Select-Object Name, Enabled, LastLogonDate
 
 # 2. Simuler
 Set-ADUser -Identity $utilisateur -Enabled $false -Description $raisonDepart -WhatIf
@@ -257,7 +257,7 @@ Set-ADUser -Identity $utilisateur -Enabled $false -Description $raisonDepart -Wh
 Set-ADUser -Identity $utilisateur -Enabled $false -Description $raisonDepart
 
 # 4. Vérifier
-Get-ADUser -Identity $utilisateur | Select-Object Name, Enabled, Description
+Get-ADUser -Identity $utilisateur -Properties Description | Select-Object Name, Enabled, Description
 ```
 
 ### Variante avec retrait des groupes

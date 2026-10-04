@@ -157,7 +157,7 @@ foreach ($dept in $departements) {
 #### Étape 12 : Lister les comptes de service
 
 ```powershell
-Get-ADUser -Filter * -SearchBase "OU=ServiceAccounts,OU=MONITORING,DC=maxtec,DC=be" |
+Get-ADUser -Filter * -SearchBase "OU=ServiceAccounts,OU=MONITORING,DC=maxtec,DC=be" -Properties Description |
     Select-Object Name, SamAccountName, Enabled, Description
 ```
 
