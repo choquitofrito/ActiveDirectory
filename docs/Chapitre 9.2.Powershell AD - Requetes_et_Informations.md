@@ -141,6 +141,39 @@ Autres options utiles : `-AccountDisabled`, `-PasswordNeverExpires`, `-AccountEx
         Format-Table Name, SamAccountName, WhenCreated
     ```
 
+### Entraînement 1.1 — Filtres
+
+Toujours le même schéma : **`Get-ADUser -Filter {...}` → `-Properties` pour chaque attribut non renvoyé par défaut → `Format-Table`**. Seuls changent l'attribut et l'opérateur.
+
+!!! example "Exercices"
+    
+    1. Les utilisateurs dont le **titre** contient `Comptable`. Affichez `Name` et `Title`.
+       *Indice : `Title` n'est pas renvoyé par défaut ; `-like` avec des `*` de chaque côté.*
+    2. Les utilisateurs du service `RH` **ou** du service `Comptabilite`. Affichez `Name` et `Department`.
+       *Indice : `-or` entre deux conditions complètes : `Department -eq "RH" -or Department -eq "Comptabilite"`.*
+    3. Les utilisateurs du service `Ventes` créés **ces 30 derniers jours**. Affichez `Name` et `WhenCreated`.
+       *Indice : calculez la date avant le filtre : `$limite = (Get-Date).AddDays(-30)`. Si votre lab a été créé il y a plus de 30 jours, augmentez la valeur.*
+
+??? success "Solutions"
+    
+    ```powershell
+    # 1. Titre contenant "Comptable"
+    Get-ADUser -Filter {Title -like "*Comptable*"} -Properties Title |
+        Format-Table Name, Title
+    
+    # 2. RH ou Comptabilite
+    Get-ADUser -Filter {Department -eq "RH" -or Department -eq "Comptabilite"} -Properties Department |
+        Format-Table Name, Department
+    
+    # 3. Ventes, créés ces 30 derniers jours
+    $limite = (Get-Date).AddDays(-30)
+    Get-ADUser -Filter {Department -eq "Ventes" -and WhenCreated -ge $limite} `
+               -Properties Department, WhenCreated |
+        Format-Table Name, WhenCreated
+    ```
+    
+    Le (1) trouve `Cindy` et `Charles`, pas `Charlotte` : son titre est `Responsable Comptabilite`, qui ne contient pas `Comptable`.
+
 ### Mission 1.2 — Audit : comptes à risque
 
 !!! example "Objectif"
@@ -187,6 +220,41 @@ Autres options utiles : `-AccountDisabled`, `-PasswordNeverExpires`, `-AccountEx
     
     Variante pour (3), filtrée côté client : `Get-ADUser -Filter * -Properties EmailAddress | Where-Object { [string]::IsNullOrEmpty($_.EmailAddress) }`. Même résultat, mais tout l'annuaire est rapatrié avant d'être filtré.
 
+
+### Entraînement 1.2 — Comptes à risque
+
+Même démarche à chaque question : **une question de sécurité → `Search-ADAccount` ou un `-Filter` → un tableau**. Si une liste est vide, préparez le cas dans la GUI (onglet **Compte** de l'utilisateur), puis relancez.
+
+!!! example "Exercices"
+    
+    1. Les comptes utilisateurs **désactivés**. Affichez `Name` et `SamAccountName`.
+       *Indice : `Search-ADAccount -AccountDisabled -UsersOnly`. Pour tester, désactivez d'abord `rene` dans la GUI.*
+    2. Les comptes dont le mot de passe **n'expire jamais**, de deux façons : avec `Search-ADAccount`, puis avec `-Filter`.
+       *Indice : l'option s'appelle `-PasswordNeverExpires` dans `Search-ADAccount`, et l'attribut `PasswordNeverExpires` dans le filtre (à demander avec `-Properties`).*
+    3. Les comptes **actifs** sans **titre** (`Title` vide).
+       *Indice : même méthode que pour l'email dans la mission 1.2 : `-notlike "*"`.*
+
+??? success "Solutions"
+    
+    ```powershell
+    # 1. Comptes désactivés
+    Search-ADAccount -AccountDisabled -UsersOnly |
+        Format-Table Name, SamAccountName
+    
+    # 2a. Mot de passe qui n'expire jamais, avec Search-ADAccount
+    Search-ADAccount -PasswordNeverExpires -UsersOnly |
+        Format-Table Name, SamAccountName
+    
+    # 2b. Même question avec -Filter
+    Get-ADUser -Filter {PasswordNeverExpires -eq $true} -Properties PasswordNeverExpires |
+        Format-Table Name, SamAccountName, PasswordNeverExpires
+    
+    # 3. Actifs sans titre
+    Get-ADUser -Filter {Enabled -eq $true -and Title -notlike "*"} |
+        Format-Table Name, SamAccountName
+    ```
+    
+    Au (3), `Administrateur` apparaît : les comptes intégrés n'ont pas de titre. C'est attendu.
 
 ## 2. 🔹 Obtenir des informations sur les groupes
 
@@ -266,6 +334,41 @@ Get-ADGroup -Filter {Name -like "GG-EU-RH*"} | ForEach-Object {
     }
     ```
 
+### Entraînement 2.1 — Membres et appartenances
+
+Deux commandes, une seule logique : **`-Identity` désigne l'objet de départ**. `Get-ADGroupMember -Identity <groupe>` donne ses membres ; `Get-ADPrincipalGroupMembership -Identity <utilisateur>` donne ses groupes.
+
+!!! example "Exercices"
+    
+    1. Les groupes dont `rebecca` est membre. Affichez `Name` et `GroupScope`.
+       *Indice : on part de l'utilisateur.*
+    2. Les membres de `GG-EU-Ventes-Users`, triés par nom. Affichez `Name` et `SamAccountName`.
+       *Indice : on part du groupe ; `Sort-Object Name` avant `Format-Table`.*
+    3. `ivan` est-il membre de `GG-EU-IT-Admin` ? Affichez `Oui` ou `Non`.
+       *Indice : gardez seulement le membre `ivan` avec `Where-Object { $_.SamAccountName -eq "ivan" }`, stockez le résultat dans une variable et testez-la avec `if`.*
+
+??? success "Solutions"
+    
+    ```powershell
+    # 1. Groupes de rebecca : on part de l'utilisateur
+    Get-ADPrincipalGroupMembership -Identity rebecca |
+        Format-Table Name, GroupScope
+    
+    # 2. Membres de GG-EU-Ventes-Users : on part du groupe
+    Get-ADGroupMember -Identity "GG-EU-Ventes-Users" |
+        Sort-Object Name |
+        Format-Table Name, SamAccountName
+    
+    # 3. ivan est-il membre de GG-EU-IT-Admin ?
+    $trouve = Get-ADGroupMember -Identity "GG-EU-IT-Admin" |
+                  Where-Object { $_.SamAccountName -eq "ivan" }
+    if ($trouve) {
+        Write-Host "Oui"
+    } else {
+        Write-Host "Non"
+    }
+    ```
+
 !!! tip "Le paramètre -Identity"
     
     `-Identity` accepte un nom, un SamAccountName, un DistinguishedName ou un GUID. Les formats sont détaillés au chapitre 9.1, section [Variables et commandes AD](Chapitre%209.1.Powershell%20AD%20-%20Concepts%20base.md#variables-et-commandes-ad).
@@ -305,6 +408,38 @@ Get-ADObject -Filter * -SearchBase "OU=Users,OU=Comptabilite,OU=EU,DC=maxtec,DC=
 (Get-ADUser -Filter * -SearchBase "OU=Users,OU=Comptabilite,OU=EU,DC=maxtec,DC=be").Count
 ```
 
+
+### Entraînement 3.1 — Chercher dans une branche
+
+Le schéma : **`-SearchBase "<DN de l'OU>"` pour choisir le point de départ**, `-SearchScope OneLevel` pour ne pas descendre dans les sous-OUs. Le DN se lit de droite à gauche : `OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be` est l'OU `Users` dans `RH`, dans `EU`.
+
+!!! example "Exercices"
+    
+    1. Les sous-OUs **directes** de l'OU `RH`. Affichez leur `Name`.
+       *Indice : `Get-ADOrganizationalUnit -Filter * -SearchBase "OU=RH,..." -SearchScope OneLevel`.*
+    2. Le **nombre de groupes** dans l'OU `Groups` du service `IT`.
+       *Indice : `( ... ).Count` autour d'un `Get-ADGroup -Filter * -SearchBase ...`.*
+    3. Le nombre d'utilisateurs dans **toute la branche** `EU`, puis **directement** dans `EU` (sans les sous-OUs). Expliquez la différence.
+       *Indice : la même commande deux fois, la seconde avec `-SearchScope OneLevel`.*
+
+??? success "Solutions"
+    
+    ```powershell
+    # 1. Sous-OUs directes de RH : Users, Computers, Groups
+    Get-ADOrganizationalUnit -Filter * -SearchBase "OU=RH,OU=EU,DC=maxtec,DC=be" -SearchScope OneLevel |
+        Format-Table Name
+    
+    # 2. Nombre de groupes dans OU=Groups,OU=IT
+    (Get-ADGroup -Filter * -SearchBase "OU=Groups,OU=IT,OU=EU,DC=maxtec,DC=be").Count
+    
+    # 3a. Toute la branche EU (par défaut, la recherche descend dans les sous-OUs)
+    (Get-ADUser -Filter * -SearchBase "OU=EU,DC=maxtec,DC=be").Count
+    
+    # 3b. Uniquement les comptes placés directement dans EU
+    (Get-ADUser -Filter * -SearchBase "OU=EU,DC=maxtec,DC=be" -SearchScope OneLevel).Count
+    ```
+    
+    Au (3), la première commande compte les 13 comptes du lab ; la seconde renvoie 0, car tous les comptes sont dans les OUs `Users` des services, pas directement dans `EU`.
 
 ## 4. 🔹 Exportation des données
 
@@ -375,6 +510,42 @@ Invoke-Item "C:\Scripts\utilisateurs.html"
         }
     } | Export-Csv -Path "C:\Scripts\audit_groupes.csv" -NoTypeInformation -Encoding UTF8
     ```
+
+### Entraînement 4.1 — Exporter
+
+Toujours la même chaîne : **`Get-AD...` avec `-Properties` → `Select-Object` (les colonnes) → `Export-Csv` ou `ConvertTo-Html | Out-File`**. Les fichiers vont dans `C:\Scripts`.
+
+!!! example "Exercices"
+    
+    1. Un CSV `membres_rh.csv` des membres de `GG-EU-RH-Users`, colonnes `Name` et `SamAccountName`.
+       *Indice : `Get-ADGroupMember` n'a pas de `-Properties`, mais `Name` et `SamAccountName` sont déjà dans ses résultats.*
+    2. Une page HTML `equipe_it.html` des utilisateurs du service `IT`, colonnes `Name`, `Title`, `EmailAddress`, titre de page `Equipe IT`.
+       *Indice : `Title` et `EmailAddress` sont à demander avec `-Properties`.*
+    3. Un CSV `ous_eu.csv` des OUs situées directement sous `EU`, colonnes `Name` et `DistinguishedName`.
+       *Indice : `-SearchScope OneLevel`, comme dans l'entraînement 3.1.*
+
+??? success "Solutions"
+    
+    ```powershell
+    # 1. Membres de GG-EU-RH-Users en CSV
+    Get-ADGroupMember -Identity "GG-EU-RH-Users" |
+        Select-Object Name, SamAccountName |
+        Export-Csv -Path "C:\Scripts\membres_rh.csv" -NoTypeInformation -Encoding UTF8
+    
+    # 2. Équipe IT en HTML
+    Get-ADUser -Filter {Department -eq "IT"} -Properties Department, Title, EmailAddress |
+        Select-Object Name, Title, EmailAddress |
+        ConvertTo-Html -Title "Equipe IT" |
+        Out-File -FilePath "C:\Scripts\equipe_it.html" -Encoding UTF8
+    Invoke-Item "C:\Scripts\equipe_it.html"
+    
+    # 3. OUs directement sous EU en CSV
+    Get-ADOrganizationalUnit -Filter * -SearchBase "OU=EU,DC=maxtec,DC=be" -SearchScope OneLevel |
+        Select-Object Name, DistinguishedName |
+        Export-Csv -Path "C:\Scripts\ous_eu.csv" -NoTypeInformation -Encoding UTF8
+    ```
+    
+    Ouvrez les CSV dans le Bloc-notes : une ligne d'en-tête, puis une ligne par objet. C'est ce que `Select-Object` a choisi, rien de plus.
 
 ---
 

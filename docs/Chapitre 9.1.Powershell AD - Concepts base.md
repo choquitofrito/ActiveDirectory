@@ -11,9 +11,11 @@
     
     - stocker une valeur ou un objet AD dans une variable et lire ses propriétés (`$user.Department`) ;
     - retrouver la liste des propriétés d'un objet avec `Get-Member` ;
+    - distinguer `-Properties` (ce que AD envoie), `Select-Object` (ce que l'on garde) et `Format-Table` (ce que l'on affiche) ;
     - manipuler un tableau (index, ajout, `.Count`) ;
     - parcourir une collection avec `foreach` et `ForEach-Object` ;
     - écrire des conditions `if / elseif / else` ;
+    - filtrer avec `-Filter` (sur le DC) ou `Where-Object` (dans la session), et savoir lequel choisir ;
     - protéger un script contre une OU ou un compte inexistant avec `try / catch` ;
     - produire un rapport d'audit par OU.
     
@@ -70,6 +72,38 @@ $message = "Bonjour $nomUtilisateur"   # Bonjour richard
     ```
     
     À noter : dans une chaîne entre guillemets `"..."`, PowerShell évalue les variables directement (`"$login@$domaine"`). Pas besoin de concaténation.
+
+### Entraînement 1.1 — Variables et texte
+
+Le schéma : **des variables → une chaîne entre guillemets doubles qui les assemble**.
+
+!!! example "Exercices"
+    
+    1. Avec `$service = "IT"` et `$nb = 3`, affichez `Le service IT compte 3 personnes`.
+    2. Avec `$service = "RH"`, construisez dans `$cheminOU` le chemin `OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be` et affichez-le. Changez `$service` en `Ventes` et relancez.
+       *Indice : seul le nom du service change, le reste du texte est fixe.*
+    3. Avec `$prenom = "Ines"` et `$nom = "Installe"`, construisez un login `iinstalle` : initiale du prénom + nom, en minuscules.
+       *Indice : `$prenom.Substring(0,1)` renvoie la première lettre.*
+
+??? success "Solutions"
+    
+    ```powershell
+    # 1.
+    $service = "IT"
+    $nb      = 3
+    Write-Host "Le service $service compte $nb personnes"
+    
+    # 2. Le même texte sert pour n'importe quel service
+    $service  = "RH"
+    $cheminOU = "OU=Users,OU=$service,OU=EU,DC=maxtec,DC=be"
+    Write-Host $cheminOU
+    
+    # 3. Initiale + nom, en minuscules
+    $prenom = "Ines"
+    $nom    = "Installe"
+    $login  = ($prenom.Substring(0,1) + $nom).ToLower()
+    Write-Host $login     # iinstalle
+    ```
 
 ### Variables et commandes AD
 
@@ -145,6 +179,35 @@ Write-Host $utilisateur.EmailAddress   # le nom PowerShell est EmailAddress (att
     ```
     
     La syntaxe `$($variable.Propriete)` est nécessaire à l'intérieur d'une chaîne pour évaluer une propriété.
+
+### Entraînement 1.2 — Un objet AD dans une variable
+
+Le schéma : **`$x = Get-AD... -Properties ...` → `$x.Propriete` dans un texte, entre `$( )`**.
+
+!!! example "Exercices"
+    
+    1. Stockez `cindy` avec son `Title` et son `Department`, puis affichez `Cindy Collard est Comptable (Comptabilite)`.
+    2. Stockez le groupe `GG-EU-IT-Users` avec sa date de création (`WhenCreated`), puis affichez `GG-EU-IT-Users, créé le ...`.
+    3. Stockez le résultat de `Get-ADDomain` (vu au chapitre 9.0), puis affichez `Domaine maxtec.be (NetBIOS : MAXTEC)`.
+       *Indice : les propriétés s'appellent `DNSRoot` et `NetBIOSName`.*
+
+??? success "Solutions"
+    
+    ```powershell
+    # 1. Title et Department ne sont pas renvoyés par défaut : -Properties
+    $u = Get-ADUser -Identity cindy -Properties Title, Department
+    Write-Host "$($u.Name) $($u.Surname) est $($u.Title) ($($u.Department))"
+    
+    # 2.
+    $g = Get-ADGroup -Identity "GG-EU-IT-Users" -Properties WhenCreated
+    Write-Host "$($g.Name), créé le $($g.WhenCreated)"
+    
+    # 3. Get-ADDomain renvoie déjà ces propriétés
+    $d = Get-ADDomain
+    Write-Host "Domaine $($d.DNSRoot) (NetBIOS : $($d.NetBIOSName))"
+    ```
+    
+    Pour `cindy`, `Name` vaut `Cindy` (le script du lab utilise le prénom comme nom d'objet) : le nom complet s'obtient avec `Name` + `Surname`, ou `GivenName` + `Surname`.
 
 ### Quelles propriétés sont disponibles ?
 
@@ -232,6 +295,35 @@ Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated |
 ```
 
 
+### Entraînement 1.3 — Demander, garder, afficher
+
+Le schéma : **`-Properties` pour ce qui n'est pas renvoyé par défaut → `Format-Table` pour l'écran, `Select-Object` pour exporter**.
+
+!!! example "Exercices"
+    
+    1. Affichez en tableau le `Name` et le `Title` des comptes du service `Ventes`.
+    2. Cette commande affiche une colonne `EmailAddress` vide. Corrigez-la :
+       `Get-ADUser -Filter * | Format-Table Name, EmailAddress`
+    3. Exportez `Name`, `SamAccountName` et `Department` des comptes `IT` dans `C:\Scripts\it.csv`.
+       *Indice : avant `Export-Csv`, c'est `Select-Object`, jamais `Format-Table`.*
+
+??? success "Solutions"
+    
+    ```powershell
+    # 1. Title n'est pas renvoyé par défaut
+    Get-ADUser -Filter "Department -eq 'Ventes'" -Properties Title |
+        Format-Table Name, Title
+    
+    # 2. EmailAddress doit être demandé à AD
+    Get-ADUser -Filter * -Properties EmailAddress |
+        Format-Table Name, EmailAddress
+    
+    # 3. Select-Object garde des objets : Export-Csv peut les écrire
+    Get-ADUser -Filter "Department -eq 'IT'" -Properties Department |
+        Select-Object Name, SamAccountName, Department |
+        Export-Csv -Path "C:\Scripts\it.csv" -NoTypeInformation -Encoding UTF8
+    ```
+
 ## 2. 🔹 Les tableaux : collections d'objets
 
 Un tableau est une collection ordonnée d'éléments, chacun accessible par son indice.
@@ -301,6 +393,34 @@ if ($index -ge 0) {
 
 
 
+### Entraînement 2.1 — Tableaux simples
+
+Le schéma : **`@(...)` pour créer, `[i]` pour lire, `+=` pour ajouter, `.Count` pour compter**.
+
+!!! example "Exercices"
+    
+    1. Créez `$logins` avec `victor`, `cindy`, `ivan`. Affichez le deuxième élément, puis le nombre d'éléments.
+    2. Ajoutez `richard` à `$logins`, puis vérifiez avec `.Contains()` que `rebecca` n'y est pas.
+    3. Remplacez `cindy` par `charles` et affichez tout le tableau.
+       *Indice : `cindy` est à l'indice 1. On remplace avec `$logins[1] = ...`.*
+
+??? success "Solutions"
+    
+    ```powershell
+    # 1. Les indices commencent à 0 : le deuxième élément est [1]
+    $logins = @("victor", "cindy", "ivan")
+    $logins[1]
+    $logins.Count          # 3
+    
+    # 2.
+    $logins += "richard"
+    $logins.Contains("rebecca")   # False
+    
+    # 3.
+    $logins[1] = "charles"
+    $logins
+    ```
+
 ### Tableaux d'objets AD
 
 En PowerShell, les résultats de nombreuses commandes sont automatiquement des tableaux, et la plupart de fois ils contiendront des objets :
@@ -334,6 +454,34 @@ Write-Host $utilisateursComptabilite[0].Name
     Write-Host "Groupes trouvés : $($groupesEU.Count)"
     Write-Host "Premier : $($groupesEU[0].Name)"
     Write-Host "Dernier : $($groupesEU[-1].Name)"
+    ```
+
+### Entraînement 2.2 — Tableaux d'objets AD
+
+Le schéma : **`$x = Get-AD... -Filter ...` → `$x.Count`, `$x[0]`, `$x[-1]`**.
+
+!!! example "Exercices"
+    
+    1. Stockez les comptes du service `IT` dans `$it`. Affichez leur nombre et le `Name` du premier.
+    2. Stockez dans `$ousUsers` toutes les OUs qui s'appellent `Users`. Combien y en a-t-il ? Affichez le `DistinguishedName` de la dernière.
+    3. Stockez les groupes dont le nom se termine par `-Admin`. Affichez leur nombre et le nom du premier et du dernier.
+
+??? success "Solutions"
+    
+    ```powershell
+    # 1.
+    $it = Get-ADUser -Filter "Department -eq 'IT'"
+    Write-Host "Comptes IT : $($it.Count), premier : $($it[0].Name)"
+    
+    # 2. Une OU Users par service
+    $ousUsers = Get-ADOrganizationalUnit -Filter "Name -eq 'Users'"
+    Write-Host "OUs Users : $($ousUsers.Count)"
+    Write-Host $ousUsers[-1].DistinguishedName
+    
+    # 3.
+    $admins = Get-ADGroup -Filter {Name -like "*-Admin"}
+    Write-Host "Groupes Admin : $($admins.Count)"
+    Write-Host "Premier : $($admins[0].Name) / Dernier : $($admins[-1].Name)"
     ```
 
 ## 3. 🔹 Les boucles : répéter des actions
@@ -420,6 +568,40 @@ $utilisateurs | ForEach-Object { Write-Host $_.Name }
     ```
     
     Le filtre en chaîne `"Department -eq '$dept' -and Enabled -eq 'True'"` permet d'injecter une variable directement. `Marketing` n'existe pas chez Maxtec : le résultat attendu est `0`, pas une erreur.
+
+### Entraînement 3.1 — `foreach`
+
+Le schéma : **`foreach ($element in $collection) { ... $element ... }`**. Une action par élément.
+
+!!! example "Exercices"
+    
+    1. Avec `$logins = @("victor", "cindy", "ivan")`, affichez pour chacun `victor : Commercial` (son `Title`).
+       *Indice : dans la boucle, `Get-ADUser -Identity $login -Properties Title`.*
+    2. Affichez le nom de chaque groupe dont le nom se termine par `-Users`.
+    3. Pour chaque compte du service `RH`, affichez `Bonjour Richard` (avec son `GivenName`).
+
+??? success "Solutions"
+    
+    ```powershell
+    # 1. Une requête AD par login
+    $logins = @("victor", "cindy", "ivan")
+    foreach ($login in $logins) {
+        $u = Get-ADUser -Identity $login -Properties Title
+        Write-Host "$login : $($u.Title)"
+    }
+    
+    # 2. La collection vient directement d'une commande AD
+    $groupes = Get-ADGroup -Filter {Name -like "*-Users"}
+    foreach ($groupe in $groupes) {
+        Write-Host $groupe.Name
+    }
+    
+    # 3. GivenName fait partie des propriétés par défaut
+    $rh = Get-ADUser -Filter "Department -eq 'RH'"
+    foreach ($u in $rh) {
+        Write-Host "Bonjour $($u.GivenName)"
+    }
+    ```
 
 ### Trier et construire ses propres lignes de résultat
 
@@ -691,6 +873,151 @@ if ($user.Enabled -eq $false) {
     Write-Host "Le compte est actif et utilisable"
 }
 ```
+
+### Entraînement 4.1 — `if / elseif / else`
+
+Le schéma : **récupérer une valeur → la tester → un message par cas**.
+
+!!! example "Exercices"
+    
+    1. Récupérez `valentin` avec son `Title`. Si le titre commence par `Responsable`, affichez `valentin est responsable`, sinon `valentin est collaborateur`. Testez aussi avec `victor`.
+       *Indice : `-like "Responsable*"`.*
+    2. Comptez les membres de `GG-EU-RH-Users`. Affichez `vide` s'il y en a 0, `petit groupe` s'il y en a moins de 3, `groupe normal` sinon.
+    3. Pour chaque login de `@("richard", "inconnu", "cindy")`, affichez s'il existe ou non dans AD.
+       *Indice : boucle `foreach` + le test de l'exemple 3 (`Get-ADUser -Filter "SamAccountName -eq '...'"`).*
+
+??? success "Solutions"
+    
+    ```powershell
+    # 1.
+    $login = "valentin"
+    $u = Get-ADUser -Identity $login -Properties Title
+    if ($u.Title -like "Responsable*") {
+        Write-Host "$login est responsable"
+    } else {
+        Write-Host "$login est collaborateur"
+    }
+    
+    # 2. Trois cas : if / elseif / else
+    $nb = (Get-ADGroupMember -Identity "GG-EU-RH-Users").Count
+    if ($nb -eq 0) {
+        Write-Host "vide"
+    } elseif ($nb -lt 3) {
+        Write-Host "petit groupe"
+    } else {
+        Write-Host "groupe normal"
+    }
+    
+    # 3. Boucle + condition. -Filter ne lève pas d'erreur si le compte n'existe pas
+    foreach ($login in @("richard", "inconnu", "cindy")) {
+        if (Get-ADUser -Filter "SamAccountName -eq '$login'") {
+            Write-Host "$login existe"
+        } else {
+            Write-Host "$login n'existe pas"
+        }
+    }
+    ```
+
+### Filtrer une liste : `Where-Object`
+
+`Where-Object` est un `if` appliqué à chaque objet du pipeline : il laisse passer les objets pour lesquels la condition est vraie et écarte les autres. Dans les accolades, `$_` est l'objet examiné.
+
+```powershell
+# Parmi les groupes de richard, ne garder que ceux dont le nom commence par GG-
+# Get-ADPrincipalGroupMembership n'a pas de paramètre -Filter : il renvoie TOUS les groupes
+# du compte, et c'est Where-Object qui filtre ensuite
+Get-ADPrincipalGroupMembership -Identity richard |
+    Where-Object { $_.Name -like "GG-*" }
+#   ^ $_ = le groupe examiné ; s'il ne commence pas par GG-, il est écarté
+```
+
+#### `-Filter` ou `Where-Object` ?
+
+Les deux filtrent, mais pas au même endroit :
+
+| | `-Filter` | `Where-Object` |
+|---|---|---|
+| Où | Sur le contrôleur de domaine, **avant** l'envoi | Dans votre session, **après** réception |
+| Ce qui transite sur le réseau | Seulement les objets qui correspondent | Tous les objets, le filtrage se fait ensuite |
+| Disponible | Sur les `Get-AD*` qui ont un paramètre `-Filter` | Après n'importe quelle commande |
+| Syntaxe | `-Filter "Department -eq 'IT'"` | `Where-Object { $_.Department -eq 'IT' }` |
+
+Même résultat, deux chemins :
+
+```powershell
+# -Filter : le DC cherche et n'envoie que les 3 comptes IT
+Get-ADUser -Filter "Department -eq 'IT'"
+
+# Where-Object : le DC envoie TOUS les comptes, PowerShell en garde 3
+# -Properties Department est obligatoire : Where-Object ne voit que ce que AD a envoyé
+Get-ADUser -Filter * -Properties Department | Where-Object { $_.Department -eq 'IT' }
+```
+
+Sur 13 comptes, aucune différence perceptible. Sur 50 000, la seconde forme est beaucoup plus lente.
+
+**Règle :** `-Filter` dès que la commande le propose. `Where-Object` quand ce n'est pas possible :
+
+- la commande n'a pas de `-Filter` : `Get-ADGroupMember`, `Get-ADPrincipalGroupMembership`, un tableau `@(...)` ;
+- la condition ne s'exprime pas dans `-Filter` : un calcul comme `(Get-ADGroupMember ...).Count -eq 0`.
+
+### Entraînement — `Where-Object`
+
+Le schéma : **une liste → `Where-Object { condition sur $_ }` → seulement les éléments qui passent**.
+
+!!! example "Exercices"
+    
+    1. Parmi les groupes de `victor`, gardez ceux dont le nom se termine par `-Users`.
+       *Indice : `-like "*-Users"`.*
+    2. Parmi les membres de `GG-EU-IT-Users`, gardez uniquement les utilisateurs (pas les groupes ni les ordinateurs).
+       *Indice : chaque membre a une propriété `objectClass` qui vaut `user`, `group` ou `computer`.*
+    3. Dans le tableau `@("Ventes", "RH", "Logistique")`, gardez les services qui ont au moins un utilisateur.
+       *Indice : ici `$_` est un texte. Dans la condition, comptez les comptes avec `(Get-ADUser -Filter "Department -eq '$_'").Count` et comparez à 0.*
+
+??? success "Solutions"
+    
+    ```powershell
+    # 1. Groupes de victor qui se terminent par -Users
+    Get-ADPrincipalGroupMembership -Identity victor |
+        Where-Object { $_.Name -like "*-Users" }
+    
+    # 2. Membres de GG-EU-IT-Users qui sont des utilisateurs
+    Get-ADGroupMember -Identity "GG-EU-IT-Users" |
+        Where-Object { $_.objectClass -eq "user" }
+    
+    # 3. Services qui ont au moins un utilisateur (Logistique n'en a pas)
+    @("Ventes", "RH", "Logistique") |
+        Where-Object { (Get-ADUser -Filter "Department -eq '$_'").Count -gt 0 }
+    ```
+
+### Entraînement — `-Filter` ou `Where-Object` ?
+
+Pour chaque cas, choisissez l'outil, puis écrivez la commande.
+
+!!! example "Exercices"
+    
+    1. Les comptes du service `RH`.
+    2. Parmi les groupes de `cindy`, ceux dont le nom contient `Compta`.
+    3. Réécrivez cette commande pour que le DC fasse le filtrage :
+       `Get-ADUser -Filter * -Properties Title | Where-Object { $_.Title -like "Comptable*" }`
+    
+    *Indice : la question à se poser est « la commande a-t-elle un paramètre `-Filter` ? ».*
+
+??? success "Solutions"
+    
+    ```powershell
+    # 1. Get-ADUser a -Filter : on l'utilise
+    Get-ADUser -Filter "Department -eq 'RH'"
+    
+    # 2. Get-ADPrincipalGroupMembership n'a pas de -Filter : Where-Object
+    Get-ADPrincipalGroupMembership -Identity cindy |
+        Where-Object { $_.Name -like "*Compta*" }
+    
+    # 3. La condition passe dans -Filter. -Properties Title ne sert plus qu'à l'affichage.
+    Get-ADUser -Filter "Title -like 'Comptable*'" -Properties Title |
+        Format-Table Name, Title
+    ```
+    
+    Dans `-Filter`, on écrit le nom de la propriété seul (`Title`). Dans `Where-Object`, on passe par l'objet : `$_.Title`.
 
 ### Exemple pratique : Rechercher un utilisateur
 
