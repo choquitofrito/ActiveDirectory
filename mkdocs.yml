@@ -40,8 +40,6 @@ exclude_docs: |
   Labo et Exercices/Projet_Final.md
   # Anatomie d'une ouverture de session masquée
   Labo et Exercices/Exercices: Anatomie_Logon_Reseau.md
-  PowershellCourse/*prompt*.md
-  PowershellCourse/cours-powershell-ad-moderne/README-*.md
   TODO.txt
 
 markdown_extensions:
