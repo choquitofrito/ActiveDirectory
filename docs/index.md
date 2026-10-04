@@ -19,7 +19,7 @@ Vous allez monter, administrer, automatiser et sécuriser le domaine d'une entre
 | 2 | La structure du lab, le réseau au service de l'AD, les identités | [Ch6](Chapitre%206.Unites_Organisation.md), [Ch7](Chapitre%207.Gestion_des_Utilisateurs.md) | [Installation du lab](Labo%20et%20Exercices/Labo/Labo_structure.md), [Gestion des utilisateurs](Labo%20et%20Exercices/Exercices:%20Gestion_des_Utilisateurs.md) |
 | 3 | Permissions et GPO | [Ch8](Chapitre%208.Group%20Policy%20Objects.md) | [AGDLP](Labo%20et%20Exercices/Exercices:%20AGDLP_Partage_Fichiers.md), [GPO-1](Labo%20et%20Exercices/Exercices:%20GPO-1.md), [GPO-2](Labo%20et%20Exercices/Exercices:%20GPO-2.md) |
 | 4 | PowerShell et observation | [Ch9.0](Chapitre%209.0.Powershell%20AD%20-%20Introduction.md) → [Ch9.3](Chapitre%209.3.Powershell%20AD%20-%20Creation_et_Modification.md), [Ch10](Chapitre%2010.Monitoring.md) | Missions des chapitres 9, lab d'audit du Ch10 |
-| 5 | Sécurité et projet | [Ch11](Chapitre%2011.Securite_AD.md) | Projet final *(bientôt disponible)* |
+| 5 | Projet | — | Projet final *(bientôt disponible)* |
 
 Les jours 2 à 4 se terminent par un **ticket de dépannage** ([Dépannage](Labo%20et%20Exercices/Exercices:%20Depannage.md)) : une panne réelle sur le lab, seulement le symptôme au départ.
 
@@ -50,7 +50,6 @@ Les jours 2 à 4 se terminent par un **ticket de dépannage** ([Dépannage](Labo
 | [Ch9.2 - PowerShell : requêtes](Chapitre%209.2.Powershell%20AD%20-%20Requetes_et_Informations.md) | Filtres, rapports, exports |
 | [Ch9.3 - PowerShell : création et modification](Chapitre%209.3.Powershell%20AD%20-%20Creation_et_Modification.md) | `-WhatIf`, création en masse depuis CSV |
 | [Ch10 - Monitoring](Chapitre%2010.Monitoring.md) | Journaux, Event IDs, audit |
-| [Ch11 - Sécurité AD](Chapitre%2011.Securite_AD.md) | Tiers, comptes privilégiés, Kerberos/NTLM, FGPP, LAPS, corbeille AD |
 | [Cheatsheet](CHEATSHEET.md) | PowerShell AD + commandes de diagnostic réseau |
 
 ---

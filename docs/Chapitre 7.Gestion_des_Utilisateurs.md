@@ -113,7 +113,7 @@ La même personne, deux comptes distincts. Pour une tâche admin, elle ouvre une
 
 !!! danger "Tiering : où un compte admin a le droit de se connecter"
 
-    La séparation des comptes ne suffit pas : il faut aussi limiter **où** chaque compte ouvre une session. Un compte **admin du domaine ne se connecte jamais sur un poste utilisateur** (ni `ws-IT-01`, ni `ws-RH-01`) : ses identifiants resteraient en mémoire sur une machine moins protégée, prêts à être volés. Il ne s'utilise que sur les DC et les postes d'administration dédiés. Voir [Chapitre 11 : Sécurité AD](Chapitre%2011.Securite_AD.md).
+    La séparation des comptes ne suffit pas : il faut aussi limiter **où** chaque compte ouvre une session. Un compte **admin du domaine ne se connecte jamais sur un poste utilisateur** (ni `ws-IT-01`, ni `ws-RH-01`) : ses identifiants resteraient en mémoire sur une machine moins protégée, prêts à être volés. Il ne s'utilise que sur les DC et les postes d'administration dédiés.
 
 !!! tip "Principe du moindre privilège"
     

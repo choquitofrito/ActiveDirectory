@@ -65,7 +65,7 @@ C'est un choix pédagogique, et une mauvaise pratique volontaire : un mot de pas
     - **Un mot de passe prévisible** : `Password1!` figure dans toutes les listes utilisées par les attaquants. Il respecte pourtant la complexité Windows (majuscule, chiffre, symbole) : la complexité ne garantit pas la robustesse.
     - **Le même mot de passe pour l'administrateur et le DSRM** : le DSRM est justement le compte de secours quand le reste est compromis.
 
-    En entreprise : un mot de passe différent par compte, long (phrase de passe), changé à la première connexion ; un coffre pour les comptes d'administration et le DSRM ; LAPS pour les comptes locaux des postes (Ch11).
+    En entreprise : un mot de passe différent par compte, long (phrase de passe), changé à la première connexion ; un coffre pour les comptes d'administration et le DSRM ; LAPS pour les comptes locaux des postes.
 
 !!! note "Les seules exceptions, volontaires"
     Le Ch11 (stratégie `PSO-IT-Admin`) et le projet final appliquent une stratégie de mot de passe de 14 caractères aux administrateurs. `Password1!` n'en fait que 10 : c'est le but de l'exercice de le voir refusé. Le Ch11 change donc le mot de passe d'`irene` (`Court_1234` refusé, puis `Maxtec_Admin_26!` accepté) et crée un compte d'administration séparé avec `Tier1_Maxtec_2026!`. Ces mots de passe sont indiqués dans l'exercice concerné.

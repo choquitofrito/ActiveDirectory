@@ -40,6 +40,8 @@ exclude_docs: |
   Labo et Exercices/Projet_Final.md
   # Anatomie d'une ouverture de session masquée
   Labo et Exercices/Exercices: Anatomie_Logon_Reseau.md
+  # Chapitre 11 (Sécurité AD) masqué
+  Chapitre 11.Securite_AD.md
   TODO.txt
 
 markdown_extensions:
@@ -92,9 +94,9 @@ nav:
           - Carte de référence Maxtec: PowershellCourse/cours-powershell-ad-moderne/materiels-poche/carte-reference-maxtec.md
           - Checklist validation de scripts: PowershellCourse/cours-powershell-ad-moderne/materiels-poche/checklist-validation-scripts.md
 
-  - 🛡️ Exploitation & Sécurité:
+  - 🛡️ Exploitation:
       - Ch10 - Monitoring: Chapitre 10.Monitoring.md
-      - Ch11 - Sécurité AD: Chapitre 11.Securite_AD.md
+      # - Ch11 - Sécurité AD: Chapitre 11.Securite_AD.md  # masqué
 
   - 🧪 Labs & Exercices:
       - Lab Maxtec:

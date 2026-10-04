@@ -385,7 +385,7 @@ Plusieurs GPOs liées à la **même** OU : c'est l'**ordre des liens** (onglet `
 
     La politique de mots de passe et de verrouillage des **comptes du domaine** n'est lue que dans les GPOs **liées à la racine du domaine** (en pratique la `Default Domain Policy`). La même politique liée à une OU n'affecte **que les comptes locaux** des ordinateurs de cette OU, pas les comptes AD.
 
-    Pour exiger 12 caractères aux admins et 8 aux autres, on n'utilise donc pas une GPO d'OU mais une **stratégie de mot de passe affinée** (*Fine-Grained Password Policy*, objet PSO), appliquée à un utilisateur ou à un groupe global. Elle se crée dans le Centre d'administration Active Directory ou avec `New-ADFineGrainedPasswordPolicy`. Voir [Chapitre 11 : Sécurité AD](Chapitre%2011.Securite_AD.md).
+    Pour exiger 12 caractères aux admins et 8 aux autres, on n'utilise donc pas une GPO d'OU mais une **stratégie de mot de passe affinée** (*Fine-Grained Password Policy*, objet PSO), appliquée à un utilisateur ou à un groupe global. Elle se crée dans le Centre d'administration Active Directory ou avec `New-ADFineGrainedPasswordPolicy`.
 
 ## 4. 📌 Clarification des stratégies GPO dans Active Directory
 
