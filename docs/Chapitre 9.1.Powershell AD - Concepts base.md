@@ -123,7 +123,12 @@ Write-Host $utilisateur.EmailAddress   # le nom PowerShell est EmailAddress (att
     3. Affichez la date de création (`WhenCreated`)
     4. Vérifiez si le compte est activé (`Enabled`)
     
-    *Indice : `$monCompte.GivenName` affiche une propriété. Pour l'insérer dans un texte, entourez-la de `$( )` : `"Prénom : $($monCompte.GivenName)"`. Sans `$( )`, PowerShell remplace seulement `$monCompte` et laisse `.GivenName` tel quel.*
+    *Indice : dans un texte entre guillemets, une propriété s'écrit entre `$( )`.*
+    
+    ```powershell
+    Write-Host "Prénom : $($monCompte.GivenName)"   # Prénom : Richard
+    Write-Host "Prénom : $monCompte.GivenName"      # Prénom : CN=Richard Renard,OU=...,DC=be.GivenName
+    ```
 
 ??? success "Solution"
     
@@ -145,13 +150,16 @@ Write-Host $utilisateur.EmailAddress   # le nom PowerShell est EmailAddress (att
 
 !!! info "Découvrir les propriétés"
     
-    Avant de pouvoir rechercher des informations spécifiques, il est important de connaître les attributs/propriétés disponibles. Ces propriétés sont aussi accessibles dans le menu `Propriétés` > `Editeur d'attributs` dans `Utilisateurs et groupes d'AD` (il faut activer l'option `Fonctionnalités avancées` dans le menu principal de `Utilisateurs et groupes d'AD`)
+    Avant de pouvoir rechercher des informations spécifiques, il est important de connaître les attributs/propriétés disponibles. Ces propriétés sont aussi accessibles dans le menu `Propriétés` > `Éditeur d'attributs` dans `Utilisateurs et ordinateurs Active Directory` (il faut activer `Affichage` > `Fonctionnalités avancées`).
 
+En PowerShell, la commande **`Get-Member`** liste ce que contient un objet : ses propriétés (les données, comme `GivenName`) et ses méthodes (les actions). On lui passe l'objet par le pipeline. `-MemberType Property` ne garde que les propriétés.
 
 ```powershell
 # Un seul utilisateur suffit : tous les comptes ont le même schéma
 Get-ADUser richard -Properties * | Get-Member -MemberType Property
 ```
+
+Sans `-Properties *`, `Get-Member` ne liste que la dizaine de propriétés renvoyées par défaut : il décrit l'objet reçu, pas tout ce qui existe dans AD.
 
 
 
@@ -159,11 +167,13 @@ Get-ADUser richard -Properties * | Get-Member -MemberType Property
 
 Ces trois éléments se ressemblent (on leur donne tous des noms de propriétés), mais ils interviennent à trois moments différents :
 
-| Étape | Outil | Où ça se passe | Rôle |
-|-------|-------|----------------|------|
-| 1. Demander | `-Properties` | Sur le contrôleur de domaine | Choisir les attributs que AD **envoie** |
-| 2. Garder | `Select-Object` | Dans votre session PowerShell | Choisir les propriétés que l'on **conserve** (on a toujours des objets) |
-| 3. Afficher | `Format-Table` / `Format-List` | À l'écran | Choisir la **mise en page** (colonnes ou liste) |
+| Étape | Outil | Où ça se passe | Rôle | Exemple |
+|-------|-------|----------------|------|---------|
+| 1. Demander | `-Properties` | Sur le contrôleur de domaine | Choisir les attributs que AD **envoie** | `Get-ADUser richard -Properties Department` |
+| 2. Garder | `Select-Object` | Dans votre session PowerShell | Choisir les propriétés que l'on **conserve** (on a toujours des objets) | `Select-Object Name, Department` |
+| 3. Afficher | `Format-Table` / `Format-List` | À l'écran | Choisir la **mise en page** (colonnes ou liste) | `Format-List` |
+
+Les trois étapes s'enchaînent dans cet ordre : `Get-ADUser richard -Properties Department | Select-Object Name, Department | Format-List`.
 
 **Étape 1 : `-Properties` ajoute des attributs à ce que AD renvoie.** Par défaut, `Get-ADUser` ne renvoie qu'une dizaine de propriétés : `DistinguishedName`, `Enabled`, `GivenName`, `Name`, `ObjectClass`, `ObjectGUID`, `SamAccountName`, `SID`, `Surname`, `UserPrincipalName`. Tout le reste (`Department`, `Title`, `WhenCreated`, `LastLogonDate`...) doit être demandé. `-Properties` **ajoute** ces attributs au jeu par défaut, il ne le remplace pas.
 
