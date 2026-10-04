@@ -38,7 +38,7 @@ Pendant l'installation, le script n'affiche que `Panne installée.` et l'étape 
 
 **D4** : 8.8.8.8 est injoignable sur le réseau interne ; la session s'ouvre grâce aux identifiants en cache, d'où le symptôme trompeur. Si le poste a encore une carte NAT active, son DNS 10.0.2.x brouille le diagnostic (`Verify-Depannage -Client` le signale).
 
-**Incident** : correction attendue du filtrage = **`Utilisateurs authentifiés` en Appliquer** (le filtrage d'origine). "Lecture pour Utilisateurs authentifiés + Appliquer pour `GG-EU-Logistique-Users`" ne suffit pas : `louis` n'est membre que de `GG-EU-Logistique-Admin` et reste sans lecteur, or le ticket dit "plus personne dans l'équipe". Le sujet demande aux binômes de lancer `-Restaurer` après le post-mortem : sinon `PSO-Depannage-louis` gagne sur `PSO-Logistique-Admin` et fausse la preuve de l'étape 5 pendant la démo.
+**Incident** : correction attendue du filtrage = **`Utilisateurs authentifiés` en Appliquer** (le filtrage d'origine). "Lecture pour Utilisateurs authentifiés + Appliquer pour `GG-EU-Logistique-Users`" ne suffit pas : `louis` n'est membre que de `GG-EU-Logistique-Admin` et reste sans lecteur, or le ticket dit "plus personne dans l'équipe". Le sujet demande aux binômes de lancer `-Restaurer` après le post-mortem : sinon `PSO-Depannage-louis` et la restriction de poste restent en place et faussent les preuves de la démo.
 
 ## Vérifier une correction
 

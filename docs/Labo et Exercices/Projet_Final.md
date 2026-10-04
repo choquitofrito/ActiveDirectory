@@ -27,7 +27,6 @@ Les noms ci-dessous sont **obligatoires** : le script de vérification et le for
 | Poste | `ws-LOG-01` (ou `ws-RH-01` / `ws-IT-01` déplacé temporairement, voir étape 3) |
 | GPO ordinateur | `GPO-Logistique-Verrouillage`, liée à `OU=Computers,OU=Logistique` |
 | GPO utilisateur | `GPO-Logistique-Utilisateurs`, liée à `OU=Users,OU=Logistique` |
-| Stratégie de mot de passe affinée | `PSO-Logistique-Admin`, appliquée à `GG-EU-Logistique-Admin` |
 | Script de déploiement | `C:\Scripts\Deploy-Logistique.ps1` |
 | Rapport | `C:\Rapports\Logistique_AAAA-MM-JJ.csv` |
 
@@ -39,7 +38,7 @@ Les noms ci-dessous sont **obligatoires** : le script de vérification et le for
 | 2 | Ressources : partage et AGDLP | 60 min |
 | 3 | Poste et GPO | 45 min |
 | 4 | Délégation au responsable | 30 min |
-| 5 | Sécurité et exploitation : PSO, rapport | 45 min |
+| 5 | Exploitation : rapport d'audit | 45 min |
 | 6 | Incident surprise et post-mortem | 45 min |
 | — | Documentation et préparation de la démo | 30 min |
 
@@ -229,26 +228,9 @@ Démo en fin de journée : 5 à 10 min par binôme.
 
 ---
 
-## Étape 5. Sécurité et exploitation (45 min)
+## Étape 5. Exploitation : rapport d'audit (45 min)
 
-!!! example "a) Stratégie de mot de passe affinée"
-
-    Les comptes du groupe `GG-EU-Logistique-Admin` ont des droits sur d'autres comptes : ils méritent une politique plus stricte que le reste du domaine. Créez `PSO-Logistique-Admin` :
-
-    | Paramètre | Valeur |
-    |-----------|--------|
-    | Précédence | 10 |
-    | Longueur minimale | 14 |
-    | Complexité | activée |
-    | Historique | 24 |
-    | Seuil de verrouillage | 5 échecs, fenêtre et durée 30 min |
-    | S'applique à | `GG-EU-Logistique-Admin` |
-
-    Via le **Centre d'administration Active Directory** (`dsac.exe` → `maxtec (local)` → `System` → `Password Settings Container`) ou `New-ADFineGrainedPasswordPolicy` + `Add-ADFineGrainedPasswordPolicySubject`. Preuve : `Get-ADUserResultantPasswordPolicy louis`.
-
-    Question pour la documentation : que devient le mot de passe actuel de `louis` (`Password1!`, 10 caractères) ? Est-il refusé immédiatement ou au prochain changement ?
-
-!!! example "b) Rapport pour l'audit"
+!!! example "Rapport pour l'audit"
 
     Un script (dans `Deploy-Logistique.ps1` ou séparé) produit `C:\Rapports\Logistique_AAAA-MM-JJ.csv`, avec une ligne par constat et au minimum les colonnes `Controle`, `SamAccountName`, `Nom`, `Detail`. Trois contrôles :
 
@@ -314,7 +296,7 @@ Démo en fin de journée : 5 à 10 min par binôme.
 
 | Livrable | Contenu |
 |----------|---------|
-| `Deploy-Logistique.ps1` | Étapes 1, 2 et 3 au minimum (structure, DL et partage, GPO vides + liens + instructions). Délégation et PSO en bonus. Exécution en `-WhatIf`, puis réelle, puis deuxième exécution sans erreur. |
+| `Deploy-Logistique.ps1` | Étapes 1, 2 et 3 au minimum (structure, DL et partage, GPO vides + liens + instructions). Délégation en bonus. Exécution en `-WhatIf`, puis réelle, puis deuxième exécution sans erreur. |
 | Document technique | 2 à 4 pages, modèle ci-dessous. |
 | Post-mortem | 10 lignes, modèle de l'étape 6. |
 | Démo | 5 à 10 min : relance du script (idempotence), accès effectif, `gpresult`, test de délégation, incident. |
@@ -346,8 +328,7 @@ Démo en fin de journée : 5 à 10 min par binôme.
        - Droits délégués, OU, groupe
        - Captures test positif / test négatif
 
-    5. Sécurité
-       - PSO : paramètres, cible, Get-ADUserResultantPasswordPolicy louis
+    5. Rapport d'audit
        - Extrait du rapport CSV
 
     6. Limites connues / ce que vous feriez en production
@@ -363,7 +344,7 @@ Démo en fin de journée : 5 à 10 min par binôme.
 | **AGDLP correct** | 4 | Un utilisateur ou un GG dans l'ACL NTFS, ou un DL en étendue Globale (0-1 pt) | 3 DL domaine local, GG imbriqués correctement, ACL = DL + comptes système uniquement, héritage coupé (3 pts) | Idem + vérification par **Accès effectif** pour 4 comptes dont un refusé, documentée (4 pts) |
 | **GPO appliquées et prouvées** | 4 | GPO absentes, non liées, ou configurées par `Set-GPRegistryValue` (0-1 pt) | Les 2 GPO liées aux bonnes OUs et configurées dans GPMC ; `gpresult` ou Modélisation montre qu'elles s'appliquent (3 pts) | Idem + explication correcte de la GPO de verrouillage gagnante (EU vs Logistique) (4 pts) |
 | **Délégation testée** | 2 | Délégation absente, ou sur la mauvaise OU, ou donne Contrôle total (0 pt) | Réinitialisation déléguée sur `OU=Users,OU=Logistique`, test positif montré (1 pt) | Réinitialisation + déverrouillage, tests positif **et** négatif montrés (2 pts) |
-| **Sécurité et reporting** | 3 | PSO absente ou appliquée à un utilisateur au lieu du groupe ; pas de rapport (0-1 pt) | PSO correcte et prouvée ; rapport CSV avec les 3 contrôles (2 pts) | Idem + seuil paramétrable démontré, groupes imbriqués résolus, réponse juste sur le mot de passe actuel de louis (3 pts) |
+| **Rapport d'audit** | 3 | Pas de rapport, ou un seul contrôle (0-1 pt) | Rapport CSV avec les 3 contrôles et les colonnes imposées (2 pts) | Idem + seuil paramétrable démontré, groupes imbriqués résolus (3 pts) |
 | **Incident** | 3 | Symptôme contourné sans cause identifiée (0-1 pt) | Les deux causes racines trouvées et corrigées (2 pts) | Idem + post-mortem clair, preuve de réparation, prévention pertinente (3 pts) |
 | **Script idempotent** | 1 | Erreurs à la deuxième exécution, ou pas de `-WhatIf` (0 pt) | Exécution `-WhatIf` propre, deuxième exécution sans erreur (1 pt) | — |
 
@@ -371,7 +352,7 @@ Démo en fin de journée : 5 à 10 min par binôme.
 
 ## Script de vérification
 
-À lancer sur le DC, PowerShell 5.1 en administrateur. Il ne modifie rien. Les points affichés sont **indicatifs** : ils couvrent ce qu'un script peut constater (environ 11,5 points sur 20). Le reste (preuves `gpresult`, tests de délégation, incident, idempotence) s'évalue pendant la démo.
+À lancer sur le DC, PowerShell 5.1 en administrateur. Il ne modifie rien. Les points affichés sont **indicatifs** : ils couvrent ce qu'un script peut constater (environ 10,5 points sur 20). Le reste (preuves `gpresult`, tests de délégation, incident, idempotence) s'évalue pendant la démo.
 
 Enregistrez-le sous `C:\Scripts\Verify-ProjetFinal.ps1`.
 
@@ -547,14 +528,8 @@ if ($aces | Where-Object { $_.ActiveDirectoryRights -match 'GenericAll' }) {
     Write-Host "  ! Attention : GG-EU-Logistique-Admin a Contrôle total sur l'OU (trop large)" -ForegroundColor Yellow
 }
 
-# ---------------------------------------------------------------- 5. Sécurité (1,5 automatique / 3)
-Write-Host "`n[5] Sécurité et reporting" -ForegroundColor Cyan
-Test-Point "Une PSO s'applique au groupe GG-EU-Logistique-Admin" 1 {
-    $gdn = (Get-ADGroup 'GG-EU-Logistique-Admin').DistinguishedName
-    $pso = Get-ADFineGrainedPasswordPolicy -Filter * | Where-Object { $_.AppliesTo -contains $gdn }
-    if ($pso) { $pso | ForEach-Object { Write-Host "      $($_.Name) : longueur $($_.MinPasswordLength), seuil $($_.LockoutThreshold), précédence $($_.Precedence)" -ForegroundColor Gray } }
-    [bool]$pso
-} "New-ADFineGrainedPasswordPolicy + Add-ADFineGrainedPasswordPolicySubject -Subjects GG-EU-Logistique-Admin"
+# ---------------------------------------------------------------- 5. Rapport (0,5 automatique / 3)
+Write-Host "`n[5] Rapport d'audit" -ForegroundColor Cyan
 Test-Point "Rapport CSV présent dans $Rapports" 0.5 {
     [bool](Get-ChildItem -Path $Rapports -Filter 'Logistique_*.csv' -ErrorAction SilentlyContinue)
 }
@@ -562,7 +537,7 @@ Test-Point "Rapport CSV présent dans $Rapports" 0.5 {
 # ---------------------------------------------------------------- Bilan
 Write-Host "`n========================================" -ForegroundColor Cyan
 Write-Host ("Points automatiques : {0} / {1}" -f $script:points, $script:max) -ForegroundColor Cyan
-Write-Host "Évalués pendant la démo : preuves gpresult (2), tests de délégation (1), rapport et PSO (1,5)," -ForegroundColor Gray
+Write-Host "Évalués pendant la démo : preuves gpresult (2), tests de délégation (1), rapport (2,5)," -ForegroundColor Gray
 Write-Host "incident et post-mortem (3), idempotence du script (1)." -ForegroundColor Gray
 if ($script:erreurs -eq 0) { Write-Host "Aucun écart détecté." -ForegroundColor Green }
 else { Write-Host "$($script:erreurs) point(s) à revoir." -ForegroundColor Red }
