@@ -175,9 +175,9 @@ Ces trois éléments se ressemblent (on leur donne tous des noms de propriétés
 
 Les trois étapes s'enchaînent dans cet ordre : `Get-ADUser richard -Properties Department | Select-Object Name, Department | Format-List`.
 
-**Étape 1 : `-Properties` ajoute des attributs à ce que AD renvoie.** Par défaut, `Get-ADUser` ne renvoie qu'une dizaine de propriétés : `DistinguishedName`, `Enabled`, `GivenName`, `Name`, `ObjectClass`, `ObjectGUID`, `SamAccountName`, `SID`, `Surname`, `UserPrincipalName`. Tout le reste (`Department`, `Title`, `WhenCreated`, `LastLogonDate`...) doit être demandé. `-Properties` **ajoute** ces attributs au jeu par défaut, il ne le remplace pas.
+**Étape 1 : `-Properties` ajoute des attributs à ce que AD renvoie** (il ne remplace pas le jeu par défaut). Par défaut, `Get-ADUser` ne renvoie qu'une dizaine de propriétés : `DistinguishedName`, `Enabled`, `GivenName`, `Name`, `ObjectClass`, `ObjectGUID`, `SamAccountName`, `SID`, `Surname`, `UserPrincipalName`. Tout le reste (`Department`, `Title`, `WhenCreated`, `LastLogonDate`...) doit être demandé.
 
-**Étape 2 : `Select-Object` ne fait que trier ce qui est déjà arrivé.** Il ne peut pas aller chercher dans AD un attribut qui n'a pas été demandé : il crée la colonne, mais elle reste vide.
+**Étape 2 : `Select-Object` ne fait que choisir parmi ce qui est déjà arrivé.** Il ne peut pas aller chercher dans AD un attribut qui n'a pas été demandé : il crée la colonne, mais elle reste vide.
 
 ```powershell
 # ❌ La colonne Department est vide : AD ne l'a pas envoyée
@@ -199,16 +199,14 @@ C'est pour cela que `Get-ADUser` seul s'affiche en liste (10 propriétés), et q
 
 ```powershell
 # 5 propriétés : PowerShell choisirait une liste. Format-Table force le tableau.
+# Avec des noms de propriétés, Format-Table choisit et met en page en une seule étape.
 Get-ADUser -Filter * -Properties Department, Title |
-    Select-Object Name, SamAccountName, Department, Title, Enabled |
-    Format-Table
+    Format-Table Name, SamAccountName, Department, Title, Enabled
 ```
 
-`Format-Table` accepte aussi directement des noms de propriétés : `Format-Table Name, Department` sélectionne et met en page en une seule étape. C'est le raccourci habituel pour un affichage à l'écran. Il ne dispense pas de `-Properties` : un attribut non demandé à AD donne une colonne vide, exactement comme avec `Select-Object`.
-
-!!! warning "Select-Object pour les données, Format-* pour l'écran"
+!!! warning "Format-* toujours en dernier"
     
-    Après `Select-Object`, on a toujours des objets : on peut trier, filtrer, exporter (`Export-Csv`). Après `Format-Table` ou `Format-List`, on n'a plus que des instructions de mise en page. Ces commandes se placent donc **toujours en dernier**, et jamais avant `Export-Csv`.
+    Après `Format-Table` ou `Format-List`, il ne reste que de la mise en page, plus des objets. Pour exporter ou trier, utilisez `Select-Object`, jamais `Format-*` avant `Export-Csv`.
 
 !!! tip "Évitez `-Properties *` sur beaucoup de comptes"
     
@@ -231,10 +229,6 @@ Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated
 # Exemple 2 : Select-Object ne garde que 3 propriétés. 4 ou moins : affichage en tableau.
 Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated |
     Select-Object Name, SamAccountName, WhenCreated
-
-# Exemple 3 : même affichage, en une étape, avec Format-Table (pour l'écran uniquement).
-Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated |
-    Format-Table Name, SamAccountName, WhenCreated
 ```
 
 
