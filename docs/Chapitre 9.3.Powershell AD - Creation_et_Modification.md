@@ -101,6 +101,26 @@ Les nouveaux comptes de ce chapitre suivent la convention `prenom.nom` (la plus 
     
     # (jean.dupont : voir la commande plus haut)
     
+    New-ADUser -Name "Sophie Dubois" `
+        -GivenName "Sophie" -Surname "Dubois" -DisplayName "Sophie Dubois" `
+        -SamAccountName "sophie.dubois" -UserPrincipalName "sophie.dubois@maxtec.be" `
+        -EmailAddress "sophie.dubois@maxtec.be" `
+        -Department "Ventes" -Title "Commerciale" -Company "Maxtec" -Country "BE" `
+        -Description "Nouvel arrivant" `
+        -Path "OU=Users,OU=Ventes,OU=EU,DC=maxtec,DC=be" `
+        -AccountPassword $mdp -ChangePasswordAtLogon $true -Enabled $true `
+        -WhatIf
+    
+    # Si la cible est correcte : même commande, sans -WhatIf
+    
+    # Vérification
+    Get-ADUser -Filter "Description -eq 'Nouvel arrivant'" -Properties Department, Title |
+        Format-Table Name, SamAccountName, Department, Title
+    ```
+    
+    **Variante plus lisible : le *splatting*.** On range les paramètres dans une table de hachage (`@{ Nom = Valeur }`, une ligne par paramètre, sans tiret ni accent grave), puis on la passe à la commande avec `@` au lieu de `$` :
+    
+    ```powershell
     $params = @{
         Name              = "Sophie Dubois"
         GivenName         = "Sophie"
@@ -120,14 +140,9 @@ Les nouveaux comptes de ce chapitre suivent la convention `prenom.nom` (la plus 
         Enabled           = $true
     }
     New-ADUser @params -WhatIf
-    New-ADUser @params
-    
-    # Vérification
-    Get-ADUser -Filter "Description -eq 'Nouvel arrivant'" -Properties Department, Title |
-        Format-Table Name, SamAccountName, Department, Title
     ```
     
-    `@params` (le *splatting*) passe une table de hachage comme liste de paramètres : plus lisible que dix lignes terminées par un accent grave.
+    Même résultat, mais plus facile à relire et à modifier qu'une dizaine de lignes terminées par un accent grave.
 
 ### Modification d'attributs simples
 
@@ -403,7 +418,7 @@ foreach ($user in $utilisateurs) {
     # Vérifier si l'utilisateur existe déjà (-Filter renvoie $null sans erreur)
     if (Get-ADUser -Filter "SamAccountName -eq '$samAccountName'") {
         Write-Warning "L'utilisateur $samAccountName existe déjà."
-        continue
+        continue    # passe directement à la ligne suivante du CSV
     }
     
     # Créer l'utilisateur
@@ -428,6 +443,7 @@ foreach ($user in $utilisateurs) {
         Write-Host "Utilisateur $displayName créé avec succès." -ForegroundColor Green
     }
     catch {
+        # Dans un catch, $_ contient l'erreur qui vient de se produire
         Write-Host "Erreur lors de la création de $displayName : $_" -ForegroundColor Red
     }
 }
@@ -444,28 +460,27 @@ Write-Host "Nombre d'utilisateurs traités : $($utilisateurs.Count)" -Foreground
 ### Étape 3 : Vérification et rapport
 
 ```powershell
-# Vérifier les utilisateurs créés : uniquement les logins du CSV,
+# Vérifier les comptes créés : uniquement les logins du CSV,
 # pas tous les comptes du département (les 13 comptes du lab y sont aussi)
-$departements = $utilisateurs | Select-Object -ExpandProperty Departement -Unique
-
-foreach ($dept in $departements) {
-    $logins = $utilisateurs | Where-Object Departement -eq $dept |
-        ForEach-Object { "$($_.Prenom.ToLower()).$($_.Nom.ToLower())" }
-    $count = @($logins | Where-Object { Get-ADUser -Filter "SamAccountName -eq '$_'" }).Count
-    Write-Host "Département $dept : $count / $(@($logins).Count) utilisateurs du CSV créés" -ForegroundColor Cyan
+# $utilisateurs vient du script de l'étape 2 (même session PowerShell)
+foreach ($user in $utilisateurs) {
+    $sam = "$($user.Prenom.ToLower()).$($user.Nom.ToLower())"
+    if (Get-ADUser -Filter "SamAccountName -eq '$sam'") {
+        Write-Host "$sam ($($user.Departement)) : créé" -ForegroundColor Green
+    } else {
+        Write-Host "$sam ($($user.Departement)) : absent" -ForegroundColor Red
+    }
 }
 ```
 
-### Mission 4.1 — Enrichir le script CSV
+### Mission 4.1 — Nouvelles colonnes dans le CSV
 
 !!! example "Objectif"
     
-    Les RH ont ajouté des colonnes au fichier CSV. Adaptez le script pour gérer ces nouveaux champs :
+    Les RH ont ajouté des colonnes au fichier CSV. Adaptez le script de l'étape 2 :
     
-    1. Ajoutez `Bureau`, `Telephone`, et `Ville` au CSV et transmettez-les à `New-ADUser` (`-Office`, `-MobilePhone`, `-City`)
-    2. Après la création, ajoutez automatiquement chaque utilisateur au groupe `…-Users` de son département. Attention : le groupe de `Comptabilite` s'appelle `GG-EU-Compta-Users`, pas `GG-EU-Comptabilite-Users`.
-    3. Générez un rapport final : ligne par ligne `"[Nom] — [Département] — Créé : OK/ERREUR"`
-    4. Gardez le mode simulation : premier passage avec `$simulation = $true`
+    1. Ajoutez `Bureau`, `Telephone` et `Ville` au CSV et transmettez-les à `New-ADUser` (`-Office`, `-MobilePhone`, `-City`)
+    2. Gardez le mode simulation : premier passage avec `$simulation = $true`, puis `$false` une fois la sortie vérifiée
 
 ??? success "Solution"
     
@@ -477,36 +492,48 @@ foreach ($dept in $departements) {
     Marc,Leroy,RH,Assistant RH,"OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be",R12,+32489005566,Gand
     ```
     
-    **Script adapté** :
+    **Dans le script**, ajoutez trois lignes à la commande `New-ADUser`, avant `-ErrorAction Stop` :
+    ```powershell
+            -Office $user.Bureau `
+            -MobilePhone $user.Telephone `
+            -City $user.Ville `
+    ```
+    
+    Les noms de colonnes du CSV deviennent des propriétés de `$user` : la colonne `Bureau` se lit `$user.Bureau`.
+
+### Mission 4.2 — Groupe du département et rapport
+
+!!! example "Objectif"
+    
+    1. Après la création, ajoutez chaque utilisateur au groupe `GG-EU-<Département>-Users` de son département. Attention : le groupe de `Comptabilite` s'appelle `GG-EU-Compta-Users`, pas `GG-EU-Comptabilite-Users`.
+    2. Remplacez les messages du script par un rapport ligne par ligne : `"[Nom] — [Département] — Créé : OK/ERREUR"`
+    
+    *Indice : un `if / else` suffit pour le cas `Comptabilite`. En simulation, le compte n'est pas réellement créé : `Add-ADGroupMember` échouerait. Ne l'appelez que si `$simulation` vaut `$false` : `if (-not $simulation) { ... }`. Pour le rapport, réutilisez le `try / catch` de l'étape 2 : `OK` à la fin du `try`, `ERREUR` dans le `catch`.*
+
+??? success "Solution"
+    
     ```powershell
     $simulation = $true     # $false pour exécuter réellement
     
     $utilisateurs = Import-Csv -Path "C:\Scripts\utilisateurs.csv" -Delimiter "," -Encoding UTF8
     $mdp = Read-Host "Mot de passe initial" -AsSecureString
     
-    # Correspondance Departement (CSV) -> nom court utilisé dans les groupes
-    $groupeParDept = @{
-        Ventes       = 'Ventes'
-        RH           = 'RH'
-        Comptabilite = 'Compta'
-        IT           = 'IT'
-    }
-    
     foreach ($user in $utilisateurs) {
-        $sam  = "$($user.Prenom.ToLower()).$($user.Nom.ToLower())"
-        $upn  = "$sam@maxtec.be"
-        $nom  = "$($user.Prenom) $($user.Nom)"
+        $sam = "$($user.Prenom.ToLower()).$($user.Nom.ToLower())"
+        $upn = "$sam@maxtec.be"
+        $nom = "$($user.Prenom) $($user.Nom)"
     
         if (Get-ADUser -Filter "SamAccountName -eq '$sam'") {
             Write-Host "$nom - déjà existant, ignoré" -ForegroundColor Yellow
             continue
         }
     
-        if (-not $groupeParDept.ContainsKey($user.Departement)) {
-            Write-Host "$nom - département inconnu '$($user.Departement)' - Créé : ERREUR" -ForegroundColor Red
-            continue
+        # Nom du groupe : Comptabilite est abrégé en Compta
+        if ($user.Departement -eq "Comptabilite") {
+            $groupe = "GG-EU-Compta-Users"
+        } else {
+            $groupe = "GG-EU-$($user.Departement)-Users"
         }
-        $groupe = "GG-EU-$($groupeParDept[$user.Departement])-Users"
     
         try {
             New-ADUser -Name $nom `
@@ -521,14 +548,14 @@ foreach ($dept in $departements) {
     
             # En simulation, le compte n'existe pas : on ne peut pas l'ajouter au groupe
             if (-not $simulation) {
-                # -ErrorAction Stop : si le groupe n'existe pas, on le voit dans le rapport
+                # -ErrorAction Stop : si le groupe n'existe pas, on passe dans le catch
                 Add-ADGroupMember -Identity $groupe -Members $sam -ErrorAction Stop
             }
     
-            Write-Host "$nom - $($user.Departement) - Créé : OK (groupe $groupe)" -ForegroundColor Green
+            Write-Host "$nom — $($user.Departement) — Créé : OK ($groupe)" -ForegroundColor Green
         }
         catch {
-            Write-Host "$nom - $($user.Departement) - Créé : ERREUR ($_)" -ForegroundColor Red
+            Write-Host "$nom — $($user.Departement) — Créé : ERREUR ($_)" -ForegroundColor Red
         }
     }
     ```

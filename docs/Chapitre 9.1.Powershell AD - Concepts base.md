@@ -479,6 +479,12 @@ if ([string]::IsNullOrEmpty($description)) {
 } else {
     Write-Host "La description contient: $description"
 }
+
+# Exemple 5: Mettre le résultat d'un if dans une variable
+# La variable reçoit la valeur du bloc choisi : "ACTIF" ou "DÉSACTIVÉ"
+$user   = Get-ADUser -Identity "richard"
+$statut = if ($user.Enabled) { "ACTIF" } else { "DÉSACTIVÉ" }
+Write-Host "richard : $statut"
 ```
 
 > Les opérateurs de comparaison courants sont: `-eq` (égal), `-ne` (différent), `-gt` (supérieur), `-lt` (inférieur), `-ge` (supérieur ou égal), `-le` (inférieur ou égal).
@@ -706,6 +712,10 @@ if ($users.Count -eq 0) {
     }
 }
 ```
+
+!!! tip "Couper une longue commande"
+    
+    À partir d'ici, certaines solutions coupent une commande trop longue avec un **accent grave** (`` ` ``, AltGr+7 sur un clavier AZERTY) en fin de ligne : la commande continue sur la ligne suivante. Rien ne doit suivre l'accent grave, pas même un espace, sinon la coupure ne fonctionne plus. Après un `|`, pas besoin d'accent grave : PowerShell attend naturellement la suite.
 
 ### Mission 5.1 — Améliorer le rapport
 
