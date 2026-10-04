@@ -205,7 +205,7 @@ Beaucoup de réflexes se transposent, mais la différence fondamentale est la su
 | `cat fichier` | `Get-Content fichier` (alias `cat`) | |
 | `grep motif` sur du texte | `Select-String motif` | Pour chercher dans des fichiers ou du texte |
 | `grep` sur une sortie de commande | `Where-Object { $_.Propriete -eq 'x' }` | On filtre sur une propriété, pas sur une ligne |
-| `wc -l` | `Measure-Object` ou `(...).Count` | |
+| `wc -l` | `(commande).Count` | Ex. : `(Get-ADUser -Filter *).Count` |
 | `sort`, `head -5` | `Sort-Object`, `Select-Object -First 5` | |
 | `cut`, `awk '{print $1}'` | `Select-Object Name, Department` | |
 | `man commande` | `Get-Help commande` | Après `Update-Help` |
@@ -243,18 +243,18 @@ Les pièges classiques quand on arrive de bash :
     3. Nombre total d'**unités d'organisation**
     4. Nombre total d'**ordinateurs**
     
-    *Indice : envoyez une commande `Get-AD...` dans `Measure-Object` avec le pipeline `|` (l'équivalent de `wc -l`, voir le tableau bash ci-dessus).*
+    *Indice : entourez la commande de parenthèses et ajoutez `.Count` : `(Get-ADUser -Filter *).Count`. Les parenthèses exécutent d'abord la commande ; `.Count` donne le nombre d'objets obtenus.*
 
 ??? success "Solution"
     
     ```powershell
-    Get-ADUser -Filter * | Measure-Object
-    Get-ADGroup -Filter * | Measure-Object
-    Get-ADOrganizationalUnit -Filter * | Measure-Object
-    Get-ADComputer -Filter * | Measure-Object
+    (Get-ADUser -Filter *).Count
+    (Get-ADGroup -Filter *).Count
+    (Get-ADOrganizationalUnit -Filter *).Count
+    (Get-ADComputer -Filter *).Count
     ```
     
-    Le chiffre recherché est sur la ligne `Count`. Le chapitre 9.1 montre une écriture plus courte, `(...).Count`, une fois les tableaux introduits.
+    Le chapitre 9.1 explique pourquoi cela fonctionne (tableaux et propriétés).
 
 ### Mission 1.2 — Carte d'identité du domaine
 
@@ -301,7 +301,7 @@ Les pièges classiques quand on arrive de bash :
     ```powershell
     Get-ADUser -Filter {Enabled -eq $false}
     
-    Get-ADUser -Filter {Enabled -eq $false} | Measure-Object
+    (Get-ADUser -Filter {Enabled -eq $false}).Count
     
     Get-ADUser -Filter {Enabled -eq $false} |
         Format-Table Name, SamAccountName
