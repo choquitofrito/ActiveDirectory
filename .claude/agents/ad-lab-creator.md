@@ -510,13 +510,15 @@ Or use admonitions:
 For nested lists (configuration details), use proper indentation:
 
 ```markdown
-**Configuration:**
+**Configuration (à faire dans l'éditeur):**
 
-- **Désactive le Panneau de configuration** (`NoControlPanel=1`)
-    - Clé de registre: `HKCU\Software\...\Explorer`
-- **Désactive l'invite de commandes** (`DisableCMD=2`)
-    - Clé de registre: `HKCU\Software\...\System`
+1. **Configuration utilisateur** > **Stratégies** > **Modèles d'administration** > **Panneau de configuration**
+    - **Interdire l'accès au Panneau de configuration et à l'application Paramètres du PC** > **Activé**
+2. **Configuration utilisateur** > **Stratégies** > **Modèles d'administration** > **Système**
+    - **Désactiver l'accès à l'invite de commandes** > **Activé**
 ```
+
+Never document a GPO setting with registry keys or value names (`NoControlPanel=1`, `HKCU\...`): always give the GPMC path and the setting name as shown in the French UI, as in `docs/Labo et Exercices/Exercices: GPO-1.md`.
 
 ### Code Blocks
 

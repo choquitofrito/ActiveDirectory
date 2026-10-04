@@ -9,7 +9,6 @@
 # - https://learn.microsoft.com/en-us/powershell/module/activedirectory/new-aduser?view=windowsserver2025-ps
 # - https://learn.microsoft.com/en-us/powershell/module/activedirectory/new-adgroup?view=windowsserver2022-ps
 # - https://learn.microsoft.com/en-us/powershell/module/grouppolicy/new-gpo?view=windowsserver2022-ps
-# - https://learn.microsoft.com/en-us/powershell/module/grouppolicy/set-gpregistryvalue?view=windowsserver2022-ps
 # - https://learn.microsoft.com/en-us/powershell/module/grouppolicy/new-gplink?view=windowsserver2022-ps
 
 # ============================================
@@ -326,17 +325,13 @@ try {
                 # Créer la GPO
                 New-GPO -Name $gpoName1 -Comment "Restreint l'accès au Panneau de configuration et CMD pour utilisateurs juniors" | Out-Null
 
-                # Désactiver le Panneau de configuration
-                # Source: HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer
-                Set-GPRegistryValue -Name $gpoName1 -Key "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -ValueName "NoControlPanel" -Type DWord -Value 1 | Out-Null
-
-                # Désactiver l'invite de commandes
-                # Source: HKCU\Software\Policies\Microsoft\Windows\System
-                Set-GPRegistryValue -Name $gpoName1 -Key "HKCU\Software\Policies\Microsoft\Windows\System" -ValueName "DisableCMD" -Type DWord -Value 2 | Out-Null
-
+                # GPO vide : les paramètres se règlent dans GPMC (pas de Set-GPRegistryValue)
                 Write-Host "  GPO '$gpoName1' créée avec succès." -ForegroundColor Green
-                Write-Host "    - Panneau de configuration désactivé (NoControlPanel=1)" -ForegroundColor Gray
-                Write-Host "    - Invite de commandes désactivée (DisableCMD=2)" -ForegroundColor Gray
+                Write-Host "  Configuration manuelle requise dans GPMC (clic droit sur la GPO > Modifier):" -ForegroundColor Yellow
+                Write-Host "    - Configuration utilisateur > Stratégies > Modèles d'administration > Panneau de configuration" -ForegroundColor Gray
+                Write-Host "      Interdire l'accès au Panneau de configuration et à l'application Paramètres du PC = Activé" -ForegroundColor White
+                Write-Host "    - Configuration utilisateur > Stratégies > Modèles d'administration > Système" -ForegroundColor Gray
+                Write-Host "      Désactiver l'accès à l'invite de commandes = Activé (traitement des scripts : Non)" -ForegroundColor White
 
                 # Lier la GPO aux OUs Users (exemple: Marketing et Creative pour les juniors)
                 $ouMarketing = "OU=Users,OU=Marketing,$rootOU"
@@ -365,17 +360,13 @@ try {
                 # Créer la GPO
                 New-GPO -Name $gpoName2 -Comment "Bloque les périphériques de stockage USB pour le département Client Services" | Out-Null
 
-                # Bloquer l'accès en écriture aux périphériques de stockage amovibles
-                # Source: HKLM\Software\Policies\Microsoft\Windows\RemovableStorageDevices\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}
-                # GUID {53f5630d-b6bf-11d0-94f2-00a0c91efb8b} = Removable Disks
-                Set-GPRegistryValue -Name $gpoName2 -Key "HKLM\Software\Policies\Microsoft\Windows\RemovableStorageDevices\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}" -ValueName "Deny_Write" -Type DWord -Value 1 | Out-Null
-
-                # Bloquer l'accès en lecture aux périphériques de stockage amovibles
-                Set-GPRegistryValue -Name $gpoName2 -Key "HKLM\Software\Policies\Microsoft\Windows\RemovableStorageDevices\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}" -ValueName "Deny_Read" -Type DWord -Value 1 | Out-Null
-
+                # GPO vide : les paramètres se règlent dans GPMC (pas de Set-GPRegistryValue)
+                # Liée à une OU d'utilisateurs : réglage côté Configuration utilisateur
                 Write-Host "  GPO '$gpoName2' créée avec succès." -ForegroundColor Green
-                Write-Host "    - Accès en lecture USB bloqué (Deny_Read=1)" -ForegroundColor Gray
-                Write-Host "    - Accès en écriture USB bloqué (Deny_Write=1)" -ForegroundColor Gray
+                Write-Host "  Configuration manuelle requise dans GPMC (clic droit sur la GPO > Modifier):" -ForegroundColor Yellow
+                Write-Host "    - Configuration utilisateur > Stratégies > Modèles d'administration > Système > Accès au stockage amovible" -ForegroundColor Gray
+                Write-Host "      Disques amovibles : refuser l'accès en lecture = Activé" -ForegroundColor White
+                Write-Host "      Disques amovibles : refuser l'accès en écriture = Activé" -ForegroundColor White
 
                 # Lier la GPO à l'OU Client Services
                 $ouClientServices = "OU=Users,OU=ClientServices,$rootOU"

@@ -333,29 +333,8 @@ try {
     Import-Module GroupPolicy
     New-GPO -Name $gpoName -Comment "Restrictions de sécurité pour les stagiaires" | Out-Null
     
-    # Désactiver le Panneau de configuration
-    Set-GPRegistryValue -Name $gpoName `
-        -Key "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" `
-        -ValueName "NoControlPanel" -Type DWord -Value 1 | Out-Null
-    
-    # Désactiver l'invite de commandes
-    Set-GPRegistryValue -Name $gpoName `
-        -Key "HKCU\Software\Policies\Microsoft\Windows\System" `
-        -ValueName "DisableCMD" -Type DWord -Value 2 | Out-Null
-    
-    # Bloquer les périphériques USB (lecture et écriture)
-    Set-GPRegistryValue -Name $gpoName `
-        -Key "HKLM\Software\Policies\Microsoft\Windows\RemovableStorageDevices\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}" `
-        -ValueName "Deny_Write" -Type DWord -Value 1 | Out-Null
-    
-    Set-GPRegistryValue -Name $gpoName `
-        -Key "HKLM\Software\Policies\Microsoft\Windows\RemovableStorageDevices\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}" `
-        -ValueName "Deny_Read" -Type DWord -Value 1 | Out-Null
-    
-    Write-Host "  ✓ GPO créée avec restrictions" -ForegroundColor Green
-    Write-Host "    - Panneau de configuration désactivé" -ForegroundColor Gray
-    Write-Host "    - Invite de commandes désactivée" -ForegroundColor Gray
-    Write-Host "    - Périphériques USB bloqués" -ForegroundColor Gray
+    # GPO vide : les paramètres se règlent dans GPMC (voir Étape 3)
+    Write-Host "  ✓ GPO créée (paramètres à configurer dans GPMC)" -ForegroundColor Green
 }
 
 # ÉTAPE 6: Lier la GPO à l'OU Stagiaires
@@ -407,9 +386,7 @@ Write-Host "`n  ⚠ Léa devra changer son mot de passe lors de la première con
 Write-Host "  ⚠ Le compte expirera automatiquement le $($expirationDate.ToShortDateString())" -ForegroundColor Yellow
 
 Write-Host "`nConfiguration de sécurité appliquée:" -ForegroundColor Cyan
-Write-Host "  ✓ Panneau de configuration désactivé" -ForegroundColor Gray
-Write-Host "  ✓ Invite de commandes désactivée" -ForegroundColor Gray
-Write-Host "  ✓ Périphériques USB bloqués" -ForegroundColor Gray
+Write-Host "  ⚠ Restrictions GPO (Panneau de config, CMD, USB) : à configurer dans GPMC" -ForegroundColor Yellow
 Write-Host "  ✓ Accès lecture seule au projet SecureBank" -ForegroundColor Gray
 
 Write-Host "`nRappel - Dans 3 mois (fin du stage):" -ForegroundColor Cyan
@@ -418,6 +395,24 @@ Write-Host "  2. Vérifier qu'aucun fichier important n'est dans son profil" -Fo
 Write-Host "  3. Retirer Léa des groupes de sécurité" -ForegroundColor Gray
 Write-Host "  4. Archiver le compte pendant 6 mois avant suppression définitive" -ForegroundColor Gray
 ```
+
+#### Étape 3 : Paramètres de la GPO dans GPMC
+
+Le script crée la GPO `CreativeHub - Restrictions Stagiaires` et la lie à `OU=Stagiaires`, mais la laisse vide. Les trois restrictions se règlent dans l'éditeur :
+
+1. `gpmc.msc` > **Objets de stratégie de groupe** > clic droit sur `CreativeHub - Restrictions Stagiaires` > **Modifier…**
+2. **Configuration utilisateur** > **Stratégies** > **Modèles d'administration** > **Panneau de configuration**
+    - **Interdire l'accès au Panneau de configuration et à l'application Paramètres du PC** > **Activé** > OK
+3. **Configuration utilisateur** > **Stratégies** > **Modèles d'administration** > **Système**
+    - **Désactiver l'accès à l'invite de commandes** > **Activé**, option de traitement des scripts sur `Non` > OK
+4. **Configuration utilisateur** > **Stratégies** > **Modèles d'administration** > **Système** > **Accès au stockage amovible**
+    - **Disques amovibles : refuser l'accès en lecture** > **Activé** > OK
+    - **Disques amovibles : refuser l'accès en écriture** > **Activé** > OK
+
+!!! note "Pourquoi tout en Configuration utilisateur"
+    La GPO est liée à `OU=Stagiaires`, qui contient des comptes **utilisateurs**. Un paramètre placé sous Configuration ordinateur n'y aurait aucun effet, y compris le blocage USB.
+
+**Vérification** : session `lea.fontaine` sur le poste client, `gpupdate /force`, fermer puis rouvrir la session. `control` et `cmd` sont bloqués, une clé USB est refusée. `gpresult /r /scope user` liste `CreativeHub - Restrictions Stagiaires` sous **Objets Stratégie de groupe appliqués**.
 
 ### Documentation Recommandée
 
@@ -618,7 +613,7 @@ Administrateur : [VOTRE NOM]
 |----------|----------------|----------|
 | La GPO ne s'applique pas à Léa | GPO liée à la mauvaise OU | Vérifier le lien avec Get-GPInheritance |
 | Léa ne peut pas se connecter | Compte expiré ou désactivé | Vérifier Get-ADUser -Properties AccountExpirationDate, Enabled |
-| Les restrictions USB ne fonctionnent pas | GPO HKLM nécessite redémarrage ordinateur | Redémarrer le poste client |
+| Les restrictions USB ne fonctionnent pas | Paramètre réglé sous Configuration ordinateur alors que la GPO est liée à une OU d'utilisateurs | Le régler sous Configuration utilisateur > Accès au stockage amovible, puis fermer/rouvrir la session |
 | Impossible de créer l'OU Stagiaires | Protection contre suppression accidentelle | Utiliser -ProtectedFromAccidentalDeletion $false |
 
 ## Pour Aller Plus Loin

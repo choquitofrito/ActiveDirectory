@@ -204,7 +204,7 @@ if ($gpo) {
             if ($extension.Policy) {
                 foreach ($policy in $extension.Policy) {
                     # Rechercher NoControlPanel
-                    if ($policy.Name -like "*Control Panel*" -or $policy.EditText -like "*NoControlPanel*") {
+                    if ($policy.Name -like "*Control Panel*" -or $policy.Name -like "*Panneau de configuration*" -or $policy.EditText -like "*NoControlPanel*") {
                         $hasNoControlPanel = $true
                     }
                     # Rechercher DisableCMD
@@ -228,16 +228,16 @@ if ($gpo) {
         }
 
         if ($hasNoControlPanel) {
-            Write-Host "  ✓ Restriction 'NoControlPanel' configurée" -ForegroundColor Green
+            Write-Host "  ✓ Restriction 'Panneau de configuration' configurée" -ForegroundColor Green
         } else {
-            Write-Host "  ⚠ AVERTISSEMENT: Restriction 'NoControlPanel' non détectée" -ForegroundColor Yellow
+            Write-Host "  ⚠ AVERTISSEMENT: Restriction 'Panneau de configuration' non détectée (à régler dans GPMC)" -ForegroundColor Yellow
             $warnings++
         }
 
         if ($hasDisableCMD) {
-            Write-Host "  ✓ Restriction 'DisableCMD' configurée" -ForegroundColor Green
+            Write-Host "  ✓ Restriction 'invite de commandes' configurée" -ForegroundColor Green
         } else {
-            Write-Host "  ⚠ AVERTISSEMENT: Restriction 'DisableCMD' non détectée" -ForegroundColor Yellow
+            Write-Host "  ⚠ AVERTISSEMENT: Restriction 'invite de commandes' non détectée (à régler dans GPMC)" -ForegroundColor Yellow
             $warnings++
         }
 

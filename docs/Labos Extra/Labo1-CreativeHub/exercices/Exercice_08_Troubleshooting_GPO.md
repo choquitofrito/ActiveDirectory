@@ -17,6 +17,7 @@
 - Capacité à utiliser PowerShell pour le diagnostic
 - Compréhension de l'héritage AD
 - Compétences en résolution de problèmes
+- GPO `CreativeHub - Restrictions Utilisateurs Juniors` configurée dans GPMC (Panneau de configuration et invite de commandes), voir [GPO 1 du labo](../README.md#gpo-1-creativehub-restrictions-utilisateurs-juniors)
 
 ## Contexte / Scénario
 **Date**: Mercredi matin, 10h15
@@ -339,16 +340,8 @@ try {
     # Créer la GPO
     $gpo = New-GPO -Name $gpoName -Comment "Restrictions pour utilisateurs juniors uniquement"
     
-    # Configurer les restrictions
-    Set-GPRegistryValue -Name $gpoName `
-        -Key "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" `
-        -ValueName "NoControlPanel" -Type DWord -Value 1 | Out-Null
-    
-    Set-GPRegistryValue -Name $gpoName `
-        -Key "HKCU\Software\Policies\Microsoft\Windows\System" `
-        -ValueName "DisableCMD" -Type DWord -Value 2 | Out-Null
-    
-    Write-Host "  ✓ GPO créée avec restrictions" -ForegroundColor Green
+    # GPO vide : les paramètres se règlent dans GPMC (voir ci-dessous)
+    Write-Host "  ✓ GPO créée (paramètres à configurer dans GPMC)" -ForegroundColor Green
 }
 
 # ÉTAPE 4: Configurer le FILTRAGE DE SÉCURITÉ (Security Filtering)
@@ -454,6 +447,18 @@ Write-Host "  Sur un poste client, exécuter:" -ForegroundColor Gray
 Write-Host "  gpupdate /force" -ForegroundColor Gray
 Write-Host "  gpresult /r /scope:user /user:julien" -ForegroundColor Gray
 ```
+
+### Paramètres de la GPO (si elle a dû être recréée)
+
+Le script de setup crée `CreativeHub - Restrictions Utilisateurs Juniors` vide. Si les paramètres n'ont pas encore été réglés, ou si le script ci-dessus a recréé la GPO, configurez-les dans l'éditeur :
+
+1. `gpmc.msc` > **Objets de stratégie de groupe** > clic droit sur `CreativeHub - Restrictions Utilisateurs Juniors` > **Modifier…**
+2. **Configuration utilisateur** > **Stratégies** > **Modèles d'administration** > **Panneau de configuration**
+    - **Interdire l'accès au Panneau de configuration et à l'application Paramètres du PC** > **Activé** > OK
+3. **Configuration utilisateur** > **Stratégies** > **Modèles d'administration** > **Système**
+    - **Désactiver l'accès à l'invite de commandes** > **Activé**, option de traitement des scripts sur `Non` > OK
+
+Contrôle rapide : sélectionnez la GPO > onglet **Paramètres** > **Afficher tout**. Les deux stratégies apparaissent sous **Configuration utilisateur > Modèles d'administration** avec l'état **Activé**.
 
 ### Explication de la Solution
 

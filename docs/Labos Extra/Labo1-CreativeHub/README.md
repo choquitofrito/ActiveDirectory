@@ -180,18 +180,24 @@ Le script crée **8 groupes de sécurité globaux** (Global Groups):
 
 ### Stratégies de Groupe (GPOs)
 
-Le script crée et configure **3 GPOs** démontrant des cas d'usage courants en entreprise:
+Le script crée et lie **3 GPOs**. Il ne règle aucun paramètre à l'intérieur : chaque GPO se configure ensuite dans l'éditeur de gestion des stratégies de groupe (GPMC), comme dans les exercices GPO du cours.
+
+!!! tip "Ouvrir une GPO en édition"
+    `gpmc.msc` > **Forêt** > **Domaines** > `maxtec.be` > **Objets de stratégie de groupe** > clic droit sur la GPO > **Modifier…**
 
 #### GPO 1: CreativeHub - Restrictions Utilisateurs Juniors
 
 **Objectif pédagogique:** Protéger le système contre les modifications accidentelles par des utilisateurs inexpérimentés
 
-**Configuration:**
+**Configuration (à faire dans l'éditeur):**
 
-- **Désactive le Panneau de configuration** (`NoControlPanel=1`)
-    - Clé de registre: `HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer`
-- **Désactive l'invite de commandes** (`DisableCMD=2`)
-    - Clé de registre: `HKCU\Software\Policies\Microsoft\Windows\System`
+1. **Configuration utilisateur** > **Stratégies** > **Modèles d'administration** > **Panneau de configuration**
+    - Double-cliquez sur **Interdire l'accès au Panneau de configuration et à l'application Paramètres du PC** > **Activé** > OK
+2. **Configuration utilisateur** > **Stratégies** > **Modèles d'administration** > **Système**
+    - Double-cliquez sur **Désactiver l'accès à l'invite de commandes** > **Activé**
+    - Laissez **Désactiver aussi le traitement des scripts de l'invite de commandes ?** sur `Non`, sinon les scripts d'ouverture de session `.bat`/`.cmd` ne tournent plus > OK
+
+**Vérification:** session `elise` (Marketing) sur le poste client, `gpupdate /force`, fermer puis rouvrir la session. `Win+R` > `control` affiche un message de restriction ; `cmd` affiche "L'invite de commandes a été désactivée par votre administrateur".
 
 **Liée à:**
 
@@ -205,12 +211,16 @@ Le script crée et configure **3 GPOs** démontrant des cas d'usage courants en 
 
 **Objectif pédagogique:** Protéger les données sensibles contre l'exfiltration via périphériques USB
 
-**Configuration:**
+**Configuration (à faire dans l'éditeur):**
 
-- **Bloque la lecture depuis périphériques USB** (`Deny_Read=1`)
-- **Bloque l'écriture vers périphériques USB** (`Deny_Write=1`)
-- Clé de registre: `HKLM\Software\Policies\Microsoft\Windows\RemovableStorageDevices\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}`
-- GUID `{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}` = Removable Disks (disques amovibles)
+1. **Configuration utilisateur** > **Stratégies** > **Modèles d'administration** > **Système** > **Accès au stockage amovible**
+2. Double-cliquez sur **Disques amovibles : refuser l'accès en lecture** > **Activé** > OK
+3. Double-cliquez sur **Disques amovibles : refuser l'accès en écriture** > **Activé** > OK
+
+!!! note "Pourquoi la partie utilisateur"
+    La GPO est liée à une OU d'**utilisateurs**. Seuls les paramètres de **Configuration utilisateur** s'y appliquent : le même réglage placé sous Configuration ordinateur serait ignoré.
+
+**Vérification:** session `karine` (Client Services) sur le poste client, `gpupdate /force`, fermer puis rouvrir la session, brancher une clé USB : l'Explorateur refuse l'accès au disque.
 
 **Liée à:**
 
@@ -431,7 +441,6 @@ Tous ces fichiers sont en encodage **UTF-8** et peuvent être ouverts avec Excel
 - [New-ADUser Cmdlet](https://learn.microsoft.com/en-us/powershell/module/activedirectory/new-aduser?view=windowsserver2025-ps)
 - [New-ADGroup Cmdlet](https://learn.microsoft.com/en-us/powershell/module/activedirectory/new-adgroup?view=windowsserver2022-ps)
 - [Group Policy Management with PowerShell](https://learn.microsoft.com/en-us/powershell/module/grouppolicy/)
-- [Set-GPRegistryValue Cmdlet](https://learn.microsoft.com/en-us/powershell/module/grouppolicy/set-gpregistryvalue?view=windowsserver2022-ps)
 
 ### Guides Pratiques
 
