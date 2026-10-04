@@ -23,6 +23,14 @@ Vous allez monter, administrer, automatiser et sécuriser le domaine d'une entre
 
 Les jours 2 à 4 se terminent par un **ticket de dépannage** ([Dépannage](Labo%20et%20Exercices/Exercices:%20Depannage.md)) : une panne réelle sur le lab, seulement le symptôme au départ.
 
+!!! info "Comment se déroulent les tickets de dépannage"
+
+    Chacun travaille sur son propre lab : c'est **vous** qui installez la panne, avec un script fourni (`Depannage.ps1`, sur la [page Dépannage](Labo%20et%20Exercices/Exercices:%20Depannage.md)). Le script contient les réponses : on vous demande de le lancer **sans le lire**. Personne ne contrôle, l'exercice ne compte que si vous jouez le jeu.
+
+    Avant chaque ticket, prenez un **instantané** (snapshot) de vos VMs. Si une correction tourne mal, vous revenez à l'instantané, ou vous relancez le script avec `-Restaurer`.
+
+    Le même principe s'applique à l'incident surprise du projet final.
+
 ---
 
 ## Chapitres

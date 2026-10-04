@@ -18,7 +18,7 @@ Les horaires ne comptent pas les pauses (déjeuner + 2 × 15 min à ajouter).
 | 4 | PowerShell et observation | Comment faire en 1 ligne ce qu'on a fait en 20 clics — et comment savoir ce qui s'est passé ? |
 | 5 | Sécurité et projet | Comment protéger un AD, et savez-vous tout remonter seuls ? |
 
-Les jours 2, 3 et 4 se terminent par un **ticket de dépannage** (`Exercices: Depannage.md`) : le formateur injecte une panne avec les scripts de `docs/instructeur/`, les étudiants n'ont que le symptôme.
+Les jours 2, 3 et 4 se terminent par un **ticket de dépannage** (`Exercices: Depannage.md`) : chaque étudiant installe la panne sur son propre lab avec `docs/Labo et Exercices/scripts/Depannage.ps1` (téléchargeable depuis la page Dépannage), **sans lire le script**, après un instantané des VMs. Ils n'ont que le symptôme. Règle annoncée dans le syllabus (`index.md`) : on joue le jeu, personne ne contrôle. Retour arrière : instantané ou `-Restaurer`.
 
 ---
 
@@ -60,7 +60,7 @@ Les jours 2, 3 et 4 se terminent par un **ticket de dépannage** (`Exercices: De
 | 1:00 | GPO : principe, LSDO, héritage, `gpupdate` / `gpresult` — démo | Ch8 §1-3 |
 | 1:45 | GPO pratiques, sélection : 1.1 (panneau de configuration), 2.1 (message), 2.2 (verrouillage), 3.1 (raccourci), 4.1 (lecteur réseau) | `Exercices: GPO-1.md` |
 | 1:00 | Filtrage de sécurité (MS16-072), délégation de GPO | `Exercices: GPO-2.md` Ex. 7 |
-| 0:30 | Ticket **D1** — "Le lecteur réseau a disparu pour l'IT" (variante courte : `-Fautes Lien,Filtrage`) | `Exercices: Depannage.md` |
+| 0:30 | Ticket **D1** — "Le lecteur réseau a disparu pour l'IT" (variante courte : `-Ticket D1`) | `Exercices: Depannage.md` |
 
 ---
 
@@ -83,7 +83,7 @@ Les jours 2, 3 et 4 se terminent par un **ticket de dépannage** (`Exercices: De
 |------:|------|----------|
 | 2:00 | Sécurité AD : tiers, groupes privilégiés, Kerberos/NTLM ; pratiques 1 (audit), 2 (FGPP), 4 (LAPS), 5 (corbeille) ; pratiques 3 (Protected Users) et 6 (PingCastle) en démo formateur | Ch11 |
 | 4:15 | **Projet final** en binômes : département Logistique (structure, AGDLP, GPO, délégation, sécurité, incident surprise) | `Projet_Final.md` |
-| 0:45 | Démos (5 min par binôme) + vérification automatique + débriefing — lancer `Restore-Incident` **avant** les démos | `Projet_Final.md` — grille /20 |
+| 0:45 | Démos (5 min par binôme) + vérification automatique + débriefing — chaque binôme lance `Depannage.ps1 -Ticket Incident -Restaurer` **avant** les démos | `Projet_Final.md` — grille /20 |
 
 Le projet est conçu pour ~5 h : sur 4 h 15, la partie 5 (sécurité et reporting) peut être réduite au seul rapport CSV. Si le jour 4 a pris de l'avance, démarrer la partie 1 du projet en fin de jour 4.
 
@@ -129,7 +129,7 @@ Le projet est conçu pour ~5 h : sur 4 h 15, la partie 5 (sécurité et reportin
 - [ ] VMs : ISO **Windows Server 2022** et **Windows 10 Pro** ; idéalement une VM serveur et une VM client préparées (sysprep ou OVA) pour gagner 1 h le jour 1.
 - [ ] VirtualBox 7.x sur les postes.
 - [ ] Vérifier que les scripts `creation_structure` / `suppression_structure` passent sur un lab vierge.
-- [ ] Tester chaque paire `Break-Dx` / `Restore-Dx` (`docs/instructeur/`) la veille.
+- [ ] Tester chaque ticket de `Depannage.ps1` (panne, puis `-Restaurer`) sur un lab complet, avec `docs/instructeur/Verify-Depannage.ps1` pour contrôler les corrections.
 - [ ] Télécharger PingCastle (édition gratuite) pour la démo du jour 5.
 - [ ] **RSAT sur le client** : le poste du lab n'a pas Internet. Installez « RSAT : Services AD DS » et « RSAT : Gestion des stratégies de groupe » dans l'image cliente avant le cours (ou, le jour 3, carte NAT temporaire sur le client → `Add-WindowsCapability` → retirer la carte → `ipconfig /flushdns`).
 - [ ] DC 2022 et client Windows 10 : appliquer au moins la mise à jour cumulative d'avril 2023 avant le cours (sinon pas de Windows LAPS intégré, Ch11).

@@ -2,7 +2,7 @@
 
 !!! info "Principe"
 
-    Le formateur a introduit une panne sur votre lab. Vous recevez un ticket tel qu'un utilisateur l'écrirait : un symptôme, pas une cause. Votre travail : trouver la **cause racine**, la corriger, prouver que c'est réparé, et expliquer en deux phrases ce qui s'est passé.
+    Vous installez vous-même une panne sur votre lab avec un script, **sans le lire**. Vous recevez ensuite un ticket tel qu'un utilisateur l'écrirait : un symptôme, pas une cause. Votre travail : trouver la **cause racine**, la corriger, prouver que c'est réparé, et expliquer en deux phrases ce qui s'est passé.
 
     Il peut y avoir **plusieurs causes** derrière un même symptôme. Un ticket n'est clos que lorsque le symptôme a disparu **et** que vous savez pourquoi.
 
@@ -16,6 +16,53 @@
 | [D4](#d4-le-poste-ne-trouve-plus-le-domaine) | DNS / réseau | 45 min | Fin du jour 2 |
 
 Total : 2 h au programme (D4, D1, D2), plus 45 min en réserve (D3).
+
+---
+
+## Lancer un ticket
+
+Un seul script sert pour tous les tickets. Il installe la panne sans rien afficher de ce qu'il modifie.
+
+!!! warning "Ne lisez pas le script"
+
+    Il contient les réponses. L'ouvrir, c'est perdre l'exercice : en entreprise, personne ne vous donnera le script de la panne. Lancez-le, fermez-le, lisez le ticket.
+
+### Une fois : récupérer le script
+
+[⬇️ Télécharger Depannage.ps1](scripts/Depannage.ps1){ .md-button .md-button--primary download="Depannage.ps1" }
+
+Même méthode que pour le script de création du lab ([Préparer le fichier sur le serveur](Labo/Labo_structure.md#preparer-le-fichier-sur-le-serveur)) : placez `Depannage.ps1` dans `C:\Scripts` sur `dns1`, puis **débloquez-le** (clic droit > **Propriétés** > **Débloquer**). Pour le ticket D4, copiez-le aussi dans `C:\Scripts` sur `ws-IT-01`.
+
+### À chaque ticket
+
+1. **Prenez un instantané** des VMs (VirtualBox : sélectionnez la VM > **Instantanés** > **Prendre**). C'est votre filet de sécurité si une correction tourne mal.
+2. Sur `dns1`, ouvrez **Windows PowerShell en tant qu'administrateur** et lancez le ticket :
+
+    ```powershell
+    cd C:\Scripts
+    .\Depannage.ps1 -Ticket D4
+    ```
+
+    | Ticket | Commande | Où |
+    |--------|----------|----|
+    | D1 | `.\Depannage.ps1 -Ticket D1` (variante complète : ajoutez `-Complet`) | `dns1` |
+    | D2 | `.\Depannage.ps1 -Ticket D2` | `dns1` |
+    | D3 | `.\Depannage.ps1 -Ticket D3` (exercice AGDLP pas terminé : ajoutez `-Preparer`) | `dns1` |
+    | D4 | `.\Depannage.ps1 -Ticket D4` | `dns1`, **puis** `ws-IT-01` |
+
+3. Le script affiche `Panne installée.` et ce qu'il faut faire ensuite (par exemple ouvrir une session sur le poste). Lisez alors le ticket ci-dessous.
+
+Si vous avez donné un autre nom à la GPO du lecteur IT (D1) : ajoutez `-GpoName "<nom exact>"`. Le script liste les GPO existantes s'il ne trouve pas la sienne.
+
+### Revenir en arrière
+
+Ticket abandonné, ou correction qui a empiré les choses : même commande avec `-Restaurer`, ou retour à l'instantané.
+
+```powershell
+.\Depannage.ps1 -Ticket D4 -Restaurer
+```
+
+`-Restaurer` remet l'état d'avant la panne et affiche chaque action. Pour D4, lancez-le sur `dns1` et sur `ws-IT-01`.
 
 ---
 
@@ -53,7 +100,7 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
     > Autre chose bizarre : l'écran ne se verrouille plus tout seul et je n'ai plus le message d'avertissement
     > au démarrage.
 
-!!! note "Variante courte (programme J3 : `Break-D1 -Fautes Lien,Filtrage`)"
+!!! note "Variante courte (programme J3 : `-Ticket D1`) ou complète (`-Ticket D1 -Complet`)"
 
     Le poste reste dans son OU ; seul le lecteur disparaît ; causes 2 et 3 seulement. La variante complète ajoute la cause 1 (poste sorti de son OU) et les symptômes côté ordinateur (verrouillage, message de connexion).
 
@@ -265,7 +312,7 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
 **Durée** : 45 min
 
-**Prérequis** : [exercice AGDLP](./Exercices:%20AGDLP_Partage_Fichiers.md) terminé, y compris l'étape 8 (Compta en lecture). Le sous-dossier `Contrats` n'existe pas dans l'exercice AGDLP : le formateur le crée en injectant la panne.
+**Prérequis** : [exercice AGDLP](./Exercices:%20AGDLP_Partage_Fichiers.md) terminé, y compris l'étape 8 (Compta en lecture). Le sous-dossier `Contrats` n'existe pas dans l'exercice AGDLP : le script le crée en installant la panne. Exercice AGDLP pas terminé : `-Preparer` crée d'abord son état final.
 
 **Outils autorisés** : Explorateur (Propriétés > **Partage** > **Partage avancé** > **Autorisations** ; **Sécurité** > **Avancé** > **Accès effectif**), `dsa.msc` (propriétés des groupes : **Général** > **Étendue du groupe**, **Membres**, **Membre de**), `whoami /groups` et `klist` sur le client, `icacls` sur le serveur. En aperçu, si vous connaissez déjà : PowerShell (`Get-Acl`, `Get-ADGroup`, `Get-ADGroupMember`, `Get-ADPrincipalGroupMembership`, `Get-SmbShareAccess`). Contrainte : la correction doit respecter AGDLP (aucun utilisateur ni groupe global dans les ACL).
 

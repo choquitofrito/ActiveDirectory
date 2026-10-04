@@ -278,12 +278,20 @@ Démo en fin de journée : 5 à 10 min par binôme.
 
 !!! warning "Déroulement"
 
-    Pendant la pause qui précède cette étape, le formateur introduit **deux pannes** sur votre lab, dans le périmètre Logistique (du type des tickets [D1 et D2](./Exercices:%20Depannage.md)). Vous recevez ce ticket :
+    Prenez un instantané de vos VMs, puis installez **deux pannes** dans le périmètre Logistique (du type des tickets [D1 et D2](./Exercices:%20Depannage.md)) avec le script de dépannage, sans le lire ([comment le lancer](./Exercices:%20Depannage.md#lancer-un-ticket)). Sur `dns1`, PowerShell administrateur :
+
+    ```powershell
+    .\Depannage.ps1 -Ticket Incident
+    ```
+
+    Si vous avez nommé la GPO utilisateur de la Logistique autrement que `GPO-Logistique-Utilisateurs`, ajoutez `-GpoName "<nom exact>"`. Vous recevez ensuite ce ticket :
 
     > **Ticket #2026-0501** — Louis Lambert (`louis`), Logistique
     > Plus personne dans l'équipe n'a le lecteur L:, et moi je ne peux plus ouvrir ma session.
 
     Diagnostiquez, corrigez, prouvez, puis rédigez le post-mortem ci-dessous. Vous pouvez utiliser tous les outils vus pendant la semaine. Vous ne pouvez pas supprimer et recréer les objets concernés.
+
+    Une fois le post-mortem rédigé, lancez `.\Depannage.ps1 -Ticket Incident -Restaurer` : il retire les restes de la panne que vous n'auriez pas nettoyés, et qui fausseraient les preuves de la démo.
 
 !!! note "Modèle de post-mortem (10 lignes)"
 

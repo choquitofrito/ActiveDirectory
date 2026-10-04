@@ -7,7 +7,7 @@
                      .\Verify-Depannage.ps1 -Scenario D2,D3
     Sur le client :  .\Verify-Depannage.ps1 -Client         (partie poste de D4 : DNS du client)
 
-    Ne dépend pas des fichiers d'état : un ticket corrigé autrement que par Restore-Dx est accepté
+    Ne dépend pas des fichiers d'état : un ticket corrigé autrement que par -Restaurer est accepté
     s'il respecte l'état attendu.
 #>
 [CmdletBinding()]
@@ -51,7 +51,7 @@ if ($Client) {
     Test-Point "dns1.maxtec.be se résout" { (Resolve-DnsName dns1.maxtec.be -Type A -ErrorAction Stop).IPAddress -contains '192.168.0.2' }
     Test-Point "Enregistrement SRV du DC trouvé (_ldap._tcp.dc._msdcs)" { Resolve-DnsName _ldap._tcp.dc._msdcs.maxtec.be -Type SRV -ErrorAction Stop }
     Test-Point "intranet.maxtec.be pointe vers 192.168.0.2 (ou n'existe plus)" {
-        # Absent = accepté : Restore-D4 sans -IntranetVersDC supprime l'enregistrement
+        # Absent = accepté : Depannage.ps1 -Ticket D4 -Restaurer supprime l'enregistrement s'il n'existait pas avant
         $ip = @(Resolve-DnsName intranet.maxtec.be -Type A -DnsOnly -ErrorAction SilentlyContinue |
             Where-Object { $_.Type -eq 'A' } | ForEach-Object { $_.IPAddress })
         if ($ip.Count -eq 0) {
