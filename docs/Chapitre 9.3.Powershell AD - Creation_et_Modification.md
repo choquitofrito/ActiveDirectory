@@ -99,8 +99,20 @@ Les nouveaux comptes de ce chapitre suivent la convention `prenom.nom` (la plus 
     ```powershell
     $mdp = Read-Host "Mot de passe initial" -AsSecureString
     
-    # (jean.dupont : voir la commande plus haut)
+    # Pour chaque compte : lancez d'abord la commande avec -WhatIf ajouté à la fin,
+    # vérifiez la cible affichée, puis relancez-la telle quelle (sans -WhatIf).
     
+    # 1. jean.dupont
+    New-ADUser -Name "Jean Dupont" `
+        -GivenName "Jean" -Surname "Dupont" -DisplayName "Jean Dupont" `
+        -SamAccountName "jean.dupont" -UserPrincipalName "jean.dupont@maxtec.be" `
+        -EmailAddress "jean.dupont@maxtec.be" `
+        -Department "IT" -Title "Technicien stagiaire" -Company "Maxtec" -Country "BE" `
+        -Description "Nouvel arrivant" `
+        -Path "OU=Users,OU=IT,OU=EU,DC=maxtec,DC=be" `
+        -AccountPassword $mdp -ChangePasswordAtLogon $true -Enabled $true
+    
+    # 2. sophie.dubois
     New-ADUser -Name "Sophie Dubois" `
         -GivenName "Sophie" -Surname "Dubois" -DisplayName "Sophie Dubois" `
         -SamAccountName "sophie.dubois" -UserPrincipalName "sophie.dubois@maxtec.be" `
@@ -108,12 +120,9 @@ Les nouveaux comptes de ce chapitre suivent la convention `prenom.nom` (la plus 
         -Department "Ventes" -Title "Commerciale" -Company "Maxtec" -Country "BE" `
         -Description "Nouvel arrivant" `
         -Path "OU=Users,OU=Ventes,OU=EU,DC=maxtec,DC=be" `
-        -AccountPassword $mdp -ChangePasswordAtLogon $true -Enabled $true `
-        -WhatIf
+        -AccountPassword $mdp -ChangePasswordAtLogon $true -Enabled $true
     
-    # Si la cible est correcte : même commande, sans -WhatIf
-    
-    # Vérification
+    # 3. Vérification
     Get-ADUser -Filter "Description -eq 'Nouvel arrivant'" -Properties Department, Title |
         Format-Table Name, SamAccountName, Department, Title
     ```
@@ -486,10 +495,6 @@ Remove-ADGroupMember -Identity "GG-EU-Ventes-Admin" -Members victor, valeria -Wh
 Remove-ADGroupMember -Identity "GG-EU-Ventes-Admin" -Members victor, valeria -Confirm:$false
 ```
 
-!!! note "Propriété Department"
-    
-    `Department` (propriété PowerShell) = **Service** (onglet Organisation dans la console AD).
-
 ### Vérifier les appartenances
 
 ```powershell
@@ -521,12 +526,14 @@ Get-ADUser -Filter * -SearchBase $cheminOU | ForEach-Object {
     # 1. Ajouter jean.dupont à deux groupes
     Add-ADGroupMember -Identity "GG-EU-IT-Users" -Members "jean.dupont" -WhatIf
     Add-ADGroupMember -Identity "GG-EU-IT-Users" -Members "jean.dupont"
+    Add-ADGroupMember -Identity "GG-EU-IT-Admin" -Members "jean.dupont" -WhatIf
     Add-ADGroupMember -Identity "GG-EU-IT-Admin" -Members "jean.dupont"
     
     # Variante en une ligne, du point de vue de l'utilisateur
     # Add-ADPrincipalGroupMembership -Identity "jean.dupont" -MemberOf "GG-EU-IT-Users", "GG-EU-IT-Admin"
     
     # 2. Ajouter sophie.dubois
+    Add-ADGroupMember -Identity "GG-EU-Ventes-Users" -Members "sophie.dubois" -WhatIf
     Add-ADGroupMember -Identity "GG-EU-Ventes-Users" -Members "sophie.dubois"
     
     # 3. Retirer jean.dupont de IT-Admin

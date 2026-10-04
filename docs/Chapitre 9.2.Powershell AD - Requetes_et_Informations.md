@@ -60,6 +60,8 @@ Voici les opérateurs de filtre les plus utilisés avec les commandes PowerShell
 Get-ADUser -Filter * -ResultSetSize 10
 
 # Obtenir un utilisateur spécifique par son SamAccountName
+# (pour un seul compte dont on connaît le login, -Identity victor est plus direct ;
+#  -Filter ne lève pas d'erreur si le compte n'existe pas, voir chapitre 9.1)
 Get-ADUser -Filter {SamAccountName -eq "victor"}
 
 # Obtenir les utilisateurs dont le nom commence par V
@@ -71,7 +73,7 @@ Get-ADUser -Filter {WhenCreated -ge $date} -Properties WhenCreated
 
 # Obtenir un utilisateur avec des propriétés spécifiques
 # Department (PowerShell) = champ « Service » de l'onglet Organisation dans la GUI
-Get-ADUser -Filter {SamAccountName -eq "victor"} -Properties DisplayName, EmailAddress, Department
+Get-ADUser -Identity victor -Properties DisplayName, EmailAddress, Department
 ```
 
 ### Exemple pratique : Recherche avancée d'utilisateurs

@@ -1149,54 +1149,108 @@ if ($utilisateurTrouve) {
 ## 5. 🔹 Mini-projet : Rapport d'audit par OU
 
 ### Contexte
-Sophie a besoin d'un rapport listant **tous les utilisateurs d'une OU** avec leur statut et leurs groupes principaux. Le script ci-dessous est fonctionnel — lisez-le, exécutez-le, puis améliorez-le avec les missions ci-dessous.
 
-```powershell
-# Demander le nom de l'OU à l'utilisateur
-$nomOU = Read-Host "Entrez le nom de l'OU à auditer (ex: Ventes, RH...)"
+Sophie a besoin d'un rapport listant **tous les utilisateurs d'une OU** avec leur statut et leurs groupes principaux. Vous allez écrire ce script vous-même, étape par étape. Chaque étape réutilise une notion du chapitre. Enregistrez le script dans `C:\Scripts\audit_ou.ps1` et **exécutez-le après chaque étape** : une erreur se corrige plus facilement quand on vient d'ajouter trois lignes que trente.
 
-# Construire le chemin de l'OU (structure du lab maxtec.be)
-$cheminOU = "OU=Users,OU=$nomOU,OU=EU,DC=maxtec,DC=be"
+Résultat attendu pour l'OU `Ventes` :
 
-# Récupérer les utilisateurs de cette OU
-# Si l'OU n'existe pas (faute de frappe, "Compta" au lieu de "Comptabilite"...),
-# -SearchBase lève une erreur terminante : on l'attrape avec try/catch.
-try {
-    $users = Get-ADUser -Filter * -SearchBase $cheminOU -Properties Enabled -ErrorAction Stop
-} catch {
-    Write-Host "OU introuvable : $cheminOU" -ForegroundColor Red
-    return
-}
+```
+=== RAPPORT D'AUDIT : OU Ventes ===
+Nombre d'utilisateurs : 4
+----------------------------------------
+UTILISATEUR : Vanessa - ACTIF
+  Groupes principaux :
+    - Utilisateurs du domaine
+    - GG-EU-Ventes-Users
+----------------------------------------
+UTILISATEUR : Valeria - ACTIF
+...
+```
 
-# Vérifier si des utilisateurs ont été trouvés
-if ($users.Count -eq 0) {
-    Write-Host "Aucun utilisateur trouvé dans l'OU $nomOU" -ForegroundColor Yellow
-} else {
-    # Afficher un en-tête
+### Mission 5.0 — Écrire le rapport d'audit
+
+!!! example "Étapes"
+    
+    **1. Demander l'OU.** Stockez la réponse dans `$nomOU` avec `Read-Host`, comme dans l'exemple « Rechercher un utilisateur ».
+    
+    **2. Construire le chemin de l'OU.** Les utilisateurs de chaque service sont dans la sous-OU `Users`. Construisez dans `$cheminOU` le texte `OU=Users,OU=<service>,OU=EU,DC=maxtec,DC=be`, où `<service>` est la valeur de `$nomOU` (voir l'entraînement 1.1, exercice 2).
+    
+    **3. Récupérer les utilisateurs de cette OU.** `Get-ADUser -Filter * -SearchBase $cheminOU` renvoie tous les comptes situés dans cette OU. Stockez le résultat dans `$users`. `Enabled` fait partie des propriétés par défaut : pas besoin de `-Properties`.
+    
+    **4. Se protéger d'une OU qui n'existe pas.** Si l'utilisateur tape `Compta` au lieu de `Comptabilite`, l'OU n'existe pas et `Get-ADUser` affiche une erreur rouge. On l'attrape avec `try / catch` :
+    
+    - mettez la commande de l'étape 3 dans un bloc `try { ... }` et ajoutez-lui `-ErrorAction Stop` (sans lui, `catch` ne voit pas l'erreur) ;
+    - juste après, un bloc `catch { ... }` contient ce qui doit se passer en cas d'erreur : un message `OU introuvable : ...` en rouge ;
+    - terminez le `catch` par `return`, qui arrête le script : sans utilisateurs, la suite n'a pas de sens.
+    
+    Testez avec `Compta` : vous devez voir votre message, pas l'erreur de PowerShell.
+    
+    **5. Gérer une OU vide.** Si `$users.Count` vaut `0`, affichez `Aucun utilisateur trouvé dans l'OU ...` en jaune, puis `return`.
+    
+    **6. Afficher l'en-tête.** Trois lignes : le titre `=== RAPPORT D'AUDIT : OU ... ===`, le nombre d'utilisateurs (`$users.Count`), puis une ligne de tirets.
+    
+    **7. Une boucle sur les utilisateurs.** `foreach ($user in $users) { ... }`. Dans la boucle, pour chaque `$user` :
+    
+    - **a.** Calculez `$statut` : `ACTIF` si `$user.Enabled` est vrai, `DÉSACTIVÉ` sinon. Calculez de la même façon `$couleur` : `Green` ou `Red` (voir l'exemple 5 de la section 4 : le résultat d'un `if` dans une variable).
+    - **b.** Affichez `UTILISATEUR : <nom> - <statut>` avec `-ForegroundColor $couleur`.
+    - **c.** Récupérez les 3 premiers groupes du compte : `Get-ADPrincipalGroupMembership -Identity $user.SamAccountName`, suivi de `| Select-Object -First 3`. Stockez-les dans `$groupes`.
+    - **d.** Affichez `  Groupes principaux :`, puis une **deuxième boucle** `foreach ($groupe in $groupes)` qui affiche `    - <nom du groupe>`.
+    - **e.** Terminez par une ligne de tirets pour séparer les utilisateurs.
+    
+    Testez avec `Ventes`, `RH`, puis `Compta`.
+
+??? success "Solution"
+    
+    ```powershell
+    # 1. Demander l'OU
+    $nomOU = Read-Host "Entrez le nom de l'OU à auditer (ex: Ventes, RH...)"
+    
+    # 2. Construire le chemin de l'OU (structure du lab maxtec.be)
+    $cheminOU = "OU=Users,OU=$nomOU,OU=EU,DC=maxtec,DC=be"
+    
+    # 3 + 4. Récupérer les utilisateurs, en se protégeant d'une OU inexistante
+    try {
+        # -ErrorAction Stop : sans lui, l'erreur s'affiche mais catch ne la voit pas
+        $users = Get-ADUser -Filter * -SearchBase $cheminOU -ErrorAction Stop
+    } catch {
+        Write-Host "OU introuvable : $cheminOU" -ForegroundColor Red
+        return    # arrête le script
+    }
+    
+    # 5. OU vide
+    if ($users.Count -eq 0) {
+        Write-Host "Aucun utilisateur trouvé dans l'OU $nomOU" -ForegroundColor Yellow
+        return
+    }
+    
+    # 6. En-tête
     Write-Host "=== RAPPORT D'AUDIT : OU $nomOU ===" -ForegroundColor Cyan
     Write-Host "Nombre d'utilisateurs : $($users.Count)" -ForegroundColor Cyan
     Write-Host "----------------------------------------"
     
-    # Pour chaque utilisateur
+    # 7. Une boucle sur les utilisateurs
     foreach ($user in $users) {
-        # Statut du compte
-        $statut = if ($user.Enabled) {"ACTIF"} else {"DÉSACTIVÉ"}
-        $couleur = if ($user.Enabled) {"Green"} else {"Red"}
-        
-        # Afficher les informations de base
+        # a. Statut et couleur
+        $statut  = if ($user.Enabled) { "ACTIF" } else { "DÉSACTIVÉ" }
+        $couleur = if ($user.Enabled) { "Green" } else { "Red" }
+    
+        # b. Ligne de l'utilisateur
         Write-Host "UTILISATEUR : $($user.Name) - $statut" -ForegroundColor $couleur
-        
-        # Récupérer et afficher les 3 premiers groupes
-        $groupes = Get-ADPrincipalGroupMembership -Identity $user.SamAccountName | Select-Object -First 3
+    
+        # c. Les 3 premiers groupes
+        $groupes = Get-ADPrincipalGroupMembership -Identity $user.SamAccountName |
+                       Select-Object -First 3
+    
+        # d. Deuxième boucle : un groupe par ligne
         Write-Host "  Groupes principaux :"
         foreach ($groupe in $groupes) {
             Write-Host "    - $($groupe.Name)"
         }
-        
+    
+        # e. Séparateur
         Write-Host "----------------------------------------"
     }
-}
-```
+    ```
 
 !!! tip "Couper une longue commande"
     
@@ -1223,7 +1277,7 @@ if ($users.Count -eq 0) {
     
     try {
         $users = Get-ADUser -Filter * -SearchBase $cheminOU `
-                     -Properties Enabled, LastLogonDate, PasswordNeverExpires -ErrorAction Stop
+                     -Properties LastLogonDate, PasswordNeverExpires -ErrorAction Stop
     } catch {
         Write-Host "OU introuvable : $cheminOU" -ForegroundColor Red
         return
