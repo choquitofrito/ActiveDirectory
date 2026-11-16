@@ -847,20 +847,23 @@ Write-Host "richard : $statut"
 ??? success "Solution"
     
     ```powershell
-    $user = Get-ADUser -Identity "cindy" -Properties EmailAddress, Enabled
-    
-    if ([string]::IsNullOrEmpty($user.EmailAddress)) {
-        Write-Host "Pas d'email renseigné" -ForegroundColor Yellow   # -ForegroundColor : couleur du texte
+    $user  = Get-ADUser -Identity "cindy" -Properties EmailAddress
+    $email = $user.EmailAddress
+
+    if ($email) {
+        Write-Host "Email : $email"
     } else {
-        Write-Host "Email : $($user.EmailAddress)" -ForegroundColor Green
+        Write-Host "Pas d'email renseigné"
     }
-    
+
     if ($user.Enabled) {
         Write-Host "Compte actif"
     } else {
-        Write-Host "Compte désactivé" -ForegroundColor Red
+        Write-Host "Compte désactivé"
     }
     ```
+
+    `if ($email)` est vrai quand la variable contient quelque chose, faux quand elle est vide : c'est le même principe que l'exemple 3 (`if (Get-ADUser …)`). `Enabled` fait partie des propriétés renvoyées par défaut : pas besoin de la demander avec `-Properties`.
 
 ### Conditions multiples
 
