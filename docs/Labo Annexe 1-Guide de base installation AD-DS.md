@@ -13,7 +13,7 @@ Valeurs officielles du lab (noms, IP, versions) : [Référence du lab Maxtec](La
 
 ### A1. Créer la VM Windows Server
 
-Créez une machine virtuelle Windows Server 2022 dans **VirtualBox**, édition **Standard (Expérience de bureau)**, mot de passe administrateur `Password1!`. Détails : [Chapitre 2](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md). (À la maison avec Hyper-V : [Chapitre 1 §3.3](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md#33-option-a-la-maison-installation-avec-hyper-v).)
+Créez une machine virtuelle Windows Server 2022 dans **VirtualBox**, édition **Standard (Expérience de bureau)**, mot de passe administrateur `azerty_1`. Détails : [Chapitre 2](Chapitre%202.Installation-Windows-Server-2022-VirtualBox.md). (À la maison avec Hyper-V : [Chapitre 1 §3.3](Chapitre%201.Introduction%20et%20installation%20de%20Windows%20Server.md#33-option-a-la-maison-installation-avec-hyper-v).)
 
 !!! warning "Réseau"
     **Une seule** carte réseau, en **Réseau interne**. Pas de deuxième carte NAT/pont sur le DC.
@@ -68,11 +68,11 @@ Après l'installation du rôle, un avertissement apparaît dans le Gestionnaire 
     |-----------|--------|
     | Nom de domaine racine | `maxtec.be` |
     | Niveau fonctionnel (forêt et domaine) | Windows Server 2016 (niveau maximal avec un DC 2022 : il n'existe pas de niveau « 2022 ») |
-    | Mot de passe DSRM | `Password1!` |
+    | Mot de passe DSRM | `azerty_1` |
     | Nom NetBIOS | `MAXTEC` |
 
     !!! warning "Mot de passe de lab"
-        `Password1!` est acceptable dans un lab isolé ; en production, le mot de passe DSRM est fort, unique et conservé dans un coffre.
+        `azerty_1` est acceptable dans un lab isolé ; en production, le mot de passe DSRM est fort, unique et conservé dans un coffre.
 
 4. Cliquez **Suivant** à chaque étape restante
 5. Cliquez **Installer** → Le serveur redémarre automatiquement
@@ -141,7 +141,7 @@ C'est l'étape clé: rattacher le poste au domaine `maxtec.be`.
     | Champ | Valeur |
     |-------|--------|
     | Utilisateur | `Administrateur` |
-    | Mot de passe | `Password1!` |
+    | Mot de passe | `azerty_1` |
 
 7. Cliquez **OK**
 
@@ -154,7 +154,7 @@ C'est l'étape clé: rattacher le poste au domaine `maxtec.be`.
     | "Le domaine spécifié n'existe pas" | Vérifiez que le DNS du poste pointe vers `192.168.0.2` |
     | "Le domaine n'est pas accessible" | Vérifiez le ping vers `192.168.0.2` |
     | Timeout | Vérifiez que les deux VMs sont sur le même réseau interne VirtualBox |
-    | Erreur d'authentification | Vérifiez le mot de passe (`Password1!`) |
+    | Erreur d'authentification | Vérifiez le mot de passe (`azerty_1`) |
 
 ### B5. Se connecter au domaine
 
@@ -166,7 +166,7 @@ Après le redémarrage, l'écran de connexion montre le dernier utilisateur loca
 | Champ | Valeur |
 |-------|--------|
 | Utilisateur | `MAXTEC\Administrateur` |
-| Mot de passe | `Password1!` |
+| Mot de passe | `azerty_1` |
 
 !!! info "Par la suite"
     Pour le moment, seul le compte Administrateur existe sur le domaine. Vous créerez des utilisateurs dans les chapitres suivants, et chaque utilisateur pourra se connecter avec ses propres identifiants (ex: `MAXTEC\ivan`).

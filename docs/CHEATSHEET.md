@@ -7,7 +7,7 @@
 
 Les exemples utilisent le lab Maxtec (`maxtec.be`, comptes `richard`, `ivan`..., OU `Comptabilite` sans accent). `marie.martin` est un compte de test créé dans la section 2.
 
-Mot de passe du lab : **`Password1!`** pour tous les comptes (`MAXTEC\Administrateur`, DSRM, `.\admin-local` sur le poste, `ivan`, `irene`…). Choix pédagogique, à ne jamais reproduire en production. Détail : [Référence du lab](Labo%20et%20Exercices/Labo/Reference_Lab_Maxtec.md#comptes-et-mots-de-passe-du-lab).
+Mot de passe du lab : **`azerty_1`** pour tous les comptes (`MAXTEC\Administrateur`, DSRM, `.\admin-local` sur le poste, `ivan`, `irene`…). Choix pédagogique, à ne jamais reproduire en production. Détail : [Référence du lab](Labo%20et%20Exercices/Labo/Reference_Lab_Maxtec.md#comptes-et-mots-de-passe-du-lab).
 
 ## 1. 🔹 Commandes de Base PowerShell
 
@@ -130,7 +130,7 @@ Remove-ADUser -Identity "marie.martin"          # demande confirmation (O/N)
 
 !!! note "Mot de passe en clair"
     
-    `ConvertTo-SecureString "Password1!" -AsPlainText -Force` (utilisé par le script du lab) écrit le mot de passe en clair dans le script et l'historique. Acceptable en lab, jamais en production.
+    `ConvertTo-SecureString "azerty_1" -AsPlainText -Force` (utilisé par le script du lab) écrit le mot de passe en clair dans le script et l'historique. Acceptable en lab, jamais en production.
 
 ### Recherche avancée
 ```powershell

@@ -85,7 +85,7 @@ Avant de commencer les tests, vérifiez que votre infrastructure est correctemen
    - Prénom : Test
    - Nom : Basculement
    - Nom d'ouverture de session : test.basculement
-   - Mot de passe : Password1!
+   - Mot de passe : azerty_1
 
 ### Étape 2 : Créer un nouveau groupe
 

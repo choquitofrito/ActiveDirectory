@@ -59,7 +59,7 @@ Get-ADUser -Filter "Department -eq 'Ventes'" | Set-ADUser -Company "Maxtec" -Wha
 
 ```powershell
 # Mot de passe saisi au clavier, masqué, jamais écrit dans le script
-# (en lab, tapez Password1!, le mot de passe unique du lab)
+# (en lab, tapez azerty_1, le mot de passe unique du lab)
 $mdp = Read-Host "Mot de passe initial" -AsSecureString
 
 # Simulation
@@ -81,11 +81,11 @@ Les nouveaux comptes de ce chapitre suivent la convention `prenom.nom` (la plus 
 
 !!! note "Mot de passe en clair : seulement en lab"
     
-    Le script du lab et certains exemples utilisent `ConvertTo-SecureString "Password1!" -AsPlainText -Force`. C'est pratique pour un lab qu'on reconstruit souvent, mais le mot de passe est alors lisible par quiconque ouvre le script, et reste dans l'historique PowerShell. En production : `Read-Host -AsSecureString`, un mot de passe différent par compte et `-ChangePasswordAtLogon $true`.
+    Le script du lab et certains exemples utilisent `ConvertTo-SecureString "azerty_1" -AsPlainText -Force`. C'est pratique pour un lab qu'on reconstruit souvent, mais le mot de passe est alors lisible par quiconque ouvre le script, et reste dans l'historique PowerShell. En production : `Read-Host -AsSecureString`, un mot de passe différent par compte et `-ChangePasswordAtLogon $true`.
 
 !!! tip "Pourquoi `Description = Nouvel arrivant` ?"
     
-    Ce marqueur permet de cibler **uniquement** les nouveaux comptes dans les opérations en masse de ce chapitre (réinitialisation de mot de passe, etc.) sans toucher aux 13 comptes du lab, dont les autres chapitres ont besoin avec leur mot de passe `Password1!`.
+    Ce marqueur permet de cibler **uniquement** les nouveaux comptes dans les opérations en masse de ce chapitre (réinitialisation de mot de passe, etc.) sans toucher aux 13 comptes du lab, dont les autres chapitres ont besoin avec leur mot de passe `azerty_1`.
 
 ### Mission 1.1 — Créer les deux nouveaux arrivants
 
@@ -98,7 +98,7 @@ Les nouveaux comptes de ce chapitre suivent la convention `prenom.nom` (la plus 
 ??? success "Solution"
     
     ```powershell
-    $mdp = Read-Host "Mot de passe initial" -AsSecureString     # en lab : Password1!
+    $mdp = Read-Host "Mot de passe initial" -AsSecureString     # en lab : azerty_1
     
     # Pour chaque compte : lancez d'abord la commande avec -WhatIf ajouté à la fin,
     # vérifiez la cible affichée, puis relancez-la telle quelle (sans -WhatIf).
@@ -163,7 +163,7 @@ Ces trois comptes servent aux entraînements suivants jusqu'à la section 3, où
 !!! example "Exercices"
     
     1. **`test.rh`** : nom `Test RH`, `Department = RH`, `Title = Compte de test`, dans `OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be`.
-       *Indice : reprenez la commande de Jean Dupont et changez les valeurs. En lab, le mot de passe peut être `ConvertTo-SecureString "Password1!" -AsPlainText -Force`.*
+       *Indice : reprenez la commande de Jean Dupont et changez les valeurs. En lab, le mot de passe peut être `ConvertTo-SecureString "azerty_1" -AsPlainText -Force`.*
     2. **`test.it`** : même chose dans le service `IT`.
        *Indice : seuls `Name`, `SamAccountName`, `UserPrincipalName`, `Department` et `Path` changent.*
     3. **`test.ventes`** : même chose dans le service `Ventes`, cette fois avec le *splatting*.
@@ -175,7 +175,7 @@ Ces trois comptes servent aux entraînements suivants jusqu'à la section 3, où
     
     ```powershell
     # Mot de passe du lab (en clair : acceptable en lab uniquement)
-    $mdp = ConvertTo-SecureString "Password1!" -AsPlainText -Force
+    $mdp = ConvertTo-SecureString "azerty_1" -AsPlainText -Force
     
     # 1. test.rh : simulation, puis même commande sans -WhatIf
     New-ADUser -Name "Test RH" -SamAccountName "test.rh" -UserPrincipalName "test.rh@maxtec.be" `
@@ -303,7 +303,7 @@ Le schéma : **désigner le ou les comptes → `Set-ADUser ... -WhatIf` → exé
 
 !!! warning "Sécurité critique"
     
-    La gestion des mots de passe est une tâche critique pour la sécurité. Ne réinitialisez **jamais** en masse les comptes du lab (`richard`, `ivan`...) : les autres chapitres supposent qu'ils ont toujours `Password1!`.
+    La gestion des mots de passe est une tâche critique pour la sécurité. Ne réinitialisez **jamais** en masse les comptes du lab (`richard`, `ivan`...) : les autres chapitres supposent qu'ils ont toujours `azerty_1`.
 
 ### Réinitialisation de mot de passe
 
@@ -617,7 +617,7 @@ $utilisateurs = Import-Csv -Path "C:\Scripts\nouveaux_arrivants.csv" -Delimiter 
 Write-Host "`nContenu de `$utilisateurs`:" -ForegroundColor Yellow
 $utilisateurs | Format-List
 
-# Mot de passe initial commun, saisi une fois, masqué (en lab : Password1!).
+# Mot de passe initial commun, saisi une fois, masqué (en lab : azerty_1).
 # Acceptable pour un premier accès si -ChangePasswordAtLogon est activé.
 $mdp = Read-Host "Mot de passe initial" -AsSecureString
 

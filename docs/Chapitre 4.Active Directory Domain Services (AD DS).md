@@ -283,7 +283,7 @@ Cette étape transforme le serveur en contrôleur de domaine pour `maxtec.be` (d
 | 2 | Nom de domaine racine | `maxtec.be` |
 | 3 | Niveau fonctionnel de la forêt et du domaine | **Windows Server 2016** (c'est le niveau maximal avec un DC 2022 : il n'existe pas de niveau « 2022 ») |
 | 4 | Serveur DNS / Catalogue global | Cochés (par défaut) |
-| 5 | Mot de passe DSRM | `Password1!` |
+| 5 | Mot de passe DSRM | `azerty_1` |
 | 6 | Nom NetBIOS | `MAXTEC` |
 
 - **Nouvelle forêt** : nous créons tout depuis zéro ; `maxtec.be` sera le premier domaine de la forêt.
@@ -292,7 +292,7 @@ Cette étape transforme le serveur en contrôleur de domaine pour `maxtec.be` (d
 - L'avertissement « Impossible de créer une délégation pour ce serveur DNS » est attendu (voir [Chapitre 3](Chapitre%203.DNS.md)).
 
 !!! warning "Mot de passe de lab"
-    `Password1!` pour le DSRM est acceptable dans un lab isolé. En production, c'est un mot de passe fort, unique par DC et conservé dans un coffre.
+    `azerty_1` pour le DSRM est acceptable dans un lab isolé. En production, c'est un mot de passe fort, unique par DC et conservé dans un coffre.
 
 ### 6.4. Vérifications post-installation
 

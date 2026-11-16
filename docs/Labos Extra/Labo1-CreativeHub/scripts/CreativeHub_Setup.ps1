@@ -79,7 +79,7 @@ Import-Module ActiveDirectory
 
 $domainDN = "DC=maxtec,DC=be"
 $rootOU = "OU=CreativeHub,$domainDN"
-$defaultPassword = ConvertTo-SecureString "Password1!" -AsPlainText -Force
+$defaultPassword = ConvertTo-SecureString "azerty_1" -AsPlainText -Force
 
 # Créer le répertoire pour les exports CSV si nécessaire
 $exportPath = "C:\Labos"
@@ -466,7 +466,7 @@ try {
     Write-Host ""
     Write-Host "Fichiers CSV exportés dans: $exportPath" -ForegroundColor Cyan
     Write-Host ""
-    Write-Host "Mot de passe par défaut pour tous les utilisateurs: Password1!" -ForegroundColor Yellow
+    Write-Host "Mot de passe par défaut pour tous les utilisateurs: azerty_1" -ForegroundColor Yellow
     Write-Host ""
     Write-Host "Prochaines étapes recommandées:" -ForegroundColor White
     Write-Host "  1. Ouvrir 'Utilisateurs et ordinateurs Active Directory' pour explorer la structure" -ForegroundColor Gray

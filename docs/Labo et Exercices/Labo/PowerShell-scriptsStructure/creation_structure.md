@@ -87,7 +87,7 @@
 
 !!! warning "🛡️ Sécurité"
     
-    - **Mot de passe par défaut** : `Password1!`
+    - **Mot de passe par défaut** : `azerty_1`
     - **⚠️ Important** : mot de passe identique pour tous et écrit en clair dans le script — acceptable en lab, jamais en production
     - **Protection** : OUs non protégées contre suppression accidentelle
 

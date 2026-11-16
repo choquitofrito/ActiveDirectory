@@ -55,7 +55,7 @@ OU=EU,DC=maxtec,DC=be
 
 Dans chaque service : OU=Users (comptes), OU=Groups (GG-EU-<service>-Users / -Admin),
 OU=Computers. Exemple : OU=Users,OU=RH,OU=EU,DC=maxtec,DC=be
-Login = prénom en minuscules (richard). Mot de passe du lab : Password1!
+Login = prénom en minuscules (richard). Mot de passe du lab : azerty_1
 ```
 
 ### Syntaxe des filtres

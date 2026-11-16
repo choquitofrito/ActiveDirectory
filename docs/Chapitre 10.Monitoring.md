@@ -221,12 +221,12 @@ La stratégie de verrouillage des comptes du domaine se règle dans la GPO liée
 
 1. Fermez la session en cours (`Démarrer` > icône utilisateur > `Se déconnecter`).
 2. À l'écran de connexion : `Autre utilisateur`, compte `MAXTEC\ines`, et un **mauvais** mot de passe.
-3. Recommencez avec un mauvais mot de passe jusqu'à ce que Windows affiche que **le compte est verrouillé** (au bout de 5 échecs). Essayez ensuite le bon mot de passe (`Password1!`) : il est refusé aussi. C'est le principe du verrouillage.
+3. Recommencez avec un mauvais mot de passe jusqu'à ce que Windows affiche que **le compte est verrouillé** (au bout de 5 échecs). Essayez ensuite le bon mot de passe (`azerty_1`) : il est refusé aussi. C'est le principe du verrouillage.
 4. Ouvrez une session avec `MAXTEC\ivan`.
 
 **B. Actions d'administration** (sur `dns1`, dans `Utilisateurs et ordinateurs Active Directory`)
 
-5. **Créer un compte** : dans `EU` > `IT` > `Users`, créez l'utilisateur `test-audit` (mot de passe `Password1!`).
+5. **Créer un compte** : dans `EU` > `IT` > `Users`, créez l'utilisateur `test-audit` (mot de passe `azerty_1`).
 6. **Ajouter à un groupe** : ouvrez les propriétés de `GG-EU-IT-Admin` (`EU` > `IT` > `Groups`) > onglet `Membres` > `Ajouter…` > `ivan` > `OK`.
 7. **Supprimer le compte** : clic droit sur `test-audit` > `Supprimer` > `Oui`.
 
@@ -234,7 +234,7 @@ La stratégie de verrouillage des comptes du domaine se règle dans la GPO liée
 
     ```powershell
     New-ADUser -Name test-audit -SamAccountName test-audit -Path "OU=Users,OU=IT,OU=EU,DC=maxtec,DC=be" `
-        -AccountPassword (ConvertTo-SecureString 'Password1!' -AsPlainText -Force) -Enabled $true
+        -AccountPassword (ConvertTo-SecureString 'azerty_1' -AsPlainText -Force) -Enabled $true
     Add-ADGroupMember -Identity GG-EU-IT-Admin -Members ivan
     Remove-ADUser test-audit -Confirm:$false
     ```

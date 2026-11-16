@@ -252,7 +252,7 @@ try {
             }
 
             # Créer le nouveau compte
-            $securePassword = ConvertTo-SecureString "Password1!" -AsPlainText -Force
+            $securePassword = ConvertTo-SecureString "azerty_1" -AsPlainText -Force
 
             New-ADUser -Name "Nouveau Testeur" `
                 -SamAccountName $newUserSam `

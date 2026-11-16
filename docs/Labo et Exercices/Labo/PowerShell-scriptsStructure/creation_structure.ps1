@@ -40,7 +40,7 @@ if ((Get-ADDomain).DNSRoot -ne 'maxtec.be') {
 
 $rootOU = "OU=EU,DC=maxtec,DC=be"
 # Mot de passe de LAB uniquement. En production : Read-Host -AsSecureString et -ChangePasswordAtLogon $true
-$defaultPassword = "Password1!"
+$defaultPassword = "azerty_1"
 
 try {
     Write-Host "Script de création de structure Active Directory" -ForegroundColor Green

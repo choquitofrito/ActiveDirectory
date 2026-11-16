@@ -258,10 +258,10 @@ L'installation prend environ 15-20 minutes.
 
 **Compte administrateur**
 
-1. Définissez le mot de passe administrateur : **Password1!**
+1. Définissez le mot de passe administrateur : **azerty_1**
 
     !!! warning "Mot de passe de lab"
-        `Password1!` est acceptable dans un lab isolé. En production, jamais de mot de passe partagé ni prévisible pour un compte administrateur.
+        `azerty_1` est acceptable dans un lab isolé. En production, jamais de mot de passe partagé ni prévisible pour un compte administrateur.
 
 2. Connectez-vous avec le compte **Administrateur** (Hyper-V : menu **Action > Ctrl+Alt+Suppr**)
 

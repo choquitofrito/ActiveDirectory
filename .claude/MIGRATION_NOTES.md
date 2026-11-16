@@ -113,7 +113,7 @@ LaboExtra1-CreativeHUB/
 - quentin - Quentin Guerin - Développeur Front-End
 - rachid - Rachid Dupont - Responsable IT
 
-**Contraseña por defecto**: `Password1!`
+**Contraseña por defecto**: `azerty_1`
 
 ### 3. Ejercicios Generados (9 ejercicios progresivos)
 

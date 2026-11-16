@@ -45,30 +45,30 @@ Valeurs officielles du lab. Tous les chapitres et exercices s'y réfèrent : en 
 
 ## Comptes et mots de passe du lab
 
-**Un seul mot de passe pour tout le lab : `Password1!`.** Administrateur, DSRM, compte local du poste, utilisateurs : c'est toujours le même.
+**Un seul mot de passe pour tout le lab : `azerty_1`.** Administrateur, DSRM, compte local du poste, utilisateurs : c'est toujours le même.
 
 C'est un choix pédagogique, et une mauvaise pratique volontaire : un mot de passe unique, prévisible et connu de tous serait une faille grave en entreprise (voir l'avertissement plus bas). Dans le lab, il évite de perdre du temps sur les mots de passe pour se concentrer sur AD.
 
 | Compte | Où | Mot de passe | Quand il sert |
 |--------|----|--------------|---------------|
-| `Administrateur` | Serveur `dns1` | `Password1!` | Installation de Windows Server (Ch1-2). Après la promotion en DC, ce même compte devient **`MAXTEC\Administrateur`**, l'administrateur du domaine. |
-| Mode de restauration (DSRM) | Serveur `dns1` | `Password1!` | Saisi pendant la promotion en DC (Ch4). Ne sert qu'à dépanner un DC qui ne démarre plus normalement. |
-| `admin-local` | Poste `ws-IT-01` (et `ws-RH-01`) | `Password1!` | Compte local créé à l'installation de Windows 10 (Ch2). Pour l'utiliser après la jonction au domaine, tapez **`.\admin-local`** : le `.\` veut dire « ce poste », pas le domaine. |
-| `MAXTEC\Administrateur` | Domaine | `Password1!` | Jonction des postes au domaine, administration pendant tout le cours. |
-| `vanessa`, `ivan`, `irene`… | Domaine | `Password1!` | Tous les utilisateurs créés par `creation_structure.ps1` (tableau ci-dessous), les exercices et le projet final. |
+| `Administrateur` | Serveur `dns1` | `azerty_1` | Installation de Windows Server (Ch1-2). Après la promotion en DC, ce même compte devient **`MAXTEC\Administrateur`**, l'administrateur du domaine. |
+| Mode de restauration (DSRM) | Serveur `dns1` | `azerty_1` | Saisi pendant la promotion en DC (Ch4). Ne sert qu'à dépanner un DC qui ne démarre plus normalement. |
+| `admin-local` | Poste `ws-IT-01` (et `ws-RH-01`) | `azerty_1` | Compte local créé à l'installation de Windows 10 (Ch2). Pour l'utiliser après la jonction au domaine, tapez **`.\admin-local`** : le `.\` veut dire « ce poste », pas le domaine. |
+| `MAXTEC\Administrateur` | Domaine | `azerty_1` | Jonction des postes au domaine, administration pendant tout le cours. |
+| `vanessa`, `ivan`, `irene`… | Domaine | `azerty_1` | Tous les utilisateurs créés par `creation_structure.ps1` (tableau ci-dessous), les exercices et le projet final. |
 
 !!! tip "Connexion refusée ? Vérifiez d'abord *où* vous vous connectez"
-    Le mot de passe est toujours `Password1!` : si la connexion échoue, le problème est presque toujours le **compte visé**. Sur l'écran de connexion du poste, la ligne **« Se connecter à : »** sous le champ du mot de passe indique si Windows vise le domaine (`MAXTEC`) ou le poste lui-même. `admin-local` sans `.\` est cherché dans le domaine, où il n'existe pas.
+    Le mot de passe est toujours `azerty_1` : si la connexion échoue, le problème est presque toujours le **compte visé**. Sur l'écran de connexion du poste, la ligne **« Se connecter à : »** sous le champ du mot de passe indique si Windows vise le domaine (`MAXTEC`) ou le poste lui-même. `admin-local` sans `.\` est cherché dans le domaine, où il n'existe pas.
 
 !!! warning "Pourquoi ce serait une faute en production"
     - **Un mot de passe partagé** : si un seul compte est compromis, tous le sont. Personne ne sait qui a fait quoi.
-    - **Un mot de passe prévisible** : `Password1!` figure dans toutes les listes utilisées par les attaquants. Il respecte pourtant la complexité Windows (majuscule, chiffre, symbole) : la complexité ne garantit pas la robustesse.
+    - **Un mot de passe prévisible** : `azerty_1` figure dans toutes les listes utilisées par les attaquants. Il respecte pourtant la complexité Windows (minuscule, chiffre, symbole) : la complexité ne garantit pas la robustesse.
     - **Le même mot de passe pour l'administrateur et le DSRM** : le DSRM est justement le compte de secours quand le reste est compromis.
 
     En entreprise : un mot de passe différent par compte, long (phrase de passe), changé à la première connexion ; un coffre pour les comptes d'administration et le DSRM ; LAPS pour les comptes locaux des postes.
 
 !!! note "Les seules exceptions, volontaires"
-    Le projet final crée une stratégie de mot de passe de 14 caractères pour les administrateurs de la Logistique. `Password1!` n'en fait que 10 : c'est voulu, le projet demande d'en mesurer les conséquences.
+    Le projet final crée une stratégie de mot de passe de 14 caractères pour les administrateurs de la Logistique. `azerty_1` n'en fait que 8 : c'est voulu, le projet demande d'en mesurer les conséquences.
 
 ---
 
@@ -87,7 +87,7 @@ Toutes les OUs sont créées **sans** protection contre la suppression accidente
 
 ### Utilisateurs
 
-`SamAccountName` = prénom en minuscules, UPN = `prenom@maxtec.be`, mot de passe de lab `Password1!` (voir [Comptes et mots de passe du lab](#comptes-et-mots-de-passe-du-lab)).
+`SamAccountName` = prénom en minuscules, UPN = `prenom@maxtec.be`, mot de passe de lab `azerty_1` (voir [Comptes et mots de passe du lab](#comptes-et-mots-de-passe-du-lab)).
 
 !!! note "Nom de l'objet = prénom"
     Le `Name` des utilisateurs du lab est le **prénom** : c'est ce que vous voyez dans `dsa.msc` et ce qui forme le DN (`CN=Ivan,OU=Users,OU=IT,OU=EU,DC=maxtec,DC=be`). Le nom complet (« Ivan Istace ») est dans `DisplayName`.

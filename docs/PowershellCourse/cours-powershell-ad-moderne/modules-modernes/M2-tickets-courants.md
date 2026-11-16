@@ -324,8 +324,8 @@ Set-ADAccountPassword -Identity Charles -Reset -NewPassword $nouveauMDP
 
 ```powershell
 # Mot de passe fixe écrit dans le script : lisible par quiconque ouvre le fichier,
-# et le même pour tout le monde. Acceptable dans le lab (Password1!), jamais en production.
-Set-ADAccountPassword -Identity charles -Reset -NewPassword (ConvertTo-SecureString "Password1!" -AsPlainText -Force)
+# et le même pour tout le monde. Acceptable dans le lab (azerty_1), jamais en production.
+Set-ADAccountPassword -Identity charles -Reset -NewPassword (ConvertTo-SecureString "azerty_1" -AsPlainText -Force)
 ```
 
 ### Points clés

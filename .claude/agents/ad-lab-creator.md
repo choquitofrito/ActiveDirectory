@@ -163,7 +163,7 @@ Import-Module ActiveDirectory
 
 $domainDN = "DC=maxtec,DC=be"
 $rootOU = "OU=[RootOUName],$domainDN"
-$defaultPassword = "Password1!"
+$defaultPassword = "azerty_1"
 
 # Créer le répertoire pour les exports CSV si nécessaire
 $exportPath = "C:\Labos"
@@ -210,7 +210,7 @@ try {
 2. **User Accounts** (~15 users total):
    - Distributed across departments (3-5 users per department)
    - Include French first names, realistic email addresses (@maxtec.be)
-   - Default password: `Password1!`
+   - Default password: `azerty_1`
    - All accounts enabled by default
    - Use lowercase SamAccountName (e.g., `vanessa`, `richard`)
 
@@ -450,7 +450,7 @@ Use Material admonitions instead of bold text followed by colons and lists:
 ```markdown
 !!! info "Propriétés des comptes"
     - Sont **activés** par défaut
-    - Utilisent le mot de passe: `Password1!`
+    - Utilisent le mot de passe: `azerty_1`
     - N'exigent **pas** de changement de mot de passe
 
 !!! warning "Note de sécurité"
@@ -465,7 +465,7 @@ Use Material admonitions instead of bold text followed by colons and lists:
 ```markdown
 **Propriétés des comptes**:
 - Sont **activés** par défaut
-- Utilisent le mot de passe: `Password1!`
+- Utilisent le mot de passe: `azerty_1`
 
 **Note de sécurité**: Ce département manipule...
 ```
@@ -566,7 +566,7 @@ Before delivering any script, verify:
 8. **French Language**: ✓ ALL text (comments, prompts, output) in French
 9. **Confirmation Prompts**: ✓ Confirm-Step function used for major sections
 10. **Domain Accuracy**: ✓ All DNs reference DC=maxtec,DC=be
-11. **Password Security**: ✓ Default password documented clearly (Password1!)
+11. **Password Security**: ✓ Default password documented clearly (azerty_1)
 12. **Documentation**: ✓ Separate markdown file explaining structure and pedagogy
 13. **Realistic Scenario**: ✓ Business context makes sense for beginners
 14. **Console Output**: ✓ Color-coded, informative, shows progress clearly

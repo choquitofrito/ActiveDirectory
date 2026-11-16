@@ -102,7 +102,7 @@ VM éteinte, sélectionnez-la et cliquez sur **Paramètres** :
 4. Acceptez les termes de la licence
 5. Choisissez l'installation **Personnalisée**
 6. Sélectionnez l'espace non alloué et lancez l'installation
-7. **Mot de passe administrateur** : `Password1!`
+7. **Mot de passe administrateur** : `azerty_1`
 
     !!! warning "Mot de passe de lab"
         Acceptable dans un lab isolé. En production, jamais de mot de passe partagé ni prévisible pour un compte administrateur.
@@ -172,7 +172,7 @@ Vous pouvez créer d'autres postes, mais la RAM de votre ordinateur limite le no
 1. Langue : Français (Belgique)
 2. Édition : **Windows 10 Professionnel** (l'édition Famille ne peut pas rejoindre un domaine)
 3. Installation personnalisée
-4. Compte local : sans Internet, l'assistant propose un compte Microsoft ; choisissez **Joindre un domaine à la place** (ou **Je n'ai pas Internet** > **Continuer avec une configuration limitée**) pour créer un compte local (`admin-local` / `Password1!`). La jonction au domaine elle-même se fait plus tard, une fois le contrôleur de domaine promu.
+4. Compte local : sans Internet, l'assistant propose un compte Microsoft ; choisissez **Joindre un domaine à la place** (ou **Je n'ai pas Internet** > **Continuer avec une configuration limitée**) pour créer un compte local (`admin-local` / `azerty_1`). La jonction au domaine elle-même se fait plus tard, une fois le contrôleur de domaine promu.
 
 **Configuration** : nom `ws-IT-01`, IP `192.168.0.10`, DNS `192.168.0.2`, puis jonction au domaine : voir [Annexe 1, Partie B](Labo%20Annexe%201-Guide%20de%20base%20installation%20AD-DS.md#partie-b-joindre-un-poste-client-au-domaine), une fois le contrôleur de domaine promu.
 
