@@ -220,7 +220,7 @@ Toujours le même schéma : **`Get-ADUser -Filter {...}` → `-Properties` pour 
     
     Au (3), les 13 comptes du script du lab n'apparaissent pas : ils ont tous un email. Apparaissent les comptes intégrés (`Administrateur`, `Invité`, `krbtgt`...) et les comptes créés à la main sans email au fil des exercices (`chloe`, par exemple).
     
-    Variante pour (3), filtrée côté client : `Get-ADUser -Filter * -Properties EmailAddress | Where-Object { [string]::IsNullOrEmpty($_.EmailAddress) }`. Même résultat, mais tout l'annuaire est rapatrié avant d'être filtré.
+    Variante pour (3), filtrée côté client : `Get-ADUser -Filter * -Properties EmailAddress | Where-Object { -not $_.EmailAddress }`. Même résultat, mais tout l'annuaire est rapatrié avant d'être filtré.
 
 ### Entraînement 1.2 — Comptes à risque
 
@@ -488,17 +488,15 @@ Invoke-Item "C:\Scripts\utilisateurs.html"
 ??? success "Solution"
     
     ```powershell
-    # 1. CSV utilisateurs actifs
-    Get-ADUser -Filter {Enabled -eq $true} `
-               -Properties Department, EmailAddress, PasswordLastSet |
-        Select-Object Name, SamAccountName, Department, EmailAddress, PasswordLastSet |
-        Export-Csv -Path "C:\Scripts\audit_utilisateurs.csv" -NoTypeInformation -Encoding UTF8
-    
+    # La requête une seule fois, gardée dans une variable
+    $rapport = Get-ADUser -Filter {Enabled -eq $true} -Properties Department, EmailAddress, PasswordLastSet |
+        Select-Object Name, SamAccountName, Department, EmailAddress, PasswordLastSet
+
+    # 1. CSV
+    $rapport | Export-Csv -Path "C:\Scripts\audit_utilisateurs.csv" -NoTypeInformation -Encoding UTF8
+
     # 2. HTML
-    Get-ADUser -Filter {Enabled -eq $true} `
-               -Properties Department, EmailAddress, PasswordLastSet |
-        Select-Object Name, SamAccountName, Department, EmailAddress, PasswordLastSet |
-        ConvertTo-Html -Title "Audit Maxtec - Utilisateurs actifs" |
+    $rapport | ConvertTo-Html -Title "Audit Maxtec - Utilisateurs actifs" |
         Out-File -FilePath "C:\Scripts\audit_utilisateurs.html" -Encoding UTF8
     Invoke-Item "C:\Scripts\audit_utilisateurs.html"
     
@@ -510,6 +508,8 @@ Invoke-Item "C:\Scripts\utilisateurs.html"
         }
     } | Export-Csv -Path "C:\Scripts\audit_groupes.csv" -NoTypeInformation -Encoding UTF8
     ```
+
+    Les deux fichiers partent de la même variable `$rapport` : l'annuaire n'est interrogé qu'une fois, et le CSV et le HTML contiennent forcément les mêmes lignes.
 
 ### Entraînement 4.1 — Exporter
 
