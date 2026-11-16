@@ -10,7 +10,7 @@
 
 | Ticket | Thème | Durée | Moment conseillé |
 |--------|-------|-------|------------------|
-| [D1](#d1-le-lecteur-reseau-a-disparu-pour-lit) | GPO | 30 min | Fin du jour 3 (variante courte), après GPO-1 et GPO-2 Ex7 |
+| [D1](#d1-le-lecteur-reseau-a-disparu-pour-lit) | GPO | 30 min | Fin du jour 3 (variante courte), après les séries [GPO-1](./Exercices:%20GPO-1.md) et [GPO-2](./Exercices:%20GPO-2.md) |
 | [D2](#d2-ines-ne-peut-plus-se-connecter) | Compte utilisateur | 45 min | Fin du jour 4, après le chapitre 10 |
 | [D3](#d3-acces-refuse-au-dossier-ventes) | Permissions / AGDLP | 45 min | En réserve (idéal : juste après l'exercice AGDLP) |
 | [D4](#d4-le-poste-ne-trouve-plus-le-domaine) | DNS / réseau | 45 min | Fin du jour 2 |
@@ -100,13 +100,13 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
     > Autre chose bizarre : l'écran ne se verrouille plus tout seul et je n'ai plus le message d'avertissement
     > au démarrage.
 
-!!! note "Variante courte (programme J3 : `-Ticket D1`) ou complète (`-Ticket D1 -Complet`)"
+!!! note "Variante courte (celle du programme, fin du jour 3 : `-Ticket D1`) ou complète (`-Ticket D1 -Complet`)"
 
     Le poste reste dans son OU ; seul le lecteur disparaît ; causes 2 et 3 seulement. La variante complète ajoute la cause 1 (poste sorti de son OU) et les symptômes côté ordinateur (verrouillage, message de connexion).
 
 **Durée** : 30 min (variante courte), 50 min (variante complète)
 
-**Prérequis** : GPO-1 §4.1 réalisée (lecteur réseau `\\dns1\IT-Admin` pour l'IT). Pour la variante complète, aussi §2.1 (message de connexion) et §2.2 (verrouillage) : la GPO de verrouillage doit toujours être liée et active, et `ws-IT-01` ne doit pas être dans le groupe d'exception de §2.2.2, sinon le symptôme "l'écran ne se verrouille plus" n'est pas observable.
+**Prérequis** : dans [GPO-1](./Exercices:%20GPO-1.md), la GPO du lecteur réseau `\\dns1\IT-Admin` pour l'IT (`GPO-Mappage-IT-Admin`, exercice 4.1). Pour la variante complète, aussi le message de connexion (`GPO-Configuration-MessageConnexion`, exercice 2.1) et le verrouillage après inactivité (`GPO-Blocage-Inactivite`, exercice 2.2) : la GPO de verrouillage doit toujours être liée et active, et `ws-IT-01` ne doit pas être dans le groupe d'ordinateurs exclus du verrouillage (celui créé pour le poste de Richard, exercice 2.2.2), sinon le symptôme "l'écran ne se verrouille plus" n'est pas observable.
 
 **Outils autorisés** : console **Gestion des stratégies de groupe** (`gpmc.msc` : onglets **Étendue** > **Liaisons**, **Délégation** > **Avancé**, **Objets de stratégie de groupe liés**, Modélisation et Résultats de stratégie de groupe), `dsa.msc`, `gpresult` et `gpupdate` sur le poste. En aperçu, si vous connaissez déjà : PowerShell (`Get-GPInheritance`, `Get-GPPermission`, `Get-GPO`, `Get-ADComputer`). Pas de modification du contenu des GPO : les paramètres eux-mêmes sont corrects.
 
@@ -137,7 +137,7 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
     Dans la sortie de `Get-GPInheritance`, regardez la colonne `Enabled`. `GpoLinks` ne montre que les liens posés **directement** sur l'OU interrogée : si la GPO n'y apparaît pas, interrogez aussi `OU=IT,OU=EU,…` et `OU=EU,…`.
 
-    Si vous avez fait GPO-2 Ex5, le lien de `GPO-IT-LoginRestreint` (sur `EU\IT\Computers`) est désactivé ou supprimé **volontairement** : ne le réactivez pas, il n'a rien à voir avec ce ticket et bloquerait les autres utilisateurs sur `ws-IT-01`.
+    Si vous avez fait l'exercice 5 de [GPO-2](./Exercices:%20GPO-2.md) (restreindre la connexion aux ordinateurs IT), le lien de `GPO-IT-LoginRestreint` (sur `EU\IT\Computers`) est désactivé ou supprimé **volontairement** : ne le réactivez pas, il n'a rien à voir avec ce ticket et bloquerait les autres utilisateurs sur `ws-IT-01`.
 
 ??? tip "Indice 3"
 
@@ -167,18 +167,18 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
     Get-ADComputer ws-IT-01 | Move-ADObject -TargetPath "OU=Computers,OU=IT,OU=EU,DC=maxtec,DC=be"
     ```
 
-    **2. Le lien de la GPO du lecteur est désactivé.** Dans GPMC, onglet **Étendue** de la GPO → **Liaisons** : `Lien activé` = `Non` sur `IT/Users` (le lien apparaît grisé sous l'OU). La GPO existe, elle est intacte, mais elle n'est plus appliquée nulle part. Ne réactivez que ce lien-là : celui de `GPO-IT-LoginRestreint` (GPO-2 Ex5) reste désactivé ou supprimé, c'est voulu.
+    **2. Le lien de la GPO du lecteur est désactivé.** Dans GPMC, onglet **Étendue** de la GPO → **Liaisons** : `Lien activé` = `Non` sur `IT/Users` (le lien apparaît grisé sous l'OU). La GPO existe, elle est intacte, mais elle n'est plus appliquée nulle part. Ne réactivez que ce lien-là : celui de `GPO-IT-LoginRestreint` (exercice 5 de [GPO-2](./Exercices:%20GPO-2.md)) reste désactivé ou supprimé, c'est voulu.
 
-    Correction : GPMC → `EU > IT > Users` (là où GPO-1 §4.1 l'a liée) → clic droit sur le lien → cocher **Lien activé**.
+    Correction : GPMC → `EU > IT > Users` (là où vous l'avez liée dans GPO-1, exercice 4.1) → clic droit sur le lien → cocher **Lien activé**.
 
     **En PowerShell** (aperçu, vu au chapitre 9) :
 
     ```powershell
-    # Là où GPO-1 §4.1 l'a liée (adaptez -Target si vous l'aviez liée ailleurs)
+    # OU où la GPO a été liée dans GPO-1, exercice 4.1 (adaptez -Target si vous l'aviez liée ailleurs)
     Set-GPLink -Name "<nom de la GPO>" -Target "OU=Users,OU=IT,OU=EU,DC=maxtec,DC=be" -LinkEnabled Yes
     ```
 
-    **3. Le filtrage de sécurité a été fait à moitié.** Quelqu'un a voulu réserver le lecteur aux administrateurs IT (variation de GPO-1 §4.1) : il a ajouté `GG-EU-IT-Admin` et **supprimé** `Utilisateurs authentifiés`. Résultat : les ordinateurs ne peuvent plus lire la GPO, donc même `irene` ne la reçoit pas. `gpresult /h` l'indique comme refusée (accès refusé / sécurité) ou ne la montre pas.
+    **3. Le filtrage de sécurité a été fait à moitié.** Quelqu'un a voulu réserver le lecteur aux administrateurs IT (variation de GPO-1, exercice 4.1) : il a ajouté `GG-EU-IT-Admin` et **supprimé** `Utilisateurs authentifiés`. Résultat : les ordinateurs ne peuvent plus lire la GPO, donc même `irene` ne la reçoit pas. `gpresult /h` l'indique comme refusée (accès refusé / sécurité) ou ne la montre pas.
 
     Correction : garder `GG-EU-IT-Admin` en **Appliquer**, et remettre `Utilisateurs authentifiés` en **Lecture seule** (pas Appliquer, sinon le filtrage n'a plus d'effet) : GPMC → la GPO → onglet **Délégation** → **Ajouter…** → `Utilisateurs authentifiés` → permission **Lecture** → **OK**. Contrôle : **Avancé…** → `Utilisateurs authentifiés` : **Lecture** autorisé, **Appliquer la stratégie de groupe** non coché.
 
@@ -312,7 +312,7 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
 **Durée** : 45 min
 
-**Prérequis** : [exercice AGDLP](./Exercices:%20AGDLP_Partage_Fichiers.md) terminé, y compris l'étape 8 (Compta en lecture). Le sous-dossier `Contrats` n'existe pas dans l'exercice AGDLP : le script le crée en installant la panne. Exercice AGDLP pas terminé : `-Preparer` crée d'abord son état final.
+**Prérequis** : [exercice AGDLP](./Exercices:%20AGDLP_Partage_Fichiers.md) terminé, y compris l'[étape 8](./Exercices:%20AGDLP_Partage_Fichiers.md#8-demontrer-la-valeur-dagdlp) (la Comptabilité ajoutée en lecture). Le sous-dossier `Contrats` n'existe pas dans l'exercice AGDLP : le script le crée en installant la panne. Exercice AGDLP pas terminé : `-Preparer` crée d'abord son état final.
 
 **Outils autorisés** : Explorateur (Propriétés > **Partage** > **Partage avancé** > **Autorisations** ; **Sécurité** > **Avancé** > **Accès effectif**), `dsa.msc` (propriétés des groupes : **Général** > **Étendue du groupe**, **Membres**, **Membre de**), `whoami /groups` et `klist` sur le client, `icacls` sur le serveur. En aperçu, si vous connaissez déjà : PowerShell (`Get-Acl`, `Get-ADGroup`, `Get-ADGroupMember`, `Get-ADPrincipalGroupMembership`, `Get-SmbShareAccess`). Contrainte : la correction doit respecter AGDLP (aucun utilisateur ni groupe global dans les ACL).
 
