@@ -755,7 +755,7 @@ Sens AGDLP    : compte → GG- → DL- (jamais l'inverse : un DL ne peut pas ent
 
 La **délégation de contrôle** donne à un groupe des droits précis (réinitialiser des mots de passe, créer des comptes…) **sur une OU**, sans le rendre administrateur du domaine. Exemple Maxtec : `GG-EU-Compta-Admin` (Charlotte) peut réinitialiser les mots de passe des comptes de `EU/Comptabilite/Users`, et rien d'autre.
 
-La procédure complète (assistant, test depuis le client avec RSAT ou `runas /netonly`, limites de la délégation) est au **[chapitre 6, §9 Délégation de contrôle](Chapitre%206.Unites_Organisation.md#9-delegation-de-controle)**. La mise en pratique est l'[exercice 12](Labo%20et%20Exercices/Exercices:%20Gestion_des_Utilisateurs.md#exercice-12-delegation-dadministration).
+La procédure complète (assistant, test depuis le client avec RSAT ou `runas /netonly`, limites de la délégation) est au **[chapitre 6, §9 Délégation de contrôle](Chapitre%206.Unites_Organisation.md#9-delegation-de-controle)**. La mise en pratique est l'[exercice 11](Labo%20et%20Exercices/Exercices:%20Gestion_des_Utilisateurs.md#exercice-11-delegation-dadministration).
 
 !!! warning "À retenir"
 

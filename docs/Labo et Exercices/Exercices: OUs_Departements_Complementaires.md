@@ -281,7 +281,7 @@
 
     2. Déléguer à `GG-EU-Achats-Admin` (qui contient **adrien**) les mêmes droits sur `OU=Achats,OU=EU,DC=maxtec,DC=be`.
 
-    3. **Test** : vérifiez que **marc** peut créer un utilisateur de test dans `OU=Users,OU=Marketing,...`, mais **pas** dans `OU=Users,OU=Achats,...`. Le test se fait **depuis `ws-IT-01` avec RSAT** ([installation : Gestion des utilisateurs, Ex. 12](./Exercices:%20Gestion_des_Utilisateurs.md#exercice-12-delegation-dadministration)) : marc n'a pas le droit d'ouvrir une session sur le DC, ni en local ni en RDP.
+    3. **Test** : vérifiez que **marc** peut créer un utilisateur de test dans `OU=Users,OU=Marketing,...`, mais **pas** dans `OU=Users,OU=Achats,...`. Le test se fait **depuis `ws-IT-01` avec RSAT** ([installation : Gestion des utilisateurs, Ex. 11](./Exercices:%20Gestion_des_Utilisateurs.md#exercice-11-delegation-dadministration)) : marc n'a pas le droit d'ouvrir une session sur le DC, ni en local ni en RDP.
 
     !!! tip "Déléguer au groupe"
 

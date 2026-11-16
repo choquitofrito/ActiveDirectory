@@ -8,7 +8,7 @@
     Après la théorie, passez à la pratique :
 
     - **[Exercice OUs Départements](Labo%20et%20Exercices/Exercices:%20OUs_Departements_Complementaires.md)** - Créer des OUs et utilisateurs pour les départements complémentaires de maxtec.be
-    - **[Exercice 12 : Délégation d'administration](Labo%20et%20Exercices/Exercices:%20Gestion_des_Utilisateurs.md#exercice-12-delegation-dadministration)** - Déléguer la gestion des comptes RH et Ventes (à faire après ce chapitre et le chapitre 7)
+    - **[Exercice 11 : Délégation d'administration](Labo%20et%20Exercices/Exercices:%20Gestion_des_Utilisateurs.md#exercice-11-delegation-dadministration)** - Déléguer la gestion des comptes RH et Ventes (à faire après ce chapitre et le chapitre 7)
 
 ---
 
@@ -422,7 +422,7 @@ La **délégation de contrôle** consiste à ajouter des **entrées de permissio
 
 On teste **depuis `ws-IT-01` (ou `ws-RH-01`)**, pas en ouvrant une session sur le DC. Par défaut, les utilisateurs du domaine n'ont pas le droit d'ouvrir une session sur un DC, et c'est très bien ainsi : un responsable de service n'a rien à faire sur un contrôleur de domaine. La délégation se teste avec les consoles d'administration à distance (RSAT).
 
-**Préparation (une fois)** : installez RSAT sur le client. La procédure est détaillée dans l'[Exercice 12, section RSAT](Labo%20et%20Exercices/Exercices:%20Gestion_des_Utilisateurs.md#exercice-12-delegation-dadministration).
+**Préparation (une fois)** : installez RSAT sur le client. La procédure est détaillée dans l'[Exercice 11, section RSAT](Labo%20et%20Exercices/Exercices:%20Gestion_des_Utilisateurs.md#exercice-11-delegation-dadministration).
 
 **Deux façons de tester** :
 

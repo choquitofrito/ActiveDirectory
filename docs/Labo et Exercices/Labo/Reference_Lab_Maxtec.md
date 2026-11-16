@@ -163,7 +163,7 @@ Ces objets ne sont pas créés par `creation_structure.ps1` : ils apparaissent a
 | OU `Resources` et sa sous-OU `Groups` (`OU=Groups,OU=Resources,OU=EU,DC=maxtec,DC=be`) | sous `OU=EU` | AGDLP |
 | `DL-Ventes-Documents-Lecture`, `-Modification`, `-ControleTotal` | `OU=Groups,OU=Resources,OU=EU` | AGDLP |
 | `DL-Factures-Lecture`, `DL-Factures-Modification` | `OU=Groups,OU=Resources,OU=EU` | AGDLP (extension) |
-| Partage `Profiles$` (`C:\Shares\Profiles` → `\\dns1\Profiles$`) | DC | Gestion des utilisateurs, Ex. 11 |
+| Partage `Profiles$` (`C:\Shares\Profiles` → `\\dns1\Profiles$`) | DC | Gestion des utilisateurs, Ex. 10 |
 | Partage `Logistique` (`C:\Shares\Logistique` → `\\dns1\Logistique`) | DC | Projet final |
 | Compte `chloe` (Chloé Dumont) | `OU=Users,OU=Comptabilite,OU=EU` | Gestion des utilisateurs, Ex. 1 |
 | Comptes `jean.dupont`, `sophie.dubois` | `OU=Users,OU=IT,OU=EU` et `OU=Users,OU=Ventes,OU=EU` | Chapitre 9.3 |

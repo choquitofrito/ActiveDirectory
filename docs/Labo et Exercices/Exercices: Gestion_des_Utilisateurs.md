@@ -79,87 +79,7 @@
 
     Les horaires (`logonHours`) sont un tableau d'octets peu lisible : passez par l'interface graphique.
 
-### Exercice 3: Audit de Sécurité `GPO`
-
-!!! example "Objectif"
-
-    Vous devez vérifier les paramètres de sécurité du compte de Chloé.
-
-!!! info "Tâches à réaliser"
-
-    1. Vérifier que le compte suit la politique de mot de passe
-    2. Confirmer que le compte expire dans 6 mois (durée du contrat d'essai)
-    3. Activer la journalisation des tentatives de connexion échouées
-
-??? success "Solution"
-
-    **Tâche 1 — Vérifier la politique de mot de passe**
-
-    La politique s'applique automatiquement au niveau du domaine. Pour consulter la politique active :
-
-    `Outils` → `Gestion des stratégies de groupe` → double-clic sur `Default Domain Policy` → onglet `Paramètres` → `Configuration ordinateur > Paramètres Windows > Paramètres de sécurité > Stratégies de compte`
-
-    Pour vérifier si le compte a une politique spécifique (Fine-Grained) :
-
-    `Centre d'administration Active Directory` → retrouvez `chloe` (`EU > Comptabilite > Users`) → clic droit → **Afficher les paramètres de mot de passe résultants…** (View resultant password settings). Si aucune PSO ne s'applique, la console l'indique : c'est la politique du domaine qui s'applique.
-
-    En PowerShell (aperçu, vu au chapitre 9) : `Get-ADDefaultDomainPasswordPolicy`, et `Get-ADUserResultantPasswordPolicy chloe`, qui ne renvoie rien si seule la politique du domaine s'applique.
-
-    ---
-
-    **Tâche 2 — Expiration du compte dans 6 mois**
-
-    `Utilisateurs et ordinateurs AD` → double-clic sur le compte → onglet **`Compte`**
-
-    Dans la section **"Le compte expire"** : sélectionner `Fin de :` et saisir la date (aujourd'hui + 6 mois).
-
-    **En PowerShell** (aperçu, vu au chapitre 9) :
-
-    ```powershell
-    Set-ADAccountExpiration chloe -DateTime (Get-Date).AddMonths(6)
-    ```
-
-    ---
-
-    **Tâche 3 — Journalisation des tentatives de connexion échouées**
-
-    Cette configuration se fait par GPO, pas sur le compte. Une ouverture de session de domaine est **validée par le DC** : c'est donc sur les DC qu'on active l'audit, avec la **stratégie d'audit avancée** (la "Stratégie d'audit" classique sous `Stratégies locales` est l'ancienne méthode ; ne mélangez pas les deux).
-
-    GPMC → `Domain Controllers` → clic droit sur `Default Domain Controllers Policy` → `Modifier` :
-
-    ```
-    Configuration ordinateur
-      → Stratégies
-        → Paramètres Windows
-          → Paramètres de sécurité
-            → Configuration avancée de la stratégie d'audit
-              → Stratégies d'audit
-                → Connexion de compte
-                    → Auditer le service d'authentification Kerberos → Succès, Échec
-                    → Auditer la validation des informations d'identification → Succès, Échec
-                → Ouverture/Fermeture de session
-                    → Auditer l'ouverture de session → Succès, Échec
-                → Gestion des comptes
-                    → Auditer la gestion des comptes d'utilisateur → Succès
-                    → Auditer la gestion des groupes de sécurité → Succès
-                → Accès DS
-                    → Auditer les modifications du service d'annuaire → Succès
-    ```
-
-    Les deux dernières sous-catégories (Security Group Management, Directory Service Changes) ne servent pas à cette tâche, mais le chapitre 10 (monitoring) en a besoin : ajouts aux groupes (4728, 4732) et modifications d'objets AD (5136). Réglez-les maintenant. Dès qu'une GPO définit la stratégie d'audit avancée, elle **remplace** la configuration locale : un `auditpol /set` lancé à la main sur le DC sera écrasé au prochain rafraîchissement. Tout ce qu'on veut auditer sur les DC doit donc être dans cette GPO.
-
-    Sur le DC : `gpupdate /force`, puis vérifiez avec `auditpol /get /category:*`.
-
-    Événements utiles (`Observateur d'événements` → `Journaux Windows` → `Sécurité` du DC) :
-
-    | ID | Signification |
-    |----|---------------|
-    | 4771 | Échec de pré-authentification Kerberos (mauvais mot de passe) |
-    | 4776 | Validation d'identifiants NTLM (succès ou échec) |
-    | 4625 | Échec d'ouverture de session — enregistré sur la **machine où l'on tente de se connecter** |
-    | 4740 | Compte verrouillé (sert à l'exercice 10) |
-
-### Exercice 4: Désactivation d'un Compte
+### Exercice 3: Désactivation d'un Compte
 
 !!! warning "Situation"
 
@@ -195,7 +115,7 @@
 
     On désactive d'abord, on supprime plus tard : un compte supprimé perd son SID, et les permissions qui y étaient liées ne reviennent pas si on recrée un compte du même nom.
 
-### Exercice 5: Nettoyage des Accès
+### Exercice 4: Nettoyage des Accès
 
 !!! example "Contexte"
 
@@ -234,7 +154,7 @@
     Add-ADGroupMember GG-EU-Compta-Users -Members charles
     ```
 
-### Exercice 6: Gestion des Homonymes
+### Exercice 5: Gestion des Homonymes
 
 !!! example "Situation"
 
@@ -286,7 +206,7 @@
         -AccountPassword (Read-Host -AsSecureString) -ChangePasswordAtLogon $true -Enabled $true
     ```
 
-### Exercice 7: Compte Temporaire
+### Exercice 6: Compte Temporaire
 
 !!! example "Contexte"
 
@@ -318,7 +238,7 @@
 
     Ne l'ajoutez pas à `GG-EU-IT-Users` par réflexe : un consultant d'audit a besoin d'accès en lecture ciblés, pas des accès de l'équipe.
 
-### Exercice 8: Vérification des Comptes Inactifs
+### Exercice 7: Vérification des Comptes Inactifs
 
 !!! example "Rôle"
 
@@ -378,7 +298,7 @@
 
     Pensez à exclure `krbtgt` et `Invité` (désactivés, donc déjà filtrés ici) et les comptes de service de la liste envoyée à la direction.
 
-### Exercice 9: Mise à Jour des Informations
+### Exercice 8: Mise à Jour des Informations
 
 !!! example "Contexte"
 
@@ -412,7 +332,7 @@
     Set-ADUser chloe     -OfficePhone "+32 2 123 30 03"
     ```
 
-### Exercice 10: Résolution des Problèmes de Connexion
+### Exercice 9: Résolution des Problèmes de Connexion
 
 !!! warning "Problème signalé"
 
@@ -481,9 +401,9 @@ Dans un lab neuf, rien n'empêche Ines de se connecter : vous allez d'abord **re
 
     En production, un verrouillage qui revient sans cesse vient souvent d'un ancien mot de passe enregistré quelque part (lecteur réseau mappé, téléphone, tâche planifiée) : le poste indiqué dans l'événement 4740 est le point de départ.
 
-    Fin d'exercice : dans la `Default Domain Policy`, remettez les valeurs notées au départ (**Seuil de verrouillage du compte** = `0`), puis `gpupdate /force` sur le DC. Ou gardez le seuil pour l'exercice 12.
+    Fin d'exercice : dans la `Default Domain Policy`, remettez les valeurs notées au départ (**Seuil de verrouillage du compte** = `0`), puis `gpupdate /force` sur le DC. Ou gardez le seuil pour l'exercice 11.
 
-### Exercice 11 (optionnel, avancé): Gestion des Profils Itinérants `GPO`
+### Exercice 10 (optionnel, avancé): Gestion des Profils Itinérants `GPO`
 
 !!! warning "Exercice avancé"
     Il faut **deux postes clients** pour vérifier qu'un profil suit l'utilisateur (ou supprimer le profil local entre deux connexions sur le même poste). Les profils itinérants sont par ailleurs une technologie ancienne : en entreprise, on leur préfère souvent la redirection de dossiers ([GPO-3, exercice 1.1](./Exercices:%20GPO-3.md)).
@@ -535,9 +455,12 @@ Dans un lab neuf, rien n'empêche Ines de se connecter : vous allez d'abord **re
     Get-ADUser vanessa -Properties ProfilePath | Select-Object ProfilePath
     ```
 
-### Exercice 12: Délégation d'Administration
+### Exercice 11: Délégation d'Administration
 
 **Niveau** : Intermédiaire · **Durée** : 30-45 min
+
+!!! note "Exercice lié aux unités d'organisation"
+    La délégation se pose **sur une OU** : c'est la mise en pratique du [chapitre 6, §9 Délégation de contrôle](../Chapitre%206.Unites_Organisation.md#9-delegation-de-controle). Il figure ici parce qu'il délègue la gestion des **comptes utilisateurs**.
 
 !!! example "Objectif"
 
@@ -561,7 +484,7 @@ La délégation se **configure** depuis n'importe quelle machine qui a `dsa.msc`
     `dsa.msc` et `gpmc.msc` sont installés d'office sur le DC. Mais un responsable de service n'a rien à faire sur le DC : il n'a d'ailleurs pas le droit d'y ouvrir une session. RSAT (Remote Server Administration Tools) installe les mêmes consoles sur un poste client Windows ; elles parlent au DC par le réseau (LDAP). C'est aussi la bonne pratique pour les administrateurs : on administre depuis un poste, sans ouvrir de session sur le DC. Une fois RSAT installé, **les permissions viennent du compte qui ouvre la console**, pas de l'installation elle-même.
 
 !!! warning "Le poste du lab n'a pas d'accès Internet"
-    Vérifiez d'abord si RSAT est déjà là : le formateur peut l'avoir préinstallé dans l'image du poste. **Paramètres > Applications > Fonctionnalités facultatives** : si **RSAT : Outils Active Directory Domain Services et Services LDS** figure dans la liste des fonctionnalités installées, passez directement à la vérification. En PowerShell (aperçu) : `Get-WindowsCapability -Online -Name Rsat.ActiveDirectory*` doit afficher `State = Installed`. Sinon :
+    Vérifiez d'abord si RSAT est déjà là : le formateur peut l'avoir préinstallé dans l'image du poste. **Paramètres > Applications > Applications et fonctionnalités > Fonctionnalités facultatives** : si **RSAT : Outils Active Directory Domain Services et Services LDS** figure dans la liste des fonctionnalités installées, passez directement à la vérification. En PowerShell (aperçu) : `Get-WindowsCapability -Online -Name Rsat.ActiveDirectory*` doit afficher `State = Installed`. Sinon :
 
     1. **Éteignez** `ws-IT-01`, puis dans VirtualBox ajoutez une **deuxième carte réseau en NAT** (Configuration > Réseau > Carte 2)
     2. Démarrez le poste, installez RSAT (procédure ci-dessous)
@@ -572,7 +495,7 @@ La délégation se **configure** depuis n'importe quelle machine qui a `dsa.msc`
 
 **Procédure (à exécuter sur le poste client, ex : `ws-IT-01`)** :
 
-1. **Connectez-vous avec un compte administrateur du poste** (le compte local créé à l'installation de Windows, ou un administrateur du domaine). L'installation d'un composant Windows demande des droits d'administration sur le poste. Les composants RSAT sont téléchargés depuis Windows Update : il faut un accès Internet **temporaire** (voir l'encadré ci-dessous).
+1. **Connectez-vous avec un compte administrateur du poste** (le compte local créé à l'installation de Windows, ou un administrateur du domaine). L'installation d'un composant Windows demande des droits d'administration sur le poste. Les composants RSAT sont téléchargés depuis Windows Update : il faut un accès Internet **temporaire** (voir l'encadré ci-dessus).
 2. **Ouvrir le menu Fonctionnalités facultatives** : touche Windows → taper **`facultative`** → cliquer sur **Fonctionnalités facultatives**.
 3. **Ajouter une fonctionnalité** :
     - Cliquer sur **Ajouter une fonctionnalité** (ou **Afficher les fonctionnalités**)
@@ -687,7 +610,7 @@ Les tests se font **depuis `ws-IT-01`** (ou `ws-RH-01`) avec RSAT : Richard et V
 3. Naviguer jusqu'à `EU > RH > Users`
 4. Clic droit sur **Rene** → **Réinitialiser le mot de passe** → définir un nouveau mot de passe → **OK**
 5. Doit fonctionner
-6. Si vous avez activé le seuil de verrouillage de l'exercice 10 : verrouillez `rebecca` (mauvais mots de passe), puis Richard la déverrouille (onglet **Compte** > **Déverrouiller le compte**)
+6. Si vous avez activé le seuil de verrouillage de l'exercice 9 : verrouillez `rebecca` (mauvais mots de passe), puis Richard la déverrouille (onglet **Compte** > **Déverrouiller le compte**)
 
 **Test B — Richard (devrait échouer)** :
 
@@ -771,9 +694,9 @@ Vous devez voir des entrées `Allow` pour `MAXTEC\GG-EU-RH-Admin` et `MAXTEC\GG-
 
 - **Délégation fine** : `dsacls` en ligne de commande ou `Set-Acl` en PowerShell pour spécifier exactement quels attributs (ex : `mail`, `telephoneNumber`) peuvent être modifiés.
 - **Délégation GPO** : voir [GPO-2, exercice 7](./Exercices:%20GPO-2.md) — c'est l'équivalent pour les GPOs (filtrage de sécurité, onglet Délégation, droit de lier des GPOs à une OU).
-- **Audit** : activer l'audit des modifications de l'annuaire (`auditpol /set /subcategory:"Directory Service Changes" /success:enable`) pour tracer qui modifie quoi. Sur un Windows en français, les noms de sous-catégories sont traduits : `auditpol /list /subcategory:*` donne le nom exact.
+- **Audit** : pour tracer qui modifie quoi dans l'annuaire, activez la sous-catégorie **Auditer les modifications du service d'annuaire** dans la `Default Domain Controllers Policy` (exercice 14, après le chapitre 8). Un `auditpol /set` lancé à la main sur le DC serait écrasé par la GPO au rafraîchissement suivant.
 
-### Exercice 13: Migration d'Utilisateurs
+### Exercice 12: Migration d'Utilisateurs
 
 !!! example "Contexte"
 
@@ -819,7 +742,7 @@ Vous devez voir des entrées `Allow` pour `MAXTEC\GG-EU-RH-Admin` et `MAXTEC\GG-
 
     **Retour arrière** : mêmes étapes en sens inverse (déplacer vers `EU > IT > Users`, retirer `GG-EU-Ventes-Users`, ajouter `GG-EU-IT-Users`, Service `IT`, Fonction d'origine : Technicien / Technicienne), ou la même boucle PowerShell inversée.
 
-### Exercice 14: Gestion des Comptes de Service
+### Exercice 13: Gestion des Comptes de Service
 
 !!! warning "À faire après le chapitre 9"
     La création d'une gMSA (et de la clé racine KDS dont elle dépend) **se fait uniquement en PowerShell** : ni `dsa.msc` ni le Centre d'administration Active Directory ne proposent d'assistant pour la créer. Faites cet exercice une fois le chapitre 9 (PowerShell AD) vu. Le groupe de machines et le compte classique `svc-monitoring` se font, eux, en GUI.
@@ -886,3 +809,86 @@ Un compte de service classique (un utilisateur avec un mot de passe qui n'expire
     ```powershell
     Set-ADUser svc-monitoring -PasswordNeverExpires $true -LogonWorkstations "ws-IT-01" -AccountNotDelegated $true
     ```
+
+### Exercice 14: Audit de Sécurité `GPO`
+
+!!! warning "À faire après le chapitre 8"
+    Les tâches 1 et 3 passent par la console **Gestion des stratégies de groupe** et la `Default Domain Controllers Policy` : faites cet exercice une fois le chapitre 8 (GPO) vu. Il utilise le compte de Chloé créé à l'exercice 1.
+
+!!! example "Objectif"
+
+    Vous devez vérifier les paramètres de sécurité du compte de Chloé.
+
+!!! info "Tâches à réaliser"
+
+    1. Vérifier que le compte suit la politique de mot de passe
+    2. Confirmer que le compte expire dans 6 mois (durée du contrat d'essai)
+    3. Activer la journalisation des tentatives de connexion échouées
+
+??? success "Solution"
+
+    **Tâche 1 — Vérifier la politique de mot de passe**
+
+    La politique s'applique automatiquement au niveau du domaine. Pour consulter la politique active :
+
+    `Outils` → `Gestion des stratégies de groupe` → double-clic sur `Default Domain Policy` → onglet `Paramètres` → `Configuration ordinateur > Paramètres Windows > Paramètres de sécurité > Stratégies de compte`
+
+    Pour vérifier si le compte a une politique spécifique (Fine-Grained) :
+
+    `Centre d'administration Active Directory` → retrouvez `chloe` (`EU > Comptabilite > Users`) → clic droit → **Afficher les paramètres de mot de passe résultants…** (View resultant password settings). Si aucune PSO ne s'applique, la console l'indique : c'est la politique du domaine qui s'applique.
+
+    En PowerShell (aperçu, vu au chapitre 9) : `Get-ADDefaultDomainPasswordPolicy`, et `Get-ADUserResultantPasswordPolicy chloe`, qui ne renvoie rien si seule la politique du domaine s'applique.
+
+    ---
+
+    **Tâche 2 — Expiration du compte dans 6 mois**
+
+    `Utilisateurs et ordinateurs AD` → double-clic sur le compte → onglet **`Compte`**
+
+    Dans la section **"Le compte expire"** : sélectionner `Fin de :` et saisir la date (aujourd'hui + 6 mois).
+
+    **En PowerShell** (aperçu, vu au chapitre 9) :
+
+    ```powershell
+    Set-ADAccountExpiration chloe -DateTime (Get-Date).AddMonths(6)
+    ```
+
+    ---
+
+    **Tâche 3 — Journalisation des tentatives de connexion échouées**
+
+    Cette configuration se fait par GPO, pas sur le compte. Une ouverture de session de domaine est **validée par le DC** : c'est donc sur les DC qu'on active l'audit, avec la **stratégie d'audit avancée** (la "Stratégie d'audit" classique sous `Stratégies locales` est l'ancienne méthode ; ne mélangez pas les deux).
+
+    GPMC → `Domain Controllers` → clic droit sur `Default Domain Controllers Policy` → `Modifier` :
+
+    ```
+    Configuration ordinateur
+      → Stratégies
+        → Paramètres Windows
+          → Paramètres de sécurité
+            → Configuration avancée de la stratégie d'audit
+              → Stratégies d'audit
+                → Connexion de compte
+                    → Auditer le service d'authentification Kerberos → Succès, Échec
+                    → Auditer la validation des informations d'identification → Succès, Échec
+                → Ouverture/Fermeture de session
+                    → Auditer l'ouverture de session → Succès, Échec
+                → Gestion des comptes
+                    → Auditer la gestion des comptes d'utilisateur → Succès
+                    → Auditer la gestion des groupes de sécurité → Succès
+                → Accès DS
+                    → Auditer les modifications du service d'annuaire → Succès
+    ```
+
+    Les deux dernières sous-catégories (Security Group Management, Directory Service Changes) ne servent pas à cette tâche, mais le chapitre 10 (monitoring) en a besoin : ajouts aux groupes (4728, 4732) et modifications d'objets AD (5136). Réglez-les maintenant. Dès qu'une GPO définit la stratégie d'audit avancée, elle **remplace** la configuration locale : un `auditpol /set` lancé à la main sur le DC sera écrasé au prochain rafraîchissement. Tout ce qu'on veut auditer sur les DC doit donc être dans cette GPO.
+
+    Sur le DC : `gpupdate /force`, puis vérifiez avec `auditpol /get /category:*`.
+
+    Événements utiles (`Observateur d'événements` → `Journaux Windows` → `Sécurité` du DC) :
+
+    | ID | Signification |
+    |----|---------------|
+    | 4771 | Échec de pré-authentification Kerberos (mauvais mot de passe) |
+    | 4776 | Validation d'identifiants NTLM (succès ou échec) |
+    | 4625 | Échec d'ouverture de session — enregistré sur la **machine où l'on tente de se connecter** |
+    | 4740 | Compte verrouillé (voir l'exercice 9) |

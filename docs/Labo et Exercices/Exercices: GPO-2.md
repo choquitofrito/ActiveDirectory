@@ -146,7 +146,7 @@ Pour sélectionner le script, **utilisez le chemin réseau** `\\dns1\SYSVOL\maxt
 - La GPO `GPO-LinkBureau` existe et est liée à `EU\Ventes\Users` ([GPO-1, 3.1](./Exercices:%20GPO-1.md))
 - Les groupes `GG-EU-Ventes-Admin` (membre : Valentin) et `GG-EU-IT-Admin` (membre : Irene) existent
 - Session ouverte avec un compte membre de `Admins du domaine` (ex. : `maxtec\Administrateur`)
-- **RSAT installé sur `ws-IT-01`** (au moins les outils de gestion des stratégies de groupe et AD DS) : le test de l'étape 4 se fait depuis le poste client, pas depuis le DC. Procédure : [Gestion des utilisateurs, Ex. 12](./Exercices:%20Gestion_des_Utilisateurs.md). En résumé, sur le poste (accès Internet requis : carte NAT temporaire, voir la procédure) : **Paramètres > Applications > Fonctionnalités facultatives > Ajouter une fonctionnalité** > recherchez `RSAT` > cochez **RSAT : Outils de gestion des stratégies de groupe** et **RSAT : Outils Active Directory Domain Services et Services LDS** > **Installer**.
+- **RSAT installé sur `ws-IT-01`** (au moins les outils de gestion des stratégies de groupe et AD DS) : le test de l'étape 4 se fait depuis le poste client, pas depuis le DC. Procédure : [Gestion des utilisateurs, Ex. 11](./Exercices:%20Gestion_des_Utilisateurs.md#exercice-11-delegation-dadministration). En résumé, sur le poste (accès Internet requis : carte NAT temporaire, voir la procédure) : **Paramètres > Applications > Applications et fonctionnalités > Fonctionnalités facultatives > Ajouter une fonctionnalité** > recherchez `RSAT` > cochez **RSAT : Outils de gestion des stratégies de groupe** et **RSAT : Outils Active Directory Domain Services et Services LDS** > **Installer**.
 
     **En PowerShell** (aperçu, vu au chapitre 9 ; console en administrateur) :
 
