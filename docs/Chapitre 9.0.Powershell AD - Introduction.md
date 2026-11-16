@@ -163,6 +163,15 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 New-Item -Path "C:\Scripts" -ItemType Directory -Force
 ```
 
+!!! note "Enregistrer et relancer un script"
+    
+    Un script PowerShell est un simple fichier texte d'extension `.ps1` qui contient des commandes, une par ligne. PowerShell les exécute dans l'ordre, comme si vous les tapiez.
+    
+    - **Dans VS Code ou ISE** : ouvrez le fichier et appuyez sur **F5**.
+    - **Dans la console** : tapez le chemin complet, `C:\Scripts\inventaire.ps1`. Si vous êtes déjà dans le dossier (`cd C:\Scripts`), tapez `.\inventaire.ps1` : le `.\` est obligatoire, PowerShell ne cherche pas les scripts dans le dossier courant sans lui.
+    
+    Si PowerShell répond que *l'exécution de scripts est désactivée sur ce système*, c'est que la commande `Set-ExecutionPolicy` ci-dessus n'a pas été lancée.
+
 ## 5. 🔹 Aide et documentation
 
 !!! info "Aide intégrée"
@@ -226,15 +235,26 @@ Les pièges classiques quand on arrive de bash :
 
 !!! info "Contexte"
     
-    Vous venez d'arriver dans l'équipe IT de **Maxtec**. Sophie Martin, la responsable infrastructure, vous demande de prendre en main l'Active Directory avant toute intervention. Les missions ci-dessous balaient le module et utilisent uniquement les commandes vues plus haut.
+    Vous venez d'arriver dans l'équipe IT de **Maxtec**. Nathalie Lambert, la responsable infrastructure, vous demande de prendre en main l'Active Directory avant toute intervention. Les missions ci-dessous balaient le module et utilisent uniquement les commandes vues plus haut.
     
     Chaque mission s'enchaîne avec la suivante : ce que vous découvrez ici servira directement aux chapitres 9.1 à 9.3.
+
+Le programme de vos premières semaines, tel que Nathalie vous l'a présenté :
+
+| Quand | Chapitre | Ce qu'on vous demande | Ce que vous livrez |
+|-------|----------|-----------------------|--------------------|
+| Jour 1 | 9.0 | Découvrir l'annuaire sans rien casser | `C:\Scripts\inventaire.ps1` |
+| Jour 2 | 9.1 | Un rapport d'audit qu'on relance sur n'importe quel service | `C:\Scripts\audit_ou.ps1` |
+| Jour 3 | 9.2 | Le contrôle de sécurité du lundi matin, avec des rapports à archiver | `C:\Scripts\audit_lundi.ps1` + CSV / HTML |
+| Semaine 2 | 9.3 | Les arrivées, les changements et un départ | Comptes créés, modifiés, puis désactivés proprement |
+
+Jusqu'à la fin de la semaine 1, vous ne **modifiez rien** dans AD : vous lisez, comptez et rapportez. Les modifications arrivent en semaine 2, avec les garde-fous qui vont avec.
 
 ### Mission 1.1 — Inventaire du domaine
 
 !!! example "Objectif"
     
-    Sophie veut connaître la volumétrie. Donnez-lui les chiffres exacts pour `maxtec.be` :
+    Nathalie veut connaître la volumétrie. Donnez-lui les chiffres exacts pour `maxtec.be` :
     
     1. Nombre total d'**utilisateurs**
     2. Nombre total de **groupes**
@@ -328,9 +348,50 @@ Les pièges classiques quand on arrive de bash :
     
     Dans la GUI, le service se lit dans l'onglet `Organisation` et la dernière connexion dans l'éditeur d'attributs, compte par compte. En PowerShell, une commande, que l'on sauvegarde dans un `.ps1` et que l'on rejoue chaque semaine.
 
+### Mission 1.5 — Livrer l'inventaire
+
+!!! example "Objectif"
+    
+    En fin de journée, Nathalie ne veut pas une capture d'écran de votre console : elle veut pouvoir refaire l'inventaire elle-même le mois prochain. Rassemblez votre travail dans un script.
+    
+    1. Créez le fichier `C:\Scripts\inventaire.ps1` (VS Code : **Fichier > Nouveau fichier**, puis **Enregistrer sous**).
+    2. Mettez-y les commandes des missions 1.1, 1.2 et 1.3. Avant chaque résultat, une ligne `Write-Host` dit ce qui suit (`Write-Host "Utilisateurs :"`).
+    3. Ajoutez des commentaires (`#`) pour séparer les trois parties.
+    4. Exécutez le script (voir la note « Enregistrer et relancer un script », section 4). Comparez avec les chiffres notés dans la journée.
+    
+    *Indice : `Write-Host` est l'équivalent de `echo` (section 6). Mettez-le sur sa propre ligne, et le comptage sur la ligne suivante.*
+
+??? success "Solution"
+    
+    ```powershell
+    # inventaire.ps1 - Inventaire du domaine maxtec.be (lecture seule)
+    
+    # --- 1. Volumétrie (mission 1.1) ---
+    Write-Host "Utilisateurs :"
+    (Get-ADUser -Filter *).Count
+    Write-Host "Groupes :"
+    (Get-ADGroup -Filter *).Count
+    Write-Host "Unités d'organisation :"
+    (Get-ADOrganizationalUnit -Filter *).Count
+    Write-Host "Ordinateurs :"
+    (Get-ADComputer -Filter *).Count
+    
+    # --- 2. Carte d'identité du domaine (mission 1.2) ---
+    Get-ADDomain | Format-List DNSRoot, DomainMode, NetBIOSName
+    Get-ADDomainController -Filter * | Format-Table Name, IPv4Address
+    
+    # --- 3. Comptes désactivés (mission 1.3) ---
+    Write-Host "Comptes désactivés :"
+    Get-ADUser -Filter {Enabled -eq $false} | Format-Table Name, SamAccountName
+    ```
+    
+    Le script ne modifie rien : on peut le lancer autant de fois qu'on veut. Relancez-le après avoir joint `ws-RH-01` au domaine ou après les exercices des chapitres suivants : les chiffres bougent, la commande reste la même. C'est tout l'intérêt d'un script face à la GUI.
+
 ### Bilan du jour
 
-Vous savez maintenant compter les objets AD, lire les propriétés du domaine, demander des propriétés supplémentaires, écrire un filtre simple, et arbitrer entre GUI et PowerShell. Le chapitre 9.1 introduit les variables, tableaux, boucles et conditions pour transformer ces commandes ponctuelles en scripts réutilisables.
+Vous savez maintenant compter les objets AD, lire les propriétés du domaine, demander des propriétés supplémentaires, écrire un filtre simple, arbitrer entre GUI et PowerShell, et enregistrer vos commandes dans un script que quelqu'un d'autre peut relancer.
+
+Limite de `inventaire.ps1` : tout y est écrit en dur. Pour auditer un autre service ou changer un seuil, il faut modifier le script lui-même. Le chapitre 9.1 introduit les variables, tableaux, boucles et conditions pour écrire des scripts qui s'adaptent à ce qu'on leur demande.
 
 ---
 

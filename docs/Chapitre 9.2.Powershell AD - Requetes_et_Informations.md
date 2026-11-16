@@ -19,7 +19,9 @@
 
 !!! info "Fil rouge : Jour 3 chez Maxtec"
     
-    Sophie vous confie l'audit de sécurité hebdomadaire. Il s'agit d'un ensemble de requêtes qu'on exécuterait chaque lundi matin pour détecter des anomalies. Vous allez construire ces requêtes une par une en utilisant les filtres présentés dans ce chapitre.
+    Nathalie vous confie l'audit de sécurité hebdomadaire. Il s'agit d'un ensemble de requêtes qu'on exécuterait chaque lundi matin pour détecter des anomalies : comptes désactivés qui gardent leurs accès, mots de passe qui n'expirent jamais, fiches incomplètes. Vos scripts d'hier regardaient un service à la fois ; ces questions-là portent sur tout le domaine.
+    
+    Vous allez construire ces requêtes une par une en utilisant les filtres présentés dans ce chapitre, puis les exporter en fichiers (section 4). Le livrable du jour est `C:\Scripts\audit_lundi.ps1` (mission 4.2) : un script qui rassemble les contrôles et range des rapports datés.
 
 ---
 
@@ -178,13 +180,13 @@ Toujours le même schéma : **`Get-ADUser -Filter {...}` → `-Properties` pour 
 
 !!! example "Objectif"
     
-    Sophie veut identifier les comptes potentiellement problématiques. Trouvez :
+    Nathalie veut identifier les comptes potentiellement problématiques. Trouvez :
     
     1. Les utilisateurs **désactivés** qui sont encore membres d'un groupe `GG-EU`
     2. Les utilisateurs actifs dont le **mot de passe n'a pas changé depuis 90 jours** (`PasswordLastSet`)
     3. Les utilisateurs sans adresse email (`EmailAddress` vide ou null)
     
-    *Pour (1) : si aucun compte du lab n'est désactivé, désactivez d'abord `rene` dans la GUI (clic droit > **Désactiver le compte**). Ensuite, bouclez sur les comptes désactivés avec `foreach ($user in ...)`, récupérez les groupes de chacun avec `Get-ADPrincipalGroupMembership` (vu en 9.1) et gardez ceux qui commencent par `GG-EU` avec `Where-Object { $_.Name -like "GG-EU*" }`. Dans le `Where-Object`, `$_` est le groupe testé ; l'utilisateur, lui, reste dans `$user`.*
+    *Pour (1) : les RH vous signalent que René Remy est en congé de longue durée et que son compte a été désactivé. Mais personne n'a touché à ses groupes. Si ce n'est pas encore fait dans votre lab, désactivez `rene` dans la GUI (clic droit > **Désactiver le compte**). Ensuite, bouclez sur les comptes désactivés avec `foreach ($user in ...)`, récupérez les groupes de chacun avec `Get-ADPrincipalGroupMembership` (vu en 9.1) et gardez ceux qui commencent par `GG-EU` avec `Where-Object { $_.Name -like "GG-EU*" }`. Dans le `Where-Object`, `$_` est le groupe testé ; l'utilisateur, lui, reste dans `$user`.*
     
     *Pour (2) : `(Get-Date).AddDays(-90)` donne la date limite. Dans un lab installé récemment, la liste est vide : pour vérifier la requête, remplacez `-90` par `0`.*
     
@@ -479,7 +481,7 @@ Invoke-Item "C:\Scripts\utilisateurs.html"
 
 !!! example "Objectif"
     
-    Produisez deux fichiers de rapport pour Sophie :
+    Produisez deux fichiers de rapport pour Nathalie :
     
     1. **CSV** : tous les utilisateurs actifs avec `Name`, `SamAccountName`, `Department`, `EmailAddress`, `PasswordLastSet`
     2. **HTML** : le même rapport, à ouvrir dans un navigateur, avec un titre `"Audit Maxtec - Utilisateurs actifs"`
@@ -546,6 +548,77 @@ Toujours la même chaîne : **`Get-AD...` avec `-Properties` → `Select-Object`
     ```
     
     Ouvrez les CSV dans le Bloc-notes : une ligne d'en-tête, puis une ligne par objet. C'est ce que `Select-Object` a choisi, rien de plus.
+
+### Mission 4.2 — Le script du lundi
+
+!!! example "Objectif"
+    
+    Nathalie veut que l'audit tourne chaque lundi, lancé par n'importe qui de l'équipe, et que les rapports soient gardés : en cas d'incident, on doit pouvoir dire depuis quand un compte était en anomalie. Écrivez `C:\Scripts\audit_lundi.ps1`.
+    
+    1. **Un dossier pour les rapports** : créez `C:\Scripts\Rapports` en début de script avec `New-Item ... -Force` (vu au chapitre 9.0 : `-Force` évite l'erreur si le dossier existe déjà).
+    2. **La date du jour dans une variable** : `$jour = Get-Date -Format "yyyy-MM-dd"`. Elle servira à nommer les fichiers.
+    3. **Trois contrôles**, chacun sur le même schéma : la requête dans une variable → une ligne à l'écran avec le nombre de comptes → un CSV `C:\Scripts\Rapports\<date>-<controle>.csv`.
+        - comptes désactivés (`Search-ADAccount -AccountDisabled -UsersOnly`) ;
+        - mots de passe qui n'expirent jamais (`Search-ADAccount -PasswordNeverExpires -UsersOnly`) ;
+        - comptes sans email (le filtre de la mission 1.2).
+    4. **Lisibilité** : la ligne à l'écran est en vert si le nombre est 0, en jaune sinon.
+    5. **Pas de fichier vide** : n'écrivez le CSV que s'il y a au moins un compte.
+    6. Lancez le script deux fois : la seconde exécution remplace les fichiers du jour sans erreur. Regardez le contenu de `C:\Scripts\Rapports`.
+    
+    *`Get-Date` seul renvoie la date et l'heure complètes. `-Format` choisit l'écriture : `yyyy` = année sur 4 chiffres, `MM` = mois, `dd` = jour (`MM` en majuscules : `mm` désigne les minutes). Ce format année-mois-jour a un avantage : trié par nom dans l'Explorateur, il donne aussi l'ordre chronologique. Dans un texte entre guillemets doubles, `"$jour-desactives.csv"` devient `2026-11-16-desactives.csv`.*
+
+??? success "Solution"
+    
+    ```powershell
+    # audit_lundi.ps1 - Contrôles de sécurité hebdomadaires (lecture seule)
+    
+    # 1. Dossier des rapports (-Force : pas d'erreur s'il existe déjà)
+    $dossier = "C:\Scripts\Rapports"
+    New-Item -Path $dossier -ItemType Directory -Force | Out-Null
+    
+    # 2. Date du jour pour nommer les fichiers
+    $jour = Get-Date -Format "yyyy-MM-dd"
+    Write-Host "=== Audit du $jour ===" -ForegroundColor Cyan
+    
+    # 3a. Comptes désactivés
+    $desactives = Search-ADAccount -AccountDisabled -UsersOnly
+    $couleur = if ($desactives.Count -eq 0) { "Green" } else { "Yellow" }
+    Write-Host "Comptes désactivés            : $($desactives.Count)" -ForegroundColor $couleur
+    if ($desactives.Count -gt 0) {
+        $desactives | Select-Object Name, SamAccountName |
+            Export-Csv -Path "$dossier\$jour-desactives.csv" -NoTypeInformation -Encoding UTF8
+    }
+    
+    # 3b. Mots de passe qui n'expirent jamais
+    $permanents = Search-ADAccount -PasswordNeverExpires -UsersOnly
+    $couleur = if ($permanents.Count -eq 0) { "Green" } else { "Yellow" }
+    Write-Host "Mots de passe sans expiration : $($permanents.Count)" -ForegroundColor $couleur
+    if ($permanents.Count -gt 0) {
+        $permanents | Select-Object Name, SamAccountName |
+            Export-Csv -Path "$dossier\$jour-mdp_permanents.csv" -NoTypeInformation -Encoding UTF8
+    }
+    
+    # 3c. Comptes sans email
+    $sansEmail = Get-ADUser -Filter {EmailAddress -notlike "*"}
+    $couleur = if ($sansEmail.Count -eq 0) { "Green" } else { "Yellow" }
+    Write-Host "Comptes sans email            : $($sansEmail.Count)" -ForegroundColor $couleur
+    if ($sansEmail.Count -gt 0) {
+        $sansEmail | Select-Object Name, SamAccountName |
+            Export-Csv -Path "$dossier\$jour-sans_email.csv" -NoTypeInformation -Encoding UTF8
+    }
+    
+    Write-Host "Rapports dans $dossier"
+    ```
+    
+    `| Out-Null` après `New-Item` jette la description du dossier que la commande affiche normalement : la sortie du script reste limitée aux résultats de l'audit.
+    
+    Dans le lab, les lignes ne seront pas toutes vertes : les comptes intégrés (`Invité`, `krbtgt`, `Administrateur`...) sont désactivés ou sans email par défaut, et `Invité` a un mot de passe sans expiration. Un vrai audit les traiterait à part. Le résultat utile est la **différence d'une semaine à l'autre** : un nouveau nom dans `desactives.csv` mérite qu'on s'y arrête, et c'est pour cette comparaison que les fichiers sont datés.
+
+### Bilan du Jour 3
+
+Vous savez maintenant poser des questions qui traversent tout le domaine (`-Filter` avec plusieurs conditions, `Search-ADAccount`, membres et appartenances de groupes, recherche limitée à une branche) et produire des rapports que l'on archive ou que l'on envoie (CSV, HTML).
+
+Fin de la première semaine : Nathalie dispose de `inventaire.ps1`, `audit_ou.ps1`, `audit_tous.ps1` et `audit_lundi.ps1`, tous en **lecture seule**. L'audit a aussi montré un problème qu'aucun rapport ne corrige : un compte désactivé qui reste membre de ses groupes, comme celui de René avant que vous ne le réactiviez. La semaine prochaine, vous passez aux modifications (chapitre 9.3) : créer les comptes des nouveaux arrivants, les modifier, et traiter un départ jusqu'au bout.
 
 ---
 

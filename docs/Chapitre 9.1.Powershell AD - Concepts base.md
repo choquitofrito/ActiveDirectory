@@ -25,7 +25,9 @@
 
 !!! info "Fil rouge : Jour 2 chez Maxtec"
     
-    Sophie vous confie une nouvelle tâche : construire un script d'audit réutilisable. Jusqu'ici vous avez tapé des commandes une par une ; aujourd'hui vous allez les enchaîner avec des **variables**, des **tableaux**, des **boucles** et des **conditions**. Chaque mission ci-dessous s'appuie sur la précédente.
+    Nathalie a relancé votre `inventaire.ps1` : il fonctionne, mais il donne toujours la même réponse globale. Ce qu'elle veut maintenant, c'est un rapport **par service** : qui est dedans, si le compte est actif, dans quels groupes il se trouve. Et le même script doit servir pour les Ventes, les RH ou l'IT, sans le réécrire.
+    
+    Jusqu'ici vous avez tapé des commandes une par une ; aujourd'hui vous allez les enchaîner avec des **variables**, des **tableaux**, des **boucles** et des **conditions**. Chaque mission ci-dessous s'appuie sur la précédente. Le livrable du jour est `C:\Scripts\audit_ou.ps1` (section 5).
 
 ---
 
@@ -367,7 +369,7 @@ Supprimer un élément d'un tableau n'est pas direct en PowerShell : ce chapitre
 
 !!! example "Objectif"
     
-    Sophie vous demande de préparer la liste des départements de Maxtec EU. Ce tableau servira dans la mission suivante pour boucler automatiquement dessus :
+    Nathalie vous demande de préparer la liste des départements de Maxtec EU. Ce tableau servira dans la mission suivante pour boucler automatiquement dessus :
     
     1. Créez `$departements` avec : `RH`, `IT`, `Ventes`, `Comptabilite` (sans accent, comme dans l'AD), `Marketing`
     2. Affichez le premier et le dernier élément
@@ -549,7 +551,7 @@ $utilisateurs | ForEach-Object { Write-Host $_.Name }
 
 !!! example "Objectif"
     
-    Sophie veut un rapport listant combien d'utilisateurs actifs se trouvent dans chaque département. Utilisez le tableau `$departements` de la mission 2.1 :
+    Nathalie veut un rapport listant combien d'utilisateurs actifs se trouvent dans chaque département. Utilisez le tableau `$departements` de la mission 2.1 :
     
     1. Bouclez sur `$departements`
     2. Pour chaque département, comptez les utilisateurs actifs (`Enabled -eq $true`) filtrés par `Department`
@@ -619,7 +621,7 @@ Get-ADUser -Filter * -Properties WhenCreated |
 
 !!! example "Objectif"
     
-    Sophie veut connaître la taille des groupes `GG-EU`. Pour chaque groupe dont le nom commence par `GG-EU`, affichez une ligne de texte :
+    Nathalie veut connaître la taille des groupes `GG-EU`. Pour chaque groupe dont le nom commence par `GG-EU`, affichez une ligne de texte :
     
     ```
     GG-EU-RH-Users : 2 membre(s)
@@ -1156,7 +1158,7 @@ if ($utilisateurTrouve) {
 
 ### Contexte
 
-Sophie a besoin d'un rapport listant **tous les utilisateurs d'une OU** avec leur statut et leurs groupes principaux. Vous allez écrire ce script vous-même, étape par étape. Chaque étape réutilise une notion du chapitre. Enregistrez le script dans `C:\Scripts\audit_ou.ps1` et **exécutez-le après chaque étape** : une erreur se corrige plus facilement quand on vient d'ajouter trois lignes que trente.
+Nathalie a besoin d'un rapport listant **tous les utilisateurs d'une OU** avec leur statut et leurs groupes principaux. Vous allez écrire ce script vous-même, étape par étape. Chaque étape réutilise une notion du chapitre. Enregistrez le script dans `C:\Scripts\audit_ou.ps1` et **exécutez-le après chaque étape** : une erreur se corrige plus facilement quand on vient d'ajouter trois lignes que trente.
 
 Résultat attendu pour l'OU `Ventes` :
 
@@ -1330,9 +1332,75 @@ UTILISATEUR : Valeria - ACTIF
         
         `LastLogonDate` est calculé à partir de l'attribut `lastLogonTimestamp`, qui n'est répliqué entre DC qu'avec un décalage volontaire de **9 à 14 jours**. Il suffit pour repérer des comptes inactifs depuis 30, 60 ou 90 jours, pas pour savoir si quelqu'un s'est connecté hier. Dans le lab, la plupart des comptes ne se sont jamais connectés : ils apparaîtront tous en rouge, c'est attendu.
 
+### Mission 5.2 — Les quatre services d'un coup
+
+!!! example "Objectif"
+    
+    Nathalie lit votre rapport le vendredi pour les quatre services. Taper quatre fois un nom d'OU, c'est quatre occasions de faire une faute de frappe. Remplacez la question par une boucle.
+    
+    1. Enregistrez une copie de votre script de la mission 5.1 sous `C:\Scripts\audit_tous.ps1` : `audit_ou.ps1` reste disponible pour auditer un seul service.
+    2. Supprimez la ligne `Read-Host`. À la place, créez un tableau `$services` avec `Ventes`, `RH`, `Comptabilite`, `IT` (comme dans la mission 2.1).
+    3. Mettez tout le reste du script dans une boucle `foreach ($nomOU in $services) { ... }`. En gardant le nom `$nomOU`, le code à l'intérieur ne change presque pas.
+    4. Dans la boucle, remplacez les deux `return` par `continue`.
+    5. Ajoutez `Marketing` au tableau pour tester : vous devez voir `OU introuvable : ...` pour Marketing, **et** les rapports des autres services.
+    
+    *`return` arrête tout le script : correct quand on audite un seul service, mais dans une boucle, une OU manquante ferait disparaître les rapports des services suivants. `continue` abandonne seulement le tour en cours et passe directement à l'élément suivant du tableau.*
+
+??? success "Solution"
+    
+    ```powershell
+    # audit_tous.ps1 - Rapport d'audit pour tous les services
+    $services = @("Ventes", "RH", "Comptabilite", "IT", "Marketing")   # Marketing : test d'une OU absente
+    $limite   = (Get-Date).AddDays(-30)
+    
+    foreach ($nomOU in $services) {
+        $cheminOU = "OU=Users,OU=$nomOU,OU=EU,DC=maxtec,DC=be"
+    
+        try {
+            $users = Get-ADUser -Filter * -SearchBase $cheminOU `
+                         -Properties LastLogonDate, PasswordNeverExpires -ErrorAction Stop
+        } catch {
+            Write-Host "OU introuvable : $cheminOU" -ForegroundColor Red
+            continue    # service suivant (return arrêterait tout le script)
+        }
+    
+        if ($users.Count -eq 0) {
+            Write-Host "Aucun utilisateur dans $nomOU" -ForegroundColor Yellow
+            continue
+        }
+    
+        Write-Host "`n=== AUDIT : OU $nomOU ($($users.Count) utilisateurs) ===" -ForegroundColor Cyan
+    
+        foreach ($user in $users) {
+            $statut  = if ($user.Enabled) { "ACTIF" } else { "DÉSACTIVÉ" }
+            $couleur = if ($user.Enabled) { "Green" } else { "Red" }
+    
+            if ($null -eq $user.LastLogonDate) {
+                $couleur  = "Red"
+                $derniere = "jamais"
+            } elseif ($user.LastLogonDate -lt $limite) {
+                $couleur  = "Red"
+                $derniere = $user.LastLogonDate
+            } else {
+                $derniere = $user.LastLogonDate
+            }
+    
+            Write-Host "$($user.Name) - $statut" -ForegroundColor $couleur
+            Write-Host "  Dernière connexion : $derniere"
+            Write-Host "  MDP permanent      : $($user.PasswordNeverExpires)"
+        }
+    }
+    ```
+    
+    Deux boucles imbriquées : la boucle extérieure parcourt les services, la boucle intérieure les utilisateurs du service en cours. Le `` `n `` au début du titre insère une ligne vide entre deux services. Pour alléger la sortie, la liste des groupes a été retirée : remettez-la si Nathalie la demande.
+    
+    Remarquez ce qui a changé entre `audit_ou.ps1` et `audit_tous.ps1` : une ligne remplacée (`Read-Host` → tableau), une boucle autour, deux mots (`return` → `continue`). Le reste est réutilisé tel quel.
+
 ### Bilan du Jour 2
 
-Vous savez maintenant combiner variables, tableaux, boucles et conditions pour automatiser des tâches réelles. Le chapitre 9.2 va plus loin sur les **requêtes et filtres**, et 9.3 passe à la **création et modification** d'objets AD.
+Vous savez maintenant combiner variables, tableaux, boucles et conditions pour automatiser des tâches réelles. Nathalie dispose de deux scripts : `audit_ou.ps1` pour un service à la demande, `audit_tous.ps1` pour le rapport complet du vendredi.
+
+Ces rapports regardent un service à la fois et s'affichent à l'écran. Il manque deux choses pour un vrai audit de sécurité : des questions qui traversent tout le domaine (« quels comptes désactivés sont encore dans des groupes ? »), et des fichiers qu'on peut archiver ou envoyer. C'est le programme du chapitre 9.2. Le chapitre 9.3 passera ensuite à la **création et modification** d'objets AD.
 
 ---
 

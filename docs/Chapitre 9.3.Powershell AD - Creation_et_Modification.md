@@ -20,7 +20,11 @@
 
 !!! info "Fil rouge : Semaine 2 chez Maxtec"
     
-    Deux nouveaux arrivants rejoignent la société en début de semaine : **Jean Dupont** (technicien stagiaire, IT) et **Sophie Dubois** (commerciale, Ventes). Trois autres suivront la semaine prochaine, les RH vous enverront leur liste en CSV. Les missions ci-dessous couvrent les opérations typiques : création de comptes, modification de profils, réinitialisation de mots de passe, gestion des groupes et création en masse.
+    La première semaine, vous n'avez fait que lire. Nathalie vous donne maintenant les droits de modification, avec une règle : **aucune commande qui modifie l'annuaire sans `-WhatIf` d'abord**.
+    
+    Les demandes des RH arrivent. Deux nouveaux arrivants rejoignent la société en début de semaine : **Jean Dupont** (technicien stagiaire, IT) et **Sophie Dubois** (commerciale, Ventes). Trois autres suivront la semaine prochaine, les RH vous enverront leur liste en CSV. Et l'un d'eux ne restera pas longtemps : en fin de chapitre, vous traiterez son départ.
+    
+    Les missions ci-dessous suivent la vie d'un compte : création, modification de profil, réinitialisation de mot de passe, gestion des groupes, création en masse, puis départ (section 5). Vos scripts de la semaine 1 servent à vérifier le résultat.
 
 ---
 
@@ -866,11 +870,86 @@ Le schéma : **pour chaque ligne du CSV, un `if / else` ou un `try / catch` → 
     
     Les trois contrôles sont réunis dans une seule boucle ; on peut aussi écrire trois boucles séparées, une par exercice.
 
+## 5. 🔹 Le départ d'un collaborateur
+
+Un départ ne se traite pas en supprimant le compte. En entreprise, la procédure courante est :
+
+1. **Désactiver** le compte le jour du départ : plus aucune connexion possible, mais tout est conservé. En cas d'erreur (mauvais compte, départ annulé), on réactive en une commande.
+2. **Noter** dans la `Description` la date et le motif : dans six mois, quelqu'un se demandera pourquoi ce compte est désactivé.
+3. **Retirer les groupes** qui donnent des accès : c'est l'anomalie que l'audit du lundi (chapitre 9.2, mission 1.2) détecte quand on l'oublie.
+4. **Supprimer** le compte plus tard (souvent 30 à 90 jours), une fois les fichiers et la messagerie récupérés. Une suppression efface aussi le SID du compte : un compte recréé avec le même nom n'aura pas ses anciens accès.
+
+Ce chapitre traite les étapes 1 à 3. Toutes les commandes nécessaires ont été vues : `Set-ADUser` (section 1), `Get-ADPrincipalGroupMembership` et `Remove-ADGroupMember` (section 3), `Where-Object` (chapitre 9.1).
+
+### Mission 5.1 — Départ de Marc Leroy
+
+!!! example "Objectif"
+    
+    Marc Leroy, assistant RH arrivé par le CSV de la section 4, quitte Maxtec à la fin de sa période d'essai. Les RH demandent que son compte soit fermé aujourd'hui.
+    
+    *Prérequis : le compte `marc.leroy` doit exister réellement et être membre de `GG-EU-RH-Users`. Si vous êtes resté en simulation, relancez le script de la mission 4.2 avec `$simulation = $false`. Si le compte existait déjà (créé à la mission 4.1), le script l'a ignoré sans l'ajouter au groupe : ajoutez-le à la main avec `Add-ADGroupMember -Identity "GG-EU-RH-Users" -Members "marc.leroy"`.*
+    
+    1. **État des lieux** : affichez les groupes de `marc.leroy`. Gardez cette liste, elle sert de preuve de ce qui a été retiré.
+    2. **Désactiver et noter** : en une seule commande `Set-ADUser`, désactivez le compte et mettez `Description = Départ le <date du jour> - fin de période d'essai`. `-WhatIf` d'abord.
+    3. **Retirer les groupes** : retirez `marc.leroy` de tous ses groupes dont le nom commence par `GG-`. `-WhatIf` d'abord.
+    4. **Contrôler avec l'audit** : relancez le contrôle « désactivés encore membres d'un groupe `GG-EU` » (chapitre 9.2, mission 1.2, question 1). `marc.leroy` ne doit pas apparaître.
+    
+    *Pour (2) : la date du jour s'obtient avec `Get-Date -Format "yyyy-MM-dd"` (chapitre 9.2, mission 4.2) ; rangez-la dans une variable avant de l'utiliser dans le texte.*
+    
+    *Pour (3) : partez des groupes de l'utilisateur, gardez ceux en `GG-*` avec `Where-Object`, puis, dans un `ForEach-Object`, `Remove-ADGroupMember -Identity $_.Name -Members "marc.leroy"`. Ici `$_` est le groupe : `-Identity` reçoit le groupe, `-Members` l'utilisateur (voir le piège de la section 3).*
+
+??? success "Solution"
+    
+    ```powershell
+    $login = "marc.leroy"
+    
+    # 1. État des lieux
+    Get-ADPrincipalGroupMembership -Identity $login | Select-Object Name
+    
+    # 2. Désactiver et noter : simulation, puis exécution
+    $jour = Get-Date -Format "yyyy-MM-dd"
+    Set-ADUser -Identity $login -Enabled $false -Description "Départ le $jour - fin de période d'essai" -WhatIf
+    Set-ADUser -Identity $login -Enabled $false -Description "Départ le $jour - fin de période d'essai"
+    
+    # 3. Retirer les groupes GG- : simulation, puis exécution
+    Get-ADPrincipalGroupMembership -Identity $login |
+        Where-Object { $_.Name -like "GG-*" } |
+        ForEach-Object { Remove-ADGroupMember -Identity $_.Name -Members $login -WhatIf }
+    
+    Get-ADPrincipalGroupMembership -Identity $login |
+        Where-Object { $_.Name -like "GG-*" } |
+        ForEach-Object { Remove-ADGroupMember -Identity $_.Name -Members $login -Confirm:$false }
+    
+    # Relecture : il ne doit rester que « Utilisateurs du domaine »
+    Get-ADUser -Identity $login -Properties Description |
+        Format-List Name, Enabled, Description
+    Get-ADPrincipalGroupMembership -Identity $login | Select-Object Name
+    
+    # 4. Le contrôle du lundi (chapitre 9.2, mission 1.2) : marc.leroy ne doit pas apparaître
+    $desactives = Get-ADUser -Filter {Enabled -eq $false}
+    foreach ($user in $desactives) {
+        $groupes = Get-ADPrincipalGroupMembership -Identity $user.SamAccountName |
+                       Where-Object { $_.Name -like "GG-EU*" }
+        if ($groupes) {
+            Write-Host "$($user.Name) - désactivé mais membre de :" -ForegroundColor Yellow
+            foreach ($groupe in $groupes) {
+                Write-Host "  - $($groupe.Name)"
+            }
+        }
+    }
+    ```
+    
+    Pourquoi filtrer sur `GG-*` au lieu de retirer tous les groupes ? `Utilisateurs du domaine` est le **groupe principal** du compte : AD refuse de le retirer tant qu'il n'a pas d'autre groupe principal. Le filtre évite une erreur et ne touche qu'aux groupes que vous gérez.
+    
+    Faites l'essai inverse : avant l'étape 3, lancez le contrôle de l'étape 4. `marc.leroy` apparaît, désactivé mais toujours dans `GG-EU-RH-Users`. C'est exactement l'oubli que l'audit du lundi sert à attraper.
+
 ## 🔹 Conclusion
 
 !!! success "Compétences acquises"
     
-    Vous savez créer, modifier et affecter des comptes AD en PowerShell, seuls ou en masse, et surtout vérifier la portée d'une commande avec `-WhatIf` avant de l'exécuter.
+    Vous savez créer, modifier et affecter des comptes AD en PowerShell, seuls ou en masse, traiter un départ, et surtout vérifier la portée d'une commande avec `-WhatIf` avant de l'exécuter.
+    
+    Bilan de vos deux semaines chez Maxtec : vous avez commencé par lire l'annuaire (`inventaire.ps1`), puis écrit des rapports qui s'adaptent (`audit_ou.ps1`, `audit_tous.ps1`) et un contrôle de sécurité archivé (`audit_lundi.ps1`). Cette semaine, vous avez suivi la vie complète d'un compte, de l'arrivée au départ, et utilisé vos scripts de lecture pour vérifier vos propres modifications. C'est la méthode à garder : chaque changement se simule, s'exécute, puis se contrôle.
     
     Vous avez terminé le module PowerShell AD. **Gardez `jean.dupont` et `sophie.dubois`** : la suite du cours s'en sert (module M2, référence du lab). Supprimez en revanche les comptes d'entraînement (`-WhatIf` d'abord, puis la même commande avec `-Confirm:$false`) :
     
