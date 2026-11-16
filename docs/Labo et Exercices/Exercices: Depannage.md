@@ -8,12 +8,14 @@
 
     Valeurs du lab : [Référence du lab Maxtec](Labo/Reference_Lab_Maxtec.md).
 
-| Ticket | Thème | Durée | Moment conseillé |
-|--------|-------|-------|------------------|
-| [D1](#d1-le-lecteur-reseau-a-disparu-pour-lit) | GPO | 30 min | Fin du jour 3 (variante courte), après les séries [GPO-1](./Exercices:%20GPO-1.md) et [GPO-2](./Exercices:%20GPO-2.md) |
-| [D2](#d2-ines-ne-peut-plus-se-connecter) | Compte utilisateur | 45 min | Fin du jour 4, après le chapitre 10 |
-| [D3](#d3-acces-refuse-au-dossier-ventes) | Permissions / AGDLP | 45 min | En réserve (idéal : juste après l'exercice AGDLP) |
-| [D4](#d4-le-poste-ne-trouve-plus-le-domaine) | DNS / réseau | 45 min | Fin du jour 2 |
+| Ticket | Thème | Durée | Moment conseillé | Doit être fait avant |
+|--------|-------|-------|------------------|----------------------|
+| [D1](#d1-le-lecteur-reseau-a-disparu-pour-lit) | GPO | 30 min | Fin du jour 3 (variante courte) | GPO-1 (exercice 4.1 ; + 2.1 et 2.2 pour la variante complète) |
+| [D2](#d2-ines-ne-peut-plus-se-connecter) | Compte utilisateur | 45 min | Fin du jour 4 | Chapitre 10 |
+| [D3](#d3-acces-refuse-au-dossier-ventes) | Permissions / AGDLP | 45 min | En réserve (idéal : juste après l'exercice AGDLP) | Exercice AGDLP, étape 8 comprise (sinon `-Preparer`) |
+| [D4](#d4-le-poste-ne-trouve-plus-le-domaine) | DNS / réseau | 45 min | Fin du jour 2 | Chapitre 5 (zone inverse) |
+
+Chaque ticket commence par sa liste de **prérequis** : vérifiez-la **avant** de lancer le script. Un prérequis manquant donne un symptôme différent de celui du ticket, et la solution ne correspond plus.
 
 Total : 2 h au programme (D4, D1, D2), plus 45 min en réserve (D3).
 
@@ -27,11 +29,21 @@ Un seul script sert pour tous les tickets. Il installe la panne sans rien affich
 
     Il contient les réponses. L'ouvrir, c'est perdre l'exercice : en entreprise, personne ne vous donnera le script de la panne. Lancez-le, fermez-le, lisez le ticket.
 
+### Prérequis communs à tous les tickets
+
+!!! warning "Prérequis communs"
+
+    - [ ] `ws-IT-01` est joint au domaine et se trouve dans `OU=Computers,OU=IT,OU=EU`
+    - [ ] Si vous avez fait [GPO-2](./Exercices:%20GPO-2.md), exercice 5 : le lien de `GPO-IT-LoginRestreint` est **supprimé** de `EU\IT\Computers`. Tant qu'il existe, seuls les membres d'IT peuvent ouvrir une session sur `ws-IT-01`
+    - [ ] Aucun compte du lab n'est verrouillé ni désactivé à la suite d'un exercice précédent
+
 ### Une fois : récupérer le script
 
 [⬇️ Télécharger Depannage.ps1](scripts/Depannage.ps1){ .md-button .md-button--primary download="Depannage.ps1" }
 
-Même méthode que pour le script de création du lab ([Préparer le fichier sur le serveur](Labo/Labo_structure.md#preparer-le-fichier-sur-le-serveur)) : placez `Depannage.ps1` dans `C:\Scripts` sur `dns1`, puis **débloquez-le** (clic droit > **Propriétés** > **Débloquer**). Pour le ticket D4, copiez-le aussi dans `C:\Scripts` sur `ws-IT-01`.
+Même méthode que pour le script de création du lab ([Préparer le fichier sur le serveur](Labo/Labo_structure.md#preparer-le-fichier-sur-le-serveur)) : placez `Depannage.ps1` dans `C:\Scripts` sur `dns1`, puis **débloquez-le** (clic droit > **Propriétés** > **Débloquer**).
+
+Pour le ticket D4, il faut aussi le script sur `ws-IT-01` : sur le poste, Explorateur > `\\dns1\C$\Scripts` (identifiants `maxtec\Administrateur`), copiez `Depannage.ps1` dans `C:\Scripts` du poste (créez le dossier s'il n'existe pas).
 
 ### À chaque ticket
 
@@ -50,6 +62,14 @@ Même méthode que pour le script de création du lab ([Préparer le fichier sur
     | D3 | `.\Depannage.ps1 -Ticket D3` (exercice AGDLP pas terminé : ajoutez `-Preparer`) | `dns1` |
     | D4 | `.\Depannage.ps1 -Ticket D4` | `dns1`, **puis** `ws-IT-01` |
 
+    Sur `ws-IT-01` (ticket D4), Windows 10 refuse par défaut d'exécuter un script (`l'exécution de scripts est désactivée sur ce système`). Dans la fenêtre PowerShell administrateur, autorisez-le pour cette fenêtre seulement, puis lancez le script :
+
+    ```powershell
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+    cd C:\Scripts
+    .\Depannage.ps1 -Ticket D4
+    ```
+
 3. Le script affiche `Panne installée.` et ce qu'il faut faire ensuite (par exemple ouvrir une session sur le poste). Lisez alors le ticket ci-dessous.
 
 Si vous avez donné un autre nom à la GPO du lecteur IT (D1) : ajoutez `-GpoName "<nom exact>"`. Le script liste les GPO existantes s'il ne trouve pas la sienne.
@@ -62,7 +82,7 @@ Ticket abandonné, ou correction qui a empiré les choses : même commande avec 
 .\Depannage.ps1 -Ticket D4 -Restaurer
 ```
 
-`-Restaurer` remet l'état d'avant la panne et affiche chaque action. Pour D4, lancez-le sur `dns1` et sur `ws-IT-01`.
+`-Restaurer` remet l'état d'avant la panne et affiche chaque action. Pour D4, lancez-le sur `dns1` et sur `ws-IT-01` (dans une nouvelle fenêtre du poste, refaites d'abord `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass`).
 
 ---
 
@@ -87,6 +107,21 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
 ## D1. Le lecteur réseau a disparu pour l'IT
 
+!!! warning "Prérequis (avant de lancer le script)"
+
+    **Variante courte et complète :**
+
+    - [ ] [GPO-1](./Exercices:%20GPO-1.md), exercice 4.1 : `GPO-Mappage-IT-Admin` existe et est liée à `EU\IT\Users`
+    - [ ] Test : `irene` ouvre une session sur `ws-IT-01` et voit le lecteur `\\dns1\IT-Admin` (`Z:`)
+
+    **Variante complète, en plus :**
+
+    - [ ] [GPO-1](./Exercices:%20GPO-1.md), exercice 2.1 : `GPO-Configuration-MessageConnexion` est liée à `EU\IT\Computers` (le message s'affiche au démarrage de `ws-IT-01`)
+    - [ ] [GPO-1](./Exercices:%20GPO-1.md), exercice 2.2 : `GPO-Blocage-Inactivite` est liée à `EU` **et son lien est activé**. Si vous l'avez désactivé au retour arrière de l'exercice 2.2, réactivez-le (valeur normale : 300 secondes, le poste se verrouille après 5 minutes sans activité)
+    - [ ] `ws-IT-01` n'est **pas** membre de `GG-EU-Computers-SansVerrouillage` (groupe d'exception de l'exercice 2.2.2)
+
+    Sans les deux GPO ordinateur, le symptôme « l'écran ne se verrouille plus et le message a disparu » n'est pas observable.
+
 !!! example "Ticket #2026-0412"
 
     - **Demandeur** : Irene Iserbyt (`irene`), administratrice système, poste `ws-IT-01`
@@ -106,8 +141,6 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
 **Durée** : 30 min (variante courte), 50 min (variante complète)
 
-**Prérequis** : dans [GPO-1](./Exercices:%20GPO-1.md), la GPO du lecteur réseau `\\dns1\IT-Admin` pour l'IT (`GPO-Mappage-IT-Admin`, exercice 4.1). Pour la variante complète, aussi le message de connexion (`GPO-Configuration-MessageConnexion`, exercice 2.1) et le verrouillage après inactivité (`GPO-Blocage-Inactivite`, exercice 2.2) : la GPO de verrouillage doit toujours être liée et active, et `ws-IT-01` ne doit pas être dans le groupe d'ordinateurs exclus du verrouillage (celui créé pour le poste de Richard, exercice 2.2.2), sinon le symptôme "l'écran ne se verrouille plus" n'est pas observable.
-
 **Outils autorisés** : console **Gestion des stratégies de groupe** (`gpmc.msc` : onglets **Étendue** > **Liaisons**, **Délégation** > **Avancé**, **Objets de stratégie de groupe liés**, Modélisation et Résultats de stratégie de groupe), `dsa.msc`, `gpresult` et `gpupdate` sur le poste. En aperçu, si vous connaissez déjà : PowerShell (`Get-GPInheritance`, `Get-GPPermission`, `Get-GPO`, `Get-ADComputer`). Pas de modification du contenu des GPO : les paramètres eux-mêmes sont corrects.
 
 ??? tip "Indice 1"
@@ -117,6 +150,8 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
     ```cmd
     gpresult /r
     ```
+
+    Sans droits d'administration, `gpresult` n'affiche que la partie utilisateur. Pour la partie ordinateur, ouvrez une invite de commandes **en tant qu'administrateur** (clic droit > **Exécuter en tant qu'administrateur**, identifiants `maxtec\Administrateur`) et lancez `gpresult /r /user maxtec\irene`.
 
     Regardez les deux parties séparément : *Paramètres de l'ordinateur* et *Paramètres utilisateur*. Pour chaque GPO attendue, est-elle dans "appliquées", dans "filtrées" (avec quelle raison), ou absente ?
 
@@ -159,7 +194,7 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
     **1. Le poste est sorti de son OU (variante complète seulement).** `ws-IT-01` est dans le conteneur `CN=Computers`. Un conteneur n'est pas une OU : aucune GPO d'OU ne s'y applique. D'où la perte du verrouillage et du message de connexion (GPO ordinateur liées à `EU` et à l'IT).
 
-    Correction : `dsa.msc` → `Computers` → clic droit sur `ws-IT-01` → **Déplacer…** → `EU > IT > Computers` → **OK**. Puis redémarrez le poste.
+    Correction : `dsa.msc` → `Computers` → clic droit sur `ws-IT-01` → **Déplacer…** → `EU > IT > Computers` → **OK**. Puis redémarrez le poste : le message de connexion ne s'affiche qu'au démarrage.
 
     **En PowerShell** (aperçu, vu au chapitre 9) :
 
@@ -202,6 +237,12 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
 ## D2. Ines ne peut plus se connecter
 
+!!! warning "Prérequis (avant de lancer le script)"
+
+    - [ ] Chapitre 10 fait (Observateur d'événements, événement 4740), y compris sa remise en état finale (`ines` déverrouillée)
+    - [ ] Test : `ines` ouvre une session normalement sur `ws-IT-01` avec son mot de passe
+    - [ ] `ines` est dans `EU > IT > Users` (si vous avez fait l'exercice de migration de « Gestion des utilisateurs », le retour arrière est fait)
+
 !!! example "Ticket #2026-0415"
 
     - **Demandeur** : Ivan Istace (`ivan`), pour sa collègue Ines Installe (`ines`)
@@ -225,7 +266,7 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
 ??? tip "Indice 2"
 
-    Un verrouillage laisse une trace sur le DC : l'événement **4740** (journal Sécurité). Il indique **d'où** venaient les échecs.
+    Un verrouillage laisse une trace sur le DC : l'événement **4740** (journal Sécurité). Il indique **d'où** venaient les échecs. Observateur d'événements → `Journaux Windows` → `Sécurité` → **Filtrer le journal actuel…** → `4740`, ou :
 
     ```powershell
     Get-WinEvent -FilterHashtable @{LogName='Security'; Id=4740} -MaxEvents 5 |
@@ -238,6 +279,8 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
     Get-ADDefaultDomainPasswordPolicy | Select-Object LockoutThreshold, LockoutDuration
     Get-ADUserResultantPasswordPolicy ines
     ```
+
+    GUI : **Centre d'administration Active Directory** (`dsac.exe`) → retrouvez `ines` → clic droit → **Afficher les paramètres de mot de passe résultants…**
 
 ??? tip "Indice 3"
 
@@ -270,7 +313,7 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
     GUI : `dsac.exe` → `maxtec (local)` → `System` → `Password Settings Container` → `PSO-Depannage-ines` → **Supprimer** (décochez d'abord la protection contre la suppression accidentelle si elle est cochée).
 
-    **2. Horaires d'accès restreints.** `logonHours` n'autorise que la nuit (01:00-05:00 UTC). Probablement un profil "équipe de nuit" copié par erreur. Retour à 24 h/24 :
+    **2. Horaires d'accès restreints.** `logonHours` n'autorise que la nuit (01:00-05:00 UTC, stocké en UTC ; la fenêtre **Horaires d'accès…** l'affiche en heure locale : 02:00-06:00 en hiver, 03:00-07:00 en été). Probablement un profil "équipe de nuit" copié par erreur. Retour à 24 h/24 :
 
     ```powershell
     Set-ADUser -Identity ines -Clear logonHours
@@ -301,6 +344,13 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
 ## D3. Accès refusé au dossier Ventes
 
+!!! warning "Prérequis (avant de lancer le script)"
+
+    - [ ] [exercice AGDLP](./Exercices:%20AGDLP_Partage_Fichiers.md) terminé, y compris l'[étape 8](./Exercices:%20AGDLP_Partage_Fichiers.md#8-demontrer-la-valeur-dagdlp) (la Comptabilité ajoutée en lecture). Sinon, lancez le script avec `-Preparer` : il crée d'abord l'état final de l'exercice
+    - [ ] Test : `valentin`, `vanessa` et `cindy` ouvrent chacun une session sur `ws-IT-01` et accèdent à `\\dns1\Ventes-Documents`
+
+    Le sous-dossier `Contrats` n'existe pas dans l'exercice AGDLP : le script le crée en installant la panne.
+
 !!! example "Ticket #2026-0419"
 
     - **Demandeur** : Valentin Vanderlinden (`valentin`), responsable Ventes
@@ -311,8 +361,6 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
     > plus consulter les contrats facturés. Quelqu'un de l'IT a "fait du ménage dans les groupes" hier soir.
 
 **Durée** : 45 min
-
-**Prérequis** : [exercice AGDLP](./Exercices:%20AGDLP_Partage_Fichiers.md) terminé, y compris l'[étape 8](./Exercices:%20AGDLP_Partage_Fichiers.md#8-demontrer-la-valeur-dagdlp) (la Comptabilité ajoutée en lecture). Le sous-dossier `Contrats` n'existe pas dans l'exercice AGDLP : le script le crée en installant la panne. Exercice AGDLP pas terminé : `-Preparer` crée d'abord son état final.
 
 **Outils autorisés** : Explorateur (Propriétés > **Partage** > **Partage avancé** > **Autorisations** ; **Sécurité** > **Avancé** > **Accès effectif**), `dsa.msc` (propriétés des groupes : **Général** > **Étendue du groupe**, **Membres**, **Membre de**), `whoami /groups` et `klist` sur le client, `icacls` sur le serveur. En aperçu, si vous connaissez déjà : PowerShell (`Get-Acl`, `Get-ADGroup`, `Get-ADGroupMember`, `Get-ADPrincipalGroupMembership`, `Get-SmbShareAccess`). Contrainte : la correction doit respecter AGDLP (aucun utilisateur ni groupe global dans les ACL).
 
@@ -327,7 +375,7 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
     Une entrée affichée comme **"Compte inconnu (S-1-5-21-…)"** désigne un objet supprimé. Si un groupe du même nom existe toujours, c'est qu'il a été **recréé** : nouveau SID, donc l'ACL ne le connaît pas.
 
     - Liste des entrées : Explorateur → Propriétés de `C:\Shares\Ventes-Documents` → **Sécurité** → **Avancé** (ou `icacls C:\Shares\Ventes-Documents` en invite de commandes)
-    - Groupes : `dsa.msc` → `EU > Ventes > Groups` (ou **Rechercher…** `DL-Ventes-Documents`) → propriétés de chaque groupe `DL-Ventes-Documents-*` → onglet **Général** → **Étendue du groupe** ; avec l'affichage avancé, onglet **Objet** → **Créé le** : une date récente trahit une recréation
+    - Groupes : `dsa.msc` → `EU > Resources > Groups` (ou **Rechercher…** `DL-Ventes-Documents`) → propriétés de chaque groupe `DL-Ventes-Documents-*` → onglet **Général** → **Étendue du groupe** ; avec l'affichage avancé, onglet **Objet** → **Créé le** : une date récente trahit une recréation
 
     **En PowerShell** (aperçu, vu au chapitre 9) :
 
@@ -399,6 +447,13 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
 ## D4. Le poste ne trouve plus le domaine
 
+!!! warning "Prérequis (avant de lancer le script)"
+
+    - [ ] Zone de recherche inversée `0.168.192.in-addr.arpa` créée ([chapitre 5](../Chapitre%205.DNS-Pratique-avec-AD.md), Lab 3)
+    - [ ] `ivan` a déjà ouvert une session sur `ws-IT-01` : le ticket suppose que ses identifiants sont en cache sur le poste
+    - [ ] `ws-IT-01` n'a **qu'une** carte réseau, sur le réseau interne (pas de carte NAT restée de l'installation de RSAT) : avec un accès Internet, le symptôme change
+    - [ ] `Depannage.ps1` est copié dans `C:\Scripts` sur `ws-IT-01` (voir [Lancer un ticket](#lancer-un-ticket))
+
 !!! example "Ticket #2026-0422"
 
     - **Demandeur** : Ivan Istace (`ivan`), poste `ws-IT-01`
@@ -469,7 +524,7 @@ Même démarche pour chaque ticket. Elle paraît lente la première fois ; c'est
 
     **Trois causes, du bas vers le haut de la chaîne.**
 
-    **1. Mauvais serveur DNS sur le client.** `ipconfig /all` montre `Serveurs DNS : 8.8.8.8`. Le réseau du lab est interne, 8.8.8.8 est injoignable ; et même joignable, un DNS public ne connaît pas `maxtec.be` ni ses enregistrements SRV. Sans eux, le poste ne trouve pas de DC : pas de `gpupdate`, pas de Kerberos, pas de `\\dns1`.
+    **1. Mauvais serveur DNS sur le client.** `ipconfig /all` montre `Serveurs DNS : 8.8.8.8`. Le réseau du lab est interne, 8.8.8.8 est injoignable ; et même joignable, un DNS public ne connaît pas la zone interne `maxtec.be` du lab ni ses enregistrements SRV. Sans eux, le poste ne trouve pas de DC : pas de `gpupdate`, pas de Kerberos, pas de `\\dns1`.
 
     Correction sur le poste, en administrateur :
 

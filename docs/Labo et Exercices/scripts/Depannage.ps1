@@ -704,7 +704,7 @@ function Install-PanneD4 {
     }
 
     if (-not (Get-DnsServerZone -Name $zoneInv -ErrorAction SilentlyContinue)) {
-        Write-Host "  Zone inverse $zoneInv absente : créez-la d'abord (Ch5), puis relancez." -ForegroundColor Yellow
+        Write-Host "  Zone inverse $zoneInv absente : créez-la d'abord (chapitre 5, Lab 3), puis relancez." -ForegroundColor Yellow
         return
     }
     $ip = $null
@@ -907,6 +907,7 @@ switch ($Ticket) {
         if ($Complet) { $fautes = @('Ordinateur') + $fautes }
         Install-PanneD1 -GpoName $GpoName -Fautes $fautes
         $suite = "Sur ws-IT-01 : gpupdate /force, puis ouvrez une session avec irene."
+        if ($Complet) { $suite = "Redémarrez ws-IT-01, puis ouvrez une session avec irene." }
     }
     'D2' {
         Install-PanneD2 -Utilisateur 'ines'
